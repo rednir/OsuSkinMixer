@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://assets/Inter-Regular.ttf" type="DynamicFontData" id=2]
@@ -65,6 +65,23 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "invalid-input"
+length = 0.5
+step = 0.08
+tracks/0/type = "value"
+tracks/0/path = NodePath("LineEdit:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 132, 190 ), Vector2( 122, 190 ), Vector2( 142, 190 ), Vector2( 122, 190 ), Vector2( 142, 190 ), Vector2( 122, 190 ), Vector2( 132, 190 ) ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -152,4 +169,5 @@ __meta__ = {
 autoplay = "init"
 anims/in = SubResource( 3 )
 anims/init = SubResource( 5 )
+anims/invalid-input = SubResource( 6 )
 anims/out = SubResource( 4 )

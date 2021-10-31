@@ -5,7 +5,7 @@ namespace OsuSkinMixer
 {
     public class Dialog : Panel
     {
-        private Action<string> TextInputAction;
+        private Func<string, bool> TextInputFunc;
 
         private AnimationPlayer AnimationPlayer;
         private Label Label;
@@ -26,23 +26,22 @@ namespace OsuSkinMixer
             AnimationPlayer.Play("in");
 
             LineEdit.Visible = false;
-            TextInputAction = null;
+            TextInputFunc = null;
         }
 
-        public void TextInput(string text, Action<string> action, string defaultText = "")
+        public void TextInput(string text, Func<string, bool> func, string defaultText = "")
         {
             Label.Text = text;
             AnimationPlayer.Play("in");
 
             LineEdit.Text = defaultText;
             LineEdit.Visible = true;
-            TextInputAction = action;
+            TextInputFunc = func;
         }
 
         private void _ButtonPressed()
         {
-            AnimationPlayer.Play("out");
-            TextInputAction?.Invoke(LineEdit.Text);
+            AnimationPlayer.Play(!TextInputFunc?.Invoke(LineEdit.Text) ?? false ? "invalid-input" : "out");
         }
     }
 }

@@ -148,7 +148,17 @@ namespace OsuSkinMixer
 
             CreateSkinButton.Connect("pressed", this, "_CreateSkinButtonPressed");
 
-            LoadSkins();
+            if (!LoadSkins())
+            {
+                Dialog.TextInput(
+                    text: "Couldn't find your skins folder, please set it below.",
+                    func: p =>
+                    {
+                        SkinsFolder = p;
+                        return LoadSkins();
+                    },
+                    defaultText: SkinsFolder);
+            }
         }
 
         public void _CreateSkinButtonPressed()
@@ -199,20 +209,10 @@ namespace OsuSkinMixer
             Dialog.Alert("Created skin.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
         }
 
-        private void LoadSkins()
+        private bool LoadSkins()
         {
             if (!Directory.Exists(SkinsFolder))
-            {
-                Dialog.TextInput(
-                    text: "Couldn't find your skins folder, please set it below.",
-                    action: p =>
-                    {
-                        SkinsFolder = p;
-                        LoadSkins();
-                    },
-                    defaultText: SkinsFolder);
-                return;
-            }
+                return false;
 
             var directory = new DirectoryInfo(SkinsFolder);
             Skins = directory.EnumerateDirectories().Select(d => d.Name).ToArray();
@@ -226,6 +226,8 @@ namespace OsuSkinMixer
                 foreach (var skin in Skins)
                     node.AddItem(skin);
             }
+
+            return true;
         }
 
         private class OptionInfo
