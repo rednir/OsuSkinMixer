@@ -2,6 +2,8 @@ using Godot;
 using System;
 using System.IO;
 using System.Linq;
+using Directory = System.IO.Directory;
+using Path = System.IO.Path;
 
 namespace OsuSkinMixer
 {
@@ -50,13 +52,34 @@ namespace OsuSkinMixer
 
         public void _CreateSkinButtonPressed()
         {
-            if (SkinNameEdit.Text.Length == 0)
+            string skinName = SkinNameEdit.Text;
+
+            if (skinName.Length == 0)
                 Dialog.Alert("Set a name for the new skin first.");
+
+            if (Directory.Exists(SkinsFolder + "/" + skinName))
+                Dialog.Alert("A skin with that name already exists.");
+
+            var newSkinDir = Directory.CreateDirectory(SkinsFolder + "/" + skinName);
+
+            foreach (var option in Options)
+            {
+                var skindir = new DirectoryInfo(GetNode<OptionButton>(option.NodePath).Text);
+                foreach (var file in skindir.EnumerateFiles())
+                {
+                    if (!option.IncludeFileNames.Contains(Path.GetFileNameWithoutExtension(file.Name)))
+                        continue;
+
+                    file.CopyTo(newSkinDir.FullName);
+                }
+            }
+
+            Dialog.Alert("Created skin.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
         }
 
         private void LoadSkins()
         {
-            if (!System.IO.Directory.Exists(SkinsFolder))
+            if (!Directory.Exists(SkinsFolder))
             {
                 Dialog.TextInput(
                     text: "Couldn't find your skins folder, please set it below.",
@@ -74,7 +97,7 @@ namespace OsuSkinMixer
 
             foreach (var option in Options)
             {
-                var node = GetNode<OptionButton>($"OptionsContainer/{option.ContainerNodeName}/OptionButton");
+                var node = GetNode<OptionButton>(option.NodePath);
                 node.Clear();
                 node.AddItem("<< use default skin >>");
                 foreach (var skin in Skins)
@@ -85,6 +108,8 @@ namespace OsuSkinMixer
         private class OptionInfo
         {
             public string ContainerNodeName { get; set; }
+
+            public string NodePath => $"OptionsContainer/{ContainerNodeName}/OptionButton";
 
             public string[] IncludeFileNames { get; set; }
         }

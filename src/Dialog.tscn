@@ -106,33 +106,34 @@ __meta__ = {
 }
 
 [node name="LabelContainer" type="CenterContainer" parent="."]
-margin_left = 63.0
-margin_top = 99.0
-margin_right = 484.0
+margin_left = 38.0
+margin_top = 64.0
+margin_right = 513.0
 margin_bottom = 166.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="LabelContainer"]
-anchor_top = -0.0597015
-anchor_bottom = -0.0597015
-margin_left = 136.0
-margin_top = 22.0
-margin_right = 285.0
-margin_bottom = 45.0
+margin_left = 12.0
+margin_top = 39.0
+margin_right = 462.0
+margin_bottom = 62.0
+rect_min_size = Vector2( 450, 0 )
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.862745, 0.862745, 0.862745, 1 )
 text = "This is some text."
+align = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Button" type="Button" parent="."]
 margin_left = 234.142
-margin_top = 215.953
+margin_top = 227.953
 margin_right = 318.142
-margin_bottom = 239.953
+margin_bottom = 251.953
 text = "OK"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -140,9 +141,9 @@ __meta__ = {
 
 [node name="LineEdit" type="LineEdit" parent="."]
 margin_left = 132.0
-margin_top = 178.0
+margin_top = 190.0
 margin_right = 416.0
-margin_bottom = 206.0
+margin_bottom = 218.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
