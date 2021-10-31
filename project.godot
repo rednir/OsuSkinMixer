@@ -13,6 +13,7 @@ config_version=4
 config/name="OsuSkinMixer"
 run/main_scene="res://src/Main.tscn"
 run/low_processor_mode=true
+boot_splash/image="res://splash.png"
 boot_splash/bg_color=Color( 0.941176, 0.941176, 0.941176, 1 )
 config/icon="res://icon.png"
 
