@@ -343,7 +343,7 @@ namespace OsuSkinMixer
                 return false;
 
             var directory = new DirectoryInfo(SkinsFolder);
-            Skins = directory.EnumerateDirectories().Select(d => d.Name).ToArray();
+            Skins = directory.EnumerateDirectories().Select(d => d.Name).OrderBy(n => n).ToArray();
 
             foreach (var option in Options)
             {
