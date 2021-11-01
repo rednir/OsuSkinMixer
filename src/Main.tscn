@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://src/Theme.tres" type="Theme" id=1]
+[ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Main.cs" type="Script" id=2]
 [ext_resource path="res://src/Dialog.tscn" type="PackedScene" id=3]
 
@@ -25,83 +25,83 @@ __meta__ = {
 
 [node name="Interface" type="HBoxContainer" parent="OptionsContainer"]
 margin_right = 424.0
-margin_bottom = 24.0
+margin_bottom = 28.0
 custom_constants/separation = 15
 
 [node name="Label" type="Label" parent="OptionsContainer/Interface"]
-margin_top = 3.0
+margin_top = 5.0
 margin_right = 120.0
-margin_bottom = 21.0
+margin_bottom = 23.0
 rect_min_size = Vector2( 120, 0 )
 text = "Interface:"
 
 [node name="OptionButton" type="OptionButton" parent="OptionsContainer/Interface"]
 margin_left = 135.0
 margin_right = 424.0
-margin_bottom = 24.0
+margin_bottom = 28.0
 size_flags_horizontal = 3
 text = "Select a skin..."
 clip_text = true
 
 [node name="Gameplay" type="HBoxContainer" parent="OptionsContainer"]
-margin_top = 34.0
+margin_top = 38.0
 margin_right = 424.0
-margin_bottom = 58.0
+margin_bottom = 66.0
 custom_constants/separation = 15
 
 [node name="Label" type="Label" parent="OptionsContainer/Gameplay"]
-margin_top = 3.0
+margin_top = 5.0
 margin_right = 120.0
-margin_bottom = 21.0
+margin_bottom = 23.0
 rect_min_size = Vector2( 120, 0 )
 text = "Gameplay:"
 
 [node name="OptionButton" type="OptionButton" parent="OptionsContainer/Gameplay"]
 margin_left = 135.0
 margin_right = 424.0
-margin_bottom = 24.0
+margin_bottom = 28.0
 size_flags_horizontal = 3
 text = "Select a skin..."
 clip_text = true
 
 [node name="Hitsounds" type="HBoxContainer" parent="OptionsContainer"]
-margin_top = 68.0
+margin_top = 76.0
 margin_right = 424.0
-margin_bottom = 92.0
+margin_bottom = 104.0
 custom_constants/separation = 15
 
 [node name="Label" type="Label" parent="OptionsContainer/Hitsounds"]
-margin_top = 3.0
+margin_top = 5.0
 margin_right = 120.0
-margin_bottom = 21.0
+margin_bottom = 23.0
 rect_min_size = Vector2( 120, 0 )
 text = "Hitsounds:"
 
 [node name="OptionButton" type="OptionButton" parent="OptionsContainer/Hitsounds"]
 margin_left = 135.0
 margin_right = 424.0
-margin_bottom = 24.0
+margin_bottom = 28.0
 size_flags_horizontal = 3
 text = "Select a skin..."
 clip_text = true
 
 [node name="MenuSounds" type="HBoxContainer" parent="OptionsContainer"]
-margin_top = 102.0
+margin_top = 114.0
 margin_right = 424.0
-margin_bottom = 126.0
+margin_bottom = 142.0
 custom_constants/separation = 15
 
 [node name="Label" type="Label" parent="OptionsContainer/MenuSounds"]
-margin_top = 3.0
+margin_top = 5.0
 margin_right = 120.0
-margin_bottom = 21.0
+margin_bottom = 23.0
 rect_min_size = Vector2( 120, 0 )
 text = "Menu Sounds:"
 
 [node name="OptionButton" type="OptionButton" parent="OptionsContainer/MenuSounds"]
 margin_left = 135.0
 margin_right = 424.0
-margin_bottom = 24.0
+margin_bottom = 28.0
 size_flags_horizontal = 3
 text = "Select a skin..."
 clip_text = true
@@ -116,9 +116,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ButtonsCenterContainer"]
-margin_left = 130.0
+margin_left = 131.0
 margin_top = 6.0
-margin_right = 420.0
+margin_right = 419.0
 margin_bottom = 34.0
 
 [node name="SkinNameEdit" type="LineEdit" parent="ButtonsCenterContainer/HBoxContainer"]
@@ -132,7 +132,7 @@ placeholder_alpha = 0.5
 
 [node name="CreateSkinButton" type="Button" parent="ButtonsCenterContainer/HBoxContainer"]
 margin_left = 204.0
-margin_right = 290.0
+margin_right = 288.0
 margin_bottom = 28.0
 text = "Create skin"
 
