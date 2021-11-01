@@ -7,9 +7,12 @@ namespace OsuSkinMixer
 {
     public class SkinIni
     {
+        public SkinIni()
+        {
+        }
+
         public SkinIni(string fileContent)
         {
-            var sections = new List<SkinIniSection>();
             string[] lines = fileContent.Split('\n');
 
             for (int i = 0; i < lines.Length; i++)
@@ -29,10 +32,10 @@ namespace OsuSkinMixer
                 // Check if the line is declaring the next section.
                 if (lines[i].StartsWith("[") && lines[i].EndsWith("]"))
                 {
-                    sections.Add(new SkinIniSection() { Name = lines[i].Substring(1, lines[i].Length - 2) });
+                    Sections.Add(new SkinIniSection(lines[i].Substring(1, lines[i].Length - 2)));
                     continue;
                 }
-                else if (sections.Count == 0)
+                else if (Sections.Count == 0)
                 {
                     throw new ArgumentException($"Line {i + 1} on skin.ini: Expected a section name.");
                 }
@@ -41,13 +44,11 @@ namespace OsuSkinMixer
                 if (keyAndValue.Length != 2)
                     throw new ArgumentException($"Line {i + 1} on skin.ini: Invalid number of ':' characters.");
 
-                sections.Last().KeyValuePairs.Add(keyAndValue[0].Trim(), keyAndValue[1].Trim());
+                Sections.Last().Add(keyAndValue[0].Trim(), keyAndValue[1].Trim());
             }
-
-            Sections = sections;
         }
 
-        public IReadOnlyList<SkinIniSection> Sections { get; }
+        public List<SkinIniSection> Sections { get; } = new List<SkinIniSection>();
 
         public override string ToString()
         {
@@ -55,7 +56,7 @@ namespace OsuSkinMixer
             foreach (var section in Sections)
             {
                 sb.Append('[').Append(section.Name).AppendLine("]");
-                foreach (var pair in section.KeyValuePairs)
+                foreach (var pair in section)
                     sb.Append(pair.Key).Append(": ").AppendLine(pair.Value);
 
                 sb.AppendLine();

@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 using Directory = System.IO.Directory;
+using File = System.IO.File;
 using Path = System.IO.Path;
 
 namespace OsuSkinMixer
@@ -15,6 +16,9 @@ namespace OsuSkinMixer
             {
                 ContainerNodeName = "Interface",
                 IsAudio = false,
+                IncludeSkinIniProperties = new string[]
+                {
+                },
                 IncludeFileNames = new string[]
                 {
                     "arrow-pause",
@@ -48,6 +52,9 @@ namespace OsuSkinMixer
             {
                 ContainerNodeName = "Gameplay",
                 IsAudio = false,
+                IncludeSkinIniProperties = new string[]
+                {
+                },
                 IncludeFileNames = new string[]
                 {
                     "approachcircle",
@@ -83,6 +90,9 @@ namespace OsuSkinMixer
             {
                 ContainerNodeName = "Hitsounds",
                 IsAudio = true,
+                IncludeSkinIniProperties = new string[]
+                {
+                },
                 IncludeFileNames = new string[]
                 {
                     "combobreak",
@@ -99,6 +109,9 @@ namespace OsuSkinMixer
             {
                 ContainerNodeName = "MenuSounds",
                 IsAudio = true,
+                IncludeSkinIniProperties = new string[]
+                {
+                },
                 IncludeFileNames = new string[]
                 {
                     "applause",
@@ -179,7 +192,16 @@ namespace OsuSkinMixer
                 return;
             }
 
+            var newSkinIni = new SkinIni();
+            newSkinIni.Sections.Add(new SkinIniSection("General")
+            {
+                { "Name", skinName },
+                { "Author", "osu! skin mixer by rednir" },
+                { "Version", "1.0" },
+            });
+
             var newSkinDir = Directory.CreateDirectory(SkinsFolder + "/" + skinName);
+            File.WriteAllText(newSkinDir.FullName + "/skin.ini", newSkinIni.ToString());
 
             foreach (var option in Options)
             {
@@ -190,6 +212,8 @@ namespace OsuSkinMixer
                     continue;
 
                 var skindir = new DirectoryInfo(SkinsFolder + "/" + node.Text);
+                var skinini = new SkinIni(File.ReadAllText(skindir + "/skin.ini"));
+
                 foreach (var file in skindir.EnumerateFiles())
                 {
                     string filename = Path.GetFileNameWithoutExtension(file.Name);
@@ -245,6 +269,8 @@ namespace OsuSkinMixer
             public string NodePath => $"OptionsContainer/{ContainerNodeName}/OptionButton";
 
             public bool IsAudio { get; set; }
+
+            public string[] IncludeSkinIniProperties { get; set; }
 
             public string[] IncludeFileNames { get; set; }
         }
