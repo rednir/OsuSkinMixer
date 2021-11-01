@@ -7,12 +7,26 @@ namespace OsuSkinMixer
 {
     public class SkinIni
     {
-        public SkinIni()
+        public SkinIni(string name, string author, string version = "1.0")
         {
+            Sections = new List<SkinIniSection>()
+            {
+                new SkinIniSection("General")
+                {
+                    { "Name", name },
+                    { "Author", author },
+                    { "Version", version },
+                },
+                new SkinIniSection("Colours"),
+                new SkinIniSection("Fonts"),
+                new SkinIniSection("CatchTheBeat"),
+                new SkinIniSection("Mania"),
+            };
         }
 
         public SkinIni(string fileContent)
         {
+            Sections = new List<SkinIniSection>();
             string[] lines = fileContent.Split('\n');
 
             for (int i = 0; i < lines.Length; i++)
@@ -35,20 +49,29 @@ namespace OsuSkinMixer
                     Sections.Add(new SkinIniSection(lines[i].Substring(1, lines[i].Length - 2)));
                     continue;
                 }
-                else if (Sections.Count == 0)
-                {
-                    throw new ArgumentException($"Line {i + 1} on skin.ini: Expected a section name.");
-                }
 
-                string[] keyAndValue = lines[i].Split(':');
-                if (keyAndValue.Length != 2)
-                    throw new ArgumentException($"Line {i + 1} on skin.ini: Invalid number of ':' characters.");
+                string[] keyAndValue = lines[i].Split(new char[] {':'}, 2);
+                keyAndValue[0] = keyAndValue[0].Trim();
+                keyAndValue[1] = keyAndValue[1].Trim();
 
-                Sections.Last().Add(keyAndValue[0].Trim(), keyAndValue[1].Trim());
+                // Ignore lines without a key/value.
+                if (keyAndValue.Length < 2)
+                    continue;
+
+                // Can't add a key/value when a section name is not yet declared.
+                if (Sections.Count == 0)
+                    throw new ArgumentException($"Line {i + 1} on skin.ini '{lines[i]}': Expected a section name.");
+                
+                var section = Sections.Last();
+
+                // Replace already existing keys.
+                section.Remove(keyAndValue[0]);
+
+                section.Add(keyAndValue[0], keyAndValue[1]);
             }
         }
 
-        public List<SkinIniSection> Sections { get; } = new List<SkinIniSection>();
+        public List<SkinIniSection> Sections { get; }
 
         public override string ToString()
         {

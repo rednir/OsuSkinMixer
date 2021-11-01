@@ -271,16 +271,8 @@ namespace OsuSkinMixer
                 return;
             }
 
-            var newSkinIni = new SkinIni();
-            newSkinIni.Sections.Add(new SkinIniSection("General")
-            {
-                { "Name", skinName },
-                { "Author", "osu! skin mixer by rednir" },
-                { "Version", "1.0" },
-            });
-
+            var newSkinIni = new SkinIni(skinName, "osu! skin mixer by rednir");
             var newSkinDir = Directory.CreateDirectory(SkinsFolder + "/" + skinName);
-            File.WriteAllText(newSkinDir.FullName + "/skin.ini", newSkinIni.ToString());
 
             foreach (var option in Options)
             {
@@ -315,7 +307,23 @@ namespace OsuSkinMixer
                         }
                     }
                 }
+
+                foreach (var section in skinini.Sections)
+                {
+                    // Only look into ini sections that are specified in the IncludeSkinIniProperties.
+                    if (!option.IncludeSkinIniProperties.ContainsKey(section.Name))
+                        continue;
+
+                    foreach (var pair in section)
+                    {
+                        // Only copy over ini properties that are specified in the IncludeSkinIniProperties.
+                        if (option.IncludeSkinIniProperties[section.Name].Contains(pair.Key))
+                            newSkinIni.Sections.Find(s => s.Name == section.Name).Add(pair.Key, pair.Value);
+                    }
+                }
             }
+
+            File.WriteAllText(newSkinDir.FullName + "/skin.ini", newSkinIni.ToString());
 
             Dialog.Alert("Created skin.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
         }
