@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Directory = System.IO.Directory;
@@ -16,8 +17,36 @@ namespace OsuSkinMixer
             {
                 ContainerNodeName = "Interface",
                 IsAudio = false,
-                IncludeSkinIniProperties = new string[]
+                IncludeSkinIniProperties = new Dictionary<string, string[]>()
                 {
+                    {
+                        "General", new string[]
+                        {
+                            "AnimationFramerate",
+                            "AllowSliderBallTint",
+                            "ComboBurstRandom",
+                            "CursorCentre",
+                            "CursorExpand",
+                            "CursorRotate",
+                            "CursorTrailRotate",
+                        }
+                    },
+                    {
+                        "Colours", new string[]
+                        {
+                            "InputOverlayText",
+                            "MenuGlow",
+                            "SongSelectActiveText",
+                            "SongSelectInactiveText",
+                        }
+                    },
+                    {
+                        "Fonts", new string[]
+                        {
+                            "ScorePrefix",
+                            "ScoreOverlap",
+                        }
+                    },
                 },
                 IncludeFileNames = new string[]
                 {
@@ -52,8 +81,52 @@ namespace OsuSkinMixer
             {
                 ContainerNodeName = "Gameplay",
                 IsAudio = false,
-                IncludeSkinIniProperties = new string[]
+                IncludeSkinIniProperties = new Dictionary<string, string[]>()
                 {
+                    {
+                        "General", new string[]
+                        {
+                            "HitCircleOverlayAboveNumber",
+                            "SliderBallFlip",
+                            "SpinnerFadePlayfield",
+                            "SpinnerNoBlink",
+                        }
+                    },
+                    {
+                        "Colours", new string[]
+                        {
+                            "Combo1",
+                            "Combo2",
+                            "Combo3",
+                            "Combo4",
+                            "Combo5",
+                            "Combo6",
+                            "Combo7",
+                            "Combo8",
+                            "SliderBall",
+                            "SliderBorder",
+                            "SliderTrackOverride",
+                            "SpinnerBackground",
+                            "StarBreakAdditive",
+                        }
+                    },
+                    {
+                        "Fonts", new string[]
+                        {
+                            "HitCirclePrefix",
+                            "HitCircleOverlap",
+                            "ComboPrefix",
+                            "ComboOverlap",
+                        }
+                    },
+                    {
+                        "CatchTheBeat", new string[]
+                        {
+                            "HyperDash",
+                            "HyperDashFruit",
+                            "HyperDashAfterImage",
+                        }
+                    },
                 },
                 IncludeFileNames = new string[]
                 {
@@ -90,8 +163,16 @@ namespace OsuSkinMixer
             {
                 ContainerNodeName = "Hitsounds",
                 IsAudio = true,
-                IncludeSkinIniProperties = new string[]
+                IncludeSkinIniProperties = new Dictionary<string, string[]>()
                 {
+                    {
+                        "General", new string[]
+                        {
+                            "CustomComboBurstSounds",
+                            "LayeredHitSounds",
+                            "SpinnerFrequencyModulate",
+                        }
+                    },
                 },
                 IncludeFileNames = new string[]
                 {
@@ -109,9 +190,7 @@ namespace OsuSkinMixer
             {
                 ContainerNodeName = "MenuSounds",
                 IsAudio = true,
-                IncludeSkinIniProperties = new string[]
-                {
-                },
+                IncludeSkinIniProperties = new Dictionary<string, string[]>(),
                 IncludeFileNames = new string[]
                 {
                     "applause",
@@ -270,7 +349,7 @@ namespace OsuSkinMixer
 
             public bool IsAudio { get; set; }
 
-            public string[] IncludeSkinIniProperties { get; set; }
+            public Dictionary<string, string[]> IncludeSkinIniProperties { get; set; }
 
             public string[] IncludeFileNames { get; set; }
         }
