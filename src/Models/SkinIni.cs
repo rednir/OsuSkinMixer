@@ -1,13 +1,12 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text;
 
 namespace OsuSkinMixer
 {
     public class SkinIni
     {
-        public IReadOnlyList<SkinIniSection> Sections { get; }
-
         public SkinIni(string fileContent)
         {
             var sections = new List<SkinIniSection>();
@@ -18,7 +17,7 @@ namespace OsuSkinMixer
                 lines[i] = lines[i].Trim();
 
                 int commentIndex = lines[i].IndexOf("//");
-                
+
                 // Ignore blank lines and completely commented lines.
                 if (commentIndex == 0 || string.IsNullOrWhiteSpace(lines[i]))
                     continue;
@@ -46,6 +45,23 @@ namespace OsuSkinMixer
             }
 
             Sections = sections;
+        }
+
+        public IReadOnlyList<SkinIniSection> Sections { get; }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            foreach (var section in Sections)
+            {
+                sb.Append('[').Append(section.Name).AppendLine("]");
+                foreach (var pair in section.KeyValuePairs)
+                    sb.Append(pair.Key).Append(": ").AppendLine(pair.Value);
+
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
         }
     }
 }
