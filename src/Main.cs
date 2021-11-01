@@ -29,6 +29,7 @@ namespace OsuSkinMixer
                     "go",
                     "inputoverlay*",
                     "menu*",
+                    "mode-*",
                     "options-offset-tick",
                     "pause*",
                     "play*",
@@ -58,7 +59,7 @@ namespace OsuSkinMixer
                     "cursor-trail",
                     "cursor-trail",
                     "default-*",
-                    "followpoint",
+                    "followpoint*",
                     "fruit-*",
                     "hit*",
                     "lighting*",
@@ -75,6 +76,7 @@ namespace OsuSkinMixer
                     "star2",
                     "taiko*",
                     "target*",
+                    "skin",
                 },
             },
             new OptionInfo
@@ -166,10 +168,16 @@ namespace OsuSkinMixer
             string skinName = SkinNameEdit.Text;
 
             if (string.IsNullOrWhiteSpace(skinName))
+            {
                 Dialog.Alert("Set a name for the new skin first.");
+                return;
+            }
 
             if (Directory.Exists(SkinsFolder + "/" + skinName))
+            {
                 Dialog.Alert("A skin with that name already exists.");
+                return;
+            }
 
             var newSkinDir = Directory.CreateDirectory(SkinsFolder + "/" + skinName);
 
@@ -195,7 +203,7 @@ namespace OsuSkinMixer
                         {
                             // Check for file type match.
                             if (
-                                ((extension == ".png" || extension == ".jpg") && !option.IsAudio)
+                                ((extension == ".png" || extension == ".jpg" || extension == ".ini") && !option.IsAudio)
                                 || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && option.IsAudio)
                             )
                             {
