@@ -39,7 +39,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 resource_name = "init"
 length = 0.001
 tracks/0/type = "value"
@@ -67,7 +67,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 resource_name = "invalid-input"
 length = 0.5
 step = 0.08
@@ -84,8 +84,7 @@ tracks/0/keys = {
 "values": [ Vector2( 132, 190 ), Vector2( 122, 190 ), Vector2( 142, 190 ), Vector2( 122, 190 ), Vector2( 142, 190 ), Vector2( 122, 190 ), Vector2( 132, 190 ) ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "out"
+[sub_resource type="Animation" id=6]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -161,6 +160,7 @@ margin_left = 132.0
 margin_top = 190.0
 margin_right = 416.0
 margin_bottom = 218.0
+clear_button_enabled = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -168,6 +168,6 @@ __meta__ = {
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "init"
 anims/in = SubResource( 3 )
-anims/init = SubResource( 5 )
-anims/invalid-input = SubResource( 6 )
-anims/out = SubResource( 4 )
+anims/init = SubResource( 4 )
+anims/invalid-input = SubResource( 5 )
+anims/out = SubResource( 6 )
