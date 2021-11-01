@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Directory = System.IO.Directory;
 using File = System.IO.File;
 using Path = System.IO.Path;
@@ -249,14 +250,17 @@ namespace OsuSkinMixer
 
         public void _CreateSkinButtonPressed()
         {
-            try
-            {
-                CreateSkin();
-            }
-            catch (Exception ex)
-            {
-                Dialog.Alert($"Something went wrong.\n\n{ex.Message}");
-            }
+            CreateSkinButton.Disabled = true;
+            CreateSkinButton.Text = "Working...";
+            Task.Run(CreateSkin)
+                .ContinueWith(t =>
+                {
+                    if (t.Exception != null)
+                        Dialog.Alert($"Something went wrong.\n\n{t.Exception.Message}");
+
+                    CreateSkinButton.Disabled = false;
+                    CreateSkinButton.Text = "Create skin";
+                });
         }
 
         private void CreateSkin()

@@ -39,7 +39,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=7]
 resource_name = "init"
 length = 0.001
 tracks/0/type = "value"
@@ -112,6 +112,7 @@ tracks/1/keys = {
 }
 
 [node name="Dialog" type="Panel"]
+modulate = Color( 1, 1, 1, 0 )
 margin_right = 550.0
 margin_bottom = 350.0
 theme = ExtResource( 1 )
@@ -168,6 +169,6 @@ __meta__ = {
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "init"
 anims/in = SubResource( 3 )
-anims/init = SubResource( 4 )
+anims/init = SubResource( 7 )
 anims/invalid-input = SubResource( 5 )
 anims/out = SubResource( 6 )
