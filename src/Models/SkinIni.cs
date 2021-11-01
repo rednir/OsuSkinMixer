@@ -7,7 +7,7 @@ namespace OsuSkinMixer
 {
     public class SkinIni
     {
-        public SkinIni(string name, string author, string version = "1.0")
+        public SkinIni(string name, string author, string version = "latest")
         {
             Sections = new List<SkinIniSection>()
             {
