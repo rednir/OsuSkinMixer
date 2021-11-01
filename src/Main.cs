@@ -22,7 +22,6 @@ namespace OsuSkinMixer
                     {
                         "General", new string[]
                         {
-                            "AnimationFramerate",
                             "AllowSliderBallTint",
                             "ComboBurstRandom",
                             "CursorCentre",
@@ -43,7 +42,6 @@ namespace OsuSkinMixer
                     {
                         "Fonts", new string[]
                         {
-                            "ScorePrefix",
                             "ScoreOverlap",
                         }
                     },
@@ -86,6 +84,7 @@ namespace OsuSkinMixer
                     {
                         "General", new string[]
                         {
+                            "AnimationFramerate",
                             "HitCircleOverlayAboveNumber",
                             "SliderBallFlip",
                             "SpinnerFadePlayfield",
@@ -113,9 +112,7 @@ namespace OsuSkinMixer
                     {
                         "Fonts", new string[]
                         {
-                            "HitCirclePrefix",
                             "HitCircleOverlap",
-                            "ComboPrefix",
                             "ComboOverlap",
                         }
                     },
@@ -132,12 +129,7 @@ namespace OsuSkinMixer
                 {
                     "approachcircle",
                     "comboburst*",
-                    "cursor-ripple",
-                    "cursor-smoke",
-                    "cursor",
-                    "cursor-middle",
-                    "cursor-trail",
-                    "cursor-trail",
+                    "cursor*",
                     "default-*",
                     "followpoint*",
                     "fruit-*",
@@ -285,7 +277,7 @@ namespace OsuSkinMixer
                 var skindir = new DirectoryInfo(SkinsFolder + "/" + node.Text);
                 var skinini = new SkinIni(File.ReadAllText(skindir + "/skin.ini"));
 
-                foreach (var file in skindir.EnumerateFiles())
+                foreach (var file in skindir.EnumerateFiles("*", SearchOption.AllDirectories))
                 {
                     string filename = Path.GetFileNameWithoutExtension(file.Name);
                     string extension = Path.GetExtension(file.Name);
@@ -302,7 +294,8 @@ namespace OsuSkinMixer
                                 || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && option.IsAudio)
                             )
                             {
-                                file.CopyTo(newSkinDir.FullName);
+                                if (!File.Exists(newSkinDir.FullName + "/" + file.Name))
+                                    file.CopyTo(newSkinDir.FullName);
                             }
                         }
                     }

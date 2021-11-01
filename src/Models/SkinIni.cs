@@ -51,12 +51,13 @@ namespace OsuSkinMixer
                 }
 
                 string[] keyAndValue = lines[i].Split(new char[] {':'}, 2);
-                keyAndValue[0] = keyAndValue[0].Trim();
-                keyAndValue[1] = keyAndValue[1].Trim();
 
                 // Ignore lines without a key/value.
                 if (keyAndValue.Length < 2)
                     continue;
+
+                keyAndValue[0] = keyAndValue[0].Trim();
+                keyAndValue[1] = keyAndValue[1].Trim();
 
                 // Can't add a key/value when a section name is not yet declared.
                 if (Sections.Count == 0)
