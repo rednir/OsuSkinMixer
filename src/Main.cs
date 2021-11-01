@@ -249,6 +249,18 @@ namespace OsuSkinMixer
 
         public void _CreateSkinButtonPressed()
         {
+            try
+            {
+                CreateSkin();
+            }
+            catch (Exception ex)
+            {
+                Dialog.Alert($"Something went wrong.\n\n{ex.Message}");
+            }
+        }
+
+        private void CreateSkin()
+        {
             string skinName = SkinNameEdit.Text;
 
             if (string.IsNullOrWhiteSpace(skinName))
