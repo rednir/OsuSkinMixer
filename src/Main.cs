@@ -325,7 +325,7 @@ namespace OsuSkinMixer
                             )
                             {
                                 if (!File.Exists(newSkinDir.FullName + "/" + file.Name))
-                                    file.CopyTo(newSkinDir.FullName);
+                                    file.CopyTo(newSkinDir.FullName + "/" + file.Name);
                             }
                         }
                     }
