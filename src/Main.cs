@@ -47,7 +47,10 @@ namespace OsuSkinMixer
                     {
                         "Fonts", new string[]
                         {
+                            "ScorePrefix",
                             "ScoreOverlap",
+                            "ComboPrefix",
+                            "ComboOverlap",
                         }
                     },
                 },
@@ -78,6 +81,9 @@ namespace OsuSkinMixer
                     "selection-*",
                     "star",
                     "welcome_text",
+                    // For some reason whitecat 2.1 skin uses this prefix instead of "score-[0-9].png",
+                    // this is just a hotfix for that since it's a popular skin.
+                    "numbers-*",
                 },
             },
             new OptionInfo
@@ -117,8 +123,8 @@ namespace OsuSkinMixer
                     {
                         "Fonts", new string[]
                         {
+                            "HitCirclePrefix",
                             "HitCircleOverlap",
-                            "ComboOverlap",
                         }
                     },
                     {
@@ -341,7 +347,12 @@ namespace OsuSkinMixer
                     {
                         // Only copy over ini properties that are specified in the IncludeSkinIniProperties.
                         if (option.IncludeSkinIniProperties[section.Name].Contains(pair.Key))
-                            newSkinIni.Sections.Find(s => s.Name == section.Name).Add(pair.Key, pair.Value);
+                        {
+                            newSkinIni.Sections.Find(s => s.Name == section.Name).Add(
+                                key: pair.Key,
+                                // All of the skin elements will be in skin directory root, so get rid of child directories in path names.
+                                value: pair.Key.Contains("Prefix") && pair.Value.Contains('/') ? pair.Value.Split('/').Last() : pair.Value);
+                        }
                     }
                 }
             }
