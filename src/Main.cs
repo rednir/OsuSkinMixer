@@ -426,7 +426,7 @@ namespace OsuSkinMixer
         {
             public string ContainerNodeName { get; set; }
 
-            public string NodePath => $"OptionsContainer/{ContainerNodeName}/OptionButton";
+            public string NodePath => $"OptionsContainer/CenterContainer/HBoxContainer/{ContainerNodeName}/OptionButton";
 
             public bool IsAudio { get; set; }
 
