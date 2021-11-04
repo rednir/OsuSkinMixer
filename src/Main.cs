@@ -268,20 +268,7 @@ namespace OsuSkinMixer
             OS.ShellOpen("https://github.com/rednir/OsuSkinMixer/releases/latest");
         }
 
-        public void _CreateSkinButtonPressed()
-        {
-            CreateSkinButton.Disabled = true;
-            CreateSkinButton.Text = "Working...";
-            Task.Run(CreateSkin)
-                .ContinueWith(t =>
-                {
-                    if (t.Exception != null)
-                        Dialog.Alert($"Something went wrong.\n\n{t.Exception.Message}");
-
-                    CreateSkinButton.Disabled = false;
-                    CreateSkinButton.Text = "Create skin";
-                });
-        }
+        public void _CreateSkinButtonPressed() => CreateSkin();
 
         private void CreateSkin()
         {
@@ -295,71 +282,100 @@ namespace OsuSkinMixer
 
             if (Directory.Exists(SkinsFolder + "/" + newSkinName))
             {
-                Dialog.Alert("A skin with that name already exists.");
+                Dialog.Question(
+                    text: $"A skin with that name already exists. Replace it?\n\nThis will permanently remove '{newSkinName}'",
+                    action: b =>
+                    {
+                        if (b)
+                        {
+                            Directory.Delete(SkinsFolder + "/" + newSkinName, true);
+                            runCont();
+                        }
+                    });
                 return;
             }
 
-            var newSkinIni = new SkinIni(newSkinName, "osu! skin mixer by rednir");
-            var newSkinDir = Directory.CreateDirectory(SkinsFolder + "/" + newSkinName);
+            CreateSkinButton.Disabled = true;
+            CreateSkinButton.Text = "Working...";
+            runCont();
 
-            foreach (var option in Options)
+            void runCont()
             {
-                var node = GetNode<OptionButton>(option.NodePath);
-
-                // User wants default skin elements to be used.
-                if (node.GetSelectedId() == 0)
-                    continue;
-
-                var skindir = new DirectoryInfo(SkinsFolder + "/" + node.Text);
-                var skinini = new SkinIni(File.ReadAllText(skindir + "/skin.ini"));
-
-                foreach (var file in skindir.EnumerateFiles("*", SearchOption.AllDirectories))
-                {
-                    string filename = Path.GetFileNameWithoutExtension(file.Name);
-                    string extension = Path.GetExtension(file.Name);
-
-                    foreach (string optionFilename in option.IncludeFileNames)
+                Task.Run(cont)
+                    .ContinueWith(t =>
                     {
-                        // Check for file name match.
-                        if (filename.Equals(optionFilename, StringComparison.OrdinalIgnoreCase) || filename.Equals(optionFilename + "@2x", StringComparison.OrdinalIgnoreCase)
-                            || (optionFilename.EndsWith("*") && filename.StartsWith(optionFilename.TrimEnd('*'), StringComparison.OrdinalIgnoreCase)))
+                        if (t.Exception != null)
+                            Dialog.Alert($"Something went wrong.\n\n{t.Exception.Message}");
+
+                        CreateSkinButton.Disabled = false;
+                        CreateSkinButton.Text = "Create skin";
+                    });
+            }
+
+            void cont()
+            {
+                var newSkinIni = new SkinIni(newSkinName, "osu! skin mixer by rednir");
+                var newSkinDir = Directory.CreateDirectory(SkinsFolder + "/" + newSkinName);
+
+                foreach (var option in Options)
+                {
+                    var node = GetNode<OptionButton>(option.NodePath);
+
+                    // User wants default skin elements to be used.
+                    if (node.GetSelectedId() == 0)
+                        continue;
+
+                    var skindir = new DirectoryInfo(SkinsFolder + "/" + node.Text);
+                    var skinini = new SkinIni(File.ReadAllText(skindir + "/skin.ini"));
+
+                    foreach (var file in skindir.EnumerateFiles("*", SearchOption.AllDirectories))
+                    {
+                        string filename = Path.GetFileNameWithoutExtension(file.Name);
+                        string extension = Path.GetExtension(file.Name);
+
+                        foreach (string optionFilename in option.IncludeFileNames)
                         {
-                            // Check for file type match.
-                            if (
-                                ((extension == ".png" || extension == ".jpg" || extension == ".ini") && !option.IsAudio)
-                                || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && option.IsAudio)
-                            )
+                            // Check for file name match.
+                            if (filename.Equals(optionFilename, StringComparison.OrdinalIgnoreCase) || filename.Equals(optionFilename + "@2x", StringComparison.OrdinalIgnoreCase)
+                                || (optionFilename.EndsWith("*") && filename.StartsWith(optionFilename.TrimEnd('*'), StringComparison.OrdinalIgnoreCase)))
                             {
-                                if (!File.Exists(newSkinDir.FullName + "/" + file.Name))
-                                    file.CopyTo(newSkinDir.FullName + "/" + file.Name);
+                                // Check for file type match.
+                                if (
+                                    ((extension == ".png" || extension == ".jpg" || extension == ".ini") && !option.IsAudio)
+                                    || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && option.IsAudio)
+                                )
+                                {
+                                    if (!File.Exists(newSkinDir.FullName + "/" + file.Name))
+                                        file.CopyTo(newSkinDir.FullName + "/" + file.Name);
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (var section in skinini.Sections)
+                    {
+                        // Only look into ini sections that are specified in the IncludeSkinIniProperties.
+                        if (!option.IncludeSkinIniProperties.ContainsKey(section.Name))
+                            continue;
+
+                        foreach (var pair in section)
+                        {
+                            // Only copy over ini properties that are specified in the IncludeSkinIniProperties.
+                            if (option.IncludeSkinIniProperties[section.Name].Contains(pair.Key))
+                            {
+                                newSkinIni.Sections.Find(s => s.Name == section.Name).Add(
+                                    key: pair.Key,
+                                    // All of the skin elements will be in skin directory root, so get rid of child directories in path names.
+                                    value: pair.Key.Contains("Prefix") && pair.Value.Contains('/') ? pair.Value.Split('/').Last() : pair.Value);
                             }
                         }
                     }
                 }
 
-                foreach (var section in skinini.Sections)
-                {
-                    // Only look into ini sections that are specified in the IncludeSkinIniProperties.
-                    if (!option.IncludeSkinIniProperties.ContainsKey(section.Name))
-                        continue;
+                File.WriteAllText(newSkinDir.FullName + "/skin.ini", newSkinIni.ToString());
 
-                    foreach (var pair in section)
-                    {
-                        // Only copy over ini properties that are specified in the IncludeSkinIniProperties.
-                        if (option.IncludeSkinIniProperties[section.Name].Contains(pair.Key))
-                        {
-                            newSkinIni.Sections.Find(s => s.Name == section.Name).Add(
-                                key: pair.Key,
-                                // All of the skin elements will be in skin directory root, so get rid of child directories in path names.
-                                value: pair.Key.Contains("Prefix") && pair.Value.Contains('/') ? pair.Value.Split('/').Last() : pair.Value);
-                        }
-                    }
-                }
+                Dialog.Alert($"Created skin '{newSkinName}'.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
             }
-
-            File.WriteAllText(newSkinDir.FullName + "/skin.ini", newSkinIni.ToString());
-
-            Dialog.Alert($"Created skin '{newSkinName}'.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
         }
 
         private bool LoadSkins()

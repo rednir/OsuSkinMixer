@@ -157,10 +157,10 @@ __meta__ = {
 
 [node name="QuestionButtons" type="HBoxContainer" parent="."]
 visible = false
-margin_left = 3.142
-margin_top = 212.953
-margin_right = 550.142
-margin_bottom = 252.953
+margin_left = 3.0
+margin_top = 222.0
+margin_right = 550.0
+margin_bottom = 253.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -169,7 +169,7 @@ __meta__ = {
 [node name="YesButton" type="Button" parent="QuestionButtons"]
 margin_left = 223.0
 margin_right = 270.0
-margin_bottom = 40.0
+margin_bottom = 31.0
 text = "Yeah!"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -178,7 +178,7 @@ __meta__ = {
 [node name="NoButton" type="Button" parent="QuestionButtons"]
 margin_left = 274.0
 margin_right = 323.0
-margin_bottom = 40.0
+margin_bottom = 31.0
 text = "Nah..."
 __meta__ = {
 "_edit_use_anchors_": false
