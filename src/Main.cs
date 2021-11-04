@@ -285,22 +285,22 @@ namespace OsuSkinMixer
 
         private void CreateSkin()
         {
-            string skinName = SkinNameEdit.Text;
+            string newSkinName = SkinNameEdit.Text;
 
-            if (string.IsNullOrWhiteSpace(skinName))
+            if (string.IsNullOrWhiteSpace(newSkinName))
             {
                 Dialog.Alert("Set a name for the new skin first.");
                 return;
             }
 
-            if (Directory.Exists(SkinsFolder + "/" + skinName))
+            if (Directory.Exists(SkinsFolder + "/" + newSkinName))
             {
                 Dialog.Alert("A skin with that name already exists.");
                 return;
             }
 
-            var newSkinIni = new SkinIni(skinName, "osu! skin mixer by rednir");
-            var newSkinDir = Directory.CreateDirectory(SkinsFolder + "/" + skinName);
+            var newSkinIni = new SkinIni(newSkinName, "osu! skin mixer by rednir");
+            var newSkinDir = Directory.CreateDirectory(SkinsFolder + "/" + newSkinName);
 
             foreach (var option in Options)
             {
@@ -359,7 +359,7 @@ namespace OsuSkinMixer
 
             File.WriteAllText(newSkinDir.FullName + "/skin.ini", newSkinIni.ToString());
 
-            Dialog.Alert("Created skin.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
+            Dialog.Alert($"Created skin '{newSkinName}'.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
         }
 
         private bool LoadSkins()
