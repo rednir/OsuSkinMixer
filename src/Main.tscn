@@ -156,6 +156,7 @@ margin_bottom = 28.0
 text = "Create skin"
 
 [node name="Dialog" parent="." instance=ExtResource( 3 )]
+visible = false
 
 [node name="UpdateLink" type="LinkButton" parent="."]
 visible = false
