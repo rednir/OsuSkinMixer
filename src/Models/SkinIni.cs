@@ -50,7 +50,7 @@ namespace OsuSkinMixer
                     continue;
                 }
 
-                string[] keyAndValue = lines[i].Split(new char[] {':'}, 2);
+                string[] keyAndValue = lines[i].Split(new char[] { ':' }, 2);
 
                 // Ignore lines without a key/value.
                 if (keyAndValue.Length < 2)
@@ -62,7 +62,7 @@ namespace OsuSkinMixer
                 // Can't add a key/value when a section name is not yet declared.
                 if (Sections.Count == 0)
                     throw new ArgumentException($"Line {i + 1} on skin.ini '{lines[i]}': Expected a section name.");
-                
+
                 var section = Sections.Last();
 
                 // Replace already existing keys.
