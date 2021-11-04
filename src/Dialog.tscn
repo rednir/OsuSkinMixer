@@ -39,7 +39,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=4]
 resource_name = "init"
 length = 0.001
 tracks/0/type = "value"
@@ -112,7 +112,6 @@ tracks/1/keys = {
 }
 
 [node name="Dialog" type="Panel"]
-modulate = Color( 1, 1, 1, 0 )
 margin_right = 550.0
 margin_bottom = 350.0
 theme = ExtResource( 1 )
@@ -146,12 +145,41 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="."]
+[node name="OkButton" type="Button" parent="."]
 margin_left = 234.142
 margin_top = 227.953
 margin_right = 318.142
 margin_bottom = 251.953
 text = "OK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="QuestionButtons" type="HBoxContainer" parent="."]
+visible = false
+margin_left = 3.142
+margin_top = 212.953
+margin_right = 550.142
+margin_bottom = 252.953
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="YesButton" type="Button" parent="QuestionButtons"]
+margin_left = 223.0
+margin_right = 270.0
+margin_bottom = 40.0
+text = "Yeah!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NoButton" type="Button" parent="QuestionButtons"]
+margin_left = 274.0
+margin_right = 323.0
+margin_bottom = 40.0
+text = "Nah..."
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -169,6 +197,6 @@ __meta__ = {
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "init"
 anims/in = SubResource( 3 )
-anims/init = SubResource( 7 )
+anims/init = SubResource( 4 )
 anims/invalid-input = SubResource( 5 )
 anims/out = SubResource( 6 )
