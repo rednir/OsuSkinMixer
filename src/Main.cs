@@ -359,8 +359,39 @@ namespace OsuSkinMixer
                                     || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && option.IsAudio)
                                 )
                                 {
-                                    if (!File.Exists(newSkinDir.FullName + "/" + file.Name))
+                                    if (
+                                        // Make sure skin elements that are not used are ignored (for example, skin elements in "extra" folders)
+                                        ((file.Directory.FullName != skindir.FullName && isFileIncludedInSkinIni()) || file.Directory.FullName == skindir.FullName)
+                                        && !File.Exists(newSkinDir.FullName + "/" + file.Name))
+                                    {
                                         file.CopyTo(newSkinDir.FullName + "/" + file.Name);
+                                    }
+
+                                    bool isFileIncludedInSkinIni()
+                                    {
+                                        // Get the skin.ini property names that contain file paths (file name prefixes) to skin elements.
+                                        var skinIniPathProperties = Options.SelectMany(
+                                            op => op.IncludeSkinIniProperties.SelectMany(
+                                                sect => sect.Value.Where(p => p.Contains("Prefix"))));
+
+                                        foreach (string propName in skinIniPathProperties)
+                                        {
+                                            // Get the file path "prefixes" that skin elements should be taken from.
+                                            var prefixes = skinini.Sections.Select(s =>
+                                            {
+                                                s.TryGetValue(propName, out string result);
+                                                return result ?? string.Empty;
+                                            });
+
+                                            foreach (string prefix in prefixes)
+                                            {
+                                                if (prefix.Contains('/') && file.FullName.IndexOf(prefix, StringComparison.OrdinalIgnoreCase) >= 0)
+                                                    return true;
+                                            }
+                                        }
+
+                                        return false;
+                                    }
                                 }
                             }
                         }
