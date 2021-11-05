@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/Theme.tres" type="Theme" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.901961 )
+
+[node name="Panel" type="Panel"]
+margin_right = 550.0
+margin_bottom = 350.0
+theme = ExtResource( 1 )
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+margin_left = 489.219
+margin_top = 14.0158
+margin_right = 535.219
+margin_bottom = 42.0158
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Directory = System.IO.Directory;
 using File = System.IO.File;
 using Path = System.IO.Path;
+using Environment = System.Environment;
 
 namespace OsuSkinMixer
 {
@@ -244,6 +245,7 @@ namespace OsuSkinMixer
         private Toast Toast;
         private Button CreateSkinButton;
         private LineEdit SkinNameEdit;
+        private Button SettingsButton;
 
         private FileSystemWatcher FileSystemWatcher { get; set; }
 
@@ -255,21 +257,13 @@ namespace OsuSkinMixer
             Toast = GetNode<Toast>("Toast");
             CreateSkinButton = GetNode<Button>("ButtonsCenterContainer/HBoxContainer/CreateSkinButton");
             SkinNameEdit = GetNode<LineEdit>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit");
+            SettingsButton = GetNode<Button>("SettingsButton");
 
             CreateSkinButton.Connect("pressed", this, "_CreateSkinButtonPressed");
+            SettingsButton.Connect("pressed", this, "_SettingsButtonPressed");
 
             if (!CreateOptionButtons())
-            {
-                Dialog.TextInput(
-                    text: "Couldn't find your skins folder, please set it below.",
-                    func: p =>
-                    {
-                        Settings.Content.SkinsFolder = p;
-                        Settings.Save();
-                        return CreateOptionButtons();
-                    },
-                    defaultText: Settings.Content.SkinsFolder);
-            }
+                PromptForSkinsFolder();
         }
 
         public override void _Input(InputEvent @event)
@@ -281,7 +275,22 @@ namespace OsuSkinMixer
             }
         }
 
+        private void _SettingsButtonPressed() => PromptForSkinsFolder();
+
         private void _CreateSkinButtonPressed() => CreateSkin();
+
+        private void PromptForSkinsFolder()
+        {
+            Dialog.TextInput(
+                text: "Please set the path to your skins folder",
+                func: p =>
+                {
+                    Settings.Content.SkinsFolder = p;
+                    Settings.Save();
+                    return CreateOptionButtons();
+                },
+                defaultText: Settings.Content.SkinsFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!/Skins");
+        }
 
         private void CreateSkin()
         {
@@ -427,7 +436,7 @@ namespace OsuSkinMixer
 
         private bool CreateOptionButtons()
         {
-            if (!Directory.Exists(Settings.Content.SkinsFolder))
+            if (Settings.Content.SkinsFolder == null || !Directory.Exists(Settings.Content.SkinsFolder))
                 return false;
 
             SetWatcher();

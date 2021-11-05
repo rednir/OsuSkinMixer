@@ -1,16 +1,27 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Main.cs" type="Script" id=2]
 [ext_resource path="res://src/Dialog.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/Toast.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/UpdateLink.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/settings.png" type="Texture" id=6]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SettingsButton" type="Button" parent="."]
+margin_left = 503.0
+margin_top = 303.0
+margin_right = 537.0
+margin_bottom = 337.0
+icon = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -41,9 +52,9 @@ __meta__ = {
 }
 
 [node name="ButtonsCenterContainer" type="CenterContainer" parent="."]
-margin_top = 279.0
+margin_top = 262.0
 margin_right = 550.0
-margin_bottom = 319.0
+margin_bottom = 302.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -70,6 +81,7 @@ margin_bottom = 28.0
 text = "Create skin"
 
 [node name="Toast" parent="." instance=ExtResource( 4 )]
+visible = false
 
 [node name="Dialog" parent="." instance=ExtResource( 3 )]
 visible = false

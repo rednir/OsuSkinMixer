@@ -56,7 +56,7 @@ namespace OsuSkinMixer
         public class SettingsContent
         {
             [JsonPropertyName("skins_folder")]
-            public string SkinsFolder { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!/Skins";
+            public string SkinsFolder { get; set; }
         }
     }
 }
