@@ -50,28 +50,28 @@ tracks/0/keys = {
 "values": [ true ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Label:rect_scale")
+tracks/1/path = NodePath(".:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 0.5, 1 ),
+"times": PoolRealArray( 0, 0.3, 1, 1.4 ),
+"transitions": PoolRealArray( 0.5, 1, 2, 1 ),
 "update": 0,
-"values": [ Vector2( 0.6, 0.6 ), Vector2( 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath(".:modulate")
+tracks/2/path = NodePath(".:rect_scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.3, 0.9, 1.4 ),
-"transitions": PoolRealArray( 0.5, 1, 2, 1 ),
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.5, 0.5 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Vector2( 0.6, 0.6 ), Vector2( 1, 1 ) ]
 }
 
 [node name="Toast" type="CenterContainer"]
@@ -80,6 +80,7 @@ anchor_left = 0.00114541
 anchor_right = 0.00114546
 margin_right = 550.0
 margin_bottom = 350.0
+rect_pivot_offset = Vector2( 275, 175 )
 mouse_filter = 2
 theme = ExtResource( 1 )
 script = ExtResource( 3 )
@@ -88,15 +89,18 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_left = 208.0
-margin_top = 153.0
-margin_right = 342.0
-margin_bottom = 197.0
-rect_pivot_offset = Vector2( 67.4494, 23.1478 )
+margin_left = 135.0
+margin_top = 141.0
+margin_right = 415.0
+margin_bottom = 208.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_pivot_offset = Vector2( 140.945, 36.3815 )
 custom_styles/normal = SubResource( 1 )
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Reloaded skin!"
+text = "This is a toast...
+This is a second much longer line!"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
