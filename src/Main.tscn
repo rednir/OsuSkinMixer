@@ -69,10 +69,10 @@ margin_right = 288.0
 margin_bottom = 28.0
 text = "Create skin"
 
+[node name="Toast" parent="." instance=ExtResource( 4 )]
+
 [node name="Dialog" parent="." instance=ExtResource( 3 )]
 visible = false
-
-[node name="Toast" parent="." instance=ExtResource( 4 )]
 
 [node name="UpdateLink" parent="." instance=ExtResource( 5 )]
 

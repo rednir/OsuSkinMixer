@@ -245,6 +245,8 @@ namespace OsuSkinMixer
         private Button CreateSkinButton;
         private LineEdit SkinNameEdit;
 
+        private FileSystemWatcher FileSystemWatcher { get; set; }
+
         public override void _Ready()
         {
             OS.SetWindowTitle("osu! skin mixer");
@@ -279,7 +281,7 @@ namespace OsuSkinMixer
             }
         }
 
-        public void _CreateSkinButtonPressed() => CreateSkin();
+        private void _CreateSkinButtonPressed() => CreateSkin();
 
         private void CreateSkin()
         {
@@ -397,6 +399,8 @@ namespace OsuSkinMixer
             if (!Directory.Exists(Settings.Content.SkinsFolder))
                 return false;
 
+            SetWatcher();
+
             var vbox = GetNode("OptionsContainer/CenterContainer/VBoxContainer");
             var skins = GetSkinNames();
 
@@ -433,6 +437,27 @@ namespace OsuSkinMixer
             }
 
             return true;
+        }
+
+        private void SetWatcher()
+        {
+            if (FileSystemWatcher != null)
+                return;
+
+            FileSystemWatcher = new FileSystemWatcher(Settings.Content.SkinsFolder)
+            {
+                NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.CreationTime,
+                EnableRaisingEvents = true,
+            };
+
+            FileSystemWatcher.Changed += OnWatcherEvent;
+            FileSystemWatcher.Created += OnWatcherEvent;
+            FileSystemWatcher.Deleted += OnWatcherEvent;
+        }
+
+        private void OnWatcherEvent(object sender, FileSystemEventArgs e)
+        {
+            Toast.New("Change in skin folder detected\nPress F5 to refresh skins!");
         }
 
         private class OptionInfo
