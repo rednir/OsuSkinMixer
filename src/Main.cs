@@ -20,7 +20,7 @@ namespace OsuSkinMixer
         {
             new OptionInfo
             {
-                ContainerNodeName = "Interface",
+                Name = "Interface",
                 IsAudio = false,
                 IncludeSkinIniProperties = new Dictionary<string, string[]>()
                 {
@@ -88,7 +88,7 @@ namespace OsuSkinMixer
             },
             new OptionInfo
             {
-                ContainerNodeName = "Gameplay",
+                Name = "Gameplay",
                 IsAudio = false,
                 IncludeSkinIniProperties = new Dictionary<string, string[]>()
                 {
@@ -164,7 +164,7 @@ namespace OsuSkinMixer
             },
             new OptionInfo
             {
-                ContainerNodeName = "Hitsounds",
+                Name = "Hitsounds",
                 IsAudio = true,
                 IncludeSkinIniProperties = new Dictionary<string, string[]>()
                 {
@@ -191,7 +191,7 @@ namespace OsuSkinMixer
             },
             new OptionInfo
             {
-                ContainerNodeName = "MenuSounds",
+                Name = "Menu Sounds",
                 IsAudio = true,
                 IncludeSkinIniProperties = new Dictionary<string, string[]>(),
                 IncludeFileNames = new string[]
@@ -248,14 +248,14 @@ namespace OsuSkinMixer
             CreateSkinButton.Connect("pressed", this, "_CreateSkinButtonPressed");
             UpdateLink.Connect("pressed", this, "_UpdateLinkPressed");
 
-            if (!LoadSkins())
+            if (!CreateOptionButtons())
             {
                 Dialog.TextInput(
                     text: "Couldn't find your skins folder, please set it below.",
                     func: p =>
                     {
                         SkinsFolder = p;
-                        return LoadSkins();
+                        return CreateOptionButtons();
                     },
                     defaultText: SkinsFolder);
             }
@@ -295,12 +295,13 @@ namespace OsuSkinMixer
                 return;
             }
 
-            CreateSkinButton.Disabled = true;
-            CreateSkinButton.Text = "Working...";
             runCont();
 
             void runCont()
             {
+                CreateSkinButton.Disabled = true;
+                CreateSkinButton.Text = "Working...";
+
                 Task.Run(cont)
                     .ContinueWith(t =>
                     {
@@ -378,22 +379,30 @@ namespace OsuSkinMixer
             }
         }
 
-        private bool LoadSkins()
+        private bool CreateOptionButtons()
         {
             if (!Directory.Exists(SkinsFolder))
                 return false;
 
+            var vbox = GetNode("OptionsContainer/CenterContainer/HBoxContainer");
             var directory = new DirectoryInfo(SkinsFolder);
             Skins = directory.EnumerateDirectories().Select(d => d.Name).OrderBy(n => n).ToArray();
 
             foreach (var option in Options)
             {
-                var node = GetNode<OptionButton>(option.NodePath);
-                node.Clear();
-                node.AddItem("<< use default skin >>");
-                node.AddSeparator();
+                var hbox = GetNode<HBoxContainer>("OptionTemplate").Duplicate();
+                var label = hbox.GetChild<Label>(0);
+                var optionButton = hbox.GetChild<OptionButton>(1);
+
+                hbox.Name = option.Name;
+                label.Text = option.Name;
+
+                optionButton.AddItem("<< use default skin >>");
+                optionButton.AddSeparator();
                 foreach (var skin in Skins)
-                    node.AddItem(skin);
+                    optionButton.AddItem(skin);
+
+                vbox.AddChild(hbox);
             }
 
             return true;
@@ -424,9 +433,9 @@ namespace OsuSkinMixer
 
         private class OptionInfo
         {
-            public string ContainerNodeName { get; set; }
+            public string Name { get; set; }
 
-            public string NodePath => $"OptionsContainer/CenterContainer/HBoxContainer/{ContainerNodeName}/OptionButton";
+            public string NodePath => $"OptionsContainer/CenterContainer/HBoxContainer/{Name}/OptionButton";
 
             public bool IsAudio { get; set; }
 
