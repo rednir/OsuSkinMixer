@@ -44,9 +44,11 @@ namespace OsuSkinMixer
                     lines[i] = lines[i].Substring(0, commentIndex);
 
                 // Check if the line is declaring the next section.
-                if (lines[i].StartsWith("[") && lines[i].EndsWith("]"))
+                if (lines[i].Contains("[") && lines[i].Contains("]"))
                 {
-                    Sections.Add(new SkinIniSection(lines[i].Substring(1, lines[i].Length - 2)));
+                    int start = lines[i].IndexOf("[") + 1;
+                    int length = lines[i].IndexOf("]") - start;
+                    Sections.Add(new SkinIniSection(lines[i].Substring(start, length)));
                     continue;
                 }
 
