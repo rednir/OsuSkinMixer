@@ -243,6 +243,7 @@ namespace OsuSkinMixer
         };
 
         private Dialog Dialog;
+        private Toast Toast;
         private Button CreateSkinButton;
         private LineEdit SkinNameEdit;
         private LinkButton UpdateLink;
@@ -252,6 +253,7 @@ namespace OsuSkinMixer
             OS.SetWindowTitle("osu! skin mixer");
 
             Dialog = GetNode<Dialog>("Dialog");
+            Toast = GetNode<Toast>("Toast");
             CreateSkinButton = GetNode<Button>("ButtonsCenterContainer/HBoxContainer/CreateSkinButton");
             SkinNameEdit = GetNode<LineEdit>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit");
             UpdateLink = GetNode<LinkButton>("UpdateLink");
@@ -278,7 +280,10 @@ namespace OsuSkinMixer
         public override void _Input(InputEvent @event)
         {
             if (@event.IsActionPressed("refresh"))
+            {
                 CreateOptionButtons();
+                Toast.New("Refreshed skins!");
+            }
         }
 
         public void _UpdateLinkPressed()

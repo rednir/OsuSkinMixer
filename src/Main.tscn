@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Main.cs" type="Script" id=2]
 [ext_resource path="res://src/Dialog.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Toast.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "idle"
@@ -88,6 +89,8 @@ text = "Create skin"
 
 [node name="Dialog" parent="." instance=ExtResource( 3 )]
 visible = false
+
+[node name="Toast" parent="." instance=ExtResource( 4 )]
 
 [node name="UpdateLink" type="LinkButton" parent="."]
 visible = false

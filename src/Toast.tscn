@@ -1,0 +1,108 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://src/Theme.tres" type="Theme" id=1]
+[ext_resource path="res://assets/Inter-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://src/Toast.cs" type="Script" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+bg_color = Color( 0, 0, 0, 0.784314 )
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 2 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "INIT"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "new"
+length = 1.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Label:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 0.6, 0.6 ), Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3, 0.9, 1.4 ),
+"transitions": PoolRealArray( 0.5, 1, 2, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="Toast" type="CenterContainer"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.00114541
+anchor_right = 0.00114546
+margin_right = 550.0
+margin_bottom = 350.0
+mouse_filter = 2
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 208.0
+margin_top = 153.0
+margin_right = 342.0
+margin_bottom = 197.0
+rect_pivot_offset = Vector2( 67.4494, 23.1478 )
+custom_styles/normal = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Reloaded skin!"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "INIT"
+anims/INIT = SubResource( 3 )
+anims/new = SubResource( 4 )
