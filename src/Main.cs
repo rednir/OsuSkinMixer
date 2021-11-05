@@ -29,10 +29,6 @@ namespace OsuSkinMixer
                         {
                             "AllowSliderBallTint",
                             "ComboBurstRandom",
-                            "CursorCentre",
-                            "CursorExpand",
-                            "CursorRotate",
-                            "CursorTrailRotate",
                         }
                     },
                     {
@@ -140,7 +136,6 @@ namespace OsuSkinMixer
                 {
                     "approachcircle",
                     "comboburst*",
-                    "cursor*",
                     "default-*",
                     "followpoint*",
                     "fruit-*",
@@ -161,6 +156,27 @@ namespace OsuSkinMixer
                     "target*",
                     "skin",
                 },
+            },
+            new OptionInfo
+            {
+                Name = "Cursor",
+                IsAudio = false,
+                IncludeSkinIniProperties = new Dictionary<string, string[]>()
+                {
+                    {
+                        "General", new string[]
+                        {
+                            "CursorCentre",
+                            "CursorExpand",
+                            "CursorRotate",
+                            "CursorTrailRotate",
+                        }
+                    },
+                },
+                IncludeFileNames = new string[]
+                {
+                    "cursor*",
+                }
             },
             new OptionInfo
             {
@@ -193,7 +209,6 @@ namespace OsuSkinMixer
             {
                 Name = "Menu Sounds",
                 IsAudio = true,
-                IncludeSkinIniProperties = new Dictionary<string, string[]>(),
                 IncludeFileNames = new string[]
                 {
                     "applause",
@@ -439,7 +454,7 @@ namespace OsuSkinMixer
 
             public bool IsAudio { get; set; }
 
-            public Dictionary<string, string[]> IncludeSkinIniProperties { get; set; }
+            public Dictionary<string, string[]> IncludeSkinIniProperties { get; set; } = new Dictionary<string, string[]>();
 
             public string[] IncludeFileNames { get; set; }
         }
