@@ -14,7 +14,7 @@ namespace OsuSkinMixer
 {
     public class Main : Control
     {
-        private const string VERSION = "v1.1";
+        private const string VERSION = "v1.2";
 
         private readonly OptionInfo[] Options = new OptionInfo[]
         {
