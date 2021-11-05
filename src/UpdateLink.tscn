@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/UpdateLink.cs" type="Script" id=1]
+
+[sub_resource type="Animation" id=1]
+resource_name = "idle"
+length = 1.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8, 1.6 ),
+"transitions": PoolRealArray( -2, -2, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.54902 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="UpdateLink" type="LinkButton"]
+visible = false
+modulate = Color( 1, 1, 1, 0.623495 )
+margin_left = 200.0
+margin_top = 324.0
+margin_right = 347.0
+margin_bottom = 342.0
+focus_mode = 2
+custom_colors/font_color = Color( 0.247059, 0.372549, 0.866667, 1 )
+text = "Updates are available!"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "idle"
+anims/idle = SubResource( 1 )
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]

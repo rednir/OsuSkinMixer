@@ -14,8 +14,6 @@ namespace OsuSkinMixer
 {
     public class Main : Control
     {
-        private const string VERSION = "v1.2";
-
         private readonly OptionInfo[] Options = new OptionInfo[]
         {
             new OptionInfo
@@ -246,7 +244,6 @@ namespace OsuSkinMixer
         private Toast Toast;
         private Button CreateSkinButton;
         private LineEdit SkinNameEdit;
-        private LinkButton UpdateLink;
 
         public override void _Ready()
         {
@@ -256,10 +253,8 @@ namespace OsuSkinMixer
             Toast = GetNode<Toast>("Toast");
             CreateSkinButton = GetNode<Button>("ButtonsCenterContainer/HBoxContainer/CreateSkinButton");
             SkinNameEdit = GetNode<LineEdit>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit");
-            UpdateLink = GetNode<LinkButton>("UpdateLink");
 
             CreateSkinButton.Connect("pressed", this, "_CreateSkinButtonPressed");
-            UpdateLink.Connect("pressed", this, "_UpdateLinkPressed");
 
             if (!CreateOptionButtons())
             {
@@ -273,8 +268,6 @@ namespace OsuSkinMixer
                     },
                     defaultText: Settings.Content.SkinsFolder);
             }
-
-            CheckForUpdates();
         }
 
         public override void _Input(InputEvent @event)
@@ -284,11 +277,6 @@ namespace OsuSkinMixer
                 CreateOptionButtons();
                 Toast.New("Refreshed skins!");
             }
-        }
-
-        public void _UpdateLinkPressed()
-        {
-            OS.ShellOpen("https://github.com/rednir/OsuSkinMixer/releases/latest");
         }
 
         public void _CreateSkinButtonPressed() => CreateSkin();
@@ -445,29 +433,6 @@ namespace OsuSkinMixer
             }
 
             return true;
-        }
-
-        private void CheckForUpdates()
-        {
-            var req = GetNode<HTTPRequest>("HTTPRequest");
-            req.Connect("request_completed", this, "_UpdateRequestCompleted");
-            req.Request("https://api.github.com/repos/rednir/OsuSkinMixer/releases/latest", new string[] { "User-Agent: OsuSkinMixer" });
-        }
-
-        public void _UpdateRequestCompleted(int result, int response_code, string[] headers, byte[] body)
-        {
-            if (result != 0)
-                return;
-
-            try
-            {
-                string latest = JsonSerializer.Deserialize<Dictionary<string, object>>(Encoding.UTF8.GetString(body))["tag_name"].ToString();
-                if (latest != VERSION)
-                    UpdateLink.Visible = true;
-            }
-            catch
-            {
-            }
         }
 
         private class OptionInfo
