@@ -47,7 +47,7 @@ margin_right = 500.0
 margin_bottom = 227.0
 rect_min_size = Vector2( 500, 227 )
 
-[node name="HBoxContainer" type="VBoxContainer" parent="OptionsContainer/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OptionsContainer/CenterContainer"]
 margin_left = 250.0
 margin_top = 113.0
 margin_right = 250.0

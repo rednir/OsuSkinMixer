@@ -247,8 +247,6 @@ namespace OsuSkinMixer
         private LineEdit SkinNameEdit;
         private LinkButton UpdateLink;
 
-        private string[] Skins { get; set; } = Array.Empty<string>();
-
         public override void _Ready()
         {
             OS.SetWindowTitle("osu! skin mixer");
@@ -275,6 +273,12 @@ namespace OsuSkinMixer
             }
 
             CheckForUpdates();
+        }
+
+        public override void _Input(InputEvent @event)
+        {
+            if (@event.IsActionPressed("refresh"))
+                CreateOptionButtons();
         }
 
         public void _UpdateLinkPressed()
@@ -393,30 +397,46 @@ namespace OsuSkinMixer
             }
         }
 
+        private string[] GetSkinNames() => new DirectoryInfo(Settings.Content.SkinsFolder).EnumerateDirectories().Select(d => d.Name).OrderBy(n => n).ToArray();
+
         private bool CreateOptionButtons()
         {
             if (!Directory.Exists(Settings.Content.SkinsFolder))
                 return false;
 
-            var vbox = GetNode("OptionsContainer/CenterContainer/HBoxContainer");
-            var directory = new DirectoryInfo(Settings.Content.SkinsFolder);
-            Skins = directory.EnumerateDirectories().Select(d => d.Name).OrderBy(n => n).ToArray();
+            var vbox = GetNode("OptionsContainer/CenterContainer/VBoxContainer");
+            var skins = GetSkinNames();
 
             foreach (var option in Options)
             {
-                var hbox = GetNode<HBoxContainer>("OptionTemplate").Duplicate();
-                var label = hbox.GetChild<Label>(0);
-                var optionButton = hbox.GetChild<OptionButton>(1);
+                var optionButton = GetNodeOrNull<OptionButton>(option.NodePath);
+                int selectedId = 0;
 
-                hbox.Name = option.Name;
-                label.Text = option.Name;
+                if (optionButton == null)
+                {
+                    var hbox = GetNode<HBoxContainer>("OptionTemplate").Duplicate();
+                    var label = hbox.GetChild<Label>(0);
+                    optionButton = hbox.GetChild<OptionButton>(1);
 
-                optionButton.AddItem("<< use default skin >>");
+                    hbox.Name = option.Name;
+                    label.Text = option.Name;
+
+                    vbox.AddChild(hbox);
+                }
+                else
+                {
+                    // The existing dropdown items should be updated.
+                    selectedId = optionButton.GetSelectedId();
+                    optionButton.Clear();
+                }
+
+                optionButton.AddItem("<< use default skin >>", 0);
                 optionButton.AddSeparator();
-                foreach (var skin in Skins)
-                    optionButton.AddItem(skin);
+                foreach (var skin in skins)
+                    optionButton.AddItem(skin, skin.GetHashCode());
 
-                vbox.AddChild(hbox);
+                // If items were updated, ensure the users selection is maintained
+                optionButton.Selected = optionButton.GetItemIndex(selectedId);
             }
 
             return true;
@@ -449,7 +469,7 @@ namespace OsuSkinMixer
         {
             public string Name { get; set; }
 
-            public string NodePath => $"OptionsContainer/CenterContainer/HBoxContainer/{Name}/OptionButton";
+            public string NodePath => $"OptionsContainer/CenterContainer/VBoxContainer/{Name}/OptionButton";
 
             public bool IsAudio { get; set; }
 
