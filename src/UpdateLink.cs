@@ -26,7 +26,7 @@ namespace OsuSkinMixer
             req.Request("https://api.github.com/repos/rednir/OsuSkinMixer/releases/latest", new string[] { "User-Agent: OsuSkinMixer" });
         }
 
-        public void _UpdateRequestCompleted(int result, int response_code, string[] headers, byte[] body)
+        private void _UpdateRequestCompleted(int result, int response_code, string[] headers, byte[] body)
         {
             if (result != 0)
                 return;
