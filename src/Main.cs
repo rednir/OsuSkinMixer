@@ -247,8 +247,6 @@ namespace OsuSkinMixer
         private LineEdit SkinNameEdit;
         private LinkButton UpdateLink;
 
-        private string SkinsFolder { get; set; } = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData) + "/osu!/Skins";
-
         private string[] Skins { get; set; } = Array.Empty<string>();
 
         public override void _Ready()
@@ -269,10 +267,11 @@ namespace OsuSkinMixer
                     text: "Couldn't find your skins folder, please set it below.",
                     func: p =>
                     {
-                        SkinsFolder = p;
+                        Settings.Content.SkinsFolder = p;
+                        Settings.Save();
                         return CreateOptionButtons();
                     },
-                    defaultText: SkinsFolder);
+                    defaultText: Settings.Content.SkinsFolder);
             }
 
             CheckForUpdates();
@@ -295,7 +294,7 @@ namespace OsuSkinMixer
                 return;
             }
 
-            if (Directory.Exists(SkinsFolder + "/" + newSkinName))
+            if (Directory.Exists(Settings.Content.SkinsFolder + "/" + newSkinName))
             {
                 Dialog.Question(
                     text: $"A skin with that name already exists. Replace it?\n\nThis will permanently remove '{newSkinName}'",
@@ -303,7 +302,7 @@ namespace OsuSkinMixer
                     {
                         if (b)
                         {
-                            Directory.Delete(SkinsFolder + "/" + newSkinName, true);
+                            Directory.Delete(Settings.Content.SkinsFolder + "/" + newSkinName, true);
                             runCont();
                         }
                     });
@@ -331,7 +330,7 @@ namespace OsuSkinMixer
             void cont()
             {
                 var newSkinIni = new SkinIni(newSkinName, "osu! skin mixer by rednir");
-                var newSkinDir = Directory.CreateDirectory(SkinsFolder + "/" + newSkinName);
+                var newSkinDir = Directory.CreateDirectory(Settings.Content.SkinsFolder + "/" + newSkinName);
 
                 foreach (var option in Options)
                 {
@@ -341,7 +340,7 @@ namespace OsuSkinMixer
                     if (node.GetSelectedId() == 0)
                         continue;
 
-                    var skindir = new DirectoryInfo(SkinsFolder + "/" + node.Text);
+                    var skindir = new DirectoryInfo(Settings.Content.SkinsFolder + "/" + node.Text);
                     var skinini = new SkinIni(File.ReadAllText(skindir + "/skin.ini"));
 
                     foreach (var file in skindir.EnumerateFiles("*", SearchOption.AllDirectories))
@@ -396,11 +395,11 @@ namespace OsuSkinMixer
 
         private bool CreateOptionButtons()
         {
-            if (!Directory.Exists(SkinsFolder))
+            if (!Directory.Exists(Settings.Content.SkinsFolder))
                 return false;
 
             var vbox = GetNode("OptionsContainer/CenterContainer/HBoxContainer");
-            var directory = new DirectoryInfo(SkinsFolder);
+            var directory = new DirectoryInfo(Settings.Content.SkinsFolder);
             Skins = directory.EnumerateDirectories().Select(d => d.Name).OrderBy(n => n).ToArray();
 
             foreach (var option in Options)
