@@ -36,7 +36,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=4]
 resource_name = "new"
-length = 1.4
+length = 2.6
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
@@ -56,7 +56,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3, 1, 1.4 ),
+"times": PoolRealArray( 0, 0.3, 1.9, 2.6 ),
 "transitions": PoolRealArray( 0.5, 1, 2, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
