@@ -34,14 +34,14 @@ __meta__ = {
 }
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-position = Vector2( 279.335, 441.376 )
+position = Vector2( 347.636, 561.409 )
 scale = Vector2( 0.1, 0.1 )
-amount = 45
+amount = 50
 lifetime = 30.0
 preprocess = 20.0
 texture = ExtResource( 7 )
 emission_shape = 2
-emission_rect_extents = Vector2( 2500, 1 )
+emission_rect_extents = Vector2( 3200, 1 )
 direction = Vector2( 0, -1 )
 spread = 0.0
 gravity = Vector2( 0, 0 )
@@ -55,20 +55,20 @@ autoplay = "in"
 anims/in = SubResource( 1 )
 
 [node name="SettingsButton" type="Button" parent="."]
-margin_left = 503.0
-margin_top = 303.0
-margin_right = 537.0
-margin_bottom = 337.0
+margin_left = 645.836
+margin_top = 400.581
+margin_right = 679.836
+margin_bottom = 434.581
 icon = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="OptionsContainer" type="ScrollContainer" parent="."]
-margin_left = 29.0
-margin_top = 13.0
-margin_right = 529.0
-margin_bottom = 263.0
+margin_left = 99.0
+margin_top = 79.0
+margin_right = 599.0
+margin_bottom = 313.0
 scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -90,9 +90,10 @@ __meta__ = {
 }
 
 [node name="ButtonsCenterContainer" type="CenterContainer" parent="."]
-margin_top = 262.0
-margin_right = 550.0
-margin_bottom = 302.0
+margin_left = 74.9533
+margin_top = 337.225
+margin_right = 624.953
+margin_bottom = 377.225
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -127,10 +128,10 @@ visible = false
 [node name="UpdateLink" parent="." instance=ExtResource( 5 )]
 
 [node name="OptionTemplate" type="HBoxContainer" parent="."]
-margin_left = 682.0
-margin_top = 44.0
-margin_right = 1067.0
-margin_bottom = 72.0
+margin_left = 809.356
+margin_top = 41.0034
+margin_right = 1194.36
+margin_bottom = 69.0034
 custom_constants/separation = 15
 __meta__ = {
 "_edit_use_anchors_": false

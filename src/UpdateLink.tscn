@@ -21,11 +21,10 @@ tracks/0/keys = {
 
 [node name="UpdateLink" type="LinkButton"]
 visible = false
-modulate = Color( 1, 1, 1, 0.623495 )
-margin_left = 200.0
-margin_top = 324.0
-margin_right = 347.0
-margin_bottom = 342.0
+margin_left = 274.594
+margin_top = 420.52
+margin_right = 417.594
+margin_bottom = 438.52
 focus_mode = 2
 custom_colors/font_color = Color( 0.247059, 0.372549, 0.866667, 1 )
 text = "Updates are available!"
