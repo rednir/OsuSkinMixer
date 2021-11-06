@@ -78,9 +78,10 @@ tracks/2/keys = {
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.00114541
 anchor_right = 0.00114546
-margin_right = 550.0
-margin_bottom = 350.0
-rect_pivot_offset = Vector2( 275, 175 )
+margin_left = 0.198213
+margin_right = 700.198
+margin_bottom = 450.0
+rect_pivot_offset = Vector2( 350, 225 )
 mouse_filter = 2
 theme = ExtResource( 1 )
 script = ExtResource( 3 )
@@ -89,10 +90,10 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_left = 135.0
-margin_top = 141.0
-margin_right = 415.0
-margin_bottom = 208.0
+margin_left = 210.0
+margin_top = 191.0
+margin_right = 490.0
+margin_bottom = 258.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_pivot_offset = Vector2( 140.945, 36.3815 )
