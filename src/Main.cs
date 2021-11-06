@@ -401,12 +401,12 @@ namespace OsuSkinMixer
                                             var prefixes = skinini.Sections.Select(s =>
                                             {
                                                 s.TryGetValue(propName, out string result);
-                                                return result ?? string.Empty;
+                                                return result;
                                             });
 
                                             foreach (string prefix in prefixes)
                                             {
-                                                if (file.FullName.Replace('\\', '/').IndexOf(prefix.Replace('\\', '/'), StringComparison.OrdinalIgnoreCase) >= 0)
+                                                if (prefix != null && file.FullName.Replace('\\', '/').IndexOf(prefix.Replace('\\', '/'), StringComparison.OrdinalIgnoreCase) >= 0)
                                                     return true;
                                             }
                                         }
