@@ -394,7 +394,7 @@ namespace OsuSkinMixer
 
                                             foreach (string prefix in prefixes)
                                             {
-                                                if (prefix.Contains('/') && file.FullName.IndexOf(prefix, StringComparison.OrdinalIgnoreCase) >= 0)
+                                                if (file.FullName.Replace('\\', '/').IndexOf(prefix.Replace('\\', '/'), StringComparison.OrdinalIgnoreCase) >= 0)
                                                     return true;
                                             }
                                         }
