@@ -380,14 +380,16 @@ namespace OsuSkinMixer
                                     || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && option.IsAudio)
                                 )
                                 {
-                                    if (
-                                        // Make sure skin elements that are not used are ignored (for example, skin elements in "extra" folders)
-                                        ((file.Directory.FullName != skindir.FullName && isFileIncludedInSkinIni()) || file.Directory.FullName == skindir.FullName)
-                                        && !File.Exists(newSkinDir.FullName + "/" + file.Name))
+                                    if (file.Directory.FullName != skindir.FullName && isFileIncludedInSkinIni())
                                     {
-                                        file.CopyTo(newSkinDir.FullName + "/" + file.Name);
+                                        file.CopyTo(newSkinDir.FullName + "/" + file.Name, true);
+                                    }
+                                    else if (file.Directory.FullName == skindir.FullName && !File.Exists(newSkinDir.FullName + "/" + file.Name))
+                                    {
+                                        file.CopyTo(newSkinDir.FullName + "/" + file.Name, false);
                                     }
 
+                                    // Make sure skin elements that are not used are ignored (for example, skin elements in "extra" folders)
                                     bool isFileIncludedInSkinIni()
                                     {
                                         // Get the skin.ini property names that contain file paths (file name prefixes) to skin elements.
