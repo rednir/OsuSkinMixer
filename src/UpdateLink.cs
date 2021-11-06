@@ -35,11 +35,18 @@ namespace OsuSkinMixer
             {
                 string latest = JsonSerializer.Deserialize<Dictionary<string, object>>(Encoding.UTF8.GetString(body))["tag_name"].ToString();
                 if (latest != Settings.VERSION)
+                {
                     Visible = true;
+                    Text = $"Updates are available! ({Settings.VERSION} -> {latest})";
+                    GetNode<AnimationPlayer>("AnimationPlayer").Play("update");
+                    return;
+                }
             }
             catch
             {
             }
+
+            Text = $"{Settings.VERSION} (latest)";
         }
     }
 }
