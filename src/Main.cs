@@ -259,6 +259,8 @@ namespace OsuSkinMixer
             SkinNameEdit = GetNode<LineEdit>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit");
             SettingsButton = GetNode<Button>("SettingsButton");
 
+            GetNode<TopBar>("TopBar").Main = this;
+
             CreateSkinButton.Connect("pressed", this, "_CreateSkinButtonPressed");
             SettingsButton.Connect("pressed", this, "_SettingsButtonPressed");
 
@@ -269,17 +271,30 @@ namespace OsuSkinMixer
         public override void _Input(InputEvent @event)
         {
             if (@event.IsActionPressed("refresh"))
-            {
-                CreateOptionButtons();
-                Toast.New("Refreshed skins!");
-            }
+                RefreshSkins();
         }
 
         private void _SettingsButtonPressed() => PromptForSkinsFolder();
 
         private void _CreateSkinButtonPressed() => CreateSkin();
 
-        private void PromptForSkinsFolder()
+        public void ResetSelections()
+        {
+            SkinNameEdit.Clear();
+            foreach (var option in Options)
+            {
+                var optionButton = GetNodeOrNull<OptionButton>(option.NodePath);
+                optionButton?.Select(0);
+            }
+        }
+
+        public void RefreshSkins()
+        {
+            CreateOptionButtons();
+            Toast.New("Refreshed skins!");
+        }
+
+        public void PromptForSkinsFolder()
         {
             Dialog.TextInput(
                 text: "Please set the path to your skins folder",
@@ -292,7 +307,7 @@ namespace OsuSkinMixer
                 defaultText: Settings.Content.SkinsFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!/Skins");
         }
 
-        private void CreateSkin()
+        public void CreateSkin()
         {
             string newSkinName = SkinNameEdit.Text;
 

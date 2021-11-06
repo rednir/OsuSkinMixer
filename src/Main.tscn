@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Main.cs" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://src/UpdateLink.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/settings.png" type="Texture" id=6]
 [ext_resource path="res://assets/triangle.svg" type="Texture" id=7]
+[ext_resource path="res://src/TopBar.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Animation" id=1]
 resource_name = "in"
@@ -99,9 +100,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ButtonsCenterContainer"]
-margin_left = 131.0
+margin_left = 130.0
 margin_top = 6.0
-margin_right = 419.0
+margin_right = 418.0
 margin_bottom = 34.0
 
 [node name="SkinNameEdit" type="LineEdit" parent="ButtonsCenterContainer/HBoxContainer"]
@@ -118,6 +119,8 @@ margin_left = 204.0
 margin_right = 288.0
 margin_bottom = 28.0
 text = "Create skin"
+
+[node name="TopBar" parent="." instance=ExtResource( 8 )]
 
 [node name="Toast" parent="." instance=ExtResource( 4 )]
 visible = false
