@@ -5,15 +5,11 @@
 [ext_resource path="res://src/Toast.cs" type="Script" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
-content_margin_left = 12.0
-content_margin_right = 12.0
-content_margin_top = 12.0
-content_margin_bottom = 12.0
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
 bg_color = Color( 0, 0, 0, 0.784314 )
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
 
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 2 )
@@ -69,9 +65,9 @@ tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
 "times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 0.5, 0.5 ),
+"transitions": PoolRealArray( 0.4, 0.5 ),
 "update": 0,
-"values": [ Vector2( 0.6, 0.6 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 1, 0.3 ), Vector2( 1, 1 ) ]
 }
 
 [node name="Toast" type="CenterContainer"]
@@ -90,12 +86,12 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_left = 210.0
-margin_top = 191.0
-margin_right = 490.0
-margin_bottom = 258.0
+margin_top = 195.0
+margin_right = 700.0
+margin_bottom = 254.0
 grow_horizontal = 2
 grow_vertical = 2
+rect_min_size = Vector2( 700, 0 )
 rect_pivot_offset = Vector2( 140.945, 36.3815 )
 custom_styles/normal = SubResource( 1 )
 custom_fonts/font = SubResource( 2 )
