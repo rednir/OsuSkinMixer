@@ -245,7 +245,6 @@ namespace OsuSkinMixer
         private Toast Toast;
         private Button CreateSkinButton;
         private LineEdit SkinNameEdit;
-        private Button SettingsButton;
 
         private FileSystemWatcher FileSystemWatcher { get; set; }
 
@@ -257,12 +256,10 @@ namespace OsuSkinMixer
             Toast = GetNode<Toast>("Toast");
             CreateSkinButton = GetNode<Button>("ButtonsCenterContainer/HBoxContainer/CreateSkinButton");
             SkinNameEdit = GetNode<LineEdit>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit");
-            SettingsButton = GetNode<Button>("SettingsButton");
 
             GetNode<TopBar>("TopBar").Main = this;
 
             CreateSkinButton.Connect("pressed", this, "_CreateSkinButtonPressed");
-            SettingsButton.Connect("pressed", this, "_SettingsButtonPressed");
 
             if (!CreateOptionButtons())
                 PromptForSkinsFolder();

@@ -1,11 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Main.cs" type="Script" id=2]
 [ext_resource path="res://src/Dialog.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/Toast.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/UpdateLink.tscn" type="PackedScene" id=5]
-[ext_resource path="res://assets/settings.png" type="Texture" id=6]
 [ext_resource path="res://assets/triangle.svg" type="Texture" id=7]
 [ext_resource path="res://src/TopBar.tscn" type="PackedScene" id=8]
 
@@ -54,16 +53,6 @@ scale_amount_random = 1.0
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CPUParticles2D"]
 autoplay = "in"
 anims/in = SubResource( 1 )
-
-[node name="SettingsButton" type="Button" parent="."]
-margin_left = 645.836
-margin_top = 400.581
-margin_right = 679.836
-margin_bottom = 434.581
-icon = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="OptionsContainer" type="ScrollContainer" parent="."]
 margin_left = 99.0
