@@ -9,7 +9,7 @@ content_margin_left = 8.0
 content_margin_right = 8.0
 content_margin_top = 8.0
 content_margin_bottom = 8.0
-bg_color = Color( 0, 0, 0, 0.784314 )
+bg_color = Color( 0, 0, 0, 0.686275 )
 
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 2 )
@@ -74,8 +74,8 @@ tracks/2/keys = {
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.00114541
 anchor_right = 0.00114546
-margin_left = 0.198213
-margin_right = 700.198
+margin_left = -0.642668
+margin_right = 699.357
 margin_bottom = 450.0
 rect_pivot_offset = Vector2( 350, 225 )
 mouse_filter = 2
