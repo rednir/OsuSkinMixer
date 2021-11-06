@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Main.cs" type="Script" id=2]
@@ -6,6 +6,23 @@
 [ext_resource path="res://src/Toast.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/UpdateLink.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/settings.png" type="Texture" id=6]
+[ext_resource path="res://assets/triangle.svg" type="Texture" id=7]
+
+[sub_resource type="Animation" id=1]
+resource_name = "in"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1.5 ),
+"transitions": PoolRealArray( 0.4, 0.4, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -15,6 +32,27 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2( 279.335, 441.376 )
+scale = Vector2( 0.1, 0.1 )
+amount = 45
+lifetime = 30.0
+preprocess = 20.0
+texture = ExtResource( 7 )
+emission_shape = 2
+emission_rect_extents = Vector2( 2500, 1 )
+direction = Vector2( 0, -1 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.7
+scale_amount = 9.0
+scale_amount_random = 1.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CPUParticles2D"]
+autoplay = "in"
+anims/in = SubResource( 1 )
 
 [node name="SettingsButton" type="Button" parent="."]
 margin_left = 503.0

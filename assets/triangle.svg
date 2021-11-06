@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="64"
+   height="64"
+   viewBox="0 0 16.933333 16.933334"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="triangle.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="px"
+     width="793.70081px"
+     inkscape:zoom="5.6568542"
+     inkscape:cx="38.448931"
+     inkscape:cy="53.651727"
+     inkscape:window-width="1491"
+     inkscape:window-height="757"
+     inkscape:window-x="425"
+     inkscape:window-y="113"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Lightness-Contrast"
+       id="filter28224"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="1 0 0 -0.206897 -0 0 1 0 -0.206897 -0 0 0 1 -0.206897 -0 0 0 0 1 0"
+         id="feColorMatrix28222" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path28330"
+       style="fill:#bea9c4;stroke-width:20;stroke-linejoin:round;fill-opacity:1"
+       inkscape:transform-center-y="-2.4012749"
+       transform="matrix(0.09981816,0,0,0.09806843,-0.09535371,-24.365088)"
+       d="m 170.59708,421.1184 -84.820902,0 -84.82090393,0 42.41045093,-73.45705 42.410452,-73.45706 42.410453,73.45706 z" />
+  </g>
+</svg>
