@@ -36,7 +36,7 @@ __meta__ = {
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 position = Vector2( 347.636, 561.409 )
 scale = Vector2( 0.1, 0.1 )
-amount = 50
+amount = 65
 lifetime = 30.0
 preprocess = 20.0
 texture = ExtResource( 7 )
