@@ -759,15 +759,23 @@ namespace OsuSkinMixer
 
                 if (optionButton == null)
                 {
-                    var hbox = GetNode<HBoxContainer>("OptionTemplate").Duplicate();
-                    var indent = hbox.GetChild<Panel>(0);
-                    var label = hbox.GetChild<Label>(1);
-                    optionButton = hbox.GetChild<OptionButton>(2);
+                    var hbox = (HBoxContainer)GetNode("OptionTemplate").Duplicate();
+                    var arrowButton = hbox.GetChild<TextureButton>(0);
+                    var indent = hbox.GetChild<Panel>(1);
+                    var label = hbox.GetChild<Label>(2);
+                    optionButton = hbox.GetChild<OptionButton>(3);
 
                     if (!isSubOption)
-                        optionButton.Connect("item_selected", this, nameof(_OptionItemSelected), new Godot.Collections.Array(new OptionInfoWrapper(option)));
+                    {
+                        var binds = new Godot.Collections.Array(new OptionInfoWrapper(option));
+                        optionButton.Connect("item_selected", this, nameof(_OptionItemSelected), binds);
+                        arrowButton.Connect("toggled", this, nameof(_ArrowButtonPressed), binds);
+                    }
 
+                    hbox.Visible = !isSubOption;
                     indent.Visible = isSubOption;
+                    arrowButton.Visible = !isSubOption;
+
                     hbox.Name = suboption?.GetHBoxName(option) ?? option.Name;
                     label.Text = suboption?.Name ?? option.Name;
                     label.Modulate = new Color(1, 1, 1, isSubOption ? 0.7f : 1);
@@ -789,6 +797,13 @@ namespace OsuSkinMixer
                 // If items were updated, ensure the users selection is maintained
                 optionButton.Selected = optionButton.GetItemIndex(selectedId);
             }
+        }
+
+        private void _ArrowButtonPressed(bool pressed, OptionInfoWrapper wrapper)
+        {
+            var option = wrapper.Value;
+            foreach (var suboption in option.SubOptions)
+                GetNode<HBoxContainer>($"{OPTIONS_CONTAINER_PATH}/{suboption.GetHBoxName(option)}").Visible = pressed;
         }
 
         private void _OptionItemSelected(int index, OptionInfoWrapper wrapper)
