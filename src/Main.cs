@@ -427,19 +427,23 @@ namespace OsuSkinMixer
                                 )
                                 {
                                     if (
-                                        // Skin element is in a sub-directory but the skin.ini mentions it (this is prioritised)
-                                        (file.Directory.FullName != skindir.FullName && isFileIncludedInSkinIni())
-
                                         // Skin element is in the root of the its skin folder and hasn't already been copied to the new skin.
-                                        || (file.Directory.FullName == skindir.FullName && !File.Exists(newSkinDir.FullName + "/" + file.Name))
+                                        (file.Directory.FullName == skindir.FullName && !File.Exists(newSkinDir.FullName + "/" + file.Name))
+
+                                        // Skin element is in a sub-directory but the skin.ini mentions it (this is prioritised)
+                                        // Ensures unused skin elements in "extra" folders are ignored.
+                                        || includeSubdirectoryFile()
                                     )
                                     {
                                         file.CopyTo(newSkinDir.FullName + "/" + file.Name, true);
                                     }
 
-                                    // Make sure skin elements that are not used are ignored (for example, skin elements in "extra" folders)
-                                    bool isFileIncludedInSkinIni()
+                                    bool includeSubdirectoryFile()
                                     {
+                                        // Ignore files that are not in sub-directories.
+                                        if (file.Directory.FullName == skindir.FullName)
+                                            return false;
+
                                         // Get the skin.ini property names that contain file paths (file name prefixes) to skin elements.
                                         var skinIniPathProperties = Options.SelectMany(
                                             op => op.IncludeSkinIniProperties.SelectMany(
@@ -456,8 +460,11 @@ namespace OsuSkinMixer
 
                                             foreach (string prefix in prefixes)
                                             {
-                                                if (prefix != null && file.FullName.Substring(skindir.FullName.Length + 1).Replace('\\', '/')
-                                                    .StartsWith(prefix.Replace('\\', '/'), StringComparison.OrdinalIgnoreCase))
+                                                string normalizedPrefix = prefix?.Replace('\\', '/');
+                                                string normalizedPathFromSkinRoot = file.FullName.Substring(skindir.FullName.Length + 1).Replace('\\', '/');
+
+                                                if ((normalizedPrefix?.Contains('/') ?? false)
+                                                    && normalizedPathFromSkinRoot.StartsWith(normalizedPrefix, StringComparison.OrdinalIgnoreCase))
                                                 {
                                                     return true;
                                                 }
