@@ -195,6 +195,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="OptionButton" type="OptionButton" parent="."]
+margin_left = 193.75
+margin_top = 243.112
+margin_right = 503.75
+margin_bottom = 271.112
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "init"
 anims/in = SubResource( 3 )

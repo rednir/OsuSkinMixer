@@ -3,17 +3,23 @@ using System;
 
 namespace OsuSkinMixer
 {
-    // TODO: next time im forced to look at this i need to rewrite this entire thing.
+    // TODO: THIS FILE SUCKS AND I NEED TO REFACTOR!!!
+    // TODO: THIS FILE SUCKS AND I NEED TO REFACTOR!!!
+    // TODO: THIS FILE SUCKS AND I NEED TO REFACTOR!!!
+    // TODO: THIS FILE SUCKS AND I NEED TO REFACTOR!!!
+    // TODO: THIS FILE SUCKS AND I NEED TO REFACTOR!!!
     public class Dialog : Panel
     {
         private Func<string, bool> TextInputFunc;
         private Action<bool> QuestionAction;
+        private Action<int> OptionAction;
 
         private AnimationPlayer AnimationPlayer;
         private Label Label;
         private Button OkButton;
         private HBoxContainer QuestionButtons;
         private LineEdit LineEdit;
+        private OptionButton OptionButton;
 
         public override void _Ready()
         {
@@ -22,6 +28,7 @@ namespace OsuSkinMixer
             OkButton = GetNode<Button>("OkButton");
             QuestionButtons = GetNode<HBoxContainer>("QuestionButtons");
             LineEdit = GetNode<LineEdit>("LineEdit");
+            OptionButton = GetNode<OptionButton>("OptionButton");
 
             OkButton.Connect("pressed", this, "_OkButtonPressed");
             GetNode<Button>("QuestionButtons/YesButton").Connect("pressed", this, "_YesButtonPressed");
@@ -36,8 +43,9 @@ namespace OsuSkinMixer
             LineEdit.Visible = false;
             OkButton.Visible = true;
             QuestionButtons.Visible = false;
-
             TextInputFunc = null;
+            OptionButton.Visible = false;
+            OptionAction = null;
         }
 
         public void TextInput(string text, Func<string, bool> func, string defaultText = "")
@@ -48,9 +56,11 @@ namespace OsuSkinMixer
             LineEdit.Visible = true;
             OkButton.Visible = true;
             QuestionButtons.Visible = false;
+            TextInputFunc = func;
+            OptionButton.Visible = false;
+            OptionAction = null;
 
             LineEdit.Text = defaultText;
-            TextInputFunc = func;
         }
 
         public void Question(string text, Action<bool> action)
@@ -61,14 +71,31 @@ namespace OsuSkinMixer
             LineEdit.Visible = false;
             OkButton.Visible = false;
             QuestionButtons.Visible = true;
-
             TextInputFunc = null;
+            OptionButton.Visible = false;
+            OptionAction = null;
 
             QuestionAction = action;
         }
 
+        public void Options(string text, Godot.Collections.Array items, Action<int> actionFromIdx)
+        {
+            Label.Text = text;
+            AnimationPlayer.Play("in");
+
+            LineEdit.Visible = false;
+            OkButton.Visible = true;
+            QuestionButtons.Visible = false;
+            TextInputFunc = null;
+            OptionButton.Visible = true;
+            OptionAction = actionFromIdx;
+
+            OptionButton.Items = items;
+        }
+
         private void _OkButtonPressed()
         {
+            OptionAction?.Invoke(OptionButton.Selected);
             AnimationPlayer.Play(!TextInputFunc?.Invoke(LineEdit.Text) ?? false ? "invalid-input" : "out");
         }
 
