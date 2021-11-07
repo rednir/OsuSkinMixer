@@ -7,4 +7,4 @@ assignees: ''
 
 ---
 
-Provide details about the bug here after you have made sure you are running the latest release.
+<!--Provide details about the bug below after you have made sure you are running the latest release.-->
