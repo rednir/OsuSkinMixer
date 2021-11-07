@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://src/Theme.tres" type="Theme" id=1]
-[ext_resource path="res://TopBar.cs" type="Script" id=2]
+[ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
+[ext_resource path="res://src/TopBar.cs" type="Script" id=2]
 
 [node name="TopBar" type="Panel"]
 margin_right = 700.0

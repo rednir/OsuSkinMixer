@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://src/Theme.tres" type="Theme" id=1]
+[ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://assets/Inter-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://src/Toast.cs" type="Script" id=3]
 
