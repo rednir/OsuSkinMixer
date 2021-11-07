@@ -426,13 +426,9 @@ namespace OsuSkinMixer
                                 )
                                 {
                                     if (file.Directory.FullName != skindir.FullName && isFileIncludedInSkinIni())
-                                    {
                                         file.CopyTo(newSkinDir.FullName + "/" + file.Name, true);
-                                    }
                                     else if (file.Directory.FullName == skindir.FullName && !File.Exists(newSkinDir.FullName + "/" + file.Name))
-                                    {
                                         file.CopyTo(newSkinDir.FullName + "/" + file.Name, false);
-                                    }
 
                                     // Make sure skin elements that are not used are ignored (for example, skin elements in "extra" folders)
                                     bool isFileIncludedInSkinIni()
