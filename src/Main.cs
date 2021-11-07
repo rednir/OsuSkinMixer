@@ -340,11 +340,17 @@ namespace OsuSkinMixer
 
         public void CreateSkin()
         {
-            string newSkinName = SkinNameEdit.Text.Replace(']', '(').Replace('[', ')');
+            string newSkinName = SkinNameEdit.Text.Replace(']', '-').Replace('[', '-');
 
             if (string.IsNullOrWhiteSpace(newSkinName))
             {
                 Dialog.Alert("Set a name for the new skin first.");
+                return;
+            }
+
+            if (newSkinName.Any(c => Path.GetInvalidPathChars().Contains(c) || c == '/' || c == '\\'))
+            {
+                Dialog.Alert("The skin name contains invalid symbols.");
                 return;
             }
 
