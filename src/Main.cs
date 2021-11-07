@@ -308,7 +308,7 @@ namespace OsuSkinMixer
             if (optionButton == null)
                 return;
 
-            Dialog.Options("a", optionButton.Items, i =>
+            Dialog.Options("Select a skin to use.", optionButton.Items, i =>
             {
                 // This assumes that index 0 is default skin.
                 SkinNameEdit.Text = i == 0 ? string.Empty : optionButton.GetItemText(i);
