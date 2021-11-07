@@ -391,7 +391,11 @@ namespace OsuSkinMixer
             void cont()
             {
                 var newSkinIni = new SkinIni(newSkinName, "osu! skin mixer by rednir");
-                var newSkinDir = Directory.CreateDirectory(Settings.Content.SkinsFolder + "/" + newSkinName);
+                var newSkinDir = Directory.CreateDirectory(Settings.Content.SkinsFolder + "/.osu-skin-mixer_working-skin");
+
+                // There might be skin elements from a failed attempt still in the directory.
+                foreach (var file in newSkinDir.EnumerateFiles())
+                    file.Delete();
 
                 foreach (var option in Options)
                 {
@@ -484,6 +488,7 @@ namespace OsuSkinMixer
                 }
 
                 File.WriteAllText(newSkinDir.FullName + "/skin.ini", newSkinIni.ToString());
+                newSkinDir.MoveTo(Settings.Content.SkinsFolder + "/" + newSkinName);
 
                 Dialog.Alert($"Created skin '{newSkinName}'.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
             }
