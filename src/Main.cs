@@ -13,6 +13,8 @@ namespace OsuSkinMixer
 {
     public class Main : Control
     {
+        public const string OPTIONS_CONTAINER_PATH = "OptionsContainer/CenterContainer/VBoxContainer";
+
         private readonly OptionInfo[] Options = new OptionInfo[]
         {
             new OptionInfo
@@ -558,6 +560,9 @@ namespace OsuSkinMixer
                 Task.Run(cont)
                     .ContinueWith(t =>
                     {
+#if DEBUG
+                        GD.Print(t.Exception + "\n");
+#endif
                         if (t.Exception != null)
                             Dialog.Alert($"Something went wrong.\n\n{t.Exception.Message}");
 
@@ -581,7 +586,7 @@ namespace OsuSkinMixer
                 {
                     foreach (var suboption in option.SubOptions)
                     {
-                        var node = GetNode<OptionButton>(option.NodePath);
+                        var node = GetNode<OptionButton>(suboption.GetPath(option));
 
                         // User wants default skin elements to be used.
                         if (node.GetSelectedId() == 0)
@@ -708,34 +713,37 @@ namespace OsuSkinMixer
 
             foreach (var option in Options)
             {
-                var optionButton = GetNodeOrNull<OptionButton>(option.NodePath);
-                int selectedId = 0;
-
-                if (optionButton == null)
+                foreach (var suboption in option.SubOptions)
                 {
-                    var hbox = GetNode<HBoxContainer>("OptionTemplate").Duplicate();
-                    var label = hbox.GetChild<Label>(0);
-                    optionButton = hbox.GetChild<OptionButton>(1);
+                    var suboptionButton = GetNodeOrNull<OptionButton>(suboption.GetPath(option));
+                    int selectedId = 0;
 
-                    hbox.Name = option.Name;
-                    label.Text = option.Name;
+                    if (suboptionButton == null)
+                    {
+                        var hbox = GetNode<HBoxContainer>("OptionTemplate").Duplicate();
+                        var label = hbox.GetChild<Label>(0);
+                        suboptionButton = hbox.GetChild<OptionButton>(1);
 
-                    vbox.AddChild(hbox);
+                        hbox.Name = suboption.GetHBoxName(option);
+                        label.Text = suboption.Name;
+
+                        vbox.AddChild(hbox);
+                    }
+                    else
+                    {
+                        // The existing dropdown items should be updated.
+                        selectedId = suboptionButton.GetSelectedId();
+                        suboptionButton.Clear();
+                    }
+
+                    suboptionButton.AddItem("<< use default skin >>", 0);
+                    suboptionButton.AddSeparator();
+                    foreach (var skin in skins)
+                        suboptionButton.AddItem(skin, skin.GetHashCode());
+
+                    // If items were updated, ensure the users selection is maintained
+                    suboptionButton.Selected = suboptionButton.GetItemIndex(selectedId);
                 }
-                else
-                {
-                    // The existing dropdown items should be updated.
-                    selectedId = optionButton.GetSelectedId();
-                    optionButton.Clear();
-                }
-
-                optionButton.AddItem("<< use default skin >>", 0);
-                optionButton.AddSeparator();
-                foreach (var skin in skins)
-                    optionButton.AddItem(skin, skin.GetHashCode());
-
-                // If items were updated, ensure the users selection is maintained
-                optionButton.Selected = optionButton.GetItemIndex(selectedId);
             }
 
             return true;
@@ -766,7 +774,7 @@ namespace OsuSkinMixer
         {
             public string Name { get; set; }
 
-            public string NodePath => $"OptionsContainer/CenterContainer/VBoxContainer/{Name}/OptionButton";
+            public string NodePath => $"{OPTIONS_CONTAINER_PATH}/{Name}/OptionButton";
 
             public SubOptionInfo[] SubOptions { get; set; }
         }
@@ -780,6 +788,10 @@ namespace OsuSkinMixer
             public Dictionary<string, string[]> IncludeSkinIniProperties { get; set; } = new Dictionary<string, string[]>();
 
             public string[] IncludeFileNames { get; set; }
+
+            public string GetPath(OptionInfo option) => $"{OPTIONS_CONTAINER_PATH}/{GetHBoxName(option)}/OptionButton";
+
+            public string GetHBoxName(OptionInfo option) => $"{option.Name}_{Name}";
         }
     }
 }
