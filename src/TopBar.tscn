@@ -25,7 +25,7 @@ __meta__ = {
 margin_right = 38.0
 margin_bottom = 28.0
 text = "Skin"
-items = [ "Reset selections", null, 0, false, false, 0, 0, null, "", false, "Create skin", null, 0, false, false, 1, 0, null, "", false, "Refresh skin list", null, 0, false, false, 2, 0, null, "", false ]
+items = [ "Create skin", null, 0, false, false, 0, 0, null, "", false, "Refresh skin list", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, -1, 0, null, "", true, "Use existing skin", null, 0, false, false, 2, 0, null, "", false, "Randomize selections", null, 0, false, false, 3, 0, null, "", false, "Reset selections", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="OptionsButton" type="MenuButton" parent="HBoxContainer"]
 margin_left = 48.0

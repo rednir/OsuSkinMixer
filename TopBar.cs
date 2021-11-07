@@ -19,15 +19,23 @@ namespace OsuSkinMixer
             switch (id)
             {
                 case 0:
-                    Main.ResetSelections();
-                    break;
-
-                case 1:
                     Main.CreateSkin();
                     break;
 
-                case 2:
+                case 1:
                     Main.RefreshSkins();
+                    break;
+
+                case 2:
+                    //Main.UseExistingSkin();
+                    break;
+
+                case 3:
+                    Main.RandomizeSelections();
+                    break;
+
+                case 4:
+                    Main.ResetSelections();
                     break;
             }
         }

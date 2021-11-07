@@ -289,6 +289,18 @@ namespace OsuSkinMixer
             Toast.New("Reset selections!");
         }
 
+        public void RandomizeSelections()
+        {
+            var rand = new Random();
+            foreach (var option in Options)
+            {
+                var optionButton = GetNodeOrNull<OptionButton>(option.NodePath);
+                optionButton?.Select(rand.Next(0, optionButton.GetItemCount() - 1));
+            }
+
+            Toast.New("Randomized selections!");
+        }
+
         public void RefreshSkins()
         {
             CreateOptionButtons();
