@@ -773,11 +773,15 @@ namespace OsuSkinMixer
                     var label = hbox.GetChild<Label>(2);
                     optionButton = hbox.GetChild<OptionButton>(3);
 
+                    var binds = new Godot.Collections.Array(new OptionInfoWrapper(option));
                     if (!isSubOption)
                     {
-                        var binds = new Godot.Collections.Array(new OptionInfoWrapper(option));
                         optionButton.Connect("item_selected", this, nameof(_OptionItemSelected), binds);
                         arrowButton.Connect("toggled", this, nameof(_ArrowButtonPressed), binds);
+                    }
+                    else
+                    {
+                        optionButton.Connect("item_selected", this, nameof(_SubOptionItemSelected), binds);
                     }
 
                     hbox.Visible = !isSubOption;
@@ -822,6 +826,12 @@ namespace OsuSkinMixer
                 var node = GetNode<OptionButton>(suboption.GetPath(option));
                 node.Select(index);
             }
+        }
+
+        private void _SubOptionItemSelected(int _, OptionInfoWrapper wrapper)
+        {
+            var option = wrapper.Value;
+            GetNode<OptionButton>(option.NodePath).Text = "<< mixed >>";
         }
 
         // This is required as the `binds` parameter in `Node.Connect()` only takes in a type inherited from `Godot.Object`
