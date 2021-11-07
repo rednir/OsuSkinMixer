@@ -340,7 +340,7 @@ namespace OsuSkinMixer
 
         public void CreateSkin()
         {
-            string newSkinName = SkinNameEdit.Text;
+            string newSkinName = SkinNameEdit.Text.Replace(']', '(').Replace('[', ')');
 
             if (string.IsNullOrWhiteSpace(newSkinName))
             {
