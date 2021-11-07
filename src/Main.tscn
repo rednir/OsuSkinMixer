@@ -61,9 +61,9 @@ anims/in = SubResource( 1 )
 
 [node name="OptionsContainer" type="ScrollContainer" parent="."]
 margin_left = 99.0
-margin_top = 79.0
+margin_top = 74.0
 margin_right = 599.0
-margin_bottom = 313.0
+margin_bottom = 321.0
 scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -86,9 +86,9 @@ __meta__ = {
 
 [node name="ButtonsCenterContainer" type="CenterContainer" parent="."]
 margin_left = 74.9533
-margin_top = 337.225
+margin_top = 353.225
 margin_right = 624.953
-margin_bottom = 377.225
+margin_bottom = 393.225
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -164,7 +164,7 @@ margin_left = 15.0
 margin_top = 13.0
 margin_right = 35.0
 margin_bottom = 14.0
-rect_min_size = Vector2( 20, 1 )
+rect_min_size = Vector2( 32, 1 )
 size_flags_vertical = 4
 custom_styles/panel = SubResource( 2 )
 
