@@ -34,20 +34,20 @@ __meta__ = {
 }
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-position = Vector2( 347.636, 561.409 )
+position = Vector2( 346.376, 561.409 )
 scale = Vector2( 0.1, 0.1 )
-amount = 65
-lifetime = 30.0
+amount = 120
+lifetime = 40.0
 preprocess = 20.0
 texture = ExtResource( 7 )
 emission_shape = 2
-emission_rect_extents = Vector2( 3200, 1 )
+emission_rect_extents = Vector2( 4000, 1 )
 direction = Vector2( 0, -1 )
 spread = 0.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 500.0
 initial_velocity_random = 0.7
-scale_amount = 9.0
+scale_amount = 10.0
 scale_amount_random = 1.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CPUParticles2D"]
@@ -89,9 +89,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ButtonsCenterContainer"]
-margin_left = 130.0
+margin_left = 132.0
 margin_top = 6.0
-margin_right = 418.0
+margin_right = 416.0
 margin_bottom = 34.0
 
 [node name="SkinNameEdit" type="LineEdit" parent="ButtonsCenterContainer/HBoxContainer"]
@@ -117,7 +117,7 @@ __meta__ = {
 
 [node name="CreateSkinButton" type="Button" parent="ButtonsCenterContainer/HBoxContainer"]
 margin_left = 204.0
-margin_right = 288.0
+margin_right = 284.0
 margin_bottom = 28.0
 text = "Create skin"
 
