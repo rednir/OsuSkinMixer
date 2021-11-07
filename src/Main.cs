@@ -487,8 +487,9 @@ namespace OsuSkinMixer
             SkinNameEdit.Clear();
             foreach (var option in Options)
             {
-                var optionButton = GetNodeOrNull<OptionButton>(option.NodePath);
-                optionButton?.Select(0);
+                GetNode<OptionButton>(option.NodePath).Select(0);
+                foreach (var suboption in option.SubOptions)
+                    GetNode<OptionButton>(suboption.GetPath(option)).Select(0);
             }
 
             Toast.New("Reset selections!");
@@ -497,10 +498,16 @@ namespace OsuSkinMixer
         public void RandomizeSelections()
         {
             var rand = new Random();
+
             foreach (var option in Options)
             {
-                var optionButton = GetNodeOrNull<OptionButton>(option.NodePath);
-                optionButton?.Select(rand.Next(0, optionButton.GetItemCount() - 1));
+                var optionButton = GetNode<OptionButton>(option.NodePath);
+
+                int index = rand.Next(0, optionButton.GetItemCount() - 1);
+                optionButton?.Select(index);
+
+                foreach (var suboption in option.SubOptions)
+                    GetNode<OptionButton>(suboption.GetPath(option)).Select(index);
             }
 
             Toast.New("Randomized selections!");
@@ -520,8 +527,9 @@ namespace OsuSkinMixer
 
                 foreach (var option in Options)
                 {
-                    var node = GetNodeOrNull<OptionButton>(option.NodePath);
-                    node?.Select(i);
+                    GetNode<OptionButton>(option.NodePath).Select(i);
+                    foreach (var suboption in option.SubOptions)
+                        GetNode<OptionButton>(suboption.GetPath(option)).Select(i);
                 }
             });
         }
