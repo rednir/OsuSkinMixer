@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=9 format=2]
+[gd_resource type="Theme" load_steps=13 format=2]
 
 [ext_resource path="res://assets/Inter-Regular.ttf" type="DynamicFontData" id=1]
 
@@ -59,6 +59,39 @@ corner_radius_bottom_left = 2
 shadow_size = 2
 shadow_offset = Vector2( 0, 1 )
 
+[sub_resource type="ImageTexture" id=8]
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.215686, 0.184314, 0.207843, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.215686, 0.184314, 0.207843, 1 )
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.129412, 0.109804, 0.12549, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.129412, 0.109804, 0.12549, 1 )
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color( 0, 0, 0, 0.392157 )
+shadow_size = 1
+
+[sub_resource type="StyleBoxLine" id=11]
+color = Color( 0.8, 0.666667, 0.882353, 0.235294 )
+grow_begin = -4.0
+grow_end = -4.0
+
 [sub_resource type="DynamicFont" id=7]
 size = 14
 font_data = ExtResource( 1 )
@@ -98,3 +131,22 @@ LineEdit/icons/clear = null
 LineEdit/styles/focus = SubResource( 5 )
 LineEdit/styles/normal = SubResource( 6 )
 LineEdit/styles/read_only = null
+PopupMenu/colors/font_color = Color( 0.878431, 0.878431, 0.878431, 0.901961 )
+PopupMenu/colors/font_color_accel = Color( 0.7, 0.7, 0.7, 0.8 )
+PopupMenu/colors/font_color_disabled = Color( 0.4, 0.4, 0.4, 0.8 )
+PopupMenu/colors/font_color_hover = Color( 0.88, 0.88, 0.88, 1 )
+PopupMenu/colors/font_color_separator = Color( 0.88, 0.88, 0.88, 1 )
+PopupMenu/constants/hseparation = 5
+PopupMenu/constants/vseparation = 7
+PopupMenu/fonts/font = null
+PopupMenu/icons/checked = null
+PopupMenu/icons/radio_checked = null
+PopupMenu/icons/radio_unchecked = SubResource( 8 )
+PopupMenu/icons/submenu = null
+PopupMenu/icons/unchecked = null
+PopupMenu/styles/hover = SubResource( 9 )
+PopupMenu/styles/labeled_separator_left = null
+PopupMenu/styles/labeled_separator_right = null
+PopupMenu/styles/panel = SubResource( 10 )
+PopupMenu/styles/panel_disabled = null
+PopupMenu/styles/separator = SubResource( 11 )
