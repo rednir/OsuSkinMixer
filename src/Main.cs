@@ -426,10 +426,16 @@ namespace OsuSkinMixer
                                     || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && option.IsAudio)
                                 )
                                 {
-                                    if (file.Directory.FullName != skindir.FullName && isFileIncludedInSkinIni())
+                                    if (
+                                        // Skin element is in a sub-directory but the skin.ini mentions it (this is prioritised)
+                                        (file.Directory.FullName != skindir.FullName && isFileIncludedInSkinIni())
+
+                                        // Skin element is in the root of the its skin folder and hasn't already been copied to the new skin.
+                                        || (file.Directory.FullName == skindir.FullName && !File.Exists(newSkinDir.FullName + "/" + file.Name))
+                                    )
+                                    {
                                         file.CopyTo(newSkinDir.FullName + "/" + file.Name, true);
-                                    else if (file.Directory.FullName == skindir.FullName && !File.Exists(newSkinDir.FullName + "/" + file.Name))
-                                        file.CopyTo(newSkinDir.FullName + "/" + file.Name, false);
+                                    }
 
                                     // Make sure skin elements that are not used are ignored (for example, skin elements in "extra" folders)
                                     bool isFileIncludedInSkinIni()
