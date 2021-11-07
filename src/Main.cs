@@ -243,6 +243,7 @@ namespace OsuSkinMixer
 
         private Dialog Dialog;
         private Toast Toast;
+        private ProgressBar ProgressBar;
         private Button CreateSkinButton;
         private LineEdit SkinNameEdit;
 
@@ -254,6 +255,7 @@ namespace OsuSkinMixer
 
             Dialog = GetNode<Dialog>("Dialog");
             Toast = GetNode<Toast>("Toast");
+            ProgressBar = GetNode<ProgressBar>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit/ProgressBar");
             CreateSkinButton = GetNode<Button>("ButtonsCenterContainer/HBoxContainer/CreateSkinButton");
             SkinNameEdit = GetNode<LineEdit>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit");
 
@@ -338,6 +340,9 @@ namespace OsuSkinMixer
                 CreateSkinButton.Disabled = true;
                 CreateSkinButton.Text = "Working...";
 
+                ProgressBar.Visible = true;
+                ProgressBar.Value = 0;
+
                 Task.Run(cont)
                     .ContinueWith(t =>
                     {
@@ -346,6 +351,8 @@ namespace OsuSkinMixer
 
                         CreateSkinButton.Disabled = false;
                         CreateSkinButton.Text = "Create skin";
+
+                        ProgressBar.Visible = false;
                     });
             }
 
@@ -440,6 +447,8 @@ namespace OsuSkinMixer
                             }
                         }
                     }
+
+                    ProgressBar.Value += 100 / Options.Length;
                 }
 
                 File.WriteAllText(newSkinDir.FullName + "/skin.ini", newSkinIni.ToString());

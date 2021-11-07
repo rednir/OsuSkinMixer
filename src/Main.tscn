@@ -103,6 +103,18 @@ context_menu_enabled = false
 placeholder_text = "Name your new skin"
 placeholder_alpha = 0.5
 
+[node name="ProgressBar" type="ProgressBar" parent="ButtonsCenterContainer/HBoxContainer/SkinNameEdit"]
+visible = false
+margin_left = -0.953308
+margin_top = -1.22501
+margin_right = 201.047
+margin_bottom = 28.775
+step = 1.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="CreateSkinButton" type="Button" parent="ButtonsCenterContainer/HBoxContainer"]
 margin_left = 204.0
 margin_right = 288.0
