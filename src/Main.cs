@@ -734,6 +734,9 @@ namespace OsuSkinMixer
                     var label = hbox.GetChild<Label>(1);
                     optionButton = hbox.GetChild<OptionButton>(2);
 
+                    if (!isSubOption)
+                        optionButton.Connect("item_selected", this, nameof(_OptionItemSelected), new Godot.Collections.Array(new OptionInfoWrapper(option)));
+
                     indent.Visible = isSubOption;
                     hbox.Name = suboption?.GetHBoxName(option) ?? option.Name;
                     label.Text = suboption?.Name ?? option.Name;
@@ -756,6 +759,27 @@ namespace OsuSkinMixer
                 // If items were updated, ensure the users selection is maintained
                 optionButton.Selected = optionButton.GetItemIndex(selectedId);
             }
+        }
+
+        private void _OptionItemSelected(int index, OptionInfoWrapper wrapper)
+        {
+            var option = wrapper.Value;
+            foreach (var suboption in option.SubOptions)
+            {
+                var node = GetNode<OptionButton>(suboption.GetPath(option));
+                node.Select(index);
+            }
+        }
+
+        // This is required as the `binds` parameter in `Node.Connect()` only takes in a type inherited from `Godot.Object`
+        private class OptionInfoWrapper : Godot.Object
+        {
+            public OptionInfoWrapper(OptionInfo value)
+            {
+                Value = value;
+            }
+
+            public OptionInfo Value { get; }
         }
 
         private void SetWatcher()
