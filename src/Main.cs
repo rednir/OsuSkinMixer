@@ -420,6 +420,30 @@ namespace OsuSkinMixer
             },
         };
 
+        private class OptionInfo
+        {
+            public string Name { get; set; }
+
+            public string NodePath => $"{OPTIONS_CONTAINER_PATH}/{Name}/OptionButton";
+
+            public SubOptionInfo[] SubOptions { get; set; }
+        }
+
+        private class SubOptionInfo
+        {
+            public string Name { get; set; }
+
+            public bool IsAudio { get; set; }
+
+            public Dictionary<string, string[]> IncludeSkinIniProperties { get; set; } = new Dictionary<string, string[]>();
+
+            public string[] IncludeFileNames { get; set; }
+
+            public string GetPath(OptionInfo option) => $"{OPTIONS_CONTAINER_PATH}/{GetHBoxName(option)}/OptionButton";
+
+            public string GetHBoxName(OptionInfo option) => $"{option.Name}_{Name}";
+        }
+
         private Dialog Dialog;
         private Toast Toast;
         private ProgressBar ProgressBar;
@@ -455,6 +479,8 @@ namespace OsuSkinMixer
         private void _SettingsButtonPressed() => PromptForSkinsFolder();
 
         private void _CreateSkinButtonPressed() => CreateSkin();
+
+#region Actions
 
         public void ResetSelections()
         {
@@ -702,6 +728,10 @@ namespace OsuSkinMixer
 
         private string[] GetSkinNames() => new DirectoryInfo(Settings.Content.SkinsFolder).EnumerateDirectories().Select(d => d.Name).OrderBy(n => n).ToArray();
 
+#endregion
+
+#region Option buttons
+
         private bool CreateOptionButtons()
         {
             if (Settings.Content.SkinsFolder == null || !Directory.Exists(Settings.Content.SkinsFolder))
@@ -782,6 +812,10 @@ namespace OsuSkinMixer
             public OptionInfo Value { get; }
         }
 
+#endregion
+
+#region File system watcher
+
         private void SetWatcher()
         {
             if (FileSystemWatcher != null)
@@ -803,28 +837,7 @@ namespace OsuSkinMixer
             Toast.New("Change in skin folder detected\nPress F5 to refresh skins!");
         }
 
-        private class OptionInfo
-        {
-            public string Name { get; set; }
+#endregion
 
-            public string NodePath => $"{OPTIONS_CONTAINER_PATH}/{Name}/OptionButton";
-
-            public SubOptionInfo[] SubOptions { get; set; }
-        }
-
-        private class SubOptionInfo
-        {
-            public string Name { get; set; }
-
-            public bool IsAudio { get; set; }
-
-            public Dictionary<string, string[]> IncludeSkinIniProperties { get; set; } = new Dictionary<string, string[]>();
-
-            public string[] IncludeFileNames { get; set; }
-
-            public string GetPath(OptionInfo option) => $"{OPTIONS_CONTAINER_PATH}/{GetHBoxName(option)}/OptionButton";
-
-            public string GetHBoxName(OptionInfo option) => $"{option.Name}_{Name}";
-        }
     }
 }
