@@ -714,40 +714,48 @@ namespace OsuSkinMixer
 
             foreach (var option in Options)
             {
+                set(GetNodeOrNull<OptionButton>(option.NodePath), option, null);
+
                 foreach (var suboption in option.SubOptions)
-                {
-                    var suboptionButton = GetNodeOrNull<OptionButton>(suboption.GetPath(option));
-                    int selectedId = 0;
-
-                    if (suboptionButton == null)
-                    {
-                        var hbox = GetNode<HBoxContainer>("OptionTemplate").Duplicate();
-                        var label = hbox.GetChild<Label>(0);
-                        suboptionButton = hbox.GetChild<OptionButton>(1);
-
-                        hbox.Name = suboption.GetHBoxName(option);
-                        label.Text = suboption.Name;
-
-                        vbox.AddChild(hbox);
-                    }
-                    else
-                    {
-                        // The existing dropdown items should be updated.
-                        selectedId = suboptionButton.GetSelectedId();
-                        suboptionButton.Clear();
-                    }
-
-                    suboptionButton.AddItem("<< use default skin >>", 0);
-                    suboptionButton.AddSeparator();
-                    foreach (var skin in skins)
-                        suboptionButton.AddItem(skin, skin.GetHashCode());
-
-                    // If items were updated, ensure the users selection is maintained
-                    suboptionButton.Selected = suboptionButton.GetItemIndex(selectedId);
-                }
+                    set(GetNodeOrNull<OptionButton>(suboption.GetPath(option)), option, suboption);
             }
 
             return true;
+
+            void set(OptionButton optionButton, OptionInfo option, SubOptionInfo suboption)
+            {
+                bool isSubOption = suboption != null;
+                int selectedId = 0;
+
+                if (optionButton == null)
+                {
+                    var hbox = GetNode<HBoxContainer>("OptionTemplate").Duplicate();
+                    var indent = hbox.GetChild<Panel>(0);
+                    var label = hbox.GetChild<Label>(1);
+                    optionButton = hbox.GetChild<OptionButton>(2);
+
+                    indent.Visible = isSubOption;
+                    hbox.Name = suboption?.GetHBoxName(option) ?? option.Name;
+                    label.Text = suboption?.Name ?? option.Name;
+                    label.Modulate = new Color(1, 1, 1, isSubOption ? 0.7f : 1);
+
+                    vbox.AddChild(hbox);
+                }
+                else
+                {
+                    // The existing dropdown items should be updated.
+                    selectedId = optionButton.GetSelectedId();
+                    optionButton.Clear();
+                }
+
+                optionButton.AddItem("<< use default skin >>", 0);
+                optionButton.AddSeparator();
+                foreach (var skin in skins)
+                    optionButton.AddItem(skin, skin.GetHashCode());
+
+                // If items were updated, ensure the users selection is maintained
+                optionButton.Selected = optionButton.GetItemIndex(selectedId);
+            }
         }
 
         private void SetWatcher()

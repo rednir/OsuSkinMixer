@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Main.cs" type="Script" id=2]
@@ -23,6 +23,9 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 1, 1, 1, 0 )
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -141,17 +144,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Indent" type="Panel" parent="OptionTemplate"]
+margin_top = 13.0
+margin_right = 20.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 20, 1 )
+size_flags_vertical = 4
+custom_styles/panel = SubResource( 2 )
+
 [node name="Label" type="Label" parent="OptionTemplate"]
+margin_left = 35.0
 margin_top = 5.0
-margin_right = 120.0
+margin_right = 155.0
 margin_bottom = 23.0
 rect_min_size = Vector2( 120, 0 )
 text = "Option:"
 
 [node name="OptionButton" type="OptionButton" parent="OptionTemplate"]
-margin_left = 135.0
-margin_right = 385.0
+margin_left = 170.0
+margin_right = 420.0
 margin_bottom = 28.0
-rect_min_size = Vector2( 250, 0 )
+rect_min_size = Vector2( 220, 0 )
 size_flags_horizontal = 3
 clip_text = true
