@@ -27,7 +27,7 @@ namespace OsuSkinMixer
                     break;
 
                 case 2:
-                    //Main.UseExistingSkin();
+                    Main.UseExistingSkin();
                     break;
 
                 case 3:
