@@ -13,231 +13,436 @@ namespace OsuSkinMixer
 {
     public class Main : Control
     {
+        public const string OPTIONS_CONTAINER_PATH = "OptionsContainer/CenterContainer/VBoxContainer";
+
         private readonly OptionInfo[] Options = new OptionInfo[]
         {
             new OptionInfo
             {
                 Name = "Interface",
-                IsAudio = false,
-                IncludeSkinIniProperties = new Dictionary<string, string[]>()
+                SubOptions = new SubOptionInfo[]
                 {
+                    new SubOptionInfo
                     {
-                        "General", new string[]
+                        Name = "Song select",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>
                         {
-                            "AllowSliderBallTint",
-                            "ComboBurstRandom",
+                            ["Colours"] = new string[]
+                            {
+                                "MenuGlow",
+                                "SongSelectActiveText",
+                                "SongSelectInactiveText",
+                            },
+                        },
+                        IncludeFileNames = new string[]
+                        {
+                            "button-left",
+                            "button-middle",
+                            "button-right",
+                            "menu*",
+                            "mode-*",
+                            "options-offset-tick",
+                            "ranking-a-small",
+                            "ranking-b-small",
+                            "ranking-c-small",
+                            "ranking-d-small",
+                            "ranking-s-small",
+                            "ranking-sh-small",
+                            "ranking-x-small",
+                            "ranking-xh-small",
+                            "selection-*",
+                            "star",
+                            "welcome_text",
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "Results screen",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>(),
+                        IncludeFileNames = new string[]
+                        {
+                            "ranking-a",
+                            "ranking-b",
+                            "ranking-c",
+                            "ranking-d",
+                            "ranking-s",
+                            "ranking-sh",
+                            "ranking-x",
+                            "ranking-xh",
+                            "ranking-accuracy",
+                            "ranking-graph",
+                            "ranking-maxcombo",
+                            "ranking-panel",
+                            "ranking-perfect",
+                            "ranking-replay",
+                            "ranking-retry",
+                            "ranking-title",
+                            "ranking-winner",
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "In-game",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>
+                        {
+                            ["General"] = new string[]
+                            {
+                                "ComboBurstRandom",
+                            },
+                            ["Colours"] = new string[]
+                            {
+                                "InputOverlayText",
+                            },
+                            ["Fonts"] = new string[]
+                            {
+                                "ScorePrefix",
+                                "ScoreOverlap",
+                                "ComboPrefix",
+                                "ComboOverlap",
+                            }
+                        },
+                        IncludeFileNames = new string[]
+                        {
+                            "arrow-pause",
+                            "arrow-warning",
+                            "count-1",
+                            "count-2",
+                            "count-3",
+                            "fail-background",
+                            "go",
+                            "inputoverlay*",
+                            "pause*",
+                            "play*",
+                            "scorebar-*",
+                            "scoreentry-*",
+                            "section-*",
+                            "ready",
+                            "score-*",
+                            // For some reason whitecat 2.1 skin uses this prefix instead of "score-[0-9].png",
+                            // this is just a hotfix for that since it's a popular skin.
+                            "numbers-*",
                         }
                     },
-                    {
-                        "Colours", new string[]
-                        {
-                            "InputOverlayText",
-                            "MenuGlow",
-                            "SongSelectActiveText",
-                            "SongSelectInactiveText",
-                        }
-                    },
-                    {
-                        "Fonts", new string[]
-                        {
-                            "ScorePrefix",
-                            "ScoreOverlap",
-                            "ComboPrefix",
-                            "ComboOverlap",
-                        }
-                    },
-                },
-                IncludeFileNames = new string[]
-                {
-                    "arrow-pause",
-                    "arrow-warning",
-                    "button-left",
-                    "button-middle",
-                    "button-right",
-                    "count-1",
-                    "count-2",
-                    "count-3",
-                    "fail-background",
-                    "go",
-                    "inputoverlay*",
-                    "menu*",
-                    "mode-*",
-                    "options-offset-tick",
-                    "pause*",
-                    "play*",
-                    "ranking*",
-                    "ready",
-                    "score-*",
-                    "scorebar-*",
-                    "scoreentry-*",
-                    "section-*",
-                    "selection-*",
-                    "star",
-                    "welcome_text",
-                    // For some reason whitecat 2.1 skin uses this prefix instead of "score-[0-9].png",
-                    // this is just a hotfix for that since it's a popular skin.
-                    "numbers-*",
                 },
             },
             new OptionInfo
             {
                 Name = "Gameplay",
-                IsAudio = false,
-                IncludeSkinIniProperties = new Dictionary<string, string[]>()
+                SubOptions = new SubOptionInfo[]
                 {
+                    new SubOptionInfo
                     {
-                        "General", new string[]
+                        Name = "osu!",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>
                         {
-                            "AnimationFramerate",
-                            "HitCircleOverlayAboveNumber",
-                            "SliderBallFlip",
-                            "SpinnerFadePlayfield",
-                            "SpinnerNoBlink",
-                        }
+                            ["General"] = new string[]
+                            {
+                                "AllowSliderBallTint",
+                                "HitCircleOverlayAboveNumber",
+                                "SliderBallFlip",
+                                "SpinnerFadePlayfield",
+                                "SpinnerNoBlink",
+                            },
+                            ["Colours"] = new string[]
+                            {
+                                "Combo1",
+                                "Combo2",
+                                "Combo3",
+                                "Combo4",
+                                "Combo5",
+                                "Combo6",
+                                "Combo7",
+                                "Combo8",
+                                "SliderBall",
+                                "SliderBorder",
+                                "SliderTrackOverride",
+                                "SpinnerBackground",
+                                "StarBreakAdditive",
+                            },
+                            ["Fonts"] = new string[]
+                            {
+                                "HitCirclePrefix",
+                                "HitCircleOverlap",
+                            },
+                        },
+                        IncludeFileNames = new string[]
+                        {
+                            "approachcircle",
+                            "comboburst",
+                            "default-*",
+                            "followpoint*",
+                            "hit*",
+                            "particle*",
+                            "reversearrow",
+                            "sliderb*",
+                            "sliderendcircle*",
+                            "sliderfollowcircle",
+                            "sliderpoint*",
+                            "sliderstartcircle*",
+                            "spinner-*",
+                            "target*",
+                            "masking-border",    // These two elements are global to all gamemodes, but there's
+                            "star-2"             // no real point creating another sub-option just for these.
+                        },
                     },
+                    new SubOptionInfo
                     {
-                        "Colours", new string[]
+                        Name = "Catch the beat",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>
                         {
-                            "Combo1",
-                            "Combo2",
-                            "Combo3",
-                            "Combo4",
-                            "Combo5",
-                            "Combo6",
-                            "Combo7",
-                            "Combo8",
-                            "SliderBall",
-                            "SliderBorder",
-                            "SliderTrackOverride",
-                            "SpinnerBackground",
-                            "StarBreakAdditive",
-                        }
+                            ["CatchTheBeat"] = new string[]
+                            {
+                                "HyperDash",
+                                "HyperDashFruit",
+                                "HyperDashAfterImage",
+                            },
+                        },
+                        IncludeFileNames = new string[]
+                        {
+                            "comboburst-fruits",
+                            "fruit-*",
+                        },
                     },
+                    new SubOptionInfo
                     {
-                        "Fonts", new string[]
+                        Name = "Taiko",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>(),
+                        IncludeFileNames = new string[]
                         {
-                            "HitCirclePrefix",
-                            "HitCircleOverlap",
-                        }
+                            "taiko*",
+                            "pippidon*",
+                        },
                     },
+                    new SubOptionInfo
                     {
-                        "CatchTheBeat", new string[]
+                        Name = "Mania",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>
                         {
-                            "HyperDash",
-                            "HyperDashFruit",
-                            "HyperDashAfterImage",
-                        }
+                            // TODO: mania stuff...
+                        },
+                        IncludeFileNames = new string[]
+                        {
+                            "mania*",
+                            "lighting*"
+                        },
                     },
-                },
-                IncludeFileNames = new string[]
-                {
-                    "approachcircle",
-                    "comboburst*",
-                    "default-*",
-                    "followpoint*",
-                    "fruit-*",
-                    "hit*",
-                    "lighting*",
-                    "mania*",
-                    "masking-border",
-                    "particle*",
-                    "reversearrow",
-                    "sliderb*",
-                    "sliderendcircle*",
-                    "sliderfollowcircle",
-                    "sliderpoint*",
-                    "sliderstartcircle*",
-                    "spinner-*",
-                    "star2",
-                    "taiko*",
-                    "target*",
-                    "skin",
                 },
             },
             new OptionInfo
             {
                 Name = "Cursor",
-                IsAudio = false,
-                IncludeSkinIniProperties = new Dictionary<string, string[]>()
+                SubOptions = new SubOptionInfo[]
                 {
+                    new SubOptionInfo
                     {
-                        "General", new string[]
+                        Name = "Head",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>
                         {
-                            "CursorCentre",
-                            "CursorExpand",
-                            "CursorRotate",
-                            "CursorTrailRotate",
-                        }
+                            {
+                                "General", new string[]
+                                {
+                                    "CursorCentre",
+                                    "CursorExpand",
+                                    "CursorRotate",
+                                }
+                            },
+                        },
+                        IncludeFileNames = new string[]
+                        {
+                            "cursor",
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "Trail",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>
+                        {
+                            {
+                                "General", new string[]
+                                {
+                                    "CursorTrailRotate",
+                                }
+                            },
+                        },
+                        IncludeFileNames = new string[]
+                        {
+                            "cursortrail",
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "Smoke",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>(),
+                        IncludeFileNames = new string[]
+                        {
+                            "cursor-smoke",
+                        },
                     },
                 },
-                IncludeFileNames = new string[]
-                {
-                    "cursor*",
-                }
             },
             new OptionInfo
             {
                 Name = "Hitsounds",
-                IsAudio = true,
-                IncludeSkinIniProperties = new Dictionary<string, string[]>()
+                SubOptions = new SubOptionInfo[]
                 {
+                    new SubOptionInfo
                     {
-                        "General", new string[]
+                        Name = "Normal",
+                        IsAudio = true,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>(),
+                        IncludeFileNames = new string[]
                         {
-                            "CustomComboBurstSounds",
-                            "LayeredHitSounds",
-                            "SpinnerFrequencyModulate",
-                        }
+                            "normal-*",
+                        },
                     },
-                },
-                IncludeFileNames = new string[]
-                {
-                    "combobreak",
-                    "comboburst",
-                    "drum-*",
-                    "nightcore-*",
-                    "normal-*",
-                    "pippidon*",
-                    "soft-*",
-                    "spinner-*",
+                    new SubOptionInfo
+                    {
+                        Name = "Soft",
+                        IsAudio = true,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>(),
+                        IncludeFileNames = new string[]
+                        {
+                            "soft-*",
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "Drum",
+                        IsAudio = true,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>(),
+                        IncludeFileNames = new string[]
+                        {
+                            "drum-*",
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "Spinner",
+                        IsAudio = true,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>(),
+                        IncludeFileNames = new string[]
+                        {
+                            "spinner*",
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "Nightcore beats",
+                        IsAudio = true,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>(),
+                        IncludeFileNames = new string[]
+                        {
+                            "nightcore-*",
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "Combobreak (+)",
+                        IsAudio = true,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>
+                        {
+                            ["General"] = new string[]
+                            {
+                                "CustomComboBurstSounds",
+                                "LayeredHitSounds",
+                                "SpinnerFrequencyModulate",
+                            },
+                        },
+                        IncludeFileNames = new string[]
+                        {
+                            "combobreak",
+                            "comboburst",
+                        },
+                    },
                 },
             },
             new OptionInfo
             {
                 Name = "Menu Sounds",
-                IsAudio = true,
-                IncludeFileNames = new string[]
+                SubOptions = new SubOptionInfo[]
                 {
-                    "applause",
-                    "back-button-click",
-                    "back-button-hover",
-                    "check-off",
-                    "check-on",
-                    "click-close",
-                    "click-short-confirm",
-                    "click-short",
-                    "count1s",
-                    "count2s",
-                    "count3s",
-                    "failsound",
-                    "gos",
-                    "heartbeat",
-                    "key*",
-                    "match*",
-                    "menu*",
-                    "metronomelow",
-                    "multi-skipped",
-                    "pause*",
-                    "readys",
-                    "section*",
-                    "seeya",
-                    "select-*",
-                    "shutter",
-                    "sliderbar",
-                    "welcome",
+                    new SubOptionInfo
+                    {
+                        Name = "Interface",
+                        IsAudio = true,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>(),
+                        IncludeFileNames = new string[]
+                        {
+                            "applause",
+                            "back-button-click",
+                            "back-button-hover",
+                            "check-off",
+                            "check-on",
+                            "click-close",
+                            "click-short-confirm",
+                            "click-short",
+                            "heartbeat",
+                            "key*",
+                            "match*",
+                            "menu*",
+                            "metronomelow",
+                            "multi-skipped",
+                            "seeya",
+                            "select-*",
+                            "shutter",
+                            "sliderbar",
+                            "welcome",
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "In-game",
+                        IsAudio = true,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>(),
+                        IncludeFileNames = new string[]
+                        {
+                            "count1s",
+                            "count2s",
+                            "count3s",
+                            "failsound",
+                            "gos",
+                            "pause*",
+                            "readys",
+                            "section*",
+                        },
+                    },
                 },
             },
         };
+
+        private class OptionInfo
+        {
+            public string Name { get; set; }
+
+            public string NodePath => $"{OPTIONS_CONTAINER_PATH}/{Name}/OptionButton";
+
+            public SubOptionInfo[] SubOptions { get; set; }
+        }
+
+        private class SubOptionInfo
+        {
+            public string Name { get; set; }
+
+            public bool IsAudio { get; set; }
+
+            public Dictionary<string, string[]> IncludeSkinIniProperties { get; set; } = new Dictionary<string, string[]>();
+
+            public string[] IncludeFileNames { get; set; }
+
+            public string GetPath(OptionInfo option) => $"{OPTIONS_CONTAINER_PATH}/{GetHBoxName(option)}/OptionButton";
+
+            public string GetHBoxName(OptionInfo option) => $"{option.Name}_{Name}";
+        }
 
         private Dialog Dialog;
         private Toast Toast;
@@ -275,13 +480,16 @@ namespace OsuSkinMixer
 
         private void _CreateSkinButtonPressed() => CreateSkin();
 
+#region Actions
+
         public void ResetSelections()
         {
             SkinNameEdit.Clear();
             foreach (var option in Options)
             {
-                var optionButton = GetNodeOrNull<OptionButton>(option.NodePath);
-                optionButton?.Select(0);
+                GetNode<OptionButton>(option.NodePath).Select(0);
+                foreach (var suboption in option.SubOptions)
+                    GetNode<OptionButton>(suboption.GetPath(option)).Select(0);
             }
 
             Toast.New("Reset selections!");
@@ -290,10 +498,16 @@ namespace OsuSkinMixer
         public void RandomizeSelections()
         {
             var rand = new Random();
+
             foreach (var option in Options)
             {
-                var optionButton = GetNodeOrNull<OptionButton>(option.NodePath);
-                optionButton?.Select(rand.Next(0, optionButton.GetItemCount() - 1));
+                var optionButton = GetNode<OptionButton>(option.NodePath);
+
+                int index = rand.Next(0, optionButton.GetItemCount() - 1);
+                optionButton?.Select(index);
+
+                foreach (var suboption in option.SubOptions)
+                    GetNode<OptionButton>(suboption.GetPath(option)).Select(index);
             }
 
             Toast.New("Randomized selections!");
@@ -313,8 +527,9 @@ namespace OsuSkinMixer
 
                 foreach (var option in Options)
                 {
-                    var node = GetNodeOrNull<OptionButton>(option.NodePath);
-                    node?.Select(i);
+                    GetNode<OptionButton>(option.NodePath).Select(i);
+                    foreach (var suboption in option.SubOptions)
+                        GetNode<OptionButton>(suboption.GetPath(option)).Select(i);
                 }
             });
         }
@@ -379,6 +594,9 @@ namespace OsuSkinMixer
                 Task.Run(cont)
                     .ContinueWith(t =>
                     {
+#if DEBUG
+                        GD.Print(t.Exception + "\n");
+#endif
                         if (t.Exception != null)
                             Dialog.Alert($"Something went wrong.\n\n{t.Exception.Message}");
 
@@ -400,104 +618,108 @@ namespace OsuSkinMixer
 
                 foreach (var option in Options)
                 {
-                    var node = GetNode<OptionButton>(option.NodePath);
-
-                    // User wants default skin elements to be used.
-                    if (node.GetSelectedId() == 0)
-                        continue;
-
-                    var skindir = new DirectoryInfo(Settings.Content.SkinsFolder + "/" + node.Text);
-                    var skinini = new SkinIni(File.ReadAllText(skindir + "/skin.ini"));
-
-                    foreach (var file in skindir.EnumerateFiles("*", SearchOption.AllDirectories))
+                    foreach (var suboption in option.SubOptions)
                     {
-                        string filename = Path.GetFileNameWithoutExtension(file.Name);
-                        string extension = Path.GetExtension(file.Name);
+                        var node = GetNode<OptionButton>(suboption.GetPath(option));
 
-                        foreach (string optionFilename in option.IncludeFileNames)
+                        // User wants default skin elements to be used.
+                        if (node.GetSelectedId() == 0)
+                            continue;
+
+                        var skindir = new DirectoryInfo(Settings.Content.SkinsFolder + "/" + node.Text);
+                        var skinini = new SkinIni(File.ReadAllText(skindir + "/skin.ini"));
+
+                        foreach (var file in skindir.EnumerateFiles("*", SearchOption.AllDirectories))
                         {
-                            // Check for file name match.
-                            if (filename.Equals(optionFilename, StringComparison.OrdinalIgnoreCase) || filename.Equals(optionFilename + "@2x", StringComparison.OrdinalIgnoreCase)
-                                || (optionFilename.EndsWith("*") && filename.StartsWith(optionFilename.TrimEnd('*'), StringComparison.OrdinalIgnoreCase)))
-                            {
-                                // Check for file type match.
-                                if (
-                                    ((extension == ".png" || extension == ".jpg" || extension == ".ini") && !option.IsAudio)
-                                    || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && option.IsAudio)
-                                )
-                                {
-                                    if (
-                                        // Skin element is in the root of the its skin folder and hasn't already been copied to the new skin.
-                                        (file.Directory.FullName == skindir.FullName && !File.Exists(newSkinDir.FullName + "/" + file.Name))
+                            string filename = Path.GetFileNameWithoutExtension(file.Name);
+                            string extension = Path.GetExtension(file.Name);
 
-                                        // Skin element is in a sub-directory but the skin.ini mentions it (this is prioritised)
-                                        // Ensures unused skin elements in "extra" folders are ignored.
-                                        || includeSubdirectoryFile()
+                            foreach (string optionFilename in suboption.IncludeFileNames)
+                            {
+                                // Check for file name match.
+                                if (filename.Equals(optionFilename, StringComparison.OrdinalIgnoreCase) || filename.Equals(optionFilename + "@2x", StringComparison.OrdinalIgnoreCase)
+                                    || (optionFilename.EndsWith("*") && filename.StartsWith(optionFilename.TrimEnd('*'), StringComparison.OrdinalIgnoreCase)))
+                                {
+                                    // Check for file type match.
+                                    if (
+                                        ((extension == ".png" || extension == ".jpg" || extension == ".ini") && !suboption.IsAudio)
+                                        || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && suboption.IsAudio)
                                     )
                                     {
-                                        file.CopyTo(newSkinDir.FullName + "/" + file.Name, true);
-                                    }
+                                        if (
+                                            // Skin element is in the root of the its skin folder and hasn't already been copied to the new skin.
+                                            (file.Directory.FullName == skindir.FullName && !File.Exists(newSkinDir.FullName + "/" + file.Name))
 
-                                    bool includeSubdirectoryFile()
-                                    {
-                                        // Ignore files that are not in sub-directories.
-                                        if (file.Directory.FullName == skindir.FullName)
-                                            return false;
-
-                                        // Get the skin.ini property names that contain file paths (file name prefixes) to skin elements.
-                                        var skinIniPathProperties = Options.SelectMany(
-                                            op => op.IncludeSkinIniProperties.SelectMany(
-                                                sect => sect.Value.Where(p => p.Contains("Prefix"))));
-
-                                        foreach (string propName in skinIniPathProperties)
+                                            // Skin element is in a sub-directory but the skin.ini mentions it (this is prioritised)
+                                            // Ensures unused skin elements in "extra" folders are ignored.
+                                            || includeSubdirectoryFile()
+                                        )
                                         {
-                                            // Get the file path "prefixes" that skin elements should be taken from.
-                                            var prefixes = skinini.Sections.Select(s =>
-                                            {
-                                                s.TryGetValue(propName, out string result);
-                                                return result;
-                                            });
-
-                                            foreach (string prefix in prefixes)
-                                            {
-                                                string normalizedPrefix = prefix?.Replace('\\', '/');
-                                                string normalizedPathFromSkinRoot = file.FullName.Substring(skindir.FullName.Length + 1).Replace('\\', '/');
-
-                                                if ((normalizedPrefix?.Contains('/') ?? false)
-                                                    && normalizedPathFromSkinRoot.StartsWith(normalizedPrefix, StringComparison.OrdinalIgnoreCase))
-                                                {
-                                                    return true;
-                                                }
-                                            }
+                                            file.CopyTo(newSkinDir.FullName + "/" + file.Name, true);
                                         }
 
-                                        return false;
+                                        bool includeSubdirectoryFile()
+                                        {
+                                            // Ignore files that are not in sub-directories.
+                                            if (file.Directory.FullName == skindir.FullName)
+                                                return false;
+
+                                            // Get the skin.ini property names that contain file paths (file name prefixes) to skin elements.
+                                            var skinIniPathProperties = Options
+                                                .SelectMany(op => op.SubOptions.SelectMany(so => so.IncludeSkinIniProperties))
+                                                .SelectMany(sect => sect.Value.Where(p => p.Contains("Prefix")));
+
+                                            foreach (string propName in skinIniPathProperties)
+                                            {
+                                                // Get the file path "prefixes" that skin elements should be taken from.
+                                                var prefixes = skinini.Sections.Select(s =>
+                                                {
+                                                    s.TryGetValue(propName, out string result);
+                                                    return result;
+                                                });
+
+                                                foreach (string prefix in prefixes)
+                                                {
+                                                    string normalizedPrefix = prefix?.Replace('\\', '/');
+                                                    string normalizedPathFromSkinRoot = file.FullName.Substring(skindir.FullName.Length + 1).Replace('\\', '/');
+
+                                                    if ((normalizedPrefix?.Contains('/') ?? false)
+                                                        && normalizedPathFromSkinRoot.StartsWith(normalizedPrefix, StringComparison.OrdinalIgnoreCase))
+                                                    {
+                                                        return true;
+                                                    }
+                                                }
+                                            }
+
+                                            return false;
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    foreach (var section in skinini.Sections)
-                    {
-                        // Only look into ini sections that are specified in the IncludeSkinIniProperties.
-                        if (!option.IncludeSkinIniProperties.ContainsKey(section.Name))
-                            continue;
-
-                        foreach (var pair in section)
+                        foreach (var section in skinini.Sections)
                         {
-                            // Only copy over ini properties that are specified in the IncludeSkinIniProperties.
-                            if (option.IncludeSkinIniProperties[section.Name].Contains(pair.Key))
+                            // Only look into ini sections that are specified in the IncludeSkinIniProperties.
+                            if (!suboption.IncludeSkinIniProperties.ContainsKey(section.Name))
+                                continue;
+
+                            foreach (var pair in section)
                             {
-                                newSkinIni.Sections.Find(s => s.Name == section.Name).Add(
-                                    key: pair.Key,
-                                    // All of the skin elements will be in skin directory root, so get rid of child directories in path names.
-                                    value: pair.Key.Contains("Prefix") && pair.Value.Contains('/') ? pair.Value.Split('/').Last() : pair.Value);
+                                // Only copy over ini properties that are specified in the IncludeSkinIniProperties.
+                                if (suboption.IncludeSkinIniProperties[section.Name].Contains(pair.Key))
+                                {
+                                    newSkinIni.Sections.Find(s => s.Name == section.Name).Add(
+                                        key: pair.Key,
+                                        // All of the skin elements will be in skin directory root, so get rid of child directories in path names.
+                                        value: pair.Key.Contains("Prefix") && pair.Value.Contains('/') ? pair.Value.Split('/').Last() : pair.Value);
+                                }
                             }
                         }
-                    }
 
-                    ProgressBar.Value += 100 / Options.Length;
+                        // TODO: ignore options that are set to use default skin.
+                        ProgressBar.Value += 100 / Options.Sum(o => o.SubOptions.Length);
+                    }
                 }
 
                 File.WriteAllText(newSkinDir.FullName + "/skin.ini", newSkinIni.ToString());
@@ -514,6 +736,10 @@ namespace OsuSkinMixer
 
         private string[] GetSkinNames() => new DirectoryInfo(Settings.Content.SkinsFolder).EnumerateDirectories().Select(d => d.Name).OrderBy(n => n).ToArray();
 
+#endregion
+
+#region Option buttons
+
         private bool CreateOptionButtons()
         {
             if (Settings.Content.SkinsFolder == null || !Directory.Exists(Settings.Content.SkinsFolder))
@@ -526,17 +752,45 @@ namespace OsuSkinMixer
 
             foreach (var option in Options)
             {
-                var optionButton = GetNodeOrNull<OptionButton>(option.NodePath);
+                set(GetNodeOrNull<OptionButton>(option.NodePath), option, null);
+
+                foreach (var suboption in option.SubOptions)
+                    set(GetNodeOrNull<OptionButton>(suboption.GetPath(option)), option, suboption);
+            }
+
+            return true;
+
+            void set(OptionButton optionButton, OptionInfo option, SubOptionInfo suboption)
+            {
+                bool isSubOption = suboption != null;
                 int selectedId = 0;
 
                 if (optionButton == null)
                 {
-                    var hbox = GetNode<HBoxContainer>("OptionTemplate").Duplicate();
-                    var label = hbox.GetChild<Label>(0);
-                    optionButton = hbox.GetChild<OptionButton>(1);
+                    var hbox = (HBoxContainer)GetNode("OptionTemplate").Duplicate();
+                    var arrowButton = hbox.GetChild<TextureButton>(0);
+                    var indent = hbox.GetChild<Panel>(1);
+                    var label = hbox.GetChild<Label>(2);
+                    optionButton = hbox.GetChild<OptionButton>(3);
 
-                    hbox.Name = option.Name;
-                    label.Text = option.Name;
+                    var binds = new Godot.Collections.Array(new OptionInfoWrapper(option));
+                    if (!isSubOption)
+                    {
+                        optionButton.Connect("item_selected", this, nameof(_OptionItemSelected), binds);
+                        arrowButton.Connect("toggled", this, nameof(_ArrowButtonPressed), binds);
+                    }
+                    else
+                    {
+                        optionButton.Connect("item_selected", this, nameof(_SubOptionItemSelected), binds);
+                    }
+
+                    hbox.Visible = !isSubOption;
+                    indent.Visible = isSubOption;
+                    arrowButton.Visible = !isSubOption;
+
+                    hbox.Name = suboption?.GetHBoxName(option) ?? option.Name;
+                    label.Text = suboption?.Name ?? option.Name;
+                    label.Modulate = new Color(1, 1, 1, isSubOption ? 0.7f : 1);
 
                     vbox.AddChild(hbox);
                 }
@@ -555,9 +809,45 @@ namespace OsuSkinMixer
                 // If items were updated, ensure the users selection is maintained
                 optionButton.Selected = optionButton.GetItemIndex(selectedId);
             }
-
-            return true;
         }
+
+        private void _ArrowButtonPressed(bool pressed, OptionInfoWrapper wrapper)
+        {
+            var option = wrapper.Value;
+            foreach (var suboption in option.SubOptions)
+                GetNode<HBoxContainer>($"{OPTIONS_CONTAINER_PATH}/{suboption.GetHBoxName(option)}").Visible = pressed;
+        }
+
+        private void _OptionItemSelected(int index, OptionInfoWrapper wrapper)
+        {
+            var option = wrapper.Value;
+            foreach (var suboption in option.SubOptions)
+            {
+                var node = GetNode<OptionButton>(suboption.GetPath(option));
+                node.Select(index);
+            }
+        }
+
+        private void _SubOptionItemSelected(int _, OptionInfoWrapper wrapper)
+        {
+            var option = wrapper.Value;
+            GetNode<OptionButton>(option.NodePath).Text = "<< mixed >>";
+        }
+
+        // This is required as the `binds` parameter in `Node.Connect()` only takes in a type inherited from `Godot.Object`
+        private class OptionInfoWrapper : Godot.Object
+        {
+            public OptionInfoWrapper(OptionInfo value)
+            {
+                Value = value;
+            }
+
+            public OptionInfo Value { get; }
+        }
+
+#endregion
+
+#region File system watcher
 
         private void SetWatcher()
         {
@@ -580,17 +870,7 @@ namespace OsuSkinMixer
             Toast.New("Change in skin folder detected\nPress F5 to refresh skins!");
         }
 
-        private class OptionInfo
-        {
-            public string Name { get; set; }
+#endregion
 
-            public string NodePath => $"OptionsContainer/CenterContainer/VBoxContainer/{Name}/OptionButton";
-
-            public bool IsAudio { get; set; }
-
-            public Dictionary<string, string[]> IncludeSkinIniProperties { get; set; } = new Dictionary<string, string[]>();
-
-            public string[] IncludeFileNames { get; set; }
-        }
     }
 }
