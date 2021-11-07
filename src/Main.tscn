@@ -147,6 +147,7 @@ __meta__ = {
 }
 
 [node name="TextureButton" type="TextureButton" parent="OptionTemplate"]
+modulate = Color( 1, 1, 1, 0.784314 )
 margin_right = 12.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 12, 0 )
