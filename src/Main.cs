@@ -357,10 +357,7 @@ namespace OsuSkinMixer
                     action: b =>
                     {
                         if (b)
-                        {
-                            Directory.Delete(Settings.Content.SkinsFolder + "/" + newSkinName, true);
                             runCont();
-                        }
                     });
                 return;
             }
@@ -484,7 +481,12 @@ namespace OsuSkinMixer
                 }
 
                 File.WriteAllText(newSkinDir.FullName + "/skin.ini", newSkinIni.ToString());
-                newSkinDir.MoveTo(Settings.Content.SkinsFolder + "/" + newSkinName);
+
+                string destPath = Settings.Content.SkinsFolder + "/" + newSkinName;
+                if (Directory.Exists(destPath))
+                    Directory.Delete(destPath, true);
+
+                newSkinDir.MoveTo(destPath);
 
                 Dialog.Alert($"Created skin '{newSkinName}'.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
             }
