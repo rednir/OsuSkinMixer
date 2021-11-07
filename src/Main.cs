@@ -683,6 +683,7 @@ namespace OsuSkinMixer
                             }
                         }
 
+                        // TODO: ignore options that are set to use default skin.
                         ProgressBar.Value += 100 / Options.Sum(o => o.SubOptions.Length);
                     }
                 }
