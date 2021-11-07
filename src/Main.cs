@@ -283,12 +283,14 @@ namespace OsuSkinMixer
                 var optionButton = GetNodeOrNull<OptionButton>(option.NodePath);
                 optionButton?.Select(0);
             }
+
+            Toast.New("Reset selections!");
         }
 
         public void RefreshSkins()
         {
             CreateOptionButtons();
-            Toast.New("Refreshed skins!");
+            Toast.New("Refreshed skin list!");
         }
 
         public void PromptForSkinsFolder()
