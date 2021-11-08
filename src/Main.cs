@@ -632,7 +632,7 @@ namespace OsuSkinMixer
                         var skindir = new DirectoryInfo(Settings.Content.SkinsFolder + "/" + node.Text);
                         var skinini = new SkinIni(File.ReadAllText(skindir + "/skin.ini"));
 
-                        foreach (var file in skindir.EnumerateFiles("*", SearchOption.AllDirectories))
+                        foreach (var file in skindir.EnumerateFiles())
                         {
                             string filename = Path.GetFileNameWithoutExtension(file.Name);
                             string extension = Path.GetExtension(file.Name);
@@ -649,51 +649,7 @@ namespace OsuSkinMixer
                                         || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && suboption.IsAudio)
                                     )
                                     {
-                                        if (
-                                            // Skin element is in the root of the its skin folder and hasn't already been copied to the new skin.
-                                            (file.Directory.FullName == skindir.FullName && !File.Exists(newSkinDir.FullName + "/" + file.Name))
-
-                                            // Skin element is in a sub-directory but the skin.ini mentions it (this is prioritised)
-                                            // Ensures unused skin elements in "extra" folders are ignored.
-                                            || includeSubdirectoryFile()
-                                        )
-                                        {
-                                            file.CopyTo(newSkinDir.FullName + "/" + file.Name, true);
-                                        }
-
-                                        bool includeSubdirectoryFile()
-                                        {
-                                            // Ignore files that are not in sub-directories.
-                                            if (file.Directory.FullName == skindir.FullName)
-                                                return false;
-
-                                            // Get the skin.ini property names that contain file paths (file name prefixes) to skin elements.
-                                            var skinIniPathProperties = Options
-                                                .SelectMany(op => op.SubOptions.SelectMany(so => so.IncludeSkinIniProperties))
-                                                .SelectMany(sect => sect.Value.Where(p => p.Contains("Prefix")));
-
-                                            foreach (string propName in skinIniPathProperties)
-                                            {
-                                                // Get the file path "prefixes" that skin elements should be taken from.
-                                                var prefixes = skinini.Sections.Select(s =>
-                                                {
-                                                    s.TryGetValue(propName, out string result);
-                                                    return result;
-                                                });
-
-                                                foreach (string prefix in prefixes)
-                                                {
-                                                    string pathFromSkinRoot = file.FullName.Substring(skindir.FullName.Length + 1);
-                                                    if ((prefix?.Contains('/') ?? false)
-                                                        && pathFromSkinRoot.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-                                                    {
-                                                        return true;
-                                                    }
-                                                }
-                                            }
-
-                                            return false;
-                                        }
+                                        file.CopyTo($"{newSkinDir.FullName}/{file.Name}", false);
                                     }
                                 }
                             }
@@ -711,7 +667,6 @@ namespace OsuSkinMixer
                                 includeEntireSection = true;
                                 newSkinIni.Sections.Add(new SkinIniSection(section.Name));
                             }
-                            OS.Alert(section.Name + "\n" + section.ToString());
 
                             foreach (var pair in section)
                             {
@@ -720,8 +675,26 @@ namespace OsuSkinMixer
                                 {
                                     newSkinIni.Sections.Last(s => s.Name == section.Name).Add(
                                         key: pair.Key,
-                                        // All of the skin elements will be in skin directory root, so get rid of child directories in path names.
-                                        value: pair.Key.Contains("Prefix") && pair.Value.Contains('/') ? pair.Value.Split('/').Last() : pair.Value);
+                                        value: pair.Value);
+
+                                    // Check if the skin.ini property value includes any skin elements.
+                                    // If so, include it in the new skin, and prioritize their inclusion.
+                                    // TODO: only proceed if this skin.ini property is known to have a file path.
+                                    int lastSlashIndex = pair.Value.LastIndexOf('/');
+                                    string prefixPropertyDirPath = lastSlashIndex >= 0 ? pair.Value.Substring(0, lastSlashIndex) : null;
+                                    string prefixPropertyFileName = pair.Value.Substring(lastSlashIndex + 1);
+
+                                    if (Directory.Exists($"{skindir}/{prefixPropertyDirPath}"))
+                                    {
+                                        var subdir = Directory.CreateDirectory($"{newSkinDir}/{prefixPropertyDirPath}");
+                                        foreach (var file in new DirectoryInfo($"{skindir}/{prefixPropertyDirPath}").EnumerateFiles())
+                                        {
+                                            if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                file.CopyTo(subdir.FullName, true);
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
