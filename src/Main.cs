@@ -675,7 +675,7 @@ namespace OsuSkinMixer
                                             if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
                                             {
                                                 Logger.Log($"{file.FullName} -> {fileDestDir.FullName} (due to skin.ini)");
-                                                file.CopyTo(fileDestDir.FullName, true);
+                                                file.CopyTo($"{fileDestDir.FullName}/{file.Name}", true);
                                             }
                                         }
                                     }
