@@ -450,6 +450,7 @@ namespace OsuSkinMixer
         private Dialog Dialog;
         private Toast Toast;
         private ProgressBar ProgressBar;
+        private Label ProgressBarLabel;
         private Button CreateSkinButton;
         private LineEdit SkinNameEdit;
 
@@ -462,6 +463,7 @@ namespace OsuSkinMixer
             Dialog = GetNode<Dialog>("Dialog");
             Toast = GetNode<Toast>("Toast");
             ProgressBar = GetNode<ProgressBar>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit/ProgressBar");
+            ProgressBarLabel = GetNode<Label>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit/ProgressBar/Label");
             CreateSkinButton = GetNode<Button>("ButtonsCenterContainer/HBoxContainer/CreateSkinButton");
             SkinNameEdit = GetNode<LineEdit>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit");
 
@@ -589,8 +591,6 @@ namespace OsuSkinMixer
             void runCont()
             {
                 CreateSkinButton.Disabled = true;
-                CreateSkinButton.Text = "Working...";
-
                 ProgressBar.Visible = true;
                 ProgressBar.Value = 0;
 
@@ -604,14 +604,14 @@ namespace OsuSkinMixer
                             Dialog.Alert($"Something went wrong.\n\n{t.Exception.Message}");
 
                         CreateSkinButton.Disabled = false;
-                        CreateSkinButton.Text = "Create skin";
-
                         ProgressBar.Visible = false;
                     });
             }
 
             void cont()
             {
+                ProgressBarLabel.Text = $"Preparing...";
+
                 var newSkinIni = new SkinIni(newSkinName, "osu! skin mixer by rednir");
                 var newSkinDir = Directory.CreateDirectory(Settings.Content.SkinsFolder + "/.osu-skin-mixer_working-skin");
 
@@ -623,6 +623,8 @@ namespace OsuSkinMixer
                 {
                     foreach (var suboption in option.SubOptions)
                     {
+                        ProgressBarLabel.Text = $"Copying: {suboption.Name}";
+
                         var node = GetNode<OptionButton>(suboption.GetPath(option));
 
                         // User wants default skin elements to be used.
