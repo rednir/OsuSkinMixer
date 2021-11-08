@@ -7,11 +7,21 @@ namespace OsuSkinMixer
     {
         public Main Main { get; set; }
 
+        private PopupMenu SkinPopup;
+        private PopupMenu OptionsPopup;
+        private PopupMenu HelpPopup;
+
         public override void _Ready()
         {
-            GetNode<MenuButton>("HBoxContainer/SkinButton").GetPopup().Connect("id_pressed", this, "_SkinButtonPressed");
-            GetNode<MenuButton>("HBoxContainer/OptionsButton").GetPopup().Connect("id_pressed", this, "_OptionsButtonPressed");
-            GetNode<MenuButton>("HBoxContainer/HelpButton").GetPopup().Connect("id_pressed", this, "_HelpButtonPressed");
+            SkinPopup = GetNode<MenuButton>("HBoxContainer/SkinButton").GetPopup();
+            SkinPopup.Connect("id_pressed", this, "_SkinButtonPressed");
+
+            OptionsPopup = GetNode<MenuButton>("HBoxContainer/OptionsButton").GetPopup();
+            OptionsPopup.Connect("id_pressed", this, "_OptionsButtonPressed");
+            OptionsPopup.SetItemChecked(1, Settings.Content.LogToFile);
+
+            HelpPopup = GetNode<MenuButton>("HBoxContainer/HelpButton").GetPopup();
+            HelpPopup.Connect("id_pressed", this, "_HelpButtonPressed");
         }
 
         public void _SkinButtonPressed(int id)
@@ -46,6 +56,12 @@ namespace OsuSkinMixer
             {
                 case 0:
                     Main.PromptForSkinsFolder();
+                    break;
+
+                case 1:
+                    Settings.Content.LogToFile = !Settings.Content.LogToFile;
+                    Settings.Save();
+                    OptionsPopup.SetItemChecked(1, Settings.Content.LogToFile);
                     break;
             }
         }
