@@ -696,7 +696,7 @@ namespace OsuSkinMixer
                                 {
                                     // Check for file type match.
                                     if (
-                                        ((extension == ".png" || extension == ".jpg" || extension == ".ini") && !suboption.IsAudio)
+                                        ((extension == ".png" || extension == ".jpg") && !suboption.IsAudio)
                                         || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && suboption.IsAudio)
                                     )
                                     {
