@@ -612,7 +612,7 @@ namespace OsuSkinMixer
 
             void cont()
             {
-                ProgressBarLabel.Text = $"Preparing...";
+                ProgressBarLabel.Text = "Preparing...";
 
                 var newSkinIni = new SkinIni(newSkinName, "osu! skin mixer by rednir");
                 var newSkinDir = Directory.CreateDirectory(Settings.Content.SkinsFolder + "/.osu-skin-mixer_working-skin");
