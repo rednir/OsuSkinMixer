@@ -10,7 +10,7 @@ namespace OsuSkinMixer
 {
     public static class Settings
     {
-        public const string VERSION = "v1.4";
+        public const string VERSION = "v1.5";
 
         public static readonly string AppdataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu-skin-mixer";
 
