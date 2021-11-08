@@ -53,6 +53,7 @@ namespace OsuSkinMixer
                             "ranking-xh-small",
                             "selection-*",
                             "star",
+                            "star2",
                             "welcome_text",
                         },
                     },
@@ -279,6 +280,7 @@ namespace OsuSkinMixer
                         IncludeFileNames = new string[]
                         {
                             "cursortrail",
+                            "cursormiddle",
                         },
                     },
                     new SubOptionInfo
