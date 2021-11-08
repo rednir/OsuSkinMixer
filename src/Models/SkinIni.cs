@@ -58,7 +58,7 @@ namespace OsuSkinMixer
                     continue;
 
                 keyAndValue[0] = keyAndValue[0].Trim();
-                keyAndValue[1] = keyAndValue[1].Trim();
+                keyAndValue[1] = keyAndValue[1].Trim().Replace("\\", "/");
 
                 // Can't add a key/value when a section name is not yet declared.
                 if (Sections.Count == 0)

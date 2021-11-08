@@ -683,11 +683,9 @@ namespace OsuSkinMixer
 
                                                 foreach (string prefix in prefixes)
                                                 {
-                                                    string normalizedPrefix = prefix?.Replace('\\', '/');
-                                                    string normalizedPathFromSkinRoot = file.FullName.Substring(skindir.FullName.Length + 1).Replace('\\', '/');
-
-                                                    if ((normalizedPrefix?.Contains('/') ?? false)
-                                                        && normalizedPathFromSkinRoot.StartsWith(normalizedPrefix, StringComparison.OrdinalIgnoreCase))
+                                                    string pathFromSkinRoot = file.FullName.Substring(skindir.FullName.Length + 1);
+                                                    if ((prefix?.Contains('/') ?? false)
+                                                        && pathFromSkinRoot.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
                                                     {
                                                         return true;
                                                     }
