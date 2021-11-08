@@ -632,29 +632,6 @@ namespace OsuSkinMixer
                         var skindir = new DirectoryInfo(Settings.Content.SkinsFolder + "/" + node.Text);
                         var skinini = new SkinIni(File.ReadAllText(skindir + "/skin.ini"));
 
-                        foreach (var file in skindir.EnumerateFiles())
-                        {
-                            string filename = Path.GetFileNameWithoutExtension(file.Name);
-                            string extension = Path.GetExtension(file.Name);
-
-                            foreach (string optionFilename in suboption.IncludeFileNames)
-                            {
-                                // Check for file name match.
-                                if (filename.Equals(optionFilename, StringComparison.OrdinalIgnoreCase) || filename.Equals(optionFilename + "@2x", StringComparison.OrdinalIgnoreCase)
-                                    || (optionFilename.EndsWith("*") && filename.StartsWith(optionFilename.TrimEnd('*'), StringComparison.OrdinalIgnoreCase)))
-                                {
-                                    // Check for file type match.
-                                    if (
-                                        ((extension == ".png" || extension == ".jpg" || extension == ".ini") && !suboption.IsAudio)
-                                        || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && suboption.IsAudio)
-                                    )
-                                    {
-                                        file.CopyTo($"{newSkinDir.FullName}/{file.Name}", false);
-                                    }
-                                }
-                            }
-                        }
-
                         foreach (var section in skinini.Sections)
                         {
                             // Only look into ini sections that are specified in the IncludeSkinIniProperties.
@@ -686,14 +663,40 @@ namespace OsuSkinMixer
 
                                     if (Directory.Exists($"{skindir}/{prefixPropertyDirPath}"))
                                     {
-                                        var subdir = Directory.CreateDirectory($"{newSkinDir}/{prefixPropertyDirPath}");
+                                        var fileDestDir = Directory.CreateDirectory($"{newSkinDir}/{prefixPropertyDirPath}");
                                         foreach (var file in new DirectoryInfo($"{skindir}/{prefixPropertyDirPath}").EnumerateFiles())
                                         {
                                             if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
                                             {
-                                                file.CopyTo(subdir.FullName, true);
+                                                file.CopyTo(fileDestDir.FullName, true);
                                             }
                                         }
+                                    }
+                                }
+                            }
+                        }
+
+                        foreach (var file in skindir.EnumerateFiles())
+                        {
+                            if (File.Exists($"{newSkinDir.FullName}/{file.Name}"))
+                                continue;
+
+                            string filename = Path.GetFileNameWithoutExtension(file.Name);
+                            string extension = Path.GetExtension(file.Name);
+
+                            foreach (string optionFilename in suboption.IncludeFileNames)
+                            {
+                                // Check for file name match.
+                                if (filename.Equals(optionFilename, StringComparison.OrdinalIgnoreCase) || filename.Equals(optionFilename + "@2x", StringComparison.OrdinalIgnoreCase)
+                                    || (optionFilename.EndsWith("*") && filename.StartsWith(optionFilename.TrimEnd('*'), StringComparison.OrdinalIgnoreCase)))
+                                {
+                                    // Check for file type match.
+                                    if (
+                                        ((extension == ".png" || extension == ".jpg" || extension == ".ini") && !suboption.IsAudio)
+                                        || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && suboption.IsAudio)
+                                    )
+                                    {
+                                        file.CopyTo($"{newSkinDir.FullName}/{file.Name}");
                                     }
                                 }
                             }
