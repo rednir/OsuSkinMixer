@@ -20,7 +20,6 @@ namespace OsuSkinMixer
                 new SkinIniSection("Colours"),
                 new SkinIniSection("Fonts"),
                 new SkinIniSection("CatchTheBeat"),
-                new SkinIniSection("Mania"),
             };
         }
 

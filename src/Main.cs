@@ -225,7 +225,10 @@ namespace OsuSkinMixer
                         IsAudio = false,
                         IncludeSkinIniProperties = new Dictionary<string, string[]>
                         {
-                            // TODO: mania stuff...
+                            ["Mania"] = new string[]
+                            {
+                                "*",
+                            },
                         },
                         IncludeFileNames = new string[]
                         {
@@ -480,7 +483,7 @@ namespace OsuSkinMixer
 
         private void _CreateSkinButtonPressed() => CreateSkin();
 
-#region Actions
+        #region Actions
 
         public void ResetSelections()
         {
@@ -701,15 +704,23 @@ namespace OsuSkinMixer
                         foreach (var section in skinini.Sections)
                         {
                             // Only look into ini sections that are specified in the IncludeSkinIniProperties.
-                            if (!suboption.IncludeSkinIniProperties.ContainsKey(section.Name))
+                            if (!suboption.IncludeSkinIniProperties.TryGetValue(section.Name, out var includeSkinIniProperties))
                                 continue;
+
+                            bool includeEntireSection = false;
+                            if (includeSkinIniProperties.Contains("*"))
+                            {
+                                includeEntireSection = true;
+                                newSkinIni.Sections.Add(new SkinIniSection(section.Name));
+                            }
+                            OS.Alert(section.Name + "\n" + section.ToString());
 
                             foreach (var pair in section)
                             {
                                 // Only copy over ini properties that are specified in the IncludeSkinIniProperties.
-                                if (suboption.IncludeSkinIniProperties[section.Name].Contains(pair.Key))
+                                if (includeSkinIniProperties.Contains(pair.Key) || includeEntireSection)
                                 {
-                                    newSkinIni.Sections.Find(s => s.Name == section.Name).Add(
+                                    newSkinIni.Sections.Last(s => s.Name == section.Name).Add(
                                         key: pair.Key,
                                         // All of the skin elements will be in skin directory root, so get rid of child directories in path names.
                                         value: pair.Key.Contains("Prefix") && pair.Value.Contains('/') ? pair.Value.Split('/').Last() : pair.Value);
@@ -736,9 +747,9 @@ namespace OsuSkinMixer
 
         private string[] GetSkinNames() => new DirectoryInfo(Settings.Content.SkinsFolder).EnumerateDirectories().Select(d => d.Name).OrderBy(n => n).ToArray();
 
-#endregion
+        #endregion
 
-#region Option buttons
+        #region Option buttons
 
         private bool CreateOptionButtons()
         {
@@ -845,9 +856,9 @@ namespace OsuSkinMixer
             public OptionInfo Value { get; }
         }
 
-#endregion
+        #endregion
 
-#region File system watcher
+        #region File system watcher
 
         private void SetWatcher()
         {
@@ -870,7 +881,7 @@ namespace OsuSkinMixer
             Toast.New("Change in skin folder detected\nPress F5 to refresh skins!");
         }
 
-#endregion
+        #endregion
 
     }
 }
