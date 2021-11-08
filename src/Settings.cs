@@ -16,6 +16,8 @@ namespace OsuSkinMixer
 
         public static string SettingsFilePath => AppdataPath + "/settings.json";
 
+        public static string LogFilePath => AppdataPath + "/log.txt";
+
         static Settings()
         {
             Directory.CreateDirectory(AppdataPath);
@@ -57,6 +59,9 @@ namespace OsuSkinMixer
         {
             [JsonPropertyName("skins_folder")]
             public string SkinsFolder { get; set; }
+
+            [JsonPropertyName("log_to_file")]
+            public bool LogToFile { get; set; }
         }
     }
 }

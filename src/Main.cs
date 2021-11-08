@@ -461,6 +461,7 @@ namespace OsuSkinMixer
         public override void _Ready()
         {
             OS.SetWindowTitle("osu! skin mixer");
+            Logger.Init();
 
             Dialog = GetNode<Dialog>("Dialog");
             Toast = GetNode<Toast>("Toast");
@@ -599,11 +600,11 @@ namespace OsuSkinMixer
                 Task.Run(cont)
                     .ContinueWith(t =>
                     {
-#if DEBUG
-                        GD.Print(t.Exception + "\n");
-#endif
                         if (t.Exception != null)
+                        {
+                            Logger.Log($"Exception thrown:\n\n{t.Exception}\n\n");
                             Dialog.Alert($"Something went wrong.\n\n{t.Exception.Message}");
+                        }
 
                         CreateSkinButton.Disabled = false;
                         ProgressBar.Visible = false;
@@ -628,6 +629,7 @@ namespace OsuSkinMixer
                         ProgressBarLabel.Text = $"Copying: {suboption.Name}";
 
                         var node = GetNode<OptionButton>(suboption.GetPath(option));
+                        Logger.Log($"About to copy option {option.Name}/{suboption.Name} set to '{node.Text}'");
 
                         // User wants default skin elements to be used.
                         if (node.GetSelectedId() == 0)
@@ -672,6 +674,7 @@ namespace OsuSkinMixer
                                         {
                                             if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
                                             {
+                                                Logger.Log($"{file.FullName} -> {fileDestDir.FullName} (due to skin.ini)");
                                                 file.CopyTo(fileDestDir.FullName, true);
                                             }
                                         }
@@ -700,6 +703,7 @@ namespace OsuSkinMixer
                                         || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && suboption.IsAudio)
                                     )
                                     {
+                                        Logger.Log($"{file.FullName} -> {newSkinDir.FullName}/{file.Name} (due to filename match)");
                                         file.CopyTo($"{newSkinDir.FullName}/{file.Name}");
                                     }
                                 }
