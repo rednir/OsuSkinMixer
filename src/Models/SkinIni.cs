@@ -76,19 +76,6 @@ namespace OsuSkinMixer
 
         public List<SkinIniSection> Sections { get; }
 
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-            foreach (var section in Sections)
-            {
-                sb.Append('[').Append(section.Name).AppendLine("]");
-                foreach (var pair in section)
-                    sb.Append(pair.Key).Append(": ").AppendLine(pair.Value);
-
-                sb.AppendLine();
-            }
-
-            return sb.ToString();
-        }
+        public override string ToString() => string.Join("\n", Sections);
     }
 }
