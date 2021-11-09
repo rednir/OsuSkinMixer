@@ -132,6 +132,7 @@ namespace OsuSkinMixer
                             ["General"] = new string[]
                             {
                                 "AllowSliderBallTint",
+                                "AnimationFramerate",
                                 "HitCircleOverlayAboveNumber",
                                 "SliderBallFlip",
                                 "SpinnerFadePlayfield",
