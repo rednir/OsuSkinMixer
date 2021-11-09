@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Main.cs" type="Script" id=2]
@@ -6,27 +6,11 @@
 [ext_resource path="res://src/Toast.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/UpdateLink.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/arrow.png" type="Texture" id=6]
-[ext_resource path="res://assets/triangle.svg" type="Texture" id=7]
+[ext_resource path="res://src/Background.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/TopBar.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/arrow-pressed.png" type="Texture" id=9]
 
-[sub_resource type="Animation" id=1]
-resource_name = "in"
-length = 1.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1.5 ),
-"transitions": PoolRealArray( 0.4, 0.4, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 1, 1, 0 )
 
 [node name="Main" type="Control"]
@@ -38,26 +22,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-position = Vector2( 346.376, 561.409 )
-scale = Vector2( 0.1, 0.1 )
-amount = 120
-lifetime = 40.0
-preprocess = 20.0
-texture = ExtResource( 7 )
-emission_shape = 2
-emission_rect_extents = Vector2( 4000, 1 )
-direction = Vector2( 0, -1 )
-spread = 0.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 500.0
-initial_velocity_random = 0.7
-scale_amount = 10.0
-scale_amount_random = 1.0
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CPUParticles2D"]
-autoplay = "in"
-anims/in = SubResource( 1 )
+[node name="Background" parent="." instance=ExtResource( 7 )]
 
 [node name="OptionsContainer" type="ScrollContainer" parent="."]
 margin_left = 99.0
@@ -179,7 +144,7 @@ margin_right = 35.0
 margin_bottom = 14.0
 rect_min_size = Vector2( 32, 1 )
 size_flags_vertical = 4
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="Label" type="Label" parent="OptionTemplate"]
 margin_left = 20.0
