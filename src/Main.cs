@@ -328,7 +328,9 @@ namespace OsuSkinMixer
             void set(OptionButton optionButton, OptionInfo option, SubOptionInfo suboption)
             {
                 bool isSubOption = suboption != null;
-                int selectedId = 0;
+
+                int prevSelectedId = 0;
+                string prevText = null;
 
                 if (optionButton == null)
                 {
@@ -362,7 +364,8 @@ namespace OsuSkinMixer
                 else
                 {
                     // The existing dropdown items should be updated.
-                    selectedId = optionButton.GetSelectedId();
+                    prevSelectedId = optionButton.GetSelectedId();
+                    prevText = optionButton.Text;
                     optionButton.Clear();
                 }
 
@@ -372,7 +375,11 @@ namespace OsuSkinMixer
                     optionButton.AddItem(skin, skin.GetHashCode());
 
                 // If items were updated, ensure the users selection is maintained
-                optionButton.Selected = optionButton.GetItemIndex(selectedId);
+                optionButton.Selected = optionButton.GetItemIndex(prevSelectedId);
+
+                // Hotfix for maintaining the previous text when it is << various >>
+                if (prevText != null)
+                    optionButton.Text = prevText;
             }
         }
 
