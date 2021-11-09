@@ -70,9 +70,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ButtonsCenterContainer"]
-margin_left = 132.0
+margin_left = 133.0
 margin_top = 6.0
-margin_right = 416.0
+margin_right = 417.0
 margin_bottom = 34.0
 
 [node name="SkinNameEdit" type="LineEdit" parent="ButtonsCenterContainer/HBoxContainer"]
