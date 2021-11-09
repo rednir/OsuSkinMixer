@@ -36,15 +36,19 @@ namespace OsuSkinMixer
                     Main.RefreshSkins();
                     break;
 
-                case 2:
+                case 3:
                     Main.UseExistingSkin();
                     break;
 
-                case 3:
-                    Main.RandomizeSelections();
+                case 4:
+                    Main.RandomizeOptions(false);
                     break;
 
-                case 4:
+                case 5:
+                    Main.RandomizeOptions(true);
+                    break;
+
+                case 6:
                     Main.ResetSelections();
                     break;
             }

@@ -503,22 +503,26 @@ namespace OsuSkinMixer
             Toast.New("Reset selections!");
         }
 
-        public void RandomizeSelections()
+        public void RandomizeOptions(bool suboptions)
         {
             var rand = new Random();
 
             foreach (var option in Options)
             {
                 var optionButton = GetNode<OptionButton>(option.NodePath);
+                int count = optionButton.GetItemCount();
+                int index = rand.Next(0, count - 1);
 
-                int index = rand.Next(0, optionButton.GetItemCount() - 1);
-                optionButton?.Select(index);
+                if (suboptions)
+                    optionButton.Text = "<< various >>";
+                else
+                    optionButton?.Select(index);
 
                 foreach (var suboption in option.SubOptions)
-                    GetNode<OptionButton>(suboption.GetPath(option)).Select(index);
+                    GetNode<OptionButton>(suboption.GetPath(option)).Select(suboptions ? rand.Next(0, count - 1) : index);
             }
 
-            Toast.New("Randomized selections!");
+            Toast.New(suboptions ? "Randomized sub-options!" : "Randomized options!");
         }
 
         public void UseExistingSkin()
@@ -824,7 +828,7 @@ namespace OsuSkinMixer
         private void _SubOptionItemSelected(int _, OptionInfoWrapper wrapper)
         {
             var option = wrapper.Value;
-            GetNode<OptionButton>(option.NodePath).Text = "<< mixed >>";
+            GetNode<OptionButton>(option.NodePath).Text = "<< various >>";
         }
 
         // This is required as the `binds` parameter in `Node.Connect()` only takes in a type inherited from `Godot.Object`
