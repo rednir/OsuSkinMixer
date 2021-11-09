@@ -41,10 +41,24 @@ namespace OsuSkinMixer
                             "ranking-sh-small",
                             "ranking-x-small",
                             "ranking-xh-small",
-                            "selection-*",
+                            "selection-mode*",
+                            "selection-mods-*",
+                            "selection-options*",
+                            "selection-random*",
+                            "selection-tab",
                             "star",
                             "star2",
                             "welcome_text",
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "Mod icons",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>(),
+                        IncludeFileNames = new string[]
+                        {
+                            "selection-mod-*",
                         },
                     },
                     new SubOptionInfo
