@@ -22,7 +22,7 @@ namespace OsuSkinMixer
         private void CheckForUpdates()
         {
             var req = GetNode<HTTPRequest>("HTTPRequest");
-            req.Connect("request_completed", this, "_UpdateRequestCompleted");
+            req.Connect("request_completed", this, nameof(_UpdateRequestCompleted));
             req.Request("https://api.github.com/repos/rednir/OsuSkinMixer/releases/latest", new string[] { "User-Agent: OsuSkinMixer" });
         }
 

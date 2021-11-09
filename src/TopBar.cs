@@ -14,14 +14,14 @@ namespace OsuSkinMixer
         public override void _Ready()
         {
             SkinPopup = GetNode<MenuButton>("HBoxContainer/SkinButton").GetPopup();
-            SkinPopup.Connect("id_pressed", this, "_SkinButtonPressed");
+            SkinPopup.Connect("id_pressed", this, nameof(_SkinButtonPressed));
 
             OptionsPopup = GetNode<MenuButton>("HBoxContainer/OptionsButton").GetPopup();
-            OptionsPopup.Connect("id_pressed", this, "_OptionsButtonPressed");
+            OptionsPopup.Connect("id_pressed", this, nameof(_OptionsButtonPressed));
             OptionsPopup.SetItemChecked(1, Settings.Content.LogToFile);
 
             HelpPopup = GetNode<MenuButton>("HBoxContainer/HelpButton").GetPopup();
-            HelpPopup.Connect("id_pressed", this, "_HelpButtonPressed");
+            HelpPopup.Connect("id_pressed", this, nameof(_HelpButtonPressed));
         }
 
         public void _SkinButtonPressed(int id)

@@ -475,7 +475,7 @@ namespace OsuSkinMixer
 
             GetNode<TopBar>("TopBar").Main = this;
 
-            CreateSkinButton.Connect("pressed", this, "_CreateSkinButtonPressed");
+            CreateSkinButton.Connect("pressed", this, nameof(_CreateSkinButtonPressed));
 
             if (!CreateOptionButtons())
                 PromptForSkinsFolder();

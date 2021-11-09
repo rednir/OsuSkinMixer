@@ -31,8 +31,8 @@ namespace OsuSkinMixer
             OptionButton = GetNode<OptionButton>("OptionButton");
 
             OkButton.Connect("pressed", this, "_OkButtonPressed");
-            GetNode<Button>("QuestionButtons/YesButton").Connect("pressed", this, "_YesButtonPressed");
-            GetNode<Button>("QuestionButtons/NoButton").Connect("pressed", this, "_NoButtonPressed");
+            GetNode<Button>("QuestionButtons/YesButton").Connect("pressed", this, nameof(_YesButtonPressed));
+            GetNode<Button>("QuestionButtons/NoButton").Connect("pressed", this, nameof(_NoButtonPressed));
         }
 
         public void Alert(string text)
