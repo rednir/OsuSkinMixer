@@ -28,25 +28,27 @@ namespace OsuSkinMixer
 
         private void _UpdateRequestCompleted(int result, int response_code, string[] headers, byte[] body)
         {
-            if (result != 0)
-                return;
-
-            try
+            if (result == 0)
             {
-                string latest = JsonSerializer.Deserialize<Dictionary<string, object>>(Encoding.UTF8.GetString(body))["tag_name"].ToString();
-                if (latest != Settings.VERSION)
+                try
                 {
-                    Visible = true;
-                    Text = $"Updates are available! ({Settings.VERSION} -> {latest})";
-                    GetNode<AnimationPlayer>("AnimationPlayer").Play("update");
+                    string latest = JsonSerializer.Deserialize<Dictionary<string, object>>(Encoding.UTF8.GetString(body))["tag_name"].ToString();
+                    if (latest != Settings.VERSION)
+                    {
+                        Text = $"Updates are available! ({Settings.VERSION} -> {latest})";
+                        GetNode<AnimationPlayer>("AnimationPlayer").Play("update");
+                        return;
+                    }
+
+                    Text = $"{Settings.VERSION} (latest)";
                     return;
                 }
-            }
-            catch
-            {
+                catch
+                {
+                }
             }
 
-            Text = $"{Settings.VERSION} (latest)";
+            Text = $"{Settings.VERSION} (unknown)";
         }
     }
 }
