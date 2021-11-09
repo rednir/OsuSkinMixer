@@ -257,10 +257,10 @@ namespace OsuSkinMixer
                         IncludeSkinIniProperties = new Dictionary<string, string[]>(),
                         IncludeFileNames = new string[]
                         {
-                            "hit0",
+                            "hit0*",
                             "hit100*",
                             "hit300*",
-                            "hit50",
+                            "hit50*",
                             "particle*",
                         },
                     },
