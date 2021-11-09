@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace OsuSkinMixer
@@ -104,6 +105,7 @@ namespace OsuSkinMixer
                             "fail-background",
                             "go",
                             "inputoverlay*",
+                            "masking-border",
                             "pause*",
                             "play*",
                             "scorebar-*",
@@ -125,34 +127,13 @@ namespace OsuSkinMixer
                 {
                     new SubOptionInfo
                     {
-                        Name = "osu!",
+                        Name = "Hitcircles",
                         IsAudio = false,
                         IncludeSkinIniProperties = new Dictionary<string, string[]>
                         {
                             ["General"] = new string[]
                             {
-                                "AllowSliderBallTint",
-                                "AnimationFramerate",
                                 "HitCircleOverlayAboveNumber",
-                                "SliderBallFlip",
-                                "SpinnerFadePlayfield",
-                                "SpinnerNoBlink",
-                            },
-                            ["Colours"] = new string[]
-                            {
-                                "Combo1",
-                                "Combo2",
-                                "Combo3",
-                                "Combo4",
-                                "Combo5",
-                                "Combo6",
-                                "Combo7",
-                                "Combo8",
-                                "SliderBall",
-                                "SliderBorder",
-                                "SliderTrackOverride",
-                                "SpinnerBackground",
-                                "StarBreakAdditive",
                             },
                             ["Fonts"] = new string[]
                             {
@@ -163,26 +144,115 @@ namespace OsuSkinMixer
                         IncludeFileNames = new string[]
                         {
                             "approachcircle",
-                            "comboburst",
                             "default-*",
-                            "followpoint*",
-                            "hit*",
-                            "particle*",
-                            "reversearrow",
+                            "hitcircle*",
+                            "target*",
+                            "comboburst",   // There's not really a good place to put this...
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "Sliders",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>
+                        {
+                            ["General"] = new string[]
+                            {
+                                "AllowSliderBallTint",
+                                "SliderBallFlip",
+                            },
+                            ["Colours"] = new string[]
+                            {
+                                "SliderBall",
+                                "SliderBorder",
+                                "SliderTrackOverride",
+                            }
+                        },
+                        IncludeFileNames = new string[]
+                        {
                             "sliderb*",
                             "sliderendcircle*",
                             "sliderfollowcircle",
                             "sliderpoint*",
                             "sliderstartcircle*",
-                            "spinner-*",
-                            "target*",
-                            "masking-border",    // These two elements are global to all gamemodes, but there's
-                            "star-2"             // no real point creating another sub-option just for these.
+                            "reversearrow",
                         },
                     },
                     new SubOptionInfo
                     {
-                        Name = "Catch the beat",
+                        Name = "Combo Colours",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>
+                        {
+                            ["Colours"] = new string[]
+                            {
+                                "Combo1",
+                                "Combo2",
+                                "Combo3",
+                                "Combo4",
+                                "Combo5",
+                                "Combo6",
+                                "Combo7",
+                                "Combo8",
+                            }
+                        },
+                        IncludeFileNames = Array.Empty<string>(),
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "Spinners",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>
+                        {
+                            ["General"] = new string[]
+                            {
+                                "SpinnerFadePlayfield",
+                                "SpinnerNoBlink",
+                            },
+                            ["Colours"] = new string[]
+                            {
+                                "SpinnerBackground",
+                                "StarBreakAdditive",
+                            },
+                        },
+                        IncludeFileNames = new string[]
+                        {
+                            "spinner-*",
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "Followpoints",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>
+                        {
+                            ["General"] = new string[]
+                            {
+                                "AnimationFramerate",
+                            }
+                        },
+                        IncludeFileNames = new string[]
+                        {
+                            "followpoint*",
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "Hit judgements",
+                        IsAudio = false,
+                        IncludeSkinIniProperties = new Dictionary<string, string[]>(),
+                        IncludeFileNames = new string[]
+                        {
+                            "hit0",
+                            "hit100*",
+                            "hit300*",
+                            "hit50",
+                            "particle*",
+                        },
+                    },
+                    new SubOptionInfo
+                    {
+                        Name = "+ fruits",
                         IsAudio = false,
                         IncludeSkinIniProperties = new Dictionary<string, string[]>
                         {
@@ -201,7 +271,7 @@ namespace OsuSkinMixer
                     },
                     new SubOptionInfo
                     {
-                        Name = "Taiko",
+                        Name = "+ taiko",
                         IsAudio = false,
                         IncludeSkinIniProperties = new Dictionary<string, string[]>(),
                         IncludeFileNames = new string[]
@@ -212,7 +282,7 @@ namespace OsuSkinMixer
                     },
                     new SubOptionInfo
                     {
-                        Name = "Mania",
+                        Name = "+ mania",
                         IsAudio = false,
                         IncludeSkinIniProperties = new Dictionary<string, string[]>
                         {
@@ -271,6 +341,7 @@ namespace OsuSkinMixer
                         {
                             "cursortrail",
                             "cursormiddle",
+                            "star-2"
                         },
                     },
                     new SubOptionInfo
