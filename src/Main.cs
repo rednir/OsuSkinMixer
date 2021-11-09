@@ -370,7 +370,6 @@ namespace OsuSkinMixer
                 }
 
                 optionButton.AddItem("<< use default skin >>", 0);
-                optionButton.AddSeparator();
                 foreach (var skin in skins)
                     optionButton.AddItem(skin, skin.GetHashCode());
 
