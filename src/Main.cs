@@ -460,7 +460,7 @@ namespace OsuSkinMixer
 
         public override void _Ready()
         {
-            OS.SetWindowTitle("osu! skin mixer");
+            OS.SetWindowTitle("osu! skin mixer by rednir");
             Logger.Init();
 
             Dialog = GetNode<Dialog>("Dialog");
