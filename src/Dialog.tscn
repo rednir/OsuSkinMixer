@@ -72,7 +72,7 @@ resource_name = "invalid-input"
 length = 0.5
 step = 0.08
 tracks/0/type = "value"
-tracks/0/path = NodePath("LineEdit:rect_position")
+tracks/0/path = NodePath("LineEdit:anchor_left")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -81,7 +81,19 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 172, 243 ), Vector2( 162, 243 ), Vector2( 182, 243 ), Vector2( 162, 243 ), Vector2( 182, 243 ), Vector2( 162, 243 ), Vector2( 172, 243 ) ]
+"values": [ 0.346, 0.326, 0.366, 0.326, 0.366, 0.326, 0.346 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LineEdit:anchor_right")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.649, 0.629, 0.669, 0.629, 0.669, 0.629, 0.649 ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -112,8 +124,8 @@ tracks/1/keys = {
 }
 
 [node name="Dialog" type="Panel"]
-margin_right = 700.0
-margin_bottom = 450.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 theme = ExtResource( 1 )
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 3 )
@@ -122,10 +134,14 @@ __meta__ = {
 }
 
 [node name="LabelContainer" type="CenterContainer" parent="."]
-margin_left = 109.0
-margin_top = 109.0
-margin_right = 590.0
-margin_bottom = 211.0
+anchor_left = 0.156
+anchor_top = 0.242
+anchor_right = 0.843
+anchor_bottom = 0.469
+margin_left = -0.200005
+margin_top = 0.0999908
+margin_right = -0.100037
+margin_bottom = -0.0500031
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -146,29 +162,34 @@ __meta__ = {
 }
 
 [node name="OkButton" type="Button" parent="."]
-margin_left = 309.142
-margin_top = 288.953
-margin_right = 393.142
-margin_bottom = 316.953
+anchor_left = 0.442
+anchor_top = 0.673
+anchor_right = 0.562
+anchor_bottom = 0.673
+margin_left = -0.258026
+margin_top = -13.897
+margin_right = -0.258026
+margin_bottom = 14.103
 text = "OK"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="QuestionButtons" type="HBoxContainer" parent="."]
-margin_left = 1.0
-margin_top = 288.0
-margin_right = 698.0
-margin_bottom = 319.0
+anchor_top = 0.673
+anchor_right = 1.0
+anchor_bottom = 0.673
+margin_top = -14.85
+margin_bottom = 15.15
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="YesButton" type="Button" parent="QuestionButtons"]
-margin_left = 266.0
-margin_right = 346.0
-margin_bottom = 31.0
+margin_left = 268.0
+margin_right = 348.0
+margin_bottom = 30.0
 rect_min_size = Vector2( 80, 0 )
 text = "Yeah!"
 __meta__ = {
@@ -176,9 +197,9 @@ __meta__ = {
 }
 
 [node name="NoButton" type="Button" parent="QuestionButtons"]
-margin_left = 350.0
-margin_right = 430.0
-margin_bottom = 31.0
+margin_left = 352.0
+margin_right = 432.0
+margin_bottom = 30.0
 rect_min_size = Vector2( 80, 0 )
 text = "Nah..."
 __meta__ = {
@@ -186,20 +207,28 @@ __meta__ = {
 }
 
 [node name="LineEdit" type="LineEdit" parent="."]
-margin_left = 172.0
-margin_top = 243.0
-margin_right = 524.0
-margin_bottom = 271.0
+anchor_left = 0.346
+anchor_top = 0.571
+anchor_right = 0.649
+anchor_bottom = 0.571
+margin_left = -0.200012
+margin_top = -13.95
+margin_right = -0.299988
+margin_bottom = 14.05
 clear_button_enabled = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="OptionButton" type="OptionButton" parent="."]
-margin_left = 193.75
-margin_top = 243.112
-margin_right = 503.75
-margin_bottom = 271.112
+anchor_left = 0.277
+anchor_top = 0.54
+anchor_right = 0.72
+anchor_bottom = 0.602
+margin_left = -0.150009
+margin_top = 0.111984
+margin_right = -0.250031
+margin_bottom = 0.211975
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "init"

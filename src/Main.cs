@@ -13,7 +13,7 @@ namespace OsuSkinMixer
 {
     public class Main : Control
     {
-        public const string OPTIONS_CONTAINER_PATH = "OptionsContainer/CenterContainer/VBoxContainer";
+        public const string SCROLL_CONTAINER_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
 
         private readonly OptionInfo[] Options = new OptionInfo[]
         {
@@ -429,7 +429,7 @@ namespace OsuSkinMixer
         {
             public string Name { get; set; }
 
-            public string NodePath => $"{OPTIONS_CONTAINER_PATH}/{Name}/OptionButton";
+            public string NodePath => $"{SCROLL_CONTAINER_PATH}/{Name}/OptionButton";
 
             public SubOptionInfo[] SubOptions { get; set; }
         }
@@ -444,7 +444,7 @@ namespace OsuSkinMixer
 
             public string[] IncludeFileNames { get; set; }
 
-            public string GetPath(OptionInfo option) => $"{OPTIONS_CONTAINER_PATH}/{GetHBoxName(option)}/OptionButton";
+            public string GetPath(OptionInfo option) => $"{SCROLL_CONTAINER_PATH}/{GetHBoxName(option)}/OptionButton";
 
             public string GetHBoxName(OptionInfo option) => $"{option.Name}_{Name}";
         }
@@ -455,12 +455,14 @@ namespace OsuSkinMixer
         private Label ProgressBarLabel;
         private Button CreateSkinButton;
         private LineEdit SkinNameEdit;
+        private ScrollContainer ScrollContainer;
 
         private FileSystemWatcher FileSystemWatcher { get; set; }
 
         public override void _Ready()
         {
             OS.SetWindowTitle("osu! skin mixer by rednir");
+            OS.MinWindowSize = new Vector2(600, 400);
             Logger.Init();
 
             Dialog = GetNode<Dialog>("Dialog");
@@ -469,6 +471,7 @@ namespace OsuSkinMixer
             ProgressBarLabel = GetNode<Label>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit/ProgressBar/Label");
             CreateSkinButton = GetNode<Button>("ButtonsCenterContainer/HBoxContainer/CreateSkinButton");
             SkinNameEdit = GetNode<LineEdit>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit");
+            ScrollContainer = GetNode<ScrollContainer>("ScrollContainer");
 
             GetNode<TopBar>("TopBar").Main = this;
 
@@ -744,7 +747,7 @@ namespace OsuSkinMixer
 
             SetWatcher();
 
-            var vbox = GetNode("OptionsContainer/CenterContainer/VBoxContainer");
+            var vbox = GetNode(SCROLL_CONTAINER_PATH);
             var skins = GetSkinNames();
 
             foreach (var option in Options)
@@ -812,7 +815,7 @@ namespace OsuSkinMixer
         {
             var option = wrapper.Value;
             foreach (var suboption in option.SubOptions)
-                GetNode<HBoxContainer>($"{OPTIONS_CONTAINER_PATH}/{suboption.GetHBoxName(option)}").Visible = pressed;
+                GetNode<HBoxContainer>($"{SCROLL_CONTAINER_PATH}/{suboption.GetHBoxName(option)}").Visible = pressed;
         }
 
         private void _OptionItemSelected(int index, OptionInfoWrapper wrapper)

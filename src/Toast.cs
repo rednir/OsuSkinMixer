@@ -3,7 +3,7 @@ using System;
 
 namespace OsuSkinMixer
 {
-    public class Toast : CenterContainer
+    public class Toast : HBoxContainer
     {
         private Label Label;
         private AnimationPlayer AnimationPlayer;

@@ -4,7 +4,7 @@
 [ext_resource path="res://src/TopBar.cs" type="Script" id=2]
 
 [node name="TopBar" type="Panel"]
-margin_right = 700.0
+anchor_right = 1.0
 margin_bottom = 28.0
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
@@ -13,8 +13,8 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_right = 0.5
 margin_left = 13.0
-margin_right = 456.0
 margin_bottom = 28.0
 custom_constants/separation = 10
 __meta__ = {
