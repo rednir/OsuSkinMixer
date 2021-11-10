@@ -42,7 +42,7 @@ namespace OsuSkinMixer
                             "ranking-x-small",
                             "ranking-xh-small",
                             "selection-mode*",
-                            "selection-mods",
+                            "selection-mods*",
                             "selection-options*",
                             "selection-random*",
                             "selection-tab",
