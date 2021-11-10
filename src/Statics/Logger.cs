@@ -12,7 +12,7 @@ namespace OsuSkinMixer
             try
             {
                 if (Settings.Content.LogToFile)
-                    File.WriteAllText(Settings.LogFilePath, $"------- osu! skin mixer {Settings.VERSION} -------");
+                    File.WriteAllText(Settings.LogFilePath, $"------- osu! skin mixer {Settings.VERSION} -------\n");
             }
             catch (Exception ex)
             {
