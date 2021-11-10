@@ -185,6 +185,7 @@ namespace OsuSkinMixer
 
             void cont()
             {
+                Logger.Log($"Beginning skin creation with name '{newSkinName}'");
                 ProgressBarLabel.Text = "Preparing...";
 
                 var newSkinIni = new SkinIni(newSkinName, "osu! skin mixer by rednir");
@@ -246,7 +247,7 @@ namespace OsuSkinMixer
                                         {
                                             if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
                                             {
-                                                Logger.Log($"{file.FullName} -> {fileDestDir.FullName} (due to skin.ini)");
+                                                Logger.Log($"'{file.FullName}' -> '{fileDestDir.FullName}' (due to skin.ini)");
                                                 file.CopyTo($"{fileDestDir.FullName}/{file.Name}", true);
                                             }
                                         }
@@ -275,7 +276,7 @@ namespace OsuSkinMixer
                                         || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && suboption.IsAudio)
                                     )
                                     {
-                                        Logger.Log($"{file.FullName} -> {newSkinDir.FullName}/{file.Name} (due to filename match)");
+                                        Logger.Log($"'{file.FullName}' -> '{newSkinDir.FullName}/{file.Name}' (due to filename match)");
                                         file.CopyTo($"{newSkinDir.FullName}/{file.Name}");
                                     }
                                 }
@@ -295,6 +296,7 @@ namespace OsuSkinMixer
 
                 newSkinDir.MoveTo(destPath);
 
+                Logger.Log($"Created skin with name '{newSkinName}'");
                 Dialog.Alert($"Created skin '{newSkinName}'.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
             }
         }
