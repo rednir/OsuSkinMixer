@@ -64,7 +64,9 @@ namespace OsuSkinMixer
 
                 case 1:
                     Settings.Content.LogToFile = !Settings.Content.LogToFile;
+                    Logger.Init();
                     Settings.Save();
+
                     OptionsPopup.SetItemChecked(1, Settings.Content.LogToFile);
                     break;
             }
