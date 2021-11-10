@@ -80,7 +80,6 @@ margin_right = 200.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 200, 0 )
 max_length = 128
-context_menu_enabled = false
 placeholder_text = "Name your new skin"
 placeholder_alpha = 0.5
 
