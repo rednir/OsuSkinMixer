@@ -14,7 +14,6 @@ namespace OsuSkinMixer
     {
         public const string SCROLL_CONTAINER_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
 
-        private Dialog Dialog;
         private Toast Toast;
         private ProgressBar ProgressBar;
         private Label ProgressBarLabel;
@@ -30,7 +29,6 @@ namespace OsuSkinMixer
             OS.MinWindowSize = new Vector2(600, 400);
             Logger.Init();
 
-            Dialog = GetNode<Dialog>("Dialog");
             Toast = GetNode<Toast>("Toast");
             ProgressBar = GetNode<ProgressBar>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit/ProgressBar");
             ProgressBarLabel = GetNode<Label>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit/ProgressBar/Label");
@@ -100,7 +98,7 @@ namespace OsuSkinMixer
             if (optionButton == null)
                 return;
 
-            Dialog.Options("Select a skin to use.", optionButton.Items, i =>
+            OptionsDialog.New(this, "Select a skin to use.", optionButton.Items, i =>
             {
                 // This assumes that index 0 is default skin.
                 SkinNameEdit.Text = i == 0 ? string.Empty : optionButton.GetItemText(i);
@@ -122,7 +120,7 @@ namespace OsuSkinMixer
 
         public void PromptForSkinsFolder()
         {
-            Dialog.TextInput(
+            /*Dialog.TextInput(
                 text: "Please set the path to your skins folder",
                 func: p =>
                 {
@@ -130,7 +128,7 @@ namespace OsuSkinMixer
                     Settings.Save();
                     return CreateOptionButtons();
                 },
-                defaultText: Settings.Content.SkinsFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!/Skins");
+                defaultText: Settings.Content.SkinsFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!/Skins");*/
         }
 
         public void CreateSkin()
@@ -139,19 +137,19 @@ namespace OsuSkinMixer
 
             if (string.IsNullOrWhiteSpace(newSkinName))
             {
-                Dialog.Alert("Set a name for the new skin first.");
+                OkDialog.New(this, "Set a name for the new skin first.");
                 return;
             }
 
             if (newSkinName.Any(c => Path.GetInvalidPathChars().Contains(c) || c == '/' || c == '\\'))
             {
-                Dialog.Alert("The skin name contains invalid symbols.");
+                OkDialog.New(this, "The skin name contains invalid symbols.");
                 return;
             }
 
             if (Directory.Exists(Settings.Content.SkinsFolder + "/" + newSkinName))
             {
-                Dialog.Question(
+                QuestionDialog.New(this,
                     text: $"A skin with that name already exists. Replace it?\n\nThis will permanently remove '{newSkinName}'",
                     action: b =>
                     {
@@ -175,7 +173,7 @@ namespace OsuSkinMixer
                         if (t.Exception != null)
                         {
                             Logger.Log($"Exception thrown:\n\n{t.Exception}\n\n");
-                            Dialog.Alert($"Something went wrong.\n\n{t.Exception.Message}");
+                            OkDialog.New(this, $"Something went wrong.\n\n{t.Exception.Message}");
                         }
 
                         CreateSkinButton.Disabled = false;
@@ -297,7 +295,7 @@ namespace OsuSkinMixer
                 newSkinDir.MoveTo(destPath);
 
                 Logger.Log($"Created skin with name '{newSkinName}'");
-                Dialog.Alert($"Created skin '{newSkinName}'.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
+                OkDialog.New(this, $"Created skin '{newSkinName}'.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
             }
         }
 
