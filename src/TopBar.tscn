@@ -22,22 +22,22 @@ __meta__ = {
 }
 
 [node name="SkinButton" type="MenuButton" parent="HBoxContainer"]
-margin_right = 37.0
+margin_right = 39.0
 margin_bottom = 28.0
 text = "Skin"
 items = [ "Create skin", null, 0, false, false, 0, 0, null, "", false, "Refresh skin list", null, 0, false, false, 1, 0, null, "", false, "", null, 0, false, false, 2, 0, null, "", true, "Use existing skin", null, 0, false, false, 3, 0, null, "", false, "Randomize top-level options", null, 0, false, false, 4, 0, null, "", false, "Randomize sub-options", null, 0, false, false, 5, 0, null, "", false, "Reset selections", null, 0, false, false, 6, 0, null, "", false ]
 
 [node name="OptionsButton" type="MenuButton" parent="HBoxContainer"]
-margin_left = 47.0
-margin_right = 106.0
+margin_left = 49.0
+margin_right = 110.0
 margin_bottom = 28.0
 focus_mode = 2
 text = "Options"
 items = [ "Change skins folder location", null, 0, false, false, 0, 0, null, "", false, "Log to file (hurts performance)", null, 1, false, false, 1, 0, null, "", false ]
 
 [node name="HelpButton" type="MenuButton" parent="HBoxContainer"]
-margin_left = 116.0
-margin_right = 156.0
+margin_left = 120.0
+margin_right = 162.0
 margin_bottom = 28.0
 focus_mode = 2
 text = "Help"

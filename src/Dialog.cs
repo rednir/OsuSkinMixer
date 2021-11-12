@@ -20,6 +20,7 @@ namespace OsuSkinMixer
         private HBoxContainer QuestionButtons;
         private LineEdit LineEdit;
         private OptionButton OptionButton;
+        private FileDialog FileDialog;
 
         public override void _Ready()
         {
@@ -29,10 +30,13 @@ namespace OsuSkinMixer
             QuestionButtons = GetNode<HBoxContainer>("QuestionButtons");
             LineEdit = GetNode<LineEdit>("LineEdit");
             OptionButton = GetNode<OptionButton>("OptionButton");
+            FileDialog = GetNode<FileDialog>("FileDialog");
 
             OkButton.Connect("pressed", this, "_OkButtonPressed");
+            FileDialog.Connect("dir_selected", this, nameof(_DirSelected));
             GetNode<Button>("QuestionButtons/YesButton").Connect("pressed", this, nameof(_YesButtonPressed));
             GetNode<Button>("QuestionButtons/NoButton").Connect("pressed", this, nameof(_NoButtonPressed));
+            GetNode<Button>("LineEdit/FolderButton").Connect("pressed", this, nameof(_FolderButtonPressed));
         }
 
         public void Alert(string text)
@@ -97,6 +101,17 @@ namespace OsuSkinMixer
         {
             OptionAction?.Invoke(OptionButton.Selected);
             AnimationPlayer.Play(!TextInputFunc?.Invoke(LineEdit.Text) ?? false ? "invalid-input" : "out");
+        }
+
+        private void _FolderButtonPressed()
+        {
+            FileDialog.CurrentDir = LineEdit.Text;
+            FileDialog.Popup_();
+        }
+
+        private void _DirSelected(string path)
+        {
+            LineEdit.Text = path;
         }
 
         private void _YesButtonPressed()

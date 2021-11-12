@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=13 format=2]
+[gd_resource type="Theme" load_steps=14 format=2]
 
 [ext_resource path="res://assets/Aller_Regular.ttf" type="DynamicFontData" id=1]
 
@@ -92,6 +92,21 @@ color = Color( 0.8, 0.666667, 0.882353, 0.235294 )
 grow_begin = -4.0
 grow_end = -4.0
 
+[sub_resource type="StyleBoxFlat" id=12]
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color( 0.141176, 0.141176, 0.141176, 1 )
+border_width_left = 1
+border_width_top = 24
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.141176, 0.141176, 0.141176, 1 )
+expand_margin_top = 24.0
+shadow_color = Color( 0, 0, 0, 0.3 )
+shadow_size = 4
+
 [sub_resource type="DynamicFont" id=11]
 size = 14
 font_data = ExtResource( 1 )
@@ -150,3 +165,12 @@ PopupMenu/styles/labeled_separator_right = null
 PopupMenu/styles/panel = SubResource( 9 )
 PopupMenu/styles/panel_disabled = null
 PopupMenu/styles/separator = SubResource( 10 )
+WindowDialog/colors/title_color = Color( 0.756863, 0.756863, 0.756863, 1 )
+WindowDialog/constants/close_h_ofs = 18
+WindowDialog/constants/close_v_ofs = 18
+WindowDialog/constants/scaleborder_size = 4
+WindowDialog/constants/title_height = 20
+WindowDialog/fonts/title_font = null
+WindowDialog/icons/close = null
+WindowDialog/icons/close_highlight = null
+WindowDialog/styles/panel = SubResource( 12 )
