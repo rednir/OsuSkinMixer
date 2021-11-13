@@ -50,6 +50,10 @@ namespace OsuSkinMixer
         {
             if (@event.IsActionPressed("refresh"))
                 RefreshSkins();
+            else if (@event.IsActionPressed("randomize_suboptions"))
+                RandomizeOptions(true);
+            else if (@event.IsActionPressed("randomize_options"))
+                RandomizeOptions(false);
         }
 
         private void _SettingsButtonPressed() => PromptForSkinsFolder();
