@@ -19,6 +19,7 @@ namespace OsuSkinMixer
             OptionsPopup = GetNode<MenuButton>("HBoxContainer/OptionsButton").GetPopup();
             OptionsPopup.Connect("id_pressed", this, nameof(_OptionsButtonPressed));
             OptionsPopup.SetItemChecked(1, Settings.Content.LogToFile);
+            OptionsPopup.SetItemChecked(2, Settings.Content.ImportToGameIfOpen);
 
             HelpPopup = GetNode<MenuButton>("HBoxContainer/HelpButton").GetPopup();
             HelpPopup.Connect("id_pressed", this, nameof(_HelpButtonPressed));
@@ -68,6 +69,13 @@ namespace OsuSkinMixer
                     Settings.Save();
 
                     OptionsPopup.SetItemChecked(1, Settings.Content.LogToFile);
+                    break;
+
+                case 2:
+                    Settings.Content.ImportToGameIfOpen = !Settings.Content.ImportToGameIfOpen;
+                    Settings.Save();
+
+                    OptionsPopup.SetItemChecked(2, Settings.Content.ImportToGameIfOpen);
                     break;
             }
         }
