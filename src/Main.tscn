@@ -28,13 +28,12 @@ __meta__ = {
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 anchor_left = 0.5
-anchor_top = 0.151
 anchor_right = 0.5
-anchor_bottom = 0.707
+anchor_bottom = 1.0
 margin_left = -250.0
-margin_top = 0.0499954
-margin_right = 262.0
-margin_bottom = -0.149994
+margin_top = 68.0
+margin_right = 250.0
+margin_bottom = -132.0
 rect_pivot_offset = Vector2( 250, 122 )
 scroll_horizontal_enabled = false
 __meta__ = {
@@ -58,13 +57,13 @@ __meta__ = {
 
 [node name="ButtonsCenterContainer" type="CenterContainer" parent="."]
 anchor_left = 0.5
-anchor_top = 0.829
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.829
+anchor_bottom = 1.0
 margin_left = -275.047
-margin_top = -19.825
+margin_top = -96.775
 margin_right = 274.953
-margin_bottom = 20.175
+margin_bottom = -56.775
 __meta__ = {
 "_edit_use_anchors_": false
 }
