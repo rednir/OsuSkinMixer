@@ -64,7 +64,7 @@ namespace OsuSkinMixer
             public bool LogToFile { get; set; }
 
             [JsonPropertyName("import_to_game_if_open")]
-            public bool ImportToGameIfOpen { get; set; } = true;
+            public bool ImportToGameIfOpen { get; set; } = OS.GetName() == "Windows";
         }
     }
 }
