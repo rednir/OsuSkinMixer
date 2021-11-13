@@ -7,8 +7,8 @@ using Directory = System.IO.Directory;
 using File = System.IO.File;
 using Path = System.IO.Path;
 using Environment = System.Environment;
-using System.IO.Compression;
 using System.Diagnostics;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace OsuSkinMixer
 {
@@ -316,7 +316,7 @@ namespace OsuSkinMixer
                         if (File.Exists(oskDestPath))
                             File.Delete(oskDestPath);
 
-                        ZipFile.CreateFromDirectory(newSkinDir.FullName, $"{Settings.Content.SkinsFolder}/{newSkinName}.osk");
+                        new FastZip().CreateZip($"{Settings.Content.SkinsFolder}/{newSkinName}.osk", newSkinDir.FullName, true, "");
                         newSkinDir.Delete(true);
                         OS.ShellOpen(oskDestPath);
 
