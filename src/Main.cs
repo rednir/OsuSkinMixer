@@ -15,6 +15,7 @@ namespace OsuSkinMixer
     public class Main : Control
     {
         public const string VBOX_CONTAINER_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
+        public const string WORKING_DIR_NAME = ".osu-skin-mixer_working-skin";
 
         private Dialog Dialog;
         private Toast Toast;
@@ -194,7 +195,7 @@ namespace OsuSkinMixer
                 ProgressBarLabel.Text = "Preparing...";
 
                 var newSkinIni = new SkinIni(newSkinName, "osu! skin mixer by rednir");
-                var newSkinDir = Directory.CreateDirectory(Settings.Content.SkinsFolder + "/.osu-skin-mixer_working-skin");
+                var newSkinDir = Directory.CreateDirectory($"{Settings.Content.SkinsFolder}/{WORKING_DIR_NAME}");
 
                 // There might be skin elements from a failed attempt still in the directory.
                 foreach (var file in newSkinDir.EnumerateFiles())
@@ -352,7 +353,8 @@ namespace OsuSkinMixer
             return false;
         }
 
-        private string[] GetSkinNames() => new DirectoryInfo(Settings.Content.SkinsFolder).EnumerateDirectories().Select(d => d.Name).OrderBy(n => n).ToArray();
+        private string[] GetSkinNames() => new DirectoryInfo(Settings.Content.SkinsFolder).EnumerateDirectories()
+            .Select(d => d.Name).Where(n => n != WORKING_DIR_NAME).OrderBy(n => n).ToArray();
 
         #endregion
 
