@@ -324,7 +324,7 @@ namespace OsuSkinMixer
 
                 newSkinDir.MoveTo(dirDestPath);
 
-                Toast.New("Created skin!");
+                Toast.New("Created skin!\nYou might need to press Ctrl+Shift+Alt+S in-game.");
             }
         }
 
