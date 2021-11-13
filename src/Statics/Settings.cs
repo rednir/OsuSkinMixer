@@ -62,6 +62,9 @@ namespace OsuSkinMixer
 
             [JsonPropertyName("log_to_file")]
             public bool LogToFile { get; set; }
+
+            [JsonPropertyName("import_to_game_if_open")]
+            public bool ImportToGameIfOpen { get; set; } = true;
         }
     }
 }

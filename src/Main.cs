@@ -7,6 +7,8 @@ using Directory = System.IO.Directory;
 using File = System.IO.File;
 using Path = System.IO.Path;
 using Environment = System.Environment;
+using System.IO.Compression;
+using System.Diagnostics;
 
 namespace OsuSkinMixer
 {
@@ -288,17 +290,55 @@ namespace OsuSkinMixer
                     }
                 }
 
-                File.WriteAllText(newSkinDir.FullName + "/skin.ini", newSkinIni.ToString());
+                File.WriteAllText($"{newSkinDir.FullName}/skin.ini", newSkinIni.ToString());
 
-                string destPath = Settings.Content.SkinsFolder + "/" + newSkinName;
-                if (Directory.Exists(destPath))
-                    Directory.Delete(destPath, true);
+                ProgressBar.Value = 100;
+                ProgressBarLabel.Text = "Importing...";
+                if (Settings.Content.ImportToGameIfOpen && IsOsuOpen())
+                {
+                    try
+                    {
+                        string oskDestPath = $"{Settings.Content.SkinsFolder}/{newSkinName}.osk";
+                        Logger.Log($"Importing skin into game from '{oskDestPath}'");
 
-                newSkinDir.MoveTo(destPath);
+                        if (File.Exists(oskDestPath))
+                            File.Delete(oskDestPath);
 
-                Logger.Log($"Created skin with name '{newSkinName}'");
+                        ZipFile.CreateFromDirectory(newSkinDir.FullName, $"{Settings.Content.SkinsFolder}/{newSkinName}.osk");
+                        newSkinDir.Delete(true);
+                        OS.ShellOpen(oskDestPath);
+
+                        Toast.New("Attempted to import skin into osu!");
+                        return;
+                    }
+                    catch (Exception ex)
+                    {
+                        Toast.New("Couldn't import skin as an .osk file.");
+                        Logger.Log($"Couldn't import skin as an .osk file:\n\n{ex}\n\n");
+                    }
+                }
+
+                string dirDestPath = $"{Settings.Content.SkinsFolder}/{newSkinName}";
+                Logger.Log($"Copying working folder to '{dirDestPath}'");
+
+                if (Directory.Exists(dirDestPath))
+                    Directory.Delete(dirDestPath, true);
+
+                newSkinDir.MoveTo(dirDestPath);
+
                 Dialog.Alert($"Created skin '{newSkinName}'.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
             }
+        }
+
+        private bool IsOsuOpen()
+        {
+            foreach (var process in Process.GetProcesses())
+            {
+                if (process.ProcessName.Contains("osu!"))
+                    return true;
+            }
+
+            return false;
         }
 
         private string[] GetSkinNames() => new DirectoryInfo(Settings.Content.SkinsFolder).EnumerateDirectories().Select(d => d.Name).OrderBy(n => n).ToArray();
