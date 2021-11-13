@@ -24,8 +24,6 @@ namespace OsuSkinMixer
         private LineEdit SkinNameEdit;
         private ScrollContainer ScrollContainer;
 
-        private FileSystemWatcher FileSystemWatcher { get; set; }
-
         public override void _Ready()
         {
             OS.SetWindowTitle("osu! skin mixer by rednir");
@@ -352,8 +350,6 @@ namespace OsuSkinMixer
             if (Settings.Content.SkinsFolder == null || !Directory.Exists(Settings.Content.SkinsFolder))
                 return false;
 
-            SetWatcher();
-
             var vbox = GetNode(VBOX_CONTAINER_PATH);
             var skins = GetSkinNames();
 
@@ -459,31 +455,5 @@ namespace OsuSkinMixer
         }
 
         #endregion
-
-        #region File system watcher
-
-        private void SetWatcher()
-        {
-            if (FileSystemWatcher != null)
-                return;
-
-            FileSystemWatcher = new FileSystemWatcher(Settings.Content.SkinsFolder)
-            {
-                NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.CreationTime,
-                EnableRaisingEvents = true,
-            };
-
-            FileSystemWatcher.Changed += OnWatcherEvent;
-            FileSystemWatcher.Created += OnWatcherEvent;
-            FileSystemWatcher.Deleted += OnWatcherEvent;
-        }
-
-        private void OnWatcherEvent(object sender, FileSystemEventArgs e)
-        {
-            Toast.New("Change in skin folder detected\nPress F5 to refresh skins!");
-        }
-
-        #endregion
-
     }
 }
