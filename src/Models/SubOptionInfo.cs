@@ -12,7 +12,7 @@ namespace OsuSkinMixer
 
         public string[] IncludeFileNames { get; set; }
 
-        public string GetPath(OptionInfo option) => $"{Main.SCROLL_CONTAINER_PATH}/{GetHBoxName(option)}/OptionButton";
+        public string GetPath(OptionInfo option) => $"{Main.VBOX_CONTAINER_PATH}/{GetHBoxName(option)}/OptionButton";
 
         public string GetHBoxName(OptionInfo option) => $"{option.Name}_{Name}";
     }

@@ -14,7 +14,7 @@ namespace OsuSkinMixer
 {
     public class Main : Control
     {
-        public const string SCROLL_CONTAINER_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
+        public const string VBOX_CONTAINER_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
 
         private Dialog Dialog;
         private Toast Toast;
@@ -354,7 +354,7 @@ namespace OsuSkinMixer
 
             SetWatcher();
 
-            var vbox = GetNode(SCROLL_CONTAINER_PATH);
+            var vbox = GetNode(VBOX_CONTAINER_PATH);
             var skins = GetSkinNames();
 
             foreach (var option in SkinOptions.Default)
@@ -428,7 +428,7 @@ namespace OsuSkinMixer
         {
             var option = wrapper.Value;
             foreach (var suboption in option.SubOptions)
-                GetNode<HBoxContainer>($"{SCROLL_CONTAINER_PATH}/{suboption.GetHBoxName(option)}").Visible = pressed;
+                GetNode<HBoxContainer>($"{VBOX_CONTAINER_PATH}/{suboption.GetHBoxName(option)}").Visible = pressed;
         }
 
         private void _OptionItemSelected(int index, OptionInfoWrapper wrapper)
