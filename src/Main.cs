@@ -183,6 +183,7 @@ namespace OsuSkinMixer
                     });
             }
 
+            // TODO: split this function up...
             void cont()
             {
                 Logger.Log($"Beginning skin creation with name '{newSkinName}'");
@@ -211,44 +212,52 @@ namespace OsuSkinMixer
                         var skindir = new DirectoryInfo(Settings.Content.SkinsFolder + "/" + node.Text);
                         var skinini = new SkinIni(File.ReadAllText(skindir + "/skin.ini"));
 
-                        foreach (var section in skinini.Sections)
+                        copySkinIniProperties();
+                        copyMatchingFiles();
+
+                        ProgressBar.Value += 100 / SkinOptions.Default.Sum(o => o.SubOptions.Length);
+
+                        void copySkinIniProperties()
                         {
-                            // Only look into ini sections that are specified in the IncludeSkinIniProperties.
-                            if (!suboption.IncludeSkinIniProperties.TryGetValue(section.Name, out var includeSkinIniProperties))
-                                continue;
-
-                            bool includeEntireSection = false;
-                            if (includeSkinIniProperties.Contains("*"))
+                            foreach (var section in skinini.Sections)
                             {
-                                includeEntireSection = true;
-                                newSkinIni.Sections.Add(new SkinIniSection(section.Name));
-                            }
+                                // Only look into ini sections that are specified in the IncludeSkinIniProperties.
+                                if (!suboption.IncludeSkinIniProperties.TryGetValue(section.Name, out var includeSkinIniProperties))
+                                    continue;
 
-                            foreach (var pair in section)
-                            {
-                                // Only copy over ini properties that are specified in the IncludeSkinIniProperties.
-                                if (includeSkinIniProperties.Contains(pair.Key) || includeEntireSection)
+                                bool includeEntireSection = false;
+                                if (includeSkinIniProperties.Contains("*"))
                                 {
-                                    newSkinIni.Sections.Last(s => s.Name == section.Name).Add(
-                                        key: pair.Key,
-                                        value: pair.Value);
+                                    includeEntireSection = true;
+                                    newSkinIni.Sections.Add(new SkinIniSection(section.Name));
+                                }
 
-                                    // Check if the skin.ini property value includes any skin elements.
-                                    // If so, include it in the new skin, and prioritize their inclusion.
-                                    // TODO: only proceed if this skin.ini property is known to have a file path.
-                                    int lastSlashIndex = pair.Value.LastIndexOf('/');
-                                    string prefixPropertyDirPath = lastSlashIndex >= 0 ? pair.Value.Substring(0, lastSlashIndex) : null;
-                                    string prefixPropertyFileName = pair.Value.Substring(lastSlashIndex + 1);
-
-                                    if (Directory.Exists($"{skindir}/{prefixPropertyDirPath}"))
+                                foreach (var pair in section)
+                                {
+                                    // Only copy over ini properties that are specified in the IncludeSkinIniProperties.
+                                    if (includeSkinIniProperties.Contains(pair.Key) || includeEntireSection)
                                     {
-                                        var fileDestDir = Directory.CreateDirectory($"{newSkinDir}/{prefixPropertyDirPath}");
-                                        foreach (var file in new DirectoryInfo($"{skindir}/{prefixPropertyDirPath}").EnumerateFiles())
+                                        newSkinIni.Sections.Last(s => s.Name == section.Name).Add(
+                                            key: pair.Key,
+                                            value: pair.Value);
+
+                                        // Check if the skin.ini property value includes any skin elements.
+                                        // If so, include it in the new skin, and prioritize their inclusion.
+                                        // TODO: only proceed if this skin.ini property is known to have a file path.
+                                        int lastSlashIndex = pair.Value.LastIndexOf('/');
+                                        string prefixPropertyDirPath = lastSlashIndex >= 0 ? pair.Value.Substring(0, lastSlashIndex) : null;
+                                        string prefixPropertyFileName = pair.Value.Substring(lastSlashIndex + 1);
+
+                                        if (Directory.Exists($"{skindir}/{prefixPropertyDirPath}"))
                                         {
-                                            if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
+                                            var fileDestDir = Directory.CreateDirectory($"{newSkinDir}/{prefixPropertyDirPath}");
+                                            foreach (var file in new DirectoryInfo($"{skindir}/{prefixPropertyDirPath}").EnumerateFiles())
                                             {
-                                                Logger.Log($"'{file.FullName}' -> '{fileDestDir.FullName}' (due to skin.ini)");
-                                                file.CopyTo($"{fileDestDir.FullName}/{file.Name}", true);
+                                                if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
+                                                {
+                                                    Logger.Log($"'{file.FullName}' -> '{fileDestDir.FullName}' (due to skin.ini)");
+                                                    file.CopyTo($"{fileDestDir.FullName}/{file.Name}", true);
+                                                }
                                             }
                                         }
                                     }
@@ -256,35 +265,35 @@ namespace OsuSkinMixer
                             }
                         }
 
-                        foreach (var file in skindir.EnumerateFiles())
+                        void copyMatchingFiles()
                         {
-                            if (File.Exists($"{newSkinDir.FullName}/{file.Name}"))
-                                continue;
-
-                            string filename = Path.GetFileNameWithoutExtension(file.Name);
-                            string extension = Path.GetExtension(file.Name);
-
-                            foreach (string optionFilename in suboption.IncludeFileNames)
+                            foreach (var file in skindir.EnumerateFiles())
                             {
-                                // Check for file name match.
-                                if (filename.Equals(optionFilename, StringComparison.OrdinalIgnoreCase) || filename.Equals(optionFilename + "@2x", StringComparison.OrdinalIgnoreCase)
-                                    || (optionFilename.EndsWith("*") && filename.StartsWith(optionFilename.TrimEnd('*'), StringComparison.OrdinalIgnoreCase)))
+                                if (File.Exists($"{newSkinDir.FullName}/{file.Name}"))
+                                    continue;
+
+                                string filename = Path.GetFileNameWithoutExtension(file.Name);
+                                string extension = Path.GetExtension(file.Name);
+
+                                foreach (string optionFilename in suboption.IncludeFileNames)
                                 {
-                                    // Check for file type match.
-                                    if (
-                                        ((extension == ".png" || extension == ".jpg") && !suboption.IsAudio)
-                                        || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && suboption.IsAudio)
-                                    )
+                                    // Check for file name match.
+                                    if (filename.Equals(optionFilename, StringComparison.OrdinalIgnoreCase) || filename.Equals(optionFilename + "@2x", StringComparison.OrdinalIgnoreCase)
+                                        || (optionFilename.EndsWith("*") && filename.StartsWith(optionFilename.TrimEnd('*'), StringComparison.OrdinalIgnoreCase)))
                                     {
-                                        Logger.Log($"'{file.FullName}' -> '{newSkinDir.FullName}/{file.Name}' (due to filename match)");
-                                        file.CopyTo($"{newSkinDir.FullName}/{file.Name}");
+                                        // Check for file type match.
+                                        if (
+                                            ((extension == ".png" || extension == ".jpg") && !suboption.IsAudio)
+                                            || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && suboption.IsAudio)
+                                        )
+                                        {
+                                            Logger.Log($"'{file.FullName}' -> '{newSkinDir.FullName}/{file.Name}' (due to filename match)");
+                                            file.CopyTo($"{newSkinDir.FullName}/{file.Name}");
+                                        }
                                     }
                                 }
                             }
                         }
-
-                        // TODO: ignore options that are set to use default skin.
-                        ProgressBar.Value += 100 / SkinOptions.Default.Sum(o => o.SubOptions.Length);
                     }
                 }
 
