@@ -139,13 +139,13 @@ namespace OsuSkinMixer
 
             if (string.IsNullOrWhiteSpace(newSkinName))
             {
-                Dialog.Alert("Set a name for the new skin first.");
+                Toast.New("Set a name for the new skin first.");
                 return;
             }
 
             if (newSkinName.Any(c => Path.GetInvalidPathChars().Contains(c) || c == '/' || c == '\\'))
             {
-                Dialog.Alert("The skin name contains invalid symbols.");
+                Toast.New("The skin name contains invalid symbols.");
                 return;
             }
 
@@ -324,7 +324,7 @@ namespace OsuSkinMixer
 
                 newSkinDir.MoveTo(dirDestPath);
 
-                Dialog.Alert($"Created skin '{newSkinName}'.\n\nYou might need to press Ctrl+Shift+Alt+S in-game for the skin to appear.");
+                Toast.New("Created skin!");
             }
         }
 
