@@ -1,6 +1,20 @@
-[gd_resource type="Theme" load_steps=14 format=2]
+[gd_resource type="Theme" load_steps=17 format=2]
 
 [ext_resource path="res://assets/Aller_Regular.ttf" type="DynamicFontData" id=1]
+
+[sub_resource type="StyleBoxFlat" id=15]
+content_margin_left = 5.0
+content_margin_right = 5.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+bg_color = Color( 0.156863, 0.156863, 0.156863, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+shadow_color = Color( 0, 0, 0, 0.462745 )
+shadow_size = 2
+shadow_offset = Vector2( 0, 1 )
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -92,6 +106,31 @@ color = Color( 0.8, 0.666667, 0.882353, 0.235294 )
 grow_begin = -4.0
 grow_end = -4.0
 
+[sub_resource type="StyleBoxFlat" id=13]
+content_margin_left = 0.0
+content_margin_right = 0.0
+content_margin_top = 0.0
+content_margin_bottom = 0.0
+bg_color = Color( 0.2, 0.156863, 0.192157, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+shadow_size = 1
+shadow_offset = Vector2( 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=14]
+content_margin_left = 0.0
+content_margin_right = 0.0
+content_margin_top = 0.0
+content_margin_bottom = 0.0
+bg_color = Color( 0.329412, 0.258824, 0.313726, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+shadow_offset = Vector2( 0, 1 )
+
 [sub_resource type="StyleBoxFlat" id=12]
 content_margin_left = 8.0
 content_margin_right = 8.0
@@ -119,7 +158,7 @@ Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
 Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
 Button/constants/hseparation = 2
 Button/fonts/font = null
-Button/styles/disabled = null
+Button/styles/disabled = SubResource( 15 )
 Button/styles/focus = SubResource( 1 )
 Button/styles/hover = SubResource( 2 )
 Button/styles/normal = SubResource( 3 )
@@ -165,6 +204,11 @@ PopupMenu/styles/labeled_separator_right = null
 PopupMenu/styles/panel = SubResource( 9 )
 PopupMenu/styles/panel_disabled = null
 PopupMenu/styles/separator = SubResource( 10 )
+ProgressBar/colors/font_color = Color( 0.94, 0.94, 0.94, 1 )
+ProgressBar/colors/font_color_shadow = Color( 0, 0, 0, 1 )
+ProgressBar/fonts/font = null
+ProgressBar/styles/bg = SubResource( 13 )
+ProgressBar/styles/fg = SubResource( 14 )
 WindowDialog/colors/title_color = Color( 0.756863, 0.756863, 0.756863, 1 )
 WindowDialog/constants/close_h_ofs = 18
 WindowDialog/constants/close_v_ofs = 18
