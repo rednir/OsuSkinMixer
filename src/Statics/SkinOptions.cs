@@ -189,6 +189,7 @@ namespace OsuSkinMixer
                             "sliderfollowcircle",
                             "sliderpoint*",
                             "sliderstartcircle*",
+                            "sliderscorepoint",
                             "reversearrow",
                         },
                     },
