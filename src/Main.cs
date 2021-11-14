@@ -8,7 +8,6 @@ using File = System.IO.File;
 using Path = System.IO.Path;
 using Environment = System.Environment;
 using System.Diagnostics;
-using ICSharpCode.SharpZipLib.Zip;
 
 namespace OsuSkinMixer
 {
@@ -189,7 +188,7 @@ namespace OsuSkinMixer
             }
 
             // TODO: split this function up...
-            void cont()
+            async Task cont()
             {
                 Logger.Log($"Beginning skin creation with name '{newSkinName}'");
                 ProgressBarLabel.Text = "Preparing...";
@@ -306,29 +305,6 @@ namespace OsuSkinMixer
 
                 ProgressBar.Value = 100;
                 ProgressBarLabel.Text = "Importing...";
-                if (Settings.Content.ImportToGameIfOpen && IsOsuOpen())
-                {
-                    try
-                    {
-                        string oskDestPath = $"{Settings.Content.SkinsFolder}/{newSkinName}.osk";
-                        Logger.Log($"Importing skin into game from '{oskDestPath}'");
-
-                        if (File.Exists(oskDestPath))
-                            File.Delete(oskDestPath);
-
-                        new FastZip().CreateZip($"{Settings.Content.SkinsFolder}/{newSkinName}.osk", newSkinDir.FullName, true, "");
-                        newSkinDir.Delete(true);
-                        OS.ShellOpen(oskDestPath);
-
-                        Toast.New("Attempted to import skin into osu!");
-                        return;
-                    }
-                    catch (Exception ex)
-                    {
-                        Toast.New("Couldn't import skin as an .osk file.");
-                        Logger.Log($"Couldn't import skin as an .osk file:\n\n{ex}\n\n");
-                    }
-                }
 
                 string dirDestPath = $"{Settings.Content.SkinsFolder}/{newSkinName}";
                 Logger.Log($"Copying working folder to '{dirDestPath}'");
@@ -337,6 +313,28 @@ namespace OsuSkinMixer
                     Directory.Delete(dirDestPath, true);
 
                 newSkinDir.MoveTo(dirDestPath);
+
+                if (Settings.Content.ImportToGameIfOpen && IsOsuOpen())
+                {
+                    try
+                    {
+                        string oskDestPath = $"{Settings.Content.SkinsFolder}/{newSkinName}.osk";
+                        Logger.Log($"Importing skin into game from '{oskDestPath}'");
+
+                        // osu! will handle the empty .osk (zip) file by switching the current skin to the skin with name `newSkinName`.
+                        File.WriteAllBytes($"{Settings.Content.SkinsFolder}/{newSkinName}.osk", new byte[] { 0x50, 0x4B, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                        OS.ShellOpen(oskDestPath);
+
+                        Toast.New("Attempted to import skin into osu!");
+                        return;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Log($"Couldn't import skin as an .osk file:\n\n{ex}\n\n");
+                        Toast.New("Couldn't import skin as an .osk file.");
+                        await Task.Delay(700);
+                    }
+                }
 
                 Toast.New("Created skin!\nYou might need to press Ctrl+Shift+Alt+S in-game.");
             }
