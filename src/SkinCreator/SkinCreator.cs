@@ -43,19 +43,26 @@ namespace OsuSkinMixer
             foreach (var file in NewSkinDir.EnumerateFiles())
                 file.Delete();
 
+            // Progress should not take into account options set to use the
+            // default skin as no work needs to be done for those options.
+            int progressInterval = 100 / Options.Sum(o => o.SubOptions.Count(s => s.OptionButton.GetSelectedId() != 0));
+
             foreach (var option in Options)
             {
                 foreach (var suboption in option.SubOptions)
                 {
                     CurrentOption = option;
                     CurrentSubOption = suboption;
+
+                    ProgressSetter?.Invoke(Progress, $"Copying: {CurrentSubOption.Name}");
                     CopySubOption();
+                    Progress += progressInterval;
                 }
             }
 
             File.WriteAllText($"{NewSkinDir.FullName}/skin.ini", NewSkinIni.ToString());
 
-            ProgressSetter?.Invoke(100, "Importing...");
+            ProgressSetter?.Invoke(Progress = 100, "Importing...");
 
             string dirDestPath = $"{Settings.Content.SkinsFolder}/{Name}";
             Logger.Log($"Copying working folder to '{dirDestPath}'");
@@ -80,7 +87,6 @@ namespace OsuSkinMixer
 
         private void CopySubOption()
         {
-            ProgressSetter?.Invoke(Progress, $"Copying: {CurrentSubOption.Name}");
             Logger.Log($"About to copy option {CurrentOption.Name}/{CurrentSubOption.Name} set to '{CurrentSubOption.OptionButton.Text}'");
 
             // User wants default skin elements to be used.
@@ -91,8 +97,6 @@ namespace OsuSkinMixer
 
             CopySkinIni(skindir);
             CopySkinMatchingFiles(skindir);
-
-            Progress += 100 / SkinOptions.Default.Sum(o => o.SubOptions.Length);
         }
 
         private void CopySkinIni(DirectoryInfo skindir)
