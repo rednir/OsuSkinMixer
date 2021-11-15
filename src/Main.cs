@@ -260,6 +260,9 @@ namespace OsuSkinMixer
                     var label = hbox.GetChild<Label>(2);
                     optionButton = hbox.GetChild<OptionButton>(3);
 
+                    // For the ability to drag on the popup to move it.
+                    optionButton.GetPopup().Connect("gui_input", this, nameof(_PopupGuiInput), new Godot.Collections.Array(optionButton.GetPopup()));
+
                     var binds = new Godot.Collections.Array(new OptionInfoWrapper(option));
                     if (!isSubOption)
                     {
@@ -301,6 +304,12 @@ namespace OsuSkinMixer
                 if (prevText != null)
                     optionButton.Text = prevText;
             }
+        }
+
+        private void _PopupGuiInput(InputEvent @event, PopupMenu popupMenu)
+        {
+            if (@event is InputEventMouseMotion dragEvent && Input.IsMouseButtonPressed(2))
+                popupMenu.RectPosition += new Vector2(0, dragEvent.Relative.y);
         }
 
         private void _ArrowButtonPressed(bool pressed, OptionInfoWrapper wrapper)
