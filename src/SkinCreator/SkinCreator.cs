@@ -23,10 +23,10 @@ namespace OsuSkinMixer
         public void Create(bool overwrite = false)
         {
             if (string.IsNullOrWhiteSpace(Name))
-                throw new InvalidOperationException("Set a name for the new skin first.");
+                throw new SkinCreationInvalidException("Set a name for the new skin first.");
 
             if (Name.Any(c => Path.GetInvalidPathChars().Contains(c) || c == '/' || c == '\\'))
-                throw new InvalidOperationException("The skin name contains invalid symbols.");
+                throw new SkinCreationInvalidException("The skin name contains invalid symbols.");
 
             if (Directory.Exists(Settings.Content.SkinsFolder + "/" + Name) && !overwrite)
                 throw new SkinExistsException();
