@@ -19,5 +19,4 @@ namespace OsuSkinMixer
 
         public string GetHBoxName(OptionInfo option) => $"{option.Name}_{Name}";
     }
-
 }
