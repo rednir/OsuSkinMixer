@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 
 namespace OsuSkinMixer
 {
@@ -11,6 +12,8 @@ namespace OsuSkinMixer
         public Dictionary<string, string[]> IncludeSkinIniProperties { get; set; } = new Dictionary<string, string[]>();
 
         public string[] IncludeFileNames { get; set; }
+
+        public OptionButton OptionButton { get; set; }
 
         public string GetPath(OptionInfo option) => $"{Main.VBOX_CONTAINER_PATH}/{GetHBoxName(option)}/OptionButton";
 

@@ -2,19 +2,18 @@ using Godot;
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Directory = System.IO.Directory;
-using File = System.IO.File;
-using Path = System.IO.Path;
 using Environment = System.Environment;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace OsuSkinMixer
 {
     public class Main : Control
     {
         public const string VBOX_CONTAINER_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
-        public const string WORKING_DIR_NAME = ".osu-skin-mixer_working-skin";
+
+        private readonly OptionInfo[] Options = SkinOptions.Default;
 
         private Dialog Dialog;
         private Toast Toast;
@@ -65,7 +64,7 @@ namespace OsuSkinMixer
         public void ResetSelections()
         {
             SkinNameEdit.Clear();
-            foreach (var option in SkinOptions.Default)
+            foreach (var option in Options)
             {
                 GetNode<OptionButton>(option.NodePath).Select(0);
                 foreach (var suboption in option.SubOptions)
@@ -79,7 +78,7 @@ namespace OsuSkinMixer
         {
             var rand = new Random();
 
-            foreach (var option in SkinOptions.Default)
+            foreach (var option in Options)
             {
                 var optionButton = GetNode<OptionButton>(option.NodePath);
                 int count = optionButton.GetItemCount();
@@ -100,7 +99,7 @@ namespace OsuSkinMixer
         public void UseExistingSkin()
         {
             // All the OptionButtons should have equal `Items` anyway, so just get the first.
-            var optionButton = GetNodeOrNull<OptionButton>(SkinOptions.Default[0].NodePath);
+            var optionButton = GetNodeOrNull<OptionButton>(Options[0].NodePath);
             if (optionButton == null)
                 return;
 
@@ -109,7 +108,7 @@ namespace OsuSkinMixer
                 // This assumes that index 0 is default skin.
                 SkinNameEdit.Text = i == 0 ? string.Empty : optionButton.GetItemText(i);
 
-                foreach (var option in SkinOptions.Default)
+                foreach (var option in Options)
                 {
                     GetNode<OptionButton>(option.NodePath).Select(i);
                     foreach (var suboption in option.SubOptions)
@@ -139,201 +138,73 @@ namespace OsuSkinMixer
 
         public void CreateSkin()
         {
-            string newSkinName = SkinNameEdit.Text.Replace(']', '-').Replace('[', '-');
-
-            if (string.IsNullOrWhiteSpace(newSkinName))
+            var creator = new SkinCreator()
             {
-                Toast.New("Set a name for the new skin first.");
-                return;
-            }
+                Name = SkinNameEdit.Text.Replace(']', '-').Replace('[', '-'),
+                Options = Options,
+                ProgressSetter = (v, t) =>
+                {
+                    ProgressBar.Value = v;
+                    ProgressBarLabel.Text = t;
+                },
+            };
 
-            if (newSkinName.Any(c => Path.GetInvalidPathChars().Contains(c) || c == '/' || c == '\\'))
-            {
-                Toast.New("The skin name contains invalid symbols.");
-                return;
-            }
+            create(false);
 
-            if (Directory.Exists(Settings.Content.SkinsFolder + "/" + newSkinName))
-            {
-                Dialog.Question(
-                    text: $"A skin with that name already exists. Replace it?\n\nThis will permanently remove '{newSkinName}'",
-                    action: b =>
-                    {
-                        if (b)
-                            runCont();
-                    });
-                return;
-            }
-
-            runCont();
-
-            void runCont()
+            void create(bool overwrite)
             {
                 CreateSkinButton.Disabled = true;
                 ProgressBar.Visible = true;
-                ProgressBar.Value = 0;
 
-                Task.Run(cont)
-                    .ContinueWith(t =>
+                Task.Run(async () =>
+                {
+                    creator.Create(overwrite);
+                    await finalize();
+                })
+                .ContinueWith(t =>
+                {
+                    CreateSkinButton.Disabled = false;
+                    ProgressBar.Visible = false;
+
+                    var ex = t.Exception?.InnerException;
+                    if (ex is SkinExistsException)
                     {
-                        if (t.Exception != null)
-                        {
-                            Logger.Log($"Exception thrown:\n\n{t.Exception}\n\n");
-                            Dialog.Alert($"Something went wrong.\n\n{t.Exception.Message}");
-                        }
-
-                        CreateSkinButton.Disabled = false;
-                        ProgressBar.Visible = false;
-                    });
+                        Dialog.Question(
+                            text: $"A skin with that name already exists. Replace it?\n\nThis will permanently remove '{creator.Name}'",
+                            action: b =>
+                            {
+                                if (b)
+                                    create(true);
+                            });
+                    }
+                    else if (ex is SkinCreationInvalidException)
+                    {
+                        Toast.New(ex.Message);
+                    }
+                    else if (ex is Exception)
+                    {
+                        Logger.Log($"Exception thrown:\n\n{ex}\n\n");
+                        Dialog.Alert($"Something went wrong.\n\n{ex.Message}");
+                    }
+                });
             }
 
-            // TODO: split this function up...
-            async Task cont()
+            async Task finalize()
             {
-                Logger.Log($"Beginning skin creation with name '{newSkinName}'");
-                ProgressBarLabel.Text = "Preparing...";
-
-                var newSkinIni = new SkinIni(newSkinName, "osu! skin mixer by rednir");
-                var newSkinDir = Directory.CreateDirectory($"{Settings.Content.SkinsFolder}/{WORKING_DIR_NAME}");
-
-                // There might be skin elements from a failed attempt still in the directory.
-                foreach (var file in newSkinDir.EnumerateFiles())
-                    file.Delete();
-
-                foreach (var option in SkinOptions.Default)
+                try
                 {
-                    foreach (var suboption in option.SubOptions)
+                    if (Settings.Content.ImportToGameIfOpen && IsOsuOpen())
                     {
-                        ProgressBarLabel.Text = $"Copying: {suboption.Name}";
-
-                        var node = GetNode<OptionButton>(suboption.GetPath(option));
-                        Logger.Log($"About to copy option {option.Name}/{suboption.Name} set to '{node.Text}'");
-
-                        // User wants default skin elements to be used.
-                        if (node.GetSelectedId() == 0)
-                            continue;
-
-                        var skindir = new DirectoryInfo(Settings.Content.SkinsFolder + "/" + node.Text);
-                        var skinini = new SkinIni(File.ReadAllText(skindir + "/skin.ini"));
-
-                        copySkinIniProperties();
-                        copyMatchingFiles();
-
-                        ProgressBar.Value += 100 / SkinOptions.Default.Sum(o => o.SubOptions.Length);
-
-                        void copySkinIniProperties()
-                        {
-                            foreach (var section in skinini.Sections)
-                            {
-                                // Only look into ini sections that are specified in the IncludeSkinIniProperties.
-                                if (!suboption.IncludeSkinIniProperties.TryGetValue(section.Name, out var includeSkinIniProperties))
-                                    continue;
-
-                                bool includeEntireSection = false;
-                                if (includeSkinIniProperties.Contains("*"))
-                                {
-                                    includeEntireSection = true;
-                                    newSkinIni.Sections.Add(new SkinIniSection(section.Name));
-                                }
-
-                                foreach (var pair in section)
-                                {
-                                    // Only copy over ini properties that are specified in the IncludeSkinIniProperties.
-                                    if (includeSkinIniProperties.Contains(pair.Key) || includeEntireSection)
-                                    {
-                                        newSkinIni.Sections.Last(s => s.Name == section.Name).Add(
-                                            key: pair.Key,
-                                            value: pair.Value);
-
-                                        // Check if the skin.ini property value includes any skin elements.
-                                        // If so, include it in the new skin, and prioritize their inclusion.
-                                        // TODO: only proceed if this skin.ini property is known to have a file path.
-                                        int lastSlashIndex = pair.Value.LastIndexOf('/');
-                                        string prefixPropertyDirPath = lastSlashIndex >= 0 ? pair.Value.Substring(0, lastSlashIndex) : null;
-                                        string prefixPropertyFileName = pair.Value.Substring(lastSlashIndex + 1);
-
-                                        if (Directory.Exists($"{skindir}/{prefixPropertyDirPath}"))
-                                        {
-                                            var fileDestDir = Directory.CreateDirectory($"{newSkinDir}/{prefixPropertyDirPath}");
-                                            foreach (var file in new DirectoryInfo($"{skindir}/{prefixPropertyDirPath}").EnumerateFiles())
-                                            {
-                                                if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
-                                                {
-                                                    Logger.Log($"'{file.FullName}' -> '{fileDestDir.FullName}' (due to skin.ini)");
-                                                    file.CopyTo($"{fileDestDir.FullName}/{file.Name}", true);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        void copyMatchingFiles()
-                        {
-                            foreach (var file in skindir.EnumerateFiles())
-                            {
-                                if (File.Exists($"{newSkinDir.FullName}/{file.Name}"))
-                                    continue;
-
-                                string filename = Path.GetFileNameWithoutExtension(file.Name);
-                                string extension = Path.GetExtension(file.Name);
-
-                                foreach (string optionFilename in suboption.IncludeFileNames)
-                                {
-                                    // Check for file name match.
-                                    if (filename.Equals(optionFilename, StringComparison.OrdinalIgnoreCase) || filename.Equals(optionFilename + "@2x", StringComparison.OrdinalIgnoreCase)
-                                        || (optionFilename.EndsWith("*") && filename.StartsWith(optionFilename.TrimEnd('*'), StringComparison.OrdinalIgnoreCase)))
-                                    {
-                                        // Check for file type match.
-                                        if (
-                                            ((extension == ".png" || extension == ".jpg") && !suboption.IsAudio)
-                                            || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && suboption.IsAudio)
-                                        )
-                                        {
-                                            Logger.Log($"'{file.FullName}' -> '{newSkinDir.FullName}/{file.Name}' (due to filename match)");
-                                            file.CopyTo($"{newSkinDir.FullName}/{file.Name}");
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                File.WriteAllText($"{newSkinDir.FullName}/skin.ini", newSkinIni.ToString());
-
-                ProgressBar.Value = 100;
-                ProgressBarLabel.Text = "Importing...";
-
-                string dirDestPath = $"{Settings.Content.SkinsFolder}/{newSkinName}";
-                Logger.Log($"Copying working folder to '{dirDestPath}'");
-
-                if (Directory.Exists(dirDestPath))
-                    Directory.Delete(dirDestPath, true);
-
-                newSkinDir.MoveTo(dirDestPath);
-
-                if (Settings.Content.ImportToGameIfOpen && IsOsuOpen())
-                {
-                    try
-                    {
-                        string oskDestPath = $"{Settings.Content.SkinsFolder}/{newSkinName}.osk";
-                        Logger.Log($"Importing skin into game from '{oskDestPath}'");
-
-                        // osu! will handle the empty .osk (zip) file by switching the current skin to the skin with name `newSkinName`.
-                        File.WriteAllBytes($"{Settings.Content.SkinsFolder}/{newSkinName}.osk", new byte[] { 0x50, 0x4B, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-                        OS.ShellOpen(oskDestPath);
-
+                        creator.TriggerOskImport();
                         Toast.New("Attempted to import skin into osu!");
                         return;
                     }
-                    catch (Exception ex)
-                    {
-                        Logger.Log($"Couldn't import skin as an .osk file:\n\n{ex}\n\n");
-                        Toast.New("Couldn't import skin as an .osk file.");
-                        await Task.Delay(700);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log($"Couldn't import skin as an .osk file:\n\n{ex}\n\n");
+                    Toast.New("Couldn't import skin as an .osk file...");
+                    await Task.Delay(800);
                 }
 
                 Toast.New("Created skin!\nYou might need to press Ctrl+Shift+Alt+S in-game.");
@@ -352,7 +223,7 @@ namespace OsuSkinMixer
         }
 
         private string[] GetSkinNames() => new DirectoryInfo(Settings.Content.SkinsFolder).EnumerateDirectories()
-            .Select(d => d.Name).Where(n => n != WORKING_DIR_NAME).OrderBy(n => n).ToArray();
+            .Select(d => d.Name).Where(n => n != SkinCreator.WORKING_DIR_NAME).OrderBy(n => n).ToArray();
 
         #endregion
 
@@ -366,7 +237,7 @@ namespace OsuSkinMixer
             var vbox = GetNode(VBOX_CONTAINER_PATH);
             var skins = GetSkinNames();
 
-            foreach (var option in SkinOptions.Default)
+            foreach (var option in Options)
             {
                 set(GetNodeOrNull<OptionButton>(option.NodePath), option, null);
 
@@ -400,6 +271,7 @@ namespace OsuSkinMixer
                     else
                     {
                         optionButton.Connect("item_selected", this, nameof(_SubOptionItemSelected), binds);
+                        suboption.OptionButton = optionButton;
                     }
 
                     hbox.Visible = !isSubOption;
