@@ -14,8 +14,7 @@ namespace OsuSkinMixer
 
         public Action<int, string> ProgressSetter { get; set; }
 
-        public int Progress { get; private set; }
-
+        private int Progress;
         private OptionInfo CurrentOption;
         private SubOptionInfo CurrentSubOption;
         private SkinIni NewSkinIni;
