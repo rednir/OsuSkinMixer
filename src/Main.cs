@@ -55,8 +55,6 @@ namespace OsuSkinMixer
                 RandomizeOptions(false);
         }
 
-        private void _SettingsButtonPressed() => PromptForSkinsFolder();
-
         private void _CreateSkinButtonPressed() => CreateSkin();
 
         #region Actions
