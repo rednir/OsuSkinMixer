@@ -254,6 +254,7 @@ namespace OsuSkinMixer
 
                 if (optionButton == null)
                 {
+                    // Create new nodes for the option as it doesn't exist yet.
                     var hbox = (HBoxContainer)GetNode("OptionTemplate").Duplicate();
                     var arrowButton = hbox.GetChild<TextureButton>(0);
                     var indent = hbox.GetChild<Panel>(1);
@@ -280,6 +281,7 @@ namespace OsuSkinMixer
                     arrowButton.Visible = !isSubOption;
 
                     hbox.Name = suboption?.GetHBoxName(option) ?? option.Name;
+                    hbox.HintTooltip = (suboption?.ToString() ?? option?.ToString()).Wrap(100);
                     label.Text = suboption?.Name ?? option.Name;
                     label.Modulate = new Color(1, 1, 1, isSubOption ? 0.7f : 1);
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using Godot;
 
 namespace OsuSkinMixer
@@ -18,5 +19,7 @@ namespace OsuSkinMixer
         public string GetPath(OptionInfo option) => $"{Main.VBOX_CONTAINER_PATH}/{GetHBoxName(option)}/OptionButton";
 
         public string GetHBoxName(OptionInfo option) => $"{option.Name}_{Name}";
+
+        public override string ToString() => string.Join(", ", IncludeFileNames);
     }
 }

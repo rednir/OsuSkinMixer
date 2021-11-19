@@ -10,6 +10,7 @@ namespace OsuSkinMixer
             new OptionInfo
             {
                 Name = "Interface",
+                Description = "How the menus and interface will appear",
                 SubOptions = new SubOptionInfo[]
                 {
                     new SubOptionInfo
@@ -137,6 +138,7 @@ namespace OsuSkinMixer
             new OptionInfo
             {
                 Name = "Gameplay",
+                Description = "How the hitcircles and other in-game elements will appear",
                 SubOptions = new SubOptionInfo[]
                 {
                     new SubOptionInfo
@@ -317,6 +319,7 @@ namespace OsuSkinMixer
             new OptionInfo
             {
                 Name = "Cursor",
+                Description = "How the position of your mouse will be represented",
                 SubOptions = new SubOptionInfo[]
                 {
                     new SubOptionInfo
@@ -374,6 +377,7 @@ namespace OsuSkinMixer
             new OptionInfo
             {
                 Name = "Hitsounds",
+                Description = "Controls what clicking circles sounds like",
                 SubOptions = new SubOptionInfo[]
                 {
                     new SubOptionInfo
@@ -450,6 +454,7 @@ namespace OsuSkinMixer
             new OptionInfo
             {
                 Name = "Menu Sounds",
+                Description = "Controls what the menus and interfaces will sound like",
                 SubOptions = new SubOptionInfo[]
                 {
                     new SubOptionInfo
