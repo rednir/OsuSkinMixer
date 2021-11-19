@@ -114,6 +114,7 @@ margin_top = 420.0
 margin_right = 164.0
 margin_bottom = 434.0
 focus_mode = 2
+custom_colors/font_color_focus = Color( 0, 0, 0, 0.784314 )
 custom_colors/font_color = Color( 0, 0, 0, 0.784314 )
 custom_colors/font_color_hover = Color( 0, 0, 0, 0.784314 )
 custom_styles/focus = SubResource( 1 )
