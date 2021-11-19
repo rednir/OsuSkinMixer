@@ -13,8 +13,9 @@ config_version=4
 config/name="OsuSkinMixer"
 run/main_scene="res://src/Main.tscn"
 run/low_processor_mode=true
-boot_splash/image="res://splash.png"
-boot_splash/bg_color=Color( 0.780392, 0.694118, 0.803922, 1 )
+boot_splash/image="res://icon.png"
+boot_splash/fullsize=false
+boot_splash/bg_color=Color( 0.729412, 0.615686, 0.756863, 1 )
 config/icon="res://icon.png"
 
 [display]
@@ -52,5 +53,5 @@ quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=0
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
-environment/default_clear_color=Color( 0.780392, 0.694118, 0.803922, 1 )
+environment/default_clear_color=Color( 0.729412, 0.615686, 0.756863, 1 )
 environment/default_environment="res://default_env.tres"
