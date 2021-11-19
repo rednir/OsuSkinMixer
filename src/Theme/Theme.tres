@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=19 format=2]
+[gd_resource type="Theme" load_steps=23 format=2]
 
 [ext_resource path="res://assets/Aller_Regular.ttf" type="DynamicFontData" id=1]
 
@@ -136,18 +136,49 @@ size = 12
 font_data = ExtResource( 1 )
 
 [sub_resource type="StyleBoxFlat" id=16]
-bg_color = Color( 0.301961, 0.254902, 0.294118, 0.901961 )
+bg_color = Color( 0.772549, 0.772549, 0.772549, 0.862745 )
 border_width_left = 8
 border_width_top = 8
 border_width_right = 8
 border_width_bottom = 8
-border_color = Color( 0.301961, 0.254902, 0.294118, 0.901961 )
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color( 0.772549, 0.772549, 0.772549, 0.862745 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=18]
+bg_color = Color( 0.501961, 0.360784, 0.501961, 1 )
+border_color = Color( 0.266667, 0.207843, 0.278431, 1 )
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id=19]
+bg_color = Color( 0.529412, 0.388235, 0.501961, 1 )
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id=20]
+bg_color = Color( 0.380392, 0.278431, 0.384314, 1 )
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id=21]
+bg_color = Color( 0.266667, 0.207843, 0.278431, 1 )
+border_width_left = 6
+border_width_right = 6
+border_color = Color( 0.266667, 0.207843, 0.278431, 1 )
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 shadow_color = Color( 0, 0, 0, 0.392157 )
-shadow_size = 1
 
 [sub_resource type="StyleBoxFlat" id=12]
 content_margin_left = 8.0
@@ -227,12 +258,23 @@ ProgressBar/colors/font_color_shadow = Color( 0, 0, 0, 1 )
 ProgressBar/fonts/font = null
 ProgressBar/styles/bg = SubResource( 13 )
 ProgressBar/styles/fg = SubResource( 14 )
-TooltipLabel/colors/font_color = Color( 1, 1, 1, 0.784314 )
+TooltipLabel/colors/font_color = Color( 0, 0, 0, 0.784314 )
 TooltipLabel/colors/font_color_shadow = Color( 0, 0, 0, 0.1 )
 TooltipLabel/constants/shadow_offset_x = 1
 TooltipLabel/constants/shadow_offset_y = 1
 TooltipLabel/fonts/font = SubResource( 17 )
 TooltipPanel/styles/panel = SubResource( 16 )
+VScrollBar/icons/decrement = null
+VScrollBar/icons/decrement_highlight = null
+VScrollBar/icons/decrement_pressed = null
+VScrollBar/icons/increment = null
+VScrollBar/icons/increment_highlight = null
+VScrollBar/icons/increment_pressed = null
+VScrollBar/styles/grabber = SubResource( 18 )
+VScrollBar/styles/grabber_highlight = SubResource( 19 )
+VScrollBar/styles/grabber_pressed = SubResource( 20 )
+VScrollBar/styles/scroll = SubResource( 21 )
+VScrollBar/styles/scroll_focus = null
 WindowDialog/colors/title_color = Color( 0.756863, 0.756863, 0.756863, 1 )
 WindowDialog/constants/close_h_ofs = 18
 WindowDialog/constants/close_v_ofs = 18
