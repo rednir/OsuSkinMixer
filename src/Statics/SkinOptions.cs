@@ -114,9 +114,9 @@ namespace OsuSkinMixer
                         {
                             "arrow-pause",
                             "arrow-warning",
-                            "count-1",
-                            "count-2",
-                            "count-3",
+                            "count1",
+                            "count2",
+                            "count3",
                             "fail-background",
                             "go",
                             "inputoverlay*",
