@@ -13,7 +13,7 @@ namespace OsuSkinMixer
     {
         public const string VBOX_CONTAINER_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
 
-        private readonly OptionInfo[] Options = SkinOptions.Default;
+        private readonly SkinOption[] Options = SkinOption.Default;
 
         private Dialog Dialog;
         private Toast Toast;
@@ -62,12 +62,12 @@ namespace OsuSkinMixer
         public void ResetSelections()
         {
             SkinNameEdit.Clear();
-            foreach (var option in Options)
+            /*foreach (var option in Options)
             {
                 GetNode<OptionButton>(option.NodePath).Select(0);
                 foreach (var suboption in option.SubOptions)
                     GetNode<OptionButton>(suboption.GetPath(option)).Select(0);
-            }
+            }*/
 
             Toast.New("Reset selections!");
         }
@@ -76,7 +76,7 @@ namespace OsuSkinMixer
         {
             var rand = new Random();
 
-            foreach (var option in Options)
+            /*foreach (var option in Options)
             {
                 var optionButton = GetNode<OptionButton>(option.NodePath);
                 int count = optionButton.GetItemCount();
@@ -89,7 +89,7 @@ namespace OsuSkinMixer
 
                 foreach (var suboption in option.SubOptions)
                     GetNode<OptionButton>(suboption.GetPath(option)).Select(suboptions ? rand.Next(0, count - 1) : index);
-            }
+            }*/
 
             Toast.New(suboptions ? "Randomized sub-options!" : "Randomized options!");
         }
@@ -97,7 +97,7 @@ namespace OsuSkinMixer
         public void UseExistingSkin()
         {
             // All the OptionButtons should have equal `Items` anyway, so just get the first.
-            var optionButton = GetNodeOrNull<OptionButton>(Options[0].NodePath);
+            /*var optionButton = GetNodeOrNull<OptionButton>(Options[0].NodePath);
             if (optionButton == null)
                 return;
 
@@ -112,7 +112,7 @@ namespace OsuSkinMixer
                     foreach (var suboption in option.SubOptions)
                         GetNode<OptionButton>(suboption.GetPath(option)).Select(i);
                 }
-            });
+            });*/
         }
 
         public void RefreshSkins()
@@ -139,7 +139,7 @@ namespace OsuSkinMixer
             var creator = new SkinCreator()
             {
                 Name = SkinNameEdit.Text.Replace(']', '-').Replace('[', '-'),
-                Options = Options,
+                SkinOptions = Options,
                 ProgressSetter = (v, t) =>
                 {
                     ProgressBar.Value = v;
@@ -229,6 +229,8 @@ namespace OsuSkinMixer
 
         private bool CreateOptionButtons()
         {
+            return true;
+            /*
             if (Settings.Content.SkinsFolder == null || !Directory.Exists(Settings.Content.SkinsFolder))
                 return false;
 
@@ -306,6 +308,7 @@ namespace OsuSkinMixer
                 if (prevText != null)
                     optionButton.Text = prevText;
             }
+            */
         }
 
         private void _PopupGuiInput(InputEvent @event, PopupMenu popupMenu)
@@ -317,35 +320,36 @@ namespace OsuSkinMixer
         private void _ArrowButtonPressed(bool pressed, OptionInfoWrapper wrapper)
         {
             var option = wrapper.Value;
-            foreach (var suboption in option.SubOptions)
+            /*foreach (var suboption in option.SubOptions)
                 GetNode<HBoxContainer>($"{VBOX_CONTAINER_PATH}/{suboption.GetHBoxName(option)}").Visible = pressed;
+            */
         }
 
         private void _OptionItemSelected(int index, OptionInfoWrapper wrapper)
         {
             var option = wrapper.Value;
-            foreach (var suboption in option.SubOptions)
+            /*foreach (var suboption in option.SubOptions)
             {
                 var node = GetNode<OptionButton>(suboption.GetPath(option));
                 node.Select(index);
-            }
+            }*/
         }
 
         private void _SubOptionItemSelected(int _, OptionInfoWrapper wrapper)
         {
             var option = wrapper.Value;
-            GetNode<OptionButton>(option.NodePath).Text = "<< various >>";
+            //GetNode<OptionButton>(option.NodePath).Text = "<< various >>";
         }
 
         // This is required as the `binds` parameter in `Node.Connect()` only takes in a type inherited from `Godot.Object`
         private class OptionInfoWrapper : Godot.Object
         {
-            public OptionInfoWrapper(OptionInfo value)
+            public OptionInfoWrapper(SkinOption value)
             {
                 Value = value;
             }
 
-            public OptionInfo Value { get; }
+            public SkinOption Value { get; }
         }
 
         #endregion
