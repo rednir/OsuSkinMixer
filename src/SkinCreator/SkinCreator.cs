@@ -10,13 +10,11 @@ namespace OsuSkinMixer
 
         public string Name { get; set; }
 
-        public OptionInfo[] Options { get; set; }
+        public SkinOption[] SkinOptions { get; set; }
 
         public Action<int, string> ProgressSetter { get; set; }
 
         private int Progress;
-        private OptionInfo CurrentOption;
-        private SubOptionInfo CurrentSubOption;
         private SkinIni NewSkinIni;
         private DirectoryInfo NewSkinDir;
 
@@ -43,21 +41,19 @@ namespace OsuSkinMixer
             foreach (var file in NewSkinDir.EnumerateFiles())
                 file.Delete();
 
+            var flattenedOptions = SkinOptions.Flatten(o => (o as ParentSkinOption)?.Children);
+
             // Progress should not take into account options set to use the
             // default skin as no work needs to be done for those options.
-            int progressInterval = 100 / Options.Sum(o => o.SubOptions.Count(s => s.OptionButton.GetSelectedId() != 0));
+            int progressInterval = 100 / flattenedOptions.Count(o => o.OptionButton.GetSelectedId() > 0);
 
-            foreach (var option in Options)
+            foreach (var option in flattenedOptions)
             {
-                foreach (var suboption in option.SubOptions)
-                {
-                    CurrentOption = option;
-                    CurrentSubOption = suboption;
+                Logger.Log($"About to copy option {option.Name}/{option.Name} set to '{option.OptionButton.Text}'");
+                ProgressSetter?.Invoke(Progress, $"Copying: {option.Name}");
 
-                    ProgressSetter?.Invoke(Progress, $"Copying: {CurrentSubOption.Name}");
-                    CopySubOption();
-                    Progress += progressInterval;
-                }
+                CopyOption(option);
+                Progress += progressInterval;
             }
 
             File.WriteAllText($"{NewSkinDir.FullName}/skin.ini", NewSkinIni.ToString());
@@ -85,32 +81,32 @@ namespace OsuSkinMixer
             Godot.OS.ShellOpen(oskDestPath);
         }
 
-        private void CopySubOption()
+        private void CopyOption(SkinOption option)
         {
-            Logger.Log($"About to copy option {CurrentOption.Name}/{CurrentSubOption.Name} set to '{CurrentSubOption.OptionButton.Text}'");
-
             // User wants default skin elements to be used.
-            if (CurrentSubOption.OptionButton.GetSelectedId() == 0)
+            if (option.OptionButton.GetSelectedId() == 0)
                 return;
 
-            var skindir = new DirectoryInfo($"{Settings.Content.SkinsFolder}/{CurrentSubOption.OptionButton.Text}");
+            var skindir = new DirectoryInfo($"{Settings.Content.SkinsFolder}/{option.OptionButton.Text}");
 
-            CopySkinIni(skindir);
-            CopySkinMatchingFiles(skindir);
+            if (option is SkinIniOption iniOption)
+                CopyIniOption(skindir, iniOption);
+            else if (option is SkinFileOption fileOption)
+                CopyFileOption(skindir, fileOption);
         }
 
-        private void CopySkinIni(DirectoryInfo skindir)
+        private void CopyIniOption(DirectoryInfo skindir, SkinIniOption iniOption)
         {
             var skinini = new SkinIni(File.ReadAllText(skindir + "/skin.ini"));
+            var property = iniOption.IncludeSkinIniProperty;
 
             foreach (var section in skinini.Sections)
             {
-                // Only look into ini sections that are specified in the IncludeSkinIniProperties.
-                if (!CurrentSubOption.IncludeSkinIniProperties.TryGetValue(section.Name, out var includeSkinIniProperties))
+                if (property.section != section.Name)
                     continue;
 
                 bool includeEntireSection = false;
-                if (includeSkinIniProperties.Contains("*"))
+                if (property.property == "*")
                 {
                     includeEntireSection = true;
                     NewSkinIni.Sections.Add(new SkinIniSection(section.Name));
@@ -118,8 +114,7 @@ namespace OsuSkinMixer
 
                 foreach (var pair in section)
                 {
-                    // Only copy over ini properties that are specified in the IncludeSkinIniProperties.
-                    if (includeSkinIniProperties.Contains(pair.Key) || includeEntireSection)
+                    if (pair.Key == property.property || includeEntireSection)
                     {
                         NewSkinIni.Sections.Last(s => s.Name == section.Name).Add(
                             key: pair.Key,
@@ -149,7 +144,7 @@ namespace OsuSkinMixer
             }
         }
 
-        private void CopySkinMatchingFiles(DirectoryInfo skindir)
+        private void CopyFileOption(DirectoryInfo skindir, SkinFileOption fileOption)
         {
             foreach (var file in skindir.EnumerateFiles())
             {
@@ -159,21 +154,20 @@ namespace OsuSkinMixer
                 string filename = Path.GetFileNameWithoutExtension(file.Name);
                 string extension = Path.GetExtension(file.Name);
 
-                foreach (string optionFilename in CurrentSubOption.IncludeFileNames)
+                // Check for file name match.
+                if (
+                    filename.Equals(fileOption.IncludeFileName, StringComparison.OrdinalIgnoreCase) || filename.Equals(fileOption.IncludeFileName + "@2x", StringComparison.OrdinalIgnoreCase)
+                    || (fileOption.IncludeFileName.EndsWith("*") && filename.StartsWith(fileOption.IncludeFileName.TrimEnd('*'), StringComparison.OrdinalIgnoreCase))
+                )
                 {
-                    // Check for file name match.
-                    if (filename.Equals(optionFilename, StringComparison.OrdinalIgnoreCase) || filename.Equals(optionFilename + "@2x", StringComparison.OrdinalIgnoreCase)
-                        || (optionFilename.EndsWith("*") && filename.StartsWith(optionFilename.TrimEnd('*'), StringComparison.OrdinalIgnoreCase)))
+                    // Check for file type match.
+                    if (
+                        ((extension == ".png" || extension == ".jpg") && !fileOption.IsAudio)
+                        || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && fileOption.IsAudio)
+                    )
                     {
-                        // Check for file type match.
-                        if (
-                            ((extension == ".png" || extension == ".jpg") && !CurrentSubOption.IsAudio)
-                            || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && CurrentSubOption.IsAudio)
-                        )
-                        {
-                            Logger.Log($"'{file.FullName}' -> '{NewSkinDir.FullName}/{file.Name}' (due to filename match)");
-                            file.CopyTo($"{NewSkinDir.FullName}/{file.Name}");
-                        }
+                        Logger.Log($"'{file.FullName}' -> '{NewSkinDir.FullName}/{file.Name}' (due to filename match)");
+                        file.CopyTo($"{NewSkinDir.FullName}/{file.Name}");
                     }
                 }
             }
