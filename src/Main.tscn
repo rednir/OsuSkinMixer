@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Main.cs" type="Script" id=2]
@@ -25,9 +25,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
-
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 1, 1, 1, 0 )
 
 [node name="Main" type="Control"]
 modulate = Color( 1, 1, 1, 0 )
@@ -170,27 +167,18 @@ texture_pressed = ExtResource( 9 )
 expand = true
 stretch_mode = 3
 
-[node name="Indent" type="Panel" parent="OptionTemplate"]
-visible = false
-margin_left = 15.0
-margin_top = 13.0
-margin_right = 35.0
-margin_bottom = 14.0
-rect_min_size = Vector2( 32, 1 )
-size_flags_vertical = 4
-custom_styles/panel = SubResource( 1 )
-
 [node name="Label" type="Label" parent="OptionTemplate"]
 margin_left = 20.0
 margin_top = 5.0
-margin_right = 140.0
+margin_right = 170.0
 margin_bottom = 23.0
-rect_min_size = Vector2( 120, 0 )
+rect_min_size = Vector2( 150, 0 )
 text = "Option:"
+clip_text = true
 
 [node name="OptionButton" type="OptionButton" parent="OptionTemplate"]
-margin_left = 148.0
-margin_right = 385.0
+margin_left = 178.0
+margin_right = 398.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 220, 0 )
 size_flags_horizontal = 3

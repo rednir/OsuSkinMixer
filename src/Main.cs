@@ -11,7 +11,7 @@ namespace OsuSkinMixer
 {
     public class Main : Control
     {
-        public const string VBOX_CONTAINER_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
+        public const string ROOT_VBOX_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
 
         private readonly SkinOption[] Options = SkinOption.Default;
 
@@ -229,86 +229,73 @@ namespace OsuSkinMixer
 
         private bool CreateOptionButtons()
         {
-            return true;
-            /*
             if (Settings.Content.SkinsFolder == null || !Directory.Exists(Settings.Content.SkinsFolder))
                 return false;
 
-            var vbox = GetNode(VBOX_CONTAINER_PATH);
-            var skins = GetSkinNames();
+            var rootVbox = GetNode<VBoxContainer>(ROOT_VBOX_PATH);
+            string[] skins = GetSkinNames();
 
             foreach (var option in Options)
-            {
-                set(GetNodeOrNull<OptionButton>(option.NodePath), option, null);
-
-                foreach (var suboption in option.SubOptions)
-                    set(GetNodeOrNull<OptionButton>(suboption.GetPath(option)), option, suboption);
-            }
+                addOptionButton(option, rootVbox, 0);
 
             return true;
 
-            void set(OptionButton optionButton, OptionInfo option, SubOptionInfo suboption)
+            // TODO: maintain option buttons when refreshing, and selection.
+            void addOptionButton(SkinOption option, VBoxContainer vbox, int layer)
             {
-                bool isSubOption = suboption != null;
+                // Create new nodes for this option if not already existing.
+                var hbox = (HBoxContainer)GetNode("OptionTemplate").Duplicate();
+                var arrowButton = hbox.GetChild<TextureButton>(0);
+                var label = hbox.GetChild<Label>(1);
+                var optionButton = hbox.GetChild<OptionButton>(2);
 
-                int prevSelectedId = 0;
-                string prevText = null;
-
-                if (optionButton == null)
-                {
-                    // Create new nodes for the option as it doesn't exist yet.
-                    var hbox = (HBoxContainer)GetNode("OptionTemplate").Duplicate();
-                    var arrowButton = hbox.GetChild<TextureButton>(0);
-                    var indent = hbox.GetChild<Panel>(1);
-                    var label = hbox.GetChild<Label>(2);
-                    optionButton = hbox.GetChild<OptionButton>(3);
-
-                    // For the ability to drag on the popup to move it.
-                    optionButton.GetPopup().Connect("gui_input", this, nameof(_PopupGuiInput), new Godot.Collections.Array(optionButton.GetPopup()));
-
-                    var binds = new Godot.Collections.Array(new OptionInfoWrapper(option));
-                    if (!isSubOption)
-                    {
-                        optionButton.Connect("item_selected", this, nameof(_OptionItemSelected), binds);
-                        arrowButton.Connect("toggled", this, nameof(_ArrowButtonPressed), binds);
-                    }
-                    else
-                    {
-                        optionButton.Connect("item_selected", this, nameof(_SubOptionItemSelected), binds);
-                        suboption.OptionButton = optionButton;
-                    }
-
-                    hbox.Visible = !isSubOption;
-                    indent.Visible = isSubOption;
-                    arrowButton.Visible = !isSubOption;
-
-                    hbox.Name = suboption?.GetHBoxName(option) ?? option.Name;
-                    hbox.HintTooltip = (suboption?.ToString() ?? option?.ToString()).Wrap(100);
-                    label.Text = suboption?.Name ?? option.Name;
-                    label.Modulate = new Color(1, 1, 1, isSubOption ? 0.7f : 1);
-
-                    vbox.AddChild(hbox);
-                }
-                else
-                {
-                    // The existing dropdown items should be updated.
-                    prevSelectedId = optionButton.GetSelectedId();
-                    prevText = optionButton.Text;
-                    optionButton.Clear();
-                }
+                hbox.Name = option.Name;
+                label.Text = option.Name;
+                label.Modulate = new Color(1, 1, 1, 1f - (layer / 4f));
+                hbox.HintTooltip = option.ToString().Wrap(100);
 
                 optionButton.AddItem("<< use default skin >>", 0);
                 foreach (var skin in skins)
                     optionButton.AddItem(skin, skin.GetHashCode());
 
-                // If items were updated, ensure the users selection is maintained
-                optionButton.Selected = optionButton.GetItemIndex(prevSelectedId);
+                // For the ability to drag on the popup to move it.
+                optionButton.GetPopup().Connect("gui_input", this, nameof(_PopupGuiInput), new Godot.Collections.Array(optionButton.GetPopup()));
 
-                // Hotfix for maintaining the previous text when it is << various >>
-                if (prevText != null)
-                    optionButton.Text = prevText;
+                var indent = new Panel()
+                {
+                    RectPosition = new Vector2(15, 15),
+                    RectMinSize = new Vector2(layer * 30, 1),
+                    Modulate = new Color(0, 0, 0, 0),
+                };
+
+                // Indent needs to be the first node in the HBoxContainer.
+                hbox.AddChild(indent);
+                hbox.MoveChild(indent, 0);
+
+                vbox.AddChild(hbox);
+
+                if (option is ParentSkinOption parentOption)
+                {
+                    var newVbox = createVbox();
+                    vbox.AddChildBelowNode(hbox, newVbox);
+
+                    foreach (var child in parentOption.Children)
+                        addOptionButton(child, newVbox, layer + 1);
+                }
+                else
+                {
+                    // No children, so hide arrow button.
+                    arrowButton.Disabled = true;
+                    arrowButton.Modulate = new Color(0, 0, 0, 0);
+                }
             }
-            */
+
+            VBoxContainer createVbox()
+            {
+                var vbox = new VBoxContainer() { MarginLeft = 20 };
+                vbox.AddConstantOverride("separation", 10);
+                return vbox;
+            }
         }
 
         private void _PopupGuiInput(InputEvent @event, PopupMenu popupMenu)
@@ -323,22 +310,6 @@ namespace OsuSkinMixer
             /*foreach (var suboption in option.SubOptions)
                 GetNode<HBoxContainer>($"{VBOX_CONTAINER_PATH}/{suboption.GetHBoxName(option)}").Visible = pressed;
             */
-        }
-
-        private void _OptionItemSelected(int index, OptionInfoWrapper wrapper)
-        {
-            var option = wrapper.Value;
-            /*foreach (var suboption in option.SubOptions)
-            {
-                var node = GetNode<OptionButton>(suboption.GetPath(option));
-                node.Select(index);
-            }*/
-        }
-
-        private void _SubOptionItemSelected(int _, OptionInfoWrapper wrapper)
-        {
-            var option = wrapper.Value;
-            //GetNode<OptionButton>(option.NodePath).Text = "<< various >>";
         }
 
         // This is required as the `binds` parameter in `Node.Connect()` only takes in a type inherited from `Godot.Object`
