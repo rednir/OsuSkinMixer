@@ -263,7 +263,6 @@ namespace OsuSkinMixer
 
                 var indent = new Panel()
                 {
-                    RectPosition = new Vector2(15, 15),
                     RectMinSize = new Vector2(layer * 30, 1),
                     Modulate = new Color(0, 0, 0, 0),
                 };
@@ -276,8 +275,9 @@ namespace OsuSkinMixer
 
                 if (option is ParentSkinOption parentOption)
                 {
-                    var newVbox = createVbox();
+                    var newVbox = createVbox(parentOption);
                     vbox.AddChildBelowNode(hbox, newVbox);
+                    arrowButton.Connect("toggled", this, nameof(_ArrowButtonPressed), new Godot.Collections.Array(newVbox));
 
                     foreach (var child in parentOption.Children)
                         addOptionButton(child, newVbox, layer + 1);
@@ -290,9 +290,15 @@ namespace OsuSkinMixer
                 }
             }
 
-            VBoxContainer createVbox()
+            VBoxContainer createVbox(ParentSkinOption parentOption)
             {
-                var vbox = new VBoxContainer() { MarginLeft = 20 };
+                var vbox = new VBoxContainer()
+                {
+                    Name = $"{parentOption.Name}children",
+                    MarginLeft = 20,
+                    Visible = false,
+                };
+
                 vbox.AddConstantOverride("separation", 10);
                 return vbox;
             }
@@ -304,23 +310,9 @@ namespace OsuSkinMixer
                 popupMenu.RectPosition += new Vector2(0, dragEvent.Relative.y);
         }
 
-        private void _ArrowButtonPressed(bool pressed, OptionInfoWrapper wrapper)
+        private void _ArrowButtonPressed(bool pressed, VBoxContainer vbox)
         {
-            var option = wrapper.Value;
-            /*foreach (var suboption in option.SubOptions)
-                GetNode<HBoxContainer>($"{VBOX_CONTAINER_PATH}/{suboption.GetHBoxName(option)}").Visible = pressed;
-            */
-        }
-
-        // This is required as the `binds` parameter in `Node.Connect()` only takes in a type inherited from `Godot.Object`
-        private class OptionInfoWrapper : Godot.Object
-        {
-            public OptionInfoWrapper(SkinOption value)
-            {
-                Value = value;
-            }
-
-            public SkinOption Value { get; }
+            vbox.Visible = pressed;
         }
 
         #endregion
