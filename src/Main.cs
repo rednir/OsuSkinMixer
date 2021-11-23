@@ -247,19 +247,19 @@ namespace OsuSkinMixer
                 var hbox = (HBoxContainer)GetNode("OptionTemplate").Duplicate();
                 var arrowButton = hbox.GetChild<TextureButton>(0);
                 var label = hbox.GetChild<Label>(1);
-                var optionButton = hbox.GetChild<OptionButton>(2);
+                option.OptionButton = hbox.GetChild<OptionButton>(2);
 
                 hbox.Name = option.Name;
                 label.Text = option.Name;
                 label.Modulate = new Color(1, 1, 1, 1f - (layer / 4f));
                 hbox.HintTooltip = option.ToString().Wrap(100);
 
-                optionButton.AddItem("<< use default skin >>", 0);
+                option.OptionButton.AddItem("<< use default skin >>", 0);
                 foreach (var skin in skins)
-                    optionButton.AddItem(skin, skin.GetHashCode());
+                    option.OptionButton.AddItem(skin, skin.GetHashCode());
 
                 // For the ability to drag on the popup to move it.
-                optionButton.GetPopup().Connect("gui_input", this, nameof(_PopupGuiInput), new Godot.Collections.Array(optionButton.GetPopup()));
+                option.OptionButton.GetPopup().Connect("gui_input", this, nameof(_PopupGuiInput), new Godot.Collections.Array(option.OptionButton.GetPopup()));
 
                 var indent = new Panel()
                 {

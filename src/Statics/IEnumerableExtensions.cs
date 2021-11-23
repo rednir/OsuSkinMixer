@@ -28,11 +28,12 @@ namespace OsuSkinMixer
         /// <param name="nextLevel">A function that returns the next level below a given item.</param>
         private static void FlattenLevel<T>(List<T> accumulation, IEnumerable<T> currentLevel, Func<T, IEnumerable<T>> nextLevel)
         {
+            if (currentLevel == null)
+                return;
+
             foreach (T item in currentLevel)
             {
-                if (item != null)
-                    accumulation.Add(item);
-
+                accumulation.Add(item);
                 FlattenLevel(accumulation, nextLevel(item), nextLevel);
             }
         }
