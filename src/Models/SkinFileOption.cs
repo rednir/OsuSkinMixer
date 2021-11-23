@@ -13,5 +13,7 @@ namespace OsuSkinMixer
         public string IncludeFileName { get; set; }
 
         public bool IsAudio { get; set; }
+
+        public override string ToString() => $"{(IsAudio ? "Audio" : "Image")}:  '{Name}'";
     }
 }
