@@ -6,12 +6,15 @@ using Directory = System.IO.Directory;
 using Environment = System.Environment;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace OsuSkinMixer
 {
     public class Main : Control
     {
         public const string ROOT_VBOX_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
+
+        private Skin[] Skins { get; set; }
 
         private readonly SkinOption[] Options = SkinOption.Default;
 
@@ -41,7 +44,9 @@ namespace OsuSkinMixer
 
             CreateSkinButton.Connect("pressed", this, nameof(_CreateSkinButtonPressed));
 
-            if (!TryCreateOptionButtons())
+            if (TrySetSkins())
+                CreateOptionButtons();
+            else
                 PromptForSkinsFolder();
         }
 
@@ -103,14 +108,14 @@ namespace OsuSkinMixer
 
         public void RefreshSkins()
         {
-            var skins = GetSkinNames();
+            TrySetSkins();
 
             foreach (var option in Options.Flatten(o => (o as ParentSkinOption)?.Children))
             {
                 int selectedId = option.OptionButton.GetSelectedId();
                 option.OptionButton.Clear();
 
-                PopulateOptionButton(option.OptionButton, skins);
+                PopulateOptionButton(option.OptionButton);
                 option.OptionButton.Select(option.OptionButton.GetItemIndex(selectedId));
             }
 
@@ -125,7 +130,16 @@ namespace OsuSkinMixer
                 {
                     Settings.Content.SkinsFolder = p;
                     Settings.Save();
-                    return TryCreateOptionButtons();
+
+                    if (TrySetSkins())
+                    {
+                        CreateOptionButtons();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 },
                 defaultText: Settings.Content.SkinsFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!/Skins");
         }
@@ -136,6 +150,7 @@ namespace OsuSkinMixer
             {
                 Name = SkinNameEdit.Text.Replace(']', '-').Replace('[', '-'),
                 SkinOptions = Options,
+                Skins = Skins,
                 ProgressSetter = (v, t) =>
                 {
                     ProgressBar.Value = v;
@@ -216,25 +231,37 @@ namespace OsuSkinMixer
             return false;
         }
 
-        private string[] GetSkinNames() => new DirectoryInfo(Settings.Content.SkinsFolder).EnumerateDirectories()
-            .Select(d => d.Name).Where(n => n != SkinCreator.WORKING_DIR_NAME).OrderBy(n => n).ToArray();
+        private bool TrySetSkins()
+        {
+            if (Settings.Content.SkinsFolder == null || !Directory.Exists(Settings.Content.SkinsFolder))
+                return false;
+
+            var result = new List<Skin>();
+            var skinsFolder = new DirectoryInfo(Settings.Content.SkinsFolder);
+
+            foreach (var dir in skinsFolder.EnumerateDirectories())
+            {
+                if (dir.Name != SkinCreator.WORKING_DIR_NAME)
+                    result.Add(new Skin(dir));
+            }
+
+            Skins = result.OrderBy(s => s.Name).ToArray();
+            return true;
+        }
 
         #endregion
 
         #region Option buttons
 
-        private bool TryCreateOptionButtons()
+        private void CreateOptionButtons()
         {
-            if (Settings.Content.SkinsFolder == null || !Directory.Exists(Settings.Content.SkinsFolder))
-                return false;
-
             var rootVbox = GetNode<VBoxContainer>(ROOT_VBOX_PATH);
-            string[] skins = GetSkinNames();
+
+            foreach (var child in rootVbox.GetChildren())
+                ((Node)child).QueueFree();
 
             foreach (var option in Options)
                 addOptionButton(option, rootVbox, 0);
-
-            return true;
 
             // TODO: maintain option buttons when refreshing, and selection.
             void addOptionButton(SkinOption option, VBoxContainer vbox, int layer)
@@ -250,7 +277,7 @@ namespace OsuSkinMixer
                 label.Modulate = new Color(1, 1, 1, 1f - (layer / 4f));
                 hbox.HintTooltip = option.ToString().Wrap(100);
 
-                PopulateOptionButton(option.OptionButton, skins);
+                PopulateOptionButton(option.OptionButton);
 
                 // For the ability to drag on the popup to move it.
                 option.OptionButton.GetPopup().Connect("gui_input", this, nameof(_PopupGuiInput), new Godot.Collections.Array(option.OptionButton.GetPopup()));
@@ -300,11 +327,11 @@ namespace OsuSkinMixer
             }
         }
 
-        private void PopulateOptionButton(OptionButton optionButton, string[] skins)
+        private void PopulateOptionButton(OptionButton optionButton)
         {
             optionButton.AddItem("<< use default skin >>", 0);
-            foreach (var skin in skins)
-                optionButton.AddItem(skin, skin.GetHashCode());
+            foreach (var skin in Skins)
+                optionButton.AddItem(skin.Name, skin.GetHashCode());
         }
 
         private void _OptionButtonItemSelected(int index, ParentSkinOption option)

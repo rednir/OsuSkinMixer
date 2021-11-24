@@ -12,6 +12,8 @@ namespace OsuSkinMixer
 
         public SkinOption[] SkinOptions { get; set; }
 
+        public Skin[] Skins { get; set; }
+
         public Action<float, string> ProgressSetter { get; set; }
 
         private float Progress;
@@ -87,20 +89,21 @@ namespace OsuSkinMixer
             if (option.OptionButton.GetSelectedId() == 0)
                 return;
 
-            var skindir = new DirectoryInfo($"{Settings.Content.SkinsFolder}/{option.OptionButton.Text}");
+            var skin = Array.Find(Skins, s => s.Name == option.OptionButton.Text);
+            if (skin == null)
+                throw new InvalidOperationException($"Skin '{option.OptionButton.Text}' does not exist. Try F5.");
 
             if (option is SkinIniOption iniOption)
-                CopyIniOption(skindir, iniOption);
+                CopyIniOption(skin, iniOption);
             else if (option is SkinFileOption fileOption)
-                CopyFileOption(skindir, fileOption);
+                CopyFileOption(skin, fileOption);
         }
 
-        private void CopyIniOption(DirectoryInfo skindir, SkinIniOption iniOption)
+        private void CopyIniOption(Skin skin, SkinIniOption iniOption)
         {
-            var skinini = new SkinIni(File.ReadAllText(skindir + "/skin.ini"));
             var property = iniOption.IncludeSkinIniProperty;
 
-            foreach (var section in skinini.Sections)
+            foreach (var section in skin.SkinIni.Sections)
             {
                 if (property.section != section.Name)
                     continue;
@@ -127,10 +130,10 @@ namespace OsuSkinMixer
                         string prefixPropertyDirPath = lastSlashIndex >= 0 ? pair.Value.Substring(0, lastSlashIndex) : null;
                         string prefixPropertyFileName = pair.Value.Substring(lastSlashIndex + 1);
 
-                        if (Directory.Exists($"{skindir}/{prefixPropertyDirPath}"))
+                        if (Directory.Exists($"{skin.Directory.FullName}/{prefixPropertyDirPath}"))
                         {
                             var fileDestDir = Directory.CreateDirectory($"{NewSkinDir}/{prefixPropertyDirPath}");
-                            foreach (var file in new DirectoryInfo($"{skindir}/{prefixPropertyDirPath}").EnumerateFiles())
+                            foreach (var file in new DirectoryInfo($"{skin.Directory.FullName}/{prefixPropertyDirPath}").EnumerateFiles())
                             {
                                 if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
                                 {
@@ -144,9 +147,9 @@ namespace OsuSkinMixer
             }
         }
 
-        private void CopyFileOption(DirectoryInfo skindir, SkinFileOption fileOption)
+        private void CopyFileOption(Skin skin, SkinFileOption fileOption)
         {
-            foreach (var file in skindir.EnumerateFiles())
+            foreach (var file in skin.Directory.EnumerateFiles())
             {
                 if (File.Exists($"{NewSkinDir.FullName}/{file.Name}"))
                     continue;
