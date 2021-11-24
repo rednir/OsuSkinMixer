@@ -89,9 +89,7 @@ namespace OsuSkinMixer
         public void UseExistingSkin()
         {
             // All the OptionButtons should have equal `Items` anyway, so just get the first.
-            /*var optionButton = GetNodeOrNull<OptionButton>(Options[0].NodePath);
-            if (optionButton == null)
-                return;
+            var optionButton = Options[0].OptionButton;
 
             Dialog.Options("Select a skin to use.", optionButton.Items, i =>
             {
@@ -99,12 +97,8 @@ namespace OsuSkinMixer
                 SkinNameEdit.Text = i == 0 ? string.Empty : optionButton.GetItemText(i);
 
                 foreach (var option in Options)
-                {
-                    GetNode<OptionButton>(option.NodePath).Select(i);
-                    foreach (var suboption in option.SubOptions)
-                        GetNode<OptionButton>(suboption.GetPath(option)).Select(i);
-                }
-            });*/
+                    option.OptionButton.SelectAndEmit(i);
+            });
         }
 
         public void RefreshSkins()
