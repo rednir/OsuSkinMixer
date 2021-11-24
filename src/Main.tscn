@@ -47,9 +47,9 @@ anims/in = SubResource( 2 )
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -250.0
+margin_left = -273.0
 margin_top = 68.0
-margin_right = 250.0
+margin_right = 272.0
 margin_bottom = -132.0
 rect_pivot_offset = Vector2( 250, 122 )
 scroll_horizontal_enabled = false
@@ -58,14 +58,14 @@ __meta__ = {
 }
 
 [node name="CenterContainer" type="CenterContainer" parent="ScrollContainer"]
-margin_right = 500.0
+margin_right = 545.0
 margin_bottom = 227.0
-rect_min_size = Vector2( 500, 227 )
+rect_min_size = Vector2( 545, 227 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/CenterContainer"]
-margin_left = 250.0
+margin_left = 272.0
 margin_top = 113.0
-margin_right = 250.0
+margin_right = 272.0
 margin_bottom = 113.0
 custom_constants/separation = 10
 __meta__ = {
@@ -169,16 +169,17 @@ stretch_mode = 3
 [node name="Label" type="Label" parent="OptionTemplate"]
 margin_left = 20.0
 margin_top = 5.0
-margin_right = 170.0
+margin_right = 190.0
 margin_bottom = 23.0
-rect_min_size = Vector2( 150, 0 )
+rect_min_size = Vector2( 170, 0 )
 text = "Option:"
 clip_text = true
 
 [node name="OptionButton" type="OptionButton" parent="OptionTemplate"]
-margin_left = 178.0
-margin_right = 408.0
+margin_left = 198.0
+margin_right = 428.0
 margin_bottom = 28.0
+grow_vertical = 2
 rect_min_size = Vector2( 230, 0 )
 size_flags_horizontal = 3
 clip_text = true

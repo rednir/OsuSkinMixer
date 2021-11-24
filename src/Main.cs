@@ -274,7 +274,7 @@ namespace OsuSkinMixer
 
                 hbox.Name = option.Name;
                 label.Text = option.Name;
-                label.Modulate = new Color(1, 1, 1, 1f - (layer / 4f));
+                label.Modulate = new Color(1, 1, 1, Math.Max(1f - (layer / 4f), 0.55f));
                 hbox.HintTooltip = option.ToString().Wrap(100);
 
                 PopulateOptionButton(option.OptionButton);

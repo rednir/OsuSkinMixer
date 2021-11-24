@@ -7,7 +7,7 @@ namespace OsuSkinMixer
             IncludeSkinIniProperty = (section, property);
         }
 
-        public override string Name => IncludeSkinIniProperty.property;
+        public override string Name => $"[INI] {IncludeSkinIniProperty.property}";
 
         public (string section, string property) IncludeSkinIniProperty { get; set; }
 
