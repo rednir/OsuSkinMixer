@@ -27,7 +27,6 @@ tracks/0/keys = {
 }
 
 [node name="Main" type="Control"]
-modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2

@@ -49,10 +49,10 @@ namespace OsuSkinMixer
         {
             if (@event.IsActionPressed("refresh"))
                 RefreshSkins();
-            else if (@event.IsActionPressed("randomize_suboptions"))
-                RandomizeOptions(true);
-            else if (@event.IsActionPressed("randomize_options"))
-                RandomizeOptions(false);
+            else if (@event.IsActionPressed("randomize_bottom_level_options"))
+                RandomizeBottomLevelOptions();
+            else if (@event.IsActionPressed("randomize_top_level_options"))
+                RandomizeTopLevelOptions();
         }
 
         private void _CreateSkinButtonPressed() => CreateSkin();
@@ -62,36 +62,28 @@ namespace OsuSkinMixer
         public void ResetSelections()
         {
             SkinNameEdit.Clear();
-            /*foreach (var option in Options)
-            {
-                GetNode<OptionButton>(option.NodePath).Select(0);
-                foreach (var suboption in option.SubOptions)
-                    GetNode<OptionButton>(suboption.GetPath(option)).Select(0);
-            }*/
+            foreach (var option in Options.Flatten(o => (o as ParentSkinOption)?.Children))
+                option.OptionButton.Select(0);
 
             Toast.New("Reset selections!");
         }
 
-        public void RandomizeOptions(bool suboptions)
+        public void RandomizeTopLevelOptions()
         {
-            var rand = new Random();
+            var random = new Random();
+            foreach (var option in Options)
+                option.OptionButton.Select(random.Next(0, option.OptionButton.GetItemCount() - 1));
 
-            /*foreach (var option in Options)
-            {
-                var optionButton = GetNode<OptionButton>(option.NodePath);
-                int count = optionButton.GetItemCount();
-                int index = rand.Next(0, count - 1);
+            Toast.New("Randomized top-level options!");
+        }
 
-                if (suboptions)
-                    optionButton.Text = "<< various >>";
-                else
-                    optionButton?.Select(index);
+        public void RandomizeBottomLevelOptions()
+        {
+            var random = new Random();
+            foreach (var option in Options.Flatten(o => (o as ParentSkinOption)?.Children).Where(o => !(o is ParentSkinOption)))
+                option.OptionButton.Select(random.Next(0, option.OptionButton.GetItemCount() - 1));
 
-                foreach (var suboption in option.SubOptions)
-                    GetNode<OptionButton>(suboption.GetPath(option)).Select(suboptions ? rand.Next(0, count - 1) : index);
-            }*/
-
-            Toast.New(suboptions ? "Randomized sub-options!" : "Randomized options!");
+            Toast.New("Randomized bottom-level options!");
         }
 
         public void UseExistingSkin()
