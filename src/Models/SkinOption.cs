@@ -2,7 +2,7 @@ using Godot;
 
 namespace OsuSkinMixer
 {
-    public abstract class SkinOption
+    public abstract class SkinOption : Object
     {
         public virtual string Name { get; set; }
 

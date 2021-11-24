@@ -63,7 +63,7 @@ namespace OsuSkinMixer
         {
             SkinNameEdit.Clear();
             foreach (var option in Options.Flatten(o => (o as ParentSkinOption)?.Children))
-                option.OptionButton.Select(0);
+                option.OptionButton.SelectAndEmit(0);
 
             Toast.New("Reset selections!");
         }
@@ -72,7 +72,7 @@ namespace OsuSkinMixer
         {
             var random = new Random();
             foreach (var option in Options)
-                option.OptionButton.Select(random.Next(0, option.OptionButton.GetItemCount() - 1));
+                option.OptionButton.SelectAndEmit(random.Next(0, option.OptionButton.GetItemCount() - 1));
 
             Toast.New("Randomized top-level options!");
         }
@@ -81,7 +81,7 @@ namespace OsuSkinMixer
         {
             var random = new Random();
             foreach (var option in Options.Flatten(o => (o as ParentSkinOption)?.Children).Where(o => !(o is ParentSkinOption)))
-                option.OptionButton.Select(random.Next(0, option.OptionButton.GetItemCount() - 1));
+                option.OptionButton.SelectAndEmit(random.Next(0, option.OptionButton.GetItemCount() - 1));
 
             Toast.New("Randomized bottom-level options!");
         }
@@ -269,7 +269,9 @@ namespace OsuSkinMixer
                 {
                     var newVbox = createVbox(parentOption);
                     vbox.AddChildBelowNode(hbox, newVbox);
+
                     arrowButton.Connect("toggled", this, nameof(_ArrowButtonPressed), new Godot.Collections.Array(newVbox));
+                    option.OptionButton.Connect("item_selected", this, nameof(_OptionButtonItemSelected), new Godot.Collections.Array(parentOption));
 
                     foreach (var child in parentOption.Children)
                         addOptionButton(child, newVbox, layer + 1);
@@ -294,6 +296,12 @@ namespace OsuSkinMixer
                 vbox.AddConstantOverride("separation", 10);
                 return vbox;
             }
+        }
+
+        private void _OptionButtonItemSelected(int index, ParentSkinOption option)
+        {
+            foreach (var child in option.Children)
+                child.OptionButton.SelectAndEmit(index);
         }
 
         private void _PopupGuiInput(InputEvent @event, PopupMenu popupMenu)
