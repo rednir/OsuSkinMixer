@@ -12,9 +12,9 @@ namespace OsuSkinMixer
 
         public SkinOption[] SkinOptions { get; set; }
 
-        public Action<int, string> ProgressSetter { get; set; }
+        public Action<float, string> ProgressSetter { get; set; }
 
-        private int Progress;
+        private float Progress;
         private SkinIni NewSkinIni;
         private DirectoryInfo NewSkinDir;
 
@@ -41,11 +41,11 @@ namespace OsuSkinMixer
             foreach (var file in NewSkinDir.EnumerateFiles())
                 file.Delete();
 
-            var flattenedOptions = SkinOptions.Flatten(o => (o as ParentSkinOption)?.Children);
+            var flattenedOptions = SkinOptions.Flatten(o => (o as ParentSkinOption)?.Children).Where(o => !(o is ParentSkinOption));
 
             // Progress should not take into account options set to use the
             // default skin as no work needs to be done for those options.
-            int progressInterval = 100 / flattenedOptions.Count(o => o.OptionButton.GetSelectedId() > 0);
+            float progressInterval = 100f / flattenedOptions.Count(o => o.OptionButton.Selected > 0);
 
             foreach (var option in flattenedOptions)
             {
