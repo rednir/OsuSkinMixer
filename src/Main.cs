@@ -41,7 +41,7 @@ namespace OsuSkinMixer
 
             CreateSkinButton.Connect("pressed", this, nameof(_CreateSkinButtonPressed));
 
-            if (!CreateOptionButtons())
+            if (!TryCreateOptionButtons())
                 PromptForSkinsFolder();
         }
 
@@ -103,7 +103,17 @@ namespace OsuSkinMixer
 
         public void RefreshSkins()
         {
-            CreateOptionButtons();
+            var skins = GetSkinNames();
+
+            foreach (var option in Options.Flatten(o => (o as ParentSkinOption)?.Children))
+            {
+                int selectedId = option.OptionButton.GetSelectedId();
+                option.OptionButton.Clear();
+
+                PopulateOptionButton(option.OptionButton, skins);
+                option.OptionButton.Select(option.OptionButton.GetItemIndex(selectedId));
+            }
+
             Toast.New("Refreshed skin list!");
         }
 
@@ -115,7 +125,7 @@ namespace OsuSkinMixer
                 {
                     Settings.Content.SkinsFolder = p;
                     Settings.Save();
-                    return CreateOptionButtons();
+                    return TryCreateOptionButtons();
                 },
                 defaultText: Settings.Content.SkinsFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!/Skins");
         }
@@ -213,7 +223,7 @@ namespace OsuSkinMixer
 
         #region Option buttons
 
-        private bool CreateOptionButtons()
+        private bool TryCreateOptionButtons()
         {
             if (Settings.Content.SkinsFolder == null || !Directory.Exists(Settings.Content.SkinsFolder))
                 return false;
@@ -240,9 +250,7 @@ namespace OsuSkinMixer
                 label.Modulate = new Color(1, 1, 1, 1f - (layer / 4f));
                 hbox.HintTooltip = option.ToString().Wrap(100);
 
-                option.OptionButton.AddItem("<< use default skin >>", 0);
-                foreach (var skin in skins)
-                    option.OptionButton.AddItem(skin, skin.GetHashCode());
+                PopulateOptionButton(option.OptionButton, skins);
 
                 // For the ability to drag on the popup to move it.
                 option.OptionButton.GetPopup().Connect("gui_input", this, nameof(_PopupGuiInput), new Godot.Collections.Array(option.OptionButton.GetPopup()));
@@ -290,6 +298,13 @@ namespace OsuSkinMixer
                 vbox.AddConstantOverride("separation", 10);
                 return vbox;
             }
+        }
+
+        private void PopulateOptionButton(OptionButton optionButton, string[] skins)
+        {
+            optionButton.AddItem("<< use default skin >>", 0);
+            foreach (var skin in skins)
+                optionButton.AddItem(skin, skin.GetHashCode());
         }
 
         private void _OptionButtonItemSelected(int index, ParentSkinOption option)
