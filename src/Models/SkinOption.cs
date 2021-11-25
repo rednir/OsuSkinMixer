@@ -218,129 +218,114 @@ namespace OsuSkinMixer
                 Name = "Gameplay",
                 Children = new SkinOption[]
                 {
-                    new SkinFileOption("comboburst", false),
                     new ParentSkinOption
                     {
-                        Name = "Hitcircles",
+                        Name = "osu!",
                         Children = new SkinOption[]
                         {
-                            new SkinFileOption("approachcircle", false),
-                            new SkinFileOption("default-*", false),
-                            new SkinFileOption("hitcircle", false),
-                            new SkinFileOption("hitcircleoverlay", false),
-                            new SkinFileOption("hitcircleselect", false),
-                            new SkinFileOption("target*", false),
+                            new ParentSkinOption
+                            {
+                                Name = "Hitcircles",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("approachcircle", false),
+                                    new SkinFileOption("default-*", false),
+                                    new SkinFileOption("hitcircle", false),
+                                    new SkinFileOption("hitcircleoverlay", false),
+                                    new SkinFileOption("hitcircleselect", false),
+                                    new SkinFileOption("target*", false),
 
-                            new SkinIniOption("General", "HitCircleOverlayAboveNumber"),
-                            new SkinIniOption("Fonts", "HitCirclePrefix"),
-                            new SkinIniOption("Fonts", "HitCircleOverlap"),
-                        },
-                    },
-                    new ParentSkinOption
-                    {
-                        Name = "Sliders",
-                        Children = new SkinOption[]
-                        {
-                            new SkinFileOption("sliderb*", false),
-                            new SkinFileOption("sliderendcircle*", false),
-                            new SkinFileOption("sliderfollowcircle", false),
-                            new SkinFileOption("sliderpoint*", false),
-                            new SkinFileOption("sliderscorepoint", false),
-                            new SkinFileOption("sliderstartcircle*", false),
-                            new SkinFileOption("reversearrow", false),
+                                    new SkinIniOption("General", "HitCircleOverlayAboveNumber"),
+                                    new SkinIniOption("Fonts", "HitCirclePrefix"),
+                                    new SkinIniOption("Fonts", "HitCircleOverlap"),
+                                },
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Sliders",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("sliderb*", false),
+                                    new SkinFileOption("sliderendcircle*", false),
+                                    new SkinFileOption("sliderfollowcircle", false),
+                                    new SkinFileOption("sliderpoint*", false),
+                                    new SkinFileOption("sliderscorepoint", false),
+                                    new SkinFileOption("sliderstartcircle*", false),
+                                    new SkinFileOption("reversearrow", false),
 
-                            new SkinIniOption("General", "AllowSliderBallTint"),
-                            new SkinIniOption("General", "SliderBallFlip"),
-                            new SkinIniOption("Colours", "SliderBall"),
-                            new SkinIniOption("Colours", "SliderBorder"),
-                            new SkinIniOption("Colours", "SliderTrackOverride"),
-                        },
-                    },
-                    new ParentSkinOption
-                    {
-                        Name = "Combo Colours",
-                        Children = new SkinOption[]
-                        {
-                            new SkinIniOption("Colours", "Combo1"),
-                            new SkinIniOption("Colours", "Combo2"),
-                            new SkinIniOption("Colours", "Combo3"),
-                            new SkinIniOption("Colours", "Combo4"),
-                            new SkinIniOption("Colours", "Combo5"),
-                            new SkinIniOption("Colours", "Combo6"),
-                            new SkinIniOption("Colours", "Combo7"),
-                            new SkinIniOption("Colours", "Combo8"),
-                        },
-                    },
-                    new ParentSkinOption
-                    {
-                        Name = "Spinners",
-                        Children = new SkinOption[]
-                        {
-                            new SkinFileOption("spinner-approachcircle", false),
-                            new SkinFileOption("spinner-background", false),
-                            new SkinFileOption("spinner-bottom", false),
-                            new SkinFileOption("spinner-circle", false),
-                            new SkinFileOption("spinner-clear", false),
-                            new SkinFileOption("spinner-glow", false),
-                            new SkinFileOption("spinner-metre", false),
-                            new SkinFileOption("spinner-middle*", false),
-                            new SkinFileOption("spinner-osu", false),
-                            new SkinFileOption("spinner-rpm", false),
-                            new SkinFileOption("spinner-spin", false),
-                            new SkinFileOption("spinner-top", false),
-                            new SkinFileOption("spinner-warning", false),
+                                    new SkinIniOption("General", "AllowSliderBallTint"),
+                                    new SkinIniOption("General", "SliderBallFlip"),
+                                    new SkinIniOption("Colours", "SliderBall"),
+                                    new SkinIniOption("Colours", "SliderBorder"),
+                                    new SkinIniOption("Colours", "SliderTrackOverride"),
+                                },
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Combo Colours",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinIniOption("Colours", "Combo1"),
+                                    new SkinIniOption("Colours", "Combo2"),
+                                    new SkinIniOption("Colours", "Combo3"),
+                                    new SkinIniOption("Colours", "Combo4"),
+                                    new SkinIniOption("Colours", "Combo5"),
+                                    new SkinIniOption("Colours", "Combo6"),
+                                    new SkinIniOption("Colours", "Combo7"),
+                                    new SkinIniOption("Colours", "Combo8"),
+                                },
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Spinners",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("spinner-approachcircle", false),
+                                    new SkinFileOption("spinner-background", false),
+                                    new SkinFileOption("spinner-bottom", false),
+                                    new SkinFileOption("spinner-circle", false),
+                                    new SkinFileOption("spinner-clear", false),
+                                    new SkinFileOption("spinner-glow", false),
+                                    new SkinFileOption("spinner-metre", false),
+                                    new SkinFileOption("spinner-middle*", false),
+                                    new SkinFileOption("spinner-osu", false),
+                                    new SkinFileOption("spinner-rpm", false),
+                                    new SkinFileOption("spinner-spin", false),
+                                    new SkinFileOption("spinner-top", false),
+                                    new SkinFileOption("spinner-warning", false),
 
-                            new SkinIniOption("General", "SpinnerFadePlayfield"),
-                            new SkinIniOption("General", "SpinnerNoBlink"),
-                            new SkinIniOption("Colours", "SpinnerBackground"),
-                            new SkinIniOption("Colours", "StarBreakAdditive"),
+                                    new SkinIniOption("General", "SpinnerFadePlayfield"),
+                                    new SkinIniOption("General", "SpinnerNoBlink"),
+                                    new SkinIniOption("Colours", "SpinnerBackground"),
+                                    new SkinIniOption("Colours", "StarBreakAdditive"),
+                                },
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Followpoints",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("followpoint*", false),
+                                },
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Hit judgements",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("hit0*", false),
+                                    new SkinFileOption("hit100*", false),
+                                    new SkinFileOption("hit300*", false),
+                                    new SkinFileOption("hit50*", false),
+                                    new SkinFileOption("particle*", false),
+                                },
+                            },
+                            new SkinFileOption("comboburst", false),
                         },
                     },
                     new ParentSkinOption
                     {
-                        Name = "Followpoints",
-                        Children = new SkinOption[]
-                        {
-                            new SkinFileOption("followpoint*", false),
-                        },
-                    },
-                    new ParentSkinOption
-                    {
-                        Name = "Hit judgements",
-                        Children = new SkinOption[]
-                        {
-                            new SkinFileOption("hit0*", false),
-                            new SkinFileOption("hit100*", false),
-                            new SkinFileOption("hit300*", false),
-                            new SkinFileOption("hit50*", false),
-                            new SkinFileOption("particle*", false),
-                        },
-                    },
-                    new ParentSkinOption
-                    {
-                        Name = "+ fruits",
-                        Children = new SkinOption[]
-                        {
-                            new SkinFileOption("comboburst-fruits", false),
-                            new SkinFileOption("fruit-apple*", false),
-                            new SkinFileOption("fruit-bananas*", false),
-                            new SkinFileOption("fruit-catcher-fail", false),
-                            new SkinFileOption("fruit-catcher-idle", false),
-                            new SkinFileOption("fruit-catcher-kiai", false),
-                            new SkinFileOption("fruit-drop*", false),
-                            new SkinFileOption("fruit-grapes*", false),
-                            new SkinFileOption("fruit-orange*", false),
-                            new SkinFileOption("fruit-pear*", false),
-                            new SkinFileOption("fruit-ryuuta", false),
-
-                            new SkinIniOption("CatchTheBeat", "HyperDash"),
-                            new SkinIniOption("CatchTheBeat", "HyperDashFruit"),
-                            new SkinIniOption("CatchTheBeat", "HyperDashAfterImage"),
-                        },
-                    },
-                    new ParentSkinOption
-                    {
-                        Name = "+ taiko",
+                        Name = "osu!taiko",
                         Children = new SkinOption[]
                         {
                             new ParentSkinOption()
@@ -385,9 +370,32 @@ namespace OsuSkinMixer
                     },
                     new ParentSkinOption
                     {
-                        Name = "+ mania",
+                        Name = "osu!catch",
                         Children = new SkinOption[]
                         {
+                            new SkinFileOption("comboburst-fruits", false),
+                            new SkinFileOption("fruit-apple*", false),
+                            new SkinFileOption("fruit-bananas*", false),
+                            new SkinFileOption("fruit-catcher-fail", false),
+                            new SkinFileOption("fruit-catcher-idle", false),
+                            new SkinFileOption("fruit-catcher-kiai", false),
+                            new SkinFileOption("fruit-drop*", false),
+                            new SkinFileOption("fruit-grapes*", false),
+                            new SkinFileOption("fruit-orange*", false),
+                            new SkinFileOption("fruit-pear*", false),
+                            new SkinFileOption("fruit-ryuuta", false),
+
+                            new SkinIniOption("CatchTheBeat", "HyperDash"),
+                            new SkinIniOption("CatchTheBeat", "HyperDashFruit"),
+                            new SkinIniOption("CatchTheBeat", "HyperDashAfterImage"),
+                        },
+                    },
+                    new ParentSkinOption
+                    {
+                        Name = "osu!mania",
+                        Children = new SkinOption[]
+                        {
+                            new SkinFileOption("comboburst-mania", false),
                             new SkinFileOption("mania*", false),
                             new SkinFileOption("lighting*", false),
 
@@ -395,7 +403,7 @@ namespace OsuSkinMixer
                         },
                     },
                     new SkinIniOption("General", "AnimationFramerate"),
-                },
+                }
             },
             new ParentSkinOption
             {
