@@ -343,6 +343,30 @@ namespace OsuSkinMixer
                         Name = "+ taiko",
                         Children = new SkinOption[]
                         {
+                            new ParentSkinOption()
+                            {
+                                Name = "Hit judgements",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("taiko-hit0", false),
+                                    new SkinFileOption("taiko-hit100", false),
+                                    new SkinFileOption("taiko-hit100k", false),
+                                    new SkinFileOption("taiko-hit300", false),
+                                    new SkinFileOption("taiko-hit300g", false),
+                                    new SkinFileOption("taiko-hit300k", false),
+                                },
+                            },
+                            new ParentSkinOption()
+                            {
+                                Name = "Pippidon",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("pippidonclear", false),
+                                    new SkinFileOption("pippidonfail", false),
+                                    new SkinFileOption("pippidonfailidle", false),
+                                    new SkinFileOption("pippidonfailkiai", false),
+                                },
+                            },
                             new SkinFileOption("taiko-bar-left", false),
                             new SkinFileOption("taiko-bar-right-glow", false),
                             new SkinFileOption("taiko-bar-right", false),
@@ -351,22 +375,12 @@ namespace OsuSkinMixer
                             new SkinFileOption("taiko-drum-outer", false),
                             new SkinFileOption("taiko-flower-group", false),
                             new SkinFileOption("taiko-glow", false),
-                            new SkinFileOption("taiko-hit0", false),
-                            new SkinFileOption("taiko-hit100", false),
-                            new SkinFileOption("taiko-hit100k", false),
-                            new SkinFileOption("taiko-hit300", false),
-                            new SkinFileOption("taiko-hit300g", false),
-                            new SkinFileOption("taiko-hit300k", false),
                             new SkinFileOption("taiko-roll-end", false),
                             new SkinFileOption("taiko-roll-middle", false),
                             new SkinFileOption("taiko-slider-fail", false),
                             new SkinFileOption("taiko-slider", false),
                             new SkinFileOption("taikobigcircle*", false),
                             new SkinFileOption("taikohitcircle*", false),
-                            new SkinFileOption("pippidonclear", false),
-                            new SkinFileOption("pippidonfail", false),
-                            new SkinFileOption("pippidonfailidle", false),
-                            new SkinFileOption("pippidonfailkiai", false),
                         },
                     },
                     new ParentSkinOption
