@@ -101,9 +101,9 @@ namespace OsuSkinMixer
                             new SkinFileOption("star2", false),
                             new SkinFileOption("welcome_text", false),
 
-                            new SkinIniOption("Colours", "MenuGlow"),
-                            new SkinIniOption("Colours", "SongSelectActiveText"),
-                            new SkinIniOption("Colours", "SongSelectInactiveText"),
+                            new SkinIniPropertyOption("Colours", "MenuGlow"),
+                            new SkinIniPropertyOption("Colours", "SongSelectActiveText"),
+                            new SkinIniPropertyOption("Colours", "SongSelectInactiveText"),
                         },
                     },
                     new ParentSkinOption
@@ -202,12 +202,12 @@ namespace OsuSkinMixer
                             new SkinFileOption("ready", false),
                             new SkinFileOption("score-*", false),
 
-                            new SkinIniOption("General", "ComboBurstRandom"),
-                            new SkinIniOption("Colours", "InputOverlayText"),
-                            new SkinIniOption("Fonts", "ScorePrefix"),
-                            new SkinIniOption("Fonts", "ScoreOverlap"),
-                            new SkinIniOption("Fonts", "ComboPrefix"),
-                            new SkinIniOption("Fonts", "ComboOverlap"),
+                            new SkinIniPropertyOption("General", "ComboBurstRandom"),
+                            new SkinIniPropertyOption("Colours", "InputOverlayText"),
+                            new SkinIniPropertyOption("Fonts", "ScorePrefix"),
+                            new SkinIniPropertyOption("Fonts", "ScoreOverlap"),
+                            new SkinIniPropertyOption("Fonts", "ComboPrefix"),
+                            new SkinIniPropertyOption("Fonts", "ComboOverlap"),
                         },
                     },
                 },
@@ -234,9 +234,9 @@ namespace OsuSkinMixer
                                     new SkinFileOption("hitcircleselect", false),
                                     new SkinFileOption("target*", false),
 
-                                    new SkinIniOption("General", "HitCircleOverlayAboveNumber"),
-                                    new SkinIniOption("Fonts", "HitCirclePrefix"),
-                                    new SkinIniOption("Fonts", "HitCircleOverlap"),
+                                    new SkinIniPropertyOption("General", "HitCircleOverlayAboveNumber"),
+                                    new SkinIniPropertyOption("Fonts", "HitCirclePrefix"),
+                                    new SkinIniPropertyOption("Fonts", "HitCircleOverlap"),
                                 },
                             },
                             new ParentSkinOption
@@ -252,11 +252,11 @@ namespace OsuSkinMixer
                                     new SkinFileOption("sliderstartcircle*", false),
                                     new SkinFileOption("reversearrow", false),
 
-                                    new SkinIniOption("General", "AllowSliderBallTint"),
-                                    new SkinIniOption("General", "SliderBallFlip"),
-                                    new SkinIniOption("Colours", "SliderBall"),
-                                    new SkinIniOption("Colours", "SliderBorder"),
-                                    new SkinIniOption("Colours", "SliderTrackOverride"),
+                                    new SkinIniPropertyOption("General", "AllowSliderBallTint"),
+                                    new SkinIniPropertyOption("General", "SliderBallFlip"),
+                                    new SkinIniPropertyOption("Colours", "SliderBall"),
+                                    new SkinIniPropertyOption("Colours", "SliderBorder"),
+                                    new SkinIniPropertyOption("Colours", "SliderTrackOverride"),
                                 },
                             },
                             new ParentSkinOption
@@ -264,14 +264,14 @@ namespace OsuSkinMixer
                                 Name = "Combo Colours",
                                 Children = new SkinOption[]
                                 {
-                                    new SkinIniOption("Colours", "Combo1"),
-                                    new SkinIniOption("Colours", "Combo2"),
-                                    new SkinIniOption("Colours", "Combo3"),
-                                    new SkinIniOption("Colours", "Combo4"),
-                                    new SkinIniOption("Colours", "Combo5"),
-                                    new SkinIniOption("Colours", "Combo6"),
-                                    new SkinIniOption("Colours", "Combo7"),
-                                    new SkinIniOption("Colours", "Combo8"),
+                                    new SkinIniPropertyOption("Colours", "Combo1"),
+                                    new SkinIniPropertyOption("Colours", "Combo2"),
+                                    new SkinIniPropertyOption("Colours", "Combo3"),
+                                    new SkinIniPropertyOption("Colours", "Combo4"),
+                                    new SkinIniPropertyOption("Colours", "Combo5"),
+                                    new SkinIniPropertyOption("Colours", "Combo6"),
+                                    new SkinIniPropertyOption("Colours", "Combo7"),
+                                    new SkinIniPropertyOption("Colours", "Combo8"),
                                 },
                             },
                             new ParentSkinOption
@@ -293,10 +293,10 @@ namespace OsuSkinMixer
                                     new SkinFileOption("spinner-top", false),
                                     new SkinFileOption("spinner-warning", false),
 
-                                    new SkinIniOption("General", "SpinnerFadePlayfield"),
-                                    new SkinIniOption("General", "SpinnerNoBlink"),
-                                    new SkinIniOption("Colours", "SpinnerBackground"),
-                                    new SkinIniOption("Colours", "StarBreakAdditive"),
+                                    new SkinIniPropertyOption("General", "SpinnerFadePlayfield"),
+                                    new SkinIniPropertyOption("General", "SpinnerNoBlink"),
+                                    new SkinIniPropertyOption("Colours", "SpinnerBackground"),
+                                    new SkinIniPropertyOption("Colours", "StarBreakAdditive"),
                                 },
                             },
                             new ParentSkinOption
@@ -384,9 +384,9 @@ namespace OsuSkinMixer
                             new SkinFileOption("fruit-pear*", false),
                             new SkinFileOption("fruit-ryuuta", false),
 
-                            new SkinIniOption("CatchTheBeat", "HyperDash"),
-                            new SkinIniOption("CatchTheBeat", "HyperDashFruit"),
-                            new SkinIniOption("CatchTheBeat", "HyperDashAfterImage"),
+                            new SkinIniPropertyOption("CatchTheBeat", "HyperDash"),
+                            new SkinIniPropertyOption("CatchTheBeat", "HyperDashFruit"),
+                            new SkinIniPropertyOption("CatchTheBeat", "HyperDashAfterImage"),
                         },
                     },
                     new ParentSkinOption
@@ -398,10 +398,18 @@ namespace OsuSkinMixer
                             new SkinFileOption("mania*", false),
                             new SkinFileOption("lighting*", false),
 
-                            new SkinIniOption("Mania", "*"),
+                            new SkinIniSectionOption("Mania", "Keys", "1"),
+                            new SkinIniSectionOption("Mania", "Keys", "2"),
+                            new SkinIniSectionOption("Mania", "Keys", "3"),
+                            new SkinIniSectionOption("Mania", "Keys", "4"),
+                            new SkinIniSectionOption("Mania", "Keys", "5"),
+                            new SkinIniSectionOption("Mania", "Keys", "6"),
+                            new SkinIniSectionOption("Mania", "Keys", "7"),
+                            new SkinIniSectionOption("Mania", "Keys", "8"),
+                            new SkinIniSectionOption("Mania", "Keys", "9"),
                         },
                     },
-                    new SkinIniOption("General", "AnimationFramerate"),
+                    new SkinIniPropertyOption("General", "AnimationFramerate"),
                 }
             },
             new ParentSkinOption
@@ -416,9 +424,9 @@ namespace OsuSkinMixer
                         {
                             new SkinFileOption("cursor", false),
 
-                            new SkinIniOption("General", "CursorCentre"),
-                            new SkinIniOption("General", "CursorExpand"),
-                            new SkinIniOption("General", "CursorRotate"),
+                            new SkinIniPropertyOption("General", "CursorCentre"),
+                            new SkinIniPropertyOption("General", "CursorExpand"),
+                            new SkinIniPropertyOption("General", "CursorRotate"),
                         },
                     },
                     new ParentSkinOption
@@ -430,7 +438,7 @@ namespace OsuSkinMixer
                             new SkinFileOption("cursormiddle", false),
                             new SkinFileOption("star-2", false),
 
-                            new SkinIniOption("General", "CursorTrailRotate"),
+                            new SkinIniPropertyOption("General", "CursorTrailRotate"),
                         },
                     },
                     new ParentSkinOption
@@ -513,9 +521,9 @@ namespace OsuSkinMixer
                     new SkinFileOption("combobreak", true),
                     new SkinFileOption("comboburst", true),
 
-                    new SkinIniOption("General", "CustomComboBurstSounds"),
-                    new SkinIniOption("General", "LayeredHitSounds"),
-                    new SkinIniOption("General", "SpinnerFrequencyModulate"),
+                    new SkinIniPropertyOption("General", "CustomComboBurstSounds"),
+                    new SkinIniPropertyOption("General", "LayeredHitSounds"),
+                    new SkinIniPropertyOption("General", "SpinnerFrequencyModulate"),
                 },
             },
             new ParentSkinOption

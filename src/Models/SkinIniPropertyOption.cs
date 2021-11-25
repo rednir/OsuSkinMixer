@@ -1,8 +1,8 @@
 namespace OsuSkinMixer
 {
-    public class SkinIniOption : SkinOption
+    public class SkinIniPropertyOption : SkinOption
     {
-        public SkinIniOption(string section, string property)
+        public SkinIniPropertyOption(string section, string property)
         {
             IncludeSkinIniProperty = (section, property);
         }

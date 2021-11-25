@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -51,7 +52,7 @@ namespace OsuSkinMixer
 
             foreach (var option in flattenedOptions)
             {
-                Logger.Log($"About to copy option {option.Name}/{option.Name} set to '{option.OptionButton.Text}'");
+                Logger.Log($"About to copy option '{option.Name}' set to '{option.OptionButton.Text}'");
                 ProgressSetter?.Invoke(Progress, $"Copying: {option.Name}");
 
                 CopyOption(option);
@@ -93,31 +94,30 @@ namespace OsuSkinMixer
             if (skin == null)
                 throw new InvalidOperationException($"Skin '{option.OptionButton.Text}' does not exist. Try F5.");
 
-            if (option is SkinIniOption iniOption && skin.SkinIni != null)
-                CopyIniOption(skin, iniOption);
-            else if (option is SkinFileOption fileOption)
+            if (skin.SkinIni != null)
+            {
+                if (option is SkinIniPropertyOption iniPropertyOption)
+                    CopyIniPropertyOption(skin, iniPropertyOption);
+                else if (option is SkinIniSectionOption iniSectionOption)
+                    CopyIniSectionOption(skin, iniSectionOption);
+            }
+
+            if (option is SkinFileOption fileOption)
                 CopyFileOption(skin, fileOption);
         }
 
-        private void CopyIniOption(Skin skin, SkinIniOption iniOption)
+        private void CopyIniPropertyOption(Skin skin, SkinIniPropertyOption iniPropertyOption)
         {
-            var property = iniOption.IncludeSkinIniProperty;
+            var property = iniPropertyOption.IncludeSkinIniProperty;
 
             foreach (var section in skin.SkinIni.Sections)
             {
                 if (property.section != section.Name)
                     continue;
 
-                bool includeEntireSection = false;
-                if (property.property == "*")
-                {
-                    includeEntireSection = true;
-                    NewSkinIni.Sections.Add(new SkinIniSection(section.Name));
-                }
-
                 foreach (var pair in section)
                 {
-                    if (pair.Key == property.property || includeEntireSection)
+                    if (pair.Key == property.property)
                     {
                         NewSkinIni.Sections.Last(s => s.Name == section.Name).Add(
                             key: pair.Key,
@@ -125,23 +125,43 @@ namespace OsuSkinMixer
 
                         // Check if the skin.ini property value includes any skin elements.
                         // If so, include it in the new skin, (their inclusion takes priority over the elements from matching filenames)
-                        // TODO: we only need to proceed if this skin.ini property is known to have a file path.
-                        int lastSlashIndex = pair.Value.LastIndexOf('/');
-                        string prefixPropertyDirPath = lastSlashIndex >= 0 ? pair.Value.Substring(0, lastSlashIndex) : null;
-                        string prefixPropertyFileName = pair.Value.Substring(lastSlashIndex + 1);
+                        CopyFileFromSkinIniProperty(skin, pair);
+                    }
+                }
+            }
+        }
 
-                        if (Directory.Exists($"{skin.Directory.FullName}/{prefixPropertyDirPath}"))
-                        {
-                            var fileDestDir = Directory.CreateDirectory($"{NewSkinDir}/{prefixPropertyDirPath}");
-                            foreach (var file in new DirectoryInfo($"{skin.Directory.FullName}/{prefixPropertyDirPath}").EnumerateFiles())
-                            {
-                                if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    Logger.Log($"'{file.FullName}' -> '{fileDestDir.FullName}' (due to skin.ini)");
-                                    file.CopyTo($"{fileDestDir.FullName}/{file.Name}", true);
-                                }
-                            }
-                        }
+        private void CopyIniSectionOption(Skin skin, SkinIniSectionOption iniSectionOption)
+        {
+            SkinIniSection section = skin.SkinIni.Sections.Find(
+                s => s.Name == iniSectionOption.SectionName && s.Contains(iniSectionOption.Property));
+
+            if (section == null)
+                return;
+
+            Logger.Log($"Copying skin.ini section '{iniSectionOption.SectionName}' where `{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}`");
+
+            NewSkinIni.Sections.Add(section);
+            foreach (var property in section)
+                CopyFileFromSkinIniProperty(skin, property);
+        }
+
+        private void CopyFileFromSkinIniProperty(Skin skin, KeyValuePair<string, string> property)
+        {
+            // TODO: we only need to proceed if this skin.ini property is known to have a file path.
+            int lastSlashIndex = property.Value.LastIndexOf('/');
+            string prefixPropertyDirPath = lastSlashIndex >= 0 ? property.Value.Substring(0, lastSlashIndex) : null;
+            string prefixPropertyFileName = property.Value.Substring(lastSlashIndex + 1);
+
+            if (Directory.Exists($"{skin.Directory.FullName}/{prefixPropertyDirPath}"))
+            {
+                var fileDestDir = Directory.CreateDirectory($"{NewSkinDir}/{prefixPropertyDirPath}");
+                foreach (var file in new DirectoryInfo($"{skin.Directory.FullName}/{prefixPropertyDirPath}").EnumerateFiles())
+                {
+                    if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Logger.Log($"'{file.FullName}' -> '{fileDestDir.FullName}' (due to skin.ini)");
+                        file.CopyTo($"{fileDestDir.FullName}/{file.Name}", true);
                     }
                 }
             }
