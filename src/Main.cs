@@ -67,7 +67,7 @@ namespace OsuSkinMixer
         public void ResetSelections()
         {
             SkinNameEdit.Clear();
-            foreach (var option in SkinOptions.Flatten(o => (o as ParentSkinOption)?.Children))
+            foreach (var option in SkinOption.Flatten(SkinOptions))
                 option.OptionButton.SelectAndEmit(0);
 
             Toast.New("Reset selections!");
@@ -85,7 +85,7 @@ namespace OsuSkinMixer
         public void RandomizeBottomLevelOptions()
         {
             var random = new Random();
-            foreach (var option in SkinOptions.Flatten(o => (o as ParentSkinOption)?.Children).Where(o => !(o is ParentSkinOption)))
+            foreach (var option in SkinOption.Flatten(SkinOptions).Where(o => !(o is ParentSkinOption)))
                 option.OptionButton.SelectAndEmit(random.Next(0, option.OptionButton.GetItemCount() - 1));
 
             Toast.New("Randomized bottom-level options!");
@@ -110,7 +110,7 @@ namespace OsuSkinMixer
         {
             TrySetSkins();
 
-            foreach (var option in SkinOptions.Flatten(o => (o as ParentSkinOption)?.Children))
+            foreach (var option in SkinOption.Flatten(SkinOptions))
             {
                 int selectedId = option.OptionButton.GetSelectedId();
                 option.OptionButton.Clear();
@@ -224,7 +224,7 @@ namespace OsuSkinMixer
 
         private void SetOptionButtonsDisabled(bool value)
         {
-            foreach (var option in SkinOptions.Flatten(o => (o as ParentSkinOption)?.Children))
+            foreach (var option in SkinOption.Flatten(SkinOptions))
                 option.OptionButton.Disabled = value;
         }
 

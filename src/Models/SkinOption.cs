@@ -33,6 +33,25 @@ namespace OsuSkinMixer
             }
         }
 
+        public static IEnumerable<SkinOption> Flatten(SkinOption[] skinOptions)
+        {
+            var result = new List<SkinOption>();
+            helper(skinOptions);
+            return result;
+
+            void helper(SkinOption[] children)
+            {
+                if (children == null)
+                    return;
+
+                foreach (var option in children)
+                {
+                    result.Add(option);
+                    helper((option as ParentSkinOption)?.Children);
+                }
+            }
+        }
+
         public static SkinOption[] Default => new SkinOption[]
         {
             new ParentSkinOption
