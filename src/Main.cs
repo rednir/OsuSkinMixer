@@ -160,7 +160,7 @@ namespace OsuSkinMixer
                 ProgressSetter = (v, t) =>
                 {
                     ProgressBar.Value = v;
-                    ProgressBarLabel.Text = t;
+                    //ProgressBarLabel.Text = t;
                 },
             };
 
