@@ -67,7 +67,7 @@ namespace OsuSkinMixer
                             new SkinFileOption("button-left", false),
                             new SkinFileOption("button-middle", false),
                             new SkinFileOption("button-right", false),
-                            new SkinFileOption("menu-back", false),
+                            new SkinFileOption("menu-back*", false),
                             new SkinFileOption("menu-background", false),
                             new SkinFileOption("menu-button-background", false),
                             new SkinFileOption("menu-snow", false),
