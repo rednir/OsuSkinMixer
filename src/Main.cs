@@ -6,14 +6,17 @@ using Directory = System.IO.Directory;
 using Environment = System.Environment;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace OsuSkinMixer
 {
     public class Main : Control
     {
-        public const string VBOX_CONTAINER_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
+        public const string ROOT_VBOX_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
 
-        private readonly OptionInfo[] Options = SkinOptions.Default;
+        private Skin[] Skins { get; set; }
+
+        private readonly SkinOption[] SkinOptions = SkinOption.Default;
 
         private Dialog Dialog;
         private Toast Toast;
@@ -26,7 +29,7 @@ namespace OsuSkinMixer
         public override void _Ready()
         {
             OS.SetWindowTitle("osu! skin mixer by rednir");
-            OS.MinWindowSize = new Vector2(600, 400);
+            OS.MinWindowSize = new Vector2(700, 450);
             Logger.Init();
 
             Dialog = GetNode<Dialog>("Dialog");
@@ -41,7 +44,9 @@ namespace OsuSkinMixer
 
             CreateSkinButton.Connect("pressed", this, nameof(_CreateSkinButtonPressed));
 
-            if (!CreateOptionButtons())
+            if (TrySetSkins())
+                CreateOptionButtons();
+            else
                 PromptForSkinsFolder();
         }
 
@@ -49,10 +54,10 @@ namespace OsuSkinMixer
         {
             if (@event.IsActionPressed("refresh"))
                 RefreshSkins();
-            else if (@event.IsActionPressed("randomize_suboptions"))
-                RandomizeOptions(true);
-            else if (@event.IsActionPressed("randomize_options"))
-                RandomizeOptions(false);
+            else if (@event.IsActionPressed("randomize_bottom_level_options"))
+                RandomizeBottomLevelOptions();
+            else if (@event.IsActionPressed("randomize_top_level_options"))
+                RandomizeTopLevelOptions();
         }
 
         private void _CreateSkinButtonPressed() => CreateSkin();
@@ -62,62 +67,58 @@ namespace OsuSkinMixer
         public void ResetSelections()
         {
             SkinNameEdit.Clear();
-            foreach (var option in Options)
-            {
-                GetNode<OptionButton>(option.NodePath).Select(0);
-                foreach (var suboption in option.SubOptions)
-                    GetNode<OptionButton>(suboption.GetPath(option)).Select(0);
-            }
+            foreach (var option in SkinOption.Flatten(SkinOptions))
+                option.OptionButton.SelectAndEmit(0);
 
             Toast.New("Reset selections!");
         }
 
-        public void RandomizeOptions(bool suboptions)
+        public void RandomizeTopLevelOptions()
         {
-            var rand = new Random();
+            var random = new Random();
+            foreach (var option in SkinOptions)
+                option.OptionButton.SelectAndEmit(random.Next(0, option.OptionButton.GetItemCount() - 1));
 
-            foreach (var option in Options)
-            {
-                var optionButton = GetNode<OptionButton>(option.NodePath);
-                int count = optionButton.GetItemCount();
-                int index = rand.Next(0, count - 1);
+            Toast.New("Randomized top-level options!");
+        }
 
-                if (suboptions)
-                    optionButton.Text = "<< various >>";
-                else
-                    optionButton?.Select(index);
+        public void RandomizeBottomLevelOptions()
+        {
+            var random = new Random();
+            foreach (var option in SkinOption.Flatten(SkinOptions).Where(o => !(o is ParentSkinOption)))
+                option.OptionButton.SelectAndEmit(random.Next(0, option.OptionButton.GetItemCount() - 1));
 
-                foreach (var suboption in option.SubOptions)
-                    GetNode<OptionButton>(suboption.GetPath(option)).Select(suboptions ? rand.Next(0, count - 1) : index);
-            }
-
-            Toast.New(suboptions ? "Randomized sub-options!" : "Randomized options!");
+            Toast.New("Randomized bottom-level options!");
         }
 
         public void UseExistingSkin()
         {
             // All the OptionButtons should have equal `Items` anyway, so just get the first.
-            var optionButton = GetNodeOrNull<OptionButton>(Options[0].NodePath);
-            if (optionButton == null)
-                return;
+            var optionButton = SkinOptions[0].OptionButton;
 
             Dialog.Options("Select a skin to use.", optionButton.Items, i =>
             {
                 // This assumes that index 0 is default skin.
                 SkinNameEdit.Text = i == 0 ? string.Empty : optionButton.GetItemText(i);
 
-                foreach (var option in Options)
-                {
-                    GetNode<OptionButton>(option.NodePath).Select(i);
-                    foreach (var suboption in option.SubOptions)
-                        GetNode<OptionButton>(suboption.GetPath(option)).Select(i);
-                }
+                foreach (var option in SkinOptions)
+                    option.OptionButton.SelectAndEmit(i);
             });
         }
 
         public void RefreshSkins()
         {
-            CreateOptionButtons();
+            TrySetSkins();
+
+            foreach (var option in SkinOption.Flatten(SkinOptions))
+            {
+                int selectedId = option.OptionButton.GetSelectedId();
+                option.OptionButton.Clear();
+
+                PopulateOptionButton(option.OptionButton);
+                option.OptionButton.Select(option.OptionButton.GetItemIndex(selectedId));
+            }
+
             Toast.New("Refreshed skin list!");
         }
 
@@ -129,7 +130,16 @@ namespace OsuSkinMixer
                 {
                     Settings.Content.SkinsFolder = p;
                     Settings.Save();
-                    return CreateOptionButtons();
+
+                    if (TrySetSkins())
+                    {
+                        CreateOptionButtons();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 },
                 defaultText: Settings.Content.SkinsFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!/Skins");
         }
@@ -139,7 +149,8 @@ namespace OsuSkinMixer
             var creator = new SkinCreator()
             {
                 Name = SkinNameEdit.Text.Replace(']', '-').Replace('[', '-'),
-                Options = Options,
+                SkinOptions = SkinOptions,
+                Skins = Skins,
                 ProgressSetter = (v, t) =>
                 {
                     ProgressBar.Value = v;
@@ -151,6 +162,7 @@ namespace OsuSkinMixer
 
             void create(bool overwrite)
             {
+                SetOptionButtonsDisabled(true);
                 CreateSkinButton.Disabled = true;
                 ProgressBar.Visible = true;
 
@@ -161,6 +173,7 @@ namespace OsuSkinMixer
                 })
                 .ContinueWith(t =>
                 {
+                    SetOptionButtonsDisabled(false);
                     CreateSkinButton.Disabled = false;
                     ProgressBar.Visible = false;
 
@@ -209,6 +222,12 @@ namespace OsuSkinMixer
             }
         }
 
+        private void SetOptionButtonsDisabled(bool value)
+        {
+            foreach (var option in SkinOption.Flatten(SkinOptions))
+                option.OptionButton.Disabled = value;
+        }
+
         private bool IsOsuOpen()
         {
             foreach (var process in Process.GetProcesses())
@@ -220,91 +239,120 @@ namespace OsuSkinMixer
             return false;
         }
 
-        private string[] GetSkinNames() => new DirectoryInfo(Settings.Content.SkinsFolder).EnumerateDirectories()
-            .Select(d => d.Name).Where(n => n != SkinCreator.WORKING_DIR_NAME).OrderBy(n => n).ToArray();
+        private bool TrySetSkins()
+        {
+            if (Settings.Content.SkinsFolder == null || !Directory.Exists(Settings.Content.SkinsFolder))
+                return false;
+
+            var result = new List<Skin>();
+            var skinsFolder = new DirectoryInfo(Settings.Content.SkinsFolder);
+
+            foreach (var dir in skinsFolder.EnumerateDirectories())
+            {
+                if (dir.Name != SkinCreator.WORKING_DIR_NAME)
+                    result.Add(new Skin(dir));
+            }
+
+            Skins = result.OrderBy(s => s.Name).ToArray();
+            return true;
+        }
 
         #endregion
 
         #region Option buttons
 
-        private bool CreateOptionButtons()
+        private void CreateOptionButtons()
         {
-            if (Settings.Content.SkinsFolder == null || !Directory.Exists(Settings.Content.SkinsFolder))
-                return false;
+            var rootVbox = GetNode<VBoxContainer>(ROOT_VBOX_PATH);
 
-            var vbox = GetNode(VBOX_CONTAINER_PATH);
-            var skins = GetSkinNames();
+            foreach (var child in rootVbox.GetChildren())
+                ((Node)child).QueueFree();
 
-            foreach (var option in Options)
+            foreach (var option in SkinOptions)
+                addOptionButton(option, rootVbox, 0);
+
+            void addOptionButton(SkinOption option, VBoxContainer vbox, int layer)
             {
-                set(GetNodeOrNull<OptionButton>(option.NodePath), option, null);
+                // Create new nodes for this option if not already existing.
+                var hbox = (HBoxContainer)GetNode("OptionTemplate").Duplicate();
+                var arrowButton = hbox.GetChild<TextureButton>(0);
+                var label = hbox.GetChild<Label>(1);
+                option.OptionButton = hbox.GetChild<OptionButton>(2);
 
-                foreach (var suboption in option.SubOptions)
-                    set(GetNodeOrNull<OptionButton>(suboption.GetPath(option)), option, suboption);
-            }
+                hbox.Name = option.Name;
+                label.Text = option.Name;
+                label.Modulate = new Color(1, 1, 1, Math.Max(1f - (layer / 4f), 0.55f));
+                hbox.HintTooltip = option.ToString().Wrap(100);
 
-            return true;
+                PopulateOptionButton(option.OptionButton);
 
-            void set(OptionButton optionButton, OptionInfo option, SubOptionInfo suboption)
-            {
-                bool isSubOption = suboption != null;
+                // For the ability to drag on the popup to move it.
+                option.OptionButton.GetPopup().Connect("gui_input", this, nameof(_PopupGuiInput), new Godot.Collections.Array(option.OptionButton.GetPopup()));
 
-                int prevSelectedId = 0;
-                string prevText = null;
+                option.OptionButton.Connect("item_selected", this, nameof(_OptionButtonItemSelected), new Godot.Collections.Array(option));
 
-                if (optionButton == null)
+                var indent = new Panel()
                 {
-                    // Create new nodes for the option as it doesn't exist yet.
-                    var hbox = (HBoxContainer)GetNode("OptionTemplate").Duplicate();
-                    var arrowButton = hbox.GetChild<TextureButton>(0);
-                    var indent = hbox.GetChild<Panel>(1);
-                    var label = hbox.GetChild<Label>(2);
-                    optionButton = hbox.GetChild<OptionButton>(3);
+                    RectMinSize = new Vector2(layer * 30, 1),
+                    Modulate = new Color(0, 0, 0, 0),
+                };
 
-                    // For the ability to drag on the popup to move it.
-                    optionButton.GetPopup().Connect("gui_input", this, nameof(_PopupGuiInput), new Godot.Collections.Array(optionButton.GetPopup()));
+                // Indent needs to be the first node in the HBoxContainer.
+                hbox.AddChild(indent);
+                hbox.MoveChild(indent, 0);
 
-                    var binds = new Godot.Collections.Array(new OptionInfoWrapper(option));
-                    if (!isSubOption)
-                    {
-                        optionButton.Connect("item_selected", this, nameof(_OptionItemSelected), binds);
-                        arrowButton.Connect("toggled", this, nameof(_ArrowButtonPressed), binds);
-                    }
-                    else
-                    {
-                        optionButton.Connect("item_selected", this, nameof(_SubOptionItemSelected), binds);
-                        suboption.OptionButton = optionButton;
-                    }
+                vbox.AddChild(hbox);
 
-                    hbox.Visible = !isSubOption;
-                    indent.Visible = isSubOption;
-                    arrowButton.Visible = !isSubOption;
+                if (option is ParentSkinOption parentOption)
+                {
+                    var newVbox = createVbox(parentOption);
+                    vbox.AddChildBelowNode(hbox, newVbox);
 
-                    hbox.Name = suboption?.GetHBoxName(option) ?? option.Name;
-                    hbox.HintTooltip = (suboption?.ToString() ?? option?.ToString()).Wrap(100);
-                    label.Text = suboption?.Name ?? option.Name;
-                    label.Modulate = new Color(1, 1, 1, isSubOption ? 0.7f : 1);
+                    arrowButton.Connect("toggled", this, nameof(_ArrowButtonPressed), new Godot.Collections.Array(newVbox));
 
-                    vbox.AddChild(hbox);
+                    foreach (var child in parentOption.Children)
+                        addOptionButton(child, newVbox, layer + 1);
                 }
                 else
                 {
-                    // The existing dropdown items should be updated.
-                    prevSelectedId = optionButton.GetSelectedId();
-                    prevText = optionButton.Text;
-                    optionButton.Clear();
+                    // No children, so hide arrow button.
+                    arrowButton.Disabled = true;
+                    arrowButton.Modulate = new Color(0, 0, 0, 0);
                 }
+            }
 
-                optionButton.AddItem("<< use default skin >>", 0);
-                foreach (var skin in skins)
-                    optionButton.AddItem(skin, skin.GetHashCode());
+            VBoxContainer createVbox(ParentSkinOption parentOption)
+            {
+                var vbox = new VBoxContainer()
+                {
+                    Name = $"{parentOption.Name}children",
+                    MarginLeft = 20,
+                    Visible = false,
+                };
 
-                // If items were updated, ensure the users selection is maintained
-                optionButton.Selected = optionButton.GetItemIndex(prevSelectedId);
+                vbox.AddConstantOverride("separation", 10);
+                return vbox;
+            }
+        }
 
-                // Hotfix for maintaining the previous text when it is << various >>
-                if (prevText != null)
-                    optionButton.Text = prevText;
+        private void PopulateOptionButton(OptionButton optionButton)
+        {
+            optionButton.AddItem("<< use default skin >>", 0);
+            foreach (var skin in Skins)
+                optionButton.AddItem(skin.Name, skin.Name.GetHashCode());
+        }
+
+        private void _OptionButtonItemSelected(int index, SkinOption option)
+        {
+            string selectedSkin = option.OptionButton.Text;
+
+            foreach (var parent in SkinOption.GetParents(option, SkinOptions))
+                parent.OptionButton.Text = parent.Children.All(o => o.OptionButton.Text == selectedSkin) ? selectedSkin : "<< VARIOUS >>";
+
+            if (option is ParentSkinOption parentOption)
+            {
+                foreach (var child in parentOption.Children)
+                    child.OptionButton.SelectAndEmit(index);
             }
         }
 
@@ -314,38 +362,9 @@ namespace OsuSkinMixer
                 popupMenu.RectPosition += new Vector2(0, dragEvent.Relative.y);
         }
 
-        private void _ArrowButtonPressed(bool pressed, OptionInfoWrapper wrapper)
+        private void _ArrowButtonPressed(bool pressed, VBoxContainer vbox)
         {
-            var option = wrapper.Value;
-            foreach (var suboption in option.SubOptions)
-                GetNode<HBoxContainer>($"{VBOX_CONTAINER_PATH}/{suboption.GetHBoxName(option)}").Visible = pressed;
-        }
-
-        private void _OptionItemSelected(int index, OptionInfoWrapper wrapper)
-        {
-            var option = wrapper.Value;
-            foreach (var suboption in option.SubOptions)
-            {
-                var node = GetNode<OptionButton>(suboption.GetPath(option));
-                node.Select(index);
-            }
-        }
-
-        private void _SubOptionItemSelected(int _, OptionInfoWrapper wrapper)
-        {
-            var option = wrapper.Value;
-            GetNode<OptionButton>(option.NodePath).Text = "<< various >>";
-        }
-
-        // This is required as the `binds` parameter in `Node.Connect()` only takes in a type inherited from `Godot.Object`
-        private class OptionInfoWrapper : Godot.Object
-        {
-            public OptionInfoWrapper(OptionInfo value)
-            {
-                Value = value;
-            }
-
-            public OptionInfo Value { get; }
+            vbox.Visible = pressed;
         }
 
         #endregion

@@ -42,11 +42,11 @@ namespace OsuSkinMixer
                     break;
 
                 case 4:
-                    Main.RandomizeOptions(false);
+                    Main.RandomizeTopLevelOptions();
                     break;
 
                 case 5:
-                    Main.RandomizeOptions(true);
+                    Main.RandomizeBottomLevelOptions();
                     break;
 
                 case 6:

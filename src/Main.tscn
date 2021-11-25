@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Main.cs" type="Script" id=2]
@@ -26,11 +26,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 1, 1, 1, 0 )
-
 [node name="Main" type="Control"]
-modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -51,9 +47,9 @@ anims/in = SubResource( 2 )
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -250.0
+margin_left = -297.0
 margin_top = 68.0
-margin_right = 250.0
+margin_right = 298.0
 margin_bottom = -132.0
 rect_pivot_offset = Vector2( 250, 122 )
 scroll_horizontal_enabled = false
@@ -62,15 +58,15 @@ __meta__ = {
 }
 
 [node name="CenterContainer" type="CenterContainer" parent="ScrollContainer"]
-margin_right = 500.0
-margin_bottom = 227.0
-rect_min_size = Vector2( 500, 227 )
+margin_right = 595.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 595, 250 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/CenterContainer"]
-margin_left = 250.0
-margin_top = 113.0
-margin_right = 250.0
-margin_bottom = 113.0
+margin_left = 297.0
+margin_top = 125.0
+margin_right = 297.0
+margin_bottom = 125.0
 custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
@@ -170,28 +166,20 @@ texture_pressed = ExtResource( 9 )
 expand = true
 stretch_mode = 3
 
-[node name="Indent" type="Panel" parent="OptionTemplate"]
-visible = false
-margin_left = 15.0
-margin_top = 13.0
-margin_right = 35.0
-margin_bottom = 14.0
-rect_min_size = Vector2( 32, 1 )
-size_flags_vertical = 4
-custom_styles/panel = SubResource( 1 )
-
 [node name="Label" type="Label" parent="OptionTemplate"]
 margin_left = 20.0
 margin_top = 5.0
-margin_right = 140.0
+margin_right = 200.0
 margin_bottom = 23.0
-rect_min_size = Vector2( 120, 0 )
+rect_min_size = Vector2( 180, 0 )
 text = "Option:"
+clip_text = true
 
 [node name="OptionButton" type="OptionButton" parent="OptionTemplate"]
-margin_left = 148.0
-margin_right = 385.0
+margin_left = 208.0
+margin_right = 438.0
 margin_bottom = 28.0
-rect_min_size = Vector2( 220, 0 )
+grow_vertical = 2
+rect_min_size = Vector2( 230, 0 )
 size_flags_horizontal = 3
 clip_text = true
