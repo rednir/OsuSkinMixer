@@ -1,5 +1,7 @@
+using System;
 using System.IO;
-using System.Linq;
+using Godot;
+using File = System.IO.File;
 
 namespace OsuSkinMixer
 {
@@ -10,7 +12,16 @@ namespace OsuSkinMixer
             Name = dir.Name;
             Directory = dir;
             if (File.Exists($"{dir.FullName}/skin.ini"))
-                SkinIni = new SkinIni(File.ReadAllText($"{dir.FullName}/skin.ini"));
+            {
+                try
+                {
+                    SkinIni = new SkinIni(File.ReadAllText($"{dir.FullName}/skin.ini"));
+                }
+                catch (Exception ex)
+                {
+                    OS.Alert($"Skin.ini parse error for skin '{Name}', please report this error!\n\n{ex.Message}");
+                }
+            }
         }
 
         public string Name { get; set; }
