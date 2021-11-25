@@ -201,7 +201,6 @@ namespace OsuSkinMixer
                             new SkinFileOption("section-pass", false),
                             new SkinFileOption("ready", false),
                             new SkinFileOption("score-*", false),
-                            new SkinFileOption("numbers-*", false),
 
                             new SkinIniOption("General", "ComboBurstRandom"),
                             new SkinIniOption("Colours", "InputOverlayText"),
