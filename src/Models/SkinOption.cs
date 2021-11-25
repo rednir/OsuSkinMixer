@@ -187,7 +187,7 @@ namespace OsuSkinMixer
                             new SkinFileOption("pause-overlay", false),
                             new SkinFileOption("pause-replay", false),
                             new SkinFileOption("pause-retry", false),
-                            new SkinFileOption("play-skip", false),
+                            new SkinFileOption("play-skip*", false),
                             new SkinFileOption("play-unranked", false),
                             new SkinFileOption("play-warningarrow", false),
                             new SkinFileOption("scorebar-bg", false),
