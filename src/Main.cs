@@ -116,7 +116,7 @@ namespace OsuSkinMixer
                 option.OptionButton.Clear();
 
                 PopulateOptionButton(option.OptionButton);
-                option.OptionButton.Select(option.OptionButton.GetItemIndex(selectedId));
+                option.OptionButton.Select(selectedId);
             }
 
             Toast.New("Refreshed skin list!");
@@ -162,6 +162,7 @@ namespace OsuSkinMixer
 
             void create(bool overwrite)
             {
+                SetOptionButtonsDisabled(true);
                 CreateSkinButton.Disabled = true;
                 ProgressBar.Visible = true;
 
@@ -172,6 +173,7 @@ namespace OsuSkinMixer
                 })
                 .ContinueWith(t =>
                 {
+                    SetOptionButtonsDisabled(false);
                     CreateSkinButton.Disabled = false;
                     ProgressBar.Visible = false;
 
@@ -220,6 +222,12 @@ namespace OsuSkinMixer
             }
         }
 
+        private void SetOptionButtonsDisabled(bool value)
+        {
+            foreach (var option in Options.Flatten(o => (o as ParentSkinOption)?.Children))
+                option.OptionButton.Disabled = value;
+        }
+
         private bool IsOsuOpen()
         {
             foreach (var process in Process.GetProcesses())
@@ -263,7 +271,6 @@ namespace OsuSkinMixer
             foreach (var option in Options)
                 addOptionButton(option, rootVbox, 0);
 
-            // TODO: maintain option buttons when refreshing, and selection.
             void addOptionButton(SkinOption option, VBoxContainer vbox, int layer)
             {
                 // Create new nodes for this option if not already existing.
