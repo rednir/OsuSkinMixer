@@ -8,7 +8,7 @@ namespace OsuSkinMixer
             IsAudio = isAudio;
         }
 
-        public override string Name => $"[FILE] {IncludeFileName}";
+        public override string Name => IncludeFileName + (IsAudio ? ".wav" : ".png");
 
         public string IncludeFileName { get; set; }
 
