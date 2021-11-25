@@ -191,6 +191,10 @@ namespace OsuSkinMixer
                     {
                         Logger.Log($"'{file.FullName}' -> '{NewSkinDir.FullName}/{file.Name}' (due to filename match)");
                         file.CopyTo($"{NewSkinDir.FullName}/{file.Name}");
+
+                        // If the file option only targets one file, we don't need to keep looking.
+                        if (!fileOption.IncludeFileName.Contains("*"))
+                            return;
                     }
                 }
             }
