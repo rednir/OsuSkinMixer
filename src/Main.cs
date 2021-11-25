@@ -29,7 +29,7 @@ namespace OsuSkinMixer
         public override void _Ready()
         {
             OS.SetWindowTitle("osu! skin mixer by rednir");
-            OS.MinWindowSize = new Vector2(600, 400);
+            OS.MinWindowSize = new Vector2(700, 450);
             Logger.Init();
 
             Dialog = GetNode<Dialog>("Dialog");
