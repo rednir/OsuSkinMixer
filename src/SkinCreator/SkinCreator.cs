@@ -93,7 +93,7 @@ namespace OsuSkinMixer
             if (skin == null)
                 throw new InvalidOperationException($"Skin '{option.OptionButton.Text}' does not exist. Try F5.");
 
-            if (option is SkinIniOption iniOption)
+            if (option is SkinIniOption iniOption && skin.SkinIni != null)
                 CopyIniOption(skin, iniOption);
             else if (option is SkinFileOption fileOption)
                 CopyFileOption(skin, fileOption);
