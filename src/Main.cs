@@ -146,6 +146,12 @@ namespace OsuSkinMixer
 
         public void CreateSkin()
         {
+            if (CreateSkinButton.Disabled)
+            {
+                Toast.New("Skin creation is already in progress.");
+                return;
+            }
+
             var creator = new SkinCreator()
             {
                 Name = SkinNameEdit.Text.Replace(']', '-').Replace('[', '-'),
