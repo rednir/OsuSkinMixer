@@ -64,10 +64,6 @@ namespace OsuSkinMixer
                         Name = "Song select",
                         Children = new SkinOption[]
                         {
-                            new SkinIniOption("Colours", "MenuGlow"),
-                            new SkinIniOption("Colours", "SongSelectActiveText"),
-                            new SkinIniOption("Colours", "SongSelectInactiveText"),
-
                             new SkinFileOption("button-left", false),
                             new SkinFileOption("button-middle", false),
                             new SkinFileOption("button-right", false),
@@ -90,6 +86,10 @@ namespace OsuSkinMixer
                             new SkinFileOption("star", false),
                             new SkinFileOption("star2", false),
                             new SkinFileOption("welcome_text", false),
+
+                            new SkinIniOption("Colours", "MenuGlow"),
+                            new SkinIniOption("Colours", "SongSelectActiveText"),
+                            new SkinIniOption("Colours", "SongSelectInactiveText"),
                         },
                     },
                     new ParentSkinOption
@@ -129,13 +129,6 @@ namespace OsuSkinMixer
                         Name = "In-game",
                         Children = new SkinOption[]
                         {
-                            new SkinIniOption("General", "ComboBurstRandom"),
-                            new SkinIniOption("Colours", "InputOverlayText"),
-                            new SkinIniOption("Fonts", "ScorePrefix"),
-                            new SkinIniOption("Fonts", "ScoreOverlap"),
-                            new SkinIniOption("Fonts", "ComboPrefix"),
-                            new SkinIniOption("Fonts", "ComboOverlap"),
-
                             new SkinFileOption("arrow-pause", false),
                             new SkinFileOption("arrow-warning", false),
                             new SkinFileOption("count1", false),
@@ -153,6 +146,13 @@ namespace OsuSkinMixer
                             new SkinFileOption("ready", false),
                             new SkinFileOption("score-*", false),
                             new SkinFileOption("numbers-*", false),
+
+                            new SkinIniOption("General", "ComboBurstRandom"),
+                            new SkinIniOption("Colours", "InputOverlayText"),
+                            new SkinIniOption("Fonts", "ScorePrefix"),
+                            new SkinIniOption("Fonts", "ScoreOverlap"),
+                            new SkinIniOption("Fonts", "ComboPrefix"),
+                            new SkinIniOption("Fonts", "ComboOverlap"),
                         },
                     },
                 },
@@ -168,14 +168,14 @@ namespace OsuSkinMixer
                         Name = "Hitcircles",
                         Children = new SkinOption[]
                         {
-                            new SkinIniOption("General", "HitCircleOverlayAboveNumber"),
-                            new SkinIniOption("Fonts", "HitCirclePrefix"),
-                            new SkinIniOption("Fonts", "HitCircleOverlap"),
-
                             new SkinFileOption("approachcircle", false),
                             new SkinFileOption("default-*", false),
                             new SkinFileOption("hitcircle*", false),
                             new SkinFileOption("target*", false),
+
+                            new SkinIniOption("General", "HitCircleOverlayAboveNumber"),
+                            new SkinIniOption("Fonts", "HitCirclePrefix"),
+                            new SkinIniOption("Fonts", "HitCircleOverlap"),
                         },
                     },
                     new ParentSkinOption
@@ -183,12 +183,6 @@ namespace OsuSkinMixer
                         Name = "Sliders",
                         Children = new SkinOption[]
                         {
-                            new SkinIniOption("General", "AllowSliderBallTint"),
-                            new SkinIniOption("General", "SliderBallFlip"),
-                            new SkinIniOption("Colours", "SliderBall"),
-                            new SkinIniOption("Colours", "SliderBorder"),
-                            new SkinIniOption("Colours", "SliderTrackOverride"),
-
                             new SkinFileOption("sliderb*", false),
                             new SkinFileOption("sliderendcircle*", false),
                             new SkinFileOption("sliderfollowcircle", false),
@@ -196,6 +190,12 @@ namespace OsuSkinMixer
                             new SkinFileOption("sliderstartcircle*", false),
                             new SkinFileOption("sliderscorepoint", false),
                             new SkinFileOption("reversearrow", false),
+
+                            new SkinIniOption("General", "AllowSliderBallTint"),
+                            new SkinIniOption("General", "SliderBallFlip"),
+                            new SkinIniOption("Colours", "SliderBall"),
+                            new SkinIniOption("Colours", "SliderBorder"),
+                            new SkinIniOption("Colours", "SliderTrackOverride"),
                         },
                     },
                     new ParentSkinOption
@@ -218,12 +218,12 @@ namespace OsuSkinMixer
                         Name = "Spinners",
                         Children = new SkinOption[]
                         {
+                            new SkinFileOption("spinner-*", false),
+
                             new SkinIniOption("General", "SpinnerFadePlayfield"),
                             new SkinIniOption("General", "SpinnerNoBlink"),
                             new SkinIniOption("Colours", "SpinnerBackground"),
                             new SkinIniOption("Colours", "StarBreakAdditive"),
-
-                            new SkinFileOption("spinner-*", false),
                         },
                     },
                     new ParentSkinOption
@@ -251,12 +251,12 @@ namespace OsuSkinMixer
                         Name = "+ fruits",
                         Children = new SkinOption[]
                         {
+                            new SkinFileOption("comboburst-fruits", false),
+                            new SkinFileOption("fruit-*", false),
+
                             new SkinIniOption("CatchTheBeat", "HyperDash"),
                             new SkinIniOption("CatchTheBeat", "HyperDashFruit"),
                             new SkinIniOption("CatchTheBeat", "HyperDashAfterImage"),
-
-                            new SkinFileOption("comboburst-fruits", false),
-                            new SkinFileOption("fruit-*", false),
                         },
                     },
                     new ParentSkinOption
@@ -273,9 +273,10 @@ namespace OsuSkinMixer
                         Name = "+ mania",
                         Children = new SkinOption[]
                         {
-                            new SkinIniOption("Mania", "*"),
                             new SkinFileOption("mania*", false),
                             new SkinFileOption("lighting*", false),
+
+                            new SkinIniOption("Mania", "*"),
                         },
                     },
                     new SkinIniOption("General", "AnimationFramerate"),
@@ -291,11 +292,11 @@ namespace OsuSkinMixer
                         Name = "Head",
                         Children = new SkinOption[]
                         {
+                            new SkinFileOption("cursor", false),
+
                             new SkinIniOption("General", "CursorCentre"),
                             new SkinIniOption("General", "CursorExpand"),
                             new SkinIniOption("General", "CursorRotate"),
-
-                            new SkinFileOption("cursor", false),
                         },
                     },
                     new ParentSkinOption
@@ -303,11 +304,11 @@ namespace OsuSkinMixer
                         Name = "Trail",
                         Children = new SkinOption[]
                         {
-                            new SkinIniOption("General", "CursorTrailRotate"),
-
                             new SkinFileOption("cursortrail", false),
                             new SkinFileOption("cursormiddle", false),
                             new SkinFileOption("star-2", false),
+
+                            new SkinIniOption("General", "CursorTrailRotate"),
                         },
                     },
                     new ParentSkinOption
@@ -373,10 +374,11 @@ namespace OsuSkinMixer
                             new SkinFileOption("combobreak", true),
                         },
                     },
+                    new SkinFileOption("comboburst", true),
+
                     new SkinIniOption("General", "CustomComboBurstSounds"),
                     new SkinIniOption("General", "LayeredHitSounds"),
                     new SkinIniOption("General", "SpinnerFrequencyModulate"),
-                    new SkinFileOption("comboburst", true),
                 },
             },
             new ParentSkinOption
