@@ -16,7 +16,7 @@ namespace OsuSkinMixer
 
         private Skin[] Skins { get; set; }
 
-        private readonly SkinOption[] Options = SkinOption.Default;
+        private readonly SkinOption[] SkinOptions = SkinOption.Default;
 
         private Dialog Dialog;
         private Toast Toast;
@@ -67,7 +67,7 @@ namespace OsuSkinMixer
         public void ResetSelections()
         {
             SkinNameEdit.Clear();
-            foreach (var option in Options.Flatten(o => (o as ParentSkinOption)?.Children))
+            foreach (var option in SkinOptions.Flatten(o => (o as ParentSkinOption)?.Children))
                 option.OptionButton.SelectAndEmit(0);
 
             Toast.New("Reset selections!");
@@ -76,7 +76,7 @@ namespace OsuSkinMixer
         public void RandomizeTopLevelOptions()
         {
             var random = new Random();
-            foreach (var option in Options)
+            foreach (var option in SkinOptions)
                 option.OptionButton.SelectAndEmit(random.Next(0, option.OptionButton.GetItemCount() - 1));
 
             Toast.New("Randomized top-level options!");
@@ -85,7 +85,7 @@ namespace OsuSkinMixer
         public void RandomizeBottomLevelOptions()
         {
             var random = new Random();
-            foreach (var option in Options.Flatten(o => (o as ParentSkinOption)?.Children).Where(o => !(o is ParentSkinOption)))
+            foreach (var option in SkinOptions.Flatten(o => (o as ParentSkinOption)?.Children).Where(o => !(o is ParentSkinOption)))
                 option.OptionButton.SelectAndEmit(random.Next(0, option.OptionButton.GetItemCount() - 1));
 
             Toast.New("Randomized bottom-level options!");
@@ -94,14 +94,14 @@ namespace OsuSkinMixer
         public void UseExistingSkin()
         {
             // All the OptionButtons should have equal `Items` anyway, so just get the first.
-            var optionButton = Options[0].OptionButton;
+            var optionButton = SkinOptions[0].OptionButton;
 
             Dialog.Options("Select a skin to use.", optionButton.Items, i =>
             {
                 // This assumes that index 0 is default skin.
                 SkinNameEdit.Text = i == 0 ? string.Empty : optionButton.GetItemText(i);
 
-                foreach (var option in Options)
+                foreach (var option in SkinOptions)
                     option.OptionButton.SelectAndEmit(i);
             });
         }
@@ -110,13 +110,13 @@ namespace OsuSkinMixer
         {
             TrySetSkins();
 
-            foreach (var option in Options.Flatten(o => (o as ParentSkinOption)?.Children))
+            foreach (var option in SkinOptions.Flatten(o => (o as ParentSkinOption)?.Children))
             {
                 int selectedId = option.OptionButton.GetSelectedId();
                 option.OptionButton.Clear();
 
                 PopulateOptionButton(option.OptionButton);
-                option.OptionButton.Select(selectedId);
+                option.OptionButton.Select(option.OptionButton.GetItemIndex(selectedId));
             }
 
             Toast.New("Refreshed skin list!");
@@ -149,7 +149,7 @@ namespace OsuSkinMixer
             var creator = new SkinCreator()
             {
                 Name = SkinNameEdit.Text.Replace(']', '-').Replace('[', '-'),
-                SkinOptions = Options,
+                SkinOptions = SkinOptions,
                 Skins = Skins,
                 ProgressSetter = (v, t) =>
                 {
@@ -224,7 +224,7 @@ namespace OsuSkinMixer
 
         private void SetOptionButtonsDisabled(bool value)
         {
-            foreach (var option in Options.Flatten(o => (o as ParentSkinOption)?.Children))
+            foreach (var option in SkinOptions.Flatten(o => (o as ParentSkinOption)?.Children))
                 option.OptionButton.Disabled = value;
         }
 
@@ -268,7 +268,7 @@ namespace OsuSkinMixer
             foreach (var child in rootVbox.GetChildren())
                 ((Node)child).QueueFree();
 
-            foreach (var option in Options)
+            foreach (var option in SkinOptions)
                 addOptionButton(option, rootVbox, 0);
 
             void addOptionButton(SkinOption option, VBoxContainer vbox, int layer)
@@ -338,7 +338,7 @@ namespace OsuSkinMixer
         {
             optionButton.AddItem("<< use default skin >>", 0);
             foreach (var skin in Skins)
-                optionButton.AddItem(skin.Name, skin.GetHashCode());
+                optionButton.AddItem(skin.Name, skin.Name.GetHashCode());
         }
 
         private void _OptionButtonItemSelected(int index, ParentSkinOption option)
