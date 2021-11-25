@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 namespace OsuSkinMixer
@@ -7,6 +8,30 @@ namespace OsuSkinMixer
         public virtual string Name { get; set; }
 
         public OptionButton OptionButton { get; set; }
+
+        public static IEnumerable<ParentSkinOption> GetParents(SkinOption childOption, SkinOption[] skinOptions)
+        {
+            var result = new List<ParentSkinOption>();
+            helper(skinOptions);
+            return result;
+
+            bool helper(SkinOption[] children)
+            {
+                foreach (var option in children)
+                {
+                    if (option == childOption)
+                        return true;
+
+                    if (option is ParentSkinOption parentOption && helper(parentOption.Children))
+                    {
+                        result.Add(parentOption);
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
 
         public static SkinOption[] Default => new SkinOption[]
         {

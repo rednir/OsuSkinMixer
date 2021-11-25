@@ -289,6 +289,8 @@ namespace OsuSkinMixer
                 // For the ability to drag on the popup to move it.
                 option.OptionButton.GetPopup().Connect("gui_input", this, nameof(_PopupGuiInput), new Godot.Collections.Array(option.OptionButton.GetPopup()));
 
+                option.OptionButton.Connect("item_selected", this, nameof(_OptionButtonItemSelected), new Godot.Collections.Array(option));
+
                 var indent = new Panel()
                 {
                     RectMinSize = new Vector2(layer * 30, 1),
@@ -307,7 +309,6 @@ namespace OsuSkinMixer
                     vbox.AddChildBelowNode(hbox, newVbox);
 
                     arrowButton.Connect("toggled", this, nameof(_ArrowButtonPressed), new Godot.Collections.Array(newVbox));
-                    option.OptionButton.Connect("item_selected", this, nameof(_OptionButtonItemSelected), new Godot.Collections.Array(parentOption));
 
                     foreach (var child in parentOption.Children)
                         addOptionButton(child, newVbox, layer + 1);
@@ -341,10 +342,18 @@ namespace OsuSkinMixer
                 optionButton.AddItem(skin.Name, skin.Name.GetHashCode());
         }
 
-        private void _OptionButtonItemSelected(int index, ParentSkinOption option)
+        private void _OptionButtonItemSelected(int index, SkinOption option)
         {
-            foreach (var child in option.Children)
-                child.OptionButton.SelectAndEmit(index);
+            string selectedSkin = option.OptionButton.Text;
+
+            foreach (var parent in SkinOption.GetParents(option, SkinOptions))
+                parent.OptionButton.Text = parent.Children.All(o => o.OptionButton.Text == selectedSkin) ? selectedSkin : "<< VARIOUS >>";
+
+            if (option is ParentSkinOption parentOption)
+            {
+                foreach (var child in parentOption.Children)
+                    child.OptionButton.SelectAndEmit(index);
+            }
         }
 
         private void _PopupGuiInput(InputEvent @event, PopupMenu popupMenu)
