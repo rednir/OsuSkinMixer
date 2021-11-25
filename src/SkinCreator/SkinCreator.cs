@@ -139,7 +139,7 @@ namespace OsuSkinMixer
             if (section == null)
                 return;
 
-            Logger.Log($"Copying skin.ini section '{iniSectionOption.SectionName}' where `{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}`");
+            Logger.Log($"Copying skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}'");
 
             NewSkinIni.Sections.Add(section);
             foreach (var property in section)
