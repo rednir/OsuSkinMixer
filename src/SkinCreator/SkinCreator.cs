@@ -19,6 +19,8 @@ namespace OsuSkinMixer
 
         public string Status { get; set; }
 
+        public bool InProgress { get; set; }
+
         private SkinIni NewSkinIni;
         private DirectoryInfo NewSkinDir;
 
@@ -33,6 +35,35 @@ namespace OsuSkinMixer
             if (Directory.Exists(Settings.Content.SkinsFolder + "/" + Name) && !overwrite)
                 throw new SkinExistsException();
 
+            try
+            {
+                InProgress = true;
+                CreateSkin();
+            }
+            catch (Exception ex)
+            {
+                throw new SkinCreationFailedException($"Skin creation failure on '{Status}'", ex);
+            }
+            finally
+            {
+                InProgress = false;
+                NewSkinIni = null;
+                NewSkinDir = null;
+            }
+        }
+
+        public void TriggerOskImport()
+        {
+            string oskDestPath = $"{Settings.Content.SkinsFolder}/{Name}.osk";
+            Logger.Log($"Importing skin into game from '{oskDestPath}'");
+
+            // osu! will handle the empty .osk (zip) file by switching the current skin to the skin with name `newSkinName`.
+            File.WriteAllBytes(oskDestPath, new byte[] { 0x50, 0x4B, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+            Godot.OS.ShellOpen(oskDestPath);
+        }
+
+        private void CreateSkin()
+        {
             Logger.Log($"Beginning skin creation with name '{Name}'");
 
             Progress = 0;
@@ -74,16 +105,6 @@ namespace OsuSkinMixer
             NewSkinDir.MoveTo(dirDestPath);
 
             Logger.Log($"Skin creation for '{Name}' has completed.");
-        }
-
-        public void TriggerOskImport()
-        {
-            string oskDestPath = $"{Settings.Content.SkinsFolder}/{Name}.osk";
-            Logger.Log($"Importing skin into game from '{oskDestPath}'");
-
-            // osu! will handle the empty .osk (zip) file by switching the current skin to the skin with name `newSkinName`.
-            File.WriteAllBytes(oskDestPath, new byte[] { 0x50, 0x4B, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-            Godot.OS.ShellOpen(oskDestPath);
         }
 
         private void CopyOption(SkinOption option)
