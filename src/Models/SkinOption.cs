@@ -149,6 +149,7 @@ namespace OsuSkinMixer
                         Name = "Results screen",
                         Children = new SkinOption[]
                         {
+                            new SkinFileOption("pause-replay", false),
                             new SkinFileOption("ranking-a", false),
                             new SkinFileOption("ranking-b", false),
                             new SkinFileOption("ranking-c", false),
@@ -185,7 +186,6 @@ namespace OsuSkinMixer
                             new SkinFileOption("pause-back", false),
                             new SkinFileOption("pause-continue", false),
                             new SkinFileOption("pause-overlay", false),
-                            new SkinFileOption("pause-replay", false),
                             new SkinFileOption("pause-retry", false),
                             new SkinFileOption("play-skip*", false),
                             new SkinFileOption("play-unranked", false),
