@@ -15,9 +15,10 @@ namespace OsuSkinMixer
 
         public Skin[] Skins { get; set; }
 
-        public Action<float, string> ProgressSetter { get; set; }
+        public float Progress { get; private set; }
 
-        private float Progress;
+        public string Status { get; set; }
+
         private SkinIni NewSkinIni;
         private DirectoryInfo NewSkinDir;
 
@@ -35,7 +36,7 @@ namespace OsuSkinMixer
             Logger.Log($"Beginning skin creation with name '{Name}'");
 
             Progress = 0;
-            ProgressSetter?.Invoke(Progress, "Preparing...");
+            Status = "Preparing";
 
             NewSkinIni = new SkinIni(Name, "osu! skin mixer by rednir");
             NewSkinDir = Directory.CreateDirectory($"{Settings.Content.SkinsFolder}/{WORKING_DIR_NAME}");
@@ -53,7 +54,7 @@ namespace OsuSkinMixer
             foreach (var option in flattenedOptions)
             {
                 Logger.Log($"About to copy option '{option.Name}' set to '{option.OptionButton.Text}'");
-                ProgressSetter?.Invoke(Progress, $"Copying: {option.Name}");
+                Status = $"Copying: {option.Name}";
 
                 CopyOption(option);
                 Progress += progressInterval;
@@ -61,7 +62,8 @@ namespace OsuSkinMixer
 
             File.WriteAllText($"{NewSkinDir.FullName}/skin.ini", NewSkinIni.ToString());
 
-            ProgressSetter?.Invoke(Progress = 100, "Importing...");
+            Progress = 100;
+            Status = "Importing...";
 
             string dirDestPath = $"{Settings.Content.SkinsFolder}/{Name}";
             Logger.Log($"Copying working folder to '{dirDestPath}'");

@@ -16,6 +16,8 @@ namespace OsuSkinMixer
 
         private Skin[] Skins { get; set; }
 
+        private SkinCreator SkinCreator { get; set; }
+
         private readonly SkinOption[] SkinOptions = SkinOption.Default;
 
         private Dialog Dialog;
@@ -58,6 +60,15 @@ namespace OsuSkinMixer
                 RandomizeBottomLevelOptions();
             else if (@event.IsActionPressed("randomize_top_level_options"))
                 RandomizeTopLevelOptions();
+        }
+
+        public override void _Process(float delta)
+        {
+            if (ProgressBar.Visible)
+            {
+                ProgressBar.Value = SkinCreator.Progress;
+                ProgressBarLabel.Text = SkinCreator.Status;
+            }
         }
 
         private void _CreateSkinButtonPressed() => CreateSkin();
@@ -152,16 +163,11 @@ namespace OsuSkinMixer
                 return;
             }
 
-            var creator = new SkinCreator()
+            SkinCreator = new SkinCreator()
             {
                 Name = SkinNameEdit.Text.Replace(']', '-').Replace('[', '-'),
                 SkinOptions = SkinOptions,
                 Skins = Skins,
-                ProgressSetter = (v, t) =>
-                {
-                    ProgressBar.Value = v;
-                    //ProgressBarLabel.Text = t;
-                },
             };
 
             create(false);
@@ -174,7 +180,7 @@ namespace OsuSkinMixer
 
                 Task.Run(async () =>
                 {
-                    creator.Create(overwrite);
+                    SkinCreator.Create(overwrite);
                     await finalize();
                 })
                 .ContinueWith(t =>
@@ -187,7 +193,7 @@ namespace OsuSkinMixer
                     if (ex is SkinExistsException)
                     {
                         Dialog.Question(
-                            text: $"A skin with that name already exists. Replace it?\n\nThis will permanently remove '{creator.Name}'",
+                            text: $"A skin with that name already exists. Replace it?\n\nThis will permanently remove '{SkinCreator.Name}'",
                             action: b =>
                             {
                                 if (b)
@@ -212,7 +218,7 @@ namespace OsuSkinMixer
                 {
                     if (Settings.Content.ImportToGameIfOpen && IsOsuOpen())
                     {
-                        creator.TriggerOskImport();
+                        SkinCreator.TriggerOskImport();
                         Toast.New("Attempted to import skin into osu!");
                         return;
                     }
