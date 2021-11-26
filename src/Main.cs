@@ -173,17 +173,9 @@ namespace OsuSkinMixer
                 CreateSkinButton.Disabled = true;
                 ProgressBar.Visible = true;
 
-                Task.Run(async () =>
+                Task.Run(() => SkinCreator.Create(overwrite))
+                .ContinueWith(async t =>
                 {
-                    SkinCreator.Create(overwrite);
-                    await finalize();
-                })
-                .ContinueWith(t =>
-                {
-                    SetOptionButtonsDisabled(false);
-                    CreateSkinButton.Disabled = false;
-                    ProgressBar.Visible = false;
-
                     var ex = t.Exception?.InnerException;
                     if (ex is SkinExistsException)
                     {
@@ -204,6 +196,14 @@ namespace OsuSkinMixer
                         Logger.Log($"Exception thrown:\n\n{ex}\n\n");
                         Dialog.Alert($"{ex.Message}\n\nPlease report this issue and attach logs.");
                     }
+                    else
+                    {
+                        await finalize();
+                    }
+
+                    SetOptionButtonsDisabled(false);
+                    CreateSkinButton.Disabled = false;
+                    ProgressBar.Visible = false;
                 });
             }
 
