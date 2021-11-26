@@ -87,6 +87,10 @@ namespace OsuSkinMixer
                 Logger.Log($"About to copy option '{option.Name}' set to '{option.OptionButton.Text}'");
                 Status = $"Copying: {option.Name}";
 
+                // User wants default skin elements to be used.
+                if (option.OptionButton.GetSelectedId() == 0)
+                    continue;
+
                 CopyOption(option);
                 Progress += progressInterval;
             }
@@ -109,10 +113,6 @@ namespace OsuSkinMixer
 
         private void CopyOption(SkinOption option)
         {
-            // User wants default skin elements to be used.
-            if (option.OptionButton.GetSelectedId() == 0)
-                return;
-
             var skin = Array.Find(Skins, s => s.Name == option.OptionButton.Text);
             if (skin == null)
                 throw new InvalidOperationException($"Skin '{option.OptionButton.Text}' does not exist. Try F5.");
