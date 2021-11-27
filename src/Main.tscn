@@ -127,6 +127,7 @@ __meta__ = {
 margin_left = 204.0
 margin_right = 284.0
 margin_bottom = 28.0
+rect_min_size = Vector2( 80, 0 )
 text = "Create skin"
 
 [node name="TopBar" parent="." instance=ExtResource( 8 )]
