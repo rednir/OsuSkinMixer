@@ -201,9 +201,6 @@ namespace OsuSkinMixer
         {
             foreach (var file in skin.Directory.EnumerateFiles())
             {
-                if (File.Exists($"{NewSkinDir.FullName}/{file.Name}"))
-                    continue;
-
                 string filename = Path.GetFileNameWithoutExtension(file.Name);
                 string extension = Path.GetExtension(file.Name);
 
@@ -220,7 +217,15 @@ namespace OsuSkinMixer
                     )
                     {
                         Logger.Log($"'{file.FullName}' -> '{NewSkinDir.FullName}/{file.Name}' (due to filename match)");
-                        file.CopyTo($"{NewSkinDir.FullName}/{file.Name}");
+
+                        try
+                        {
+                            file.CopyTo($"{NewSkinDir.FullName}/{file.Name}");
+                        }
+                        catch (IOException)
+                        {
+                            Logger.Log("...but it failed, probably because the file already exists.");
+                        }
                     }
                 }
             }
