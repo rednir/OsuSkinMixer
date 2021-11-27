@@ -547,7 +547,7 @@ namespace OsuSkinMixer
                             new SkinFileOption("heartbeat", true),
                             new SkinFileOption("key*", true),
                             new SkinFileOption("match*", true),
-                            new SkinFileOption("menu-back*", true),
+                            new SkinFileOption("menu-back-*", true),
                             new SkinFileOption("menu-charts*", true),
                             new SkinFileOption("menu-direct*", true),
                             new SkinFileOption("menu-edit*", true),
