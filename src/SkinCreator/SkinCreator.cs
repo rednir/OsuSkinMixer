@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace OsuSkinMixer
 {
@@ -24,7 +25,7 @@ namespace OsuSkinMixer
         private SkinIni NewSkinIni;
         private DirectoryInfo NewSkinDir;
 
-        public void Create(bool overwrite = false)
+        public void Create(bool overwrite, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(Name))
                 throw new SkinCreationInvalidException("Set a name for the new skin first.");
@@ -38,7 +39,11 @@ namespace OsuSkinMixer
             try
             {
                 InProgress = true;
-                CreateSkin();
+                CreateSkin(cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -62,7 +67,7 @@ namespace OsuSkinMixer
             Godot.OS.ShellOpen(oskDestPath);
         }
 
-        private void CreateSkin()
+        private void CreateSkin(CancellationToken cancellationToken)
         {
             Logger.Log($"Beginning skin creation with name '{Name}'");
 
@@ -84,6 +89,8 @@ namespace OsuSkinMixer
 
             foreach (var option in flattenedOptions)
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 Logger.Log($"About to copy option '{option.Name}' set to '{option.OptionButton.Text}'");
                 Status = $"Copying: {option.Name}";
 

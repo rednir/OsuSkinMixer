@@ -7,12 +7,15 @@ using Environment = System.Environment;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace OsuSkinMixer
 {
     public class Main : Control
     {
         public const string ROOT_VBOX_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
+
+        private CancellationTokenSource CancellationTokenSource { get; set; }
 
         private SkinCreator SkinCreator { get; } = new SkinCreator();
 
@@ -72,7 +75,17 @@ namespace OsuSkinMixer
             }
         }
 
-        private void _CreateSkinButtonPressed() => CreateSkin();
+        private void _CreateSkinButtonPressed()
+        {
+            if (SkinCreator.InProgress)
+            {
+                CreateSkinButton.Disabled = true;
+                CancellationTokenSource.Cancel();
+                return;
+            }
+
+            CreateSkin();
+        }
 
         #region Actions
 
@@ -170,10 +183,12 @@ namespace OsuSkinMixer
                 }
 
                 SetOptionButtonsDisabled(true);
-                CreateSkinButton.Disabled = true;
+                CreateSkinButton.Text = "Cancel";
                 ProgressBar.Visible = true;
 
-                Task.Run(() => SkinCreator.Create(overwrite))
+                CancellationTokenSource = new CancellationTokenSource();
+
+                Task.Run(() => SkinCreator.Create(overwrite, CancellationTokenSource.Token))
                 .ContinueWith(async t =>
                 {
                     var ex = t.Exception?.InnerException;
@@ -187,7 +202,7 @@ namespace OsuSkinMixer
                                     create(true);
                             });
                     }
-                    else if (ex is SkinCreationInvalidException)
+                    else if (ex is SkinCreationInvalidException || ex is OperationCanceledException)
                     {
                         Toast.New(ex.Message);
                     }
@@ -203,6 +218,7 @@ namespace OsuSkinMixer
 
                     SetOptionButtonsDisabled(false);
                     CreateSkinButton.Disabled = false;
+                    CreateSkinButton.Text = "Create skin";
                     ProgressBar.Visible = false;
                 });
             }
