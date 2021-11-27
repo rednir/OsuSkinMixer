@@ -88,6 +88,10 @@ namespace OsuSkinMixer
                 case 1:
                     OS.ShellOpen("https://github.com/rednir/OsuSkinMixer/issues/new/choose");
                     break;
+
+                case 2:
+                    OS.ShellOpen("https://github.com/rednir/rednir/blob/master/DONATE.md");
+                    break;
             }
         }
     }

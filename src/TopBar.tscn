@@ -41,4 +41,4 @@ margin_right = 156.0
 margin_bottom = 28.0
 focus_mode = 2
 text = "Help"
-items = [ "Report a bug", null, 0, false, false, 0, 0, null, "", false, "Suggest a feature", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "Report a bug", null, 0, false, false, 0, 0, null, "", false, "Suggest a feature", null, 0, false, false, 1, 0, null, "", false, "Donate", null, 0, false, false, 2, 0, null, "", false ]
