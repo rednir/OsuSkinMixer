@@ -7,6 +7,10 @@ namespace OsuSkinMixer
 {
     public class Skin
     {
+        public Skin()
+        {
+        }
+
         public Skin(DirectoryInfo dir)
         {
             Name = dir.Name;

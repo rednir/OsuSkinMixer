@@ -22,6 +22,7 @@ namespace OsuSkinMixer
 
         public bool InProgress { get; set; }
 
+        private readonly List<SkinWithFiles> CachedSkinWithFiles = new List<SkinWithFiles>();
         private SkinIni NewSkinIni;
         private DirectoryInfo NewSkinDir;
 
@@ -51,6 +52,7 @@ namespace OsuSkinMixer
             }
             finally
             {
+                CachedSkinWithFiles.Clear();
                 InProgress = false;
                 NewSkinIni = null;
                 NewSkinDir = null;
@@ -120,9 +122,7 @@ namespace OsuSkinMixer
 
         private void CopyOption(SkinOption option)
         {
-            var skin = Array.Find(Skins, s => s.Name == option.OptionButton.Text);
-            if (skin == null)
-                throw new InvalidOperationException($"Skin '{option.OptionButton.Text}' does not exist. Try F5.");
+            var skin = GetSkinWithFiles(option.OptionButton.Text);
 
             if (skin.SkinIni != null)
             {
@@ -136,7 +136,7 @@ namespace OsuSkinMixer
                 CopyFileOption(skin, fileOption);
         }
 
-        private void CopyIniPropertyOption(Skin skin, SkinIniPropertyOption iniPropertyOption)
+        private void CopyIniPropertyOption(SkinWithFiles skin, SkinIniPropertyOption iniPropertyOption)
         {
             var property = iniPropertyOption.IncludeSkinIniProperty;
 
@@ -161,7 +161,7 @@ namespace OsuSkinMixer
             }
         }
 
-        private void CopyIniSectionOption(Skin skin, SkinIniSectionOption iniSectionOption)
+        private void CopyIniSectionOption(SkinWithFiles skin, SkinIniSectionOption iniSectionOption)
         {
             SkinIniSection section = skin.SkinIni.Sections.Find(
                 s => s.Name == iniSectionOption.SectionName && s.Contains(iniSectionOption.Property));
@@ -176,7 +176,7 @@ namespace OsuSkinMixer
                 CopyFileFromSkinIniProperty(skin, property);
         }
 
-        private void CopyFileFromSkinIniProperty(Skin skin, KeyValuePair<string, string> property)
+        private void CopyFileFromSkinIniProperty(SkinWithFiles skin, KeyValuePair<string, string> property)
         {
             // TODO: we only need to proceed if this skin.ini property is known to have a file path.
             int lastSlashIndex = property.Value.LastIndexOf('/');
@@ -197,9 +197,9 @@ namespace OsuSkinMixer
             }
         }
 
-        private void CopyFileOption(Skin skin, SkinFileOption fileOption)
+        private void CopyFileOption(SkinWithFiles skin, SkinFileOption fileOption)
         {
-            foreach (var file in skin.Directory.EnumerateFiles())
+            foreach (var file in skin.Files)
             {
                 string filename = Path.GetFileNameWithoutExtension(file.Name);
                 string extension = Path.GetExtension(file.Name);
@@ -229,6 +229,23 @@ namespace OsuSkinMixer
                     }
                 }
             }
+        }
+
+        private SkinWithFiles GetSkinWithFiles(string name)
+        {
+            var existing = CachedSkinWithFiles.Find(s => s.Name == name);
+            if (existing != null)
+                return existing;
+
+            var skin = Array.Find(Skins, s => s.Name == name);
+            if (skin == null)
+                throw new SkinCreationFailedException($"Skin '{name}' does not exist. Try F5.");
+
+            Logger.Log($"Caching skin's files for '{skin.Name}'");
+            var skinWithFiles = new SkinWithFiles(skin);
+            CachedSkinWithFiles.Add(skinWithFiles);
+
+            return skinWithFiles;
         }
     }
 }
