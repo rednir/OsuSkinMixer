@@ -170,6 +170,18 @@ namespace OsuSkinMixer
                     },
                     new ParentSkinOption
                     {
+                        Name = "Pause/Fail screen",
+                        Children = new SkinOption[]
+                        {
+                            new SkinFileOption("fail-background", false),
+                            new SkinFileOption("pause-back", false),
+                            new SkinFileOption("pause-continue", false),
+                            new SkinFileOption("pause-overlay", false),
+                            new SkinFileOption("pause-retry", false),
+                        },
+                    },
+                    new ParentSkinOption
+                    {
                         Name = "In-game",
                         Children = new SkinOption[]
                         {
@@ -178,14 +190,9 @@ namespace OsuSkinMixer
                             new SkinFileOption("count1", false),
                             new SkinFileOption("count2", false),
                             new SkinFileOption("count3", false),
-                            new SkinFileOption("fail-background", false),
                             new SkinFileOption("go", false),
                             new SkinFileOption("inputoverlay*", false),
                             new SkinFileOption("masking-border", false),
-                            new SkinFileOption("pause-back", false),
-                            new SkinFileOption("pause-continue", false),
-                            new SkinFileOption("pause-overlay", false),
-                            new SkinFileOption("pause-retry", false),
                             new SkinFileOption("play-skip*", false),
                             new SkinFileOption("play-unranked", false),
                             new SkinFileOption("play-warningarrow", false),
