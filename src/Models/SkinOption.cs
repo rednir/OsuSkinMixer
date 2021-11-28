@@ -98,7 +98,6 @@ namespace OsuSkinMixer
                             new SkinFileOption("selection-random*", false),
                             new SkinFileOption("selection-tab", false),
                             new SkinFileOption("star", false),
-                            new SkinFileOption("star2", false),
                             new SkinFileOption("welcome_text", false),
 
                             new SkinIniPropertyOption("Colours", "MenuGlow"),
@@ -436,7 +435,7 @@ namespace OsuSkinMixer
                         {
                             new SkinFileOption("cursortrail", false),
                             new SkinFileOption("cursormiddle", false),
-                            new SkinFileOption("star-2", false),
+                            new SkinFileOption("star2", false),
 
                             new SkinIniPropertyOption("General", "CursorTrailRotate"),
                         },
