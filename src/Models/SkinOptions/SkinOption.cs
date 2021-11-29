@@ -197,7 +197,7 @@ namespace OsuSkinMixer
                             new SkinFileOption("play-unranked", false),
                             new SkinFileOption("play-warningarrow", false),
                             new SkinFileOption("scorebar-bg", false),
-                            new SkinFileOption("scorebar-colour", false),
+                            new SkinFileOption("scorebar-colour*", false),
                             new SkinFileOption("scorebar-ki", false),
                             new SkinFileOption("scorebar-kidanger", false),
                             new SkinFileOption("scorebar-kidanger2", false),
