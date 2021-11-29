@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using Godot;
 using File = System.IO.File;
 
@@ -7,12 +8,14 @@ namespace OsuSkinMixer
 {
     public static class Logger
     {
+        private static StringBuilder LogContent { get; } = new StringBuilder();
+
         public static void Init()
         {
             try
             {
                 if (Settings.Content.LogToFile)
-                    File.WriteAllText(Settings.LogFilePath, $"------- osu! skin mixer {Settings.VERSION} -------\n");
+                    File.WriteAllText(Settings.LogFilePath, $"------- osu! skin mixer {Settings.VERSION} -------\n{LogContent}");
             }
             catch (Exception ex)
             {
@@ -22,10 +25,14 @@ namespace OsuSkinMixer
             }
         }
 
-        public static void Log(string text)
+        public static void Log(string text) =>
+            AddToLog($"[{DateTime.Now.ToLongTimeString()}] {text}");
+
+        private static void AddToLog(string value)
         {
+            LogContent.AppendLine(value);
             if (Settings.Content.LogToFile)
-                File.AppendAllText(Settings.LogFilePath, $"[{DateTime.Now.ToLongTimeString()}] {text}\n");
+                File.AppendAllText(Settings.LogFilePath + "\n", value);
         }
     }
 }
