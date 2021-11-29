@@ -307,14 +307,6 @@ namespace OsuSkinMixer
                             },
                             new ParentSkinOption
                             {
-                                Name = "Followpoints",
-                                Children = new SkinOption[]
-                                {
-                                    new SkinFileOption("followpoint*", false),
-                                },
-                            },
-                            new ParentSkinOption
-                            {
                                 Name = "Hit judgements",
                                 Children = new SkinOption[]
                                 {
@@ -325,6 +317,7 @@ namespace OsuSkinMixer
                                     new SkinFileOption("particle*", false),
                                 },
                             },
+                            new SkinFileOption("followpoint*", false),
                             new SkinFileOption("comboburst", false),
                         },
                     },
@@ -447,14 +440,7 @@ namespace OsuSkinMixer
                             new SkinIniPropertyOption("General", "CursorTrailRotate"),
                         },
                     },
-                    new ParentSkinOption
-                    {
-                        Name = "Smoke",
-                        Children = new SkinOption[]
-                        {
-                            new SkinFileOption("cursor-smoke", false),
-                        },
-                    },
+                    new SkinFileOption("cursor-smoke", false),
                 },
             },
             new ParentSkinOption
