@@ -326,7 +326,7 @@ namespace OsuSkinMixer
 
                 if (option is ParentSkinOption parentOption)
                 {
-                    var newVbox = createVbox(parentOption);
+                    var newVbox = CreateOptionChildrenVBox();
                     vbox.AddChildBelowNode(hbox, newVbox);
 
                     arrowButton.Connect("toggled", this, nameof(_ArrowButtonPressed), new Godot.Collections.Array(newVbox));
@@ -341,19 +341,18 @@ namespace OsuSkinMixer
                     arrowButton.Modulate = new Color(0, 0, 0, 0);
                 }
             }
+        }
 
-            VBoxContainer createVbox(ParentSkinOption parentOption)
+        private VBoxContainer CreateOptionChildrenVBox()
+        {
+            var vbox = new VBoxContainer()
             {
-                var vbox = new VBoxContainer()
-                {
-                    Name = $"{parentOption.Name}children",
-                    MarginLeft = 20,
-                    Visible = false,
-                };
+                MarginLeft = 20,
+                Visible = false,
+            };
 
-                vbox.AddConstantOverride("separation", 10);
-                return vbox;
-            }
+            vbox.AddConstantOverride("separation", 10);
+            return vbox;
         }
 
         private void PopulateOptionButton(OptionButton optionButton)
