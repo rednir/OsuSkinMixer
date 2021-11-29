@@ -13,8 +13,6 @@ namespace OsuSkinMixer
 {
     public class Main : Control
     {
-        public const string ROOT_VBOX_PATH = "ScrollContainer/CenterContainer/VBoxContainer";
-
         private CancellationTokenSource CancellationTokenSource { get; set; }
 
         private SkinCreator SkinCreator { get; } = new SkinCreator();
@@ -286,7 +284,7 @@ namespace OsuSkinMixer
 
         private void CreateOptionButtons()
         {
-            var rootVbox = GetNode<VBoxContainer>(ROOT_VBOX_PATH);
+            var rootVbox = GetNode<VBoxContainer>("ScrollContainer/CenterContainer/VBoxContainer");
 
             foreach (var child in rootVbox.GetChildren())
                 ((Node)child).QueueFree();
