@@ -35,7 +35,7 @@ namespace OsuSkinMixer
         {
             LogContent.AppendLine(value);
             if (Settings.Content.LogToFile)
-                File.AppendAllText(Settings.LogFilePath + "\n", value);
+                File.AppendAllText(Settings.LogFilePath, value + "\n");
         }
     }
 }
