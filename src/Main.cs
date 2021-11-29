@@ -208,7 +208,7 @@ namespace OsuSkinMixer
                     }
                     else if (ex is SkinCreationFailedException)
                     {
-                        Logger.Log($"Exception thrown:\n\n{ex}\n\n");
+                        Logger.LogException(ex);
                         Dialog.Alert($"{ex.Message}\n\nPlease report this issue and attach logs.");
                     }
                     else
@@ -236,7 +236,7 @@ namespace OsuSkinMixer
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log($"Couldn't import skin as an .osk file:\n\n{ex}\n\n");
+                    Logger.LogException(ex);
                     Toast.New("Couldn't import skin as an .osk file...");
                     await Task.Delay(800);
                 }

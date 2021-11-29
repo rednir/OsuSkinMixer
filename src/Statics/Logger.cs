@@ -28,6 +28,9 @@ namespace OsuSkinMixer
         public static void Log(string text) =>
             AddToLog($"[{DateTime.Now.ToLongTimeString()}] {text}");
 
+        public static void LogException(Exception ex) =>
+            AddToLog($"[{DateTime.Now.ToLongTimeString()}] Exception was thrown:\n\n{ex}\n\n");
+
         private static void AddToLog(string value)
         {
             LogContent.AppendLine(value);
