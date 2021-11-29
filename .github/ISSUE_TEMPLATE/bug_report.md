@@ -12,7 +12,7 @@ Provide details about the bug below.
 
 Logs may be helpful to me. To upload logs:
  1. open osu! skin mixer
- 2. enable the "log to file" option in the "options" menu at the top
- 3. reproduce the issue (e.g. recreate the skin)
+ 2. create the skin (or do whatever it is that causes the issue)
+ 3. enable "log to file" in the "options" menu at the top
  4. drag and drop the file at "%localappdata%/osu-skin-mixer/log.txt" into here.
 -->
