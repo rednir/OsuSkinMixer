@@ -178,21 +178,28 @@ namespace OsuSkinMixer
 
         private void CopyFileFromSkinIniProperty(SkinWithFiles skin, KeyValuePair<string, string> property)
         {
-            // TODO: we only need to proceed if this skin.ini property is known to have a file path.
+            if (!SkinIni.PropertyHasFilePath(property.Key))
+                return;
+
             int lastSlashIndex = property.Value.LastIndexOf('/');
             string prefixPropertyDirPath = lastSlashIndex >= 0 ? property.Value.Substring(0, lastSlashIndex) : null;
             string prefixPropertyFileName = property.Value.Substring(lastSlashIndex + 1);
 
-            if (Directory.Exists($"{skin.Directory.FullName}/{prefixPropertyDirPath}"))
+            // If `prefixPropertyDirPath` is null, the path is the skin folder root which obviously exists.
+            if (prefixPropertyDirPath != null && !Directory.Exists($"{skin.Directory.FullName}/{prefixPropertyDirPath}"))
+                return;
+
+            // In that case, better to use the existing file collection that we have instead of creating another one.
+            IEnumerable<FileInfo> files = prefixPropertyDirPath == null ?
+                skin.Files : new DirectoryInfo($"{skin.Directory.FullName}/{prefixPropertyDirPath}").EnumerateFiles();
+
+            var fileDestDir = Directory.CreateDirectory($"{NewSkinDir}/{prefixPropertyDirPath}");
+            foreach (var file in files)
             {
-                var fileDestDir = Directory.CreateDirectory($"{NewSkinDir}/{prefixPropertyDirPath}");
-                foreach (var file in new DirectoryInfo($"{skin.Directory.FullName}/{prefixPropertyDirPath}").EnumerateFiles())
+                if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        Logger.Log($"'{file.FullName}' -> '{fileDestDir.FullName}' (due to skin.ini)");
-                        file.CopyTo($"{fileDestDir.FullName}/{file.Name}", true);
-                    }
+                    Logger.Log($"'{file.FullName}' -> '{fileDestDir.FullName}' (due to skin.ini)");
+                    file.CopyTo($"{fileDestDir.FullName}/{file.Name}", true);
                 }
             }
         }

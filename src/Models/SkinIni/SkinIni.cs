@@ -7,6 +7,22 @@ namespace OsuSkinMixer
 {
     public class SkinIni
     {
+        public static bool PropertyHasFilePath(string propertyName) =>
+            (propertyName.StartsWith("Stage") && propertyName != "StageSeparation")
+            || propertyName.EndsWith("Prefix")
+            || propertyName.StartsWith("KeyImage")
+            || propertyName.StartsWith("NoteImage")
+            || propertyName == "LightingN"
+            || propertyName == "LightingL"
+            || propertyName == "WarningArrow"
+            || propertyName == "WarningArrow"
+            || propertyName == "Hit0"
+            || propertyName == "Hit50"
+            || propertyName == "Hit100"
+            || propertyName == "Hit200"
+            || propertyName == "Hit300"
+            || propertyName == "Hit300g";
+
         public SkinIni(string name, string author, string version = "latest")
         {
             Sections = new List<SkinIniSection>()
