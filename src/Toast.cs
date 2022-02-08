@@ -16,6 +16,7 @@ namespace OsuSkinMixer
 
         public void New(string text)
         {
+            Logger.Log($"New toast with text: {text}");
             AnimationPlayer.Stop();
             Label.Text = text;
             AnimationPlayer.Play("new");

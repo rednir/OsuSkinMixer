@@ -76,6 +76,7 @@ namespace OsuSkinMixer
         {
             if (SkinCreator?.IsInProgress ?? false)
             {
+                Logger.Log("Skin creator cancellation requested.");
                 CreateSkinButton.Disabled = true;
                 CancellationTokenSource.Cancel();
                 return;
