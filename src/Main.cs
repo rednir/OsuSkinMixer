@@ -219,7 +219,7 @@ namespace OsuSkinMixer
                     }
                     else
                     {
-                        await finalize();
+                        await finalizeSuccessfulCreation();
                     }
 
                     resetValues();
@@ -242,7 +242,7 @@ namespace OsuSkinMixer
                 ProgressBar.Visible = false;
             }
 
-            async Task finalize()
+            async Task finalizeSuccessfulCreation()
             {
                 try
                 {
