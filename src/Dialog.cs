@@ -32,7 +32,7 @@ namespace OsuSkinMixer
             OptionButton = GetNode<OptionButton>("OptionButton");
             FileDialog = GetNode<FileDialog>("FileDialog");
 
-            OkButton.Connect("pressed", this, "_OkButtonPressed");
+            OkButton.Connect("pressed", this, nameof(_OkButtonPressed));
             FileDialog.Connect("dir_selected", this, nameof(_DirSelected));
             GetNode<Button>("QuestionButtons/YesButton").Connect("pressed", this, nameof(_YesButtonPressed));
             GetNode<Button>("QuestionButtons/NoButton").Connect("pressed", this, nameof(_NoButtonPressed));
