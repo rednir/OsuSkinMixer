@@ -100,7 +100,10 @@ namespace OsuSkinMixer
         private void _OkButtonPressed()
         {
             OptionAction?.Invoke(OptionButton.Selected);
+            OptionAction = null;
+
             AnimationPlayer.Play(!TextInputFunc?.Invoke(LineEdit.Text) ?? false ? "invalid-input" : "out");
+            TextInputFunc = null;
         }
 
         private void _FolderButtonPressed()
@@ -117,12 +120,14 @@ namespace OsuSkinMixer
         private void _YesButtonPressed()
         {
             QuestionAction?.Invoke(true);
+            QuestionAction = null;
             AnimationPlayer.Play("out");
         }
 
         private void _NoButtonPressed()
         {
             QuestionAction?.Invoke(false);
+            QuestionAction = null;
             AnimationPlayer.Play("out");
         }
     }
