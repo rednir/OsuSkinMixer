@@ -16,11 +16,11 @@ namespace OsuSkinMixer
 
         public Skin[] Skins { get; set; }
 
-        public float Progress { get; private set; }
+        public float? Progress { get; private set; }
+
+        public bool IsInProgress => Progress != null && Progress != 100;
 
         public string Status { get; set; }
-
-        public bool InProgress { get; set; }
 
         private readonly List<SkinWithFiles> CachedSkinWithFiles = new List<SkinWithFiles>();
         private SkinIni NewSkinIni;
@@ -28,6 +28,9 @@ namespace OsuSkinMixer
 
         public void Create(bool overwrite, CancellationToken cancellationToken)
         {
+            if (Progress != null)
+                throw new SkinCreationInvalidException("Skin creator has been used or is in use.");
+
             if (string.IsNullOrWhiteSpace(Name))
                 throw new SkinCreationInvalidException("Set a name for the new skin first.");
 
@@ -39,7 +42,6 @@ namespace OsuSkinMixer
 
             try
             {
-                InProgress = true;
                 CreateSkin(cancellationToken);
             }
             catch (OperationCanceledException)
@@ -52,10 +54,7 @@ namespace OsuSkinMixer
             }
             finally
             {
-                CachedSkinWithFiles.Clear();
-                InProgress = false;
-                NewSkinIni = null;
-                NewSkinDir = null;
+                Progress = 100;
             }
         }
 
@@ -106,7 +105,6 @@ namespace OsuSkinMixer
 
             File.WriteAllText($"{NewSkinDir.FullName}/skin.ini", NewSkinIni.ToString());
 
-            Progress = 100;
             Status = "Importing...";
 
             string dirDestPath = $"{Settings.Content.SkinsFolder}/{Name}";

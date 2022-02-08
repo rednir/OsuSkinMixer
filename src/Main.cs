@@ -15,7 +15,11 @@ namespace OsuSkinMixer
     {
         private CancellationTokenSource CancellationTokenSource { get; set; }
 
-        private SkinCreator SkinCreator { get; } = new SkinCreator();
+        private SkinOption[] SkinOptions { get; } = SkinOption.Default;
+
+        private Skin[] Skins { get; set; }
+
+        private SkinCreator SkinCreator { get; set; }
 
         private Dialog Dialog;
         private Toast Toast;
@@ -24,11 +28,6 @@ namespace OsuSkinMixer
         private Button CreateSkinButton;
         private LineEdit SkinNameEdit;
         private ScrollContainer ScrollContainer;
-
-        public Main()
-        {
-            SkinCreator.SkinOptions = SkinOption.Default;
-        }
 
         public override void _Ready()
         {
@@ -68,14 +67,14 @@ namespace OsuSkinMixer
         {
             if (ProgressBar.Visible)
             {
-                ProgressBar.Value = SkinCreator.Progress;
-                ProgressBarLabel.Text = SkinCreator.Status;
+                ProgressBar.Value = SkinCreator?.Progress ?? 0;
+                ProgressBarLabel.Text = SkinCreator?.Status;
             }
         }
 
         private void _CreateSkinButtonPressed()
         {
-            if (SkinCreator.InProgress)
+            if (SkinCreator?.IsInProgress ?? false)
             {
                 CreateSkinButton.Disabled = true;
                 CancellationTokenSource.Cancel();
@@ -90,7 +89,7 @@ namespace OsuSkinMixer
         public void ResetSelections()
         {
             SkinNameEdit.Clear();
-            foreach (var option in SkinOption.Flatten(SkinCreator.SkinOptions))
+            foreach (var option in SkinOption.Flatten(SkinOptions))
                 option.OptionButton.SelectAndEmit(0);
 
             Toast.New("Reset selections!");
@@ -99,7 +98,7 @@ namespace OsuSkinMixer
         public void RandomizeTopLevelOptions()
         {
             var random = new Random();
-            foreach (var option in SkinCreator.SkinOptions)
+            foreach (var option in SkinOptions)
                 option.OptionButton.SelectAndEmit(random.Next(0, option.OptionButton.GetItemCount() - 1));
 
             Toast.New("Randomized top-level options!");
@@ -108,7 +107,7 @@ namespace OsuSkinMixer
         public void RandomizeBottomLevelOptions()
         {
             var random = new Random();
-            foreach (var option in SkinOption.Flatten(SkinCreator.SkinOptions).Where(o => !(o is ParentSkinOption)))
+            foreach (var option in SkinOption.Flatten(SkinOptions).Where(o => !(o is ParentSkinOption)))
                 option.OptionButton.SelectAndEmit(random.Next(0, option.OptionButton.GetItemCount() - 1));
 
             Toast.New("Randomized bottom-level options!");
@@ -117,14 +116,14 @@ namespace OsuSkinMixer
         public void UseExistingSkin()
         {
             // All the OptionButtons should have equal `Items` anyway, so just get the first.
-            var optionButton = SkinCreator.SkinOptions[0].OptionButton;
+            var optionButton = SkinOptions[0].OptionButton;
 
             Dialog.Options("Select a skin to use.", optionButton.Items, i =>
             {
                 // This assumes that index 0 is default skin.
                 SkinNameEdit.Text = i == 0 ? string.Empty : optionButton.GetItemText(i);
 
-                foreach (var option in SkinCreator.SkinOptions)
+                foreach (var option in SkinOptions)
                     option.OptionButton.SelectAndEmit(i);
             });
         }
@@ -133,7 +132,7 @@ namespace OsuSkinMixer
         {
             TrySetSkins();
 
-            foreach (var option in SkinOption.Flatten(SkinCreator.SkinOptions))
+            foreach (var option in SkinOption.Flatten(SkinOptions))
             {
                 int selectedId = option.OptionButton.GetSelectedId();
                 option.OptionButton.Clear();
@@ -169,21 +168,24 @@ namespace OsuSkinMixer
 
         public void CreateSkin()
         {
-            SkinCreator.Name = SkinNameEdit.Text.Replace(']', '-').Replace('[', '-');
+            if (SkinCreator?.IsInProgress ?? false)
+            {
+                Toast.New("Skin creation is already in progress.");
+                return;
+            }
+
+            SkinCreator = new SkinCreator()
+            {
+                Name = SkinNameEdit.Text.Replace(']', '-').Replace('[', '-'),
+                SkinOptions = SkinOptions,
+                Skins = Skins,
+            };
+
             create(false);
 
             void create(bool overwrite)
             {
-                if (SkinCreator.InProgress)
-                {
-                    Toast.New("Skin creation is already in progress.");
-                    return;
-                }
-
-                SetOptionButtonsDisabled(true);
-                CreateSkinButton.Text = "Cancel";
-                ProgressBar.Visible = true;
-
+                setValues();
                 CancellationTokenSource = new CancellationTokenSource();
 
                 Task.Run(() => SkinCreator.Create(overwrite, CancellationTokenSource.Token))
@@ -198,13 +200,18 @@ namespace OsuSkinMixer
                             {
                                 if (b)
                                     create(true);
+                                else
+                                    resetValues();
                             });
+
+                        // Don't call resetValues immediately, wait until dialog is closed.
+                        return;
                     }
                     else if (ex is SkinCreationInvalidException || ex is OperationCanceledException)
                     {
                         Toast.New(ex.Message);
                     }
-                    else if (ex is SkinCreationFailedException)
+                    else if (ex is Exception)
                     {
                         Logger.LogException(ex);
                         Dialog.Alert($"{ex.Message}\n\nPlease report this issue and attach logs.");
@@ -214,11 +221,24 @@ namespace OsuSkinMixer
                         await finalize();
                     }
 
-                    SetOptionButtonsDisabled(false);
-                    CreateSkinButton.Disabled = false;
-                    CreateSkinButton.Text = "Create skin";
-                    ProgressBar.Visible = false;
+                    resetValues();
                 });
+            }
+
+            void setValues()
+            {
+                SetOptionButtonsDisabled(true);
+                CreateSkinButton.Disabled = false;
+                CreateSkinButton.Text = "Cancel";
+                ProgressBar.Visible = true;
+            }
+
+            void resetValues()
+            {
+                SetOptionButtonsDisabled(false);
+                CreateSkinButton.Disabled = false;
+                CreateSkinButton.Text = "Create skin";
+                ProgressBar.Visible = false;
             }
 
             async Task finalize()
@@ -245,7 +265,7 @@ namespace OsuSkinMixer
 
         private void SetOptionButtonsDisabled(bool value)
         {
-            foreach (var option in SkinOption.Flatten(SkinCreator.SkinOptions))
+            foreach (var option in SkinOption.Flatten(SkinOptions))
                 option.OptionButton.Disabled = value;
         }
 
@@ -274,7 +294,7 @@ namespace OsuSkinMixer
                     result.Add(new Skin(dir));
             }
 
-            SkinCreator.Skins = result.OrderBy(s => s.Name).ToArray();
+            Skins = result.OrderBy(s => s.Name).ToArray();
             return true;
         }
 
@@ -289,7 +309,7 @@ namespace OsuSkinMixer
             foreach (var child in rootVbox.GetChildren())
                 ((Node)child).QueueFree();
 
-            foreach (var option in SkinCreator.SkinOptions)
+            foreach (var option in SkinOptions)
                 addOptionButton(option, rootVbox, 0);
 
             void addOptionButton(SkinOption option, VBoxContainer vbox, int layer)
@@ -358,7 +378,7 @@ namespace OsuSkinMixer
         private void PopulateOptionButton(OptionButton optionButton)
         {
             optionButton.AddItem("<< use default skin >>", 0);
-            foreach (var skin in SkinCreator.Skins)
+            foreach (var skin in Skins)
                 optionButton.AddItem(skin.Name, skin.Name.GetHashCode());
         }
 
@@ -366,7 +386,7 @@ namespace OsuSkinMixer
         {
             string selectedSkin = option.OptionButton.Text;
 
-            foreach (var parent in SkinOption.GetParents(option, SkinCreator.SkinOptions))
+            foreach (var parent in SkinOption.GetParents(option, SkinOptions))
                 parent.OptionButton.Text = parent.Children.All(o => o.OptionButton.Text == selectedSkin) ? selectedSkin : "<< VARIOUS >>";
 
             if (option is ParentSkinOption parentOption)
