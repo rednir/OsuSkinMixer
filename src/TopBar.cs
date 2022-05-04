@@ -20,6 +20,7 @@ namespace OsuSkinMixer
             OptionsPopup.Connect("id_pressed", this, nameof(_OptionsButtonPressed));
             OptionsPopup.SetItemChecked(1, Settings.Content.LogToFile);
             OptionsPopup.SetItemChecked(2, Settings.Content.ImportToGameIfOpen);
+            OptionsPopup.SetItemChecked(3, Settings.Content.DisableAnimatedBackground);
 
             HelpPopup = GetNode<MenuButton>("HBoxContainer/HelpButton").GetPopup();
             HelpPopup.Connect("id_pressed", this, nameof(_HelpButtonPressed));
@@ -76,6 +77,14 @@ namespace OsuSkinMixer
                     Settings.Save();
 
                     OptionsPopup.SetItemChecked(2, Settings.Content.ImportToGameIfOpen);
+                    break;
+
+                case 3:
+                    Settings.Content.DisableAnimatedBackground = !Settings.Content.DisableAnimatedBackground;
+                    Settings.Save();
+
+                    OptionsPopup.SetItemChecked(3, Settings.Content.DisableAnimatedBackground);
+                    Main.ToggleBackground(!Settings.Content.DisableAnimatedBackground);
                     break;
             }
         }

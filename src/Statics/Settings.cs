@@ -65,6 +65,9 @@ namespace OsuSkinMixer
 
             [JsonPropertyName("import_to_game_if_open")]
             public bool ImportToGameIfOpen { get; set; } = OS.GetName() == "Windows";
+
+            [JsonPropertyName("disable_animated_background")]
+            public bool DisableAnimatedBackground { get; set; }
         }
     }
 }

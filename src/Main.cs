@@ -21,6 +21,7 @@ namespace OsuSkinMixer
 
         private SkinCreator SkinCreator { get; set; }
 
+        private AnimationPlayer AnimationPlayer;
         private Dialog Dialog;
         private Toast Toast;
         private ProgressBar ProgressBar;
@@ -35,6 +36,7 @@ namespace OsuSkinMixer
             OS.MinWindowSize = new Vector2(700, 450);
             Logger.Init();
 
+            AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
             Dialog = GetNode<Dialog>("Dialog");
             Toast = GetNode<Toast>("Toast");
             ProgressBar = GetNode<ProgressBar>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit/ProgressBar");
@@ -86,6 +88,8 @@ namespace OsuSkinMixer
         }
 
         #region Actions
+
+        public void ToggleBackground(bool value) => AnimationPlayer.Play(value ? "bg_on" : "bg_off");
 
         public void ResetSelections()
         {

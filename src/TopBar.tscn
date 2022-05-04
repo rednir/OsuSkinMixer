@@ -33,7 +33,7 @@ margin_right = 106.0
 margin_bottom = 28.0
 focus_mode = 2
 text = "Options"
-items = [ "Change skins folder location", null, 0, false, false, 0, 0, null, "", false, "Log to file (hurts performance)", null, 1, false, false, 1, 0, null, "", false, "Import skin to game if it's open", null, 1, false, false, 2, 0, null, "", false ]
+items = [ "Change skins folder location", null, 0, false, false, 0, 0, null, "", false, "Log to file (hurts performance)", null, 1, false, false, 1, 0, null, "", false, "Import skin to game if it's open", null, 1, false, false, 2, 0, null, "", false, "Disable animated background", null, 1, false, false, 3, 0, null, "", false ]
 
 [node name="HelpButton" type="MenuButton" parent="HBoxContainer"]
 margin_left = 116.0
