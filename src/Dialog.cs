@@ -102,8 +102,16 @@ namespace OsuSkinMixer
             OptionAction?.Invoke(OptionButton.Selected);
             OptionAction = null;
 
-            AnimationPlayer.Play(!TextInputFunc?.Invoke(LineEdit.Text) ?? false ? "invalid-input" : "out");
-            TextInputFunc = null;
+            bool textInputFuncResult = TextInputFunc?.Invoke(LineEdit.Text) ?? true;
+            if (textInputFuncResult)
+            {
+                AnimationPlayer.Play("out");
+                TextInputFunc = null;
+            }
+            else
+            {
+                AnimationPlayer.Play("invalid-input");
+            }
         }
 
         private void _FolderButtonPressed()
