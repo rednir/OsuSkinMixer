@@ -32,6 +32,7 @@ namespace OsuSkinMixer
                 catch (Exception ex)
                 {
                     OS.Alert($"Couldn't load your settings file due to the following error:\n\n'{ex.Message}'\n\nYour broken settings file will be renamed and a new one will replace it.");
+                    File.Delete(SettingsFilePath + ".bak");
                     File.Move(SettingsFilePath, SettingsFilePath + ".bak");
                 }
             }
