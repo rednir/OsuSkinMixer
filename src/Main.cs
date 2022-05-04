@@ -24,6 +24,7 @@ namespace OsuSkinMixer
         private AnimationPlayer AnimationPlayer;
         private Dialog Dialog;
         private Toast Toast;
+        private TextureRect Hint;
         private ProgressBar ProgressBar;
         private Label ProgressBarLabel;
         private Button CreateSkinButton;
@@ -39,6 +40,7 @@ namespace OsuSkinMixer
             AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
             Dialog = GetNode<Dialog>("Dialog");
             Toast = GetNode<Toast>("Toast");
+            Hint = GetNode<TextureRect>("Hint");
             ProgressBar = GetNode<ProgressBar>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit/ProgressBar");
             ProgressBarLabel = GetNode<Label>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit/ProgressBar/Label");
             CreateSkinButton = GetNode<Button>("ButtonsCenterContainer/HBoxContainer/CreateSkinButton");
@@ -48,6 +50,8 @@ namespace OsuSkinMixer
             GetNode<TopBar>("TopBar").Main = this;
 
             CreateSkinButton.Connect("pressed", this, nameof(_CreateSkinButtonPressed));
+
+            Hint.Visible = !Settings.Content.ArrowButtonPressed;
 
             if (TrySetSkins())
                 CreateOptionButtons();
@@ -410,6 +414,13 @@ namespace OsuSkinMixer
         private void _ArrowButtonPressed(bool pressed, VBoxContainer vbox)
         {
             vbox.Visible = pressed;
+
+            if (Hint.Visible)
+            {
+                Hint.Visible = false;
+                Settings.Content.ArrowButtonPressed = true;
+                Settings.Save();
+            }
         }
 
         #endregion

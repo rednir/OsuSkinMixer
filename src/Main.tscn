@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Main.cs" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://src/Background.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/TopBar.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/arrow-pressed.png" type="Texture" id=9]
+[ext_resource path="res://assets/hint.png" type="Texture" id=10]
 
 [sub_resource type="Animation" id=3]
 resource_name = "bg_off"
@@ -83,16 +84,12 @@ tracks/0/keys = {
 }
 
 [node name="Main" type="Control"]
-modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "in"
@@ -140,9 +137,6 @@ margin_left = -275.047
 margin_top = -96.775
 margin_right = 274.953
 margin_bottom = -56.775
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ButtonsCenterContainer"]
 margin_left = 133.0
@@ -191,6 +185,18 @@ text = "Create skin"
 
 [node name="TopBar" parent="." instance=ExtResource( 8 )]
 
+[node name="Hint" type="TextureRect" parent="."]
+self_modulate = Color( 1, 1, 1, 0.803922 )
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -311.818
+margin_top = 78.9271
+margin_right = -156.818
+margin_bottom = -314.073
+mouse_filter = 2
+texture = ExtResource( 10 )
+
 [node name="Toast" parent="." instance=ExtResource( 4 )]
 visible = false
 
@@ -209,9 +215,6 @@ margin_top = -64.9966
 margin_right = 1200.36
 margin_bottom = -36.9966
 custom_constants/separation = 8
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureButton" type="TextureButton" parent="OptionTemplate"]
 modulate = Color( 1, 1, 1, 0.784314 )

@@ -68,6 +68,9 @@ namespace OsuSkinMixer
 
             [JsonPropertyName("disable_animated_background")]
             public bool DisableAnimatedBackground { get; set; }
+
+            [JsonPropertyName("arrow_button_pressed")]
+            public bool ArrowButtonPressed { get; set; }
         }
     }
 }
