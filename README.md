@@ -6,4 +6,5 @@
 [Download for Windows](https://github.com/rednir/OsuSkinMixer/releases/latest/download/osu-skin-mixer.exe) | [Download for macOS](https://github.com/rednir/OsuSkinMixer/releases/latest/download/osu-skin-mixer-macOS.zip) | [Download for Linux](https://github.com/rednir/OsuSkinMixer/releases/latest/download/osu-skin-mixer-linux.zip)
 | -- | -- | -- |
 
-[![](preview.gif)](https://github.com/rednir/OsuSkinMixer/releases/latest)
+https://user-images.githubusercontent.com/10225220/193459285-8854aa2a-b284-43f9-a506-2f407a5a933d.mp4
+
