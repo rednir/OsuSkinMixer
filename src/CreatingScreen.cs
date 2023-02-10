@@ -4,6 +4,8 @@ namespace OsuSkinMixer
 {
     public class CreatingScreen : Panel
     {
+        private AnimationPlayer AnimationPlayer;
+
         private TextureRect HitCircle;
         private TextureRect HitCircleOverlay;
         private TextureRect Default1;
@@ -16,6 +18,7 @@ namespace OsuSkinMixer
 
         public override void _Ready()
         {
+            AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
             HitCircle = GetNode<TextureRect>("Circle/HitCircle");
             HitCircleOverlay = GetNode<TextureRect>("Circle/HitCircleOverlay");
             Default1 = GetNode<TextureRect>("Circle/Default1");
@@ -59,12 +62,12 @@ namespace OsuSkinMixer
             Default1.Texture = useDefault1 == Error.Ok ? default1Texture : DefaultDefault1;
             ApproachCircle.Texture = useApproachcircle == Error.Ok ? approachcircleTexture : DefaultApproachCircle;
 
-            Visible = true;
+            AnimationPlayer.Play("in");
         }
 
         public void Finish()
         {
-            Visible = false;
+            AnimationPlayer.Play("out");
         }
     }
 }
