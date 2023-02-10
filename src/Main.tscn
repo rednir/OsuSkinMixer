@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/Theme/Theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Main.cs" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://src/TopBar.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/arrow-pressed.png" type="Texture" id=9]
 [ext_resource path="res://assets/hint.png" type="Texture" id=10]
+[ext_resource path="res://src/CreatingScreen.tscn" type="PackedScene" id=11]
 
 [sub_resource type="Animation" id=3]
 resource_name = "bg_off"
@@ -98,6 +99,7 @@ anims/bg_on = SubResource( 4 )
 anims/in = SubResource( 2 )
 
 [node name="Background" parent="." instance=ExtResource( 7 )]
+modulate = Color( 1, 1, 1, 0 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 anchor_left = 0.5
@@ -109,9 +111,6 @@ margin_right = 298.0
 margin_bottom = -132.0
 rect_pivot_offset = Vector2( 250, 122 )
 scroll_horizontal_enabled = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="CenterContainer" type="CenterContainer" parent="ScrollContainer"]
 margin_right = 595.0
@@ -127,6 +126,28 @@ custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TopBar" parent="." instance=ExtResource( 8 )]
+
+[node name="Hint" type="TextureRect" parent="."]
+self_modulate = Color( 1, 1, 1, 0.803922 )
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -311.818
+margin_top = 78.9271
+margin_right = -156.818
+margin_bottom = -314.073
+mouse_filter = 2
+texture = ExtResource( 10 )
+
+[node name="UpdateLink" parent="." instance=ExtResource( 5 )]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -30.0
+margin_bottom = -12.0
+
+[node name="CreatingScreen" parent="." instance=ExtResource( 11 )]
 
 [node name="ButtonsCenterContainer" type="CenterContainer" parent="."]
 anchor_left = 0.5
@@ -183,31 +204,14 @@ margin_bottom = 28.0
 rect_min_size = Vector2( 80, 0 )
 text = "Create skin"
 
-[node name="TopBar" parent="." instance=ExtResource( 8 )]
-
-[node name="Hint" type="TextureRect" parent="."]
-self_modulate = Color( 1, 1, 1, 0.803922 )
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -311.818
-margin_top = 78.9271
-margin_right = -156.818
-margin_bottom = -314.073
-mouse_filter = 2
-texture = ExtResource( 10 )
-
 [node name="Toast" parent="." instance=ExtResource( 4 )]
 visible = false
 
 [node name="Dialog" parent="." instance=ExtResource( 3 )]
 visible = false
-
-[node name="UpdateLink" parent="." instance=ExtResource( 5 )]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -30.0
-margin_bottom = -16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="OptionTemplate" type="HBoxContainer" parent="."]
 margin_left = 815.356
