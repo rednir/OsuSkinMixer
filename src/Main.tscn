@@ -180,7 +180,7 @@ __meta__ = {
 }
 
 [node name="TopBar" parent="." instance=ExtResource( 8 )]
-margin_right = 700.0
+margin_right = 2100.0
 
 [node name="Hint" type="TextureRect" parent="."]
 self_modulate = Color( 1, 1, 1, 0.803922 )
