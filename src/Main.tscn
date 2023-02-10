@@ -180,7 +180,7 @@ __meta__ = {
 }
 
 [node name="TopBar" parent="." instance=ExtResource( 8 )]
-margin_right = 2800.0
+margin_right = 3500.0
 
 [node name="Hint" type="TextureRect" parent="."]
 self_modulate = Color( 1, 1, 1, 0.803922 )
@@ -261,9 +261,8 @@ text = "Create skin"
 visible = false
 
 [node name="Dialog" parent="." instance=ExtResource( 3 )]
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_right = 102.0
+margin_bottom = 4.0
 
 [node name="OptionTemplate" type="HBoxContainer" parent="."]
 margin_left = 815.356
