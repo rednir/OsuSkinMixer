@@ -1,0 +1,357 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://src/Theme/Dialog.tres" type="StyleBox" id=1]
+[ext_resource path="res://assets/defaultskin/hitcircleoverlay.png" type="Texture" id=2]
+[ext_resource path="res://assets/defaultskin/hitcircle.png" type="Texture" id=3]
+[ext_resource path="res://assets/defaultskin/default-1.png" type="Texture" id=4]
+[ext_resource path="res://assets/defaultskin/approachcircle.png" type="Texture" id=5]
+[ext_resource path="res://src/CreatingScreen.cs" type="Script" id=6]
+
+[sub_resource type="Animation" id=4]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Circle:rect_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "out"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Circle/ApproachCircle:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 2.5, 2.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Circle/ApproachCircle:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Circle/ApproachCircle:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Circle/ApproachCircle:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Circle/HitCircle:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Circle:rect_scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Circle:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "creating"
+length = 2.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Circle/ApproachCircle:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 0.7, 1.2, 1.4, 1.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3.5, 3.5 ), Vector2( 1, 1 ), Vector2( 3.5, 3.5 ), Vector2( 1, 1 ), Vector2( 3.5, 3.5 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Circle/ApproachCircle:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Circle/ApproachCircle:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 0.7, 1.2, 1.4, 1.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Circle/ApproachCircle:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5, 0.7, 1.2, 1.4, 1.9, 2 ),
+"transitions": PoolRealArray( 1, 0.965936, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.407843, 0.407843, 0 ), Color( 1, 0.407843, 0.407843, 1 ), Color( 0.235294, 0.894118, 0.392157, 0 ), Color( 0.235294, 0.894118, 0.392157, 1 ), Color( 0.407843, 0.454902, 1, 0 ), Color( 0.407843, 0.454902, 1, 1 ), Color( 0.407843, 0.454902, 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Circle/HitCircle:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.6, 0.7, 1.2, 1.4, 1.9, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.407843, 0.407843, 1 ), Color( 1, 0.407843, 0.407843, 1 ), Color( 0.235294, 0.894118, 0.392157, 1 ), Color( 0.235294, 0.894118, 0.392157, 1 ), Color( 0.407843, 0.454902, 1, 1 ), Color( 0.407843, 0.454902, 1, 1 ), Color( 0.407843, 0.454902, 1, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Circle:rect_scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.5, 0.6, 0.7, 1.2, 1.3, 1.4, 1.9, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1.3, 1.3 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1.3, 1.3 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1.3, 1.3 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Circle:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5, 0.6, 0.7, 0.9, 1.2, 1.3, 1.4, 1.6, 1.9, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="CreatingScreen" type="Panel"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = ExtResource( 1 )
+script = ExtResource( 6 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 4 )
+anims/in = SubResource( 3 )
+anims/out = SubResource( 5 )
+
+[node name="CircleAnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "creating"
+anims/RESET = SubResource( 1 )
+anims/creating = SubResource( 2 )
+
+[node name="Circle" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -350.0
+margin_top = -269.0
+margin_right = -310.0
+margin_bottom = -229.0
+rect_pivot_offset = Vector2( 351, 223 )
+
+[node name="HitCircle" type="TextureRect" parent="Circle"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 163.0
+margin_top = 53.0
+margin_right = 496.0
+margin_bottom = 356.0
+texture = ExtResource( 3 )
+stretch_mode = 4
+
+[node name="HitCircleOverlay" type="TextureRect" parent="Circle"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 191.0
+margin_top = 87.0
+margin_right = 468.0
+margin_bottom = 322.0
+texture = ExtResource( 2 )
+stretch_mode = 4
+
+[node name="Default1" type="TextureRect" parent="Circle"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 261.0
+margin_top = 135.0
+margin_right = 397.0
+margin_bottom = 275.0
+texture = ExtResource( 4 )
+stretch_mode = 4
+
+[node name="ApproachCircle" type="TextureRect" parent="Circle"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 232.365
+margin_top = 118.055
+margin_right = 427.365
+margin_bottom = 290.055
+rect_scale = Vector2( 2.5, 2.5 )
+rect_pivot_offset = Vector2( 98.0892, 85.182 )
+texture = ExtResource( 5 )
+stretch_mode = 4

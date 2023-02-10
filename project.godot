@@ -43,6 +43,10 @@ randomize_top_level_options={
  ]
 }
 
+[mono]
+
+project/assembly_name="OsuSkinMixer"
+
 [physics]
 
 common/enable_pause_aware_picking=true

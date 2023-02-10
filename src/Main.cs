@@ -25,6 +25,7 @@ namespace OsuSkinMixer
         private Dialog Dialog;
         private Toast Toast;
         private TextureRect Hint;
+        private CreatingScreen CreatingScreen;
         private ProgressBar ProgressBar;
         private Label ProgressBarLabel;
         private Button CreateSkinButton;
@@ -41,6 +42,7 @@ namespace OsuSkinMixer
             Dialog = GetNode<Dialog>("Dialog");
             Toast = GetNode<Toast>("Toast");
             Hint = GetNode<TextureRect>("Hint");
+            CreatingScreen = GetNode<CreatingScreen>("CreatingScreen");
             ProgressBar = GetNode<ProgressBar>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit/ProgressBar");
             ProgressBarLabel = GetNode<Label>("ButtonsCenterContainer/HBoxContainer/SkinNameEdit/ProgressBar/Label");
             CreateSkinButton = GetNode<Button>("ButtonsCenterContainer/HBoxContainer/CreateSkinButton");
@@ -190,6 +192,13 @@ namespace OsuSkinMixer
                 Skins = Skins,
             };
 
+            // For the creating animation.
+            IEnumerable<SkinOption> flattenedOptions = SkinOption.Flatten(SkinOptions);
+            string hitcircleSkin = flattenedOptions.First(o => (o as SkinFileOption)?.IncludeFileName == "hitcircle").OptionButton.Text;
+            string hitcircleoverlaySkin = flattenedOptions.First(o => (o as SkinFileOption)?.IncludeFileName == "hitcircleoverlay").OptionButton.Text;
+            string default1Skin = flattenedOptions.First(o => (o as SkinFileOption)?.IncludeFileName == "default-*").OptionButton.Text;
+            string approachcircleSkin = flattenedOptions.First(o => (o as SkinFileOption)?.IncludeFileName == "approachcircle").OptionButton.Text;
+
             create(false);
 
             void create(bool overwrite)
@@ -240,6 +249,7 @@ namespace OsuSkinMixer
                 CreateSkinButton.Disabled = false;
                 CreateSkinButton.Text = "Cancel";
                 ProgressBar.Visible = true;
+                CreatingScreen.ShowForSkin(hitcircleSkin, hitcircleoverlaySkin, default1Skin, approachcircleSkin);
             }
 
             void resetValues()
@@ -248,6 +258,7 @@ namespace OsuSkinMixer
                 CreateSkinButton.Disabled = false;
                 CreateSkinButton.Text = "Create skin";
                 ProgressBar.Visible = false;
+                CreatingScreen.Finish();
             }
 
             async Task finalizeSuccessfulCreation()

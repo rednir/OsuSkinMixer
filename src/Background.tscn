@@ -15,9 +15,6 @@ margin_bottom = -450.0
 rect_pivot_offset = Vector2( 350, 225 )
 mouse_filter = 1
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Particles1" type="CPUParticles2D" parent="."]
 position = Vector2( 346.376, 561.409 )
