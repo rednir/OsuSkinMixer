@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://8t4xh5nel3pn"]
+
+[ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="1_tlv3r"]
+
+[resource]
+default_font = ExtResource("1_tlv3r")
+default_font_size = 0

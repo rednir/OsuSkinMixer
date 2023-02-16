@@ -11,19 +11,20 @@ config_version=5
 [application]
 
 config/name="OsuSkinMixer"
-run/main_scene="res://Main.tscn"
+run/main_scene="res://src/Main.tscn"
 config/features=PackedStringArray("4.0", "C#")
 run/low_processor_mode=true
-boot_splash/bg_color=Color(0.729412, 0.615686, 0.756863, 1)
+boot_splash/bg_color=Color(0.109804, 0.105882, 0.121569, 1)
 boot_splash/image="res://icon.png"
 boot_splash/fullsize=false
 config/icon="res://icon.png"
 
 [display]
 
-window/size/viewport_width=700
+window/size/viewport_width=750
 window/size/viewport_height=450
 window/energy_saving/keep_screen_on=false
+window/dpi/allow_hidpi=false
 
 [dotnet]
 
@@ -57,6 +58,8 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+renderer/rendering_method="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.109804, 0.105882, 0.121569, 1)
 quality/driver/driver_name="GLES2"
 quality/intended_usage/framebuffer_allocation=1
 quality/intended_usage/framebuffer_allocation.mobile=1
