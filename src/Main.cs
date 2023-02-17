@@ -10,6 +10,7 @@ public partial class Main : Control
 
 	private AnimationPlayer ScenesAnimationPlayer;
 	private Control ScenesControl;
+	private TextureButton BackButton;
 
 	private Stack<StackScene> SceneStack { get; } = new();
 
@@ -21,23 +22,33 @@ public partial class Main : Control
 
 		ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
 		ScenesControl = GetNode<Control>("Scenes");
+		BackButton = GetNode<TextureButton>("TopBar/HBoxContainer/BackButton");
 
 		ScenesAnimationPlayer.AnimationFinished += (animationName) =>
 		{
-			if (animationName != "scene_out" || PendingScene == null)
-				return;
+			if (animationName == "pop_out")
+			{
+				SceneStack.Pop().QueueFree();
+				SceneStack.Peek().Visible = true;
 
-			if (SceneStack.TryPeek(out StackScene currentlyActiveScene))
-				currentlyActiveScene.Visible = false;
+				ScenesAnimationPlayer.Play("pop_in");
+			}
+			else if (animationName == "push_out")
+			{
+				if (SceneStack.TryPeek(out StackScene currentlyActiveScene))
+					currentlyActiveScene.Visible = false;
 
-			PendingScene.ScenePushed += PushScene;
-			PendingScene.Visible = true;
-			SceneStack.Push(PendingScene);
-			ScenesControl.AddChild(PendingScene);
+				PendingScene.ScenePushed += PushScene;
+				PendingScene.Visible = true;
+				SceneStack.Push(PendingScene);
+				ScenesControl.AddChild(PendingScene);
 
-			PendingScene = null;
-			ScenesAnimationPlayer.Play("scene_in");
+				PendingScene = null;
+				ScenesAnimationPlayer.Play("push_in");
+			}
 		};
+
+		BackButton.Pressed += PopScene;
 
 		PushScene(MenuScene.Instantiate<StackScene>());
 	}
@@ -45,6 +56,11 @@ public partial class Main : Control
 	private void PushScene(StackScene scene)
 	{
 		PendingScene = scene;
-		ScenesAnimationPlayer.Play("scene_out");
+		ScenesAnimationPlayer.Play("push_out");
+	}
+
+	private void PopScene()
+	{
+		ScenesAnimationPlayer.Play("pop_out");
 	}
 }
