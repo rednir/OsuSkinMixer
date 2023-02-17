@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://o0flpuuykpx3"]
+
+[ext_resource type="Script" path="res://src/SkinMixer.cs" id="1_4yp7s"]
+
+[node name="SkinMixer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4yp7s")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 278.0
+offset_top = 101.0
+offset_right = 553.0
+offset_bottom = 292.0
+text = "SKIN MIXER"

@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dnssx78ci4w15"]
+[gd_scene load_steps=5 format=3 uid="uid://dnssx78ci4w15"]
 
 [ext_resource type="StyleBox" uid="uid://dj6itwk88er6q" path="res://src/style/TopBar.tres" id="1_krhso"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/style/Theme.tres" id="1_mdjwa"]
-[ext_resource type="Texture2D" uid="uid://dv52k01kfn1ds" path="res://assets/minimise.png" id="3_1nya4"]
-[ext_resource type="Texture2D" uid="uid://3aubtlwo5s6o" path="res://assets/close.png" id="4_cofh8"]
+[ext_resource type="Script" path="res://src/Main.cs" id="2_ajhyw"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lkmhk"]
 load_path = "res://.godot/imported/back-arrow.png-97831f16e7ace5968719d72723e5f42c.ctex"
@@ -16,6 +15,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_mdjwa")
+script = ExtResource("2_ajhyw")
 
 [node name="TopBar" type="Panel" parent="."]
 layout_mode = 1
@@ -30,6 +30,7 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 50.0
+grow_horizontal = 2
 
 [node name="BackButton" type="TextureButton" parent="TopBar/HBoxContainer"]
 layout_mode = 2
@@ -38,19 +39,29 @@ stretch_mode = 3
 
 [node name="Label" type="Label" parent="TopBar/HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "osu! skin mixer by rednir"
+theme_override_font_sizes/font_size = 20
+text = "osu! skin mixer"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MinimiseButton" type="TextureButton" parent="TopBar/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 10
-texture_normal = ExtResource("3_1nya4")
-stretch_mode = 3
+[node name="LoadedScenes" type="Control" parent="."]
+layout_mode = 1
+anchor_top = 0.111
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 0.049996
+offset_bottom = -3.05176e-05
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="CloseButton" type="TextureButton" parent="TopBar/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-texture_normal = ExtResource("4_cofh8")
-stretch_mode = 3
+[node name="VersionLabel" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.745098)
+layout_mode = 0
+offset_left = 495.0
+offset_top = 426.0
+offset_right = 743.0
+offset_bottom = 444.0
+theme_override_font_sizes/font_size = 12
+text = "version number"
+horizontal_alignment = 2
+vertical_alignment = 1

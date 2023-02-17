@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://cq6rgv48smpsf"]
+
+[ext_resource type="Script" path="res://src/Menu.cs" id="1_6rhns"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6rhns")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 133.0
+offset_top = 90.0
+offset_right = 182.0
+offset_bottom = 116.0
+scale = Vector2(10, 10)
+text = "MENU"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 493.0
+offset_top = 249.0
+offset_right = 631.0
+offset_bottom = 321.0
+text = "button"
