@@ -8,15 +8,15 @@ public partial class Main : Control
 {
 	private PackedScene MenuScene;
 
-	private Control LoadedScenesControl;
+	private Control ScenesControl;
 
-	private readonly Stack<StackScene> LoadedScenes = new();
+	private readonly Stack<StackScene> SceneStack = new();
 
 	public override void _Ready()
 	{
 		MenuScene = GD.Load<PackedScene>("res://src/Menu.tscn");
 
-		LoadedScenesControl = GetNode<Control>("LoadedScenes");
+		ScenesControl = GetNode<Control>("Scenes");
 
 		PushScene(MenuScene.Instantiate<StackScene>());
 	}
@@ -28,7 +28,7 @@ public partial class Main : Control
 	private void PushScene(StackScene scene)
 	{
 		scene.ScenePushed += PushScene;
-		LoadedScenes.Push(scene);
-		LoadedScenesControl.AddChild(scene);
+		SceneStack.Push(scene);
+		ScenesControl.AddChild(scene);
 	}
 }
