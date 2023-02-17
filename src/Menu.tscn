@@ -11,19 +11,34 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6rhns")
 
-[node name="Label" type="Label" parent="."]
+[node name="SkinMixerButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 133.0
-offset_top = 90.0
-offset_right = 182.0
-offset_bottom = 116.0
-scale = Vector2(10, 10)
-text = "MENU"
+offset_left = 321.0
+offset_top = 56.0
+offset_right = 459.0
+offset_bottom = 128.0
+text = "Skin Mixer"
 
-[node name="Button" type="Button" parent="."]
+[node name="SkinModifierButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 493.0
-offset_top = 249.0
-offset_right = 631.0
-offset_bottom = 321.0
-text = "button"
+offset_left = 323.0
+offset_top = 147.0
+offset_right = 461.0
+offset_bottom = 219.0
+text = "Skin Modifier"
+
+[node name="SkinManagerButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 326.0
+offset_top = 231.0
+offset_right = 464.0
+offset_bottom = 303.0
+text = "Skin Manager"
+
+[node name="SettingsButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 329.0
+offset_top = 403.0
+offset_right = 467.0
+offset_bottom = 475.0
+text = "Settings"

@@ -21,8 +21,8 @@ script = ExtResource("2_bnnvj")
 layout_mode = 1
 
 [node name="ScrollContainer" parent="Popup" index="2"]
-offset_right = 750.0
-offset_bottom = 450.0
+offset_right = 1500.0
+offset_bottom = 900.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Popup/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
 layout_mode = 2

@@ -9,17 +9,17 @@ public partial class Menu : StackScene
 
 	private PackedScene SkinMixerScene;
 
-	private Button TempButton;
+	private Button SkinMixerButton;
 
 	public override void _Ready()
 	{
 		SkinMixerScene = GD.Load<PackedScene>("res://src/SkinMixer.tscn");
 
-		TempButton = GetNode<Button>("Button");
-		TempButton.Connect("pressed", new Callable(this, nameof(TempButtonPressed)));
+		SkinMixerButton = GetNode<Button>("SkinMixerButton");
+		SkinMixerButton.Connect("pressed", new Callable(this, nameof(SkinMixerButtonPressed)));
 	}
 
-	private void TempButtonPressed()
+	private void SkinMixerButtonPressed()
 	{
 		EmitSignal(SignalName.ScenePushed, SkinMixerScene.Instantiate<StackScene>());
 	}
