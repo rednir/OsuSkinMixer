@@ -24,7 +24,9 @@ public static class Settings
             }
             catch (Exception ex)
             {
-                OS.Alert($"Couldn't load your settings file due to the following error:\n\n'{ex.Message}'\n\nYour broken settings file will be renamed and a new one will replace it.");
+                GD.PushError($"Failed to deserialize {SettingsFilePath} due to exception {ex.Message}");
+                OS.Alert("Your settings have beeen corrupted, please report this issue and attach logs. All settings have been reset.", "Error");
+                GD.Print($"SETTINGS:\n{File.ReadAllText(SettingsFilePath)}");
                 File.Delete(SettingsFilePath + ".bak");
                 File.Move(SettingsFilePath, SettingsFilePath + ".bak");
             }

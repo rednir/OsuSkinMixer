@@ -19,6 +19,8 @@ public partial class Main : Control
 
 	public override void _Ready()
 	{
+		GD.Print($"osu! skin mixer {Settings.VERSION}");
+
 		MenuScene = GD.Load<PackedScene>("res://src/Menu.tscn");
 
 		ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
@@ -60,12 +62,14 @@ public partial class Main : Control
 
 	private void PushScene(StackScene scene)
 	{
+		GD.Print($"Pushing scene {scene.Title}");
 		PendingScene = scene;
 		ScenesAnimationPlayer.Play("push_out");
 	}
 
 	private void PopScene()
 	{
+		GD.Print("Popping scene");
 		ScenesAnimationPlayer.Play("pop_out");
 	}
 }
