@@ -13,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme = ExtResource("1_x82gr")
 script = ExtResource("2_bnnvj")
 
@@ -39,7 +40,7 @@ autowrap_mode = 3
 [node name="LineEdit" type="LineEdit" parent="Popup/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Popup/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="DoneButton" type="Button" parent="Popup/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Done"
 
