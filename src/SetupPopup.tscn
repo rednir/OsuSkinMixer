@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://uhqv5ts4esut"]
+[gd_scene load_steps=6 format=3 uid="uid://uhqv5ts4esut"]
 
 [ext_resource type="PackedScene" uid="uid://c8al3ys1j8lqf" path="res://src/Popup.tscn" id="1_vbxph"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_x82gr"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/PopupTitle.tres" id="2_2dpv6"]
+[ext_resource type="Script" path="res://src/SetupPopup.cs" id="2_bnnvj"]
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/PopupText.tres" id="3_8g2co"]
 
 [node name="SetupPopup" type="Control"]
@@ -13,6 +14,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_x82gr")
+script = ExtResource("2_bnnvj")
 
 [node name="Popup" parent="." instance=ExtResource("1_vbxph")]
 layout_mode = 1

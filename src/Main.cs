@@ -11,6 +11,7 @@ public partial class Main : Control
 	private AnimationPlayer ScenesAnimationPlayer;
 	private Control ScenesControl;
 	private TextureButton BackButton;
+	private SetupPopup SetupPopup;
 
 	private Stack<StackScene> SceneStack { get; } = new();
 
@@ -23,6 +24,7 @@ public partial class Main : Control
 		ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
 		ScenesControl = GetNode<Control>("Scenes");
 		BackButton = GetNode<TextureButton>("TopBar/HBoxContainer/BackButton");
+		SetupPopup = GetNode<SetupPopup>("SetupPopup");
 
 		ScenesAnimationPlayer.AnimationFinished += (animationName) =>
 		{
@@ -51,6 +53,9 @@ public partial class Main : Control
 		BackButton.Pressed += PopScene;
 
 		PushScene(MenuScene.Instantiate<StackScene>());
+
+		if (Settings.Content.SkinsFolder == null)
+			SetupPopup.In();
 	}
 
 	private void PushScene(StackScene scene)
