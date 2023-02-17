@@ -1,8 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://dnssx78ci4w15"]
+[gd_scene load_steps=11 format=3 uid="uid://b8fq67m823wji"]
 
-[ext_resource type="StyleBox" uid="uid://dj6itwk88er6q" path="res://src/style/TopBar.tres" id="1_krhso"]
-[ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/style/Theme.tres" id="1_mdjwa"]
+[ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_3ca2l"]
 [ext_resource type="Script" path="res://src/Main.cs" id="2_ajhyw"]
+[ext_resource type="StyleBox" uid="uid://dj6itwk88er6q" path="res://src/Styles/TopBar.tres" id="3_5ka6c"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lkmhk"]
 load_path = "res://.godot/imported/back-arrow.png-97831f16e7ace5968719d72723e5f42c.ctex"
@@ -32,6 +32,64 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_br3p2"]
+resource_name = "pop_in"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Scenes:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(0.3, 1),
+"update": 0,
+"values": [Vector2(-40, 50), Vector2(0, 50)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Scenes:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(0.3, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_g0nj4"]
+resource_name = "pop_out"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Scenes:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(3, 1),
+"update": 0,
+"values": [Vector2(0, 50), Vector2(40, 50)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Scenes:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1.5, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_ym7nh"]
@@ -92,64 +150,6 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_g0nj4"]
-resource_name = "pop_out"
-length = 0.1
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Scenes:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(3, 1),
-"update": 0,
-"values": [Vector2(0, 50), Vector2(40, 50)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Scenes:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1.5, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_br3p2"]
-resource_name = "pop_in"
-length = 0.25
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Scenes:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(0.3, 1),
-"update": 0,
-"values": [Vector2(-40, 50), Vector2(0, 50)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Scenes:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(0.3, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_08qeu"]
 _data = {
 "RESET": SubResource("Animation_tg23o"),
@@ -166,7 +166,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_mdjwa")
+theme = ExtResource("1_3ca2l")
 script = ExtResource("2_ajhyw")
 
 [node name="TopBar" type="Panel" parent="."]
@@ -175,7 +175,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 50.0
 grow_horizontal = 2
-theme_override_styles/panel = ExtResource("1_krhso")
+theme_override_styles/panel = ExtResource("3_5ka6c")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TopBar"]
 layout_mode = 1
@@ -206,8 +206,7 @@ layout_mode = 1
 anchor_top = 0.111
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 0.0499955
-offset_bottom = -3.05176e-05
+offset_top = 0.0499994
 grow_horizontal = 2
 grow_vertical = 2
 
