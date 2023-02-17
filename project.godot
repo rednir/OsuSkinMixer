@@ -10,9 +10,11 @@ config_version=5
 
 [application]
 
-config/name="OsuSkinMixer"
+config/name="osu! skin mixer"
 run/main_scene="res://src/Main.tscn"
-config/features=PackedStringArray("4.0", "C#")
+config/use_custom_user_dir=true
+config/custom_user_dir_name="OsuSkinMixer"
+config/features=PackedStringArray("4.0")
 run/low_processor_mode=true
 boot_splash/bg_color=Color(0.109804, 0.105882, 0.121569, 1)
 boot_splash/image="res://icon.png"
