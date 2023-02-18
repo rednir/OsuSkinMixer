@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://becn100l14hc5"]
+
+[ext_resource type="Script" path="res://src/Components/SkinOptionsSelector.cs" id="1_g5aud"]
+
+[node name="SkinOptionsSelector" type="VBoxContainer"]
+offset_right = 388.0
+offset_bottom = 40.0
+theme_override_constants/separation = 8
+script = ExtResource("1_g5aud")
