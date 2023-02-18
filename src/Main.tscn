@@ -216,8 +216,6 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -750.0
-offset_bottom = -450.0
 
 [node name="SetupPopup" parent="." instance=ExtResource("4_gusp5")]
 layout_mode = 1
