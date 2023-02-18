@@ -11,7 +11,7 @@ public partial class Main : Control
 	private PackedScene MenuScene;
 
 	private AnimationPlayer ScenesAnimationPlayer;
-	private Control ScenesControl;
+	private Control ScenesContainer;
 	private TextureButton BackButton;
 	private SetupPopup SetupPopup;
 
@@ -26,7 +26,7 @@ public partial class Main : Control
 		MenuScene = GD.Load<PackedScene>("res://src/StackScenes/Menu.tscn");
 
 		ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
-		ScenesControl = GetNode<Control>("Scenes");
+		ScenesContainer = GetNode<Control>("Scenes/ScrollContainer");
 		BackButton = GetNode<TextureButton>("TopBar/HBoxContainer/BackButton");
 		SetupPopup = GetNode<SetupPopup>("SetupPopup");
 
@@ -47,7 +47,7 @@ public partial class Main : Control
 				PendingScene.ScenePushed += PushScene;
 				PendingScene.Visible = true;
 				SceneStack.Push(PendingScene);
-				ScenesControl.AddChild(PendingScene);
+				ScenesContainer.AddChild(PendingScene);
 
 				PendingScene = null;
 				ScenesAnimationPlayer.Play("push_in");

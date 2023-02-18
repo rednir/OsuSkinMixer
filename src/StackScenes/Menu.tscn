@@ -2,43 +2,47 @@
 
 [ext_resource type="Script" path="res://src/StackScenes/Menu.cs" id="1_bkc8q"]
 
-[node name="Menu" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Menu" type="VBoxContainer"]
+offset_right = 750.0
+offset_bottom = 450.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_bkc8q")
 
 [node name="SkinMixerButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 321.0
-offset_top = 1.0
-offset_right = 459.0
-offset_bottom = 73.0
+layout_mode = 2
 text = "Skin Mixer"
 
 [node name="SkinModifierButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 323.0
-offset_top = 147.0
-offset_right = 461.0
-offset_bottom = 219.0
+layout_mode = 2
 text = "Skin Modifier"
 
 [node name="SkinManagerButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 326.0
-offset_top = 231.0
-offset_right = 464.0
-offset_bottom = 303.0
+layout_mode = 2
 text = "Skin Manager"
 
 [node name="SettingsButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 329.0
-offset_top = 403.0
-offset_right = 467.0
-offset_bottom = 475.0
+layout_mode = 2
 text = "Settings"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a"

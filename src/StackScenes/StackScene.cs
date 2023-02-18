@@ -2,7 +2,7 @@ using Godot;
 
 namespace OsuSkinMixer.StackScenes;
 
-public abstract partial class StackScene : Control
+public abstract partial class StackScene : Container
 {
     public abstract string Title { get; }
 
