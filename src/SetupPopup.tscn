@@ -18,7 +18,6 @@ theme = ExtResource("1_x82gr")
 script = ExtResource("2_bnnvj")
 
 [node name="Popup" parent="." instance=ExtResource("1_vbxph")]
-visible = true
 layout_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Popup/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
