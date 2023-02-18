@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 using File = System.IO.File;
 using Directory = System.IO.Directory;
 
-namespace OsuSkinMixer;
+namespace OsuSkinMixer.Statics;
 
 public static class Settings
 {

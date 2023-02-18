@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using OsuSkinMixer.StackScenes;
+using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer;
 
@@ -21,7 +23,7 @@ public partial class Main : Control
 	{
 		GD.Print($"osu! skin mixer {Settings.VERSION}");
 
-		MenuScene = GD.Load<PackedScene>("res://src/Menu.tscn");
+		MenuScene = GD.Load<PackedScene>("res://src/StackScenes/Menu.tscn");
 
 		ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
 		ScenesControl = GetNode<Control>("Scenes");

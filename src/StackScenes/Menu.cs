@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using OsuSkinMixer.StackScenes;
 
 namespace OsuSkinMixer;
 
@@ -13,7 +14,7 @@ public partial class Menu : StackScene
 
 	public override void _Ready()
 	{
-		SkinMixerScene = GD.Load<PackedScene>("res://src/SkinMixer.tscn");
+		SkinMixerScene = GD.Load<PackedScene>("res://src/StackScenes/SkinMixer.tscn");
 
 		SkinMixerButton = GetNode<Button>("SkinMixerButton");
 		SkinMixerButton.Connect("pressed", new Callable(this, nameof(SkinMixerButtonPressed)));

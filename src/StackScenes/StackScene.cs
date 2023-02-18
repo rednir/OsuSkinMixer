@@ -1,6 +1,6 @@
 using Godot;
 
-namespace OsuSkinMixer;
+namespace OsuSkinMixer.StackScenes;
 
 public abstract partial class StackScene : Control
 {

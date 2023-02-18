@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace OsuSkinMixer;
+namespace OsuSkinMixer.StackScenes;
 
 public partial class SkinMixer : StackScene
 {

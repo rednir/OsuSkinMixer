@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using Environment = System.Environment;
+using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer;
 

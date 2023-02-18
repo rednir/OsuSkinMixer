@@ -1,4 +1,4 @@
-namespace OsuSkinMixer;
+namespace OsuSkinMixer.Models.SkinOptions;
 
 public class SkinFileOption : SkinOption
 {

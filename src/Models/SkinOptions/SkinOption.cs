@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 
-namespace OsuSkinMixer;
+namespace OsuSkinMixer.Models.SkinOptions;
 
 public abstract class SkinOption
 {

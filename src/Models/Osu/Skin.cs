@@ -3,7 +3,7 @@ using System.IO;
 using Godot;
 using File = System.IO.File;
 
-namespace OsuSkinMixer;
+namespace OsuSkinMixer.Models.Osu;
 
 public class Skin
 {

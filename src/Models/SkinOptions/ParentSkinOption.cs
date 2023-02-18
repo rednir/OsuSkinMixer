@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace OsuSkinMixer;
+namespace OsuSkinMixer.Models.SkinOptions;
 
 public class ParentSkinOption : SkinOption
 {

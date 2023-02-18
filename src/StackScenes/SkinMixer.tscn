@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://o0flpuuykpx3"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://src/SkinMixer.cs" id="1_4yp7s"]
+[ext_resource type="Script" path="res://src/StackScenes/SkinMixer.cs" id="1_4yp7s"]
 
 [node name="SkinMixer" type="Control"]
 layout_mode = 3

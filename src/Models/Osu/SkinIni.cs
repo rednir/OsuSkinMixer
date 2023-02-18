@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OsuSkinMixer;
+namespace OsuSkinMixer.Models.Osu;
 
 public class SkinIni
 {
