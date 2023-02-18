@@ -58,7 +58,7 @@ public partial class Main : Control
 
 		PushScene(MenuScene.Instantiate<StackScene>());
 
-		if (Settings.Content.SkinsFolder == null)
+		if (!OsuData.TryLoadSkins())
 			SetupPopup.In();
 	}
 
