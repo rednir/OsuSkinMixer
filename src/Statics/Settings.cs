@@ -51,6 +51,17 @@ public static class Settings
         }
     }
 
+    public static bool TrySetSkinsFolder(string path)
+    {
+        if (Directory.Exists(path))
+        {
+            Content.SkinsFolder = path;
+            return true;
+        }
+
+        return false;
+    }
+
     public class SettingsContent
     {
         [JsonPropertyName("skins_folder")]

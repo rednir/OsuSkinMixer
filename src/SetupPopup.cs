@@ -28,8 +28,13 @@ public partial class SetupPopup : Control
 
 	private void DoneButtonPressed()
 	{
-		Settings.Content.SkinsFolder = LineEdit.Text;
-		Settings.Save();
-		AnimationPlayer.Play("out");
+		if (Settings.TrySetSkinsFolder(LineEdit.Text))
+		{
+			Settings.Save();
+			AnimationPlayer.Play("out");
+			return;
+		}
+
+		OS.Alert("The path you entered is invalid. Please try again.", "Error");
 	}
 }
