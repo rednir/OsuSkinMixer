@@ -12,3 +12,6 @@ script = ExtResource("1_swu1f")
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
 text = "skin mixer!!!!"
+
+[node name="OptionsContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
