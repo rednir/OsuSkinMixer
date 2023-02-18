@@ -5,5 +5,6 @@
 [node name="SkinOptionsSelector" type="VBoxContainer"]
 offset_right = 388.0
 offset_bottom = 40.0
+size_flags_horizontal = 4
 theme_override_constants/separation = 8
 script = ExtResource("1_g5aud")

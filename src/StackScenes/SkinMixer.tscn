@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dotwquui4ak6e"]
+[gd_scene load_steps=4 format=3 uid="uid://dotwquui4ak6e"]
 
 [ext_resource type="Script" path="res://src/StackScenes/SkinMixer.cs" id="1_swu1f"]
 [ext_resource type="PackedScene" uid="uid://becn100l14hc5" path="res://src/Components/SkinOptionsSelector.tscn" id="2_r5240"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kmx4q"]
 
 [node name="SkinMixer" type="VBoxContainer"]
 offset_right = 750.0
@@ -9,6 +11,11 @@ offset_bottom = 450.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_swu1f")
+
+[node name="Padding" type="Panel" parent="."]
+custom_minimum_size = Vector2(2.08165e-12, 32)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kmx4q")
 
 [node name="SkinOptionsSelector" parent="." instance=ExtResource("2_r5240")]
 layout_mode = 2

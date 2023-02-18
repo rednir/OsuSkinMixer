@@ -30,26 +30,21 @@ public partial class SkinOptionsSelector : VBoxContainer
 
             if (option is ParentSkinOption parentOption)
             {
-                var newVbox = CreateOptionChildrenVBox();
-				vbox.AddChild(newVbox);
-                vbox.MoveChild(newVbox, vbox.GetIndex());
+                var newVbox = new VBoxContainer()
+                {
+                    CustomMinimumSize = new Vector2(10, 0),
+                    Visible = false,
+                };
+                newVbox.AddThemeConstantOverride("separation", 8);
 
-                component.ArrowButton.Toggled += p => vbox.Visible = p;
+				vbox.AddChild(newVbox);
+                vbox.MoveChild(newVbox, component.GetIndex() + 1);
+
+                component.ArrowButton.Toggled += p => newVbox.Visible = p;
 
                 foreach (var child in parentOption.Children)
                     addOptionComponent(child, newVbox, layer + 1);
             }
         }
-    }
-
-    private VBoxContainer CreateOptionChildrenVBox()
-    {
-        var vbox = new VBoxContainer()
-        {
-            CustomMinimumSize = new Vector2(10, 0),
-            Visible = false,
-        };
-
-        return vbox;
     }
 }
