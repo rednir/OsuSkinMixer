@@ -77,6 +77,8 @@ public partial class SkinOptionsSelector : VBoxContainer
 
     private void OptionComponentSelected(Skin skinSelected)
     {
+        // TODO: This method can be optimized further by recursively looping through the components and their
+        // children (in their respective VBoxContainers) instead of looping through the ParentSkinOption's children.
         SkinOptionComponentInSelection.SetSelectedSkin(skinSelected);
 
         foreach (var parent in SkinOption.GetParents(SkinOptionComponentInSelection.SkinOption, SkinOptions))
