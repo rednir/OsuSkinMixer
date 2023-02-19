@@ -1,8 +1,11 @@
 using Godot;
 using System;
-using OsuSkinMixer.Models.SkinOptions;
-using OsuSkinMixer.Components.SkinSelector;
 using System.Collections.Generic;
+using System.Linq;
+using OsuSkinMixer.Models.SkinOptions;
+using OsuSkinMixer.Models.Osu;
+using OsuSkinMixer.Components.SkinSelector;
+using Skin = OsuSkinMixer.Models.Osu.Skin;
 
 namespace OsuSkinMixer.Components.SkinOptionsSelector;
 
@@ -14,27 +17,41 @@ public partial class SkinOptionsSelector : VBoxContainer
 
     private SkinOptionComponent SkinOptionComponentInSelection;
 
+    private SkinOption[] SkinOptions;
+
+    private List<SkinOptionComponent> SkinOptionComponents;
+
     public override void _Ready()
     {
         SkinOptionComponentScene = GD.Load<PackedScene>("res://src/Components/SkinOptionsSelector/SkinOptionComponent.tscn");
 
         SkinSelectorPopup = GetNode<SkinSelectorPopup>("SkinSelectorPopup");
-        SkinSelectorPopup.CreateSkinComponents(s => SkinOptionComponentInSelection.SetSelectedSkin(s));
+        SkinSelectorPopup.CreateSkinComponents(s => OptionComponentSelected(s));
     }
 
-	public void CreateOptionComponents(IEnumerable<SkinOption> skinOptions)
+    public void CreateOptionComponents(IEnumerable<SkinOption> skinOptions)
     {
         foreach (Node child in GetChildren())
             (child as SkinOptionComponent)?.QueueFree();
 
+        SkinOptionComponents = new List<SkinOptionComponent>();
+
         foreach (var option in skinOptions)
             addOptionComponent(option, this, 0);
+
+        SkinOptions = skinOptions.ToArray();
 
         void addOptionComponent(SkinOption option, VBoxContainer vbox, int layer)
         {
             SkinOptionComponent component = SkinOptionComponentScene.Instantiate<SkinOptionComponent>();
             vbox.AddChild(component);
             component.SetValues(option, layer);
+
+            component.Button.Pressed += () =>
+            {
+                SkinOptionComponentInSelection = component;
+                SkinSelectorPopup.In();
+            };
 
             if (option is ParentSkinOption parentOption)
             {
@@ -45,19 +62,43 @@ public partial class SkinOptionsSelector : VBoxContainer
                 };
                 newVbox.AddThemeConstantOverride("separation", 8);
 
-				vbox.AddChild(newVbox);
+                vbox.AddChild(newVbox);
                 vbox.MoveChild(newVbox, component.GetIndex() + 1);
 
                 component.ArrowButton.Toggled += p => newVbox.Visible = p;
-                component.Button.Pressed += () =>
-                {
-                    SkinOptionComponentInSelection = component;
-                    SkinSelectorPopup.In();
-                };
 
                 foreach (var child in parentOption.Children)
                     addOptionComponent(child, newVbox, layer + 1);
             }
+
+            SkinOptionComponents.Add(component);
         }
+    }
+
+    private void OptionComponentSelected(Skin skinSelected)
+    {
+        SkinOptionComponentInSelection.SetSelectedSkin(skinSelected);
+
+        foreach (var parent in SkinOption.GetParents(SkinOptionComponentInSelection.SkinOption, SkinOptions))
+        {
+            SkinOptionComponent parentOptionComponent = SkinOptionComponents.Find(c => c.SkinOption == parent);
+            if (parent.Children.All(o => o.Skin == skinSelected))
+                parentOptionComponent.SetSelectedSkin(skinSelected);
+            else
+                parentOptionComponent.SetToVarious();
+        }
+
+        SetAllChildrenOfOptionToSkin(SkinOptionComponentInSelection.SkinOption, skinSelected);
+    }
+
+    private void SetAllChildrenOfOptionToSkin(SkinOption option, Skin skin)
+    {
+        if (option is ParentSkinOption parentOption)
+        {
+            foreach (var child in parentOption.Children)
+                SetAllChildrenOfOptionToSkin(child, skin);
+        }
+
+        SkinOptionComponents.Find(c => c.SkinOption == option).SetSelectedSkin(skin);
     }
 }

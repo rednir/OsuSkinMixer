@@ -56,4 +56,10 @@ public partial class SkinOptionComponent : HBoxContainer
 		Button.Text = skin.Name;
 		SkinOption.Skin = skin;
 	}
+
+	public void SetToVarious()
+	{
+		Button.Text = "<<VARIOUS>>";
+		SkinOption.Skin = null;
+	}
 }
