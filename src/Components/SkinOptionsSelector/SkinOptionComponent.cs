@@ -4,7 +4,7 @@ using OsuSkinMixer.Models.SkinOptions;
 using OsuSkinMixer.Models.Osu;
 using Skin = OsuSkinMixer.Models.Osu.Skin;
 
-namespace OsuSkinMixer.Components;
+namespace OsuSkinMixer.Components.SkinOptionsSelector;
 
 public partial class SkinOptionComponent : HBoxContainer
 {

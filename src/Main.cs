@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using OsuSkinMixer.StackScenes;
 using OsuSkinMixer.Statics;
+using OsuSkinMixer.Components;
 
 namespace OsuSkinMixer;
 

@@ -1,11 +1,9 @@
 using Godot;
 using System;
-using OsuSkinMixer.Models.Osu;
 using Skin = OsuSkinMixer.Models.Osu.Skin;
 using OsuSkinMixer.Statics;
-using OsuSkinMixer.Models.SkinOptions;
 
-namespace OsuSkinMixer.Components;
+namespace OsuSkinMixer.Components.SkinSelector;
 
 public partial class SkinSelectorPopup : Control
 {
@@ -16,7 +14,7 @@ public partial class SkinSelectorPopup : Control
 
 	public override void _Ready()
 	{
-		SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinComponent.tscn");
+		SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinSelector/SkinComponent.tscn");
 
 		AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
 		SkinsContainer = GetNode<VBoxContainer>("Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/SkinComponentsContainer");

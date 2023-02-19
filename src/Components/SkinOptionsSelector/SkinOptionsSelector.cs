@@ -1,8 +1,9 @@
 using Godot;
 using System;
 using OsuSkinMixer.Models.SkinOptions;
+using OsuSkinMixer.Components.SkinSelector;
 
-namespace OsuSkinMixer.Components;
+namespace OsuSkinMixer.Components.SkinOptionsSelector;
 
 public partial class SkinOptionsSelector : VBoxContainer
 {
@@ -14,7 +15,7 @@ public partial class SkinOptionsSelector : VBoxContainer
 
     public override void _Ready()
     {
-        SkinOptionComponentScene = GD.Load<PackedScene>("res://src/Components/SkinOptionComponent.tscn");
+        SkinOptionComponentScene = GD.Load<PackedScene>("res://src/Components/SkinOptionsSelector/SkinOptionComponent.tscn");
 
         SkinSelectorPopup = GetNode<SkinSelectorPopup>("SkinSelectorPopup");
         SkinSelectorPopup.CreateSkinComponents(s => SkinOptionComponentInSelection.SetSelectedSkin(s));

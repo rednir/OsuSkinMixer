@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://7fa42f44jsnh"]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://src/Components/SkinComponent.cs" id="1_7h4pf"]
+[ext_resource type="Script" path="res://src/Components/SkinSelector/SkinComponent.cs" id="1_7h4pf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5uldo"]
 

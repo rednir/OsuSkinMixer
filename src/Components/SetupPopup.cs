@@ -3,7 +3,7 @@ using System;
 using Environment = System.Environment;
 using OsuSkinMixer.Statics;
 
-namespace OsuSkinMixer;
+namespace OsuSkinMixer.Components;
 
 public partial class SetupPopup : Control
 {
