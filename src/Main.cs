@@ -13,6 +13,7 @@ public partial class Main : Control
 	private AnimationPlayer ScenesAnimationPlayer;
 	private Control ScenesContainer;
 	private TextureButton BackButton;
+	private Label TitleLabel;
 	private SetupPopup SetupPopup;
 
 	private Stack<StackScene> SceneStack { get; } = new();
@@ -28,6 +29,7 @@ public partial class Main : Control
 		ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
 		ScenesContainer = GetNode<Control>("Scenes/ScrollContainer");
 		BackButton = GetNode<TextureButton>("TopBar/HBoxContainer/BackButton");
+		TitleLabel = GetNode<Label>("TopBar/HBoxContainer/Title");
 		SetupPopup = GetNode<SetupPopup>("SetupPopup");
 
 		ScenesAnimationPlayer.AnimationFinished += (animationName) =>
@@ -52,6 +54,8 @@ public partial class Main : Control
 				PendingScene = null;
 				ScenesAnimationPlayer.Play("push_in");
 			}
+
+			TitleLabel.Text = SceneStack.Peek().Title;
 		};
 
 		BackButton.Pressed += PopScene;

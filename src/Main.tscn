@@ -190,7 +190,7 @@ layout_mode = 2
 texture_normal = SubResource("CompressedTexture2D_lkmhk")
 stretch_mode = 3
 
-[node name="Label" type="Label" parent="TopBar/HBoxContainer"]
+[node name="Title" type="Label" parent="TopBar/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "osu! skin mixer"
