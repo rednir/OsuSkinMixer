@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.cs" id="1_g5aud"]
-[ext_resource type="PackedScene" uid="uid://cw7bjy1sf8a2d" path="res://src/Components/SkinSelector/SkinSelectorPopup.tscn" id="2_pokuf"]
+[ext_resource type="PackedScene" path="res://src/Components/SkinSelector/SkinSelectorPopup.tscn" id="2_pokuf"]
 
 [node name="SkinOptionsSelector" type="VBoxContainer"]
 offset_right = 388.0
