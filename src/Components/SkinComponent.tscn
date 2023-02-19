@@ -5,7 +5,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5uldo"]
 
 [node name="SkinComponent" type="HBoxContainer"]
-custom_minimum_size = Vector2(544, 2.08165e-12)
+custom_minimum_size = Vector2(544, 72)
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_7h4pf")
