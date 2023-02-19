@@ -10,7 +10,5 @@ size_flags_horizontal = 4
 theme_override_constants/separation = 8
 script = ExtResource("1_g5aud")
 
-[node name="PopupCanvas" type="CanvasLayer" parent="."]
-layer = -1
-
-[node name="SkinSelectorPopup" parent="PopupCanvas" instance=ExtResource("2_pokuf")]
+[node name="SkinSelectorPopup" parent="." instance=ExtResource("2_pokuf")]
+layout_mode = 2

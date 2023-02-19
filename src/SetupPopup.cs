@@ -14,8 +14,8 @@ public partial class SetupPopup : Control
 	public override void _Ready()
 	{
 		AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
-		LineEdit = GetNode<LineEdit>("Popup/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/LineEdit");
-		DoneButton = GetNode<Button>("Popup/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/DoneButton");
+		LineEdit = GetNode<LineEdit>("Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/LineEdit");
+		DoneButton = GetNode<Button>("Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/DoneButton");
 
 		DoneButton.Pressed += DoneButtonPressed;
 	}

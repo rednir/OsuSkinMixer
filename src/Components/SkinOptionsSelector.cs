@@ -14,7 +14,7 @@ public partial class SkinOptionsSelector : VBoxContainer
     {
         SkinOptionComponentScene = GD.Load<PackedScene>("res://src/Components/SkinOptionComponent.tscn");
 
-        SkinSelectorPopup = GetNode<SkinSelectorPopup>("PopupCanvas/SkinSelectorPopup");
+        SkinSelectorPopup = GetNode<SkinSelectorPopup>("SkinSelectorPopup");
     }
 
 	public void CreateOptionComponents(SkinOption[] skinOptions)

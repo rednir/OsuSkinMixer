@@ -20,7 +20,7 @@ public partial class SkinSelectorPopup : Control
 		SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinComponent.tscn");
 
 		AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
-		SkinsContainer = GetNode<VBoxContainer>("Popup/ScrollContainer/VBoxContainer/ContentPanelContainer/SkinComponentsContainer");
+		SkinsContainer = GetNode<VBoxContainer>("Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/SkinComponentsContainer");
 
 		SetSkins(OsuData.Skins);
 	}
