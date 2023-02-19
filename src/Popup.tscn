@@ -184,10 +184,14 @@ libraries = {
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
+visible = false
 
 [node name="Overlay" type="Panel" parent="CanvasLayer"]
-offset_right = 750.0
-offset_bottom = 450.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_0s675")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer"]
