@@ -3,13 +3,12 @@ using System;
 using OsuSkinMixer.Models.Osu;
 using Skin = OsuSkinMixer.Models.Osu.Skin;
 using OsuSkinMixer.Statics;
+using OsuSkinMixer.Models.SkinOptions;
 
 namespace OsuSkinMixer.Components;
 
 public partial class SkinSelectorPopup : Control
 {
-	public Action<Skin> SkinSelected { get; set; }
-
 	private PackedScene SkinComponentScene;
 
 	private AnimationPlayer AnimationPlayer;
@@ -21,21 +20,23 @@ public partial class SkinSelectorPopup : Control
 
 		AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
 		SkinsContainer = GetNode<VBoxContainer>("Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/SkinComponentsContainer");
-
-		SetSkins(OsuData.Skins);
 	}
 
-	public void SetSkins(Skin[] skins)
+	public void CreateSkinComponents(Action<Skin> onSelected)
 	{
 		foreach (var child in SkinsContainer.GetChildren())
 			child.QueueFree();
 
-		foreach (Skin skin in skins)
+		foreach (Skin skin in OsuData.Skins)
 		{
 			SkinComponent instance = SkinComponentScene.Instantiate<SkinComponent>();
 			SkinsContainer.AddChild(instance);
 			instance.SetValues(skin);
-			instance.Button.Pressed += () => SkinSelected(skin);
+			instance.Button.Pressed += () =>
+			{
+				onSelected(skin);
+				AnimationPlayer.Play("out");
+			};
 		}
 	}
 

@@ -37,6 +37,8 @@ theme_override_colors/font_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = ExtResource("3_w4p0r")
 text = "default_value"
+text_overrun_behavior = 3
+clip_text = true
 
 [node name="ResetButton" type="TextureButton" parent="Button"]
 layout_mode = 0

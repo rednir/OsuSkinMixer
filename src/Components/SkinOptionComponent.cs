@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using OsuSkinMixer.Models.SkinOptions;
+using OsuSkinMixer.Models.Osu;
+using Skin = OsuSkinMixer.Models.Osu.Skin;
 
 namespace OsuSkinMixer.Components;
 
@@ -44,5 +46,10 @@ public partial class SkinOptionComponent : HBoxContainer
 
 		AddChild(indent);
 		MoveChild(indent, 0);
+	}
+
+	public void SetSelectedSkin(Skin skin)
+	{
+		Button.Text = skin.Name;
 	}
 }
