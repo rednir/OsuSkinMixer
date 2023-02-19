@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://cw7bjy1sf8a2d"]
+
+[ext_resource type="Script" path="res://src/Components/SkinSelectorPopup.cs" id="1_5b4pt"]
+[ext_resource type="PackedScene" uid="uid://c8al3ys1j8lqf" path="res://src/Popup.tscn" id="1_jm6w5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_phsfj"]
+bg_color = Color(0.219608, 0.176471, 0.207843, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+
+[node name="SkinSelectorPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5b4pt")
+
+[node name="Popup" parent="." instance=ExtResource("1_jm6w5")]
+visible = true
+layout_mode = 1
+
+[node name="ContentPanelContainer" parent="Popup/ScrollContainer/VBoxContainer" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_phsfj")
+
+[node name="SkinComponentsContainer" type="VBoxContainer" parent="Popup/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
+layout_mode = 2
+
+[editable path="Popup"]

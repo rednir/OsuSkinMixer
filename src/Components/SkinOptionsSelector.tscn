@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://becn100l14hc5"]
+[gd_scene load_steps=3 format=3 uid="uid://becn100l14hc5"]
 
 [ext_resource type="Script" path="res://src/Components/SkinOptionsSelector.cs" id="1_g5aud"]
+[ext_resource type="PackedScene" uid="uid://cw7bjy1sf8a2d" path="res://src/Components/SkinSelectorPopup.tscn" id="2_pokuf"]
 
 [node name="SkinOptionsSelector" type="VBoxContainer"]
 offset_right = 388.0
@@ -8,3 +9,8 @@ offset_bottom = 40.0
 size_flags_horizontal = 4
 theme_override_constants/separation = 8
 script = ExtResource("1_g5aud")
+
+[node name="PopupCanvas" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="SkinSelectorPopup" parent="PopupCanvas" instance=ExtResource("2_pokuf")]
