@@ -14,6 +14,8 @@ public partial class SkinOptionComponent : HBoxContainer
 
 	public Button Button { get; private set; }
 
+	public SkinOption SkinOption { get; private set; }
+
 	private Label Label;
 
     public override void _Ready()
@@ -29,6 +31,7 @@ public partial class SkinOptionComponent : HBoxContainer
 		TooltipText = option.ToString();
 		Name = option.Name;
 		Label.Text = option.Name;
+		SkinOption = option;
 
 		if (option is not ParentSkinOption)
 		{
@@ -51,5 +54,6 @@ public partial class SkinOptionComponent : HBoxContainer
 	public void SetSelectedSkin(Skin skin)
 	{
 		Button.Text = skin.Name;
+		SkinOption.Skin = skin;
 	}
 }

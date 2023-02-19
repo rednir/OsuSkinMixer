@@ -2,6 +2,7 @@ using Godot;
 using System;
 using OsuSkinMixer.Models.SkinOptions;
 using OsuSkinMixer.Components.SkinSelector;
+using System.Collections.Generic;
 
 namespace OsuSkinMixer.Components.SkinOptionsSelector;
 
@@ -21,7 +22,7 @@ public partial class SkinOptionsSelector : VBoxContainer
         SkinSelectorPopup.CreateSkinComponents(s => SkinOptionComponentInSelection.SetSelectedSkin(s));
     }
 
-	public void CreateOptionComponents(SkinOption[] skinOptions)
+	public void CreateOptionComponents(IEnumerable<SkinOption> skinOptions)
     {
         foreach (Node child in GetChildren())
             (child as SkinOptionComponent)?.QueueFree();
@@ -31,7 +32,6 @@ public partial class SkinOptionsSelector : VBoxContainer
 
         void addOptionComponent(SkinOption option, VBoxContainer vbox, int layer)
         {
-            // Create new nodes for this option if not already existing.
             SkinOptionComponent component = SkinOptionComponentScene.Instantiate<SkinOptionComponent>();
             vbox.AddChild(component);
             component.SetValues(option, layer);

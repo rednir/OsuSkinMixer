@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://c8al3ys1j8lqf"]
+[gd_scene load_steps=8 format=3 uid="uid://c8al3ys1j8lqf"]
 
+[ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_cl3q1"]
 [ext_resource type="StyleBox" uid="uid://clff5nbgtvfs0" path="res://src/Styles/Popup.tres" id="2_wj478"]
 
 [sub_resource type="Animation" id="Animation_7hfvd"]
@@ -175,6 +176,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_cl3q1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "RESET"

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://diy5ndhxckmq6"]
+[gd_scene load_steps=6 format=3 uid="uid://diy5ndhxckmq6"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_5uai6"]
 [ext_resource type="Script" path="res://src/StackScenes/SkinMixer.cs" id="1_swu1f"]
 [ext_resource type="PackedScene" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.tscn" id="2_r5240"]
+[ext_resource type="PackedScene" uid="uid://bc0p4yy1iv5mj" path="res://src/Components/SkinCreatorPopup.tscn" id="3_0v5s4"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kmx4q"]
 
@@ -15,6 +16,9 @@ theme = ExtResource("1_5uai6")
 theme_override_constants/separation = 28
 script = ExtResource("1_swu1f")
 
+[node name="SkinCreatorPopup" parent="." instance=ExtResource("3_0v5s4")]
+layout_mode = 2
+
 [node name="Padding" type="Panel" parent="."]
 custom_minimum_size = Vector2(2.08165e-12, 16)
 layout_mode = 2
@@ -23,7 +27,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_kmx4q")
 [node name="SkinOptionsSelector" parent="." instance=ExtResource("2_r5240")]
 layout_mode = 2
 
-[node name="CreateButton" type="Button" parent="."]
+[node name="CreateSkinButton" type="Button" parent="."]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Create skin"
