@@ -180,6 +180,7 @@ theme = ExtResource("1_cl3q1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "RESET"
+reset_on_save = false
 libraries = {
 "": SubResource("AnimationLibrary_vkal4")
 }
