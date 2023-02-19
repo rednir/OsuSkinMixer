@@ -1,8 +1,64 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://8t4xh5nel3pn"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://8t4xh5nel3pn"]
 
 [ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="1_tlv3r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_apak1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nhyir"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+bg_color = Color(0.878431, 0.67451, 0.756863, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5g35s"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+bg_color = Color(0.937255, 0.721569, 0.784314, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h15ob"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+bg_color = Color(0.827451, 0.572549, 0.678431, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
 
 [resource]
 default_font = ExtResource("1_tlv3r")
 default_font_size = 0
+Button/colors/font_color = Color(0.286275, 0.145098, 0.196078, 1)
+Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+Button/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+Button/colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+Button/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_disabled_color = Color(1, 1, 1, 0.4)
+Button/colors/icon_focus_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_normal_color = Color(1, 1, 1, 1)
+Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
+Button/constants/h_separation = 2
+Button/constants/outline_size = 0
+Button/font_sizes/font_size = 16
+Button/styles/disabled = null
+Button/styles/focus = SubResource("StyleBoxEmpty_apak1")
+Button/styles/hover = SubResource("StyleBoxFlat_nhyir")
+Button/styles/normal = SubResource("StyleBoxFlat_5g35s")
+Button/styles/pressed = SubResource("StyleBoxFlat_h15ob")
 VBoxContainer/constants/separation = 12
