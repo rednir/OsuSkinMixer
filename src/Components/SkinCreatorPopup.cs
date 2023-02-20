@@ -29,5 +29,7 @@ public partial class SkinCreatorPopup : Control
 
 		CancellationTokenSource = new CancellationTokenSource();
 		skinCreator.Create(CancellationTokenSource.Token);
+
+		AnimationPlayer.Play("out");
 	}
 }

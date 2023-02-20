@@ -12,12 +12,16 @@ public partial class SkinMixer : StackScene
 
     private IEnumerable<SkinOption> SkinOptions { get; } = SkinOption.Default;
 
+    private PackedScene SkinInfoScene;
+
     private SkinCreatorPopup SkinCreatorPopup;
     private SkinOptionsSelector SkinOptionsSelector;
     private Button CreateSkinButton;
 
     public override void _Ready()
     {
+        SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
+
         SkinCreatorPopup = GetNode<SkinCreatorPopup>("SkinCreatorPopup");
         SkinOptionsSelector = GetNode<SkinOptionsSelector>("SkinOptionsSelector");
         CreateSkinButton = GetNode<Button>("CreateSkinButton");
@@ -30,5 +34,8 @@ public partial class SkinMixer : StackScene
     public void CreateSkinButtonPressed()
     {
         SkinCreatorPopup.CreateSkin("test", SkinOptions);
+
+        var skinInfoInstance = SkinInfoScene.Instantiate<StackScene>();
+        EmitSignal(SignalName.ScenePushed, skinInfoInstance);
     }
 }
