@@ -3,6 +3,7 @@ using OsuSkinMixer.Models.SkinOptions;
 using OsuSkinMixer.Components.SkinOptionsSelector;
 using OsuSkinMixer.Components;
 using System.Collections.Generic;
+using Skin = OsuSkinMixer.Models.Osu.Skin;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -33,9 +34,10 @@ public partial class SkinMixer : StackScene
 
     public void CreateSkinButtonPressed()
     {
-        SkinCreatorPopup.CreateSkin("test", SkinOptions);
+        Skin skin = SkinCreatorPopup.CreateSkin("test", SkinOptions);
 
-        var skinInfoInstance = SkinInfoScene.Instantiate<StackScene>();
-        EmitSignal(SignalName.ScenePushed, skinInfoInstance);
+        var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
+        skinInfoInstance.SetSkin(skin);
+        EmitSignal(SignalName.ScenePushed, (StackScene)skinInfoInstance);
     }
 }

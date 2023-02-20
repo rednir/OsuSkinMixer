@@ -29,7 +29,17 @@ public class SkinCreator
 
     private DirectoryInfo NewSkinDir;
 
-    public void Create(CancellationToken cancellationToken)
+    public void TriggerOskImport()
+    {
+        string oskDestPath = $"{Settings.Content.SkinsFolder}/{Name}.osk";
+        GD.Print($"Importing skin into game from '{oskDestPath}'");
+
+        // osu! will handle the empty .osk (zip) file by switching the current skin to the skin with name `newSkinName`.
+        File.WriteAllBytes(oskDestPath, new byte[] { 0x50, 0x4B, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+        Godot.OS.ShellOpen(oskDestPath);
+    }
+
+    public Skin Create(CancellationToken cancellationToken)
     {
         // if (Progress != null)
         //     throw new SkinCreationInvalidException("Skin creator has been used or is in use.");
@@ -43,22 +53,6 @@ public class SkinCreator
         // if (Directory.Exists(Settings.Content.SkinsFolder + "/" + Name) && !overwrite)
         //     throw new SkinExistsException();
 
-        CreateSkin(cancellationToken);
-        Progress = 100;
-    }
-
-    public void TriggerOskImport()
-    {
-        string oskDestPath = $"{Settings.Content.SkinsFolder}/{Name}.osk";
-        GD.Print($"Importing skin into game from '{oskDestPath}'");
-
-        // osu! will handle the empty .osk (zip) file by switching the current skin to the skin with name `newSkinName`.
-        File.WriteAllBytes(oskDestPath, new byte[] { 0x50, 0x4B, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-        Godot.OS.ShellOpen(oskDestPath);
-    }
-
-    private void CreateSkin(CancellationToken cancellationToken)
-    {
         GD.Print($"Beginning skin creation with name '{Name}'");
 
         Progress = 0;
@@ -104,7 +98,13 @@ public class SkinCreator
 
         NewSkinDir.MoveTo(dirDestPath);
 
+        Skin skin = new(new DirectoryInfo(dirDestPath));
+        OsuData.AddSkin(skin);
+
+        Progress = 100;
         GD.Print($"Skin creation for '{Name}' has completed.");
+
+        return skin;
     }
 
     private void CopyOption(SkinOption option)

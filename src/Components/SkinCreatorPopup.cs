@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Godot;
 using OsuSkinMixer.Models.SkinOptions;
+using Skin = OsuSkinMixer.Models.Osu.Skin;
 
 namespace OsuSkinMixer.Components;
 
@@ -17,7 +18,7 @@ public partial class SkinCreatorPopup : Control
 		AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
 	}
 
-	public void CreateSkin(string skinName, IEnumerable<SkinOption> skinOptions)
+	public Skin CreateSkin(string skinName, IEnumerable<SkinOption> skinOptions)
 	{
 		SkinCreator skinCreator = new()
 		{
@@ -28,8 +29,10 @@ public partial class SkinCreatorPopup : Control
 		AnimationPlayer.Play("in");
 
 		CancellationTokenSource = new CancellationTokenSource();
-		skinCreator.Create(CancellationTokenSource.Token);
+		Skin skin = skinCreator.Create(CancellationTokenSource.Token);
 
 		AnimationPlayer.Play("out");
+
+		return skin;
 	}
 }

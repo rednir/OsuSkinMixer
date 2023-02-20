@@ -9,15 +9,18 @@ public partial class SkinInfo : StackScene
 {
 	public override string Title => "Skin info";
 
+	private Skin Skin { get; set; }
+
 	private Label SkinNameLabel;
 
 	public override void _Ready()
 	{
 		SkinNameLabel = GetNode<Label>("%SkinNameLabel");
+		SkinNameLabel.Text = Skin.Name;
 	}
 
 	public void SetSkin(Skin skin)
 	{
-		SkinNameLabel.Text = skin.Name;
+		Skin = skin;
 	}
 }
