@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://nmr5hmk5rdjh"]
+[gd_scene load_steps=6 format=3]
 
-[ext_resource type="PackedScene" uid="uid://c8al3ys1j8lqf" path="res://src/Popup.tscn" id="1_vbxph"]
+[ext_resource type="PackedScene" uid="uid://c8al3ys1j8lqf" path="res://src/Components/Popup.tscn" id="1_vbxph"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_x82gr"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/PopupTitle.tres" id="2_2dpv6"]
 [ext_resource type="Script" path="res://src/Components/SetupPopup.cs" id="2_bnnvj"]

@@ -16,7 +16,7 @@ public partial class Menu : StackScene
 	{
 		SkinMixerScene = GD.Load<PackedScene>("res://src/StackScenes/SkinMixer.tscn");
 
-		SkinMixerButton = GetNode<Button>("SkinMixerButton");
+		SkinMixerButton = GetNode<Button>("%SkinMixerButton");
 		SkinMixerButton.Connect("pressed", new Callable(this, nameof(SkinMixerButtonPressed)));
 	}
 

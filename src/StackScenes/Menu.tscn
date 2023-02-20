@@ -10,39 +10,21 @@ size_flags_vertical = 3
 script = ExtResource("1_bkc8q")
 
 [node name="SkinMixerButton" type="Button" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Skin Mixer"
 
 [node name="SkinModifierButton" type="Button" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Skin Modifier"
 
 [node name="SkinManagerButton" type="Button" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Skin Manager"
 
 [node name="SettingsButton" type="Button" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Settings"
-
-[node name="Label" type="Label" parent="."]
-layout_mode = 2
-text = "a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a"
