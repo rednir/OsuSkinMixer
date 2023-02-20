@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://8t4xh5nel3pn"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://8t4xh5nel3pn"]
 
 [ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="1_tlv3r"]
 
@@ -37,6 +37,12 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h3kj7"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
 [resource]
 default_font = ExtResource("1_tlv3r")
 default_font_size = 0
@@ -61,4 +67,5 @@ Button/styles/focus = SubResource("StyleBoxEmpty_apak1")
 Button/styles/hover = SubResource("StyleBoxFlat_nhyir")
 Button/styles/normal = SubResource("StyleBoxFlat_5g35s")
 Button/styles/pressed = SubResource("StyleBoxFlat_h15ob")
+PanelContainer/styles/panel = SubResource("StyleBoxEmpty_h3kj7")
 VBoxContainer/constants/separation = 12
