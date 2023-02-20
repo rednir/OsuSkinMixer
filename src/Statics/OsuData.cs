@@ -22,7 +22,7 @@ public static class OsuData
 
         foreach (var dir in skinsFolder.EnumerateDirectories())
         {
-            //TODO:if (dir.Name != SkinCreator.WORKING_DIR_NAME)
+            if (dir.Name != SkinCreator.WORKING_DIR_NAME)
                 result.Add(new Skin(dir));
         }
 
