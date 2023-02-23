@@ -24,6 +24,8 @@ public class SkinCreator
 
     public string Status { get; set; }
 
+    public Action<float, string> ProgressChangedAction { get; set; }
+
     private readonly List<SkinWithFiles> CachedSkinWithFiles = new();
 
     private SkinIni NewSkinIni;
@@ -78,6 +80,7 @@ public class SkinCreator
 
             GD.Print($"About to copy option '{option.Name}' set to '{option.Skin?.Name ?? "null"}'");
             Status = $"Copying: {option.Name}";
+            ProgressChangedAction?.Invoke(Progress.Value, Status);
 
             // User wants default skin elements to be used.
             if (option.Skin == null)

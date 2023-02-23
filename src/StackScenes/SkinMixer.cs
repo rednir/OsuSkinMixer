@@ -40,6 +40,7 @@ public partial class SkinMixer : StackScene
         {
             Name = "test",
             SkinOptions = SkinOptionsSelector.SkinOptions,
+            ProgressChangedAction = (p, _) => SkinCreatorPopup.SetProgress(p),
         };
 
         CancellationTokenSource = new CancellationTokenSource();
@@ -56,6 +57,8 @@ public partial class SkinMixer : StackScene
                 var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
                 skinInfoInstance.SetSkin(t.Result);
                 EmitSignal(SignalName.ScenePushed, skinInfoInstance);
+
+                SkinCreatorPopup.Out();
             });
     }
 }

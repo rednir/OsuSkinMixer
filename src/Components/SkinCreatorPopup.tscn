@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://bdfswg0st3cdm"]
 
 [ext_resource type="Script" path="res://src/Components/SkinCreatorPopup.cs" id="1_314vd"]
 [ext_resource type="PackedScene" uid="uid://c8al3ys1j8lqf" path="res://src/Components/Popup.tscn" id="2_a7j74"]
@@ -36,5 +36,10 @@ layout_mode = 2
 text = "This can take some time depending on your disk speeds."
 label_settings = ExtResource("4_5f2aa")
 autowrap_mode = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+show_percentage = false
 
 [editable path="Popup"]
