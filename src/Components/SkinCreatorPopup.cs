@@ -14,14 +14,10 @@ public partial class SkinCreatorPopup : Control
 	}
 
 	public void In()
-	{
-		AnimationPlayer.Play("in");
-	}
+		=> AnimationPlayer.Play("in");
 
 	public void Out()
-	{
-		AnimationPlayer.Play("out");
-	}
+		=> AnimationPlayer.Play("out");
 
 	public void SetProgress(float progress)
 	{
