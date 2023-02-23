@@ -4,6 +4,7 @@ using OsuSkinMixer.Components.SkinOptionsSelector;
 using OsuSkinMixer.Components;
 using System.Collections.Generic;
 using Skin = OsuSkinMixer.Models.Osu.Skin;
+using System.Threading;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -11,7 +12,7 @@ public partial class SkinMixer : StackScene
 {
     public override string Title => "Skin Mixer";
 
-    private IEnumerable<SkinOption> SkinOptions { get; } = SkinOption.Default;
+    private CancellationTokenSource CancellationTokenSource;
 
     private PackedScene SkinInfoScene;
 
@@ -28,13 +29,20 @@ public partial class SkinMixer : StackScene
         CreateSkinButton = GetNode<Button>("CreateSkinButton");
 
         CreateSkinButton.Pressed += CreateSkinButtonPressed;
-
-        SkinOptionsSelector.CreateOptionComponents(SkinOptions);
     }
 
     public void CreateSkinButtonPressed()
     {
-        Skin skin = SkinCreatorPopup.CreateSkin("test", SkinOptions);
+        SkinCreatorPopup.In();
+
+        SkinCreator skinCreator = new()
+        {
+            Name = "test",
+            SkinOptions = SkinOptionsSelector.SkinOptions,
+        };
+
+        CancellationTokenSource = new CancellationTokenSource();
+		Skin skin = skinCreator.Create(CancellationTokenSource.Token);
 
         var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
         skinInfoInstance.SetSkin(skin);

@@ -11,13 +11,13 @@ namespace OsuSkinMixer.Components.SkinOptionsSelector;
 
 public partial class SkinOptionsSelector : VBoxContainer
 {
+    public SkinOption[] SkinOptions { get; } = SkinOption.Default;
+
     private PackedScene SkinOptionComponentScene;
 
     private SkinSelectorPopup SkinSelectorPopup;
 
     private SkinOptionComponent SkinOptionComponentInSelection;
-
-    private SkinOption[] SkinOptions;
 
     private List<SkinOptionComponent> SkinOptionComponents;
 
@@ -27,19 +27,19 @@ public partial class SkinOptionsSelector : VBoxContainer
 
         SkinSelectorPopup = GetNode<SkinSelectorPopup>("SkinSelectorPopup");
         SkinSelectorPopup.CreateSkinComponents(s => OptionComponentSelected(s));
+
+        CreateOptionComponents();
     }
 
-    public void CreateOptionComponents(IEnumerable<SkinOption> skinOptions)
+    public void CreateOptionComponents()
     {
         foreach (Node child in GetChildren())
             (child as SkinOptionComponent)?.QueueFree();
 
         SkinOptionComponents = new List<SkinOptionComponent>();
 
-        foreach (var option in skinOptions)
+        foreach (var option in SkinOptions)
             addOptionComponent(option, this, 0);
-
-        SkinOptions = skinOptions.ToArray();
 
         void addOptionComponent(SkinOption option, VBoxContainer vbox, int layer)
         {
