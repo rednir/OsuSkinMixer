@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Godot;
 using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Models.SkinOptions;
@@ -39,7 +40,7 @@ public class SkinCreator
         Godot.OS.ShellOpen(oskDestPath);
     }
 
-    public Skin Create(CancellationToken cancellationToken)
+    public async Task<Skin> CreateAndImportAsync(CancellationToken cancellationToken)
     {
         // if (Progress != null)
         //     throw new SkinCreationInvalidException("Skin creator has been used or is in use.");
@@ -86,7 +87,7 @@ public class SkinCreator
             Progress += progressInterval;
         }
 
-        File.WriteAllText($"{NewSkinDir.FullName}/skin.ini", NewSkinIni.ToString());
+        await File.WriteAllTextAsync($"{NewSkinDir.FullName}/skin.ini", NewSkinIni.ToString(), cancellationToken);
 
         Status = "Importing...";
 

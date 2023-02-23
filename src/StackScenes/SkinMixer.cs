@@ -5,6 +5,7 @@ using OsuSkinMixer.Components;
 using System.Collections.Generic;
 using Skin = OsuSkinMixer.Models.Osu.Skin;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -42,10 +43,19 @@ public partial class SkinMixer : StackScene
         };
 
         CancellationTokenSource = new CancellationTokenSource();
-		Skin skin = skinCreator.Create(CancellationTokenSource.Token);
+		Task.Run(async () => await skinCreator.CreateAndImportAsync(CancellationTokenSource.Token))
+            .ContinueWith(t => {
+                var ex = t.Exception;
+                if (ex != null)
+                {
+                    GD.PrintErr(ex);
+                    OS.Alert($"{ex.Message}\nPlease report this error with logs.", "Skin creation failure");
+                    return;
+                }
 
-        var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
-        skinInfoInstance.SetSkin(skin);
-        EmitSignal(SignalName.ScenePushed, (StackScene)skinInfoInstance);
+                var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
+                skinInfoInstance.SetSkin(t.Result);
+                EmitSignal(SignalName.ScenePushed, skinInfoInstance);
+            });
     }
 }
