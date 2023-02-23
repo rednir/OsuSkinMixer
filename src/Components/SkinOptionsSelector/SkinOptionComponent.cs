@@ -14,6 +14,8 @@ public partial class SkinOptionComponent : HBoxContainer
 
 	public Button Button { get; private set; }
 
+	public string DefaultValue { get; set; }
+
 	public SkinOption SkinOption { get; private set; }
 
 	private Label Label;
@@ -26,12 +28,13 @@ public partial class SkinOptionComponent : HBoxContainer
 		ResetButton = GetNode<TextureButton>("Button/ResetButton");
     }
 
-	public void SetValues(SkinOption option, int indentLayer)
+	public void SetSkinOption(SkinOption option, int indentLayer)
 	{
+		SkinOption = option;
 		TooltipText = option.ToString();
 		Name = option.Name;
 		Label.Text = option.Name;
-		SkinOption = option;
+		Button.Text = DefaultValue;
 
 		if (option is not ParentSkinOption)
 		{
@@ -53,6 +56,13 @@ public partial class SkinOptionComponent : HBoxContainer
 
 	public void SetSelectedSkin(Skin skin)
 	{
+		if (skin == null)
+		{
+			Button.Text = DefaultValue;
+			SkinOption.Skin = null;
+			return;
+		}
+
 		Button.Text = skin.Name;
 		SkinOption.Skin = skin;
 	}

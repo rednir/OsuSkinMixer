@@ -45,13 +45,20 @@ public partial class SkinOptionsSelector : VBoxContainer
         {
             SkinOptionComponent component = SkinOptionComponentScene.Instantiate<SkinOptionComponent>();
             vbox.AddChild(component);
-            component.SetValues(option, layer);
 
+            component.DefaultValue = "<<DEFAULT>>";
+            component.ResetButton.Pressed += () =>
+            {
+                SkinOptionComponentInSelection = component;
+                OptionComponentSelected(null);
+            };
             component.Button.Pressed += () =>
             {
                 SkinOptionComponentInSelection = component;
                 SkinSelectorPopup.In();
             };
+
+            component.SetSkinOption(option, layer);
 
             if (option is ParentSkinOption parentOption)
             {
