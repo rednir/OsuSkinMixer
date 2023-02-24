@@ -30,6 +30,8 @@ public partial class SkinMixer : StackScene
         CreateSkinButton = GetNode<Button>("CreateSkinButton");
 
         CreateSkinButton.Pressed += CreateSkinButtonPressed;
+
+        SkinOptionsSelector.CreateOptionComponents("<<DEFAULT SKIN>>");
     }
 
     public void CreateSkinButtonPressed()

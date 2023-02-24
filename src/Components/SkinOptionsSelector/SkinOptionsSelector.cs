@@ -27,11 +27,9 @@ public partial class SkinOptionsSelector : VBoxContainer
 
         SkinSelectorPopup = GetNode<SkinSelectorPopup>("SkinSelectorPopup");
         SkinSelectorPopup.CreateSkinComponents(s => OptionComponentSelected(s));
-
-        CreateOptionComponents();
     }
 
-    public void CreateOptionComponents()
+    public void CreateOptionComponents(string defaultValue = "<<DEFAULT>>")
     {
         foreach (Node child in GetChildren())
             (child as SkinOptionComponent)?.QueueFree();
@@ -46,7 +44,7 @@ public partial class SkinOptionsSelector : VBoxContainer
             SkinOptionComponent component = SkinOptionComponentScene.Instantiate<SkinOptionComponent>();
             vbox.AddChild(component);
 
-            component.DefaultValue = "<<DEFAULT>>";
+            component.DefaultValue = defaultValue;
             component.ResetButton.Pressed += () =>
             {
                 SkinOptionComponentInSelection = component;
