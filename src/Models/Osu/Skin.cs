@@ -34,4 +34,26 @@ public class Skin
     public DirectoryInfo Directory { get; set; }
 
     public SkinIni SkinIni { get; set; }
+
+    public Texture2D HitcircleTexture => GetTexture("hitcircle.png");
+
+    public Texture2D HitcircleoverlayTexture => GetTexture("hitcircleoverlay.png");
+
+    public Texture2D Default1Texture => GetTexture("default-1.png");
+
+    private Texture2D GetTexture(string filename)
+    {
+        string path = $"{Directory.FullName}/{filename}";
+		Image image = new();
+
+        if (!File.Exists(path))
+            return null;
+
+		Error err = image.Load(path);
+
+        if (err != Error.Ok)
+            return null;
+
+        return ImageTexture.CreateFromImage(image);
+    }
 }

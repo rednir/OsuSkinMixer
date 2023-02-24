@@ -10,15 +10,18 @@ public partial class SkinComponent : HBoxContainer
 	public Button Button { get; private set; }
 
 	private Label NameLabel;
+	private Hitcircle Hitcircle;
 
 	public override void _Ready()
 	{
 		Button = GetNode<Button>("Button");
 		NameLabel = GetNode<Label>("Button/Name");
+		Hitcircle = GetNode<Hitcircle>("Button/Hitcircle");
 	}
 
 	public void SetValues(Skin skin)
 	{
 		NameLabel.Text = skin.Name;
+		Hitcircle.SetSkin(skin);
 	}
 }
