@@ -44,18 +44,6 @@ public class SkinCreator
 
     public async Task<Skin> CreateAndImportAsync(CancellationToken cancellationToken)
     {
-        // if (Progress != null)
-        //     throw new SkinCreationInvalidException("Skin creator has been used or is in use.");
-
-        // if (string.IsNullOrWhiteSpace(Name))
-        //     throw new SkinCreationInvalidException("Set a name for the new skin first.");
-
-        // if (Name.Any(c => Path.GetInvalidFileNameChars().Contains(c)))
-        //     throw new SkinCreationInvalidException("The skin name contains invalid symbols.");
-
-        // if (Directory.Exists(Settings.Content.SkinsFolder + "/" + Name) && !overwrite)
-        //     throw new SkinExistsException();
-
         GD.Print($"Beginning skin creation with name '{Name}'");
 
         Progress = 0;

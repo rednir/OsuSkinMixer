@@ -2,10 +2,12 @@ using Godot;
 using OsuSkinMixer.Models.SkinOptions;
 using OsuSkinMixer.Components.SkinOptionsSelector;
 using OsuSkinMixer.Components;
+using System.Linq;
 using System.Collections.Generic;
 using Skin = OsuSkinMixer.Models.Osu.Skin;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -18,6 +20,7 @@ public partial class SkinMixer : StackScene
     private PackedScene SkinInfoScene;
 
     private SkinCreatorPopup SkinCreatorPopup;
+    private SkinNamePopup SkinNamePopup;
     private SkinOptionsSelector SkinOptionsSelector;
     private Button CreateSkinButton;
 
@@ -26,6 +29,7 @@ public partial class SkinMixer : StackScene
         SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
 
         SkinCreatorPopup = GetNode<SkinCreatorPopup>("SkinCreatorPopup");
+        SkinNamePopup = GetNode<SkinNamePopup>("SkinNamePopup");
         SkinOptionsSelector = GetNode<SkinOptionsSelector>("SkinOptionsSelector");
         CreateSkinButton = GetNode<Button>("CreateSkinButton");
 
@@ -35,6 +39,27 @@ public partial class SkinMixer : StackScene
     }
 
     public void CreateSkinButtonPressed()
+    {
+        SkinNamePopup.In(s =>
+        {
+            if (string.IsNullOrWhiteSpace(s))
+            {
+                OS.Alert("Skin name cannot be empty.", "Error");
+                return;
+            }
+
+            if (s.Any(c => Path.GetInvalidFileNameChars().Contains(c)))
+            {
+                OS.Alert("Skin name contains invalid symbols.", "Error");
+                return;
+            }
+
+            SkinNamePopup.Out();
+            RunSkinCreator();
+        });
+    }
+
+    public void RunSkinCreator()
     {
         SkinCreatorPopup.In();
 
@@ -46,8 +71,9 @@ public partial class SkinMixer : StackScene
         };
 
         CancellationTokenSource = new CancellationTokenSource();
-		Task.Run(async () => await skinCreator.CreateAndImportAsync(CancellationTokenSource.Token))
-            .ContinueWith(t => {
+        Task.Run(async () => await skinCreator.CreateAndImportAsync(CancellationTokenSource.Token))
+            .ContinueWith(t =>
+            {
                 var ex = t.Exception;
                 if (ex != null)
                 {

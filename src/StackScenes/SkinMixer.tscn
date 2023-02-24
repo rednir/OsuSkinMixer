@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://diy5ndhxckmq6"]
+[gd_scene load_steps=7 format=3 uid="uid://diy5ndhxckmq6"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_5uai6"]
 [ext_resource type="Script" path="res://src/StackScenes/SkinMixer.cs" id="1_swu1f"]
-[ext_resource type="PackedScene" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.tscn" id="2_r5240"]
+[ext_resource type="PackedScene" uid="uid://bfqkwbaa6t4mi" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.tscn" id="2_r5240"]
 [ext_resource type="PackedScene" uid="uid://bdfswg0st3cdm" path="res://src/Components/SkinCreatorPopup.tscn" id="3_0v5s4"]
+[ext_resource type="PackedScene" uid="uid://ssjdgm1k50fj" path="res://src/Components/SkinNamePopup.tscn" id="3_8uvqg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kmx4q"]
 
@@ -15,6 +16,9 @@ size_flags_vertical = 3
 theme = ExtResource("1_5uai6")
 theme_override_constants/separation = 28
 script = ExtResource("1_swu1f")
+
+[node name="SkinNamePopup" parent="." instance=ExtResource("3_8uvqg")]
+layout_mode = 2
 
 [node name="SkinCreatorPopup" parent="." instance=ExtResource("3_0v5s4")]
 layout_mode = 2
