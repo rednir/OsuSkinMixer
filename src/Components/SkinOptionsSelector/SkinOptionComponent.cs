@@ -35,6 +35,7 @@ public partial class SkinOptionComponent : HBoxContainer
 		Name = option.Name;
 		Label.Text = option.Name;
 		Button.Text = DefaultValue;
+		ResetButton.Visible = false;
 
 		if (option is not ParentSkinOption)
 		{
@@ -60,11 +61,13 @@ public partial class SkinOptionComponent : HBoxContainer
 		{
 			Button.Text = DefaultValue;
 			SkinOption.Skin = null;
+			ResetButton.Visible = false;
 			return;
 		}
 
 		Button.Text = skin.Name;
 		SkinOption.Skin = skin;
+		ResetButton.Visible = true;
 	}
 
 	public void SetToVarious()
