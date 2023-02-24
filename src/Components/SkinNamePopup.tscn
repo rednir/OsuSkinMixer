@@ -35,6 +35,10 @@ layout_mode = 2
 text = "Name your new skin"
 label_settings = ExtResource("3_7htho")
 
+[node name="WarningLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="LineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -42,6 +46,7 @@ layout_mode = 2
 [node name="ConfirmButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+disabled = true
 text = "Confirm"
 
 [editable path="Popup"]

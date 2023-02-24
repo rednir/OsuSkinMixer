@@ -35,37 +35,27 @@ public partial class SkinMixer : StackScene
 
         CreateSkinButton.Pressed += CreateSkinButtonPressed;
 
+        SkinNamePopup.ConfirmAction = s =>
+        {
+            SkinNamePopup.Out();
+            RunSkinCreator(s);
+        };
+
         SkinOptionsSelector.CreateOptionComponents("<<DEFAULT SKIN>>");
     }
 
     public void CreateSkinButtonPressed()
     {
-        SkinNamePopup.In(s =>
-        {
-            if (string.IsNullOrWhiteSpace(s))
-            {
-                OS.Alert("Skin name cannot be empty.", "Error");
-                return;
-            }
-
-            if (s.Any(c => Path.GetInvalidFileNameChars().Contains(c)))
-            {
-                OS.Alert("Skin name contains invalid symbols.", "Error");
-                return;
-            }
-
-            SkinNamePopup.Out();
-            RunSkinCreator();
-        });
+        SkinNamePopup.In();
     }
 
-    public void RunSkinCreator()
+    public void RunSkinCreator(string skinName)
     {
         SkinCreatorPopup.In();
 
         SkinCreator skinCreator = new()
         {
-            Name = "test",
+            Name = skinName,
             SkinOptions = SkinOptionsSelector.SkinOptions,
             ProgressChangedAction = (p, _) => SkinCreatorPopup.SetProgress(p),
         };

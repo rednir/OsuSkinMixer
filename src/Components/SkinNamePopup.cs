@@ -1,32 +1,70 @@
 using Godot;
+using OsuSkinMixer.Statics;
 using System;
+using System.IO;
+using System.Linq;
 
 namespace OsuSkinMixer.Components;
 
 public partial class SkinNamePopup : Control
 {
-	private AnimationPlayer AnimationPlayer;
-	private LineEdit LineEdit;
-	private Button ConfirmButton;
+	public Action<string> ConfirmAction { get; set; }
 
-	private Action<string> ConfirmAction { get; set; }
+    private AnimationPlayer AnimationPlayer;
+	private Label WarningLabel;
+    private LineEdit LineEdit;
+    private Button ConfirmButton;
 
-	public override void _Ready()
+    public override void _Ready()
+    {
+        AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
+		WarningLabel = GetNode<Label>("%WarningLabel");
+        LineEdit = GetNode<LineEdit>("%LineEdit");
+        ConfirmButton = GetNode<Button>("%ConfirmButton");
+
+        ConfirmButton.Pressed += () => ConfirmAction?.Invoke(LineEdit.Text);
+        LineEdit.TextSubmitted += t => ConfirmAction?.Invoke(t);
+		LineEdit.TextChanged += OnTextChanged;
+    }
+
+    public void In()
+		=> AnimationPlayer.Play("in");
+
+    public void Out()
+        => AnimationPlayer.Play("out");
+
+	private void OnConfirm()
 	{
-		AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
-		LineEdit = GetNode<LineEdit>("%LineEdit");
-		ConfirmButton = GetNode<Button>("%ConfirmButton");
+		if (string.IsNullOrWhiteSpace(LineEdit.Text))
+		{
+			OS.Alert("Skin name cannot be empty.", "Error");
+			return;
+		}
 
-		ConfirmButton.Pressed += () => ConfirmAction?.Invoke(LineEdit.Text);
-		LineEdit.TextSubmitted += t => ConfirmAction?.Invoke(t);
+		ConfirmAction?.Invoke(LineEdit.Text);
 	}
 
-	public void In(Action<string> onConfirm)
+	private void OnTextChanged(string text)
 	{
-		ConfirmAction = onConfirm;
-		AnimationPlayer.Play("in");
+		if (text.Any(c => Path.GetInvalidFileNameChars().Contains(c)))
+		{
+			ConfirmButton.Disabled = true;
+			WarningLabel.Text = "Invalid characters in skin name.";
+		}
+		else if (string.IsNullOrWhiteSpace(text))
+		{
+			ConfirmButton.Disabled = true;
+			WarningLabel.Text = "Skin name cannot be empty.";
+		}
+		else if (OsuData.Skins.Any(s => s.Name == text))
+		{
+			ConfirmButton.Disabled = false;
+			WarningLabel.Text = "Skin with this name already exists and will be replaced.";
+		}
+		else
+		{
+			ConfirmButton.Disabled = false;
+			WarningLabel.Text = string.Empty;
+		}
 	}
-
-	public void Out()
-		=> AnimationPlayer.Play("out");
 }
