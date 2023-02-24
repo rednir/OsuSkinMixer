@@ -161,10 +161,10 @@ _data = {
 }
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ca2ql"]
-content_margin_left = 0.0
-content_margin_top = 16.0
-content_margin_right = 0.0
-content_margin_bottom = 16.0
+content_margin_left = 16.0
+content_margin_top = 48.0
+content_margin_right = 16.0
+content_margin_bottom = 48.0
 
 [node name="Main" type="Control"]
 layout_mode = 3
