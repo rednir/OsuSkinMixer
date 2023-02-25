@@ -13,6 +13,7 @@ public partial class SkinSelectorPopup : Control
 	private PackedScene SkinComponentScene;
 
 	private AnimationPlayer AnimationPlayer;
+	private TextureButton BackButton;
 	private LineEdit SearchLineEdit;
 	private VBoxContainer SkinsContainer;
 
@@ -21,9 +22,11 @@ public partial class SkinSelectorPopup : Control
 		SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinSelector/SkinComponent.tscn");
 
 		AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
+		BackButton = GetNode<TextureButton>("%BackButton");
 		SkinsContainer = GetNode<VBoxContainer>("%SkinComponentsContainer");
 		SearchLineEdit = GetNode<LineEdit>("%SearchLineEdit");
 
+		BackButton.Pressed += () => Out();
 		SearchLineEdit.TextChanged += OnSearchTextChanged;
 		SearchLineEdit.TextSubmitted += OnSearchTextSubmitted;
 

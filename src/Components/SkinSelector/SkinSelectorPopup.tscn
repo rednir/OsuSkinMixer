@@ -51,7 +51,8 @@ custom_minimum_size = Vector2(2.08165e-12, 56)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="TextureButton" type="TextureButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]
+[node name="BackButton" type="TextureButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(52, 2.08165e-12)
 layout_mode = 2
 texture_normal = ExtResource("3_rgja5")
