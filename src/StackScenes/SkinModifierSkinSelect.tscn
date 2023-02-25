@@ -43,6 +43,7 @@ text = "Add"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
+disabled = true
 text = "Continue"
 
 [node name="SkinSelectorPopup" parent="." instance=ExtResource("3_psfnl")]

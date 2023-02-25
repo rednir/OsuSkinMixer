@@ -44,9 +44,13 @@ public partial class SkinModifierSkinSelect : StackScene
 			{
 				SkinsToModify.Remove(s);
 				component.QueueFree();
+
+				if (SkinsToModify.Count == 0)
+					ContinueButton.Disabled = true;
 			};
 
 			SkinsToModify.Add(s);
+			ContinueButton.Disabled = false;
 		};
 	}
 
