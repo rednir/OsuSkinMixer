@@ -9,6 +9,8 @@ public partial class SkinComponent : HBoxContainer
 {
 	public Button Button { get; private set; }
 
+	public Skin Skin { get; private set; }
+
 	private Label NameLabel;
 	private Hitcircle Hitcircle;
 
@@ -21,6 +23,8 @@ public partial class SkinComponent : HBoxContainer
 
 	public void SetValues(Skin skin)
 	{
+		Skin = skin;
+
 		NameLabel.Text = skin.Name;
 		Hitcircle.SetSkin(skin);
 	}

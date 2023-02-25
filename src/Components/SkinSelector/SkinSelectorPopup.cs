@@ -1,13 +1,15 @@
 using Godot;
 using System;
+using System.Linq;
 using Skin = OsuSkinMixer.Models.Osu.Skin;
 using OsuSkinMixer.Statics;
-using System.Linq;
 
 namespace OsuSkinMixer.Components.SkinSelector;
 
 public partial class SkinSelectorPopup : Control
 {
+	public Action<Skin> OnSelected { get; set; }
+
 	private PackedScene SkinComponentScene;
 
 	private AnimationPlayer AnimationPlayer;
@@ -23,9 +25,10 @@ public partial class SkinSelectorPopup : Control
 		SearchLineEdit = GetNode<LineEdit>("%SearchLineEdit");
 
 		SearchLineEdit.TextChanged += OnSearchTextChanged;
+		SearchLineEdit.TextSubmitted += OnSearchTextSubmitted;
 	}
 
-	public void CreateSkinComponents(Action<Skin> onSelected)
+	public void CreateSkinComponents()
 	{
 		foreach (var child in SkinsContainer.GetChildren())
 			child.QueueFree();
@@ -36,22 +39,37 @@ public partial class SkinSelectorPopup : Control
 			SkinsContainer.AddChild(instance);
 			instance.Name = skin.Name;
 			instance.SetValues(skin);
-			instance.Button.Pressed += () =>
-			{
-				onSelected(skin);
-				AnimationPlayer.Play("out");
-			};
+			instance.Button.Pressed += () => OnSkinSelected(skin);
 		}
 	}
 
 	public void In()
 	{
 		AnimationPlayer.Play("in");
+		SearchLineEdit.GrabFocus();
+	}
+
+	private void Out()
+	{
+		AnimationPlayer.Play("out");
+	}
+
+	private void OnSkinSelected(Skin skin)
+	{
+		OnSelected(skin);
+		Out();
 	}
 
 	private void OnSearchTextChanged(string text)
 	{
 		foreach (var component in SkinsContainer.GetChildren().Cast<SkinComponent>())
 			component.Visible = component.Name.ToString().Contains(text, StringComparison.OrdinalIgnoreCase);
+	}
+
+	private void OnSearchTextSubmitted(string text)
+	{
+		SkinComponent selectedComponent = SkinsContainer.GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Visible);
+		if (selectedComponent != null)
+			OnSkinSelected(selectedComponent.Skin);
 	}
 }
