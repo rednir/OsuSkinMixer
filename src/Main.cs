@@ -23,7 +23,10 @@ public partial class Main : Control
 
 	public override void _Ready()
 	{
-		GD.Print($"osu! skin mixer {Settings.VERSION}");
+		GD.Print($"osu! skin mixer {Settings.VERSION} at {DateTime.Now}");
+
+		DisplayServer.WindowSetTitle($"osu! skin mixer by rednir");
+		DisplayServer.WindowSetMinSize(new Vector2I(600, 300));
 
 		MenuScene = GD.Load<PackedScene>("res://src/StackScenes/Menu.tscn");
 
