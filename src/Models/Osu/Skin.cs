@@ -57,6 +57,6 @@ public class Skin
         return ImageTexture.CreateFromImage(image);
     }
 
-    private Texture2D GetDefaultTexture(string filename)
+    private static Texture2D GetDefaultTexture(string filename)
         => GD.Load<Texture2D>($"res://assets/defaultskin/{filename}");
 }
