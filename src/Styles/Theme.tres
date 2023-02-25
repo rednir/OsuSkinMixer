@@ -1,6 +1,17 @@
-[gd_resource type="Theme" load_steps=9 format=3 uid="uid://8t4xh5nel3pn"]
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://8t4xh5nel3pn"]
 
 [ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="1_tlv3r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4icrn"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+bg_color = Color(0.207843, 0.2, 0.211765, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_apak1"]
 
@@ -75,7 +86,7 @@ Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
 Button/constants/h_separation = 2
 Button/constants/outline_size = 0
 Button/font_sizes/font_size = 16
-Button/styles/disabled = null
+Button/styles/disabled = SubResource("StyleBoxFlat_4icrn")
 Button/styles/focus = SubResource("StyleBoxEmpty_apak1")
 Button/styles/hover = SubResource("StyleBoxFlat_nhyir")
 Button/styles/normal = SubResource("StyleBoxFlat_5g35s")
