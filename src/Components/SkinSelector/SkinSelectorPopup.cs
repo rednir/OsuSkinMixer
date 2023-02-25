@@ -51,6 +51,7 @@ public partial class SkinSelectorPopup : Control
 	public void In()
 	{
 		AnimationPlayer.Play("in");
+		SearchLineEdit.Clear();
 		SearchLineEdit.GrabFocus();
 	}
 
