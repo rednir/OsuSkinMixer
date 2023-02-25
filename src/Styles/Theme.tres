@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://8t4xh5nel3pn"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://8t4xh5nel3pn"]
 
 [ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="1_tlv3r"]
 
@@ -36,6 +36,8 @@ corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pdnj7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lgp16"]
 content_margin_left = 16.0
@@ -75,5 +77,15 @@ Button/styles/focus = SubResource("StyleBoxEmpty_apak1")
 Button/styles/hover = SubResource("StyleBoxFlat_nhyir")
 Button/styles/normal = SubResource("StyleBoxFlat_5g35s")
 Button/styles/pressed = SubResource("StyleBoxFlat_h15ob")
+Label/colors/font_color = Color(0.901961, 0.882353, 0.898039, 1)
+Label/colors/font_outline_color = Color(1, 1, 1, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0)
+Label/constants/line_spacing = 3
+Label/constants/outline_size = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/constants/shadow_outline_size = 1
+Label/font_sizes/font_size = 16
+Label/styles/normal = SubResource("StyleBoxEmpty_pdnj7")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_lgp16")
 VBoxContainer/constants/separation = 12

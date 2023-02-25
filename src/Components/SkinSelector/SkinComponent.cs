@@ -12,6 +12,7 @@ public partial class SkinComponent : HBoxContainer
 	public Skin Skin { get; private set; }
 
 	private Label NameLabel;
+	private Label AuthorLabel;
 	private Hitcircle Hitcircle;
 
 	public override void _Ready()
