@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://mm8avdy2josn"]
+
+[ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_jskw1"]
+[ext_resource type="Script" path="res://src/StackScenes/SkinModifierModificationSelect.cs" id="2_je2sr"]
+[ext_resource type="PackedScene" uid="uid://bfqkwbaa6t4mi" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.tscn" id="3_4hx6p"]
+
+[node name="SkinModifierModificationSelect" type="VBoxContainer"]
+offset_right = 750.0
+offset_bottom = 450.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_jskw1")
+theme_override_constants/separation = 32
+script = ExtResource("2_je2sr")
+
+[node name="SkinOptionsSelector" parent="." instance=ExtResource("3_4hx6p")]
+layout_mode = 2
+
+[node name="ApplyChangesButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Apply changes"
