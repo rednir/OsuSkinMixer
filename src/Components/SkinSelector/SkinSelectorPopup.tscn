@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bkt3rrle2it16"]
+[gd_scene load_steps=10 format=3 uid="uid://ch6kfpkq0bkw4"]
 
 [ext_resource type="Script" path="res://src/Components/SkinSelector/SkinSelectorPopup.cs" id="1_5b4pt"]
 [ext_resource type="PackedScene" uid="uid://c8al3ys1j8lqf" path="res://src/Components/Popup.tscn" id="1_jm6w5"]
-[ext_resource type="Texture2D" uid="uid://y2y24k360f1j" path="res://assets/back-arrow.png" id="3_rgja5"]
+[ext_resource type="Texture2D" uid="uid://y2y24k360f1j" path="res://assets/backarrow-normal.png" id="3_rgja5"]
+[ext_resource type="Texture2D" uid="uid://ct65ouuvkxb2u" path="res://assets/backbutton-pressed.png" id="4_phrje"]
+[ext_resource type="Texture2D" uid="uid://cfb6b04ifjvav" path="res://assets/backarrow-hover.png" id="5_asiit"]
+[ext_resource type="Texture2D" uid="uid://hyqmio13y5cw" path="res://assets/backbutton-disabled.png" id="6_egvt8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sfgka"]
 content_margin_left = 0.0
@@ -31,15 +34,7 @@ script = ExtResource("1_5b4pt")
 [node name="Popup" parent="." instance=ExtResource("1_jm6w5")]
 layout_mode = 1
 
-[node name="AnimationPlayer" parent="Popup" index="0"]
-autoplay = ""
-
-[node name="Overlay" parent="Popup/CanvasLayer" index="0"]
-modulate = Color(1, 1, 1, 1)
-
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
-modulate = Color(1, 1, 1, 1)
-offset_top = 0.0
 offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -62,6 +57,9 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(52, 2.08165e-12)
 layout_mode = 2
 texture_normal = ExtResource("3_rgja5")
+texture_pressed = ExtResource("4_phrje")
+texture_hover = ExtResource("5_asiit")
+texture_disabled = ExtResource("6_egvt8")
 stretch_mode = 5
 
 [node name="SearchLineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]

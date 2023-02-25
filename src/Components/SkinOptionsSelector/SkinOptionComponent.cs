@@ -60,12 +60,14 @@ public partial class SkinOptionComponent : HBoxContainer
 		if (skin == null)
 		{
 			Button.Text = DefaultValue;
+			Button.TooltipText = null;
 			SkinOption.Skin = null;
 			ResetButton.Visible = false;
 			return;
 		}
 
 		Button.Text = skin.Name;
+		Button.TooltipText = skin.Name;
 		SkinOption.Skin = skin;
 		ResetButton.Visible = true;
 	}
@@ -73,6 +75,7 @@ public partial class SkinOptionComponent : HBoxContainer
 	public void SetToVarious()
 	{
 		Button.Text = "<<VARIOUS>>";
+		Button.TooltipText = null;
 		SkinOption.Skin = null;
 	}
 }
