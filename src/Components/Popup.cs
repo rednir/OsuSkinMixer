@@ -4,6 +4,8 @@ namespace OsuSkinMixer.Components;
 
 public partial class Popup : Control
 {
+	protected virtual bool IsImportant => false;
+
     protected AnimationPlayer AnimationPlayer { get; private set; }
 
 	public override void _Ready()
@@ -16,19 +18,19 @@ public partial class Popup : Control
 
     public override void _Input(InputEvent inputEvent)
     {
-		if (inputEvent.IsActionPressed("ui_cancel"))
+		if (inputEvent.IsActionPressed("ui_cancel") && !IsImportant)
 			Out();
     }
+
+	private void OnGuiInputOutsideContent(InputEvent inputEvent)
+	{
+		if (inputEvent.IsPressed() && !IsImportant)
+			Out();
+	}
 
     public virtual void In()
 		=> AnimationPlayer.Play("in");
 
     public virtual void Out()
         => AnimationPlayer.Play("out");
-
-	private void OnGuiInputOutsideContent(InputEvent inputEvent)
-	{
-		if (inputEvent.IsPressed())
-			Out();
-	}
 }

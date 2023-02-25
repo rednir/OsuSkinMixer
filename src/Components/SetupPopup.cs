@@ -7,6 +7,8 @@ namespace OsuSkinMixer.Components;
 
 public partial class SetupPopup : Popup
 {
+	protected override bool IsImportant => true;
+
 	private LineEdit LineEdit;
 	private Button DoneButton;
 

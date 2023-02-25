@@ -4,6 +4,8 @@ namespace OsuSkinMixer.Components;
 
 public partial class SkinCreatorPopup : Popup
 {
+	protected override bool IsImportant => true;
+
 	private ProgressBar ProgressBar;
 
 	public override void _Ready()
