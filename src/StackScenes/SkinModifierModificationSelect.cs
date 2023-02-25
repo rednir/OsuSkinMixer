@@ -9,7 +9,7 @@ namespace OsuSkinMixer.StackScenes;
 
 public partial class SkinModifierModificationSelect : StackScene
 {
-	public override string Title => "Modifying skin 'skin name'";
+	public override string Title => SkinsToModify.Count == 1 ? $"Modifying: {SkinsToModify[0].Name}" : $"Modifying {SkinsToModify.Count} skins";
 
 	public List<Skin> SkinsToModify { get; set; }
 
