@@ -205,7 +205,6 @@ _data = {
 bg_color = Color(0, 0, 0, 0.54902)
 
 [node name="Popup" type="Control"]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -223,10 +222,9 @@ libraries = {
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
-visible = false
 
 [node name="Overlay" type="Panel" parent="CanvasLayer"]
-modulate = Color(0, 0, 0, 0.0625)
+modulate = Color(0, 0, 0, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -235,12 +233,10 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_0s675")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer"]
-modulate = Color(1, 1, 1, 0.75)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 360.315
-offset_bottom = 360.315
+offset_bottom = -0.00012207
 horizontal_scroll_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer"]
@@ -256,7 +252,7 @@ layout_mode = 2
 size_flags_vertical = 2
 
 [node name="ContentPanelContainer" type="PanelContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(400, 300)
+custom_minimum_size = Vector2(400, 200)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 10
