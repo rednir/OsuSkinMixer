@@ -26,6 +26,8 @@ public partial class SkinSelectorPopup : Control
 
 		SearchLineEdit.TextChanged += OnSearchTextChanged;
 		SearchLineEdit.TextSubmitted += OnSearchTextSubmitted;
+
+		CreateSkinComponents();
 	}
 
 	public void CreateSkinComponents()
