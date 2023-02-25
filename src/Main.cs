@@ -63,6 +63,7 @@ public partial class Main : Control
 				ScenesAnimationPlayer.Play("push_in");
 			}
 
+			BackButton.Disabled = SceneStack.Count <= 1;
 			TitleLabel.Text = SceneStack.Peek().Title;
 		};
 
