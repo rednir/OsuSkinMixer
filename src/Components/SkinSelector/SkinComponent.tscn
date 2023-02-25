@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cttwstucph7aq" path="res://src/Components/Hitcircle.tscn" id="2_fkdqu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5uldo"]
-bg_color = Color(0.227451, 0.207843, 0.258824, 1)
+bg_color = Color(0.227451, 0.207843, 0.258824, 0)
 
 [node name="SkinComponent" type="HBoxContainer"]
 custom_minimum_size = Vector2(544, 72)
