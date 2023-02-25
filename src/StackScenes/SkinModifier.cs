@@ -40,6 +40,12 @@ public partial class SkinModifier : StackScene
 			SkinsToModifyContainer.AddChild(component);
 			component.SetValues(s);
 
+			component.Button.Pressed += () =>
+			{
+				SkinsToModify.Remove(s);
+				component.QueueFree();
+			};
+
 			SkinsToModify.Add(s);
 		};
 	}
