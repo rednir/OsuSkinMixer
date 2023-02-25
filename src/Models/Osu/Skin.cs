@@ -47,7 +47,7 @@ public class Skin
 		Image image = new();
 
         if (!File.Exists(path))
-            return null;
+            return GetDefaultTexture(filename);
 
 		Error err = image.Load(path);
 
@@ -56,4 +56,7 @@ public class Skin
 
         return ImageTexture.CreateFromImage(image);
     }
+
+    private Texture2D GetDefaultTexture(string filename)
+        => GD.Load<Texture2D>($"res://assets/defaultskin/{filename}");
 }
