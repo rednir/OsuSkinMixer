@@ -18,10 +18,17 @@ theme = ExtResource("1_x82gr")
 script = ExtResource("2_bnnvj")
 
 [node name="Popup" parent="." instance=ExtResource("1_vbxph")]
+visible = false
 layout_mode = 1
 
 [node name="AnimationPlayer" parent="Popup" index="0"]
 autoplay = ""
+
+[node name="CanvasLayer" parent="Popup" index="1"]
+visible = false
+
+[node name="Shade" parent="Popup/CanvasLayer" index="0"]
+modulate = Color(1, 1, 1, 1)
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
 grow_horizontal = 2
