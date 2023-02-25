@@ -89,6 +89,17 @@ public class SkinIni
         }
     }
 
+    public string TryGetPropertyValue(string sectionName, string propertyName)
+    {
+        SkinIniSection section = Sections.Find(s => s.Name == sectionName);
+
+        if (section == null)
+            return null;
+
+        section.TryGetValue(propertyName, out string value);
+        return value;
+    }
+
     public List<SkinIniSection> Sections { get; }
 
     public override string ToString() => string.Join("\n", Sections);

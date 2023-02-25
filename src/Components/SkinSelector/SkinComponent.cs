@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using System.Linq;
 using OsuSkinMixer.Models.Osu;
 using Skin = OsuSkinMixer.Models.Osu.Skin;
 
@@ -17,9 +17,10 @@ public partial class SkinComponent : HBoxContainer
 
 	public override void _Ready()
 	{
-		Button = GetNode<Button>("Button");
-		NameLabel = GetNode<Label>("Button/Name");
-		Hitcircle = GetNode<Hitcircle>("Button/Hitcircle");
+		Button = GetNode<Button>("%Button");
+		NameLabel = GetNode<Label>("%Name");
+		AuthorLabel = GetNode<Label>("%Author");
+		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
 	}
 
 	public void SetValues(Skin skin)
@@ -27,6 +28,7 @@ public partial class SkinComponent : HBoxContainer
 		Skin = skin;
 
 		NameLabel.Text = skin.Name;
+		AuthorLabel.Text = skin.SkinIni?.TryGetPropertyValue("General", "Author");
 		Hitcircle.SetSkin(skin);
 	}
 }
