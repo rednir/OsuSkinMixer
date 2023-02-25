@@ -27,7 +27,6 @@ public partial class SkinOptionsSelector : VBoxContainer
 
         SkinSelectorPopup = GetNode<SkinSelectorPopup>("SkinSelectorPopup");
         SkinSelectorPopup.OnSelected = OptionComponentSelected;
-        SkinSelectorPopup.CreateSkinComponents();
     }
 
     public void CreateOptionComponents(string defaultValue = "<<DEFAULT>>")
