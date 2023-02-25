@@ -7,7 +7,7 @@ using Skin = OsuSkinMixer.Models.Osu.Skin;
 
 namespace OsuSkinMixer.StackScenes;
 
-public partial class SkinModifier : StackScene
+public partial class SkinModifierSkinSelect : StackScene
 {
 	public override string Title => "Skin Modifier";
 
