@@ -215,7 +215,6 @@ grow_vertical = 2
 theme = ExtResource("1_cl3q1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "RESET"
 reset_on_save = false
 libraries = {
 "": SubResource("AnimationLibrary_vkal4")
@@ -251,6 +250,7 @@ modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(2.08165e-12, 94)
 layout_mode = 2
 size_flags_vertical = 2
+mouse_filter = 1
 
 [node name="ContentPanelContainer" type="PanelContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(400, 200)
