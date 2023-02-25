@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://8t4xh5nel3pn"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://8t4xh5nel3pn"]
 
 [ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="1_tlv3r"]
 
@@ -36,6 +36,9 @@ corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ctb2w"]
+color = Color(0.576471, 0.560784, 0.6, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pdnj7"]
 
@@ -77,6 +80,8 @@ Button/styles/focus = SubResource("StyleBoxEmpty_apak1")
 Button/styles/hover = SubResource("StyleBoxFlat_nhyir")
 Button/styles/normal = SubResource("StyleBoxFlat_5g35s")
 Button/styles/pressed = SubResource("StyleBoxFlat_h15ob")
+HSeparator/constants/separation = 4
+HSeparator/styles/separator = SubResource("StyleBoxLine_ctb2w")
 Label/colors/font_color = Color(0.901961, 0.882353, 0.898039, 1)
 Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/colors/font_shadow_color = Color(0, 0, 0, 0)
