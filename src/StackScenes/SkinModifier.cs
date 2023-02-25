@@ -31,7 +31,7 @@ public partial class SkinModifier : StackScene
 		ContinueButton = GetNode<Button>("%ContinueButton");
 		SkinSelectorPopup = GetNode<SkinSelectorPopup>("%SkinSelectorPopup");
 
-		ContinueButton.Pressed += () => EmitSignal(SignalName.ScenePushed, SkinModifierModificationSelectScene.Instantiate<StackScene>());
+		ContinueButton.Pressed += OnContinueButtonPressed;
 		AddSkinToModifyButton.Pressed += AddSkinToModifyButtonPressed;
 
 		SkinSelectorPopup.OnSelected = s =>
@@ -53,5 +53,12 @@ public partial class SkinModifier : StackScene
 	private void AddSkinToModifyButtonPressed()
 	{
 		SkinSelectorPopup.In();
+	}
+
+	private void OnContinueButtonPressed()
+	{
+		var instance = SkinModifierModificationSelectScene.Instantiate<SkinModifierModificationSelect>();
+		instance.SkinsToModify = SkinsToModify;
+		EmitSignal(SignalName.ScenePushed, instance);
 	}
 }
