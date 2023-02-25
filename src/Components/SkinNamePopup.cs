@@ -6,18 +6,18 @@ using System.Linq;
 
 namespace OsuSkinMixer.Components;
 
-public partial class SkinNamePopup : Control
+public partial class SkinNamePopup : Popup
 {
 	public Action<string> ConfirmAction { get; set; }
 
-    private AnimationPlayer AnimationPlayer;
 	private Label WarningLabel;
     private LineEdit LineEdit;
     private Button ConfirmButton;
 
     public override void _Ready()
     {
-        AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
+		base._Ready();
+
 		WarningLabel = GetNode<Label>("%WarningLabel");
         LineEdit = GetNode<LineEdit>("%LineEdit");
         ConfirmButton = GetNode<Button>("%ConfirmButton");
@@ -26,12 +26,6 @@ public partial class SkinNamePopup : Control
         LineEdit.TextSubmitted += t => ConfirmAction?.Invoke(t);
 		LineEdit.TextChanged += OnTextChanged;
     }
-
-    public void In()
-		=> AnimationPlayer.Play("in");
-
-    public void Out()
-        => AnimationPlayer.Play("out");
 
 	private void OnConfirm()
 	{

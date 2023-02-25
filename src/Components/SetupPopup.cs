@@ -5,25 +5,25 @@ using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Components;
 
-public partial class SetupPopup : Control
+public partial class SetupPopup : Popup
 {
-	private AnimationPlayer AnimationPlayer;
 	private LineEdit LineEdit;
 	private Button DoneButton;
 
 	public override void _Ready()
 	{
-		AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
+		base._Ready();
+
 		LineEdit = GetNode<LineEdit>("Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/LineEdit");
 		DoneButton = GetNode<Button>("Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/DoneButton");
 
 		DoneButton.Pressed += DoneButtonPressed;
 	}
 
-	public void In()
+	public override void In()
 	{
+		base.In();
 		LineEdit.Text = Settings.Content.SkinsFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!/Skins";
-		AnimationPlayer.Play("in");
 	}
 
 	private void DoneButtonPressed()

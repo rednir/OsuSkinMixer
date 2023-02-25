@@ -6,22 +6,22 @@ using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Components.SkinSelector;
 
-public partial class SkinSelectorPopup : Control
+public partial class SkinSelectorPopup : Popup
 {
 	public Action<Skin> OnSelected { get; set; }
 
 	private PackedScene SkinComponentScene;
 
-	private AnimationPlayer AnimationPlayer;
 	private TextureButton BackButton;
 	private LineEdit SearchLineEdit;
 	private VBoxContainer SkinsContainer;
 
 	public override void _Ready()
 	{
+		base._Ready();
+
 		SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinSelector/SkinComponent.tscn");
 
-		AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
 		BackButton = GetNode<TextureButton>("%BackButton");
 		SkinsContainer = GetNode<VBoxContainer>("%SkinComponentsContainer");
 		SearchLineEdit = GetNode<LineEdit>("%SearchLineEdit");
@@ -48,16 +48,11 @@ public partial class SkinSelectorPopup : Control
 		}
 	}
 
-	public void In()
+	public override void In()
 	{
-		AnimationPlayer.Play("in");
+		base.In();
 		SearchLineEdit.Clear();
 		SearchLineEdit.GrabFocus();
-	}
-
-	private void Out()
-	{
-		AnimationPlayer.Play("out");
 	}
 
 	private void OnSkinSelected(Skin skin)
