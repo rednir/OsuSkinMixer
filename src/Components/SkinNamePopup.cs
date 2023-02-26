@@ -27,6 +27,13 @@ public partial class SkinNamePopup : Popup
 		LineEdit.TextChanged += OnTextChanged;
 	}
 
+	public override void In()
+	{
+		base.In();
+		LineEdit.GrabFocus();
+		LineEdit.SelectAll();
+	}
+
 	private void OnConfirm()
 	{
 		if (string.IsNullOrWhiteSpace(LineEdit.Text))
