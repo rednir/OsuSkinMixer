@@ -18,19 +18,17 @@ theme = ExtResource("1_x82gr")
 script = ExtResource("2_bnnvj")
 
 [node name="Popup" parent="." instance=ExtResource("1_vbxph")]
-visible = false
+visible = true
 layout_mode = 1
 
-[node name="AnimationPlayer" parent="Popup" index="0"]
-autoplay = ""
-
 [node name="CanvasLayer" parent="Popup" index="1"]
-visible = false
+visible = true
 
 [node name="Overlay" parent="Popup/CanvasLayer" index="0"]
-modulate = Color(1, 1, 1, 1)
+modulate = Color(0, 0, 0, 1)
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
+offset_bottom = -0.000305176
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -53,6 +51,7 @@ autowrap_mode = 3
 
 [node name="LineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
+text = "testtest"
 
 [node name="DoneButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
