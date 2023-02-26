@@ -75,5 +75,6 @@ public partial class SkinOptionComponent : HBoxContainer
 		Button.Text = "<<VARIOUS>>";
 		Button.TooltipText = null;
 		SkinOption.Skin = null;
+		ResetButton.Visible = true;
 	}
 }
