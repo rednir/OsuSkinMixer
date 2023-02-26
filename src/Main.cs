@@ -136,23 +136,22 @@ public partial class Main : Control
 
 	private void OnHttpRequestCompleted(long result, long responseCode, string[] headers, byte[] body)
 	{
-		if (result == 0)
+        if (result != 0)
+			return;
+
+		try
 		{
-			try
+			string latest = JsonSerializer.Deserialize<Dictionary<string, object>>(Encoding.UTF8.GetString(body))["tag_name"].ToString();
+			if (latest != Settings.VERSION)
 			{
-				string latest = JsonSerializer.Deserialize<Dictionary<string, object>>(Encoding.UTF8.GetString(body))["tag_name"].ToString();
-				if (latest != Settings.VERSION)
-				{
-					SettingsButton.Text = $"Update to {latest}";
-					GetNode<AnimationPlayer>("%UpdateAnimationPlayer").Play("available");
-					return;
-				}
-			}
-			catch
-			{
+				GetNode<AnimationPlayer>("%UpdateAnimationPlayer").Play("available");
+				SettingsButton.Text = $"Update to {latest}";
+				SettingsPopup.ShowUpdateButton();
 			}
 		}
-
-		SettingsButton.Text = "Failed to check for updates";
+		catch
+		{
+			PushToast("Failed to check for updates");
+		}
 	}
 }

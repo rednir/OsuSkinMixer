@@ -22,7 +22,7 @@ script = ExtResource("1_0q4fj")
 layout_mode = 1
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
-offset_bottom = 0.00012207
+offset_bottom = 6.10352e-05
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
 layout_mode = 2
@@ -31,6 +31,12 @@ layout_mode = 2
 layout_mode = 2
 text = "Settings"
 label_settings = ExtResource("3_kxkd6")
+
+[node name="UpdateButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Download latest release"
 
 [node name="ChangeSkinsFolderButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 unique_name_in_owner = true
