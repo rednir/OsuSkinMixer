@@ -58,10 +58,10 @@ public static class Settings
         if (Directory.Exists(path))
         {
             Content.SkinsFolder = path;
-            return true;
+            return OsuData.TryLoadSkins();
         }
 
-        return OsuData.TryLoadSkins();
+        return false;
     }
 
     public class SettingsContent
