@@ -10,6 +10,8 @@ public partial class SkinInfo : StackScene
 
 	public OsuSkin Skin { get; set; }
 
+	private Sprite2D Cursor;
+	private CpuParticles2D Cursortrail;
 	private Hitcircle Hitcircle;
 	private Label SkinNameLabel;
 	private Label SkinAuthorLabel;
@@ -20,6 +22,8 @@ public partial class SkinInfo : StackScene
 
 	public override void _Ready()
 	{
+		Cursor = GetNode<Sprite2D>("%Cursor");
+		Cursortrail = GetNode<CpuParticles2D>("%Cursortrail");
 		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
 		SkinNameLabel = GetNode<Label>("%SkinName");
 		SkinAuthorLabel = GetNode<Label>("%SkinAuthor");
@@ -28,6 +32,8 @@ public partial class SkinInfo : StackScene
 		OpenFolderButton = GetNode<Button>("%OpenFolderButton");
 		OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
 
+		Cursor.Texture = Skin.Cursor;
+		Cursortrail.Texture = Skin.Cursortrail;
 		Hitcircle.SetSkin(Skin);
 		SkinNameLabel.Text = Skin.Name;
 		SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
@@ -35,6 +41,11 @@ public partial class SkinInfo : StackScene
 		DetailsLabel.Text = $"Last modified: {Skin.Directory.LastWriteTime}";
 		OpenFolderButton.Pressed += OpenFolderButtonPressed;
 		OpenInOsuButton.Pressed += OpenInOsuButtonPressed;
+	}
+
+	public override void _Process(double delta)
+	{
+		Cursor.GlobalPosition = GetGlobalMousePosition();
 	}
 
 	private void OpenFolderButtonPressed()
