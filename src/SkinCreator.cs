@@ -246,16 +246,14 @@ public class SkinCreator
                     || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && fileOption.IsAudio)
                 )
                 {
-                    GD.Print($"'{file.FullName}' -> '{NewSkinDir.FullName}/{file.Name}' (due to filename match)");
+                    string newFilePath = $"{NewSkinDir.FullName}/{file.Name}";
+                    GD.Print($"'{file.FullName}' -> '{newFilePath}' (due to filename match)");
 
-                    try
-                    {
-                        file.CopyTo($"{NewSkinDir.FullName}/{file.Name}");
-                    }
-                    catch (IOException)
-                    {
-                        GD.Print("...but it failed, probably because the file already exists.");
-                    }
+                    // If the file already exists, overwrite it, i.e. if we are modifying an existing skin.
+                    if (File.Exists(newFilePath))
+                        File.Delete(newFilePath);
+
+                    file.CopyTo(newFilePath);
                 }
             }
         }
