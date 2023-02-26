@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bdfswg0st3cdm"]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://src/Components/SkinCreatorPopup.cs" id="1_314vd"]
 [ext_resource type="PackedScene" uid="uid://c8al3ys1j8lqf" path="res://src/Components/Popup.tscn" id="2_a7j74"]
-[ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/PopupTitle.tres" id="3_npb7x"]
-[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/PopupText.tres" id="4_5f2aa"]
+[ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_npb7x"]
+[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="4_5f2aa"]
 
 [node name="SkinCreatorPopup" type="Control"]
 layout_mode = 3

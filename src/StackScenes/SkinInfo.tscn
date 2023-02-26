@@ -1,10 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://drfopbcd87t36"]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://src/StackScenes/SkinInfo.cs" id="1_n7uc1"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_sak7t"]
-[ext_resource type="LabelSettings" uid="uid://cunaagboquiic" path="res://src/Styles/MenuButtonTitle.tres" id="3_kag1q"]
+[ext_resource type="LabelSettings" uid="uid://cunaagboquiic" path="res://src/Styles/LabelSettings/MenuButtonTitle.tres" id="3_kag1q"]
 [ext_resource type="PackedScene" uid="uid://cttwstucph7aq" path="res://src/Components/Hitcircle.tscn" id="3_qbuhy"]
-[ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/MenuButtonDescription.tres" id="4_bf3q6"]
+[ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="4_bf3q6"]
 [ext_resource type="Texture2D" uid="uid://05l1bgbm243m" path="res://assets/defaultskin/menu-background.jpg" id="6_jxbq1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bt0da"]

@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://c8al3ys1j8lqf"]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_cl3q1"]
-[ext_resource type="StyleBox" uid="uid://clff5nbgtvfs0" path="res://src/Styles/Popup.tres" id="2_wj478"]
+[ext_resource type="StyleBox" uid="uid://clff5nbgtvfs0" path="res://src/Styles/Containers/Popup.tres" id="2_wj478"]
 
 [sub_resource type="Animation" id="Animation_7hfvd"]
 length = 0.001

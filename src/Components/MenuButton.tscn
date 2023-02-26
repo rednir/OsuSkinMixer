@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://baggswi1ic0wv"]
+[gd_scene load_steps=6 format=3]
 
-[ext_resource type="StyleBox" uid="uid://wmoycuiidldb" path="res://src/Styles/MenuButton.tres" id="1_7fxeo"]
-[ext_resource type="StyleBox" uid="uid://dpww7318s4e65" path="res://src/Styles/MenuButtonHover.tres" id="2_d8pi2"]
-[ext_resource type="LabelSettings" uid="uid://cunaagboquiic" path="res://src/Styles/MenuButtonTitle.tres" id="2_h18sk"]
-[ext_resource type="StyleBox" uid="uid://bptx6n2id2at7" path="res://src/Styles/MenuButtonPressed.tscn.tres" id="3_172ep"]
-[ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/MenuButtonDescription.tres" id="3_cxcdh"]
+[ext_resource type="StyleBox" uid="uid://wmoycuiidldb" path="res://src/Styles/Buttons/MenuButton.tres" id="1_7fxeo"]
+[ext_resource type="StyleBox" uid="uid://dpww7318s4e65" path="res://src/Styles/Buttons/MenuButtonHover.tres" id="2_d8pi2"]
+[ext_resource type="LabelSettings" uid="uid://cunaagboquiic" path="res://src/Styles/LabelSettings/MenuButtonTitle.tres" id="2_h18sk"]
+[ext_resource type="StyleBox" uid="uid://bptx6n2id2at7" path="res://src/Styles/Buttons/MenuButtonPressed.tscn.tres" id="3_172ep"]
+[ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="3_cxcdh"]
 
 [node name="Button" type="Button"]
 custom_minimum_size = Vector2(380, 98)
