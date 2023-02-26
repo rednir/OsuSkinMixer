@@ -100,18 +100,27 @@ public class SkinCreator
 
     public void ModifySkins(IEnumerable<OsuSkin> skinsToModify, CancellationToken cancellationToken)
     {
-        GD.Print($"Beginning skin modification for {skinsToModify.Count()} skins.");
+        int skinCount = skinsToModify.Count();
+
+        GD.Print($"Beginning skin modification for {skinCount} skins.");
+        Progress = 0;
 
         foreach (OsuSkin skin in skinsToModify)
         {
+            Status = $"Modifying: {skin.Name}";
+
             cancellationToken.ThrowIfCancellationRequested();
-            ModifySingleSkin(skin, cancellationToken);
+            ModifySingleSkin(skin);
+
+            Progress += 100f / skinCount;
         }
+
+        Progress = 100;
 
         GD.Print("Skin modification has completed for all skins.");
     }
 
-    private void ModifySingleSkin(OsuSkin workingSkin, CancellationToken cancellationToken)
+    private void ModifySingleSkin(OsuSkin workingSkin)
     {
         GD.Print("Beginning skin modification for single skin '{workingSkin.Name}'");
 
@@ -122,8 +131,6 @@ public class SkinCreator
 
         foreach (var option in flattenedOptions)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             GD.Print($"About to copy option '{option.Name}' set to '{option.Skin?.Name ?? "null"}'");
             ProgressChangedAction?.Invoke(Progress.Value, Status);
 

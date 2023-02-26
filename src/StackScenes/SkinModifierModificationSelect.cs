@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using OsuSkinMixer.Components.SkinOptionsSelector;
 using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Components;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace OsuSkinMixer.StackScenes;
 
 public partial class SkinModifierModificationSelect : StackScene
 {
 	public override string Title => SkinsToModify.Count == 1 ? $"Modifying: {SkinsToModify[0].Name}" : $"Modifying {SkinsToModify.Count} skins";
+
+    private CancellationTokenSource CancellationTokenSource;
 
 	public List<OsuSkin> SkinsToModify { get; set; }
 
@@ -31,11 +35,24 @@ public partial class SkinModifierModificationSelect : StackScene
 	{
 		SkinCreatorPopup.In();
 
+		CancellationTokenSource = new CancellationTokenSource();
 		SkinCreator skinCreator = new()
 		{
 			SkinOptions = SkinOptionsSelector.SkinOptions,
 		};
 
-		skinCreator.ModifySkins(SkinsToModify, System.Threading.CancellationToken.None);
+		Task.Run(() => skinCreator.ModifySkins(SkinsToModify, CancellationTokenSource.Token))
+	        .ContinueWith(t =>
+            {
+                var ex = t.Exception;
+                if (ex != null)
+                {
+                    GD.PrintErr(ex);
+                    OS.Alert($"{ex.Message}\nPlease report this error with logs.", "Skin creation failure");
+                    return;
+                }
+
+                SkinCreatorPopup.Out();
+            });
 	}
 }
