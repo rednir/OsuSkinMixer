@@ -34,29 +34,37 @@ public partial class SkinModifierSkinSelect : StackScene
 		ContinueButton.Pressed += OnContinueButtonPressed;
 		AddSkinToModifyButton.Pressed += AddSkinToModifyButtonPressed;
 
-		SkinSelectorPopup.OnSelected = s =>
-		{
-			var component = SkinComponentScene.Instantiate<SkinComponent>();
-			SkinsToModifyContainer.AddChild(component);
-			component.SetValues(s);
-
-			component.Button.Pressed += () =>
-			{
-				SkinsToModify.Remove(s);
-				component.QueueFree();
-
-				if (SkinsToModify.Count == 0)
-					ContinueButton.Disabled = true;
-			};
-
-			SkinsToModify.Add(s);
-			ContinueButton.Disabled = false;
-		};
+		SkinSelectorPopup.OnSelected = OnSkinSelected;
 	}
 
 	private void AddSkinToModifyButtonPressed()
 	{
 		SkinSelectorPopup.In();
+	}
+
+	private void OnSkinSelected(Skin skin)
+	{
+		if (SkinsToModify.Contains(skin))
+		{
+			OS.Alert("Skin already selected to modify", "Skin modifier");
+			return;
+		}
+
+		var component = SkinComponentScene.Instantiate<SkinComponent>();
+		SkinsToModifyContainer.AddChild(component);
+		component.SetValues(skin);
+
+		component.Button.Pressed += () =>
+		{
+			SkinsToModify.Remove(skin);
+			component.QueueFree();
+
+			if (SkinsToModify.Count == 0)
+				ContinueButton.Disabled = true;
+		};
+
+		SkinsToModify.Add(skin);
+		ContinueButton.Disabled = false;
 	}
 
 	private void OnContinueButtonPressed()
