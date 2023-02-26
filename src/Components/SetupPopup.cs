@@ -16,8 +16,8 @@ public partial class SetupPopup : Popup
 	{
 		base._Ready();
 
-		LineEdit = GetNode<LineEdit>("Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/LineEdit");
-		DoneButton = GetNode<Button>("Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/DoneButton");
+		LineEdit = GetNode<LineEdit>("%LineEdit");
+		DoneButton = GetNode<Button>("%DoneButton");
 
 		DoneButton.Pressed += DoneButtonPressed;
 	}
