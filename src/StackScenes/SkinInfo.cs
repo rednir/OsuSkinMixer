@@ -44,5 +44,6 @@ public partial class SkinInfo : StackScene
 
 	private void OpenInOsuButtonPressed()
 	{
+		SkinCreator.TriggerOskImport(Skin);
 	}
 }

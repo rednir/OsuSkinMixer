@@ -31,9 +31,9 @@ public class SkinCreator
 
     private DirectoryInfo NewSkinDir;
 
-    public void TriggerOskImport()
+    public static void TriggerOskImport(OsuSkin skin)
     {
-        string oskDestPath = $"{Settings.Content.SkinsFolder}/{Name}.osk";
+        string oskDestPath = $"{Settings.Content.SkinsFolder}/{skin.Name}.osk";
         GD.Print($"Importing skin into game from '{oskDestPath}'");
 
         // osu! will handle the empty .osk (zip) file by switching the current skin to the skin with name `newSkinName`.
