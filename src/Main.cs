@@ -11,6 +11,7 @@ public partial class Main : Control
 {
 	private PackedScene MenuScene;
 
+	private CanvasLayer Background;
 	private AnimationPlayer ScenesAnimationPlayer;
 	private Control ScenesContainer;
 	private TextureButton BackButton;
@@ -34,6 +35,7 @@ public partial class Main : Control
 
 		MenuScene = GD.Load<PackedScene>("res://src/StackScenes/Menu.tscn");
 
+		Background = GetNode<CanvasLayer>("Background");
 		ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
 		ScenesContainer = GetNode<Control>("Scenes/ScrollContainer");
 		BackButton = GetNode<TextureButton>("TopBar/HBoxContainer/BackButton");
@@ -88,6 +90,13 @@ public partial class Main : Control
 
 		if (!OsuData.TryLoadSkins())
 			SetupPopup.In();
+	}
+
+	public override void _Process(double delta)
+	{
+        float value = GetViewportRect().Size.Y / 450;
+		Background.Scale = new Vector2(value, value);
+		Background.Offset = new Vector2(GetViewportRect().Size.X / 2, 0);
 	}
 
 	private void PushScene(StackScene scene)

@@ -1,8 +1,9 @@
-[gd_scene load_steps=26 format=3 uid="uid://d3cbhk7rkyxuw"]
+[gd_scene load_steps=28 format=3 uid="uid://d3cbhk7rkyxuw"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_3ca2l"]
 [ext_resource type="Script" path="res://src/Main.cs" id="2_ajhyw"]
 [ext_resource type="StyleBox" uid="uid://dj6itwk88er6q" path="res://src/Styles/TopBar.tres" id="3_5ka6c"]
+[ext_resource type="Texture2D" uid="uid://b8d0jwme466fo" path="res://assets/triangle.svg" id="3_vjp8g"]
 [ext_resource type="Texture2D" uid="uid://ct65ouuvkxb2u" path="res://assets/backbutton-pressed.png" id="4_etfhm"]
 [ext_resource type="PackedScene" uid="uid://cdna8eeo4qwm0" path="res://src/Components/SetupPopup.tscn" id="4_gusp5"]
 [ext_resource type="Texture2D" uid="uid://cfb6b04ifjvav" path="res://assets/backarrow-hover.png" id="5_jqhp1"]
@@ -10,6 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://dwtephxnsrpu4" path="res://assets/toast-x.png" id="8_e50w0"]
 [ext_resource type="Texture2D" uid="uid://d4a36ysrr8nlk" path="res://assets/toast-x-pressed.png" id="9_bi871"]
 [ext_resource type="Texture2D" uid="uid://d27pthmur486x" path="res://assets/toast-x-hovered.png" id="10_uhvgd"]
+
+[sub_resource type="Gradient" id="Gradient_gqud0"]
+offsets = PackedFloat32Array(0.108747, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lkmhk"]
 load_path = "res://.godot/imported/back-arrow.png-97831f16e7ace5968719d72723e5f42c.ctex"
@@ -352,6 +357,26 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_3ca2l")
 script = ExtResource("2_ajhyw")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -20
+
+[node name="Particles" type="CPUParticles2D" parent="Background"]
+position = Vector2(2.08165e-12, 502)
+amount = 100
+lifetime = 40.0
+preprocess = 30.0
+texture = ExtResource("3_vjp8g")
+emission_shape = 3
+emission_rect_extents = Vector2(400, 1)
+direction = Vector2(2.08165e-12, -1)
+spread = 0.0
+gravity = Vector2(2.08165e-12, 2.08165e-12)
+initial_velocity_min = 10.0
+initial_velocity_max = 30.0
+scale_amount_min = 0.2
+color = Color(0.0980392, 0.0941176, 0.109804, 1)
+color_ramp = SubResource("Gradient_gqud0")
 
 [node name="TopBar" type="Panel" parent="."]
 layout_mode = 1
