@@ -54,6 +54,7 @@ public partial class SkinModifierModificationSelect : StackScene
                 }
 
                 SkinCreatorPopup.Out();
+				EmitSignal(SignalName.ToastPushed, "Successfully modified skins.");
             });
 	}
 }

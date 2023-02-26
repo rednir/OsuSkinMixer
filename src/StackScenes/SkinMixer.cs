@@ -82,6 +82,7 @@ public partial class SkinMixer : StackScene
                 EmitSignal(SignalName.ScenePushed, skinInfoInstance);
 
                 SkinCreatorPopup.Out();
+                EmitSignal(SignalName.ToastPushed, "Successfully created and imported skin.");
             });
     }
 }

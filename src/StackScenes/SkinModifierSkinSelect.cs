@@ -44,7 +44,7 @@ public partial class SkinModifierSkinSelect : StackScene
 	{
 		if (SkinsToModify.Contains(skin))
 		{
-			OS.Alert("Skin already selected to modify", "Skin modifier");
+			EmitSignal(SignalName.ToastPushed, "You already selected this skin!");
 			return;
 		}
 
