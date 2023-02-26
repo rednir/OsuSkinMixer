@@ -106,6 +106,7 @@ public partial class Main : Control
 	private void PushToast(string text)
 	{
 		ToastTextLabel.Text = text;
+		ToastAnimationPlayer.Stop();
 		ToastAnimationPlayer.Play("in");
 	}
 }
