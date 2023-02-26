@@ -55,7 +55,7 @@ public class SkinCreator
         foreach (var file in NewSkinDir.EnumerateFiles())
             file.Delete();
 
-        var flattenedOptions = SkinOption.Flatten(SkinOptions).Where(o => !(o is ParentSkinOption));
+        var flattenedOptions = SkinOption.Flatten(SkinOptions).Where(o => o is not ParentSkinOption);
 
         // Progress should not take into account options set to use the
         // default skin as no work needs to be done for those options.

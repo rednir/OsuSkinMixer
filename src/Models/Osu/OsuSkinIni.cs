@@ -59,7 +59,7 @@ public class OsuSkinIni
                 lines[i] = lines[i][..commentIndex];
 
             // Check if the line is declaring the next section.
-            if (lines[i].Contains("[") && lines[i].Contains("]"))
+            if (lines[i].Contains('[') && lines[i].Contains(']'))
             {
                 int start = lines[i].IndexOf("[") + 1;
                 int length = lines[i].IndexOf("]") - start;
