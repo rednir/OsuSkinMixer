@@ -35,6 +35,8 @@ public class OsuSkin
 
     public OsuSkinIni SkinIni { get; set; }
 
+    public Texture2D MenuBackground => GetTexture("menu-background.jpg");
+
     public Texture2D HitcircleTexture => GetTexture("hitcircle.png");
 
     public Texture2D HitcircleoverlayTexture => GetTexture("hitcircleoverlay.png");

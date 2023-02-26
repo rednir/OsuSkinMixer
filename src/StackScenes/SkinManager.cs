@@ -31,7 +31,7 @@ public partial class SkinManager : StackScene
 	private void OnSkinSelected(OsuSkin skin)
 	{
 		SkinInfo instance = SkinInfoScene.Instantiate<SkinInfo>();
-		instance.SetSkin(skin);
+		instance.Skin = skin;
 		EmitSignal(SignalName.ScenePushed, instance);
 	}
 

@@ -78,7 +78,7 @@ public partial class SkinMixer : StackScene
                 }
 
                 var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
-                skinInfoInstance.SetSkin(t.Result);
+                skinInfoInstance.Skin = t.Result;
                 EmitSignal(SignalName.ScenePushed, skinInfoInstance);
 
                 SkinCreatorPopup.Out();
