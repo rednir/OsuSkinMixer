@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cdna8eeo4qwm0" path="res://src/Components/SetupPopup.tscn" id="4_gusp5"]
 [ext_resource type="Texture2D" uid="uid://cfb6b04ifjvav" path="res://assets/backarrow-hover.png" id="5_jqhp1"]
 [ext_resource type="Texture2D" uid="uid://hyqmio13y5cw" path="res://assets/backbutton-disabled.png" id="6_7h1wd"]
+[ext_resource type="Texture2D" uid="uid://y2y24k360f1j" path="res://assets/backarrow-normal.png" id="7_q6wnw"]
 [ext_resource type="Texture2D" uid="uid://dwtephxnsrpu4" path="res://assets/toast-x.png" id="8_e50w0"]
 [ext_resource type="Texture2D" uid="uid://d4a36ysrr8nlk" path="res://assets/toast-x-pressed.png" id="9_bi871"]
 [ext_resource type="Texture2D" uid="uid://d27pthmur486x" path="res://assets/toast-x-hovered.png" id="10_uhvgd"]
@@ -55,9 +56,6 @@ _data = {
 "RESET": SubResource("Animation_ciq82"),
 "available": SubResource("Animation_1vq04")
 }
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lkmhk"]
-load_path = "res://.godot/imported/back-arrow.png-97831f16e7ace5968719d72723e5f42c.ctex"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_esylg"]
 content_margin_left = 12.0
@@ -506,11 +504,11 @@ grow_horizontal = 2
 
 [node name="BackButton" type="TextureButton" parent="TopBar/HBoxContainer"]
 layout_mode = 2
-texture_normal = SubResource("CompressedTexture2D_lkmhk")
+texture_normal = ExtResource("7_q6wnw")
 texture_pressed = ExtResource("4_etfhm")
 texture_hover = ExtResource("5_jqhp1")
 texture_disabled = ExtResource("6_7h1wd")
-stretch_mode = 3
+stretch_mode = 5
 
 [node name="Title" type="Label" parent="TopBar/HBoxContainer"]
 layout_mode = 2

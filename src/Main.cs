@@ -102,7 +102,7 @@ public partial class Main : Control
 
 	public override void _Process(double delta)
 	{
-        float value = GetViewportRect().Size.Y / 450;
+		float value = GetViewportRect().Size.Y / 450;
 		Background.Scale = new Vector2(value, value);
 		Background.Offset = new Vector2(GetViewportRect().Size.X / 2, 0);
 	}
@@ -136,7 +136,7 @@ public partial class Main : Control
 
 	private void OnHttpRequestCompleted(long result, long responseCode, string[] headers, byte[] body)
 	{
-        if (result != 0)
+		if (result != 0)
 			return;
 
 		try
