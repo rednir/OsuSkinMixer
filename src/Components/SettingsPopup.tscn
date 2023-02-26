@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://8ruqbadk3ajl"]
+
+[ext_resource type="Script" path="res://src/Components/SettingsPopup.cs" id="1_0q4fj"]
+[ext_resource type="PackedScene" uid="uid://c8al3ys1j8lqf" path="res://src/Components/Popup.tscn" id="2_i87ke"]
+[ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/PopupTitle.tres" id="3_kxkd6"]
+
+[node name="SettingsPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0q4fj")
+
+[node name="Popup" parent="." instance=ExtResource("2_i87ke")]
+visible = true
+layout_mode = 1
+
+[node name="CanvasLayer" parent="Popup" index="1"]
+visible = true
+
+[node name="Overlay" parent="Popup/CanvasLayer" index="0"]
+modulate = Color(0, 0, 0, 1)
+
+[node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
+offset_bottom = 0.00012207
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+label_settings = ExtResource("3_kxkd6")
+
+[editable path="Popup"]
