@@ -48,7 +48,7 @@ public partial class Main : Control
 		ToastAnimationPlayer = GetNode<AnimationPlayer>("%ToastAnimationPlayer");
 		ToastTextLabel = GetNode<Label>("%ToastText");
 		ToastCloseButton = GetNode<TextureButton>("%ToastClose");
-		VersionLabel = GetNode<Label>("VersionLabel");
+		VersionLabel = GetNode<Label>("%VersionLabel");
 
 		VersionLabel.Text = Settings.VERSION;
 
