@@ -16,8 +16,6 @@ grow_vertical = 2
 theme = ExtResource("1_dq35g")
 script = ExtResource("1_0q4fj")
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
-
 [node name="Popup" parent="." instance=ExtResource("2_i87ke")]
 layout_mode = 1
 
