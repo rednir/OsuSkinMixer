@@ -25,7 +25,17 @@ script = ExtResource("2_bnnvj")
 [node name="Popup" parent="." instance=ExtResource("1_vbxph")]
 layout_mode = 1
 
-[node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
+[node name="FileDialog" type="FileDialog" parent="Popup/CanvasLayer" index="0"]
+unique_name_in_owner = true
+title = "Select your osu! skins folder"
+size = Vector2i(800, 400)
+ok_button_text = "Select Current Folder"
+dialog_hide_on_ok = true
+file_mode = 2
+access = 2
+show_hidden_files = true
+
+[node name="ScrollContainer" parent="Popup/CanvasLayer" index="2"]
 offset_bottom = -0.000305176
 grow_horizontal = 2
 grow_vertical = 2
@@ -59,6 +69,7 @@ size_flags_horizontal = 3
 placeholder_text = "Click the folder to browse"
 
 [node name="FolderPickerButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = ExtResource("6_s2yk7")
 theme_override_styles/hover = ExtResource("7_i61yb")

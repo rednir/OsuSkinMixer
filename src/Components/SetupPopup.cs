@@ -11,6 +11,8 @@ public partial class SetupPopup : Popup
 
 	private LineEdit LineEdit;
 	private Button DoneButton;
+	private Button FolderPickerButton;
+	private FileDialog FileDialog;
 
 	public override void _Ready()
 	{
@@ -18,8 +20,12 @@ public partial class SetupPopup : Popup
 
 		LineEdit = GetNode<LineEdit>("%LineEdit");
 		DoneButton = GetNode<Button>("%DoneButton");
+		FolderPickerButton = GetNode<Button>("%FolderPickerButton");
+		FileDialog = GetNode<FileDialog>("%FileDialog");
 
 		DoneButton.Pressed += DoneButtonPressed;
+		FolderPickerButton.Pressed += FolderPickerButtonPressed;
+		FileDialog.DirSelected += d => LineEdit.Text = d;
 	}
 
 	public override void In()
@@ -38,5 +44,11 @@ public partial class SetupPopup : Popup
 		}
 
 		OS.Alert("The path you entered is invalid. Please try again.", "Error");
+	}
+
+	private void FolderPickerButtonPressed()
+	{
+		FileDialog.CurrentDir = LineEdit.Text;
+		FileDialog.PopupCentered();
 	}
 }
