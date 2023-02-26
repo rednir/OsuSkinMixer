@@ -61,7 +61,7 @@ public static class Settings
             return true;
         }
 
-        return false;
+        return OsuData.TryLoadSkins();
     }
 
     public class SettingsContent
