@@ -18,17 +18,20 @@ public partial class SkinMixer : StackScene
     private SkinNamePopup SkinNamePopup;
     private SkinOptionsSelector SkinOptionsSelector;
     private Button CreateSkinButton;
+    private Button RandomButton;
 
     public override void _Ready()
     {
         SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
 
-        SkinCreatorPopup = GetNode<SkinCreatorPopup>("SkinCreatorPopup");
-        SkinNamePopup = GetNode<SkinNamePopup>("SkinNamePopup");
-        SkinOptionsSelector = GetNode<SkinOptionsSelector>("SkinOptionsSelector");
-        CreateSkinButton = GetNode<Button>("CreateSkinButton");
+        SkinCreatorPopup = GetNode<SkinCreatorPopup>("%SkinCreatorPopup");
+        SkinNamePopup = GetNode<SkinNamePopup>("%SkinNamePopup");
+        SkinOptionsSelector = GetNode<SkinOptionsSelector>("%SkinOptionsSelector");
+        CreateSkinButton = GetNode<Button>("%CreateSkinButton");
+        RandomButton = GetNode<Button>("%RandomButton");
 
-        CreateSkinButton.Pressed += CreateSkinButtonPressed;
+        CreateSkinButton.Pressed += OnCreateSkinButtonPressed;
+        RandomButton.Pressed += OnRandomButtonPressed;
 
         SkinNamePopup.ConfirmAction = s =>
         {
@@ -39,12 +42,17 @@ public partial class SkinMixer : StackScene
         SkinOptionsSelector.CreateOptionComponents("<<DEFAULT SKIN>>");
     }
 
-    public void CreateSkinButtonPressed()
+    private void OnCreateSkinButtonPressed()
     {
         SkinNamePopup.In();
     }
 
-    public void RunSkinCreator(string skinName)
+    private void OnRandomButtonPressed()
+    {
+        SkinOptionsSelector.Randomize();
+    }
+
+    private void RunSkinCreator(string skinName)
     {
         SkinCreatorPopup.In();
 

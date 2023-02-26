@@ -4,6 +4,8 @@ using System.Linq;
 using OsuSkinMixer.Models.SkinOptions;
 using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Components.SkinSelector;
+using System;
+using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Components.SkinOptionsSelector;
 
@@ -18,6 +20,8 @@ public partial class SkinOptionsSelector : VBoxContainer
     private SkinOptionComponent SkinOptionComponentInSelection;
 
     private List<SkinOptionComponent> SkinOptionComponents;
+
+    private readonly Random Random = new();
 
     public override void _Ready()
     {
@@ -75,6 +79,15 @@ public partial class SkinOptionsSelector : VBoxContainer
             }
 
             SkinOptionComponents.Add(component);
+        }
+    }
+
+    public void Randomize()
+    {
+        foreach (var component in SkinOptionComponents.Where(c => c.SkinOption is not ParentSkinOption))
+        {
+            SkinOptionComponentInSelection = component;
+            OptionComponentSelected(OsuData.Skins[Random.Next(OsuData.Skins.Length)]);
         }
     }
 
