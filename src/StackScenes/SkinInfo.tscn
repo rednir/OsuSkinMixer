@@ -83,6 +83,7 @@ position = Vector2(-151, -73)
 unique_name_in_owner = true
 show_behind_parent = true
 z_index = 29
+amount = 12
 lifetime = 0.3
 gravity = Vector2(2.08165e-12, 2.08165e-12)
 color_ramp = SubResource("Gradient_28nnj")
