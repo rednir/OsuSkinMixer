@@ -1,11 +1,9 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using OsuSkinMixer.Models.SkinOptions;
 using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Components.SkinSelector;
-using Skin = OsuSkinMixer.Models.Osu.Skin;
 
 namespace OsuSkinMixer.Components.SkinOptionsSelector;
 
@@ -80,7 +78,7 @@ public partial class SkinOptionsSelector : VBoxContainer
         }
     }
 
-    private void OptionComponentSelected(Skin skinSelected)
+    private void OptionComponentSelected(OsuSkin skinSelected)
     {
         // TODO: This method can be optimized further by recursively looping through the components and their
         // children (in their respective VBoxContainers) instead of looping through the ParentSkinOption's children.
@@ -98,7 +96,7 @@ public partial class SkinOptionsSelector : VBoxContainer
         SetAllChildrenOfOptionToSkin(SkinOptionComponentInSelection.SkinOption, skinSelected);
     }
 
-    private void SetAllChildrenOfOptionToSkin(SkinOption option, Skin skin)
+    private void SetAllChildrenOfOptionToSkin(SkinOption option, OsuSkin skin)
     {
         if (option is ParentSkinOption parentOption)
         {

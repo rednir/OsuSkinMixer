@@ -2,9 +2,9 @@ using System.IO;
 
 namespace OsuSkinMixer.Models.Osu;
 
-public class SkinWithFiles : Skin
+public class OsuSkinWithFiles : OsuSkin
 {
-    public SkinWithFiles(Skin skin)
+    public OsuSkinWithFiles(OsuSkin skin)
     {
         Name = skin.Name;
         Directory = skin.Directory;

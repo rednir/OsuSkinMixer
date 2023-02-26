@@ -5,13 +5,13 @@ using File = System.IO.File;
 
 namespace OsuSkinMixer.Models.Osu;
 
-public class Skin
+public class OsuSkin
 {
-    public Skin()
+    public OsuSkin()
     {
     }
 
-    public Skin(DirectoryInfo dir)
+    public OsuSkin(DirectoryInfo dir)
     {
         Name = dir.Name;
         Directory = dir;
@@ -19,7 +19,7 @@ public class Skin
         {
             try
             {
-                SkinIni = new SkinIni(File.ReadAllText($"{dir.FullName}/skin.ini"));
+                SkinIni = new OsuSkinIni(File.ReadAllText($"{dir.FullName}/skin.ini"));
             }
             catch (Exception ex)
             {
@@ -33,7 +33,7 @@ public class Skin
 
     public DirectoryInfo Directory { get; set; }
 
-    public SkinIni SkinIni { get; set; }
+    public OsuSkinIni SkinIni { get; set; }
 
     public Texture2D HitcircleTexture => GetTexture("hitcircle.png");
 

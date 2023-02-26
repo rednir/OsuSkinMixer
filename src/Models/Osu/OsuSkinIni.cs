@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OsuSkinMixer.Models.Osu;
 
-public class SkinIni
+public class OsuSkinIni
 {
     public static bool PropertyHasFilePath(string propertyName) =>
         (propertyName.StartsWith("Stage") && propertyName != "StageSeparation")
@@ -23,25 +23,25 @@ public class SkinIni
         || propertyName == "Hit300"
         || propertyName == "Hit300g";
 
-    public SkinIni(string name, string author, string version = "latest")
+    public OsuSkinIni(string name, string author, string version = "latest")
     {
-        Sections = new List<SkinIniSection>()
+        Sections = new List<OsuSkinIniSection>()
             {
-                new SkinIniSection("General")
+                new OsuSkinIniSection("General")
                 {
                     { "Name", name },
                     { "Author", author },
                     { "Version", version },
                 },
-                new SkinIniSection("Colours"),
-                new SkinIniSection("Fonts"),
-                new SkinIniSection("CatchTheBeat"),
+                new OsuSkinIniSection("Colours"),
+                new OsuSkinIniSection("Fonts"),
+                new OsuSkinIniSection("CatchTheBeat"),
             };
     }
 
-    public SkinIni(string fileContent)
+    public OsuSkinIni(string fileContent)
     {
-        Sections = new List<SkinIniSection>();
+        Sections = new List<OsuSkinIniSection>();
         string[] lines = fileContent.Split('\n');
 
         for (int i = 0; i < lines.Length; i++)
@@ -63,7 +63,7 @@ public class SkinIni
             {
                 int start = lines[i].IndexOf("[") + 1;
                 int length = lines[i].IndexOf("]") - start;
-                Sections.Add(new SkinIniSection(lines[i].Substring(start, length)));
+                Sections.Add(new OsuSkinIniSection(lines[i].Substring(start, length)));
                 continue;
             }
 
@@ -91,7 +91,7 @@ public class SkinIni
 
     public string TryGetPropertyValue(string sectionName, string propertyName)
     {
-        SkinIniSection section = Sections.Find(s => s.Name == sectionName);
+        OsuSkinIniSection section = Sections.Find(s => s.Name == sectionName);
 
         if (section == null)
             return null;
@@ -100,7 +100,7 @@ public class SkinIni
         return value;
     }
 
-    public List<SkinIniSection> Sections { get; }
+    public List<OsuSkinIniSection> Sections { get; }
 
     public override string ToString() => string.Join("\n", Sections);
 }

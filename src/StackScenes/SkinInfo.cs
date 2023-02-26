@@ -1,7 +1,5 @@
 using Godot;
-using System;
 using OsuSkinMixer.Models.Osu;
-using Skin = OsuSkinMixer.Models.Osu.Skin;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -9,7 +7,7 @@ public partial class SkinInfo : StackScene
 {
 	public override string Title => "Skin info";
 
-	private Skin Skin { get; set; }
+	private OsuSkin Skin { get; set; }
 
 	private Label SkinNameLabel;
 
@@ -19,7 +17,7 @@ public partial class SkinInfo : StackScene
 		SkinNameLabel.Text = Skin.Name;
 	}
 
-	public void SetSkin(Skin skin)
+	public void SetSkin(OsuSkin skin)
 	{
 		Skin = skin;
 	}

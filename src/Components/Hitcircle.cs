@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using OsuSkinMixer.Models.Osu;
-using Skin = OsuSkinMixer.Models.Osu.Skin;
 
 namespace OsuSkinMixer.Components;
 
@@ -18,7 +17,7 @@ public partial class Hitcircle : CenterContainer
 		Default1Texture = GetNode<TextureRect>("Default1Texture");
 	}
 
-	public void SetSkin(Skin skin)
+	public void SetSkin(OsuSkin skin)
 	{
 		HitcircleTexture.Texture = skin.HitcircleTexture;
 		HitcircleoverlayTexture.Texture = skin.HitcircleoverlayTexture;

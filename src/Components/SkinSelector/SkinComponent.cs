@@ -1,7 +1,5 @@
 using Godot;
-using System.Linq;
 using OsuSkinMixer.Models.Osu;
-using Skin = OsuSkinMixer.Models.Osu.Skin;
 
 namespace OsuSkinMixer.Components.SkinSelector;
 
@@ -9,7 +7,7 @@ public partial class SkinComponent : HBoxContainer
 {
 	public Button Button { get; private set; }
 
-	public Skin Skin { get; private set; }
+	public OsuSkin Skin { get; private set; }
 
 	private Label NameLabel;
 	private Label AuthorLabel;
@@ -23,7 +21,7 @@ public partial class SkinComponent : HBoxContainer
 		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
 	}
 
-	public void SetValues(Skin skin)
+	public void SetValues(OsuSkin skin)
 	{
 		Skin = skin;
 

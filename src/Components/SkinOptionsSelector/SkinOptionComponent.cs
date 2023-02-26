@@ -1,8 +1,6 @@
 using Godot;
-using System;
 using OsuSkinMixer.Models.SkinOptions;
 using OsuSkinMixer.Models.Osu;
-using Skin = OsuSkinMixer.Models.Osu.Skin;
 
 namespace OsuSkinMixer.Components.SkinOptionsSelector;
 
@@ -55,7 +53,7 @@ public partial class SkinOptionComponent : HBoxContainer
 		MoveChild(indent, 0);
 	}
 
-	public void SetSelectedSkin(Skin skin)
+	public void SetSelectedSkin(OsuSkin skin)
 	{
 		if (skin == null)
 		{

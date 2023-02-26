@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using OsuSkinMixer.StackScenes;
 
 namespace OsuSkinMixer;

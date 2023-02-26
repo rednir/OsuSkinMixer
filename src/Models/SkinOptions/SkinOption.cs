@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using Godot;
 using OsuSkinMixer.Models.Osu;
-using Skin = OsuSkinMixer.Models.Osu.Skin;
 
 namespace OsuSkinMixer.Models.SkinOptions;
 
@@ -9,7 +7,7 @@ public abstract class SkinOption
 {
     public virtual string Name { get; set; }
 
-    public Skin Skin { get; set; }
+    public OsuSkin Skin { get; set; }
 
     public static IEnumerable<ParentSkinOption> GetParents(SkinOption childOption, SkinOption[] skinOptions)
     {

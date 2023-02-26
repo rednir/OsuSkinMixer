@@ -1,14 +1,14 @@
 using Godot;
 using System;
 using System.Linq;
-using Skin = OsuSkinMixer.Models.Osu.Skin;
 using OsuSkinMixer.Statics;
+using OsuSkinMixer.Models.Osu;
 
 namespace OsuSkinMixer.Components.SkinSelector;
 
 public partial class SkinSelectorPopup : Popup
 {
-	public Action<Skin> OnSelected { get; set; }
+	public Action<OsuSkin> OnSelected { get; set; }
 
 	private PackedScene SkinComponentScene;
 
@@ -38,7 +38,7 @@ public partial class SkinSelectorPopup : Popup
 		foreach (var child in SkinsContainer.GetChildren())
 			child.QueueFree();
 
-		foreach (Skin skin in OsuData.Skins)
+		foreach (OsuSkin skin in OsuData.Skins)
 		{
 			SkinComponent instance = SkinComponentScene.Instantiate<SkinComponent>();
 			SkinsContainer.AddChild(instance);
@@ -55,7 +55,7 @@ public partial class SkinSelectorPopup : Popup
 		SearchLineEdit.GrabFocus();
 	}
 
-	private void OnSkinSelected(Skin skin)
+	private void OnSkinSelected(OsuSkin skin)
 	{
 		OnSelected(skin);
 		Out();

@@ -8,7 +8,6 @@ using Godot;
 using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Models.SkinOptions;
 using OsuSkinMixer.Statics;
-using Skin = OsuSkinMixer.Models.Osu.Skin;
 
 namespace OsuSkinMixer;
 
@@ -26,9 +25,9 @@ public class SkinCreator
 
     public Action<float, string> ProgressChangedAction { get; set; }
 
-    private readonly List<SkinWithFiles> CachedSkinWithFiles = new();
+    private readonly List<OsuSkinWithFiles> CachedSkinWithFiles = new();
 
-    private SkinIni NewSkinIni;
+    private OsuSkinIni NewSkinIni;
 
     private DirectoryInfo NewSkinDir;
 
@@ -42,14 +41,14 @@ public class SkinCreator
         Godot.OS.ShellOpen(oskDestPath);
     }
 
-    public async Task<Skin> CreateAndImportAsync(CancellationToken cancellationToken)
+    public async Task<OsuSkin> CreateAndImportAsync(CancellationToken cancellationToken)
     {
         GD.Print($"Beginning skin creation with name '{Name}'");
 
         Progress = 0;
         Status = "Preparing";
 
-        NewSkinIni = new SkinIni(Name, "osu! skin mixer by rednir");
+        NewSkinIni = new OsuSkinIni(Name, "osu! skin mixer by rednir");
         NewSkinDir = Directory.CreateDirectory($"{Settings.Content.SkinsFolder}/{WORKING_DIR_NAME}");
 
         // There might be skin elements from a failed attempt still in the directory.
@@ -90,7 +89,7 @@ public class SkinCreator
 
         NewSkinDir.MoveTo(dirDestPath);
 
-        Skin skin = new(new DirectoryInfo(dirDestPath));
+        OsuSkin skin = new(new DirectoryInfo(dirDestPath));
         OsuData.AddSkin(skin);
 
         Progress = 100;
@@ -115,7 +114,7 @@ public class SkinCreator
             CopyFileOption(skin, fileOption);
     }
 
-    private void CopyIniPropertyOption(SkinWithFiles skin, SkinIniPropertyOption iniPropertyOption)
+    private void CopyIniPropertyOption(OsuSkinWithFiles skin, SkinIniPropertyOption iniPropertyOption)
     {
         var property = iniPropertyOption.IncludeSkinIniProperty;
 
@@ -140,9 +139,9 @@ public class SkinCreator
         }
     }
 
-    private void CopyIniSectionOption(SkinWithFiles skin, SkinIniSectionOption iniSectionOption)
+    private void CopyIniSectionOption(OsuSkinWithFiles skin, SkinIniSectionOption iniSectionOption)
     {
-        SkinIniSection section = skin.SkinIni.Sections.Find(
+        OsuSkinIniSection section = skin.SkinIni.Sections.Find(
             s => s.Name == iniSectionOption.SectionName && s.Contains(iniSectionOption.Property));
 
         if (section == null)
@@ -155,9 +154,9 @@ public class SkinCreator
             CopyFileFromSkinIniProperty(skin, property);
     }
 
-    private void CopyFileFromSkinIniProperty(SkinWithFiles skin, KeyValuePair<string, string> property)
+    private void CopyFileFromSkinIniProperty(OsuSkinWithFiles skin, KeyValuePair<string, string> property)
     {
-        if (!SkinIni.PropertyHasFilePath(property.Key))
+        if (!OsuSkinIni.PropertyHasFilePath(property.Key))
             return;
 
         int lastSlashIndex = property.Value.LastIndexOf('/');
@@ -183,7 +182,7 @@ public class SkinCreator
         }
     }
 
-    private void CopyFileOption(SkinWithFiles skin, SkinFileOption fileOption)
+    private void CopyFileOption(OsuSkinWithFiles skin, SkinFileOption fileOption)
     {
         foreach (var file in skin.Files)
         {
@@ -217,14 +216,14 @@ public class SkinCreator
         }
     }
 
-    private SkinWithFiles GetSkinWithFiles(Skin skin)
+    private OsuSkinWithFiles GetSkinWithFiles(OsuSkin skin)
     {
         var existing = CachedSkinWithFiles.Find(s => s.Name == skin.Name);
         if (existing != null)
             return existing;
 
         GD.Print($"Caching skin's files for '{skin.Name}'");
-        var skinWithFiles = new SkinWithFiles(skin);
+        var skinWithFiles = new OsuSkinWithFiles(skin);
         CachedSkinWithFiles.Add(skinWithFiles);
 
         return skinWithFiles;

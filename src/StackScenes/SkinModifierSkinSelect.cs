@@ -1,9 +1,7 @@
-using Godot;
-using System;
 using System.Collections.Generic;
+using Godot;
 using OsuSkinMixer.Components.SkinSelector;
 using OsuSkinMixer.Models.Osu;
-using Skin = OsuSkinMixer.Models.Osu.Skin;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -11,7 +9,7 @@ public partial class SkinModifierSkinSelect : StackScene
 {
 	public override string Title => "Skin Modifier";
 
-	private List<Skin> SkinsToModify { get; set; } = new();
+	private List<OsuSkin> SkinsToModify { get; set; } = new();
 
 	private PackedScene SkinModifierModificationSelectScene;
 	private PackedScene SkinComponentScene;
@@ -42,7 +40,7 @@ public partial class SkinModifierSkinSelect : StackScene
 		SkinSelectorPopup.In();
 	}
 
-	private void OnSkinSelected(Skin skin)
+	private void OnSkinSelected(OsuSkin skin)
 	{
 		if (SkinsToModify.Contains(skin))
 		{

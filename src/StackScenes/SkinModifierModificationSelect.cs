@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using OsuSkinMixer.Components.SkinOptionsSelector;
 using OsuSkinMixer.Models.Osu;
-using Skin = OsuSkinMixer.Models.Osu.Skin;
 using OsuSkinMixer.Components;
 
 namespace OsuSkinMixer.StackScenes;
@@ -12,7 +11,7 @@ public partial class SkinModifierModificationSelect : StackScene
 {
 	public override string Title => SkinsToModify.Count == 1 ? $"Modifying: {SkinsToModify[0].Name}" : $"Modifying {SkinsToModify.Count} skins";
 
-	public List<Skin> SkinsToModify { get; set; }
+	public List<OsuSkin> SkinsToModify { get; set; }
 
 	private SkinOptionsSelector SkinOptionsSelector;
 	private Button ApplyChangesButton;

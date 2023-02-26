@@ -3,9 +3,9 @@ using System.Text;
 
 namespace OsuSkinMixer.Models.Osu;
 
-public class SkinIniSection : Dictionary<string, string>
+public class OsuSkinIniSection : Dictionary<string, string>
 {
-    public SkinIniSection(string name)
+    public OsuSkinIniSection(string name)
     {
         Name = name;
     }
