@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://8ruqbadk3ajl"]
+[gd_scene load_steps=6 format=3 uid="uid://8ruqbadk3ajl"]
 
 [ext_resource type="Script" path="res://src/Components/SettingsPopup.cs" id="1_0q4fj"]
+[ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_dq35g"]
 [ext_resource type="PackedScene" uid="uid://c8al3ys1j8lqf" path="res://src/Components/Popup.tscn" id="2_i87ke"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/PopupTitle.tres" id="3_kxkd6"]
+[ext_resource type="PackedScene" uid="uid://cdna8eeo4qwm0" path="res://src/Components/SetupPopup.tscn" id="5_4lsaw"]
 
 [node name="SettingsPopup" type="Control"]
 layout_mode = 3
@@ -11,17 +13,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_dq35g")
 script = ExtResource("1_0q4fj")
 
 [node name="Popup" parent="." instance=ExtResource("2_i87ke")]
-visible = true
 layout_mode = 1
-
-[node name="CanvasLayer" parent="Popup" index="1"]
-visible = true
-
-[node name="Overlay" parent="Popup/CanvasLayer" index="0"]
-modulate = Color(0, 0, 0, 1)
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
 offset_bottom = 0.00012207
@@ -33,5 +29,14 @@ layout_mode = 2
 layout_mode = 2
 text = "Settings"
 label_settings = ExtResource("3_kxkd6")
+
+[node name="ChangeSkinsFolderButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Change osu! skins folder location"
+
+[node name="SetupPopup" parent="." instance=ExtResource("5_4lsaw")]
+unique_name_in_owner = true
+layout_mode = 1
 
 [editable path="Popup"]
