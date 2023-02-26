@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dcyu5emtueco2"]
+[gd_scene load_steps=10 format=3 uid="uid://dcyu5emtueco2"]
 
 [ext_resource type="Texture2D" uid="uid://m5hodpxqnenb" path="res://assets/arrow.png" id="1_a4tmr"]
 [ext_resource type="Script" path="res://src/Components/SkinOptionsSelector/SkinOptionComponent.cs" id="1_ft0rc"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dcdbkf8ucvk1q" path="res://assets/arrow-pressed.png" id="2_sir7b"]
 [ext_resource type="StyleBox" uid="uid://cy2ikxf8c0ve" path="res://src/Styles/Chip.tres" id="3_w4p0r"]
 [ext_resource type="Texture2D" uid="uid://ckyugafpc5qu7" path="res://assets/x.png" id="4_3u451"]
+[ext_resource type="Texture2D" uid="uid://pkn7gyf1kum8" path="res://assets/arrow-hover.png" id="5_o3cll"]
 [ext_resource type="StyleBox" uid="uid://bcbdqcnl2e61r" path="res://src/Styles/ChipHover.tres" id="6_xqnwr"]
 [ext_resource type="StyleBox" uid="uid://bqphu8xbk8c28" path="res://src/Styles/ChipPressed.tres" id="7_pm80f"]
 
@@ -22,6 +23,7 @@ layout_mode = 2
 toggle_mode = true
 texture_normal = ExtResource("1_a4tmr")
 texture_pressed = ExtResource("2_sir7b")
+texture_hover = ExtResource("5_o3cll")
 stretch_mode = 3
 
 [node name="Label" type="Label" parent="."]
