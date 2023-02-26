@@ -10,12 +10,14 @@ namespace OsuSkinMixer;
 public partial class Main : Control
 {
 	private PackedScene MenuScene;
+	private PackedScene SettingsScene;
 
 	private CanvasLayer Background;
 	private AnimationPlayer ScenesAnimationPlayer;
 	private Control ScenesContainer;
 	private TextureButton BackButton;
 	private Label TitleLabel;
+	private Button SettingsButton;
 	private SetupPopup SetupPopup;
 	private AnimationPlayer ToastAnimationPlayer;
 	private Label ToastTextLabel;
@@ -34,12 +36,14 @@ public partial class Main : Control
 		DisplayServer.WindowSetMinSize(new Vector2I(600, 300));
 
 		MenuScene = GD.Load<PackedScene>("res://src/StackScenes/Menu.tscn");
+		SettingsScene = GD.Load<PackedScene>("res://src/StackScenes/SettingsScene.tscn");
 
 		Background = GetNode<CanvasLayer>("Background");
 		ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
 		ScenesContainer = GetNode<Control>("Scenes/ScrollContainer");
 		BackButton = GetNode<TextureButton>("TopBar/HBoxContainer/BackButton");
 		TitleLabel = GetNode<Label>("TopBar/HBoxContainer/Title");
+		SettingsButton = GetNode<Button>("TopBar/HBoxContainer/SettingsButton");
 		SetupPopup = GetNode<SetupPopup>("SetupPopup");
 		ToastAnimationPlayer = GetNode<AnimationPlayer>("%ToastAnimationPlayer");
 		ToastTextLabel = GetNode<Label>("%ToastText");
@@ -73,6 +77,7 @@ public partial class Main : Control
 			}
 
 			BackButton.Disabled = SceneStack.Count <= 1;
+			SettingsButton.Disabled = SceneStack.Peek() is SettingsScene;
 			TitleLabel.Text = SceneStack.Peek().Title;
 		};
 
@@ -85,6 +90,7 @@ public partial class Main : Control
 		ToastCloseButton.Pressed += () => ToastAnimationPlayer.Play("out");
 
 		BackButton.Pressed += PopScene;
+		SettingsButton.Pressed += () => PushScene(SettingsScene.Instantiate<StackScene>());
 
 		PushScene(MenuScene.Instantiate<StackScene>());
 

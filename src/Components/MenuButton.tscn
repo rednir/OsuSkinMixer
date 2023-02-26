@@ -7,9 +7,9 @@
 [ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/MenuButtonDescription.tres" id="3_cxcdh"]
 
 [node name="Button" type="Button"]
-custom_minimum_size = Vector2(380, 100)
+custom_minimum_size = Vector2(380, 98)
 offset_right = 380.0
-offset_bottom = 100.0
+offset_bottom = 90.0
 theme_override_styles/normal = ExtResource("1_7fxeo")
 theme_override_styles/hover = ExtResource("2_d8pi2")
 theme_override_styles/pressed = ExtResource("3_172ep")

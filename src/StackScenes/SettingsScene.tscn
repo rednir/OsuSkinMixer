@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkj1wx5bno6j3"]
+
+[ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_0tjsq"]
+[ext_resource type="Script" path="res://src/StackScenes/SettingsScene.cs" id="2_id48s"]
+
+[node name="SettingsScene" type="VBoxContainer"]
+offset_right = 750.0
+offset_bottom = 450.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_0tjsq")
+theme_override_constants/separation = 32
+script = ExtResource("2_id48s")
