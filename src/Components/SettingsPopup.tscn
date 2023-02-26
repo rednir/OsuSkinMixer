@@ -5,7 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://c8al3ys1j8lqf" path="res://src/Components/Popup.tscn" id="2_i87ke"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/PopupTitle.tres" id="3_kxkd6"]
 [ext_resource type="PackedScene" uid="uid://cdna8eeo4qwm0" path="res://src/Components/SetupPopup.tscn" id="5_4lsaw"]
-[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/PopupText.tres" id="5_qr26q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_n54bi"]
+font_size = 12
+font_color = Color(0.792157, 0.768627, 0.815686, 1)
 
 [node name="SettingsPopup" type="Control"]
 layout_mode = 3
@@ -50,7 +53,7 @@ text = "Report an issue / Suggest a feature"
 [node name="Text" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "You can also report issues/suggest features to username \"rednir\" through osu! DMs if you do not have GitHub."
-label_settings = ExtResource("5_qr26q")
+label_settings = SubResource("LabelSettings_n54bi")
 horizontal_alignment = 1
 autowrap_mode = 3
 
