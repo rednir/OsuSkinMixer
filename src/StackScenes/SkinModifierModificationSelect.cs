@@ -30,5 +30,12 @@ public partial class SkinModifierModificationSelect : StackScene
 	private void OnApplyChangesButtonPressed()
 	{
 		SkinCreatorPopup.In();
+
+		SkinCreator skinCreator = new()
+		{
+			SkinOptions = SkinOptionsSelector.SkinOptions,
+		};
+
+		skinCreator.ModifySkins(SkinsToModify, System.Threading.CancellationToken.None);
 	}
 }

@@ -98,6 +98,47 @@ public class SkinCreator
         return skin;
     }
 
+    public void ModifySkins(IEnumerable<OsuSkin> skinsToModify, CancellationToken cancellationToken)
+    {
+        GD.Print($"Beginning skin modification for {skinsToModify.Count()} skins.");
+
+        foreach (OsuSkin skin in skinsToModify)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ModifySingleSkin(skin, cancellationToken);
+        }
+
+        GD.Print("Skin modification has completed for all skins.");
+    }
+
+    private void ModifySingleSkin(OsuSkin workingSkin, CancellationToken cancellationToken)
+    {
+        GD.Print("Beginning skin modification for single skin '{workingSkin.Name}'");
+
+        NewSkinDir = workingSkin.Directory;
+        NewSkinIni = workingSkin.SkinIni;
+
+        IEnumerable<SkinOption> flattenedOptions = SkinOption.Flatten(SkinOptions).Where(o => o is not ParentSkinOption);
+
+        foreach (var option in flattenedOptions)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            GD.Print($"About to copy option '{option.Name}' set to '{option.Skin?.Name ?? "null"}'");
+            ProgressChangedAction?.Invoke(Progress.Value, Status);
+
+            // User wants default skin elements to be used.
+            if (option.Skin == null)
+                continue;
+
+            CopyOption(option);
+        }
+
+        File.WriteAllText($"{NewSkinDir.FullName}/skin.ini", NewSkinIni.ToString());
+
+        GD.Print($"Skin modification for '{workingSkin.Name}' has completed.");
+    }
+
     private void CopyOption(SkinOption option)
     {
         var skin = GetSkinWithFiles(option.Skin);
@@ -127,7 +168,11 @@ public class SkinCreator
             {
                 if (pair.Key == property.property)
                 {
-                    NewSkinIni.Sections.Last(s => s.Name == section.Name).Add(
+                    OsuSkinIniSection newSkinSection = NewSkinIni.Sections.Last(s => s.Name == section.Name);
+
+                    // Remove the section if it already exists, i.e. if we are modifying an existing skin.
+                    newSkinSection.Remove(pair.Key);
+                    newSkinSection.Add(
                         key: pair.Key,
                         value: pair.Value);
 
