@@ -26,7 +26,7 @@ public partial class SkinSelectorPopup : Popup
 		SkinsContainer = GetNode<VBoxContainer>("%SkinComponentsContainer");
 		SearchLineEdit = GetNode<LineEdit>("%SearchLineEdit");
 
-		BackButton.Pressed += () => Out();
+		BackButton.Pressed += Out;
 		SearchLineEdit.TextChanged += OnSearchTextChanged;
 		SearchLineEdit.TextSubmitted += OnSearchTextSubmitted;
 
