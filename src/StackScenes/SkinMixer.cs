@@ -69,6 +69,8 @@ public partial class SkinMixer : StackScene
 		Task.Run(async () => await skinCreator.CreateAndImportAsync(CancellationTokenSource.Token))
 			.ContinueWith(t =>
 			{
+				SkinCreatorPopup.Out();
+
 				var ex = t.Exception;
 				if (ex != null)
 				{
@@ -81,7 +83,6 @@ public partial class SkinMixer : StackScene
 				skinInfoInstance.Skin = t.Result;
 				EmitSignal(SignalName.ScenePushed, skinInfoInstance);
 
-				SkinCreatorPopup.Out();
 				EmitSignal(SignalName.ToastPushed, "Successfully created and imported skin.");
 			});
 	}
