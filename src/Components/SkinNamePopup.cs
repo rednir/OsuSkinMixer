@@ -11,21 +11,21 @@ public partial class SkinNamePopup : Popup
 	public Action<string> ConfirmAction { get; set; }
 
 	private Label WarningLabel;
-    private LineEdit LineEdit;
-    private Button ConfirmButton;
+	private LineEdit LineEdit;
+	private Button ConfirmButton;
 
-    public override void _Ready()
-    {
+	public override void _Ready()
+	{
 		base._Ready();
 
 		WarningLabel = GetNode<Label>("%WarningLabel");
-        LineEdit = GetNode<LineEdit>("%LineEdit");
-        ConfirmButton = GetNode<Button>("%ConfirmButton");
+		LineEdit = GetNode<LineEdit>("%LineEdit");
+		ConfirmButton = GetNode<Button>("%ConfirmButton");
 
-        ConfirmButton.Pressed += () => ConfirmAction?.Invoke(LineEdit.Text);
-        LineEdit.TextSubmitted += t => ConfirmAction?.Invoke(t);
+		ConfirmButton.Pressed += () => ConfirmAction?.Invoke(LineEdit.Text);
+		LineEdit.TextSubmitted += t => ConfirmAction?.Invoke(t);
 		LineEdit.TextChanged += OnTextChanged;
-    }
+	}
 
 	private void OnConfirm()
 	{

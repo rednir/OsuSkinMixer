@@ -8,81 +8,81 @@ namespace OsuSkinMixer.StackScenes;
 
 public partial class SkinMixer : StackScene
 {
-    public override string Title => "Skin Mixer";
+	public override string Title => "Skin Mixer";
 
-    private CancellationTokenSource CancellationTokenSource;
+	private CancellationTokenSource CancellationTokenSource;
 
-    private PackedScene SkinInfoScene;
+	private PackedScene SkinInfoScene;
 
-    private SkinCreatorPopup SkinCreatorPopup;
-    private SkinNamePopup SkinNamePopup;
-    private SkinOptionsSelector SkinOptionsSelector;
-    private Button CreateSkinButton;
-    private Button RandomButton;
+	private SkinCreatorPopup SkinCreatorPopup;
+	private SkinNamePopup SkinNamePopup;
+	private SkinOptionsSelector SkinOptionsSelector;
+	private Button CreateSkinButton;
+	private Button RandomButton;
 
-    public override void _Ready()
-    {
-        SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
+	public override void _Ready()
+	{
+		SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
 
-        SkinCreatorPopup = GetNode<SkinCreatorPopup>("%SkinCreatorPopup");
-        SkinNamePopup = GetNode<SkinNamePopup>("%SkinNamePopup");
-        SkinOptionsSelector = GetNode<SkinOptionsSelector>("%SkinOptionsSelector");
-        CreateSkinButton = GetNode<Button>("%CreateSkinButton");
-        RandomButton = GetNode<Button>("%RandomButton");
+		SkinCreatorPopup = GetNode<SkinCreatorPopup>("%SkinCreatorPopup");
+		SkinNamePopup = GetNode<SkinNamePopup>("%SkinNamePopup");
+		SkinOptionsSelector = GetNode<SkinOptionsSelector>("%SkinOptionsSelector");
+		CreateSkinButton = GetNode<Button>("%CreateSkinButton");
+		RandomButton = GetNode<Button>("%RandomButton");
 
-        CreateSkinButton.Pressed += OnCreateSkinButtonPressed;
-        RandomButton.Pressed += OnRandomButtonPressed;
+		CreateSkinButton.Pressed += OnCreateSkinButtonPressed;
+		RandomButton.Pressed += OnRandomButtonPressed;
 
-        SkinNamePopup.ConfirmAction = s =>
-        {
-            SkinNamePopup.Out();
-            RunSkinCreator(s);
-        };
+		SkinNamePopup.ConfirmAction = s =>
+		{
+			SkinNamePopup.Out();
+			RunSkinCreator(s);
+		};
 
-        SkinOptionsSelector.CreateOptionComponents("<<DEFAULT SKIN>>");
-    }
+		SkinOptionsSelector.CreateOptionComponents("<<DEFAULT SKIN>>");
+	}
 
-    private void OnCreateSkinButtonPressed()
-    {
-        SkinNamePopup.In();
-    }
+	private void OnCreateSkinButtonPressed()
+	{
+		SkinNamePopup.In();
+	}
 
-    private void OnRandomButtonPressed()
-    {
-        SkinOptionsSelector.Randomize();
+	private void OnRandomButtonPressed()
+	{
+		SkinOptionsSelector.Randomize();
 
-        EmitSignal(SignalName.ToastPushed, "Randomized skin options");
-    }
+		EmitSignal(SignalName.ToastPushed, "Randomized skin options");
+	}
 
-    private void RunSkinCreator(string skinName)
-    {
-        SkinCreatorPopup.In();
+	private void RunSkinCreator(string skinName)
+	{
+		SkinCreatorPopup.In();
 
-        SkinCreator skinCreator = new()
-        {
-            Name = skinName,
-            SkinOptions = SkinOptionsSelector.SkinOptions,
-            ProgressChangedAction = (p, _) => SkinCreatorPopup.SetProgress(p),
-        };
+		SkinCreator skinCreator = new()
+		{
+			Name = skinName,
+			SkinOptions = SkinOptionsSelector.SkinOptions,
+			ProgressChangedAction = (p, _) => SkinCreatorPopup.SetProgress(p),
+		};
 
-        CancellationTokenSource = new CancellationTokenSource();
-        Task.Run(async () => await skinCreator.CreateAndImportAsync(CancellationTokenSource.Token))
-            .ContinueWith(t =>
-            {
-                var ex = t.Exception;
-                if (ex != null)
-                {
-                    GD.PrintErr(ex);
-                    OS.Alert($"{ex.Message}\nPlease report this error with logs.", "Skin creation failure");
-                    return;
-                }
+		CancellationTokenSource = new CancellationTokenSource();
+		Task.Run(async () => await skinCreator.CreateAndImportAsync(CancellationTokenSource.Token))
+			.ContinueWith(t =>
+			{
+				var ex = t.Exception;
+				if (ex != null)
+				{
+					GD.PrintErr(ex);
+					OS.Alert($"{ex.Message}\nPlease report this error with logs.", "Skin creation failure");
+					return;
+				}
 
-                var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
-                skinInfoInstance.Skin = t.Result;
-                EmitSignal(SignalName.ScenePushed, skinInfoInstance);
+				var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
+				skinInfoInstance.Skin = t.Result;
+				EmitSignal(SignalName.ScenePushed, skinInfoInstance);
 
-                SkinCreatorPopup.Out();
-                EmitSignal(SignalName.ToastPushed, "Successfully created and imported skin.");
-            });
-    }
+				SkinCreatorPopup.Out();
+				EmitSignal(SignalName.ToastPushed, "Successfully created and imported skin.");
+			});
+	}
 }
