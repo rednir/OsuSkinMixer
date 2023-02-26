@@ -16,6 +16,9 @@ public partial class Main : Control
 	private TextureButton BackButton;
 	private Label TitleLabel;
 	private SetupPopup SetupPopup;
+	private AnimationPlayer ToastAnimationPlayer;
+	private Label ToastTextLabel;
+	private TextureButton ToastCloseButton;
 	private Label VersionLabel;
 
 	private Stack<StackScene> SceneStack { get; } = new();
@@ -36,6 +39,9 @@ public partial class Main : Control
 		BackButton = GetNode<TextureButton>("TopBar/HBoxContainer/BackButton");
 		TitleLabel = GetNode<Label>("TopBar/HBoxContainer/Title");
 		SetupPopup = GetNode<SetupPopup>("SetupPopup");
+		ToastAnimationPlayer = GetNode<AnimationPlayer>("%ToastAnimationPlayer");
+		ToastTextLabel = GetNode<Label>("%ToastText");
+		ToastCloseButton = GetNode<TextureButton>("%ToastClose");
 		VersionLabel = GetNode<Label>("VersionLabel");
 
 		VersionLabel.Text = Settings.VERSION;
@@ -55,6 +61,7 @@ public partial class Main : Control
 					currentlyActiveScene.Visible = false;
 
 				PendingScene.ScenePushed += PushScene;
+				PendingScene.ToastPushed += PushToast;
 				PendingScene.Visible = true;
 				SceneStack.Push(PendingScene);
 				ScenesContainer.AddChild(PendingScene);
@@ -66,6 +73,14 @@ public partial class Main : Control
 			BackButton.Disabled = SceneStack.Count <= 1;
 			TitleLabel.Text = SceneStack.Peek().Title;
 		};
+
+		ToastAnimationPlayer.AnimationFinished += (animationName) =>
+		{
+			if (animationName == "in")
+				ToastAnimationPlayer.Play("out");
+		};
+
+		ToastCloseButton.Pressed += () => ToastAnimationPlayer.Play("out");
 
 		BackButton.Pressed += PopScene;
 
@@ -86,5 +101,11 @@ public partial class Main : Control
 	{
 		GD.Print("Popping scene");
 		ScenesAnimationPlayer.Play("pop_out");
+	}
+
+	private void PushToast(string text)
+	{
+		ToastTextLabel.Text = text;
+		ToastAnimationPlayer.Play("in");
 	}
 }

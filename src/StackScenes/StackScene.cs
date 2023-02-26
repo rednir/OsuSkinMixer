@@ -8,4 +8,7 @@ public abstract partial class StackScene : Container
 
     [Signal]
     public delegate void ScenePushedEventHandler(StackScene scene);
+
+    [Signal]
+    public delegate void ToastPushedEventHandler(string text);
 }

@@ -50,6 +50,8 @@ public partial class SkinMixer : StackScene
     private void OnRandomButtonPressed()
     {
         SkinOptionsSelector.Randomize();
+
+        EmitSignal(SignalName.ToastPushed, "Randomized skin options");
     }
 
     private void RunSkinCreator(string skinName)
