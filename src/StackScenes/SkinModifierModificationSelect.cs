@@ -39,6 +39,7 @@ public partial class SkinModifierModificationSelect : StackScene
 		SkinCreator skinCreator = new()
 		{
 			SkinOptions = SkinOptionsSelector.SkinOptions,
+			ProgressChangedAction = (p, _) => SkinCreatorPopup.SetProgress(p),
 		};
 
 		Task.Run(() => skinCreator.ModifySkins(SkinsToModify, CancellationTokenSource.Token))
