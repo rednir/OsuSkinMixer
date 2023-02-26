@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 namespace OsuSkinMixer.Components;
 
@@ -17,6 +16,4 @@ public partial class SettingsPopup : Popup
 
 		ChangeSkinsFolderButton.Pressed += SetupPopup.In;
 	}
-
-
 }

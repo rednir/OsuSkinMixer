@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using OsuSkinMixer.StackScenes;
 using OsuSkinMixer.Statics;
 using OsuSkinMixer.Components;
+using System.Text.Json;
+using System.Text;
 
 namespace OsuSkinMixer;
 
@@ -92,6 +94,7 @@ public partial class Main : Control
 		SettingsButton.Pressed += SettingsPopup.In;
 
 		PushScene(MenuScene.Instantiate<StackScene>());
+		CheckForUpdates();
 
 		if (!OsuData.TryLoadSkins())
 			SetupPopup.In();
@@ -122,5 +125,34 @@ public partial class Main : Control
 		ToastTextLabel.Text = text;
 		ToastAnimationPlayer.Stop();
 		ToastAnimationPlayer.Play("in");
+	}
+
+	private void CheckForUpdates()
+	{
+		var req = GetNode<HttpRequest>("HTTPRequest");
+		req.RequestCompleted += OnHttpRequestCompleted;
+		req.Request($"https://api.github.com/repos/{Settings.GITHUB_REPO_PATH}/releases/latest", new string[] { "User-Agent: OsuSkinMixer" });
+	}
+
+	private void OnHttpRequestCompleted(long result, long responseCode, string[] headers, byte[] body)
+	{
+		if (result == 0)
+		{
+			try
+			{
+				string latest = JsonSerializer.Deserialize<Dictionary<string, object>>(Encoding.UTF8.GetString(body))["tag_name"].ToString();
+				if (latest != Settings.VERSION)
+				{
+					SettingsButton.Text = $"Update to {latest}";
+					GetNode<AnimationPlayer>("%UpdateAnimationPlayer").Play("available");
+					return;
+				}
+			}
+			catch
+			{
+			}
+		}
+
+		SettingsButton.Text = "Failed to check for updates";
 	}
 }

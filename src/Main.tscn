@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://d3cbhk7rkyxuw"]
+[gd_scene load_steps=38 format=3 uid="uid://d3cbhk7rkyxuw"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_3ca2l"]
 [ext_resource type="Script" path="res://src/Main.cs" id="2_ajhyw"]
@@ -17,6 +17,44 @@
 [sub_resource type="Gradient" id="Gradient_gqud0"]
 offsets = PackedFloat32Array(0.108747, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Animation" id="Animation_1vq04"]
+resource_name = "available"
+length = 1.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%SettingsButton:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.1, 1.3, 1.5),
+"transitions": PackedFloat32Array(1, 2, 0.5, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 0.607843, 0.788235, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ciq82"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%SettingsButton:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oombq"]
+_data = {
+"RESET": SubResource("Animation_ciq82"),
+"available": SubResource("Animation_1vq04")
+}
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lkmhk"]
 load_path = "res://.godot/imported/back-arrow.png-97831f16e7ace5968719d72723e5f42c.ctex"
@@ -415,6 +453,8 @@ grow_vertical = 2
 theme = ExtResource("1_3ca2l")
 script = ExtResource("2_ajhyw")
 
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
 [node name="SetupPopup" parent="." instance=ExtResource("4_gusp5")]
 layout_mode = 1
 
@@ -448,6 +488,12 @@ anchor_right = 1.0
 offset_bottom = 50.0
 grow_horizontal = 2
 theme_override_styles/panel = ExtResource("3_5ka6c")
+
+[node name="UpdateAnimationPlayer" type="AnimationPlayer" parent="TopBar"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_oombq")
+}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TopBar"]
 layout_mode = 1
@@ -489,6 +535,11 @@ layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 theme_override_colors/font_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_focus_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_m8k4v")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vcrbn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ssp4a")
