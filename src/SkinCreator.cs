@@ -239,18 +239,15 @@ public class SkinCreator
 
     private void CopyFileOption(OsuSkinWithFiles skin, SkinFileOption fileOption)
     {
-        // Avoid remnants when using skin modifier when the new skin has
-        // less animation frames than the original skin. Bit of a hack I guess.
-        if (fileOption.IncludeFileName.EndsWith("*") && WorkingSkinOriginalFiles != null)
+        // Avoid remnants when using skin modifier by removing old files, so
+        // the default skin will be used if there is no file match. Bit of a hack.
+        if (WorkingSkinOriginalFiles != null)
         {
-            foreach (var file in WorkingSkinOriginalFiles.ToArray())
+            foreach (FileInfo file in WorkingSkinOriginalFiles.Where(f => CheckIfFileAndOptionMatch(f, fileOption)).ToArray())
             {
-                if (file.Name.StartsWith(fileOption.IncludeFileName.TrimEnd('*'), StringComparison.OrdinalIgnoreCase))
-                {
-                    GD.Print($"'Removing {file.FullName}' to avoid remnants");
-                    WorkingSkinOriginalFiles.Remove(file);
-                    file.Delete();
-                }
+                GD.Print($"'Removing {file.FullName}' to avoid remnants");
+                WorkingSkinOriginalFiles.Remove(file);
+                file.Delete();
             }
         }
 
@@ -259,29 +256,42 @@ public class SkinCreator
             string filename = Path.GetFileNameWithoutExtension(file.Name);
             string extension = Path.GetExtension(file.Name);
 
-            // Check for file name match.
-            if (
-                filename.Equals(fileOption.IncludeFileName, StringComparison.OrdinalIgnoreCase) || filename.Equals(fileOption.IncludeFileName + "@2x", StringComparison.OrdinalIgnoreCase)
-                || (fileOption.IncludeFileName.EndsWith("*") && filename.StartsWith(fileOption.IncludeFileName.TrimEnd('*'), StringComparison.OrdinalIgnoreCase))
-            )
+            if (CheckIfFileAndOptionMatch(file, fileOption))
             {
-                // Check for file type match.
-                if (
-                    ((extension == ".png" || extension == ".jpg") && !fileOption.IsAudio)
-                    || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && fileOption.IsAudio)
-                )
-                {
-                    string newFilePath = $"{NewSkinDir.FullName}/{file.Name}";
-                    GD.Print($"'{file.FullName}' -> '{newFilePath}' (due to filename match)");
+                string newFilePath = $"{NewSkinDir.FullName}/{file.Name}";
+                GD.Print($"'{file.FullName}' -> '{newFilePath}' (due to filename match)");
 
-                    // If the file already exists, overwrite it, i.e. if we are modifying an existing skin.
-                    if (File.Exists(newFilePath))
-                        File.Delete(newFilePath);
+                // If the file already exists, overwrite it, i.e. if we are modifying an existing skin.
+                if (File.Exists(newFilePath))
+                    File.Delete(newFilePath);
 
-                    file.CopyTo(newFilePath);
-                }
+                file.CopyTo(newFilePath);
             }
         }
+    }
+
+    private static bool CheckIfFileAndOptionMatch(FileInfo file, SkinFileOption fileOption)
+    {
+        string filename = Path.GetFileNameWithoutExtension(file.Name);
+        string extension = Path.GetExtension(file.Name);
+
+        // Check for file name match.
+        if (
+            filename.Equals(fileOption.IncludeFileName, StringComparison.OrdinalIgnoreCase) || filename.Equals(fileOption.IncludeFileName + "@2x", StringComparison.OrdinalIgnoreCase)
+            || (fileOption.IncludeFileName.EndsWith("*") && filename.StartsWith(fileOption.IncludeFileName.TrimEnd('*'), StringComparison.OrdinalIgnoreCase))
+        )
+        {
+            // Check for file type match.
+            if (
+                ((extension == ".png" || extension == ".jpg") && !fileOption.IsAudio)
+                || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && fileOption.IsAudio)
+            )
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private OsuSkinWithFiles GetSkinWithFiles(OsuSkin skin)
