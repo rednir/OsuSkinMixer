@@ -27,6 +27,8 @@ public class SkinCreator
 
     private readonly List<OsuSkinWithFiles> CachedSkinWithFiles = new();
 
+    private List<FileInfo> WorkingSkinOriginalFiles;
+
     private OsuSkinIni NewSkinIni;
 
     private DirectoryInfo NewSkinDir;
@@ -126,6 +128,7 @@ public class SkinCreator
 
         NewSkinDir = workingSkin.Directory;
         NewSkinIni = workingSkin.SkinIni;
+        WorkingSkinOriginalFiles = NewSkinDir.GetFiles().ToList();
 
         IEnumerable<SkinOption> flattenedOptions = SkinOption.Flatten(SkinOptions).Where(o => o is not ParentSkinOption);
 
@@ -236,14 +239,16 @@ public class SkinCreator
 
     private void CopyFileOption(OsuSkinWithFiles skin, SkinFileOption fileOption)
     {
-        // TODO: use skin with files.
-        if (fileOption.IncludeFileName.EndsWith("*"))
+        // Avoid remnants when using skin modifier when the new skin has
+        // less animation frames than the original skin. Bit of a hack I guess.
+        if (fileOption.IncludeFileName.EndsWith("*") && WorkingSkinOriginalFiles != null)
         {
-            foreach (var file in NewSkinDir.EnumerateFiles())
+            foreach (var file in WorkingSkinOriginalFiles.ToArray())
             {
                 if (file.Name.StartsWith(fileOption.IncludeFileName.TrimEnd('*'), StringComparison.OrdinalIgnoreCase))
                 {
                     GD.Print($"'Removing {file.FullName}' to avoid remnants");
+                    WorkingSkinOriginalFiles.Remove(file);
                     file.Delete();
                 }
             }
