@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=6 format=3 uid="uid://fl107kh3okl5"]
 
 [ext_resource type="StyleBox" uid="uid://wmoycuiidldb" path="res://src/Styles/Buttons/MenuButton.tres" id="1_7fxeo"]
 [ext_resource type="StyleBox" uid="uid://dpww7318s4e65" path="res://src/Styles/Buttons/MenuButtonHover.tres" id="2_d8pi2"]

@@ -1,6 +1,6 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=11 format=3 uid="uid://dkcny8ctncurn"]
 
-[ext_resource type="PackedScene" uid="uid://c8al3ys1j8lqf" path="res://src/Components/Popup.tscn" id="1_vbxph"]
+[ext_resource type="PackedScene" path="res://src/Components/Popup.tscn" id="1_vbxph"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_x82gr"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="2_2dpv6"]
 [ext_resource type="Script" path="res://src/Components/SetupPopup.cs" id="2_bnnvj"]
@@ -27,7 +27,7 @@ layout_mode = 1
 
 [node name="FileDialog" type="FileDialog" parent="Popup/CanvasLayer" index="0"]
 unique_name_in_owner = true
-title = "Select your osu! skins folder"
+title = "Open a Directory"
 size = Vector2i(1000, 500)
 ok_button_text = "Select Current Folder"
 dialog_hide_on_ok = true

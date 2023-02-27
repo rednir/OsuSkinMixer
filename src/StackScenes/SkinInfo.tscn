@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=9 format=3 uid="uid://1uqjdwdjhk1"]
 
 [ext_resource type="Script" path="res://src/StackScenes/SkinInfo.cs" id="1_n7uc1"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_sak7t"]
@@ -82,7 +82,6 @@ position = Vector2(-151, -73)
 [node name="Cursortrail" type="CPUParticles2D" parent="PanelContainer/VBoxContainer/PreviewContainer/Cursor"]
 unique_name_in_owner = true
 show_behind_parent = true
-z_index = 29
 amount = 12
 lifetime = 0.3
 gravity = Vector2(2.08165e-12, 2.08165e-12)
