@@ -134,17 +134,6 @@ public class SkinCreator
             GD.Print($"About to copy option '{option.Name}' set to '{option.Skin?.Name ?? "null"}'");
             ProgressChangedAction?.Invoke(Progress.Value, Status);
 
-            // Remove all combo colours from the skin.ini file first. This is a hacky workaround.
-            // If user chooses to modify a skin where the new skin has less combo
-            // colours than the original skin, there will be remnants from the old skin.
-            if (option is SkinIniPropertyOption iniPropertyOption
-                && iniPropertyOption.IncludeSkinIniProperty.section == "Colours"
-                && iniPropertyOption.IncludeSkinIniProperty.property.StartsWith("Combo"))
-            {
-                NewSkinIni.Sections.Last(s => s.Name == "Colours")
-                    .Remove(iniPropertyOption.IncludeSkinIniProperty.property);
-            }
-
             // User wants default skin elements to be used.
             if (option.Skin == null)
                 continue;
@@ -177,6 +166,9 @@ public class SkinCreator
     {
         var property = iniPropertyOption.IncludeSkinIniProperty;
 
+        // Remove the skin.ini to avoid remnants when using skin modifier.
+        NewSkinIni.Sections.Last(s => s.Name == property.section).Remove(property.property);
+
         foreach (var section in skin.SkinIni.Sections)
         {
             if (property.section != section.Name)
@@ -187,9 +179,6 @@ public class SkinCreator
                 if (pair.Key == property.property)
                 {
                     OsuSkinIniSection newSkinSection = NewSkinIni.Sections.Last(s => s.Name == section.Name);
-
-                    // Remove the section if it already exists, i.e. if we are modifying an existing skin.
-                    newSkinSection.Remove(pair.Key);
                     newSkinSection.Add(
                         key: pair.Key,
                         value: pair.Value);
