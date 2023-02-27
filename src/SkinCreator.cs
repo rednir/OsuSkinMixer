@@ -124,7 +124,7 @@ public class SkinCreator
 
     private void ModifySingleSkin(OsuSkin workingSkin)
     {
-        GD.Print("Beginning skin modification for single skin '{workingSkin.Name}'");
+        GD.Print($"Beginning skin modification for single skin '{workingSkin.Name}'");
 
         NewSkinDir = workingSkin.Directory;
         NewSkinIni = workingSkin.SkinIni;
