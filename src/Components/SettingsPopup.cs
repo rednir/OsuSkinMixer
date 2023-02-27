@@ -48,7 +48,7 @@ public partial class SettingsPopup : Popup
 		UpdateButton.Text = "Downloading...";
 		HttpClient client = new();
 
-        client.GetStreamAsync($"https://github.com/{Settings.GITHUB_REPO_PATH}/releases/download/v2.0-pre/osu-skin-mixer-setup.exe")
+        client.GetStreamAsync($"https://github.com/{Settings.GITHUB_REPO_PATH}/releases/latest/download/osu-skin-mixer-setup.exe")
 			.ContinueWith(async t =>
 			{
 				if (t.Exception != null)
