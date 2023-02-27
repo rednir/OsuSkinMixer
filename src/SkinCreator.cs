@@ -236,6 +236,19 @@ public class SkinCreator
 
     private void CopyFileOption(OsuSkinWithFiles skin, SkinFileOption fileOption)
     {
+        // TODO: use skin with files.
+        if (fileOption.IncludeFileName.EndsWith("*"))
+        {
+            foreach (var file in NewSkinDir.EnumerateFiles())
+            {
+                if (file.Name.StartsWith(fileOption.IncludeFileName.TrimEnd('*'), StringComparison.OrdinalIgnoreCase))
+                {
+                    GD.Print($"'Removing {file.FullName}' to avoid remnants");
+                    file.Delete();
+                }
+            }
+        }
+
         foreach (var file in skin.Files)
         {
             string filename = Path.GetFileNameWithoutExtension(file.Name);
