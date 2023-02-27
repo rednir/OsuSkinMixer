@@ -33,6 +33,7 @@ public partial class SkinModifierModificationSelect : StackScene
 
 		SkinOptionsSelector.CreateOptionComponents("<<UNCHANGED>>");
 		ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
+		SkinCreatorPopup.CancelAction = () => CancellationTokenSource?.Cancel();
 	}
 
 	private void OnApplyChangesButtonPressed()
@@ -54,6 +55,9 @@ public partial class SkinModifierModificationSelect : StackScene
                 var ex = t.Exception;
                 if (ex != null)
                 {
+					if (ex.InnerException is OperationCanceledException)
+						return;
+
                     GD.PrintErr(ex);
                     OS.Alert($"{ex.Message}\nPlease report this error with logs.", "Skin creation failure");
                     return;

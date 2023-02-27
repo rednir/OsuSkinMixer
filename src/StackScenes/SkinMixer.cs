@@ -3,6 +3,7 @@ using OsuSkinMixer.Components.SkinOptionsSelector;
 using OsuSkinMixer.Components;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -30,6 +31,7 @@ public partial class SkinMixer : StackScene
 		CreateSkinButton = GetNode<Button>("%CreateSkinButton");
 		RandomButton = GetNode<Button>("%RandomButton");
 
+		SkinCreatorPopup.CancelAction = () => CancellationTokenSource?.Cancel();
 		CreateSkinButton.Pressed += OnCreateSkinButtonPressed;
 		RandomButton.Pressed += OnRandomButtonPressed;
 
@@ -74,6 +76,9 @@ public partial class SkinMixer : StackScene
 				var ex = t.Exception;
 				if (ex != null)
 				{
+					if (ex.InnerException is OperationCanceledException)
+						return;
+
 					GD.PrintErr(ex);
 					OS.Alert($"{ex.Message}\nPlease report this error with logs.", "Skin creation failure");
 					return;
