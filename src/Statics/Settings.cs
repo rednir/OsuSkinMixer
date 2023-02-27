@@ -2,76 +2,77 @@ using Godot;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Environment = System.Environment;
 using File = System.IO.File;
 using Directory = System.IO.Directory;
 
-namespace OsuSkinMixer
+namespace OsuSkinMixer.Statics;
+
+public static class Settings
 {
-    public static class Settings
+    public const string VERSION = "v2.0.0";
+
+    public const string GITHUB_REPO_PATH = "rednir/OsuSkinMixer";
+
+    public static string SettingsFilePath => ProjectSettings.GlobalizePath("user://settings.json");
+
+    static Settings()
     {
-        public const string VERSION = "v1.8.4";
-
-        public static readonly string AppdataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu-skin-mixer";
-
-        public static string SettingsFilePath => AppdataPath + "/settings.json";
-
-        public static string LogFilePath => AppdataPath + "/log.txt";
-
-        static Settings()
-        {
-            Directory.CreateDirectory(AppdataPath);
-
-            if (File.Exists(SettingsFilePath))
-            {
-                try
-                {
-                    Content = JsonSerializer.Deserialize<SettingsContent>(File.ReadAllText(SettingsFilePath));
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    OS.Alert($"Couldn't load your settings file due to the following error:\n\n'{ex.Message}'\n\nYour broken settings file will be renamed and a new one will replace it.");
-                    File.Delete(SettingsFilePath + ".bak");
-                    File.Move(SettingsFilePath, SettingsFilePath + ".bak");
-                }
-            }
-
-            Content = new SettingsContent();
-            Save();
-        }
-
-        public static SettingsContent Content { get; set; }
-
-        public static void Save()
+        if (File.Exists(SettingsFilePath))
         {
             try
             {
-                File.WriteAllText(
-                    SettingsFilePath, JsonSerializer.Serialize(Content, new JsonSerializerOptions { WriteIndented = true }));
+                Content = JsonSerializer.Deserialize<SettingsContent>(File.ReadAllText(SettingsFilePath));
+                return;
             }
             catch (Exception ex)
             {
-                OS.Alert($"Couldn't save settings file due to the following error:\n\n'{ex.Message}'\n\nPlease make sure the program has sufficient privileges. Your settings will not be saved this session.");
+                GD.PushError($"Failed to deserialize {SettingsFilePath} due to exception {ex.Message}");
+                OS.Alert("Your settings have beeen corrupted, please report this issue and attach logs. All settings have been reset.", "Error");
+                GD.Print($"SETTINGS:\n{File.ReadAllText(SettingsFilePath)}");
+                File.Delete(SettingsFilePath + ".bak");
+                File.Move(SettingsFilePath, SettingsFilePath + ".bak");
             }
         }
 
-        public class SettingsContent
+        Content = new SettingsContent();
+        Save();
+    }
+
+    public static SettingsContent Content { get; set; }
+
+    public static void Save()
+    {
+        try
         {
-            [JsonPropertyName("skins_folder")]
-            public string SkinsFolder { get; set; }
-
-            [JsonPropertyName("log_to_file")]
-            public bool LogToFile { get; set; }
-
-            [JsonPropertyName("import_to_game_if_open")]
-            public bool ImportToGameIfOpen { get; set; } = OS.GetName() == "Windows";
-
-            [JsonPropertyName("disable_animated_background")]
-            public bool DisableAnimatedBackground { get; set; }
-
-            [JsonPropertyName("arrow_button_pressed")]
-            public bool ArrowButtonPressed { get; set; }
+            File.WriteAllText(
+                SettingsFilePath, JsonSerializer.Serialize(Content, new JsonSerializerOptions { WriteIndented = true }));
         }
+        catch (Exception ex)
+        {
+            OS.Alert($"Couldn't save settings file due to the following error:\n\n'{ex.Message}'\n\nPlease make sure the program has sufficient privileges. Your settings will not be saved this session.");
+        }
+    }
+
+    public static bool TrySetSkinsFolder(string path)
+    {
+        if (Directory.Exists(path))
+        {
+            Content.SkinsFolder = path;
+            return OsuData.TryLoadSkins();
+        }
+
+        return false;
+    }
+
+    public class SettingsContent
+    {
+        [JsonPropertyName("skins_folder")]
+        public string SkinsFolder { get; set; }
+
+        [JsonPropertyName("import_to_game_if_open")]
+        public bool ImportToGameIfOpen { get; set; } = OS.GetName() == "Windows";
+
+        [JsonPropertyName("arrow_button_pressed")]
+        public bool ArrowButtonPressed { get; set; }
     }
 }

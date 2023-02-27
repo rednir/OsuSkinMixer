@@ -1,0 +1,89 @@
+[gd_scene load_steps=11 format=3 uid="uid://dkcny8ctncurn"]
+
+[ext_resource type="PackedScene" path="res://src/Components/Popup.tscn" id="1_vbxph"]
+[ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_x82gr"]
+[ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="2_2dpv6"]
+[ext_resource type="Script" path="res://src/Components/SetupPopup.cs" id="2_bnnvj"]
+[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="3_8g2co"]
+[ext_resource type="StyleBox" uid="uid://dpn5uqxivy72l" path="res://src/Styles/Buttons/IconButton.tres" id="6_s2yk7"]
+[ext_resource type="StyleBox" uid="uid://bjdmqh67w4bku" path="res://src/Styles/Buttons/IconButtonHover.tres" id="7_i61yb"]
+[ext_resource type="StyleBox" uid="uid://dxqdk1ixl2ys" path="res://src/Styles/Buttons/IconButtonPressed.tres" id="8_wnuf3"]
+[ext_resource type="StyleBox" uid="uid://bqwmwc0s8kyx" path="res://src/Styles/Buttons/IconButtonDisabled.tres" id="9_kg386"]
+[ext_resource type="Texture2D" uid="uid://v4nnpxtm2ltr" path="res://assets/folder.png" id="10_cd86c"]
+
+[node name="SetupPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_x82gr")
+script = ExtResource("2_bnnvj")
+
+[node name="Popup" parent="." instance=ExtResource("1_vbxph")]
+layout_mode = 1
+
+[node name="FileDialog" type="FileDialog" parent="Popup/CanvasLayer" index="0"]
+unique_name_in_owner = true
+title = "Open a Directory"
+size = Vector2i(1000, 500)
+ok_button_text = "Select Current Folder"
+dialog_hide_on_ok = true
+file_mode = 2
+access = 2
+show_hidden_files = true
+
+[node name="ScrollContainer" parent="Popup/CanvasLayer" index="2"]
+offset_bottom = -0.000366211
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ContentPanelContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer" index="1"]
+custom_minimum_size = Vector2(540, 200)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Set your skins folder"
+label_settings = ExtResource("2_2dpv6")
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Subtext" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Please set the path to your osu! skins folder. If the below already looks correct, you're good to go!"
+label_settings = ExtResource("3_8g2co")
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="LineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Click the folder to browse"
+
+[node name="FolderPickerButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = ExtResource("6_s2yk7")
+theme_override_styles/hover = ExtResource("7_i61yb")
+theme_override_styles/pressed = ExtResource("8_wnuf3")
+theme_override_styles/disabled = ExtResource("9_kg386")
+icon = ExtResource("10_cd86c")
+
+[node name="DoneButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Done"
+
+[editable path="Popup"]

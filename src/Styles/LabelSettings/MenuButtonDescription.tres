@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dary16s1twb46"]
+
+[ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="1_2gsr7"]
+
+[resource]
+font = ExtResource("1_2gsr7")
+font_size = 14
+font_color = Color(0.901961, 0.882353, 0.898039, 1)

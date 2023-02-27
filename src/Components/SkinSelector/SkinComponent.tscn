@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://4hmapjini1p2"]
+
+[ext_resource type="Script" path="res://src/Components/SkinSelector/SkinComponent.cs" id="1_7h4pf"]
+[ext_resource type="PackedScene" uid="uid://cttwstucph7aq" path="res://src/Components/Hitcircle.tscn" id="2_fkdqu"]
+[ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="3_adour"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uek0x"]
+bg_color = Color(0.227451, 0.207843, 0.258824, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1r3i5"]
+bg_color = Color(0.996078, 0.996078, 0.996078, 0.0392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_au1y4"]
+bg_color = Color(0.996078, 0.996078, 0.996078, 0.0980392)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ary6"]
+bg_color = Color(0.996078, 0.996078, 0.996078, 0.0588235)
+
+[node name="SkinComponent" type="HBoxContainer"]
+custom_minimum_size = Vector2(544, 72)
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_7h4pf")
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_uek0x")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1r3i5")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_au1y4")
+theme_override_styles/focus = SubResource("StyleBoxFlat_2ary6")
+
+[node name="Hitcircle" parent="Button" instance=ExtResource("2_fkdqu")]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 16.0
+offset_right = 58.0
+offset_bottom = 72.0
+
+[node name="Name" type="Label" parent="Button"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 74.0
+offset_top = 16.0
+offset_right = 367.0
+offset_bottom = 38.0
+theme = ExtResource("3_adour")
+text = "skin name goes here"
+
+[node name="Author" type="Label" parent="Button"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 74.0
+offset_top = 37.0
+offset_right = 350.0
+offset_bottom = 59.0
+theme = ExtResource("3_adour")
+theme_override_colors/font_color = Color(0.792157, 0.768627, 0.815686, 1)
+theme_override_font_sizes/font_size = 14
+text = "Unknown author"

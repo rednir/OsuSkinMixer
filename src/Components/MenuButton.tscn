@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://fl107kh3okl5"]
+
+[ext_resource type="StyleBox" uid="uid://wmoycuiidldb" path="res://src/Styles/Buttons/MenuButton.tres" id="1_7fxeo"]
+[ext_resource type="StyleBox" uid="uid://dpww7318s4e65" path="res://src/Styles/Buttons/MenuButtonHover.tres" id="2_d8pi2"]
+[ext_resource type="LabelSettings" uid="uid://cunaagboquiic" path="res://src/Styles/LabelSettings/MenuButtonTitle.tres" id="2_h18sk"]
+[ext_resource type="StyleBox" uid="uid://bptx6n2id2at7" path="res://src/Styles/Buttons/MenuButtonPressed.tscn.tres" id="3_172ep"]
+[ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="3_cxcdh"]
+
+[node name="Button" type="Button"]
+custom_minimum_size = Vector2(380, 98)
+offset_right = 380.0
+offset_bottom = 90.0
+theme_override_styles/normal = ExtResource("1_7fxeo")
+theme_override_styles/hover = ExtResource("2_d8pi2")
+theme_override_styles/pressed = ExtResource("3_172ep")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(2.08165e-12, 69)
+layout_mode = 2
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 364.0
+offset_bottom = 85.0
+theme_override_constants/separation = 3
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Menu Button"
+label_settings = ExtResource("2_h18sk")
+
+[node name="Description" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "This is a description for the menu button. It even goes onto the next line!"
+label_settings = ExtResource("3_cxcdh")
+autowrap_mode = 3

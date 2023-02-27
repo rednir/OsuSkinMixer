@@ -1,59 +1,59 @@
 using System.Collections.Generic;
-using Godot;
+using OsuSkinMixer.Models.Osu;
 
-namespace OsuSkinMixer
+namespace OsuSkinMixer.Models.SkinOptions;
+
+public abstract class SkinOption
 {
-    public abstract class SkinOption : Object
+    public virtual string Name { get; set; }
+
+    public OsuSkin Skin { get; set; }
+
+    public static IEnumerable<ParentSkinOption> GetParents(SkinOption childOption, SkinOption[] skinOptions)
     {
-        public virtual string Name { get; set; }
+        var result = new List<ParentSkinOption>();
+        helper(skinOptions);
+        return result;
 
-        public OptionButton OptionButton { get; set; }
-
-        public static IEnumerable<ParentSkinOption> GetParents(SkinOption childOption, SkinOption[] skinOptions)
+        bool helper(SkinOption[] children)
         {
-            var result = new List<ParentSkinOption>();
-            helper(skinOptions);
-            return result;
-
-            bool helper(SkinOption[] children)
+            foreach (var option in children)
             {
-                foreach (var option in children)
+                if (option == childOption)
+                    return true;
+
+                if (option is ParentSkinOption parentOption && helper(parentOption.Children))
                 {
-                    if (option == childOption)
-                        return true;
-
-                    if (option is ParentSkinOption parentOption && helper(parentOption.Children))
-                    {
-                        result.Add(parentOption);
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        }
-
-        public static IEnumerable<SkinOption> Flatten(SkinOption[] skinOptions)
-        {
-            var result = new List<SkinOption>();
-            helper(skinOptions);
-            return result;
-
-            void helper(SkinOption[] children)
-            {
-                if (children == null)
-                    return;
-
-                foreach (var option in children)
-                {
-                    result.Add(option);
-                    helper((option as ParentSkinOption)?.Children);
+                    result.Add(parentOption);
+                    return true;
                 }
             }
-        }
 
-        public static SkinOption[] Default => new SkinOption[]
+            return false;
+        }
+    }
+
+    public static IEnumerable<SkinOption> Flatten(SkinOption[] skinOptions)
+    {
+        var result = new List<SkinOption>();
+        helper(skinOptions);
+        return result;
+
+        void helper(SkinOption[] children)
         {
+            if (children == null)
+                return;
+
+            foreach (var option in children)
+            {
+                result.Add(option);
+                helper((option as ParentSkinOption)?.Children);
+            }
+        }
+    }
+
+    public static SkinOption[] Default => new SkinOption[]
+    {
             new ParentSkinOption
             {
                 Name = "Interface",
@@ -582,6 +582,5 @@ namespace OsuSkinMixer
                     },
                 },
             },
-        };
-    }
+    };
 }

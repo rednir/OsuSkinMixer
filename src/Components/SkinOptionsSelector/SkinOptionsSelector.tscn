@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfqkwbaa6t4mi"]
+
+[ext_resource type="Script" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.cs" id="1_g5aud"]
+[ext_resource type="PackedScene" uid="uid://ch6kfpkq0bkw4" path="res://src/Components/SkinSelector/SkinSelectorPopup.tscn" id="2_pokuf"]
+
+[node name="SkinOptionsSelector" type="VBoxContainer"]
+offset_right = 388.0
+offset_bottom = 40.0
+size_flags_horizontal = 4
+theme_override_constants/separation = 8
+script = ExtResource("1_g5aud")
+
+[node name="SkinSelectorPopup" parent="." instance=ExtResource("2_pokuf")]
+layout_mode = 2
