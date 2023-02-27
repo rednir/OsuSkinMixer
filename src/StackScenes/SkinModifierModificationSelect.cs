@@ -13,6 +13,8 @@ public partial class SkinModifierModificationSelect : StackScene
 {
 	public override string Title => SkinsToModify.Count == 1 ? $"Modifying: {SkinsToModify[0].Name}" : $"Modifying {SkinsToModify.Count} skins";
 
+	private PackedScene SkinInfoScene;
+
     private CancellationTokenSource CancellationTokenSource;
 
 	public List<OsuSkin> SkinsToModify { get; set; }
@@ -23,6 +25,8 @@ public partial class SkinModifierModificationSelect : StackScene
 
 	public override void _Ready()
 	{
+		SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
+
 		SkinOptionsSelector = GetNode<SkinOptionsSelector>("%SkinOptionsSelector");
 		ApplyChangesButton = GetNode<Button>("%ApplyChangesButton");
 		SkinCreatorPopup = GetNode<SkinCreatorPopup>("%SkinCreatorPopup");
@@ -45,6 +49,8 @@ public partial class SkinModifierModificationSelect : StackScene
 		Task.Run(() => skinCreator.ModifySkins(SkinsToModify, CancellationTokenSource.Token))
 	        .ContinueWith(t =>
             {
+                SkinCreatorPopup.Out();
+
                 var ex = t.Exception;
                 if (ex != null)
                 {
@@ -53,8 +59,11 @@ public partial class SkinModifierModificationSelect : StackScene
                     return;
                 }
 
-                SkinCreatorPopup.Out();
-				EmitSignal(SignalName.ToastPushed, "Successfully modified skins.");
+				var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
+				skinInfoInstance.Skin = SkinsToModify[0];
+				EmitSignal(SignalName.ScenePushed, skinInfoInstance);
+
+				EmitSignal(SignalName.ToastPushed, SkinsToModify.Count > 1 ? $"Successfully modified {SkinsToModify.Count} skins." : $"Successfully modified skin:\n{SkinsToModify[0].Name}");
             });
 	}
 }
