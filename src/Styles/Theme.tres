@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=15 format=3 uid="uid://8t4xh5nel3pn"]
+[gd_resource type="Theme" load_steps=17 format=3 uid="uid://8t4xh5nel3pn"]
 
 [ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="1_tlv3r"]
 
@@ -125,6 +125,22 @@ shadow_color = Color(0, 0, 0, 0.137255)
 shadow_size = 5
 shadow_offset = Vector2(2.08165e-12, 2)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5jk4o"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.286275, 0.270588, 0.309804, 1)
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y5a64"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.937255, 0.721569, 0.784314, 1)
+corner_detail = 6
+
 [resource]
 default_font = ExtResource("1_tlv3r")
 default_font_size = 0
@@ -180,4 +196,11 @@ LineEdit/styles/focus = SubResource("StyleBoxFlat_hqus1")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_c30qk")
 LineEdit/styles/read_only = SubResource("StyleBoxFlat_qq7i0")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_lgp16")
+ProgressBar/colors/font_color = Color(0.95, 0.95, 0.95, 1)
+ProgressBar/colors/font_outline_color = Color(1, 1, 1, 1)
+ProgressBar/colors/font_shadow_color = Color(0, 0, 0, 1)
+ProgressBar/constants/outline_size = 0
+ProgressBar/font_sizes/font_size = 16
+ProgressBar/styles/background = SubResource("StyleBoxFlat_5jk4o")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_y5a64")
 VBoxContainer/constants/separation = 12
