@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmps2565xtlyd"
-path="res://.godot/imported/more_vert.png-11d18a283bcbe9d94ca5ca4c182af58d.ctex"
+uid="uid://bo3g8fwecbbbx"
+path="res://.godot/imported/delete.png-16b47e882a646547d01f941b80abe282.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/more_vert.png"
-dest_files=["res://.godot/imported/more_vert.png-11d18a283bcbe9d94ca5ca4c182af58d.ctex"]
+source_file="res://assets/materialicons/delete.png"
+dest_files=["res://.godot/imported/delete.png-16b47e882a646547d01f941b80abe282.ctex"]
 
 [params]
 
