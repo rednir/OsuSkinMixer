@@ -21,7 +21,7 @@ public partial class SkinModifierModificationSelect : StackScene
 
 	private SkinOptionsSelector SkinOptionsSelector;
 	private Button ApplyChangesButton;
-	private SkinCreatorPopup SkinCreatorPopup;
+	private LoadingPopup LoadingPopup;
 
 	public override void _Ready()
 	{
@@ -29,28 +29,28 @@ public partial class SkinModifierModificationSelect : StackScene
 
 		SkinOptionsSelector = GetNode<SkinOptionsSelector>("%SkinOptionsSelector");
 		ApplyChangesButton = GetNode<Button>("%ApplyChangesButton");
-		SkinCreatorPopup = GetNode<SkinCreatorPopup>("%SkinCreatorPopup");
+		LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
 
 		SkinOptionsSelector.CreateOptionComponents("<<UNCHANGED>>");
 		ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
-		SkinCreatorPopup.CancelAction = () => CancellationTokenSource?.Cancel();
+		LoadingPopup.CancelAction = () => CancellationTokenSource?.Cancel();
 	}
 
 	private void OnApplyChangesButtonPressed()
 	{
-		SkinCreatorPopup.In();
+		LoadingPopup.In();
 
 		CancellationTokenSource = new CancellationTokenSource();
 		SkinCreator skinCreator = new()
 		{
 			SkinOptions = SkinOptionsSelector.SkinOptions,
-			ProgressChangedAction = (p, _) => SkinCreatorPopup.SetProgress(p),
+			ProgressChangedAction = (p, _) => LoadingPopup.SetProgress(p),
 		};
 
 		Task.Run(() => skinCreator.ModifySkins(SkinsToModify, CancellationTokenSource.Token))
 	        .ContinueWith(t =>
             {
-                SkinCreatorPopup.Out();
+                LoadingPopup.Out();
 
                 var ex = t.Exception;
                 if (ex != null)

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 using OsuSkinMixer.Models.Osu;
 
@@ -40,6 +41,18 @@ public static class OsuData
     {
         _skins.Add(skin);
         GD.Print($"Added skin '{skin.Name}' to memory.");
+    }
+
+    public static void RunIOTask(Action action)
+    {
+        Task.Run(action).ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+            {
+                GD.PushError(t.Exception.Message);
+                OS.Alert(t.Exception.Message);
+            }
+        });
     }
 
     private static void SetupWatcher()

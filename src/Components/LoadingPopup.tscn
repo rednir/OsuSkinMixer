@@ -1,20 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1gp6hqtnmvoa"]
+[gd_scene load_steps=5 format=3 uid="uid://b3yfp0gku4lsd"]
 
-[ext_resource type="Script" path="res://src/Components/SkinCreatorPopup.cs" id="1_314vd"]
-[ext_resource type="PackedScene" path="res://src/Components/Popup.tscn" id="2_a7j74"]
-[ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_npb7x"]
-[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="4_5f2aa"]
+[ext_resource type="Script" path="res://src/Components/LoadingPopup.cs" id="1_l6kji"]
+[ext_resource type="PackedScene" path="res://src/Components/Popup.tscn" id="2_8v2a0"]
+[ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_tc6gj"]
+[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="4_t0pjf"]
 
-[node name="SkinCreatorPopup" type="Control"]
+[node name="LoadingPopup" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_314vd")
+script = ExtResource("1_l6kji")
 
-[node name="Popup" parent="." instance=ExtResource("2_a7j74")]
+[node name="Popup" parent="." instance=ExtResource("2_8v2a0")]
 layout_mode = 1
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
@@ -25,13 +25,13 @@ layout_mode = 2
 
 [node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Creating skin..."
-label_settings = ExtResource("3_npb7x")
+text = "Please wait"
+label_settings = ExtResource("3_tc6gj")
 
 [node name="Text" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "This can take some time depending on your disk speeds."
-label_settings = ExtResource("4_5f2aa")
+text = "Loading description..."
+label_settings = ExtResource("4_t0pjf")
 autowrap_mode = 3
 
 [node name="ProgressBar" type="ProgressBar" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
@@ -42,7 +42,8 @@ show_percentage = false
 [node name="CancelButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 8
+size_flags_vertical = 10
 text = "Cancel"
 
 [editable path="Popup"]

@@ -16,7 +16,7 @@ public partial class SkinMixer : StackScene
 
 	private PackedScene SkinInfoScene;
 
-	private SkinCreatorPopup SkinCreatorPopup;
+	private LoadingPopup LoadingPopup;
 	private SkinNamePopup SkinNamePopup;
 	private SkinOptionsSelector SkinOptionsSelector;
 	private Button CreateSkinButton;
@@ -26,13 +26,13 @@ public partial class SkinMixer : StackScene
 	{
 		SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
 
-		SkinCreatorPopup = GetNode<SkinCreatorPopup>("%SkinCreatorPopup");
+		LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
 		SkinNamePopup = GetNode<SkinNamePopup>("%SkinNamePopup");
 		SkinOptionsSelector = GetNode<SkinOptionsSelector>("%SkinOptionsSelector");
 		CreateSkinButton = GetNode<Button>("%CreateSkinButton");
 		RandomButton = GetNode<Button>("%RandomButton");
 
-		SkinCreatorPopup.CancelAction = () => CancellationTokenSource?.Cancel();
+		LoadingPopup.CancelAction = () => CancellationTokenSource?.Cancel();
 		CreateSkinButton.Pressed += OnCreateSkinButtonPressed;
 		RandomButton.Pressed += OnRandomButtonPressed;
 
@@ -59,20 +59,20 @@ public partial class SkinMixer : StackScene
 
 	private void RunSkinCreator(string skinName)
 	{
-		SkinCreatorPopup.In();
+		LoadingPopup.In();
 
 		SkinCreator skinCreator = new()
 		{
 			Name = skinName,
 			SkinOptions = SkinOptionsSelector.SkinOptions,
-			ProgressChangedAction = (p, _) => SkinCreatorPopup.SetProgress(p),
+			ProgressChangedAction = (p, _) => LoadingPopup.SetProgress(p),
 		};
 
 		CancellationTokenSource = new CancellationTokenSource();
 		Task.Run(async () => await skinCreator.CreateAndImportAsync(CancellationTokenSource.Token))
 			.ContinueWith(t =>
 			{
-				SkinCreatorPopup.Out();
+				LoadingPopup.Out();
 
 				var ex = t.Exception;
 				if (ex != null)

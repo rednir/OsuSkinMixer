@@ -1,9 +1,9 @@
-using System;
 using Godot;
+using System;
 
 namespace OsuSkinMixer.Components;
 
-public partial class SkinCreatorPopup : Popup
+public partial class LoadingPopup : Popup
 {
 	protected override bool IsImportant => true;
 
@@ -27,5 +27,9 @@ public partial class SkinCreatorPopup : Popup
 	}
 
 	private void OnCancelButtonPressed()
-		=> CancelAction();
+	{
+		CancelButton.Disabled = true;
+		CancelAction();
+		CancelButton.Disabled = false;
+	}
 }
