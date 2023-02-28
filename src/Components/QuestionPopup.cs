@@ -5,6 +5,8 @@ namespace OsuSkinMixer.Components;
 
 public partial class QuestionPopup : Popup
 {
+	protected override bool IsImportant => true;
+
 	public Action ConfirmAction { get; set; }
 
 	public Action CancelAction { get; set; }
@@ -14,6 +16,8 @@ public partial class QuestionPopup : Popup
 
 	public override void _Ready()
 	{
+		base._Ready();
+
 		YesButton = GetNode<Button>("%YesButton");
 		NoButton = GetNode<Button>("%NoButton");
 
