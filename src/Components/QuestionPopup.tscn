@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://bgs2s12oomr0n"]
+[gd_scene load_steps=9 format=3 uid="uid://bgs2s12oomr0n"]
 
 [ext_resource type="Script" path="res://src/Components/QuestionPopup.cs" id="1_hxb01"]
-[ext_resource type="PackedScene" path="res://src/Components/Popup.tscn" id="2_asll6"]
+[ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup.tscn" id="2_asll6"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_rngg4"]
 [ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="4_7gg87"]
+[ext_resource type="StyleBox" uid="uid://du74lj4l2ly2q" path="res://src/Styles/Buttons/OutlineButton.tres" id="5_gca1j"]
+[ext_resource type="StyleBox" uid="uid://d2p8xlxkfusr4" path="res://src/Styles/Buttons/OutlineButtonHover.tres" id="6_miqrw"]
+[ext_resource type="StyleBox" uid="uid://beyrfjb1lrbmf" path="res://src/Styles/Buttons/OutlineButtonPressed.tres" id="7_bt7qv"]
+[ext_resource type="StyleBox" uid="uid://d0h3tbaufowb" path="res://src/Styles/Buttons/OutlineButtonDisabled.tres" id="8_2terb"]
 
 [node name="QuestionPopup" type="Control"]
 layout_mode = 3
@@ -44,6 +48,16 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(90, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.937255, 0.721569, 0.784314, 1)
+theme_override_colors/font_pressed_color = Color(0.937255, 0.721569, 0.784314, 1)
+theme_override_colors/font_hover_color = Color(0.937255, 0.721569, 0.784314, 1)
+theme_override_colors/font_focus_color = Color(0.937255, 0.721569, 0.784314, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.937255, 0.721569, 0.784314, 1)
+theme_override_colors/font_disabled_color = Color(0.380392, 0.380392, 0.380392, 1)
+theme_override_styles/normal = ExtResource("5_gca1j")
+theme_override_styles/hover = ExtResource("6_miqrw")
+theme_override_styles/pressed = ExtResource("7_bt7qv")
+theme_override_styles/disabled = ExtResource("8_2terb")
 text = "Nah.."
 
 [node name="YesButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]
