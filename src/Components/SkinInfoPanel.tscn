@@ -30,6 +30,12 @@ script = ExtResource("2_dwrdw")
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Title" parent="DeleteQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
+text = "Delete this skin?"
+
+[node name="Text" parent="DeleteQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+text = "Be warned, the skin will be deleted permanently!"
+
 [node name="DeletedContainer" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
 visible = false
@@ -153,3 +159,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Open in osu!"
+
+[editable path="DeleteQuestionPopup"]
+[editable path="DeleteQuestionPopup/Popup"]

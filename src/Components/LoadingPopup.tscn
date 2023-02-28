@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b3yfp0gku4lsd"]
 
 [ext_resource type="Script" path="res://src/Components/LoadingPopup.cs" id="1_l6kji"]
-[ext_resource type="PackedScene" path="res://src/Components/Popup.tscn" id="2_8v2a0"]
+[ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup.tscn" id="2_8v2a0"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_tc6gj"]
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="4_t0pjf"]
 
