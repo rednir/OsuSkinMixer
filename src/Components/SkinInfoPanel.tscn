@@ -1,15 +1,17 @@
-[gd_scene load_steps=13 format=3 uid="uid://bl3ulvjdufr7d"]
+[gd_scene load_steps=15 format=3 uid="uid://krdbua5yk8a"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_08l8f"]
 [ext_resource type="Script" path="res://src/Components/SkinInfoPanel.cs" id="2_dwrdw"]
+[ext_resource type="PackedScene" uid="uid://bgs2s12oomr0n" path="res://src/Components/QuestionPopup.tscn" id="3_812hj"]
 [ext_resource type="PackedScene" uid="uid://cttwstucph7aq" path="res://src/Components/Hitcircle.tscn" id="3_n2mwj"]
 [ext_resource type="LabelSettings" uid="uid://cunaagboquiic" path="res://src/Styles/LabelSettings/MenuButtonTitle.tres" id="4_uie4s"]
 [ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="5_iyi87"]
 [ext_resource type="StyleBox" uid="uid://brb6aa48f2ww7" path="res://src/Styles/Buttons/StandardIconButton.tres" id="6_vo0hs"]
 [ext_resource type="StyleBox" uid="uid://y2wn7t22jivk" path="res://src/Styles/Buttons/StandardIconButtonHover.tres" id="7_es4fe"]
 [ext_resource type="StyleBox" uid="uid://brmcwao5xcsti" path="res://src/Styles/Buttons/StandardIconButtonPressed.tres" id="8_yr3ei"]
-[ext_resource type="Texture2D" uid="uid://bmps2565xtlyd" path="res://assets/more_vert.png" id="9_up8am"]
+[ext_resource type="Texture2D" uid="uid://cgnidqld7ff0p" path="res://assets/materialicons/visibility_off.png" id="9_lgbjm"]
 [ext_resource type="Texture2D" uid="uid://05l1bgbm243m" path="res://assets/defaultskin/menu-background.jpg" id="10_2s2kn"]
+[ext_resource type="Texture2D" uid="uid://bo3g8fwecbbbx" path="res://assets/materialicons/delete.png" id="10_lk70x"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bt0da"]
 bg_color = Color(0, 0, 0, 1)
@@ -24,32 +26,43 @@ size_flags_horizontal = 4
 theme = ExtResource("1_08l8f")
 script = ExtResource("2_dwrdw")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="HeaderContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Hitcircle" parent="VBoxContainer/HeaderContainer" instance=ExtResource("3_n2mwj")]
+[node name="DeleteQuestionPopup" parent="." instance=ExtResource("3_812hj")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="NameAndAuthorContainer" type="VBoxContainer" parent="VBoxContainer/HeaderContainer"]
+[node name="DeletedContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Text" type="Label" parent="DeletedContainer"]
+layout_mode = 2
+text = "The skin was deleted."
+
+[node name="MainContentContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderContainer" type="HBoxContainer" parent="MainContentContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Hitcircle" parent="MainContentContainer/HeaderContainer" instance=ExtResource("3_n2mwj")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="NameAndAuthorContainer" type="VBoxContainer" parent="MainContentContainer/HeaderContainer"]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="SkinName" type="Label" parent="VBoxContainer/HeaderContainer/NameAndAuthorContainer"]
+[node name="SkinName" type="Label" parent="MainContentContainer/HeaderContainer/NameAndAuthorContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "skin name goes here"
 label_settings = ExtResource("4_uie4s")
 
-[node name="SkinAuthor" type="Label" parent="VBoxContainer/HeaderContainer/NameAndAuthorContainer"]
+[node name="SkinAuthor" type="Label" parent="MainContentContainer/HeaderContainer/NameAndAuthorContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.901961, 0.882353, 0.898039, 1)
@@ -57,7 +70,11 @@ theme_override_font_sizes/font_size = 14
 text = "Unknown author"
 label_settings = ExtResource("5_iyi87")
 
-[node name="MoreButton" type="Button" parent="VBoxContainer/HeaderContainer"]
+[node name="IconButtonsContainer" type="HBoxContainer" parent="MainContentContainer/HeaderContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="HideButton" type="Button" parent="MainContentContainer/HeaderContainer/IconButtonsContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
@@ -70,27 +87,42 @@ theme_override_colors/icon_focus_color = Color(0.819608, 0.772549, 0.811765, 1)
 theme_override_styles/normal = ExtResource("6_vo0hs")
 theme_override_styles/hover = ExtResource("7_es4fe")
 theme_override_styles/pressed = ExtResource("8_yr3ei")
-icon = ExtResource("9_up8am")
+icon = ExtResource("9_lgbjm")
 
-[node name="PreviewContainer" type="PanelContainer" parent="VBoxContainer"]
+[node name="DeleteButton" type="Button" parent="MainContentContainer/HeaderContainer/IconButtonsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+theme_override_colors/icon_normal_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_pressed_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_hover_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_focus_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_styles/normal = ExtResource("6_vo0hs")
+theme_override_styles/hover = ExtResource("7_es4fe")
+theme_override_styles/pressed = ExtResource("8_yr3ei")
+icon = ExtResource("10_lk70x")
+
+[node name="PreviewContainer" type="PanelContainer" parent="MainContentContainer"]
 clip_contents = true
 custom_minimum_size = Vector2(2.08165e-12, 228)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bt0da")
 
-[node name="MenuBackground" type="TextureRect" parent="VBoxContainer/PreviewContainer"]
+[node name="MenuBackground" type="TextureRect" parent="MainContentContainer/PreviewContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("10_2s2kn")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Cursor" type="Sprite2D" parent="VBoxContainer/PreviewContainer"]
+[node name="Cursor" type="Sprite2D" parent="MainContentContainer/PreviewContainer"]
 unique_name_in_owner = true
 z_index = 30
 position = Vector2(-151, -73)
 
-[node name="Cursortrail" type="CPUParticles2D" parent="VBoxContainer/PreviewContainer/Cursor"]
+[node name="Cursortrail" type="CPUParticles2D" parent="MainContentContainer/PreviewContainer/Cursor"]
 unique_name_in_owner = true
 show_behind_parent = true
 amount = 12
@@ -98,25 +130,25 @@ lifetime = 0.3
 gravity = Vector2(2.08165e-12, 2.08165e-12)
 color_ramp = SubResource("Gradient_28nnj")
 
-[node name="Details" type="Label" parent="VBoxContainer"]
+[node name="Details" type="Label" parent="MainContentContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.792157, 0.768627, 0.815686, 1)
 theme_override_font_sizes/font_size = 14
 text = "Last modified: 1st January 2023"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContentContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 2
 
-[node name="OpenFolderButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="OpenFolderButton" type="Button" parent="MainContentContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Open folder"
 
-[node name="OpenInOsuButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="OpenInOsuButton" type="Button" parent="MainContentContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
