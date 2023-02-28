@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://krdbua5yk8a"]
+[gd_scene load_steps=19 format=3 uid="uid://krdbua5yk8a"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_08l8f"]
 [ext_resource type="Script" path="res://src/Components/SkinInfoPanel.cs" id="2_dwrdw"]
@@ -12,6 +12,10 @@
 [ext_resource type="Texture2D" uid="uid://cgnidqld7ff0p" path="res://assets/materialicons/visibility_off.png" id="9_lgbjm"]
 [ext_resource type="Texture2D" uid="uid://05l1bgbm243m" path="res://assets/defaultskin/menu-background.jpg" id="10_2s2kn"]
 [ext_resource type="Texture2D" uid="uid://bo3g8fwecbbbx" path="res://assets/materialicons/delete.png" id="10_lk70x"]
+[ext_resource type="StyleBox" uid="uid://du74lj4l2ly2q" path="res://src/Styles/Buttons/OutlineButton.tres" id="13_goiad"]
+[ext_resource type="StyleBox" uid="uid://d2p8xlxkfusr4" path="res://src/Styles/Buttons/OutlineButtonHover.tres" id="14_i8n8s"]
+[ext_resource type="StyleBox" uid="uid://beyrfjb1lrbmf" path="res://src/Styles/Buttons/OutlineButtonPressed.tres" id="15_oq5ub"]
+[ext_resource type="StyleBox" uid="uid://d0h3tbaufowb" path="res://src/Styles/Buttons/OutlineButtonDisabled.tres" id="16_04gwd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bt0da"]
 bg_color = Color(0, 0, 0, 1)
@@ -152,6 +156,16 @@ alignment = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.886275, 0.682353, 0.741176, 1)
+theme_override_colors/font_pressed_color = Color(0.886275, 0.682353, 0.741176, 1)
+theme_override_colors/font_hover_color = Color(0.886275, 0.682353, 0.741176, 1)
+theme_override_colors/font_focus_color = Color(0.886275, 0.682353, 0.741176, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.886275, 0.682353, 0.741176, 1)
+theme_override_colors/font_disabled_color = Color(0.309804, 0.309804, 0.309804, 1)
+theme_override_styles/normal = ExtResource("13_goiad")
+theme_override_styles/hover = ExtResource("14_i8n8s")
+theme_override_styles/pressed = ExtResource("15_oq5ub")
+theme_override_styles/disabled = ExtResource("16_04gwd")
 text = "Open folder"
 
 [node name="OpenInOsuButton" type="Button" parent="MainContentContainer/HBoxContainer"]
