@@ -15,6 +15,7 @@ public partial class SkinInfo : StackScene
 	private Hitcircle Hitcircle;
 	private Label SkinNameLabel;
 	private Label SkinAuthorLabel;
+	private Button MoreButton;
 	private TextureRect MenuBackground;
 	private Label DetailsLabel;
 	private Button OpenFolderButton;
@@ -27,6 +28,7 @@ public partial class SkinInfo : StackScene
 		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
 		SkinNameLabel = GetNode<Label>("%SkinName");
 		SkinAuthorLabel = GetNode<Label>("%SkinAuthor");
+		MoreButton = GetNode<Button>("%MoreButton");
 		MenuBackground = GetNode<TextureRect>("%MenuBackground");
 		DetailsLabel = GetNode<Label>("%Details");
 		OpenFolderButton = GetNode<Button>("%OpenFolderButton");
