@@ -15,14 +15,7 @@ grow_vertical = 2
 script = ExtResource("1_aaon8")
 
 [node name="Popup" parent="." instance=ExtResource("2_wd23i")]
-visible = true
 layout_mode = 1
-
-[node name="CanvasLayer" parent="Popup" index="1"]
-visible = true
-
-[node name="Overlay" parent="Popup/CanvasLayer" index="0"]
-modulate = Color(0, 0, 0, 1)
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
 offset_bottom = -0.000183105
