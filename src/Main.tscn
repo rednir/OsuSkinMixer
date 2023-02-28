@@ -574,6 +574,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_ca2ql")
 [node name="Toast" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 visible = false
+z_index = 30
 custom_minimum_size = Vector2(344, 48)
 layout_mode = 1
 anchors_preset = -1

@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_1eu76"]
 [ext_resource type="Script" path="res://src/StackScenes/Menu.cs" id="1_bkc8q"]
-[ext_resource type="PackedScene" uid="uid://baggswi1ic0wv" path="res://src/Components/MenuButton.tscn" id="3_ppo7p"]
+[ext_resource type="PackedScene" uid="uid://fl107kh3okl5" path="res://src/Components/MenuButton.tscn" id="3_ppo7p"]
 
 [node name="Menu" type="VBoxContainer"]
 offset_right = 750.0

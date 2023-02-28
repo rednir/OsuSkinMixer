@@ -129,7 +129,7 @@ stretch_mode = 6
 
 [node name="Cursor" type="Sprite2D" parent="MainContentContainer/PreviewContainer"]
 unique_name_in_owner = true
-z_index = 30
+z_index = 5
 position = Vector2(-151, -73)
 
 [node name="Cursortrail" type="CPUParticles2D" parent="MainContentContainer/PreviewContainer/Cursor"]
