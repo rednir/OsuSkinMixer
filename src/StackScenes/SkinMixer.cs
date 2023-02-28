@@ -4,6 +4,7 @@ using OsuSkinMixer.Components;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
+using OsuSkinMixer.Models.Osu;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -85,7 +86,7 @@ public partial class SkinMixer : StackScene
 				}
 
 				var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
-				skinInfoInstance.Skin = t.Result;
+				skinInfoInstance.Skins = new OsuSkin[] { t.Result };
 				EmitSignal(SignalName.ScenePushed, skinInfoInstance);
 
 				EmitSignal(SignalName.ToastPushed, "Successfully created and imported skin.");

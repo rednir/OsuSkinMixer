@@ -64,7 +64,7 @@ public partial class SkinModifierModificationSelect : StackScene
                 }
 
 				var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
-				skinInfoInstance.Skin = SkinsToModify[0];
+				skinInfoInstance.Skins = SkinsToModify;
 				EmitSignal(SignalName.ScenePushed, skinInfoInstance);
 
 				EmitSignal(SignalName.ToastPushed, SkinsToModify.Count > 1 ? $"Successfully modified {SkinsToModify.Count} skins." : $"Successfully modified skin:\n{SkinsToModify[0].Name}");
