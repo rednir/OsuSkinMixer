@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using OsuSkinMixer.Models.Osu;
 
@@ -5,10 +6,11 @@ namespace OsuSkinMixer.Components.SkinSelector;
 
 public partial class SkinComponent : HBoxContainer
 {
-	public Button Button { get; private set; }
+	public OsuSkin Skin { get; set; }
 
-	public OsuSkin Skin { get; private set; }
+	public Action Pressed { get; set; }
 
+	private Button Button;
 	private Label NameLabel;
 	private Label AuthorLabel;
 	private Hitcircle Hitcircle;
@@ -19,14 +21,18 @@ public partial class SkinComponent : HBoxContainer
 		NameLabel = GetNode<Label>("%Name");
 		AuthorLabel = GetNode<Label>("%Author");
 		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
+
+		SetValues();
 	}
 
-	public void SetValues(OsuSkin skin)
+	public void SetValues()
 	{
-		Skin = skin;
-
-		NameLabel.Text = skin.Name;
-		AuthorLabel.Text = skin.SkinIni?.TryGetPropertyValue("General", "Author");
-		Hitcircle.SetSkin(skin);
+		Button.Pressed += OnButtonPressed;
+		NameLabel.Text = Skin.Name;
+		AuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
+		Hitcircle.SetSkin(Skin);
 	}
+
+	private void OnButtonPressed()
+		=> Pressed.Invoke();
 }

@@ -30,22 +30,11 @@ public partial class SkinSelectorPopup : Popup
 		SearchLineEdit.TextChanged += OnSearchTextChanged;
 		SearchLineEdit.TextSubmitted += OnSearchTextSubmitted;
 
-		CreateSkinComponents();
-	}
+		OsuData.SkinAdded += OnSkinAdded;
+		OsuData.SkinModified += OnSkinModified;
+		OsuData.SkinRemoved += OnSkinRemoved;
 
-	public void CreateSkinComponents()
-	{
-		foreach (var child in SkinsContainer.GetChildren())
-			child.QueueFree();
-
-		foreach (OsuSkin skin in OsuData.Skins)
-		{
-			SkinComponent instance = SkinComponentScene.Instantiate<SkinComponent>();
-			SkinsContainer.AddChild(instance);
-			instance.Name = skin.Name;
-			instance.SetValues(skin);
-			instance.Button.Pressed += () => OnSkinSelected(skin);
-		}
+		AddAllSkinComponents();
 	}
 
 	public override void In()
@@ -53,6 +42,52 @@ public partial class SkinSelectorPopup : Popup
 		base.In();
 		SearchLineEdit.Clear();
 		SearchLineEdit.GrabFocus();
+	}
+
+	private void AddAllSkinComponents()
+	{
+		foreach (var child in SkinsContainer.GetChildren())
+			child.QueueFree();
+
+		foreach (OsuSkin skin in OsuData.Skins)
+			SkinsContainer.AddChild(SkinComponentFrom(skin));
+	}
+
+	private SkinComponent SkinComponentFrom(OsuSkin skin)
+	{
+		SkinComponent instance = SkinComponentScene.Instantiate<SkinComponent>();
+		instance.Skin = skin;
+		instance.Name = skin.Name;
+		instance.Pressed += () => OnSkinSelected(skin);
+
+		return instance;
+	}
+
+	private void OnSkinAdded(OsuSkin skin)
+	{
+		var skinComponent = SkinComponentFrom(skin);
+		SkinsContainer.AddChild(skinComponent);
+		SkinsContainer.MoveChild(skinComponent, Array.IndexOf(OsuData.Skins, skin));
+	}
+
+	private void OnSkinModified(OsuSkin skin)
+	{
+		var skinComponent = SkinsContainer
+			.GetChildren()
+			.Cast<SkinComponent>()
+			.FirstOrDefault(c => c.Skin.Name == skin.Name);
+
+		skinComponent.Skin = skin;
+		skinComponent.SetValues();
+	}
+
+	private void OnSkinRemoved(OsuSkin skin)
+	{
+		SkinsContainer
+			.GetChildren()
+			.Cast<SkinComponent>()
+			.FirstOrDefault(c => c.Skin.Name == skin.Name)?
+			.QueueFree();
 	}
 
 	private void OnSkinSelected(OsuSkin skin)

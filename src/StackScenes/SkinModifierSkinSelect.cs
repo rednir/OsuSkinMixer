@@ -49,10 +49,8 @@ public partial class SkinModifierSkinSelect : StackScene
 		}
 
 		var component = SkinComponentScene.Instantiate<SkinComponent>();
-		SkinsToModifyContainer.AddChild(component);
-		component.SetValues(skin);
-
-		component.Button.Pressed += () =>
+		component.Skin = skin;
+		component.Pressed += () =>
 		{
 			SkinsToModify.Remove(skin);
 			component.QueueFree();
@@ -60,6 +58,7 @@ public partial class SkinModifierSkinSelect : StackScene
 			if (SkinsToModify.Count == 0)
 				ContinueButton.Disabled = true;
 		};
+		SkinsToModifyContainer.AddChild(component);
 
 		SkinsToModify.Add(skin);
 		ContinueButton.Disabled = false;
