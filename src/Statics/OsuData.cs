@@ -20,10 +20,10 @@ public static class OsuData
     {
         _skins = new List<OsuSkin>();
 
-        if (Settings.Content.SkinsFolder == null || !Directory.Exists(Settings.Content.SkinsFolder))
+        if (Settings.Content.OsuFolder == null || !Directory.Exists(Settings.SkinsFolderPath))
             return false;
 
-        var skinsFolder = new DirectoryInfo(Settings.Content.SkinsFolder);
+        var skinsFolder = new DirectoryInfo(Settings.SkinsFolderPath);
 
         foreach (var dir in skinsFolder.EnumerateDirectories())
         {
@@ -57,7 +57,7 @@ public static class OsuData
 
     private static void SetupWatcher()
     {
-        FileSystemWatcher = new FileSystemWatcher(Settings.Content.SkinsFolder)
+        FileSystemWatcher = new FileSystemWatcher(Settings.SkinsFolderPath)
         {
             NotifyFilter = NotifyFilters.CreationTime
                             | NotifyFilters.DirectoryName

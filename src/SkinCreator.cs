@@ -35,7 +35,7 @@ public class SkinCreator
 
     public static void TriggerOskImport(OsuSkin skin)
     {
-        string oskDestPath = $"{Settings.Content.SkinsFolder}/{skin.Name}.osk";
+        string oskDestPath = $"{Settings.SkinsFolderPath}/{skin.Name}.osk";
         GD.Print($"Importing skin into game from '{oskDestPath}'");
 
         // osu! will handle the empty .osk (zip) file by switching the current skin to the skin with name `newSkinName`.
@@ -51,7 +51,7 @@ public class SkinCreator
         Status = "Preparing";
 
         NewSkinIni = new OsuSkinIni(Name, "osu! skin mixer by rednir");
-        NewSkinDir = Directory.CreateDirectory($"{Settings.Content.SkinsFolder}/{WORKING_DIR_NAME}");
+        NewSkinDir = Directory.CreateDirectory($"{Settings.SkinsFolderPath}/{WORKING_DIR_NAME}");
 
         // There might be skin elements from a failed attempt still in the directory.
         foreach (var file in NewSkinDir.EnumerateFiles())
@@ -83,7 +83,7 @@ public class SkinCreator
 
         Status = "Importing...";
 
-        string dirDestPath = $"{Settings.Content.SkinsFolder}/{Name}";
+        string dirDestPath = $"{Settings.SkinsFolderPath}/{Name}";
         GD.Print($"Copying working folder to '{dirDestPath}'");
 
         if (Directory.Exists(dirDestPath))

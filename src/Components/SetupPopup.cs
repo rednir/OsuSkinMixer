@@ -31,12 +31,12 @@ public partial class SetupPopup : Popup
 	public override void In()
 	{
 		base.In();
-		LineEdit.Text = Settings.Content.SkinsFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!/Skins";
+		LineEdit.Text = Settings.Content.OsuFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!";
 	}
 
 	private void DoneButtonPressed()
 	{
-		if (Settings.TrySetSkinsFolder(LineEdit.Text))
+		if (Settings.TrySetOsuFolder(LineEdit.Text))
 		{
 			Settings.Save();
 			AnimationPlayer.Play("out");

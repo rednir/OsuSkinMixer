@@ -15,6 +15,8 @@ public static class Settings
 
     public static string SettingsFilePath => ProjectSettings.GlobalizePath("user://settings.json");
 
+    public static string SkinsFolderPath => $"{Content.OsuFolder}/Skins/";
+
     static Settings()
     {
         if (File.Exists(SettingsFilePath))
@@ -22,6 +24,7 @@ public static class Settings
             try
             {
                 Content = JsonSerializer.Deserialize<SettingsContent>(File.ReadAllText(SettingsFilePath));
+                MigrateSettings();
                 return;
             }
             catch (Exception ex)
@@ -53,21 +56,40 @@ public static class Settings
         }
     }
 
-    public static bool TrySetSkinsFolder(string path)
+    public static bool TrySetOsuFolder(string path)
     {
-        if (Directory.Exists(path))
+        if (Directory.Exists(path) && Directory.Exists($"{path}/Skins"))
         {
-            Content.SkinsFolder = path;
+            Content.OsuFolder = path;
             return OsuData.TryLoadSkins();
         }
 
         return false;
     }
 
+    private static void MigrateSettings()
+    {
+        // Migration from v2.0.0 or earlier.
+        if (Content.SkinsFolder != null)
+        {
+            string osuFolder = Content.SkinsFolder.TrimEnd('/').TrimSuffix("Skins");
+            Content.OsuFolder = osuFolder;
+            Content.SkinsFolder = null;
+
+            // Avoid prompting the user to confirm their osu! folder.
+            if (TrySetOsuFolder(osuFolder))
+                Save();
+        }
+    }
+
     public class SettingsContent
     {
         [JsonPropertyName("skins_folder")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string SkinsFolder { get; set; }
+
+        [JsonPropertyName("osu_folder")]
+        public string OsuFolder { get; set; }
 
         [JsonPropertyName("import_to_game_if_open")]
         public bool ImportToGameIfOpen { get; set; } = OS.GetName() == "Windows";
