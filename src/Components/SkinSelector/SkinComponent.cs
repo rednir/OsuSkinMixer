@@ -22,12 +22,12 @@ public partial class SkinComponent : HBoxContainer
 		AuthorLabel = GetNode<Label>("%Author");
 		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
 
+		Button.Pressed += OnButtonPressed;
 		SetValues();
 	}
 
 	public void SetValues()
 	{
-		Button.Pressed += OnButtonPressed;
 		NameLabel.Text = Skin.Name;
 		AuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
 		Hitcircle.SetSkin(Skin);
