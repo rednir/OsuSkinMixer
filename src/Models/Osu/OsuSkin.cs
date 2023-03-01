@@ -36,6 +36,12 @@ public class OsuSkin
 
     public OsuSkinIni SkinIni { get; set; }
 
+    public override bool Equals(object obj)
+        => obj is OsuSkin skin && Name == skin?.Name;
+
+    public override int GetHashCode()
+        => Name.GetHashCode();
+
     public Texture2D GetTexture(string filename)
     {
         if (_textureCache.TryGetValue(filename, out Texture2D value))
