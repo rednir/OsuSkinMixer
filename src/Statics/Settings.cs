@@ -56,15 +56,23 @@ public static class Settings
         }
     }
 
-    public static bool TrySetOsuFolder(string path)
+    public static bool TrySetOsuFolder(string path, out string error)
     {
-        if (Directory.Exists(path) && Directory.Exists($"{path}/Skins"))
+        if (!Directory.Exists(path))
         {
-            Content.OsuFolder = path;
-            return OsuData.TryLoadSkins();
+            error = "The specified folder doesn't exist.";
+            return false;
         }
 
-        return false;
+        if (!Directory.Exists($"{path}/Skins"))
+        {
+            error = "We couldn't find a 'Skins' folder in the specified folder, please make sure you're pointing to a valid osu! folder.\nIf you are struggling to find your osu! folder, open osu! and search for 'Open osu! folder' in the options menu.";
+            return false;
+        }
+
+        Content.OsuFolder = path;
+        error = null;
+        return OsuData.TryLoadSkins();
     }
 
     private static void MigrateSettings()
@@ -77,7 +85,7 @@ public static class Settings
             Content.SkinsFolder = null;
 
             // Avoid prompting the user to confirm their osu! folder.
-            if (TrySetOsuFolder(osuFolder))
+            if (TrySetOsuFolder(osuFolder, out _))
                 Save();
         }
     }

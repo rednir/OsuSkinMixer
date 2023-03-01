@@ -35,18 +35,18 @@ public partial class SetupPopup : Popup
 	}
 
 	private void DoneButtonPressed()
-	{
-		if (Settings.TrySetOsuFolder(LineEdit.Text))
-		{
-			Settings.Save();
-			AnimationPlayer.Play("out");
+    {
+        if (!Settings.TrySetOsuFolder(LineEdit.Text, out string error))
+        {
+            OS.Alert(error, "That didn't work...");
 			return;
-		}
+        }
 
-		OS.Alert("The path you entered is invalid. Please try again.", "Error");
-	}
+		Settings.Save();
+		AnimationPlayer.Play("out");
+    }
 
-	private void FolderPickerButtonPressed()
+    private void FolderPickerButtonPressed()
 	{
 		FileDialog.CurrentDir = LineEdit.Text;
 		FileDialog.PopupCentered();
