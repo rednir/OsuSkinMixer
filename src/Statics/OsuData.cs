@@ -10,15 +10,30 @@ namespace OsuSkinMixer.Statics;
 
 public static class OsuData
 {
-    public static OsuSkin[] Skins { get => _skins.OrderBy(s => s.Name).ToArray(); }
+    private const int SWEEP_INTERVAL_MSEC = 1500;
 
-    private static FileSystemWatcher FileSystemWatcher { get; set; }
+    public static event Action<OsuSkin> SkinAdded;
 
-    private static List<OsuSkin> _skins;
+    public static event Action<OsuSkin> SkinModified;
+
+    public static event Action<OsuSkin> SkinRemoved;
+
+    public static bool SweepPaused { get; set; }
+
+    public static OsuSkin[] Skins { get => _skins.Keys.OrderBy(s => s.Name).ToArray(); }
+
+    private static Dictionary<OsuSkin, DateTime> _skins;
+
+    private static Task _sweepTask;
+
+    static OsuData()
+    {
+        StartSweepTask();
+    }
 
     public static bool TryLoadSkins()
     {
-        _skins = new List<OsuSkin>();
+        _skins = new Dictionary<OsuSkin, DateTime>();
 
         if (Settings.Content.OsuFolder == null || !Directory.Exists(Settings.SkinsFolderPath))
             return false;
@@ -26,87 +41,82 @@ public static class OsuData
         var skinsFolder = new DirectoryInfo(Settings.SkinsFolderPath);
 
         foreach (var dir in skinsFolder.EnumerateDirectories())
-            _skins.Add(new OsuSkin(dir));
-
-        GD.Print($"Loaded {_skins.Count} skins into memory.");
-        SetupWatcher();
+        {
+            _skins.Add(new OsuSkin(dir), dir.LastWriteTime);
+            GD.Print($"Loaded skin into memory: {dir.Name}");
+        }
 
         return true;
     }
 
     public static void AddSkin(OsuSkin skin)
     {
-        _skins.Add(skin);
-        GD.Print($"Added skin '{skin.Name}' to memory.");
+        if (_skins.ContainsKey(skin))
+            return;
+
+        _skins.Add(skin, skin.Directory.LastWriteTime);
+        GD.Print($"Added skin to memory: {skin.Name}");
+        SkinAdded?.Invoke(skin);
     }
 
-    public static void RunIOTask(Action action)
+    public static void InvokeSkinModified(OsuSkin skin)
     {
-        Task.Run(action).ContinueWith(t =>
+        GD.Print($"Skin modified: {skin.Name}");
+        SkinModified?.Invoke(skin);
+    }
+
+    public static void RemoveSkin(OsuSkin skin)
+    {
+        GD.Print("a");
+        if (!_skins.Remove(skin))
+            return;
+
+        GD.Print($"Removed skin from memory: {skin.Name}");
+        SkinRemoved?.Invoke(skin);
+    }
+
+    private static void StartSweepTask()
+    {
+        _sweepTask = Task.Run(() =>
         {
-            if (t.IsFaulted)
+            Task.Delay(SWEEP_INTERVAL_MSEC).Wait();
+            while (!SweepPaused)
             {
-                GD.PushError(t.Exception.Message);
-                OS.Alert(t.Exception.Message);
+                SweepSkinsFolder();
+                Task.Delay(SWEEP_INTERVAL_MSEC).Wait();
             }
         });
     }
 
-    private static void SetupWatcher()
+    private static void SweepSkinsFolder()
     {
-        FileSystemWatcher = new FileSystemWatcher(Settings.SkinsFolderPath)
-        {
-            NotifyFilter = NotifyFilters.CreationTime
-                            | NotifyFilters.DirectoryName
-                            | NotifyFilters.FileName
-                            | NotifyFilters.LastWrite
-                            | NotifyFilters.Attributes
-                            | NotifyFilters.LastAccess
-                            | NotifyFilters.Size,
-            IncludeSubdirectories = true,
-            EnableRaisingEvents = true
-        };
+        if (!Directory.Exists(Settings.SkinsFolderPath))
+            return;
 
-        FileSystemWatcher.Changed += (s, e) =>
+        foreach (var pair in _skins)
         {
-            if (e.Name == SkinCreator.WORKING_DIR_NAME
-                || e.ChangeType != WatcherChangeTypes.Changed
-                || e.ChangeType != WatcherChangeTypes.Created)
+            if (!Directory.Exists(pair.Key.Directory.FullName))
+                RemoveSkin(pair.Key);
+        }
+
+        DirectoryInfo skinsFolder = new(Settings.SkinsFolderPath);
+        foreach (var dir in skinsFolder.EnumerateDirectories())
+        {
+            var pair = _skins.FirstOrDefault(p => p.Key.Directory.Name == dir.Name);
+
+            if (pair.Key == null)
             {
-                return;
+                // Skin was added since the last sweep.
+                AddSkin(new OsuSkin(dir));
+                continue;
             }
 
-            _skins.RemoveAll(s => s.Directory.Name == e.Name);
-
-            var skin = new OsuSkin(new DirectoryInfo(e.FullPath));
-            _skins.Add(skin);
-            GD.Print($"Added skin '{skin.Name}' to memory.");
-        };
-
-        FileSystemWatcher.Deleted += (s, e) =>
-        {
-            if (e.Name == SkinCreator.WORKING_DIR_NAME)
-                return;
-
-            var skin = _skins.Find(s => s.Directory.Name == e.Name);
-            if (skin != null)
+            if (pair.Value != dir.LastWriteTime)
             {
-                _skins.Remove(skin);
-                GD.Print($"Removed skin '{skin.Name}' from memory.");
+                // Skin was modified since the last sweep.
+                InvokeSkinModified(pair.Key);
+                _skins[pair.Key] = dir.LastWriteTime;
             }
-        };
-
-        FileSystemWatcher.Renamed += (s, e) =>
-        {
-            var skin = _skins.Find(s => s.Directory.Name == e.OldName);
-            if (skin != null)
-            {
-                skin.Name = e.Name;
-                skin.Directory = new DirectoryInfo(e.FullPath);
-                GD.Print($"Renamed skin '{e.OldName}' to '{e.Name}' in memory.");
-            }
-        };
-
-        FileSystemWatcher.Error += (s, e) => GD.PrintErr($"FileSystemWatcher error: {e.GetException()}");
+        }
     }
 }
