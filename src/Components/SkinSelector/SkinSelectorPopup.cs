@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using OsuSkinMixer.Statics;
 using OsuSkinMixer.Models.Osu;
+using System.Collections.Generic;
 
 namespace OsuSkinMixer.Components.SkinSelector;
 
@@ -11,6 +12,8 @@ public partial class SkinSelectorPopup : Popup
 	public Action<OsuSkin> OnSelected { get; set; }
 
 	private PackedScene SkinComponentScene;
+
+	private readonly List<SkinComponent> DisabledSkinComponents = new();
 
 	private TextureButton BackButton;
 	private LineEdit SearchLineEdit;
@@ -49,6 +52,20 @@ public partial class SkinSelectorPopup : Popup
 		base.In();
 		SearchLineEdit.Clear();
 		SearchLineEdit.GrabFocus();
+	}
+
+	public void DisableSkinComponent(OsuSkin skin)
+	{
+		var skinComponent = GetExistingComponentFromSkin(skin);
+		skinComponent.Visible = false;
+		DisabledSkinComponents.Add(skinComponent);
+	}
+
+	public void EnableSkinComponent(OsuSkin skin)
+	{
+		var skinComponent = GetExistingComponentFromSkin(skin);
+		skinComponent.Visible = true;
+		DisabledSkinComponents.Remove(skinComponent);
 	}
 
 	private void AddAllSkinComponents()
@@ -106,8 +123,11 @@ public partial class SkinSelectorPopup : Popup
 	private void OnSearchTextChanged(string text)
 	{
 		foreach (var component in SkinsContainer.GetChildren().Cast<SkinComponent>())
-			component.Visible = component.Name.ToString().Contains(text, StringComparison.OrdinalIgnoreCase);
-	}
+        {
+            component.Visible = component.Name.ToString().Contains(text, StringComparison.OrdinalIgnoreCase)
+				&& !DisabledSkinComponents.Contains(component);
+        }
+    }
 
 	private void OnSearchTextSubmitted(string text)
 	{

@@ -171,7 +171,7 @@ public class SkinCreator
         var property = iniPropertyOption.IncludeSkinIniProperty;
 
         // Remove the skin.ini to avoid remnants when using skin modifier.
-        NewSkinIni.Sections.Last(s => s.Name == property.section).Remove(property.property);
+        NewSkinIni.Sections.LastOrDefault(s => s.Name == property.section)?.Remove(property.property);
 
         foreach (var section in skin.SkinIni.Sections)
         {

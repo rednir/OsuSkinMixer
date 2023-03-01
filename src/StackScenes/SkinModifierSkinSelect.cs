@@ -42,16 +42,14 @@ public partial class SkinModifierSkinSelect : StackScene
 
 	private void OnSkinSelected(OsuSkin skin)
 	{
-		if (SkinsToModify.Contains(skin))
-		{
-			EmitSignal(SignalName.ToastPushed, "You already selected this skin!");
-			return;
-		}
+		SkinSelectorPopup.DisableSkinComponent(skin);
 
 		var component = SkinComponentScene.Instantiate<SkinComponent>();
 		component.Skin = skin;
 		component.Pressed += () =>
 		{
+			SkinSelectorPopup.EnableSkinComponent(skin);
+
 			SkinsToModify.Remove(skin);
 			component.QueueFree();
 
