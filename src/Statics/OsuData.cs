@@ -62,6 +62,7 @@ public static class OsuData
     public static void InvokeSkinModified(OsuSkin skin)
     {
         GD.Print($"Skin modified: {skin.Name}");
+        skin.ClearTextureCache();
         SkinModified?.Invoke(skin);
     }
 

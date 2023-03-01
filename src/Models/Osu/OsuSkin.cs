@@ -64,6 +64,9 @@ public class OsuSkin
         return texture;
     }
 
+    public void ClearTextureCache()
+        => _textureCache.Clear();
+
     private readonly Dictionary<string, Texture2D> _textureCache = new();
 
     private static Texture2D GetDefaultTexture(string filename)
