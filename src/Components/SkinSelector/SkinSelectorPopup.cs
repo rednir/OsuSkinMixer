@@ -57,10 +57,10 @@ public partial class SkinSelectorPopup : Popup
 			child.QueueFree();
 
 		foreach (OsuSkin skin in OsuData.Skins)
-			SkinsContainer.AddChild(SkinComponentFrom(skin));
+			SkinsContainer.AddChild(CreateSkinComponentFrom(skin));
 	}
 
-	private SkinComponent SkinComponentFrom(OsuSkin skin)
+	private SkinComponent CreateSkinComponentFrom(OsuSkin skin)
 	{
 		SkinComponent instance = SkinComponentScene.Instantiate<SkinComponent>();
 		instance.Skin = skin;
@@ -70,31 +70,31 @@ public partial class SkinSelectorPopup : Popup
 		return instance;
 	}
 
+	private SkinComponent GetExistingComponentFromSkin(OsuSkin skin)
+	{
+		return SkinsContainer
+			.GetChildren()
+			.Cast<SkinComponent>()
+			.FirstOrDefault(c => c.Skin == skin);
+	}
+
 	private void OnSkinAdded(OsuSkin skin)
 	{
-		var skinComponent = SkinComponentFrom(skin);
+		var skinComponent = CreateSkinComponentFrom(skin);
 		SkinsContainer.AddChild(skinComponent);
 		SkinsContainer.MoveChild(skinComponent, Array.IndexOf(OsuData.Skins, skin));
 	}
 
 	private void OnSkinModified(OsuSkin skin)
 	{
-		var skinComponent = SkinsContainer
-			.GetChildren()
-			.Cast<SkinComponent>()
-			.FirstOrDefault(c => c.Skin.Name == skin.Name);
-
+		var skinComponent = GetExistingComponentFromSkin(skin);
 		skinComponent.Skin = skin;
 		skinComponent.SetValues();
 	}
 
 	private void OnSkinRemoved(OsuSkin skin)
 	{
-		SkinsContainer
-			.GetChildren()
-			.Cast<SkinComponent>()
-			.FirstOrDefault(c => c.Skin.Name == skin.Name)?
-			.QueueFree();
+		GetExistingComponentFromSkin(skin).QueueFree();
 	}
 
 	private void OnSkinSelected(OsuSkin skin)
