@@ -13,6 +13,7 @@ public partial class SetupPopup : Popup
 	private Button DoneButton;
 	private Button FolderPickerButton;
 	private FileDialog FileDialog;
+	private OkPopup OkPopup;
 
 	public override void _Ready()
 	{
@@ -22,6 +23,7 @@ public partial class SetupPopup : Popup
 		DoneButton = GetNode<Button>("%DoneButton");
 		FolderPickerButton = GetNode<Button>("%FolderPickerButton");
 		FileDialog = GetNode<FileDialog>("%FileDialog");
+		OkPopup = GetNode<OkPopup>("%OkPopup");
 
 		DoneButton.Pressed += DoneButtonPressed;
 		FolderPickerButton.Pressed += FolderPickerButtonPressed;
@@ -38,7 +40,8 @@ public partial class SetupPopup : Popup
     {
         if (!Settings.TrySetOsuFolder(LineEdit.Text, out string error))
         {
-            OS.Alert(error, "That didn't work...");
+			OkPopup.SetValues(error, "That doesn't seem right...");
+            OkPopup.In();
 			return;
         }
 

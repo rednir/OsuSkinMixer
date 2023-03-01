@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://cpd4jqprdxxa0"]
+
+[ext_resource type="Script" path="res://src/Components/OkPopup.cs" id="1_vgs64"]
+[ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup.tscn" id="2_cql17"]
+[ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_4071q"]
+[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="4_5t6qo"]
+
+[node name="OkPopup" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vgs64")
+
+[node name="Popup" parent="." instance=ExtResource("2_cql17")]
+layout_mode = 1
+
+[node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
+offset_bottom = -0.000305176
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "This is a popup"
+label_settings = ExtResource("3_4071q")
+
+[node name="Text" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Click OK to fix all your problems"
+label_settings = ExtResource("4_5t6qo")
+autowrap_mode = 3
+
+[node name="OkButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(90, 2.08165e-12)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 10
+text = "OK"
+
+[editable path="Popup"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d30u1q424si6a"]
 
 [ext_resource type="Script" path="res://src/Components/SkinNamePopup.cs" id="1_aaon8"]
-[ext_resource type="PackedScene" path="res://src/Components/Popup.tscn" id="2_wd23i"]
+[ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup.tscn" id="2_wd23i"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_7htho"]
 
 [node name="SkinNamePopup" type="Control"]

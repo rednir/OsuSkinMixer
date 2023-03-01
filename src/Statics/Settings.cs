@@ -64,9 +64,15 @@ public static class Settings
             return false;
         }
 
+        if (path.EndsWith("Skins") || path.EndsWith("Skins/"))
+        {
+            error = "Make sure you're pointing to the osu! folder, not your skins folder.";
+            return false;
+        }
+
         if (!Directory.Exists($"{path}/Skins"))
         {
-            error = "We couldn't find a 'Skins' folder in the specified folder, please make sure you're pointing to a valid osu! folder.\nIf you are struggling to find your osu! folder, open osu! and search for 'Open osu! folder' in the options menu.";
+            error = "We couldn't find a 'Skins' folder in the specified folder, please make sure you're pointing to a valid osu! folder.\n\nIf you are struggling to find your osu! folder, open osu! and search for 'Open osu! folder' in the options menu.";
             return false;
         }
 
