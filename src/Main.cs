@@ -89,9 +89,12 @@ public partial class Main : Control
 		};
 
 		ToastCloseButton.Pressed += () => ToastAnimationPlayer.Play("out");
-
 		BackButton.Pressed += PopScene;
 		SettingsButton.Pressed += SettingsPopup.In;
+
+		OsuData.SkinAdded += s => PushToast($"Skin was created:\n{s.Name}");
+		OsuData.SkinModified += s => PushToast($"Skin was modified:\n{s.Name}");
+		OsuData.SkinRemoved += s => PushToast($"Skin was deleted:\n{s.Name}");
 
 		PushScene(MenuScene.Instantiate<StackScene>());
 		CheckForUpdates();

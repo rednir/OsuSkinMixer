@@ -88,8 +88,6 @@ public partial class SkinMixer : StackScene
 				var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
 				skinInfoInstance.Skins = new OsuSkin[] { t.Result };
 				EmitSignal(SignalName.ScenePushed, skinInfoInstance);
-
-				EmitSignal(SignalName.ToastPushed, "Successfully created and imported skin.");
 			});
 	}
 }

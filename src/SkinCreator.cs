@@ -146,6 +146,7 @@ public class SkinCreator
 
         File.WriteAllText($"{NewSkinDir.FullName}/skin.ini", NewSkinIni.ToString());
 
+        OsuData.InvokeSkinModified(workingSkin);
         GD.Print($"Skin modification for '{workingSkin.Name}' has completed.");
     }
 
