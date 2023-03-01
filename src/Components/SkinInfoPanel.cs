@@ -70,6 +70,7 @@ public partial class SkinInfoPanel : PanelContainer
 		try
 		{
 			Skin.Directory.Delete(true);
+			OsuData.RemoveSkin(Skin);
 			MainContentContainer.Visible = false;
 			DeletedContainer.Visible = true;
 		}
