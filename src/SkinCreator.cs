@@ -51,7 +51,7 @@ public class SkinCreator
         Status = "Preparing";
 
         NewSkinIni = new OsuSkinIni(Name, "osu! skin mixer by rednir");
-        NewSkinDir = Directory.CreateDirectory($"{Settings.SkinsFolderPath}/{WORKING_DIR_NAME}");
+        NewSkinDir = Directory.CreateDirectory($"{Path.GetTempPath()}/{WORKING_DIR_NAME}");
 
         // There might be skin elements from a failed attempt still in the directory.
         foreach (var file in NewSkinDir.EnumerateFiles())

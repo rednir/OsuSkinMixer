@@ -26,10 +26,7 @@ public static class OsuData
         var skinsFolder = new DirectoryInfo(Settings.SkinsFolderPath);
 
         foreach (var dir in skinsFolder.EnumerateDirectories())
-        {
-            if (dir.Name != SkinCreator.WORKING_DIR_NAME)
-                _skins.Add(new OsuSkin(dir));
-        }
+            _skins.Add(new OsuSkin(dir));
 
         GD.Print($"Loaded {_skins.Count} skins into memory.");
         SetupWatcher();
