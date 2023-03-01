@@ -68,7 +68,6 @@ public static class OsuData
 
     public static void RemoveSkin(OsuSkin skin)
     {
-        GD.Print("a");
         if (!_skins.Remove(skin))
             return;
 
