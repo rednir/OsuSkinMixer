@@ -47,7 +47,12 @@ public class OsuSkin
 		Image image = new();
 
         if (!File.Exists(path))
+        {
+            GD.Print("Falling back to default texture.");
+            var defaultTexture = GetDefaultTexture(filename);
+            _textureCache.Add(filename, defaultTexture);
             return GetDefaultTexture(filename);
+        }
 
 		Error err = image.Load(path);
 
