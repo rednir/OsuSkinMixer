@@ -19,8 +19,8 @@ public partial class Hitcircle : CenterContainer
 
 	public void SetSkin(OsuSkin skin)
 	{
-		HitcircleTexture.Texture = skin.HitcircleTexture;
-		HitcircleoverlayTexture.Texture = skin.HitcircleoverlayTexture;
-		Default1Texture.Texture = skin.Default1Texture;
+		HitcircleTexture.Texture = skin.GetTexture("hitcircle.png");
+		HitcircleoverlayTexture.Texture = skin.GetTexture("hitcircleoverlay.png");
+		Default1Texture.Texture = skin.GetTexture("default-1.png");
 	}
 }

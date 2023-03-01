@@ -43,12 +43,12 @@ public partial class SkinInfoPanel : PanelContainer
 		OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
 
 		DeleteQuestionPopup.ConfirmAction = OnDeleteConfirmed;
-		Cursor.Texture = Skin.Cursor;
-		Cursortrail.Texture = Skin.Cursortrail;
+		Cursor.Texture = Skin.GetTexture("cursor.png");
+		Cursortrail.Texture = Skin.GetTexture("cursortrail.png");
 		Hitcircle.SetSkin(Skin);
 		SkinNameLabel.Text = Skin.Name;
 		SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
-		MenuBackground.Texture = Skin.MenuBackground;
+		MenuBackground.Texture = Skin.GetTexture("menu-background.jpg") ?? Skin.GetTexture("menu-background.png");
 		DetailsLabel.Text = $"Last modified: {Skin.Directory.LastWriteTime}";
 		DeleteButton.Pressed += OnDeleteButtonPressed;
 		OpenFolderButton.Pressed += OnOpenFolderButtonPressed;

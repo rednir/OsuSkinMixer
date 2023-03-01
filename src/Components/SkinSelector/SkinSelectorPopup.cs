@@ -34,6 +34,13 @@ public partial class SkinSelectorPopup : Popup
 		OsuData.SkinModified += OnSkinModified;
 		OsuData.SkinRemoved += OnSkinRemoved;
 
+		TreeExiting += () =>
+		{
+			OsuData.SkinAdded -= OnSkinAdded;
+			OsuData.SkinModified -= OnSkinModified;
+			OsuData.SkinRemoved -= OnSkinRemoved;
+		};
+
 		AddAllSkinComponents();
 	}
 

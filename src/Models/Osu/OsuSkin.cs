@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Godot;
 using File = System.IO.File;
@@ -35,20 +36,13 @@ public class OsuSkin
 
     public OsuSkinIni SkinIni { get; set; }
 
-    public Texture2D MenuBackground => GetTexture("menu-background.jpg");
-
-    public Texture2D Cursor => GetTexture("cursor.png");
-
-    public Texture2D Cursortrail => GetTexture("cursortrail.png");
-
-    public Texture2D HitcircleTexture => GetTexture("hitcircle.png");
-
-    public Texture2D HitcircleoverlayTexture => GetTexture("hitcircleoverlay.png");
-
-    public Texture2D Default1Texture => GetTexture("default-1.png");
-
-    private Texture2D GetTexture(string filename)
+    public Texture2D GetTexture(string filename)
     {
+        if (_textureCache.TryGetValue(filename, out Texture2D value))
+            return value;
+
+        GD.Print($"Loading texture {filename} for skin: {Name}");
+
         string path = $"{Directory.FullName}/{filename}";
 		Image image = new();
 
@@ -60,8 +54,12 @@ public class OsuSkin
         if (err != Error.Ok)
             return null;
 
-        return ImageTexture.CreateFromImage(image);
+        var texture = ImageTexture.CreateFromImage(image);
+        _textureCache.Add(filename, texture);
+        return texture;
     }
+
+    private readonly Dictionary<string, Texture2D> _textureCache = new();
 
     private static Texture2D GetDefaultTexture(string filename)
         => GD.Load<Texture2D>($"res://assets/defaultskin/{filename}");
