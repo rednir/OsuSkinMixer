@@ -92,7 +92,7 @@ public partial class SkinSelectorPopup : Popup
 		return SkinsContainer
 			.GetChildren()
 			.Cast<SkinComponent>()
-			.FirstOrDefault(c => c.Skin == skin);
+			.FirstOrDefault(c => c.Skin.Name == skin.Name);
 	}
 
 	private void OnSkinAdded(OsuSkin skin)
