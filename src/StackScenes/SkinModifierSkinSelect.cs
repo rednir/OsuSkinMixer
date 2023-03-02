@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Godot;
-using OsuSkinMixer.Components.SkinSelector;
-using OsuSkinMixer.Models.Osu;
+using OsuSkinMixer.Components;
+using OsuSkinMixer.Models;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -22,7 +22,7 @@ public partial class SkinModifierSkinSelect : StackScene
 	public override void _Ready()
 	{
 		SkinModifierModificationSelectScene = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierModificationSelect.tscn");
-		SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinSelector/SkinComponent.tscn");
+		SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinComponent.tscn");
 
 		SkinsToModifyContainer = GetNode<VBoxContainer>("%SkinsToModifyContainer");
 		AddSkinToModifyButton = GetNode<Button>("%AddSkinToModifyButton");

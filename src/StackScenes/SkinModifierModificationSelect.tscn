@@ -1,9 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://mm8avdy2josn"]
+[gd_scene load_steps=6 format=3 uid="uid://cypqcp2bs5ci8"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_jskw1"]
 [ext_resource type="Script" path="res://src/StackScenes/SkinModifierModificationSelect.cs" id="2_je2sr"]
-[ext_resource type="PackedScene" uid="uid://bfqkwbaa6t4mi" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.tscn" id="3_4hx6p"]
-[ext_resource type="PackedScene" uid="uid://b3yfp0gku4lsd" path="res://src/Components/LoadingPopup.tscn" id="3_dgftf"]
+[ext_resource type="PackedScene" uid="uid://4a2d561f0p72" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.tscn" id="3_4hx6p"]
+[ext_resource type="PackedScene" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="3_dgftf"]
 [ext_resource type="Texture2D" uid="uid://d3x84ulkau6ag" path="res://assets/check.png" id="4_h3oms"]
 
 [node name="SkinModifierModificationSelect" type="VBoxContainer"]

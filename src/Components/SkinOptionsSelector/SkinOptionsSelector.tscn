@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bfqkwbaa6t4mi"]
+[gd_scene load_steps=3 format=3 uid="uid://4a2d561f0p72"]
 
 [ext_resource type="Script" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.cs" id="1_g5aud"]
-[ext_resource type="PackedScene" uid="uid://ch6kfpkq0bkw4" path="res://src/Components/SkinSelector/SkinSelectorPopup.tscn" id="2_pokuf"]
+[ext_resource type="PackedScene" uid="uid://md4n10t0o7i4" path="res://src/Components/Popup/SkinSelectorPopup.tscn" id="2_pokuf"]
 
 [node name="SkinOptionsSelector" type="VBoxContainer"]
 offset_right = 388.0

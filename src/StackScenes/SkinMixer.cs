@@ -1,10 +1,9 @@
 using Godot;
-using OsuSkinMixer.Components.SkinOptionsSelector;
-using OsuSkinMixer.Components;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
-using OsuSkinMixer.Models.Osu;
+using OsuSkinMixer.Components;
+using OsuSkinMixer.Models;
 
 namespace OsuSkinMixer.StackScenes;
 

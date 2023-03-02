@@ -1,13 +1,11 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
-using OsuSkinMixer.Models.SkinOptions;
-using OsuSkinMixer.Models.Osu;
-using OsuSkinMixer.Components.SkinSelector;
 using System;
+using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
 
-namespace OsuSkinMixer.Components.SkinOptionsSelector;
+namespace OsuSkinMixer.Components;
 
 public partial class SkinOptionsSelector : VBoxContainer
 {

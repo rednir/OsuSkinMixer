@@ -1,7 +1,6 @@
 using Godot;
-using System;
-using OsuSkinMixer.Components.SkinSelector;
-using OsuSkinMixer.Models.Osu;
+using OsuSkinMixer.Components;
+using OsuSkinMixer.Models;
 
 namespace OsuSkinMixer.StackScenes;
 

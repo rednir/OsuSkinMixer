@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using OsuSkinMixer.Models.Osu;
 
-namespace OsuSkinMixer.Models.SkinOptions;
+namespace OsuSkinMixer.Models;
 
 public abstract class SkinOption
 {

@@ -1,7 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://ch6kfpkq0bkw4"]
+[gd_scene load_steps=10 format=3 uid="uid://md4n10t0o7i4"]
 
-[ext_resource type="Script" path="res://src/Components/SkinSelector/SkinSelectorPopup.cs" id="1_5b4pt"]
-[ext_resource type="PackedScene" uid="uid://c8al3ys1j8lqf" path="res://src/Components/Popup.tscn" id="1_jm6w5"]
+[ext_resource type="Script" path="res://src/Components/Popup/SkinSelectorPopup.cs" id="1_5b4pt"]
+[ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="1_jm6w5"]
 [ext_resource type="Texture2D" uid="uid://y2y24k360f1j" path="res://assets/backarrow-normal.png" id="3_rgja5"]
 [ext_resource type="Texture2D" uid="uid://ct65ouuvkxb2u" path="res://assets/backbutton-pressed.png" id="4_phrje"]
 [ext_resource type="Texture2D" uid="uid://cfb6b04ifjvav" path="res://assets/backarrow-hover.png" id="5_asiit"]

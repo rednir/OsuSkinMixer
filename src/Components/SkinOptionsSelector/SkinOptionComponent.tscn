@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=10 format=3 uid="uid://5u7dsqm0wgoq"]
 
 [ext_resource type="Texture2D" uid="uid://m5hodpxqnenb" path="res://assets/arrow.png" id="1_a4tmr"]
 [ext_resource type="Script" path="res://src/Components/SkinOptionsSelector/SkinOptionComponent.cs" id="1_ft0rc"]

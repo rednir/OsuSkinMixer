@@ -4,7 +4,7 @@ using System.IO;
 using Godot;
 using File = System.IO.File;
 
-namespace OsuSkinMixer.Models.Osu;
+namespace OsuSkinMixer.Models;
 
 public class OsuSkin
 {

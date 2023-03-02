@@ -1,10 +1,9 @@
-using Godot;
 using System;
-using OsuSkinMixer.Models.Osu;
-using OsuSkinMixer.Components;
+using Godot;
+using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
 
-namespace OsuSkinMixer.StackScenes;
+namespace OsuSkinMixer.Components;
 
 public partial class SkinInfoPanel : PanelContainer
 {

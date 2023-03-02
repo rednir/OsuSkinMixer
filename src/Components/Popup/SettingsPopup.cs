@@ -2,8 +2,8 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using Godot;
-using OsuSkinMixer.Statics;
 using HttpClient = System.Net.Http.HttpClient;
+using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Components;
 

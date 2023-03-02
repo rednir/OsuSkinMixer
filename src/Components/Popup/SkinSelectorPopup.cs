@@ -1,11 +1,11 @@
 using Godot;
 using System;
 using System.Linq;
-using OsuSkinMixer.Statics;
-using OsuSkinMixer.Models.Osu;
 using System.Collections.Generic;
+using OsuSkinMixer.Models;
+using OsuSkinMixer.Statics;
 
-namespace OsuSkinMixer.Components.SkinSelector;
+namespace OsuSkinMixer.Components;
 
 public partial class SkinSelectorPopup : Popup
 {
@@ -23,7 +23,7 @@ public partial class SkinSelectorPopup : Popup
 	{
 		base._Ready();
 
-		SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinSelector/SkinComponent.tscn");
+		SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinComponent.tscn");
 
 		BackButton = GetNode<TextureButton>("%BackButton");
 		SkinsContainer = GetNode<VBoxContainer>("%SkinComponentsContainer");

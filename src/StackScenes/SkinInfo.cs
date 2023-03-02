@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 using OsuSkinMixer.Components;
-using OsuSkinMixer.Models.Osu;
+using OsuSkinMixer.Models;
 
 namespace OsuSkinMixer.StackScenes;
 

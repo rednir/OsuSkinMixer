@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace OsuSkinMixer.Models.Osu;
+namespace OsuSkinMixer.Models;
 
 public class OsuSkinWithFiles : OsuSkin
 {

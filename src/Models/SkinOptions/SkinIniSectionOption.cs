@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace OsuSkinMixer.Models.SkinOptions;
+namespace OsuSkinMixer.Models;
 
 public class SkinIniSectionOption : SkinOption
 {

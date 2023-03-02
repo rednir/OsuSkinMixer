@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OsuSkinMixer.Models.Osu;
+namespace OsuSkinMixer.Models;
 
 public class OsuSkinIniSection : Dictionary<string, string>
 {

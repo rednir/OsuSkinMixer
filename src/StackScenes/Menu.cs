@@ -1,7 +1,6 @@
 using Godot;
-using OsuSkinMixer.StackScenes;
 
-namespace OsuSkinMixer;
+namespace OsuSkinMixer.StackScenes;
 
 public partial class Menu : StackScene
 {

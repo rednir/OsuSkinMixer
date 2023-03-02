@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
-using OsuSkinMixer.Models.Osu;
+using OsuSkinMixer.Models;
 
 namespace OsuSkinMixer.Statics;
 

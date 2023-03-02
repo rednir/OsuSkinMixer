@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://cttwstucph7aq"]
+[gd_scene load_steps=5 format=3 uid="uid://b634iffeaic7w"]
 
-[ext_resource type="Script" path="res://src/Components/Hitcircle.cs" id="1_0sbfk"]
+[ext_resource type="Script" path="res://src/Components/Osu/Hitcircle.cs" id="1_0sbfk"]
 [ext_resource type="Texture2D" uid="uid://d2i4vkrwdm57x" path="res://assets/defaultskin/hitcircle.png" id="1_iep1f"]
 [ext_resource type="Texture2D" uid="uid://fhdeit7as0yi" path="res://assets/defaultskin/hitcircleoverlay.png" id="2_x6gi0"]
 [ext_resource type="Texture2D" uid="uid://dcn0qk3g4475p" path="res://assets/defaultskin/default-1.png" id="4_r4s6t"]

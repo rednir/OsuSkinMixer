@@ -1,6 +1,5 @@
 using Godot;
-using System;
-using OsuSkinMixer.Models.Osu;
+using OsuSkinMixer.Models;
 
 namespace OsuSkinMixer.Components;
 

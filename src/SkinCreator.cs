@@ -5,8 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Godot;
-using OsuSkinMixer.Models.Osu;
-using OsuSkinMixer.Models.SkinOptions;
+using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer;

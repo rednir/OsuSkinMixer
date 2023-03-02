@@ -1,10 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://biq752lap2ncg"]
+[gd_scene load_steps=7 format=3 uid="uid://bimdldtywn6nm"]
 
-[ext_resource type="Script" path="res://src/Components/SettingsPopup.cs" id="1_0q4fj"]
+[ext_resource type="Script" path="res://src/Components/Popup/SettingsPopup.cs" id="1_0q4fj"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_dq35g"]
-[ext_resource type="PackedScene" path="res://src/Components/Popup.tscn" id="2_i87ke"]
+[ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_i87ke"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_kxkd6"]
-[ext_resource type="PackedScene" uid="uid://dkcny8ctncurn" path="res://src/Components/SetupPopup.tscn" id="5_4lsaw"]
+[ext_resource type="PackedScene" uid="uid://sni5bqyyrgfj" path="res://src/Components/Popup/SetupPopup.tscn" id="5_4lsaw"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_n54bi"]
 font_size = 12
