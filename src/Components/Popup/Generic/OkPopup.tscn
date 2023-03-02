@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3 uid="uid://cs6sq2vj8l6g"]
 
 [ext_resource type="Script" path="res://src/Components/Popup/Generic/OkPopup.cs" id="1_vgs64"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_cql17"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_4071q"]
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="4_5t6qo"]
+[ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="5_ljp73"]
 
 [node name="OkPopup" type="Control"]
 visible = false
@@ -37,9 +38,8 @@ text = "Click OK to fix all your problems"
 label_settings = ExtResource("4_5t6qo")
 autowrap_mode = 3
 
-[node name="OkButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="OkButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("5_ljp73")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(90, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 10

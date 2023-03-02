@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://m5b2ccanh81i"]
+[gd_scene load_steps=11 format=3 uid="uid://m5b2ccanh81i"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_2xdlb"]
 [ext_resource type="Script" path="res://src/StackScenes/SkinModifierSkinSelect.cs" id="2_gu1du"]
@@ -8,6 +8,7 @@
 [ext_resource type="StyleBox" uid="uid://dxqdk1ixl2ys" path="res://src/Styles/Buttons/IconButtonPressed.tres" id="5_pu25v"]
 [ext_resource type="StyleBox" uid="uid://bqwmwc0s8kyx" path="res://src/Styles/Buttons/IconButtonDisabled.tres" id="6_68j4m"]
 [ext_resource type="Texture2D" uid="uid://w2epffsyhrbw" path="res://assets/add.png" id="7_nd4ak"]
+[ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="8_fpowc"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_uxhg4"]
 
@@ -48,12 +49,12 @@ theme_override_styles/pressed = ExtResource("5_pu25v")
 theme_override_styles/disabled = ExtResource("6_68j4m")
 icon = ExtResource("7_nd4ak")
 
-[node name="ContinueButton" type="Button" parent="."]
+[node name="ContinueButton" parent="." instance=ExtResource("8_fpowc")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 disabled = true
-text = "Continue"
+text = "Next"
 
 [node name="SkinSelectorPopup" parent="." instance=ExtResource("3_psfnl")]
 unique_name_in_owner = true

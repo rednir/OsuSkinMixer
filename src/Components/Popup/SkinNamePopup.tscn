@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://c3t32td5tieq"]
+[gd_scene load_steps=6 format=3 uid="uid://c3t32td5tieq"]
 
 [ext_resource type="Script" path="res://src/Components/Popup/SkinNamePopup.cs" id="1_aaon8"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_wd23i"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_7htho"]
+[ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="4_1hfsx"]
+[ext_resource type="LabelSettings" uid="uid://cc23qpkl2afag" path="res://src/Styles/LabelSettings/WarningText.tres" id="4_en1o8"]
 
 [node name="SkinNamePopup" type="Control"]
 visible = false
@@ -28,21 +30,22 @@ layout_mode = 2
 text = "Name your new skin"
 label_settings = ExtResource("3_7htho")
 
-[node name="WarningLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 14
-
 [node name="LineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 max_length = 128
 
-[node name="ConfirmButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="WarningLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(2.08165e-12, 22)
+layout_mode = 2
+label_settings = ExtResource("4_en1o8")
+
+[node name="ConfirmButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("4_1hfsx")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
-disabled = true
+size_flags_horizontal = 8
+size_flags_vertical = 10
 text = "Confirm"
 
 [editable path="Popup"]
