@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using Godot;
 using OsuSkinMixer.Models;
 
@@ -21,5 +25,23 @@ public partial class Hitcircle : CenterContainer
 		HitcircleTexture.Texture = skin.GetTexture("hitcircle.png");
 		HitcircleoverlayTexture.Texture = skin.GetTexture("hitcircleoverlay.png");
 		Default1Texture.Texture = skin.GetTexture("default-1.png");
-	}
+
+		string[] iniColorRgb = skin
+			.SkinIni?
+			.TryGetPropertyValue("Colours", "Combo1")?
+			.Replace(" ", string.Empty)
+			.Split(',');
+
+        if (iniColorRgb != null
+			&& float.TryParse(iniColorRgb[0], out float r)
+            && float.TryParse(iniColorRgb[1], out float g)
+            && float.TryParse(iniColorRgb[2], out float b))
+        {
+            HitcircleTexture.Modulate = new Color(r / 255, g / 255, b / 255);
+        }
+        else
+        {
+            HitcircleTexture.Modulate = new Color(0, 202, 0);
+        }
+    }
 }
