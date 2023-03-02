@@ -24,8 +24,6 @@ public static class OsuData
 
     private static Dictionary<OsuSkin, DateTime> _skins;
 
-    private static Task _sweepTask;
-
     static OsuData()
     {
         StartSweepTask();
@@ -77,7 +75,7 @@ public static class OsuData
 
     private static void StartSweepTask()
     {
-        _sweepTask = Task.Run(() =>
+        Task.Run(() =>
         {
             Task.Delay(SWEEP_INTERVAL_MSEC).Wait();
             while (!SweepPaused)
