@@ -23,11 +23,11 @@ public class SkinModifier
 
     private int _skinCount;
 
-    private readonly List<Action> _copyTasks = new();
+    private readonly List<Action> _modifyTasks = new();
 
     public void ModifySkins(CancellationToken cancellationToken)
     {
-        _copyTasks.Clear();
+        _modifyTasks.Clear();
         _skinCount = SkinsToModify.Count();
 
         GD.Print($"Beginning skin modification for {_skinCount} skins.");
@@ -43,9 +43,9 @@ public class SkinModifier
 
         Progress = (int)UNCANCELLABLE_AFTER;
 
-        foreach (Action task in _copyTasks)
+        foreach (Action task in _modifyTasks)
         {
-            Progress += (100.0 - UNCANCELLABLE_AFTER) / _copyTasks.Count;
+            Progress += (100.0 - UNCANCELLABLE_AFTER) / _modifyTasks.Count;
             task();
         }
 
@@ -74,7 +74,7 @@ public class SkinModifier
             cancellationToken.ThrowIfCancellationRequested();
         }
 
-        _copyTasks.Add(() =>
+        _modifyTasks.Add(() =>
         {
             GD.Print($"Writing skin.ini for '{workingSkin.Name}'");
             File.WriteAllText($"{workingSkin.Directory.FullName}/skin.ini", workingSkin.SkinIni.ToString());
@@ -164,7 +164,7 @@ public class SkinModifier
         foreach (var file in files)
         {
             if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
-                AddCopyTask(file, fileDestDir, "due to skin.ini");
+                AddCopyFileTask(file, fileDestDir, "due to skin.ini");
         }
     }
 
@@ -172,7 +172,7 @@ public class SkinModifier
     {
         // Avoid remnants when using skin modifier by removing old files, so
         // the default skin will be used if there is no file match. Bit of a hack.
-        _copyTasks.Insert(0, () =>
+        _modifyTasks.Insert(0, () =>
         {
             foreach (FileInfo file in workingSkin.Directory.GetFiles().Where(f => CheckIfFileAndOptionMatch(f, fileOption)).ToArray())
             {
@@ -187,11 +187,11 @@ public class SkinModifier
             string extension = Path.GetExtension(file.Name);
 
             if (CheckIfFileAndOptionMatch(file, fileOption))
-                AddCopyTask(file, workingSkin.Directory, "due to filename match");
+                AddCopyFileTask(file, workingSkin.Directory, "due to filename match");
         }
     }
 
-    public void AddCopyTask(FileInfo file, DirectoryInfo fileDestDir, string logDetails)
+    public void AddCopyFileTask(FileInfo file, DirectoryInfo fileDestDir, string logDetails)
     {
         string destFullPath = $"{fileDestDir.FullName}/{file.Name}";
 
@@ -199,7 +199,7 @@ public class SkinModifier
         MemoryStream memoryStream = new();
         file.OpenRead().CopyTo(memoryStream);
 
-        _copyTasks.Add(() =>
+        _modifyTasks.Add(() =>
         {
             GD.Print($"'{file.FullName}' -> '{destFullPath}' ({logDetails})");
 
