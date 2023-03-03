@@ -41,7 +41,7 @@ public class SkinModifier
             cancellationToken.ThrowIfCancellationRequested();
         }
 
-        Progress = UNCANCELLABLE_AFTER;
+        Progress = (int)UNCANCELLABLE_AFTER;
 
         foreach (Action task in _copyTasks)
         {
