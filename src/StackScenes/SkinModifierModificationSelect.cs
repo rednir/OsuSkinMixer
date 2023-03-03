@@ -63,6 +63,8 @@ public partial class SkinModifierModificationSelect : StackScene
                     return;
                 }
 
+				SkinOptionsSelector.Reset();
+
 				var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
 				skinInfoInstance.Skins = SkinsToModify;
 				EmitSignal(SignalName.ScenePushed, skinInfoInstance);

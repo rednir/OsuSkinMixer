@@ -89,6 +89,15 @@ public partial class SkinOptionsSelector : VBoxContainer
         }
     }
 
+    public void Reset()
+    {
+        foreach (var component in SkinOptionComponents.Where(c => c.SkinOption is not ParentSkinOption))
+        {
+            SkinOptionComponentInSelection = component;
+            OptionComponentSelected(null);
+        }
+    }
+
     private void OptionComponentSelected(OsuSkin skinSelected)
     {
         // TODO: This method can be optimized further by recursively looping through the components and their
