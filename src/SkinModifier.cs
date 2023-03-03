@@ -185,7 +185,7 @@ public class SkinModifier
         {
             foreach (FileInfo file in workingSkin.Directory.GetFiles().Where(f => CheckIfFileAndOptionMatch(f, fileOption)).ToArray())
             {
-                GD.Print($"'Removing {file.FullName}' to avoid remnants");
+                GD.Print($"Removing {file.FullName}' to avoid remnants");
                 file.Delete();
             }
         });
