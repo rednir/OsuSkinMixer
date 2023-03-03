@@ -52,14 +52,14 @@ theme_override_constants/separation = 16
 
 [node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Set your skins folder"
+text = "Set your osu! folder"
 label_settings = ExtResource("2_2dpv6")
 vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="Subtext" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Please set the path to your osu! skins folder. If the below already looks correct, you're good to go!"
+text = "Please set the path to your osu! folder. If the below already looks correct, you're good to go!"
 label_settings = ExtResource("3_8g2co")
 vertical_alignment = 1
 autowrap_mode = 3

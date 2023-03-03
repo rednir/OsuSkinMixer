@@ -64,7 +64,7 @@ public static class Settings
             return false;
         }
 
-        if (path.EndsWith("Skins") || path.EndsWith("Skins/"))
+        if (path.EndsWith("Skins") || path.EndsWith("Skins/") || path.EndsWith("Skins\\"))
         {
             error = "Make sure you're pointing to the osu! folder, not your skins folder.";
             return false;
@@ -83,10 +83,10 @@ public static class Settings
 
     private static void MigrateSettings()
     {
-        // Migration from v2.0.0 or earlier.
+        // Migration from before v2.1.0
         if (Content.SkinsFolder != null)
         {
-            string osuFolder = Content.SkinsFolder.TrimEnd('/').TrimSuffix("Skins");
+            string osuFolder = Content.SkinsFolder.TrimEnd('/').TrimEnd('\\').TrimSuffix("Skins");
             Content.OsuFolder = osuFolder;
             Content.SkinsFolder = null;
 
