@@ -42,8 +42,10 @@ public static class OsuData
 
         foreach (var dir in skinsFolder.EnumerateDirectories())
         {
-            _skins.Add(new OsuSkin(dir), dir.LastWriteTime);
-            GD.Print($"Loaded skin into memory: {dir.Name}");
+            if (_skins.TryAdd(new OsuSkin(dir), dir.LastWriteTime))
+                GD.Print($"Loaded skin into memory: {dir.Name}");
+            else
+                GD.Print($"Did not load skin into memory as it already exists: {dir.Name}");
         }
 
         return true;
