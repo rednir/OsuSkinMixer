@@ -45,7 +45,7 @@ public class SkinModifier
 
         foreach (Action task in _copyTasks)
         {
-            Progress += UNCANCELLABLE_AFTER / _copyTasks.Count;
+            Progress += (100f - UNCANCELLABLE_AFTER) / _copyTasks.Count;
             task();
         }
 

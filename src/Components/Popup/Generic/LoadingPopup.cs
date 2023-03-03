@@ -9,6 +9,8 @@ public partial class LoadingPopup : Popup
 
 	public Action CancelAction { get; set; }
 
+	public float DisableCancelAt { get; set; } = 100f;
+
 	private ProgressBar ProgressBar;
 	private Button CancelButton;
 
@@ -24,12 +26,11 @@ public partial class LoadingPopup : Popup
 	public void SetProgress(float progress)
 	{
 		ProgressBar.Value = progress;
+		CancelButton.Disabled = progress >= DisableCancelAt;
 	}
 
 	private void OnCancelButtonPressed()
 	{
-		CancelButton.Disabled = true;
 		CancelAction();
-		CancelButton.Disabled = false;
 	}
 }
