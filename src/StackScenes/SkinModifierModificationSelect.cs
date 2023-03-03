@@ -32,7 +32,7 @@ public partial class SkinModifierModificationSelect : StackScene
 
 		SkinOptionsSelector.CreateOptionComponents("<<UNCHANGED>>");
 		ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
-		LoadingPopup.CancelAction = () => CancellationTokenSource?.Cancel();
+		LoadingPopup.CancelAction = OnCancelButtonPressed;
 	}
 
 	private void OnApplyChangesButtonPressed()
@@ -69,5 +69,10 @@ public partial class SkinModifierModificationSelect : StackScene
 				skinInfoInstance.Skins = SkinsToModify;
 				EmitSignal(SignalName.ScenePushed, skinInfoInstance);
             });
+	}
+
+	private void OnCancelButtonPressed()
+	{
+		CancellationTokenSource?.Cancel();
 	}
 }

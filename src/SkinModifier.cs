@@ -11,6 +11,8 @@ namespace OsuSkinMixer;
 
 public class SkinModifier
 {
+    public const float UNCANCELLABLE_AFTER = 80f;
+
     public SkinOption[] SkinOptions { get; set; }
 
     public float? Progress { get; private set; }
@@ -39,9 +41,11 @@ public class SkinModifier
             cancellationToken.ThrowIfCancellationRequested();
         }
 
+        Progress = UNCANCELLABLE_AFTER;
+
         foreach (Action task in _copyTasks)
         {
-            Progress += 50f / _copyTasks.Count;
+            Progress += UNCANCELLABLE_AFTER / _copyTasks.Count;
             task();
         }
 
@@ -54,7 +58,7 @@ public class SkinModifier
     {
         GD.Print($"Beginning skin modification for single skin '{workingSkin.Name}'");
 
-        float progressInterval = 50f / _skinCount / flattenedOptions.Count(o => o.Skin != null);
+        float progressInterval = UNCANCELLABLE_AFTER / _skinCount / flattenedOptions.Count(o => o.Skin != null);
         foreach (var option in flattenedOptions)
         {
             GD.Print($"About to copy option '{option.Name}' set to '{option.Skin?.Name ?? "null"}'");
@@ -76,7 +80,6 @@ public class SkinModifier
             File.WriteAllText($"{workingSkin.Directory.FullName}/skin.ini", workingSkin.SkinIni.ToString());
         });
 
-        OsuData.InvokeSkinModified(workingSkin);
         GD.Print($"Skin modification for '{workingSkin.Name}' has completed.");
     }
 

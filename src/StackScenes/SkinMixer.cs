@@ -31,7 +31,7 @@ public partial class SkinMixer : StackScene
 		CreateSkinButton = GetNode<Button>("%CreateSkinButton");
 		RandomButton = GetNode<Button>("%RandomButton");
 
-		LoadingPopup.CancelAction = () => CancellationTokenSource?.Cancel();
+		LoadingPopup.CancelAction = OnCancelButtonPressed;
 		CreateSkinButton.Pressed += OnCreateSkinButtonPressed;
 		RandomButton.Pressed += OnRandomButtonPressed;
 
@@ -88,5 +88,10 @@ public partial class SkinMixer : StackScene
 				skinInfoInstance.Skins = new OsuSkin[] { t.Result };
 				EmitSignal(SignalName.ScenePushed, skinInfoInstance);
 			});
+	}
+
+	private void OnCancelButtonPressed()
+	{
+		CancellationTokenSource?.Cancel();
 	}
 }
