@@ -70,7 +70,11 @@ public class SkinModifier
             cancellationToken.ThrowIfCancellationRequested();
         }
 
-        File.WriteAllText($"{workingSkin.Directory.FullName}/skin.ini", workingSkin.SkinIni.ToString());
+        _copyTasks.Add(() =>
+        {
+            GD.Print($"Writing skin.ini for '{workingSkin.Name}'");
+            File.WriteAllText($"{workingSkin.Directory.FullName}/skin.ini", workingSkin.SkinIni.ToString());
+        });
 
         OsuData.InvokeSkinModified(workingSkin);
         GD.Print($"Skin modification for '{workingSkin.Name}' has completed.");
