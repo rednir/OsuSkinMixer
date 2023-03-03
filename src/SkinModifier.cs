@@ -19,31 +19,29 @@ public class SkinModifier
 
     public IEnumerable<OsuSkin> SkinsToModify { get; set; }
 
+    private int _skinCount;
+
     private readonly List<Action> _copyTasks = new();
 
     public void ModifySkins(CancellationToken cancellationToken)
     {
         _copyTasks.Clear();
-        int skinCount = SkinsToModify.Count();
+        _skinCount = SkinsToModify.Count();
 
-        GD.Print($"Beginning skin modification for {skinCount} skins.");
+        GD.Print($"Beginning skin modification for {_skinCount} skins.");
         Progress = 0;
 
         IEnumerable<SkinOption> flattenedOptions = SkinOption.Flatten(SkinOptions).Where(o => o is not ParentSkinOption);
 
         foreach (OsuSkin skin in SkinsToModify)
         {
+            ModifySingleSkin(skin, flattenedOptions, cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
-            ModifySingleSkin(skin, flattenedOptions);
-
-            Progress += 100f / skinCount;
         }
-
-        Progress = 0;
 
         foreach (Action task in _copyTasks)
         {
-            Progress += 100f / _copyTasks.Count;
+            Progress += 50f / _copyTasks.Count;
             task();
         }
 
@@ -52,13 +50,16 @@ public class SkinModifier
         GD.Print("Skin modification has completed for all skins.");
     }
 
-    private void ModifySingleSkin(OsuSkin workingSkin, IEnumerable<SkinOption> flattenedOptions)
+    private void ModifySingleSkin(OsuSkin workingSkin, IEnumerable<SkinOption> flattenedOptions, CancellationToken cancellationToken)
     {
         GD.Print($"Beginning skin modification for single skin '{workingSkin.Name}'");
 
+        float progressInterval = 50f / _skinCount / flattenedOptions.Count(o => o.Skin != null);
         foreach (var option in flattenedOptions)
         {
             GD.Print($"About to copy option '{option.Name}' set to '{option.Skin?.Name ?? "null"}'");
+
+            Progress += progressInterval;
             ProgressChangedAction?.Invoke(Progress.Value);
 
             // User wants default skin elements to be used.
@@ -66,6 +67,7 @@ public class SkinModifier
                 continue;
 
             CopyOption(workingSkin, option);
+            cancellationToken.ThrowIfCancellationRequested();
         }
 
         File.WriteAllText($"{workingSkin.Directory.FullName}/skin.ini", workingSkin.SkinIni.ToString());
