@@ -36,6 +36,8 @@ public static class OsuData
         if (Settings.Content.OsuFolder == null || !Directory.Exists(Settings.SkinsFolderPath))
             return false;
 
+        GD.Print($"About to load all skins into memory from {Settings.SkinsFolderPath}");
+
         var skinsFolder = new DirectoryInfo(Settings.SkinsFolderPath);
 
         foreach (var dir in skinsFolder.EnumerateDirectories())
