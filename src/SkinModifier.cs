@@ -21,8 +21,6 @@ public class SkinModifier
 
     private readonly List<Action> _copyTasks = new();
 
-    private readonly List<MemoryStream> _cachedSkinFiles = new();
-
     public void ModifySkins(CancellationToken cancellationToken)
     {
         _copyTasks.Clear();
