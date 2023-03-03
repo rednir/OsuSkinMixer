@@ -18,11 +18,11 @@ public class SkinCreator
 
     public SkinOption[] SkinOptions { get; set; }
 
-    public float? Progress { get; private set; }
+    public double? Progress { get; private set; }
 
     public string Status { get; set; }
 
-    public Action<float, string> ProgressChangedAction { get; set; }
+    public Action<double, string> ProgressChangedAction { get; set; }
 
     private readonly List<OsuSkinWithFiles> CachedSkinWithFiles = new();
 
@@ -58,7 +58,7 @@ public class SkinCreator
 
         // Progress should not take into account options set to use the
         // default skin as no work needs to be done for those options.
-        float progressInterval = 100f / flattenedOptions.Count(o => o.Skin != null);
+        double progressInterval = 100.0 / flattenedOptions.Count(o => o.Skin != null);
 
         foreach (var option in flattenedOptions)
         {

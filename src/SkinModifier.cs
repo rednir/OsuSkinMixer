@@ -11,13 +11,13 @@ namespace OsuSkinMixer;
 
 public class SkinModifier
 {
-    public const float UNCANCELLABLE_AFTER = 90f;
+    public const double UNCANCELLABLE_AFTER = 90.0;
 
     public SkinOption[] SkinOptions { get; set; }
 
-    public float? Progress { get; private set; }
+    public double? Progress { get; private set; }
 
-    public Action<float> ProgressChangedAction { get; set; }
+    public Action<double> ProgressChangedAction { get; set; }
 
     public IEnumerable<OsuSkin> SkinsToModify { get; set; }
 
@@ -45,7 +45,7 @@ public class SkinModifier
 
         foreach (Action task in _copyTasks)
         {
-            Progress += (100f - UNCANCELLABLE_AFTER) / _copyTasks.Count;
+            Progress += (100.0 - UNCANCELLABLE_AFTER) / _copyTasks.Count;
             task();
         }
 
@@ -58,7 +58,7 @@ public class SkinModifier
     {
         GD.Print($"Beginning skin modification for single skin '{workingSkin.Name}'");
 
-        float progressInterval = UNCANCELLABLE_AFTER / _skinCount / flattenedOptions.Count(o => o.Skin != null);
+        double progressInterval = UNCANCELLABLE_AFTER / _skinCount / flattenedOptions.Count(o => o.Skin != null);
         foreach (var option in flattenedOptions)
         {
             GD.Print($"About to copy option '{option.Name}' set to '{option.Skin?.Name ?? "null"}'");
