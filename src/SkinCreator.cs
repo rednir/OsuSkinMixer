@@ -26,8 +26,6 @@ public class SkinCreator
 
     private readonly List<OsuSkinWithFiles> CachedSkinWithFiles = new();
 
-    private List<FileInfo> WorkingSkinOriginalFiles;
-
     private OsuSkinIni NewSkinIni;
 
     private DirectoryInfo NewSkinDir;
@@ -97,56 +95,6 @@ public class SkinCreator
         GD.Print($"Skin creation for '{Name}' has completed.");
 
         return skin;
-    }
-
-    public void ModifySkins(IEnumerable<OsuSkin> skinsToModify, CancellationToken cancellationToken)
-    {
-        int skinCount = skinsToModify.Count();
-
-        GD.Print($"Beginning skin modification for {skinCount} skins.");
-        Progress = 0;
-
-        foreach (OsuSkin skin in skinsToModify)
-        {
-            Status = $"Modifying: {skin.Name}";
-
-            cancellationToken.ThrowIfCancellationRequested();
-            ModifySingleSkin(skin);
-
-            Progress += 100f / skinCount;
-        }
-
-        Progress = 100;
-
-        GD.Print("Skin modification has completed for all skins.");
-    }
-
-    private void ModifySingleSkin(OsuSkin workingSkin)
-    {
-        GD.Print($"Beginning skin modification for single skin '{workingSkin.Name}'");
-
-        NewSkinDir = workingSkin.Directory;
-        NewSkinIni = workingSkin.SkinIni;
-        WorkingSkinOriginalFiles = NewSkinDir.GetFiles().ToList();
-
-        IEnumerable<SkinOption> flattenedOptions = SkinOption.Flatten(SkinOptions).Where(o => o is not ParentSkinOption);
-
-        foreach (var option in flattenedOptions)
-        {
-            GD.Print($"About to copy option '{option.Name}' set to '{option.Skin?.Name ?? "null"}'");
-            ProgressChangedAction?.Invoke(Progress.Value, Status);
-
-            // User wants default skin elements to be used.
-            if (option.Skin == null)
-                continue;
-
-            CopyOption(option);
-        }
-
-        File.WriteAllText($"{NewSkinDir.FullName}/skin.ini", NewSkinIni.ToString());
-
-        OsuData.InvokeSkinModified(workingSkin);
-        GD.Print($"Skin modification for '{workingSkin.Name}' has completed.");
     }
 
     private void CopyOption(SkinOption option)
@@ -239,18 +187,6 @@ public class SkinCreator
 
     private void CopyFileOption(OsuSkinWithFiles skin, SkinFileOption fileOption)
     {
-        // Avoid remnants when using skin modifier by removing old files, so
-        // the default skin will be used if there is no file match. Bit of a hack.
-        if (WorkingSkinOriginalFiles != null)
-        {
-            foreach (FileInfo file in WorkingSkinOriginalFiles.Where(f => CheckIfFileAndOptionMatch(f, fileOption)).ToArray())
-            {
-                GD.Print($"'Removing {file.FullName}' to avoid remnants");
-                WorkingSkinOriginalFiles.Remove(file);
-                file.Delete();
-            }
-        }
-
         foreach (var file in skin.Files)
         {
             string filename = Path.GetFileNameWithoutExtension(file.Name);

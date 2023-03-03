@@ -40,13 +40,13 @@ public partial class SkinModifierModificationSelect : StackScene
 		LoadingPopup.In();
 
 		CancellationTokenSource = new CancellationTokenSource();
-		SkinCreator skinCreator = new()
+		SkinModifier skinModifier = new()
 		{
 			SkinOptions = SkinOptionsSelector.SkinOptions,
-			ProgressChangedAction = (p, _) => LoadingPopup.SetProgress(p),
+			ProgressChangedAction = LoadingPopup.SetProgress,
 		};
 
-		Task.Run(() => skinCreator.ModifySkins(SkinsToModify, CancellationTokenSource.Token))
+		Task.Run(() => skinModifier.ModifySkins(SkinsToModify, CancellationTokenSource.Token))
 	        .ContinueWith(t =>
             {
                 LoadingPopup.Out();
