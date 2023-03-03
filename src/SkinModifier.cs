@@ -49,6 +49,9 @@ public class SkinModifier
             task();
         }
 
+        foreach (OsuSkin skin in SkinsToModify)
+            OsuData.InvokeSkinModified(skin);
+
         Progress = 100;
 
         GD.Print("Skin modification has completed for all skins.");
@@ -103,8 +106,11 @@ public class SkinModifier
     {
         var property = iniPropertyOption.IncludeSkinIniProperty;
 
-        // Remove the skin.ini to avoid remnants when using skin modifier.
-        workingSkin.SkinIni.Sections.LastOrDefault(s => s.Name == property.section)?.Remove(property.property);
+        _modifyTasks.Insert(0, () =>
+        {
+            // Remove the skin.ini to avoid remnants when using skin modifier.
+            workingSkin.SkinIni.Sections.LastOrDefault(s => s.Name == property.section)?.Remove(property.property);
+        });
 
         foreach (var section in skinToCopy.SkinIni.Sections)
         {
@@ -116,9 +122,12 @@ public class SkinModifier
                 if (pair.Key == property.property)
                 {
                     OsuSkinIniSection newSkinSection = workingSkin.SkinIni.Sections.Last(s => s.Name == section.Name);
-                    newSkinSection.Add(
-                        key: pair.Key,
-                        value: pair.Value);
+                    _modifyTasks.Add(() =>
+                    {
+                        newSkinSection.Add(
+                            key: pair.Key,
+                            value: pair.Value);
+                    });
 
                     // Check if the skin.ini property value includes any skin elements.
                     // If so, include it in the new skin, (their inclusion takes priority over the elements from matching filenames)
