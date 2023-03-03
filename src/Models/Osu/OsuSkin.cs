@@ -36,6 +36,9 @@ public class OsuSkin
 
     public OsuSkinIni SkinIni { get; set; }
 
+    public override string ToString()
+        => Name;
+
     public override bool Equals(object obj)
         => obj is OsuSkin skin && Name == skin?.Name;
 
