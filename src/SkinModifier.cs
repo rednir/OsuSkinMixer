@@ -17,19 +17,23 @@ public class SkinModifier
 
     public Action<float> ProgressChangedAction { get; set; }
 
-    private readonly List<Action> CopyTasks = new();
+    public IEnumerable<OsuSkin> SkinsToModify { get; set; }
 
-    public void ModifySkins(IEnumerable<OsuSkin> skinsToModify, CancellationToken cancellationToken)
+    private readonly List<Action> _copyTasks = new();
+
+    private readonly List<MemoryStream> _cachedSkinFiles = new();
+
+    public void ModifySkins(CancellationToken cancellationToken)
     {
-        CopyTasks.Clear();
-        int skinCount = skinsToModify.Count();
+        _copyTasks.Clear();
+        int skinCount = SkinsToModify.Count();
 
         GD.Print($"Beginning skin modification for {skinCount} skins.");
         Progress = 0;
 
         IEnumerable<SkinOption> flattenedOptions = SkinOption.Flatten(SkinOptions).Where(o => o is not ParentSkinOption);
 
-        foreach (OsuSkin skin in skinsToModify)
+        foreach (OsuSkin skin in SkinsToModify)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ModifySingleSkin(skin, flattenedOptions);
@@ -39,9 +43,9 @@ public class SkinModifier
 
         Progress = 0;
 
-        foreach (Action task in CopyTasks)
+        foreach (Action task in _copyTasks)
         {
-            Progress += 100f / CopyTasks.Count;
+            Progress += 100f / _copyTasks.Count;
             task();
         }
 
@@ -153,13 +157,7 @@ public class SkinModifier
         foreach (var file in files)
         {
             if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
-            {
-                CopyTasks.Add(() =>
-                {
-                    GD.Print($"'{file.FullName}' -> '{fileDestDir.FullName}' (due to skin.ini)");
-                    file.CopyTo($"{fileDestDir.FullName}/{file.Name}", true);
-                });
-            }
+                AddCopyTask(file, fileDestDir, "due to skin.ini");
         }
     }
 
@@ -167,11 +165,14 @@ public class SkinModifier
     {
         // Avoid remnants when using skin modifier by removing old files, so
         // the default skin will be used if there is no file match. Bit of a hack.
-        foreach (FileInfo file in workingSkin.Directory.GetFiles().Where(f => CheckIfFileAndOptionMatch(f, fileOption)).ToArray())
+        _copyTasks.Insert(0, () =>
         {
-            GD.Print($"'Removing {file.FullName}' to avoid remnants");
-            file.Delete();
-        }
+            foreach (FileInfo file in workingSkin.Directory.GetFiles().Where(f => CheckIfFileAndOptionMatch(f, fileOption)).ToArray())
+            {
+                GD.Print($"'Removing {file.FullName}' to avoid remnants");
+                file.Delete();
+            }
+        });
 
         foreach (var file in skinToCopy.Directory.EnumerateFiles())
         {
@@ -179,21 +180,28 @@ public class SkinModifier
             string extension = Path.GetExtension(file.Name);
 
             if (CheckIfFileAndOptionMatch(file, fileOption))
-            {
-                string newFilePath = $"{workingSkin.Directory.FullName}/{file.Name}";
-
-                CopyTasks.Add(() =>
-                {
-                    GD.Print($"'{file.FullName}' -> '{newFilePath}' (due to filename match)");
-
-                    // If the file already exists, overwrite it, i.e. if we are modifying an existing skin.
-                    if (File.Exists(newFilePath))
-                        File.Delete(newFilePath);
-
-                    file.CopyTo(newFilePath);
-                });
-            }
+                AddCopyTask(file, workingSkin.Directory, "due to filename match");
         }
+    }
+
+    public void AddCopyTask(FileInfo file, DirectoryInfo fileDestDir, string logDetails)
+    {
+        string destFullPath = $"{fileDestDir.FullName}/{file.Name}";
+
+        // We cache the file data beforehand in case it changes or is deleted before we have the chance to copy it.
+        MemoryStream memoryStream = new();
+        file.OpenRead().CopyTo(memoryStream);
+
+        _copyTasks.Add(() =>
+        {
+            GD.Print($"'{file.FullName}' -> '{destFullPath}' ({logDetails})");
+
+            FileStream fileStream = File.Create(destFullPath);
+            memoryStream.Position = 0;
+            memoryStream.CopyTo(fileStream);
+            memoryStream.Dispose();
+            fileStream.Dispose();
+        });
     }
 
     private static bool CheckIfFileAndOptionMatch(FileInfo file, SkinFileOption fileOption)
