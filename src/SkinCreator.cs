@@ -189,9 +189,6 @@ public class SkinCreator
     {
         foreach (var file in skin.Files)
         {
-            string filename = Path.GetFileNameWithoutExtension(file.Name);
-            string extension = Path.GetExtension(file.Name);
-
             if (CheckIfFileAndOptionMatch(file, fileOption))
             {
                 string newFilePath = $"{NewSkinDir.FullName}/{file.Name}";
