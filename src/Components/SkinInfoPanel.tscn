@@ -84,6 +84,7 @@ size_flags_horizontal = 10
 
 [node name="HideButton" type="Button" parent="MainContentContainer/HeaderContainer/IconButtonsContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
