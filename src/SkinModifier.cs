@@ -11,7 +11,7 @@ namespace OsuSkinMixer;
 
 public class SkinModifier
 {
-    public const float UNCANCELLABLE_AFTER = 80f;
+    public const float UNCANCELLABLE_AFTER = 90f;
 
     public SkinOption[] SkinOptions { get; set; }
 
