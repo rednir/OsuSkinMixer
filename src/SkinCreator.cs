@@ -194,11 +194,7 @@ public class SkinCreator
                 string newFilePath = $"{NewSkinDir.FullName}/{file.Name}";
                 GD.Print($"'{file.FullName}' -> '{newFilePath}' (due to filename match)");
 
-                // If the file already exists, overwrite it, i.e. if we are modifying an existing skin.
-                if (File.Exists(newFilePath))
-                    File.Delete(newFilePath);
-
-                file.CopyTo(newFilePath);
+                file.CopyTo(newFilePath, true);
             }
         }
     }
