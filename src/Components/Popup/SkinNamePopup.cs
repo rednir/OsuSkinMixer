@@ -23,7 +23,13 @@ public partial class SkinNamePopup : Popup
 		ConfirmButton = GetNode<Button>("%ConfirmButton");
 
 		ConfirmButton.Pressed += () => ConfirmAction?.Invoke(LineEdit.Text);
-		LineEdit.TextSubmitted += t => ConfirmAction?.Invoke(t);
+		LineEdit.TextSubmitted += t =>
+		{
+			if (ConfirmButton.Disabled)
+				return;
+
+			ConfirmAction?.Invoke(t);
+		};
 		LineEdit.TextChanged += OnTextChanged;
 	}
 
@@ -32,6 +38,7 @@ public partial class SkinNamePopup : Popup
 		base.In();
 		LineEdit.GrabFocus();
 		LineEdit.SelectAll();
+		OnTextChanged(LineEdit.Text);
 	}
 
 	private void OnConfirm()

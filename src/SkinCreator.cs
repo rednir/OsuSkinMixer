@@ -42,6 +42,9 @@ public class SkinCreator
 
     public async Task<OsuSkin> CreateAndImportAsync(CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(Name))
+            throw new InvalidOperationException("Skin name cannot be empty.");
+
         GD.Print($"Beginning skin creation with name '{Name}'");
 
         Progress = 0;
