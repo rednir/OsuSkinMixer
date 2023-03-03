@@ -69,8 +69,8 @@ public class SkinModifier
             Progress += progressInterval;
             ProgressChangedAction?.Invoke(Progress.Value);
 
-            // User wants default skin elements to be used.
-            if (option.Skin == null)
+            // User wants this skin element to be unchanged.
+            if (option.Skin == null || option.Skin == workingSkin)
                 continue;
 
             CopyOption(workingSkin, option);
