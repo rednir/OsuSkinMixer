@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -60,6 +61,8 @@ public abstract class SkinMachine
         _tasks.Clear();
 
         Log("Started");
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
 
         Progress = 0;
         PopulateTasks();
@@ -68,7 +71,8 @@ public abstract class SkinMachine
 
         PostRun();
 
-        Log("Finished");
+        stopwatch.Stop();
+        Log($"Finished in {stopwatch.Elapsed.TotalSeconds}s");
         Progress = null;
     }
 
