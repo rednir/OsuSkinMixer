@@ -86,6 +86,9 @@ public class SkinCreator
         string dirDestPath = $"{Settings.SkinsFolderPath}/{Name}";
         GD.Print($"Copying working folder to '{dirDestPath}'");
 
+        if (!Directory.GetParent(dirDestPath).FullName.Equals(Settings.SkinsFolderPath, StringComparison.OrdinalIgnoreCase))
+            throw new InvalidOperationException("Destination path is not in the skins folder.");
+
         if (Directory.Exists(dirDestPath))
             Directory.Delete(dirDestPath, true);
 
