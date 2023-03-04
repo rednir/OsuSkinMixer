@@ -67,9 +67,41 @@ public class SkinMixerMachine : SkinMachine
         if (Directory.Exists(dirDestPath))
             Directory.Delete(dirDestPath, true);
 
-        NewSkin.Directory.MoveTo(dirDestPath);
+        try
+        {
+            NewSkin.Directory.MoveTo(dirDestPath);
+        }
+        catch (IOException e) when (e.Message.Contains("Cross-device link"))
+        {
+            // Workaround for https://github.com/dotnet/runtime/issues/31149
+            GD.PushWarning("Cross-device link error, copying directory instead.");
+            DirectoryInfo copiedDir = CopyDirectory(NewSkin.Directory, dirDestPath);
+            NewSkin.Directory.Delete(true);
+            NewSkin.Directory = copiedDir;
+        }
 
         OsuData.AddSkin(NewSkin);
+    }
+
+    private static DirectoryInfo CopyDirectory(DirectoryInfo sourceDir, string destinationDir)
+    {
+        DirectoryInfo[] dirs = sourceDir.GetDirectories();
+
+        Directory.CreateDirectory(destinationDir);
+
+        foreach (FileInfo file in sourceDir.GetFiles())
+        {
+            string targetFilePath = Path.Combine(destinationDir, file.Name);
+            file.CopyTo(targetFilePath);
+        }
+
+        foreach (DirectoryInfo subDir in dirs)
+        {
+            string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
+            CopyDirectory(subDir, newDestinationDir);
+        }
+
+        return new DirectoryInfo(destinationDir);
     }
 
     private static bool IsInSkinsFolder(string path)
