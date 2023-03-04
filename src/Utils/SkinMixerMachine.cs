@@ -8,7 +8,7 @@ using Godot;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
 
-namespace OsuSkinMixer;
+namespace OsuSkinMixer.Utils;
 
 public class SkinMixerMachine : SkinMachine
 {

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System;
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Utils;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -60,7 +61,7 @@ public partial class SkinMixer : StackScene
 	{
 		LoadingPopup.In();
 
-		SkinMixerMachine skinCreator = new()
+		SkinMixerMachine machine = new()
 		{
 			NewSkinName = skinName,
 			SkinOptions = SkinOptionsSelector.SkinOptions,
@@ -68,7 +69,7 @@ public partial class SkinMixer : StackScene
 		};
 
 		CancellationTokenSource = new CancellationTokenSource();
-		Task.Run(() => skinCreator.Run(CancellationTokenSource.Token))
+		Task.Run(() => machine.Run(CancellationTokenSource.Token))
 			.ContinueWith(t =>
 			{
 				LoadingPopup.Out();
@@ -85,7 +86,7 @@ public partial class SkinMixer : StackScene
 				}
 
 				var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
-				skinInfoInstance.Skins = new OsuSkin[] { skinCreator.NewSkin };
+				skinInfoInstance.Skins = new OsuSkin[] { machine.NewSkin };
 				EmitSignal(SignalName.ScenePushed, skinInfoInstance);
 			});
 	}

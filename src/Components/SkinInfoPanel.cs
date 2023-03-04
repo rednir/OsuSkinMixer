@@ -2,6 +2,7 @@ using System;
 using Godot;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
+using OsuSkinMixer.Utils;
 
 namespace OsuSkinMixer.Components;
 
@@ -86,6 +87,6 @@ public partial class SkinInfoPanel : PanelContainer
 
 	private void OnOpenInOsuButtonPressed()
 	{
-		SkinMixerMachine.TriggerOskImport(Skin);
+        SkinMachine.TriggerOskImport(Skin);
 	}
 }

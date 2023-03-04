@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Utils;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -41,14 +42,14 @@ public partial class SkinModifierModificationSelect : StackScene
 		LoadingPopup.In();
 
 		CancellationTokenSource = new CancellationTokenSource();
-		SkinModifierMachine skinModifier = new()
+		SkinModifierMachine machine = new()
 		{
 			SkinOptions = SkinOptionsSelector.SkinOptions,
 			ProgressChanged = LoadingPopup.SetProgress,
 			SkinsToModify = SkinsToModify,
 		};
 
-		Task.Run(() => skinModifier.Run(CancellationTokenSource.Token))
+		Task.Run(() => machine.Run(CancellationTokenSource.Token))
 	        .ContinueWith(t =>
             {
                 LoadingPopup.Out();
