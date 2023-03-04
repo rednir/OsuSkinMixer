@@ -54,7 +54,7 @@ public partial class SkinNamePopup : Popup
 
 	private void OnTextChanged(string text)
 	{
-		if (text.Any(c => Path.GetInvalidFileNameChars().Contains(c)))
+		if (text.Any(c => Path.GetInvalidPathChars().Contains(c)) || text == "." || text == "..")
 		{
 			ConfirmButton.Disabled = true;
 			WarningLabel.Text = "Invalid characters in skin name.";
