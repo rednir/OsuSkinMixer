@@ -44,11 +44,11 @@ public partial class SkinModifierModificationSelect : StackScene
 		SkinModifier skinModifier = new()
 		{
 			SkinOptions = SkinOptionsSelector.SkinOptions,
-			ProgressChangedAction = LoadingPopup.SetProgress,
+			ProgressChanged = LoadingPopup.SetProgress,
 			SkinsToModify = SkinsToModify,
 		};
 
-		Task.Run(() => skinModifier.ModifySkins(CancellationTokenSource.Token))
+		Task.Run(() => skinModifier.Run(CancellationTokenSource.Token))
 	        .ContinueWith(t =>
             {
                 LoadingPopup.Out();

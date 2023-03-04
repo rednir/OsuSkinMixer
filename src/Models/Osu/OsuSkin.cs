@@ -8,8 +8,11 @@ namespace OsuSkinMixer.Models;
 
 public class OsuSkin
 {
-    public OsuSkin()
+    public OsuSkin(string name, DirectoryInfo dir)
     {
+        Name = name;
+        Directory = dir;
+        SkinIni = new OsuSkinIni(name, "osu! skin mixer by rednir");
     }
 
     public OsuSkin(DirectoryInfo dir)

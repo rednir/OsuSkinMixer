@@ -62,13 +62,13 @@ public partial class SkinMixer : StackScene
 
 		SkinCreator skinCreator = new()
 		{
-			Name = skinName,
+			NewSkinName = skinName,
 			SkinOptions = SkinOptionsSelector.SkinOptions,
-			ProgressChangedAction = (p, _) => LoadingPopup.SetProgress(p),
+			ProgressChanged = LoadingPopup.SetProgress,
 		};
 
 		CancellationTokenSource = new CancellationTokenSource();
-		Task.Run(async () => await skinCreator.CreateAndImportAsync(CancellationTokenSource.Token))
+		Task.Run(() => skinCreator.Run(CancellationTokenSource.Token))
 			.ContinueWith(t =>
 			{
 				LoadingPopup.Out();
@@ -85,7 +85,7 @@ public partial class SkinMixer : StackScene
 				}
 
 				var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
-				skinInfoInstance.Skins = new OsuSkin[] { t.Result };
+				skinInfoInstance.Skins = new OsuSkin[] { skinCreator.NewSkin };
 				EmitSignal(SignalName.ScenePushed, skinInfoInstance);
 			});
 	}

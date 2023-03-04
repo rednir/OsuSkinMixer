@@ -9,238 +9,83 @@ using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer;
 
-public class SkinModifier
+public class SkinModifier : SkinMachine
 {
     public const double UNCANCELLABLE_AFTER = 90.0;
 
-    public SkinOption[] SkinOptions { get; set; }
-
-    public double? Progress { get; private set; }
-
-    public Action<double> ProgressChangedAction { get; set; }
-
     public IEnumerable<OsuSkin> SkinsToModify { get; set; }
 
-    private int _skinCount;
-
-    private readonly List<Action> _modifyTasks = new();
-
-    public void ModifySkins(CancellationToken cancellationToken)
+    protected override void PopulateTasks()
     {
-        _modifyTasks.Clear();
-        _skinCount = SkinsToModify.Count();
-
-        GD.Print($"Beginning skin modification for {_skinCount} skins.");
-        Progress = 0;
-
-        IEnumerable<SkinOption> flattenedOptions = SkinOption.Flatten(SkinOptions).Where(o => o is not ParentSkinOption);
-
+        var flattenedOptions = FlattenedBottomLevelOptions;
         foreach (OsuSkin skin in SkinsToModify)
         {
-            ModifySingleSkin(skin, flattenedOptions, cancellationToken);
-            cancellationToken.ThrowIfCancellationRequested();
+            ModifySingleSkin(skin, flattenedOptions);
+            CancellationToken.ThrowIfCancellationRequested();
         }
-
-        Progress = (int)UNCANCELLABLE_AFTER;
-
-        foreach (Action task in _modifyTasks)
-        {
-            Progress += (100.0 - UNCANCELLABLE_AFTER) / _modifyTasks.Count;
-            task();
-        }
-
-        foreach (OsuSkin skin in SkinsToModify)
-            OsuData.InvokeSkinModified(skin);
-
-        Progress = 100;
-
-        GD.Print("Skin modification has completed for all skins.");
     }
 
-    private void ModifySingleSkin(OsuSkin workingSkin, IEnumerable<SkinOption> flattenedOptions, CancellationToken cancellationToken)
+    protected override void PostRun()
+    {
+        foreach (OsuSkin skin in SkinsToModify)
+            OsuData.InvokeSkinModified(skin);
+    }
+
+    private void ModifySingleSkin(OsuSkin workingSkin, IEnumerable<SkinOption> flattenedOptions)
     {
         GD.Print($"Beginning skin modification for single skin '{workingSkin.Name}'");
 
-        double progressInterval = UNCANCELLABLE_AFTER / _skinCount / flattenedOptions.Count(o => o.Skin != null);
+        double progressInterval = UNCANCELLABLE_AFTER / SkinsToModify.Count() / flattenedOptions.Count(o => o.Skin != null);
         foreach (var option in flattenedOptions)
         {
             GD.Print($"About to copy option '{option.Name}' set to '{option.Skin?.Name ?? "null"}'");
 
             Progress += progressInterval;
-            ProgressChangedAction?.Invoke(Progress.Value);
 
             // User wants this skin element to be unchanged.
             if (option.Skin == null || option.Skin == workingSkin)
                 continue;
 
             CopyOption(workingSkin, option);
-            cancellationToken.ThrowIfCancellationRequested();
+            CancellationToken.ThrowIfCancellationRequested();
         }
 
-        _modifyTasks.Add(() =>
+        string skinIniDestination = $"{workingSkin.Directory.FullName}/skin.ini";
+        AddTask(() =>
         {
-            GD.Print($"Writing skin.ini for '{workingSkin.Name}'");
-            File.WriteAllText($"{workingSkin.Directory.FullName}/skin.ini", workingSkin.SkinIni.ToString());
+            GD.Print($"Writing to {skinIniDestination}");
+            File.WriteAllText(skinIniDestination, workingSkin.SkinIni.ToString());
         });
 
         GD.Print($"Skin modification for '{workingSkin.Name}' has completed.");
     }
 
-    private void CopyOption(OsuSkin workingSkin, SkinOption option)
-    {
-        var skin = option.Skin;
-
-        if (skin.SkinIni != null)
-        {
-            if (option is SkinIniPropertyOption iniPropertyOption)
-                CopyIniPropertyOption(workingSkin, skin, iniPropertyOption);
-            else if (option is SkinIniSectionOption iniSectionOption)
-                CopyIniSectionOption(workingSkin, skin, iniSectionOption);
-        }
-
-        if (option is SkinFileOption fileOption)
-            CopyFileOption(workingSkin, skin, fileOption);
-    }
-
-    private void CopyIniPropertyOption(OsuSkin workingSkin, OsuSkin skinToCopy, SkinIniPropertyOption iniPropertyOption)
+    protected override void CopyIniPropertyOption(OsuSkin workingSkin, SkinIniPropertyOption iniPropertyOption)
     {
         var property = iniPropertyOption.IncludeSkinIniProperty;
 
-        _modifyTasks.Insert(0, () =>
+        // Remove the skin.ini properties to avoid remnants when using skin modifier.
+        AddPriorityTask(() =>
         {
-            // Remove the skin.ini to avoid remnants when using skin modifier.
+            GD.Print($"Removing '{property.section}'.'{property.property}' to avoid remnants");
             workingSkin.SkinIni.Sections.LastOrDefault(s => s.Name == property.section)?.Remove(property.property);
         });
 
-        foreach (var section in skinToCopy.SkinIni.Sections)
-        {
-            if (property.section != section.Name)
-                continue;
-
-            foreach (var pair in section)
-            {
-                if (pair.Key == property.property)
-                {
-                    OsuSkinIniSection newSkinSection = workingSkin.SkinIni.Sections.Last(s => s.Name == section.Name);
-                    _modifyTasks.Add(() =>
-                    {
-                        newSkinSection.Add(
-                            key: pair.Key,
-                            value: pair.Value);
-                    });
-
-                    // Check if the skin.ini property value includes any skin elements.
-                    // If so, include it in the new skin, (their inclusion takes priority over the elements from matching filenames)
-                    CopyFileFromSkinIniProperty(workingSkin, skinToCopy, pair);
-                }
-            }
-        }
+        base.CopyIniPropertyOption(workingSkin, iniPropertyOption);
     }
 
-    private void CopyIniSectionOption(OsuSkin workingSkin, OsuSkin skinToCopy, SkinIniSectionOption iniSectionOption)
+    protected override void CopyFileOption(OsuSkin workingSkin, SkinFileOption fileOption)
     {
-        OsuSkinIniSection section = skinToCopy.SkinIni.Sections.Find(
-            s => s.Name == iniSectionOption.SectionName && s.Contains(iniSectionOption.Property));
-
-        if (section == null)
-            return;
-
-        GD.Print($"Copying skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}'");
-
-        workingSkin.SkinIni.Sections.Add(section);
-        foreach (var property in section)
-            CopyFileFromSkinIniProperty(workingSkin, skinToCopy, property);
-    }
-
-    private void CopyFileFromSkinIniProperty(OsuSkin workingSkin, OsuSkin skin, KeyValuePair<string, string> property)
-    {
-        if (!OsuSkinIni.PropertyHasFilePath(property.Key))
-            return;
-
-        int lastSlashIndex = property.Value.LastIndexOf('/');
-        string prefixPropertyDirPath = lastSlashIndex >= 0 ? property.Value[..lastSlashIndex] : null;
-        string prefixPropertyFileName = property.Value[(lastSlashIndex + 1)..];
-
-        // If `prefixPropertyDirPath` is null, the path is the skin folder root which obviously exists.
-        if (prefixPropertyDirPath != null && !Directory.Exists($"{skin.Directory.FullName}/{prefixPropertyDirPath}"))
-            return;
-
-        // In that case, better to use the existing file collection that we have instead of creating another one.
-        IEnumerable<FileInfo> files = prefixPropertyDirPath == null ?
-            skin.Directory.EnumerateFiles() : new DirectoryInfo($"{skin.Directory.FullName}/{prefixPropertyDirPath}").EnumerateFiles();
-
-        var fileDestDir = Directory.CreateDirectory($"{workingSkin.Directory.FullName}/{prefixPropertyDirPath}");
-        foreach (var file in files)
-        {
-            if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
-                AddCopyFileTask(file, fileDestDir, "due to skin.ini");
-        }
-    }
-
-    private void CopyFileOption(OsuSkin workingSkin, OsuSkin skinToCopy, SkinFileOption fileOption)
-    {
-        // Avoid remnants when using skin modifier by removing old files, so
-        // the default skin will be used if there is no file match. Bit of a hack.
-        _modifyTasks.Insert(0, () =>
+        // Remove old files to avoid remnants, so if there is no match the default skin will be used.
+        AddPriorityTask(() =>
         {
             foreach (FileInfo file in workingSkin.Directory.GetFiles().Where(f => CheckIfFileAndOptionMatch(f, fileOption)).ToArray())
             {
-                GD.Print($"Removing {file.FullName}' to avoid remnants");
+                GD.Print($"Removing '{file.FullName}' to avoid remnants");
                 file.Delete();
             }
         });
 
-        foreach (var file in skinToCopy.Directory.EnumerateFiles())
-        {
-            string filename = Path.GetFileNameWithoutExtension(file.Name);
-            string extension = Path.GetExtension(file.Name);
-
-            if (CheckIfFileAndOptionMatch(file, fileOption))
-                AddCopyFileTask(file, workingSkin.Directory, "due to filename match");
-        }
-    }
-
-    public void AddCopyFileTask(FileInfo file, DirectoryInfo fileDestDir, string logDetails)
-    {
-        string destFullPath = $"{fileDestDir.FullName}/{file.Name}";
-
-        // We cache the file data beforehand in case it changes or is deleted before we have the chance to copy it.
-        MemoryStream memoryStream = new();
-        file.OpenRead().CopyTo(memoryStream);
-
-        _modifyTasks.Add(() =>
-        {
-            GD.Print($"'{file.FullName}' -> '{destFullPath}' ({logDetails})");
-
-            FileStream fileStream = File.Create(destFullPath);
-            memoryStream.Position = 0;
-            memoryStream.CopyTo(fileStream);
-            memoryStream.Dispose();
-            fileStream.Dispose();
-        });
-    }
-
-    private static bool CheckIfFileAndOptionMatch(FileInfo file, SkinFileOption fileOption)
-    {
-        string filename = Path.GetFileNameWithoutExtension(file.Name);
-        string extension = Path.GetExtension(file.Name);
-
-        // Check for file name match.
-        if (
-            filename.Equals(fileOption.IncludeFileName, StringComparison.OrdinalIgnoreCase) || filename.Equals(fileOption.IncludeFileName + "@2x", StringComparison.OrdinalIgnoreCase)
-            || (fileOption.IncludeFileName.EndsWith("*") && filename.StartsWith(fileOption.IncludeFileName.TrimEnd('*'), StringComparison.OrdinalIgnoreCase))
-        )
-        {
-            // Check for file type match.
-            if (
-                ((extension == ".png" || extension == ".jpg") && !fileOption.IsAudio)
-                || ((extension == ".mp3" || extension == ".ogg" || extension == ".wav") && fileOption.IsAudio)
-            )
-            {
-                return true;
-            }
-        }
-
-        return false;
+        base.CopyFileOption(workingSkin, fileOption);
     }
 }
