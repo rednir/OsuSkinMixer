@@ -76,8 +76,12 @@ public abstract class SkinMachine
 
     private void RunAllTasks()
     {
+        double progressInterval = (100.0 - Progress.Value) / _tasks.Count;
         foreach (Action task in _tasks)
+        {
+            Progress += progressInterval;
             task();
+        }
     }
 
     protected abstract void PostRun();

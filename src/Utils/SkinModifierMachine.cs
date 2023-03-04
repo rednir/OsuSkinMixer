@@ -11,7 +11,7 @@ namespace OsuSkinMixer.Utils;
 
 public class SkinModifierMachine : SkinMachine
 {
-    public const double UNCANCELLABLE_AFTER = 90.0;
+    public const double UNCANCELLABLE_AFTER = 80.0;
 
     public IEnumerable<OsuSkin> SkinsToModify { get; set; }
 
@@ -40,13 +40,13 @@ public class SkinModifierMachine : SkinMachine
         {
             GD.Print($"About to copy option '{option.Name}' set to '{option.Skin?.Name ?? "null"}'");
 
-            Progress += progressInterval;
-
             // User wants this skin element to be unchanged.
             if (option.Skin == null || option.Skin == workingSkin)
                 continue;
 
             CopyOption(workingSkin, option);
+            Progress += progressInterval;
+
             CancellationToken.ThrowIfCancellationRequested();
         }
 
