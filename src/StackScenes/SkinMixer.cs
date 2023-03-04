@@ -60,7 +60,7 @@ public partial class SkinMixer : StackScene
 	{
 		LoadingPopup.In();
 
-		SkinCreator skinCreator = new()
+		SkinMixerMachine skinCreator = new()
 		{
 			NewSkinName = skinName,
 			SkinOptions = SkinOptionsSelector.SkinOptions,

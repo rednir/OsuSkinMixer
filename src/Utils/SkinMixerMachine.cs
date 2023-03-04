@@ -10,7 +10,7 @@ using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer;
 
-public class SkinCreator : SkinMachine
+public class SkinMixerMachine : SkinMachine
 {
     private const string WORKING_DIR_NAME = ".osu-skin-mixer_working-skin";
 

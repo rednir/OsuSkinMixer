@@ -9,7 +9,7 @@ using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer;
 
-public class SkinModifier : SkinMachine
+public class SkinModifierMachine : SkinMachine
 {
     public const double UNCANCELLABLE_AFTER = 90.0;
 

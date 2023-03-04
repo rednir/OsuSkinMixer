@@ -33,7 +33,7 @@ public partial class SkinModifierModificationSelect : StackScene
 		SkinOptionsSelector.CreateOptionComponents("<<UNCHANGED>>");
 		ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
 		LoadingPopup.CancelAction = OnCancelButtonPressed;
-		LoadingPopup.DisableCancelAt = SkinModifier.UNCANCELLABLE_AFTER;
+		LoadingPopup.DisableCancelAt = SkinModifierMachine.UNCANCELLABLE_AFTER;
 	}
 
 	private void OnApplyChangesButtonPressed()
@@ -41,7 +41,7 @@ public partial class SkinModifierModificationSelect : StackScene
 		LoadingPopup.In();
 
 		CancellationTokenSource = new CancellationTokenSource();
-		SkinModifier skinModifier = new()
+		SkinModifierMachine skinModifier = new()
 		{
 			SkinOptions = SkinOptionsSelector.SkinOptions,
 			ProgressChanged = LoadingPopup.SetProgress,

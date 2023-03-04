@@ -86,6 +86,6 @@ public partial class SkinInfoPanel : PanelContainer
 
 	private void OnOpenInOsuButtonPressed()
 	{
-		SkinCreator.TriggerOskImport(Skin);
+		SkinMixerMachine.TriggerOskImport(Skin);
 	}
 }
