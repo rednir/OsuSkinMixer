@@ -20,7 +20,7 @@ public static class OsuData
 
     public static event Action<OsuSkin> SkinRemoved;
 
-    public static bool SweepPaused { get; set; }
+    public static bool SweepPaused { get; set; } = true;
 
     public static OsuSkin[] Skins { get => _skins.Keys.OrderBy(s => s.Name).ToArray(); }
 
@@ -33,6 +33,7 @@ public static class OsuData
 
     public static bool TryLoadSkins()
     {
+        SweepPaused = true;
         _skins = new Dictionary<OsuSkin, DateTime>();
 
         if (Settings.Content.OsuFolder == null || !Directory.Exists(Settings.SkinsFolderPath))
@@ -51,6 +52,7 @@ public static class OsuData
         }
 
         AllSkinsLoaded?.Invoke();
+        SweepPaused = false;
         return true;
     }
 
@@ -85,9 +87,11 @@ public static class OsuData
         Task.Run(() =>
         {
             Task.Delay(SWEEP_INTERVAL_MSEC).Wait();
-            while (!SweepPaused)
+            while (true)
             {
-                SweepSkinsFolder();
+                if (!SweepPaused)
+                    SweepSkinsFolder();
+
                 Task.Delay(SWEEP_INTERVAL_MSEC).Wait();
             }
         });
