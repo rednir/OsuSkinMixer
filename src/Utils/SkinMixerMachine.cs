@@ -28,14 +28,13 @@ public class SkinMixerMachine : SkinMachine
         var flattenedOptions = FlattenedBottomLevelOptions;
         foreach (var option in flattenedOptions)
         {
-            GD.Print($"About to copy option '{option.Name}' set to '{option.Skin?.Name ?? "null"}'");
+            GD.Print($"About to copy option '{option.Name}' set to '{option.Value.CustomSkin?.Name ?? "null"}'");
 
-            // User wants default skin elements to be used.
-            if (option.Skin == null)
+            if (option.Value.Type == SkinOptionValueType.DefaultSkin)
                 continue;
 
             CopyOption(NewSkin, option);
-            Progress += 100.0 / flattenedOptions.Count(o => o.Skin != null);
+            Progress += 100.0 / flattenedOptions.Count(o => o.Value.Type != SkinOptionValueType.DefaultSkin);
 
             CancellationToken.ThrowIfCancellationRequested();
         }

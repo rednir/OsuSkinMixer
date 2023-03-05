@@ -42,7 +42,7 @@ public partial class SkinMixer : StackScene
 			RunSkinCreator(s);
 		};
 
-		SkinOptionsSelector.CreateOptionComponents("<<DEFAULT SKIN>>");
+		SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.DefaultSkin));
 	}
 
 	private void OnCreateSkinButtonPressed()

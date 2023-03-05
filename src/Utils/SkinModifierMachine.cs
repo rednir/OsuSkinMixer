@@ -35,13 +35,13 @@ public class SkinModifierMachine : SkinMachine
     {
         GD.Print($"Beginning skin modification for single skin '{workingSkin.Name}'");
 
-        double progressInterval = UNCANCELLABLE_AFTER / SkinsToModify.Count() / flattenedOptions.Count(o => o.Skin != null);
+        double progressInterval = UNCANCELLABLE_AFTER / SkinsToModify.Count() / flattenedOptions.Count(o => o.Value.Type != SkinOptionValueType.Unchanged);
         foreach (var option in flattenedOptions)
         {
-            GD.Print($"About to copy option '{option.Name}' set to '{option.Skin?.Name ?? "null"}'");
+            GD.Print($"About to copy option '{option.Name}' set to {option.Value.Type}, skin '{option.Value.CustomSkin?.Name ?? "null"}'");
 
             // User wants this skin element to be unchanged.
-            if (option.Skin == null || option.Skin == workingSkin)
+            if (option.Value.Type == SkinOptionValueType.Unchanged || option.Value.CustomSkin == workingSkin)
                 continue;
 
             CopyOption(workingSkin, option);

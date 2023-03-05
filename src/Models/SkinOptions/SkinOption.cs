@@ -6,7 +6,7 @@ public abstract class SkinOption
 {
     public virtual string Name { get; set; }
 
-    public OsuSkin Skin { get; set; }
+    public SkinOptionValue Value { get; set; }
 
     public static IEnumerable<ParentSkinOption> GetParents(SkinOption childOption, SkinOption[] skinOptions)
     {

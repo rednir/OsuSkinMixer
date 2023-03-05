@@ -29,7 +29,7 @@ public partial class SkinOptionsSelector : VBoxContainer
         SkinSelectorPopup.OnSelected = OptionComponentSelected;
     }
 
-    public void CreateOptionComponents(string defaultValue = "<<DEFAULT>>")
+    public void CreateOptionComponents(SkinOptionValue defaultValue)
     {
         foreach (Node child in GetChildren())
             (child as SkinOptionComponent)?.QueueFree();
@@ -44,7 +44,6 @@ public partial class SkinOptionsSelector : VBoxContainer
             SkinOptionComponent component = SkinOptionComponentScene.Instantiate<SkinOptionComponent>();
             vbox.AddChild(component);
 
-            component.DefaultValue = defaultValue;
             component.ResetButton.Pressed += () =>
             {
                 SkinOptionComponentInSelection = component;
@@ -56,7 +55,7 @@ public partial class SkinOptionsSelector : VBoxContainer
                 SkinSelectorPopup.In();
             };
 
-            component.SetSkinOption(option, layer);
+            component.SetSkinOption(option, defaultValue, layer);
 
             if (option is ParentSkinOption parentOption)
             {
@@ -102,15 +101,15 @@ public partial class SkinOptionsSelector : VBoxContainer
     {
         // TODO: This method can be optimized further by recursively looping through the components and their
         // children (in their respective VBoxContainers) instead of looping through the ParentSkinOption's children.
-        SkinOptionComponentInSelection.SetSelectedSkin(skinSelected);
+        SkinOptionComponentInSelection.SetValue(skinSelected);
 
         foreach (var parent in SkinOption.GetParents(SkinOptionComponentInSelection.SkinOption, SkinOptions))
         {
             SkinOptionComponent parentOptionComponent = SkinOptionComponents.Find(c => c.SkinOption == parent);
-            if (parent.Children.All(o => o.Skin == skinSelected))
-                parentOptionComponent.SetSelectedSkin(skinSelected);
+            if (parent.Children.All(o => o.Value.CustomSkin == skinSelected))
+                parentOptionComponent.SetValue(skinSelected);
             else
-                parentOptionComponent.SetToVarious();
+                parentOptionComponent.SetValue(new SkinOptionValue(SkinOptionValueType.Various));
         }
 
         SetAllChildrenOfOptionToSkin(SkinOptionComponentInSelection.SkinOption, skinSelected);
@@ -124,6 +123,6 @@ public partial class SkinOptionsSelector : VBoxContainer
                 SetAllChildrenOfOptionToSkin(child, skin);
         }
 
-        SkinOptionComponents.Find(c => c.SkinOption == option).SetSelectedSkin(skin);
+        SkinOptionComponents.Find(c => c.SkinOption == option).SetValue(skin);
     }
 }

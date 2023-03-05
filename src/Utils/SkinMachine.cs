@@ -92,7 +92,8 @@ public abstract class SkinMachine
 
     protected void CopyOption(OsuSkin workingSkin, SkinOption option)
     {
-        if (option.Skin.SkinIni != null)
+        // TODO: clear skin.ini property if set to default skin.
+        if (option.Value.CustomSkin.SkinIni != null)
         {
             if (option is SkinIniPropertyOption iniPropertyOption)
                 CopyIniPropertyOption(workingSkin, iniPropertyOption);
@@ -106,7 +107,10 @@ public abstract class SkinMachine
 
     protected virtual void CopyIniPropertyOption(OsuSkin workingSkin, SkinIniPropertyOption iniPropertyOption)
     {
-        foreach (var section in iniPropertyOption.Skin.SkinIni.Sections)
+        if (iniPropertyOption.Value.Type == SkinOptionValueType.DefaultSkin)
+            return;
+
+        foreach (var section in iniPropertyOption.Value.CustomSkin.SkinIni.Sections)
         {
             if (iniPropertyOption.IncludeSkinIniProperty.section != section.Name)
                 continue;
@@ -126,7 +130,7 @@ public abstract class SkinMachine
 
                     // Check if the skin.ini property value includes any skin elements.
                     // If so, include it in the new skin, (their inclusion takes priority over the elements from matching filenames)
-                    CopyFileFromSkinIniProperty(workingSkin, iniPropertyOption.Skin, pair);
+                    CopyFileFromSkinIniProperty(workingSkin, iniPropertyOption.Value.CustomSkin, pair);
                 }
             }
         }
@@ -134,7 +138,7 @@ public abstract class SkinMachine
 
     protected virtual void CopyIniSectionOption(OsuSkin workingSkin, SkinIniSectionOption iniSectionOption)
     {
-        OsuSkinIniSection section = iniSectionOption.Skin.SkinIni.Sections.Find(
+        OsuSkinIniSection section = iniSectionOption.Value.CustomSkin.SkinIni.Sections.Find(
             s => s.Name == iniSectionOption.SectionName && s.Contains(iniSectionOption.Property));
 
         if (section == null)
@@ -144,7 +148,7 @@ public abstract class SkinMachine
 
         workingSkin.SkinIni.Sections.Add(section);
         foreach (var property in section)
-            CopyFileFromSkinIniProperty(workingSkin, iniSectionOption.Skin, property);
+            CopyFileFromSkinIniProperty(workingSkin, iniSectionOption.Value.CustomSkin, property);
     }
 
     protected virtual void CopyFileFromSkinIniProperty(OsuSkin workingSkin, OsuSkin skinToCopy, KeyValuePair<string, string> property)
@@ -174,7 +178,10 @@ public abstract class SkinMachine
 
     protected virtual void CopyFileOption(OsuSkin workingSkin, SkinFileOption fileOption)
     {
-        foreach (var file in fileOption.Skin.Directory.EnumerateFiles())
+        if (fileOption.Value.Type == SkinOptionValueType.DefaultSkin)
+            return;
+
+        foreach (var file in fileOption.Value.CustomSkin.Directory.EnumerateFiles())
         {
             if (CheckIfFileAndOptionMatch(file, fileOption))
                 AddCopyFileTask(file, workingSkin.Directory, "due to filename match");
