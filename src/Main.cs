@@ -32,7 +32,7 @@ public partial class Main : Control
 
 	public override void _Ready()
 	{
-		GD.Print($"osu! skin mixer {Settings.VERSION} at {DateTime.Now}");
+		Settings.Log($"osu! skin mixer {Settings.VERSION} at {DateTime.Now}");
 
 		DisplayServer.WindowSetTitle("osu! skin mixer by rednir");
 		DisplayServer.WindowSetMinSize(new Vector2I(600, 300));
@@ -113,14 +113,14 @@ public partial class Main : Control
 
 	private void PushScene(StackScene scene)
 	{
-		GD.Print($"Pushing scene {scene.Title}");
+		Settings.Log($"Pushing scene {scene.Title}");
 		PendingScene = scene;
 		ScenesAnimationPlayer.Play("push_out");
 	}
 
 	private void PopScene()
 	{
-		GD.Print("Popping scene");
+		Settings.Log("Popping scene");
 		ScenesAnimationPlayer.Play("pop_out");
 	}
 
@@ -129,7 +129,7 @@ public partial class Main : Control
 		if (SceneStack.Count <= 1)
 			return;
 
-		GD.Print("Popping all scenes and returning to menu");
+		Settings.Log("Popping all scenes and returning to menu");
 		while (SceneStack.Count > 2)
 			SceneStack.Pop().QueueFree();
 

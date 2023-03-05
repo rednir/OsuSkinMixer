@@ -48,7 +48,7 @@ public abstract class SkinMachine
     public static void TriggerOskImport(OsuSkin skin)
     {
         string oskDestPath = $"{Settings.SkinsFolderPath}/{skin.Name}.osk";
-        GD.Print($"Importing skin into game from '{oskDestPath}'");
+        Settings.Log($"Importing skin into game from '{oskDestPath}'");
 
         // osu! will handle the empty .osk (zip) file by switching the current skin to the skin with name `newSkinName`.
         File.WriteAllBytes(oskDestPath, new byte[] { 0x50, 0x4B, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
@@ -60,7 +60,7 @@ public abstract class SkinMachine
         CancellationToken = cancellationToken;
         _tasks.Clear();
 
-        Log("Started");
+        Settings.Log("Started");
         Stopwatch stopwatch = new();
         stopwatch.Start();
 
@@ -72,7 +72,7 @@ public abstract class SkinMachine
         PostRun();
 
         stopwatch.Stop();
-        Log($"Finished in {stopwatch.Elapsed.TotalSeconds}s");
+        Settings.Log($"Finished in {stopwatch.Elapsed.TotalSeconds}s");
         Progress = null;
     }
 
@@ -123,7 +123,7 @@ public abstract class SkinMachine
                     OsuSkinIniSection newSkinSection = workingSkin.SkinIni.Sections.Last(s => s.Name == section.Name);
                     AddTask(() =>
                     {
-                        Log($"Copying skin.ini property '{section.Name}.{pair.Key}: {pair.Value}'");
+                        Settings.Log($"Copying skin.ini property '{section.Name}.{pair.Key}: {pair.Value}'");
                         newSkinSection.Add(
                             key: pair.Key,
                             value: pair.Value);
@@ -148,7 +148,7 @@ public abstract class SkinMachine
         if (section == null)
             return;
 
-        Log($"Copying skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}'");
+        Settings.Log($"Copying skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}'");
 
         workingSkin.SkinIni.Sections.Add(section);
         foreach (var property in section)
@@ -214,7 +214,7 @@ public abstract class SkinMachine
 
         _tasks.Add(() =>
         {
-            Log($"Run task '{file.FullName}' -> '{destFullPath}' ({reason})");
+            Settings.Log($"Run task '{file.FullName}' -> '{destFullPath}' ({reason})");
 
             FileStream fileStream = File.Create(destFullPath);
             memoryStream.Position = 0;
@@ -232,7 +232,7 @@ public abstract class SkinMachine
         {
             _tasks.Add(() =>
             {
-                Log($"Run task (blank file) -> '{destFullPath}'");
+                Settings.Log($"Run task (blank file) -> '{destFullPath}'");
                 File.Create(destFullPath).Dispose();
             });
         }
@@ -240,7 +240,7 @@ public abstract class SkinMachine
         {
             _tasks.Add(() =>
             {
-                Log($"Run task (blank file) -> '{destFullPath}'");
+                Settings.Log($"Run task (blank file) -> '{destFullPath}'");
 
                 // This is a 1x1 transparent PNG file. A zero byte file will cause osu! to fall back to the default skin.
                 File.WriteAllBytes(destFullPath, new byte[] {
@@ -277,7 +277,4 @@ public abstract class SkinMachine
 
         return false;
     }
-
-    protected static void Log(string message)
-        => GD.Print($"[MACHINE] {message}");
 }

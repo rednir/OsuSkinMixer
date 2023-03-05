@@ -33,12 +33,12 @@ public class SkinModifierMachine : SkinMachine
 
     private void ModifySingleSkin(OsuSkin workingSkin, IEnumerable<SkinOption> flattenedOptions)
     {
-        GD.Print($"Beginning skin modification for single skin '{workingSkin.Name}'");
+        Settings.Log($"Beginning skin modification for single skin '{workingSkin.Name}'");
 
         double progressInterval = UNCANCELLABLE_AFTER / SkinsToModify.Count() / flattenedOptions.Count(o => o.Value.Type != SkinOptionValueType.Unchanged);
         foreach (var option in flattenedOptions)
         {
-            GD.Print($"About to copy option '{option.Name}' set to {option.Value.Type}, skin '{option.Value.CustomSkin?.Name ?? "null"}'");
+            Settings.Log($"About to copy option '{option.Name}' set to {option.Value.Type}, skin '{option.Value.CustomSkin?.Name ?? "null"}'");
 
             // User wants this skin element to be unchanged.
             if (option.Value.Type == SkinOptionValueType.Unchanged || option.Value.CustomSkin == workingSkin)
@@ -53,11 +53,11 @@ public class SkinModifierMachine : SkinMachine
         string skinIniDestination = $"{workingSkin.Directory.FullName}/skin.ini";
         AddTask(() =>
         {
-            GD.Print($"Writing to {skinIniDestination}");
+            Settings.Log($"Writing to {skinIniDestination}");
             File.WriteAllText(skinIniDestination, workingSkin.SkinIni.ToString());
         });
 
-        GD.Print($"Skin modification for '{workingSkin.Name}' has completed.");
+        Settings.Log($"Skin modification for '{workingSkin.Name}' has completed.");
     }
 
     protected override void CopyIniPropertyOption(OsuSkin workingSkin, SkinIniPropertyOption iniPropertyOption)
@@ -67,7 +67,7 @@ public class SkinModifierMachine : SkinMachine
         // Remove the skin.ini properties to avoid remnants when using skin modifier.
         AddPriorityTask(() =>
         {
-            GD.Print($"Removing '{property.section}'.'{property.property}' to avoid remnants");
+            Settings.Log($"Removing '{property.section}'.'{property.property}' to avoid remnants");
             workingSkin.SkinIni.Sections.LastOrDefault(s => s.Name == property.section)?.Remove(property.property);
         });
 
@@ -82,7 +82,7 @@ public class SkinModifierMachine : SkinMachine
         // Remove the skin.ini section to avoid remnants when using skin modifier.
         AddPriorityTask(() =>
         {
-            Log($"Removing skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}' to avoid remnants");
+            Settings.Log($"Removing skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}' to avoid remnants");
             workingSkin.SkinIni.Sections.Remove(section);
         });
 
@@ -96,7 +96,7 @@ public class SkinModifierMachine : SkinMachine
         {
             foreach (FileInfo file in workingSkin.Directory.GetFiles().Where(f => CheckIfFileAndOptionMatch(f, fileOption)).ToArray())
             {
-                GD.Print($"Removing '{file.FullName}' to avoid remnants");
+                Settings.Log($"Removing '{file.FullName}' to avoid remnants");
                 file.Delete();
             }
         });

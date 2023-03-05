@@ -17,6 +17,8 @@ public static class Settings
 
     public static string SkinsFolderPath => $"{Content.OsuFolder}/Skins/";
 
+    public static SettingsContent Content { get; set; }
+
     static Settings()
     {
         if (File.Exists(SettingsFilePath))
@@ -31,7 +33,7 @@ public static class Settings
             {
                 GD.PushError($"Failed to deserialize {SettingsFilePath} due to exception {ex.Message}");
                 OS.Alert("Your settings have beeen corrupted, please report this issue and attach logs. All settings have been reset.", "Error");
-                GD.Print($"SETTINGS:\n{File.ReadAllText(SettingsFilePath)}");
+                Settings.Log($"SETTINGS:\n{File.ReadAllText(SettingsFilePath)}");
                 File.Delete(SettingsFilePath + ".bak");
                 File.Move(SettingsFilePath, SettingsFilePath + ".bak");
             }
@@ -40,8 +42,6 @@ public static class Settings
         Content = new SettingsContent();
         Save();
     }
-
-    public static SettingsContent Content { get; set; }
 
     public static void Save()
     {
@@ -80,6 +80,9 @@ public static class Settings
         error = null;
         return OsuData.TryLoadSkins();
     }
+
+    public static void Log(string message)
+        => GD.Print($"[{DateTime.Now.ToLongTimeString()}] {message}");
 
     private static void MigrateSettings()
     {

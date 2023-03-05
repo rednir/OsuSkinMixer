@@ -39,16 +39,16 @@ public static class OsuData
         if (Settings.Content.OsuFolder == null || !Directory.Exists(Settings.SkinsFolderPath))
             return false;
 
-        GD.Print($"About to load all skins into memory from {Settings.SkinsFolderPath}");
+        Settings.Log($"About to load all skins into memory from {Settings.SkinsFolderPath}");
 
         var skinsFolder = new DirectoryInfo(Settings.SkinsFolderPath);
 
         foreach (var dir in skinsFolder.EnumerateDirectories())
         {
             if (_skins.TryAdd(new OsuSkin(dir), dir.LastWriteTime))
-                GD.Print($"Loaded skin into memory: {dir.Name}");
+                Settings.Log($"Loaded skin into memory: {dir.Name}");
             else
-                GD.Print($"Did not load skin into memory as it already exists: {dir.Name}");
+                Settings.Log($"Did not load skin into memory as it already exists: {dir.Name}");
         }
 
         AllSkinsLoaded?.Invoke();
@@ -62,13 +62,13 @@ public static class OsuData
             return;
 
         _skins.Add(skin, skin.Directory.LastWriteTime);
-        GD.Print($"Added skin to memory: {skin.Name}");
+        Settings.Log($"Added skin to memory: {skin.Name}");
         SkinAdded?.Invoke(skin);
     }
 
     public static void InvokeSkinModified(OsuSkin skin)
     {
-        GD.Print($"Skin modified: {skin.Name}");
+        Settings.Log($"Skin modified: {skin.Name}");
         skin.ClearTextureCache();
         SkinModified?.Invoke(skin);
     }
@@ -78,7 +78,7 @@ public static class OsuData
         if (!_skins.Remove(skin))
             return;
 
-        GD.Print($"Removed skin from memory: {skin.Name}");
+        Settings.Log($"Removed skin from memory: {skin.Name}");
         SkinRemoved?.Invoke(skin);
     }
 

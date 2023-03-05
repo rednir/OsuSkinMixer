@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Godot;
+using OsuSkinMixer.Statics;
 using File = System.IO.File;
 
 namespace OsuSkinMixer.Models;
@@ -53,14 +54,14 @@ public class OsuSkin
         if (_textureCache.TryGetValue(filename, out Texture2D value))
             return value;
 
-        GD.Print($"Loading texture {filename} for skin: {Name}");
+        Settings.Log($"Loading texture {filename} for skin: {Name}");
 
         string path = $"{Directory.FullName}/{filename}";
 		Image image = new();
 
         if (!File.Exists(path))
         {
-            GD.Print("Falling back to default texture.");
+            Settings.Log("Falling back to default texture.");
             var defaultTexture = GetDefaultTexture(filename);
             _textureCache.Add(filename, defaultTexture);
             return GetDefaultTexture(filename);
