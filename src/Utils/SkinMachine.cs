@@ -185,6 +185,12 @@ public abstract class SkinMachine
         if (fileOption.Value.Type == SkinOptionValueType.DefaultSkin)
             return;
 
+        if (fileOption.Value.Type == SkinOptionValueType.Blank)
+        {
+            AddCopyBlankFileTask(fileOption, workingSkin.Directory);
+            return;
+        }
+
         foreach (var file in fileOption.Value.CustomSkin.Directory.EnumerateFiles())
         {
             if (CheckIfFileAndOptionMatch(file, fileOption))
@@ -216,6 +222,36 @@ public abstract class SkinMachine
             memoryStream.Dispose();
             fileStream.Dispose();
         });
+    }
+
+    protected void AddCopyBlankFileTask(SkinFileOption fileOption, DirectoryInfo fileDestDir)
+    {
+        string destFullPath = $"{fileDestDir.FullName}/{fileOption.Name.Replace("-*", "").Replace("*", "")}";
+
+        if (fileOption.IsAudio)
+        {
+            _tasks.Add(() =>
+            {
+                Log($"Run task (blank file) -> '{destFullPath}'");
+                File.Create(destFullPath).Dispose();
+            });
+        }
+        else
+        {
+            _tasks.Add(() =>
+            {
+                Log($"Run task (blank file) -> '{destFullPath}'");
+
+                // This is a 1x1 transparent PNG file. A zero byte file will cause osu! to fall back to the default skin.
+                File.WriteAllBytes(destFullPath, new byte[] {
+                    0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52,
+                    0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x08, 0x04, 0x00, 0x00, 0x00, 0xB5, 0x1C, 0x0C,
+                    0x02, 0x00, 0x00, 0x00, 0x0B, 0x49, 0x44, 0x41, 0x54, 0x78, 0xDA, 0x63, 0x64, 0x60, 0x00, 0x00,
+                    0x00, 0x06, 0x00, 0x02, 0x30, 0x81, 0xD0, 0x2F, 0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44,
+                    0xAE, 0x42, 0x60, 0x82
+                });
+            });
+        }
     }
 
     protected static bool CheckIfFileAndOptionMatch(FileInfo file, SkinFileOption fileOption)
