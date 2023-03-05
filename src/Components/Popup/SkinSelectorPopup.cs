@@ -17,6 +17,7 @@ public partial class SkinSelectorPopup : Popup
 
 	private TextureButton BackButton;
 	private LineEdit SearchLineEdit;
+	private VBoxContainer SkinOptionsContainer;
 	private VBoxContainer SkinsContainer;
 
 	public override void _Ready()
@@ -27,6 +28,7 @@ public partial class SkinSelectorPopup : Popup
 
 		BackButton = GetNode<TextureButton>("%BackButton");
 		SkinsContainer = GetNode<VBoxContainer>("%SkinComponentsContainer");
+		SkinOptionsContainer = GetNode<VBoxContainer>("%SkinOptionsContainer");
 		SearchLineEdit = GetNode<LineEdit>("%SearchLineEdit");
 
 		BackButton.Pressed += Out;
@@ -121,6 +123,8 @@ public partial class SkinSelectorPopup : Popup
 
 	private void OnSearchTextChanged(string text)
 	{
+		SkinOptionsContainer.Visible = string.IsNullOrWhiteSpace(text);
+
 		foreach (var component in SkinsContainer.GetChildren().Cast<SkinComponent>())
         {
             component.Visible = component.Name.ToString().Contains(text, StringComparison.OrdinalIgnoreCase)
