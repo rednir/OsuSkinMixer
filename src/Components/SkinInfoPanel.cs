@@ -15,7 +15,7 @@ public partial class SkinInfoPanel : PanelContainer
 	private QuestionPopup DeleteQuestionPopup;
 	private Sprite2D Cursor;
 	private CpuParticles2D Cursortrail;
-	private Hitcircle Hitcircle;
+	private HitcircleIcon Hitcircle;
 	private Label SkinNameLabel;
 	private Label SkinAuthorLabel;
 	private Button DeleteButton;
@@ -32,7 +32,7 @@ public partial class SkinInfoPanel : PanelContainer
 		DeleteQuestionPopup = GetNode<QuestionPopup>("%DeleteQuestionPopup");
 		Cursor = GetNode<Sprite2D>("%Cursor");
 		Cursortrail = GetNode<CpuParticles2D>("%Cursortrail");
-		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
+		Hitcircle = GetNode<HitcircleIcon>("%Hitcircle");
 		SkinNameLabel = GetNode<Label>("%SkinName");
 		SkinAuthorLabel = GetNode<Label>("%SkinAuthor");
 		DeleteButton = GetNode<Button>("%DeleteButton");

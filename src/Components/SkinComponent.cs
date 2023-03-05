@@ -13,14 +13,14 @@ public partial class SkinComponent : HBoxContainer
 	private Button Button;
 	private Label NameLabel;
 	private Label AuthorLabel;
-	private Hitcircle Hitcircle;
+	private HitcircleIcon Hitcircle;
 
 	public override void _Ready()
 	{
 		Button = GetNode<Button>("%Button");
 		NameLabel = GetNode<Label>("%Name");
 		AuthorLabel = GetNode<Label>("%Author");
-		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
+		Hitcircle = GetNode<HitcircleIcon>("%Hitcircle");
 
 		Button.Pressed += OnButtonPressed;
 

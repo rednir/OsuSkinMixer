@@ -7,7 +7,7 @@ using OsuSkinMixer.Models;
 
 namespace OsuSkinMixer.Components;
 
-public partial class Hitcircle : CenterContainer
+public partial class HitcircleIcon : CenterContainer
 {
 	private TextureRect HitcircleTexture;
 	private TextureRect HitcircleoverlayTexture;

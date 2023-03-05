@@ -1,9 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://c4j4bsf5c7esu"]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_08l8f"]
 [ext_resource type="Script" path="res://src/Components/SkinInfoPanel.cs" id="2_dwrdw"]
 [ext_resource type="PackedScene" uid="uid://7805vr243ofu" path="res://src/Components/Popup/Generic/QuestionPopup.tscn" id="3_812hj"]
-[ext_resource type="PackedScene" uid="uid://b634iffeaic7w" path="res://src/Components/Osu/Hitcircle.tscn" id="3_n2mwj"]
+[ext_resource type="PackedScene" uid="uid://b634iffeaic7w" path="res://src/Components/Osu/HitcircleIcon.tscn" id="3_n2mwj"]
 [ext_resource type="LabelSettings" uid="uid://cunaagboquiic" path="res://src/Styles/LabelSettings/MenuButtonTitle.tres" id="4_uie4s"]
 [ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="5_iyi87"]
 [ext_resource type="StyleBox" uid="uid://brb6aa48f2ww7" path="res://src/Styles/Buttons/StandardIconButton.tres" id="6_vo0hs"]
