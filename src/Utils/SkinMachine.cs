@@ -92,22 +92,23 @@ public abstract class SkinMachine
 
     protected void CopyOption(OsuSkin workingSkin, SkinOption option)
     {
-        // TODO: clear skin.ini property if set to default skin.
-        if (option.Value.CustomSkin.SkinIni != null)
+        switch (option)
         {
-            if (option is SkinIniPropertyOption iniPropertyOption)
+            case SkinIniPropertyOption iniPropertyOption:
                 CopyIniPropertyOption(workingSkin, iniPropertyOption);
-            else if (option is SkinIniSectionOption iniSectionOption)
+                break;
+            case SkinIniSectionOption iniSectionOption:
                 CopyIniSectionOption(workingSkin, iniSectionOption);
+                break;
+            case SkinFileOption fileOption:
+                CopyFileOption(workingSkin, fileOption);
+                break;
         }
-
-        if (option is SkinFileOption fileOption)
-            CopyFileOption(workingSkin, fileOption);
     }
 
     protected virtual void CopyIniPropertyOption(OsuSkin workingSkin, SkinIniPropertyOption iniPropertyOption)
     {
-        if (iniPropertyOption.Value.Type == SkinOptionValueType.DefaultSkin)
+        if (iniPropertyOption.Value.Type == SkinOptionValueType.DefaultSkin || iniPropertyOption.Value.CustomSkin?.SkinIni == null)
             return;
 
         foreach (var section in iniPropertyOption.Value.CustomSkin.SkinIni.Sections)
@@ -138,6 +139,9 @@ public abstract class SkinMachine
 
     protected virtual void CopyIniSectionOption(OsuSkin workingSkin, SkinIniSectionOption iniSectionOption)
     {
+        if (iniSectionOption.Value.Type == SkinOptionValueType.DefaultSkin || iniSectionOption.Value.CustomSkin?.SkinIni == null)
+            return;
+
         OsuSkinIniSection section = iniSectionOption.Value.CustomSkin.SkinIni.Sections.Find(
             s => s.Name == iniSectionOption.SectionName && s.Contains(iniSectionOption.Property));
 
