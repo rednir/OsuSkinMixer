@@ -74,6 +74,21 @@ public class SkinModifierMachine : SkinMachine
         base.CopyIniPropertyOption(workingSkin, iniPropertyOption);
     }
 
+    protected override void CopyIniSectionOption(OsuSkin workingSkin, SkinIniSectionOption iniSectionOption)
+    {
+        OsuSkinIniSection section = workingSkin.SkinIni.Sections.Find(
+            s => s.Name == iniSectionOption.SectionName && s.Contains(iniSectionOption.Property));
+
+        // Remove the skin.ini section to avoid remnants when using skin modifier.
+        AddPriorityTask(() =>
+        {
+            Log($"Removing skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}' to avoid remnants");
+            workingSkin.SkinIni.Sections.Remove(section);
+        });
+
+        base.CopyIniSectionOption(workingSkin, iniSectionOption);
+    }
+
     protected override void CopyFileOption(OsuSkin workingSkin, SkinFileOption fileOption)
     {
         // Remove old files to avoid remnants, so if there is no match the default skin will be used.
