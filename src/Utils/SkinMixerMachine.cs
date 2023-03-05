@@ -70,10 +70,9 @@ public class SkinMixerMachine : SkinMachine
         {
             NewSkin.Directory.MoveTo(dirDestPath);
         }
-        catch (IOException e) when (e.Message.Contains("Cross-device link"))
+        catch (IOException e)
         {
-            // Workaround for https://github.com/dotnet/runtime/issues/31149
-            GD.PushWarning("Cross-device link error, copying directory instead.");
+            GD.PushWarning($"Exception thrown, probably because we are trying to move across different volumes or devices. Falling back to copy method.\n{e.Message}");
             DirectoryInfo copiedDir = CopyDirectory(NewSkin.Directory, dirDestPath);
             NewSkin.Directory.Delete(true);
             NewSkin.Directory = copiedDir;
