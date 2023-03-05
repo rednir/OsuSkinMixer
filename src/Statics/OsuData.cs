@@ -12,6 +12,8 @@ public static class OsuData
 {
     private const int SWEEP_INTERVAL_MSEC = 1500;
 
+    public static event Action AllSkinsLoaded;
+
     public static event Action<OsuSkin> SkinAdded;
 
     public static event Action<OsuSkin> SkinModified;
@@ -48,6 +50,7 @@ public static class OsuData
                 GD.Print($"Did not load skin into memory as it already exists: {dir.Name}");
         }
 
+        AllSkinsLoaded?.Invoke();
         return true;
     }
 

@@ -92,6 +92,7 @@ public partial class Main : Control
 		BackButton.Pressed += PopScene;
 		SettingsButton.Pressed += SettingsPopup.In;
 
+		OsuData.AllSkinsLoaded += PopAllScenes;
 		OsuData.SkinAdded += s => PushToast($"Skin was created:\n{s.Name}");
 		OsuData.SkinModified += s => PushToast($"Skin was modified:\n{s.Name}");
 		OsuData.SkinRemoved += s => PushToast($"Skin was deleted:\n{s.Name}");
@@ -120,6 +121,19 @@ public partial class Main : Control
 	private void PopScene()
 	{
 		GD.Print("Popping scene");
+		ScenesAnimationPlayer.Play("pop_out");
+	}
+
+	private void PopAllScenes()
+	{
+		if (SceneStack.Count <= 1)
+			return;
+
+		GD.Print("Popping all scenes and returning to menu");
+		while (SceneStack.Count > 2)
+			SceneStack.Pop().QueueFree();
+
+		SceneStack.Peek().Visible = true;
 		ScenesAnimationPlayer.Play("pop_out");
 	}
 
