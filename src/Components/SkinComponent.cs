@@ -23,7 +23,9 @@ public partial class SkinComponent : HBoxContainer
 		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
 
 		Button.Pressed += OnButtonPressed;
-		SetValues();
+
+		if (Skin != null)
+			SetValues();
 	}
 
 	public void SetValues()

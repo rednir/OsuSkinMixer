@@ -20,6 +20,8 @@ public partial class SkinModifierModificationSelect : StackScene
 	public List<OsuSkin> SkinsToModify { get; set; }
 
 	private SkinOptionsSelector SkinOptionsSelector;
+	private SkinComponent DefaultSkinComponent;
+	private SkinComponent BlankComponent;
 	private Button ApplyChangesButton;
 	private LoadingPopup LoadingPopup;
 
@@ -28,10 +30,14 @@ public partial class SkinModifierModificationSelect : StackScene
 		SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
 
 		SkinOptionsSelector = GetNode<SkinOptionsSelector>("%SkinOptionsSelector");
+		DefaultSkinComponent = GetNode<SkinComponent>("%DefaultSkinComponent");
+		BlankComponent = GetNode<SkinComponent>("%BlankComponent");
 		ApplyChangesButton = GetNode<Button>("%ApplyChangesButton");
 		LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
 
 		SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.Unchanged));
+		DefaultSkinComponent.Pressed += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.DefaultSkin));
+		BlankComponent.Pressed += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.Blank));
 		ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
 		LoadingPopup.CancelAction = OnCancelButtonPressed;
 		LoadingPopup.DisableCancelAt = SkinModifierMachine.UNCANCELLABLE_AFTER;

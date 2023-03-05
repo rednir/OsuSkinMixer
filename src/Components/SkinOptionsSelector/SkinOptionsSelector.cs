@@ -26,7 +26,7 @@ public partial class SkinOptionsSelector : VBoxContainer
         SkinOptionComponentScene = GD.Load<PackedScene>("res://src/Components/SkinOptionsSelector/SkinOptionComponent.tscn");
 
         SkinSelectorPopup = GetNode<SkinSelectorPopup>("SkinSelectorPopup");
-        SkinSelectorPopup.OnSelected = OptionComponentSelected;
+        SkinSelectorPopup.OnSelected = s => OptionComponentSelected(new SkinOptionValue(s));
     }
 
     public void CreateOptionComponents(SkinOptionValue defaultValue)
@@ -47,7 +47,7 @@ public partial class SkinOptionsSelector : VBoxContainer
             component.ResetButton.Pressed += () =>
             {
                 SkinOptionComponentInSelection = component;
-                OptionComponentSelected(null);
+                OptionComponentSelected(defaultValue);
             };
             component.Button.Pressed += () =>
             {
@@ -84,7 +84,7 @@ public partial class SkinOptionsSelector : VBoxContainer
         foreach (var component in SkinOptionComponents.Where(c => c.SkinOption is not ParentSkinOption))
         {
             SkinOptionComponentInSelection = component;
-            OptionComponentSelected(OsuData.Skins[Random.Next(OsuData.Skins.Length)]);
+            OptionComponentSelected(new SkinOptionValue(OsuData.Skins[Random.Next(OsuData.Skins.Length)]));
         }
     }
 
@@ -93,36 +93,37 @@ public partial class SkinOptionsSelector : VBoxContainer
         foreach (var component in SkinOptionComponents.Where(c => c.SkinOption is not ParentSkinOption))
         {
             SkinOptionComponentInSelection = component;
-            OptionComponentSelected(null);
+            OptionComponentSelected(component.DefaultValue);
         }
     }
 
-    private void OptionComponentSelected(OsuSkin skinSelected)
+    public void OptionComponentSelected(SkinOptionValue valueSelected)
     {
         // TODO: This method can be optimized further by recursively looping through the components and their
         // children (in their respective VBoxContainers) instead of looping through the ParentSkinOption's children.
-        SkinOptionComponentInSelection.SetValue(skinSelected);
+        SkinOptionComponentInSelection.SetValue(valueSelected);
 
         foreach (var parent in SkinOption.GetParents(SkinOptionComponentInSelection.SkinOption, SkinOptions))
         {
             SkinOptionComponent parentOptionComponent = SkinOptionComponents.Find(c => c.SkinOption == parent);
-            if (parent.Children.All(o => o.Value.CustomSkin == skinSelected))
-                parentOptionComponent.SetValue(skinSelected);
+            if (parent.Children.All(o => o.Value == valueSelected))
+                parentOptionComponent.SetValue(valueSelected);
             else
                 parentOptionComponent.SetValue(new SkinOptionValue(SkinOptionValueType.Various));
         }
 
-        SetAllChildrenOfOptionToSkin(SkinOptionComponentInSelection.SkinOption, skinSelected);
+        SetValueOfAllChildrenOfOption(SkinOptionComponentInSelection.SkinOption, valueSelected);
+        SkinSelectorPopup.Out();
     }
 
-    private void SetAllChildrenOfOptionToSkin(SkinOption option, OsuSkin skin)
+    private void SetValueOfAllChildrenOfOption(SkinOption option, SkinOptionValue value)
     {
         if (option is ParentSkinOption parentOption)
         {
             foreach (var child in parentOption.Children)
-                SetAllChildrenOfOptionToSkin(child, skin);
+                SetValueOfAllChildrenOfOption(child, value);
         }
 
-        SkinOptionComponents.Find(c => c.SkinOption == option).SetValue(skin);
+        SkinOptionComponents.Find(c => c.SkinOption == option).SetValue(value);
     }
 }

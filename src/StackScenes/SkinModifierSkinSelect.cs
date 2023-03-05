@@ -43,6 +43,7 @@ public partial class SkinModifierSkinSelect : StackScene
 	private void OnSkinSelected(OsuSkin skin)
 	{
 		SkinSelectorPopup.DisableSkinComponent(skin);
+		SkinSelectorPopup.Out();
 
 		var component = SkinComponentScene.Instantiate<SkinComponent>();
 		component.Skin = skin;

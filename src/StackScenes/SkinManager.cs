@@ -29,6 +29,8 @@ public partial class SkinManager : StackScene
 
 	private void OnSkinSelected(OsuSkin skin)
 	{
+		SkinSelectorPopup.Out();
+
 		SkinInfo instance = SkinInfoScene.Instantiate<SkinInfo>();
 		instance.Skins = new OsuSkin[] { skin };
 		EmitSignal(SignalName.ScenePushed, instance);

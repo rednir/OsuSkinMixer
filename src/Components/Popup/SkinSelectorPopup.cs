@@ -117,7 +117,6 @@ public partial class SkinSelectorPopup : Popup
 	private void OnSkinSelected(OsuSkin skin)
 	{
 		OnSelected(skin);
-		Out();
 	}
 
 	private void OnSearchTextChanged(string text)

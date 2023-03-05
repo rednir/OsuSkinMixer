@@ -77,6 +77,15 @@ flat = true
 [node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
 
+[node name="SkinOptionsContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer"]
+layout_mode = 2
+
 [node name="SkinComponentsContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2

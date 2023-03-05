@@ -31,6 +31,7 @@ public partial class SkinOptionComponent : HBoxContainer
         TooltipText = option.ToString();
         Name = option.Name;
         Label.Text = option.Name;
+        DefaultValue = defaultValue;
 		SetValue(defaultValue);
 
         if (option is not ParentSkinOption)
@@ -50,9 +51,6 @@ public partial class SkinOptionComponent : HBoxContainer
         AddChild(indent);
         MoveChild(indent, 0);
     }
-
-	public void SetValue(OsuSkin skin)
-		=> SetValue(new SkinOptionValue(SkinOptionValueType.CustomSkin, skin));
 
     public void SetValue(SkinOptionValue value)
     {
