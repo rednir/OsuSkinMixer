@@ -20,8 +20,6 @@ public static class OsuData
 
     public static event Action<OsuSkin> SkinRemoved;
 
-    public static event Action<OsuSkin, bool> SkinHiddenStateChanged;
-
     public static bool SweepPaused { get; set; } = true;
 
     public static OsuSkin[] Skins { get => _skins.Keys.OrderBy(s => s.Name).ToArray(); }
@@ -160,6 +158,13 @@ public static class OsuData
                 // Skin was modified since the last sweep.
                 InvokeSkinModified(pair.Key);
                 _skins[pair.Key] = dir.LastWriteTime;
+            }
+
+            if (pair.Key.Hidden != hidden)
+            {
+                // Skin changed hidden state since the last sweep.
+                InvokeSkinModified(pair.Key);
+                pair.Key.Hidden = hidden;
             }
         }
     }
