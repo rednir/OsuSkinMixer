@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bygywxo1hix1y"]
+[gd_scene load_steps=18 format=3 uid="uid://bygywxo1hix1y"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_08l8f"]
 [ext_resource type="Script" path="res://src/Components/SkinInfoPanel.cs" id="2_dwrdw"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cgnidqld7ff0p" path="res://assets/materialicons/visibility_off.png" id="9_lgbjm"]
 [ext_resource type="Texture2D" uid="uid://05l1bgbm243m" path="res://assets/defaultskin/menu-background.jpg" id="10_2s2kn"]
 [ext_resource type="Texture2D" uid="uid://bo3g8fwecbbbx" path="res://assets/materialicons/delete.png" id="10_lk70x"]
+[ext_resource type="PackedScene" uid="uid://dg5gq6ty35cmr" path="res://src/Components/Osu/Hitcircle.tscn" id="13_ac6pp"]
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="13_t4web"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="14_isl58"]
 
@@ -56,7 +57,7 @@ theme_override_constants/separation = 12
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Hitcircle" parent="MainContentContainer/HeaderContainer" instance=ExtResource("3_n2mwj")]
+[node name="HitcircleIcon" parent="MainContentContainer/HeaderContainer" instance=ExtResource("3_n2mwj")]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -125,6 +126,10 @@ layout_mode = 2
 texture = ExtResource("10_2s2kn")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="Hitcircle" parent="MainContentContainer/PreviewContainer" instance=ExtResource("13_ac6pp")]
+unique_name_in_owner = true
+position = Vector2(223, 112)
 
 [node name="Cursor" type="Sprite2D" parent="MainContentContainer/PreviewContainer"]
 unique_name_in_owner = true

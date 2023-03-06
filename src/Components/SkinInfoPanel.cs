@@ -15,7 +15,8 @@ public partial class SkinInfoPanel : PanelContainer
 	private QuestionPopup DeleteQuestionPopup;
 	private Sprite2D Cursor;
 	private CpuParticles2D Cursortrail;
-	private HitcircleIcon Hitcircle;
+	private Hitcircle Hitcircle;
+	private HitcircleIcon HitcircleIcon;
 	private Label SkinNameLabel;
 	private Label SkinAuthorLabel;
 	private Button DeleteButton;
@@ -32,7 +33,8 @@ public partial class SkinInfoPanel : PanelContainer
 		DeleteQuestionPopup = GetNode<QuestionPopup>("%DeleteQuestionPopup");
 		Cursor = GetNode<Sprite2D>("%Cursor");
 		Cursortrail = GetNode<CpuParticles2D>("%Cursortrail");
-		Hitcircle = GetNode<HitcircleIcon>("%Hitcircle");
+		HitcircleIcon = GetNode<HitcircleIcon>("%HitcircleIcon");
+		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
 		SkinNameLabel = GetNode<Label>("%SkinName");
 		SkinAuthorLabel = GetNode<Label>("%SkinAuthor");
 		DeleteButton = GetNode<Button>("%DeleteButton");
@@ -45,7 +47,8 @@ public partial class SkinInfoPanel : PanelContainer
 		DeleteQuestionPopup.ConfirmAction = OnDeleteConfirmed;
 		Cursor.Texture = Skin.GetTexture("cursor.png");
 		Cursortrail.Texture = Skin.GetTexture("cursortrail.png");
-		Hitcircle.SetSkin(Skin);
+		HitcircleIcon.SetSkin(Skin);
+		Hitcircle.SetSkin(Skin, 1);
 		SkinNameLabel.Text = Skin.Name;
 		SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
 		MenuBackground.Texture = Skin.GetTexture("menu-background.jpg") ?? Skin.GetTexture("menu-background.png");
