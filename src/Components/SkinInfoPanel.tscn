@@ -55,13 +55,15 @@ layout_mode = 2
 
 [node name="NameAndAuthorContainer" type="VBoxContainer" parent="MainContentContainer/HeaderContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 2
 
 [node name="SkinName" type="Label" parent="MainContentContainer/HeaderContainer/NameAndAuthorContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "skin name goes here"
+text = "this is a very very very long placeholder skin name"
 label_settings = ExtResource("4_uie4s")
+text_overrun_behavior = 3
 
 [node name="SkinAuthor" type="Label" parent="MainContentContainer/HeaderContainer/NameAndAuthorContainer"]
 unique_name_in_owner = true
@@ -70,10 +72,11 @@ theme_override_colors/font_color = Color(0.901961, 0.882353, 0.898039, 1)
 theme_override_font_sizes/font_size = 14
 text = "Unknown author"
 label_settings = ExtResource("5_iyi87")
+text_overrun_behavior = 3
 
 [node name="IconButtonsContainer" type="HBoxContainer" parent="MainContentContainer/HeaderContainer"]
 layout_mode = 2
-size_flags_horizontal = 10
+size_flags_horizontal = 8
 
 [node name="HideButton" type="Button" parent="MainContentContainer/HeaderContainer/IconButtonsContainer"]
 unique_name_in_owner = true

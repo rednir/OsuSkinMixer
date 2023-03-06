@@ -32,6 +32,7 @@ public partial class SkinComponent : HBoxContainer
 	{
 		NameLabel.Text = Skin.Name;
 		AuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
+		Button.TooltipText = Skin.Name;
 		Hitcircle.SetSkin(Skin);
 	}
 

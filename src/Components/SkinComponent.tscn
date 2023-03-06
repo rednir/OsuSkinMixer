@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=8 format=3 uid="uid://bncwf73sgcemr"]
 
 [ext_resource type="Script" path="res://src/Components/SkinComponent.cs" id="1_7h4pf"]
-[ext_resource type="PackedScene" uid="uid://b634iffeaic7w" path="res://src/Components/Osu/HitcircleIcon.tscn" id="2_fkdqu"]
+[ext_resource type="PackedScene" uid="uid://dyarkbs87kwmf" path="res://src/Components/Osu/HitcircleIcon.tscn" id="2_fkdqu"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="3_adour"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uek0x"]
@@ -43,17 +43,18 @@ unique_name_in_owner = true
 layout_mode = 2
 offset_left = 74.0
 offset_top = 16.0
-offset_right = 367.0
+offset_right = 478.0
 offset_bottom = 38.0
 theme = ExtResource("3_adour")
-text = "skin name goes here"
+text = "this is a very very very long placeholder skin name"
+text_overrun_behavior = 3
 
 [node name="Author" type="Label" parent="Button"]
 unique_name_in_owner = true
 layout_mode = 2
 offset_left = 74.0
 offset_top = 37.0
-offset_right = 350.0
+offset_right = 459.0
 offset_bottom = 59.0
 theme = ExtResource("3_adour")
 theme_override_colors/font_color = Color(0.792157, 0.768627, 0.815686, 1)
