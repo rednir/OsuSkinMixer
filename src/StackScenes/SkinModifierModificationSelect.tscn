@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://src/StackScenes/SkinModifierModificationSelect.cs" id="2_je2sr"]
 [ext_resource type="PackedScene" uid="uid://4a2d561f0p72" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.tscn" id="3_4hx6p"]
 [ext_resource type="PackedScene" uid="uid://r28lp1qj0ucs" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="3_dgftf"]
-[ext_resource type="PackedScene" path="res://src/Components/SkinComponent.tscn" id="4_3gkpc"]
+[ext_resource type="PackedScene" uid="uid://bncwf73sgcemr" path="res://src/Components/SkinComponent.tscn" id="4_3gkpc"]
 [ext_resource type="Texture2D" uid="uid://d3x84ulkau6ag" path="res://assets/check.png" id="4_h3oms"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="4_qbo2l"]
 
@@ -28,7 +28,7 @@ visible = true
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HitcircleTexture" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/Hitcircle" index="1"]
+[node name="HitcircleTexture" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/Hitcircle" index="2"]
 modulate = Color(0, 0.823529, 0, 1)
 
 [node name="Name" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="1"]
