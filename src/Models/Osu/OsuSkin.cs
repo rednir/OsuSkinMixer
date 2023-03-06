@@ -61,16 +61,16 @@ public class OsuSkin
         Settings.Log($"Loading texture {filename} for skin: {Name}");
 
         string path = $"{Directory.FullName}/{filename}";
-		Image image = new();
 
         if (!File.Exists(path))
         {
             Settings.Log("Falling back to default texture.");
             var defaultTexture = GetDefaultTexture(filename);
             _textureCache.Add(filename, defaultTexture);
-            return GetDefaultTexture(filename);
+            return defaultTexture;
         }
 
+        Image image = new();
 		Error err = image.Load(path);
 
         if (err != Error.Ok)
