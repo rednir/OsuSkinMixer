@@ -9,22 +9,29 @@ namespace OsuSkinMixer.Components;
 
 public partial class HitcircleIcon : CenterContainer
 {
+	private VisibleOnScreenNotifier2D VisibleOnScreenNotifier2D;
 	private TextureRect HitcircleTexture;
 	private TextureRect HitcircleoverlayTexture;
 	private TextureRect Default1Texture;
 
+	private OsuSkin _skin;
+
+	private bool _isTexturesLoaded;
+
 	public override void _Ready()
 	{
+		VisibleOnScreenNotifier2D = GetNode<VisibleOnScreenNotifier2D>("VisibleOnScreenNotifier2D");
 		HitcircleTexture = GetNode<TextureRect>("HitcircleTexture");
 		HitcircleoverlayTexture = GetNode<TextureRect>("HitcircleoverlayTexture");
 		Default1Texture = GetNode<TextureRect>("Default1Texture");
+
+		VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
 	}
 
 	public void SetSkin(OsuSkin skin)
 	{
-		HitcircleTexture.Texture = skin.GetTexture("hitcircle.png");
-		HitcircleoverlayTexture.Texture = skin.GetTexture("hitcircleoverlay.png");
-		Default1Texture.Texture = skin.GetTexture("default-1.png");
+		_skin = skin;
+		_isTexturesLoaded = false;
 
 		string[] iniColorRgb = skin
 			.SkinIni?
@@ -44,4 +51,16 @@ public partial class HitcircleIcon : CenterContainer
             HitcircleTexture.Modulate = new Color(0, 202, 0);
         }
     }
+
+	private void OnScreenEntered()
+	{
+		if (_skin == null || _isTexturesLoaded)
+			return;
+
+		_isTexturesLoaded = true;
+
+		HitcircleTexture.Texture = _skin.GetTexture("hitcircle.png");
+		HitcircleoverlayTexture.Texture = _skin.GetTexture("hitcircleoverlay.png");
+		Default1Texture.Texture = _skin.GetTexture("default-1.png");
+	}
 }
