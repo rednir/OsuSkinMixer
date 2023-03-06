@@ -107,10 +107,10 @@ public static class OsuData
     {
         foreach (var dir in directoryInfo.EnumerateDirectories())
         {
-            if (_skins.TryAdd(new OsuSkin(dir, hidden), dir.LastWriteTime))
+            if (!_skins.Any(s => s.Key.Name == directoryInfo.Name) && _skins.TryAdd(new OsuSkin(dir, hidden), dir.LastWriteTime))
                 Settings.Log($"Loaded skin into memory: {dir.Name} ({(hidden ? "hidden" : string.Empty)})");
             else
-                Settings.Log($"Did not load skin into memory as it already exists: {dir.Name} ({(hidden ? "hidden" : string.Empty)})");
+                Settings.Log($"Did not load skin into memory as it already exists: {dir.Name} {(hidden ? "(hidden)" : string.Empty)}");
         }
     }
 

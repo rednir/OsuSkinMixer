@@ -63,6 +63,10 @@ public class SkinMixerMachine : SkinMachine
         if (!IsInSkinsFolder(dirDestPath))
             throw new InvalidOperationException("Destination path is not in the skins folder.");
 
+        // Also replace the skin in the hidden skins folder to avoid duplicate names.
+        if (Directory.Exists($"{Settings.HiddenSkinsFolderPath}/{NewSkinName}"))
+            Directory.Delete($"{Settings.HiddenSkinsFolderPath}/{NewSkinName}", true);
+
         if (Directory.Exists(dirDestPath))
             Directory.Delete(dirDestPath, true);
 
