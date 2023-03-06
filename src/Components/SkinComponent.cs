@@ -35,7 +35,7 @@ public partial class SkinComponent : HBoxContainer
         NameLabel.Text = Skin.Name;
         Button.TooltipText = Skin.Name;
         HiddenIcon.Visible = Skin.Hidden;
-		
+
 		// Compact components don't have these nodes.
         if (AuthorLabel != null && Hitcircle != null)
         {
