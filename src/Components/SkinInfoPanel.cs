@@ -19,7 +19,6 @@ public partial class SkinInfoPanel : PanelContainer
 	private Label SkinAuthorLabel;
 	private Button DeleteButton;
 	private Button HideButton;
-	
 	private Label DetailsLabel;
 	private Button OpenFolderButton;
 	private Button OpenInOsuButton;
