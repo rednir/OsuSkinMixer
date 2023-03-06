@@ -103,10 +103,6 @@ public static class Settings
 
     public class SettingsContent
     {
-        [JsonPropertyName("skins_folder")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string SkinsFolder { get; set; }
-
         [JsonPropertyName("osu_folder")]
         public string OsuFolder { get; set; }
 
@@ -114,9 +110,15 @@ public static class Settings
         public bool UseCompactSkinSelector { get; set; }
 
         [JsonPropertyName("import_to_game_if_open")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool ImportToGameIfOpen { get; set; } = OS.GetName() == "Windows";
 
         [JsonPropertyName("arrow_button_pressed")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool ArrowButtonPressed { get; set; }
+
+        [JsonPropertyName("skins_folder")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string SkinsFolder { get; set; }
     }
 }
