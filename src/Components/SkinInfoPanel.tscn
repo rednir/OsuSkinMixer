@@ -93,6 +93,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.792157, 0.768627, 0.815686, 1)
 theme_override_font_sizes/font_size = 14
 text = "Last modified: 1st January 2023"
+text_overrun_behavior = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainContentContainer"]
 layout_mode = 2

@@ -55,7 +55,6 @@ public partial class ManageSkinPopup : Popup
 	private void OnHideButtonPressed()
 	{
 		OsuData.ToggleSkinHiddenState(_skin);
-		HideButton.Text = _skin.Hidden ? UNHIDE_BUTTON_TEXT : HIDE_BUTTON_TEXT;
 		Out();
 	}
 

@@ -40,19 +40,40 @@ public partial class SkinInfoPanel : PanelContainer
 		OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
 		ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
+		MoreButton.Pressed += OnMoreButtonPressed;
+		OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
+		OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
+		ManageSkinPopup.ModifySkin += OnModifySkin;
+
+		OsuData.SkinModified += OnSkinModified;
+		OsuData.SkinRemoved += OnSkinRemoved;
+
+		SetValues();
+	}
+
+	public override void _ExitTree()
+	{
+		OsuData.SkinModified -= OnSkinModified;
+		OsuData.SkinRemoved -= OnSkinRemoved;
+	}
+
+	private void SetValues()
+	{
 		SkinPreview.SetSkin(Skin);
 		HitcircleIcon.SetSkin(Skin);
 		SkinNameLabel.Text = Skin.Name;
 		SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
-		MoreButton.Pressed += OnMoreButtonPressed;
 		DetailsLabel.Text = $"Last modified: {Skin.Directory.LastWriteTime}";
 		HiddenIcon.Visible = Skin.Hidden;
-		OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
-		OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
 		ManageSkinPopup.SetSkin(Skin);
-		ManageSkinPopup.ModifySkin += OnModifySkin;
+	}
 
-		OsuData.SkinRemoved += OnSkinRemoved;
+	private void OnSkinModified(OsuSkin skin)
+	{
+		if (skin != Skin)
+			return;
+
+		SetValues();
 	}
 
 	private void OnOpenFolderButtonPressed()
