@@ -14,6 +14,7 @@ public partial class SkinComponent : HBoxContainer
 	private Label NameLabel;
 	private Label AuthorLabel;
 	private HitcircleIcon Hitcircle;
+	private TextureRect HiddenIcon;
 
 	public override void _Ready()
 	{
@@ -21,6 +22,7 @@ public partial class SkinComponent : HBoxContainer
 		NameLabel = GetNode<Label>("%Name");
 		AuthorLabel = GetNode<Label>("%Author");
 		Hitcircle = GetNode<HitcircleIcon>("%Hitcircle");
+		HiddenIcon = GetNode<TextureRect>("%HiddenIcon");
 
 		Button.Pressed += OnButtonPressed;
 
@@ -33,6 +35,7 @@ public partial class SkinComponent : HBoxContainer
 		NameLabel.Text = Skin.Name;
 		AuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
 		Button.TooltipText = Skin.Name;
+		HiddenIcon.Visible = Skin.Hidden;
 		Hitcircle.SetSkin(Skin);
 	}
 
