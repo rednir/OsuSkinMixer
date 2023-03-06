@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cypqcp2bs5ci8"]
+[gd_scene load_steps=10 format=3 uid="uid://cypqcp2bs5ci8"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_jskw1"]
 [ext_resource type="Script" path="res://src/StackScenes/SkinModifierModificationSelect.cs" id="2_je2sr"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://bncwf73sgcemr" path="res://src/Components/SkinComponent.tscn" id="4_3gkpc"]
 [ext_resource type="Texture2D" uid="uid://d3x84ulkau6ag" path="res://assets/check.png" id="4_h3oms"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="4_qbo2l"]
+[ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="5_clcj8"]
+[ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="8_hqq3a"]
 
 [node name="SkinModifierModificationSelect" type="VBoxContainer"]
 offset_right = 750.0
@@ -53,13 +55,50 @@ text = "(use an empty file for this skin element)"
 [node name="HSeparator" type="HSeparator" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer" index="2"]
 layout_mode = 2
 
-[node name="ApplyChangesButton" parent="." instance=ExtResource("4_qbo2l")]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="ExtraOptionsButton" parent="HBoxContainer" instance=ExtResource("5_clcj8")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Extra options..."
+
+[node name="ApplyChangesButton" parent="HBoxContainer" instance=ExtResource("4_qbo2l")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Apply changes"
 icon = ExtResource("4_h3oms")
+
+[node name="ExtraOptionsPopup" parent="." instance=ExtResource("8_hqq3a")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ScrollContainer" parent="ExtraOptionsPopup/Popup/CanvasLayer" index="1"]
+offset_bottom = -0.000244141
+
+[node name="Title" parent="ExtraOptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
+visible = false
+text = "More options"
+
+[node name="Text" parent="ExtraOptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+visible = false
+text = "These options will also be applied to the selected skin(s)"
+
+[node name="SmoothTrailButton" type="CheckButton" parent="ExtraOptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Smooth cursor trail"
+
+[node name="InstafadeButton" type="CheckButton" parent="ExtraOptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Insta-fade hitcircles"
+
+[node name="OkButton" parent="ExtraOptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="4"]
+text = "Done"
 
 [node name="LoadingPopup" parent="." instance=ExtResource("3_dgftf")]
 unique_name_in_owner = true
@@ -80,5 +119,7 @@ visible = false
 [editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent"]
 [editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/Hitcircle"]
 [editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent"]
+[editable path="ExtraOptionsPopup"]
+[editable path="ExtraOptionsPopup/Popup"]
 [editable path="LoadingPopup"]
 [editable path="LoadingPopup/Popup"]

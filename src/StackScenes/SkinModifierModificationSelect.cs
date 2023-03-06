@@ -23,6 +23,8 @@ public partial class SkinModifierModificationSelect : StackScene
 	private SkinComponent DefaultSkinComponent;
 	private SkinComponent BlankComponent;
 	private Button ApplyChangesButton;
+	private Button ExtraOptionsButton;
+	private OkPopup ExtraOptionsPopup;
 	private LoadingPopup LoadingPopup;
 
 	public override void _Ready()
@@ -33,11 +35,14 @@ public partial class SkinModifierModificationSelect : StackScene
 		DefaultSkinComponent = GetNode<SkinComponent>("%DefaultSkinComponent");
 		BlankComponent = GetNode<SkinComponent>("%BlankComponent");
 		ApplyChangesButton = GetNode<Button>("%ApplyChangesButton");
+		ExtraOptionsButton = GetNode<Button>("%ExtraOptionsButton");
+		ExtraOptionsPopup = GetNode<OkPopup>("%ExtraOptionsPopup");
 		LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
 
 		SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.Unchanged));
 		DefaultSkinComponent.Pressed += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.DefaultSkin));
 		BlankComponent.Pressed += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.Blank));
+		ExtraOptionsButton.Pressed += ExtraOptionsPopup.In;
 		ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
 		LoadingPopup.CancelAction = OnCancelButtonPressed;
 		LoadingPopup.DisableCancelAt = SkinModifierMachine.UNCANCELLABLE_AFTER;
