@@ -11,6 +11,8 @@ public partial class SkinSelectorPopup : Popup
 {
 	public Action<OsuSkin> OnSelected { get; set; }
 
+	public bool Compact { get; set; }
+
 	private PackedScene SkinComponentScene;
 
 	private readonly List<SkinComponent> DisabledSkinComponents = new();
@@ -24,7 +26,9 @@ public partial class SkinSelectorPopup : Popup
 	{
 		base._Ready();
 
-		SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinComponent.tscn");
+		SkinComponentScene = Compact
+			? GD.Load<PackedScene>("res://src/Components/SkinComponentCompact.tscn")
+			: GD.Load<PackedScene>("res://src/Components/SkinComponent.tscn");
 
 		BackButton = GetNode<TextureButton>("%BackButton");
 		SkinsContainer = GetNode<VBoxContainer>("%SkinComponentsContainer");

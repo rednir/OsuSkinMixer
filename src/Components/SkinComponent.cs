@@ -6,39 +6,44 @@ namespace OsuSkinMixer.Components;
 
 public partial class SkinComponent : HBoxContainer
 {
-	public OsuSkin Skin { get; set; }
+    public OsuSkin Skin { get; set; }
 
-	public Action Pressed { get; set; }
+    public Action Pressed { get; set; }
 
-	private Button Button;
-	private Label NameLabel;
-	private Label AuthorLabel;
-	private HitcircleIcon Hitcircle;
-	private TextureRect HiddenIcon;
+    private Button Button;
+    private Label NameLabel;
+    private Label AuthorLabel;
+    private HitcircleIcon Hitcircle;
+    private TextureRect HiddenIcon;
 
-	public override void _Ready()
-	{
-		Button = GetNode<Button>("%Button");
-		NameLabel = GetNode<Label>("%Name");
-		AuthorLabel = GetNode<Label>("%Author");
-		Hitcircle = GetNode<HitcircleIcon>("%Hitcircle");
-		HiddenIcon = GetNode<TextureRect>("%HiddenIcon");
+    public override void _Ready()
+    {
+        Button = GetNode<Button>("%Button");
+        NameLabel = GetNode<Label>("%Name");
+        AuthorLabel = GetNodeOrNull<Label>("%Author");
+        Hitcircle = GetNodeOrNull<HitcircleIcon>("%Hitcircle");
+        HiddenIcon = GetNode<TextureRect>("%HiddenIcon");
 
-		Button.Pressed += OnButtonPressed;
+        Button.Pressed += OnButtonPressed;
 
-		if (Skin != null)
-			SetValues();
-	}
+        if (Skin != null)
+            SetValues();
+    }
 
-	public void SetValues()
-	{
-		NameLabel.Text = Skin.Name;
-		AuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
-		Button.TooltipText = Skin.Name;
-		HiddenIcon.Visible = Skin.Hidden;
-		Hitcircle.SetSkin(Skin);
-	}
+    public void SetValues()
+    {
+        NameLabel.Text = Skin.Name;
+        Button.TooltipText = Skin.Name;
+        HiddenIcon.Visible = Skin.Hidden;
+		
+		// Compact components don't have these nodes.
+        if (AuthorLabel != null && Hitcircle != null)
+        {
+            AuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
+            Hitcircle.SetSkin(Skin);
+        }
+    }
 
-	private void OnButtonPressed()
-		=> Pressed.Invoke();
+    private void OnButtonPressed()
+        => Pressed.Invoke();
 }
