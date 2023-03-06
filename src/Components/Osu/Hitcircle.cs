@@ -9,17 +9,24 @@ namespace OsuSkinMixer.Components;
 
 public partial class Hitcircle : Node2D
 {
+	private AnimationPlayer CircleAnimationPlayer;
 	private Sprite2D ApproachcircleSprite;
 	private Sprite2D HitcircleSprite;
 	private Sprite2D HitcircleoverlaySprite;
 	private Sprite2D DefaultSprite;
+	private Control Control;
 
 	public override void _Ready()
 	{
+		CircleAnimationPlayer = GetNode<AnimationPlayer>("%CircleAnimationPlayer");
 		ApproachcircleSprite = GetNode<Sprite2D>("%ApproachcircleSprite");
 		HitcircleSprite = GetNode<Sprite2D>("%HitcircleSprite");
 		HitcircleoverlaySprite = GetNode<Sprite2D>("%HitcircleoverlaySprite");
 		DefaultSprite = GetNode<Sprite2D>("%DefaultSprite");
+		Control = GetNode<Control>("%Control");
+
+		CircleAnimationPlayer.AnimationFinished += OnAnimationFinished;
+		Control.GuiInput += OnInputEvent;
 	}
 
 	public void SetSkin(OsuSkin skin, int combo)
@@ -46,5 +53,22 @@ public partial class Hitcircle : Node2D
 		{
 			HitcircleSprite.Modulate = new Color(0, 202, 0);
 		}
+	}
+
+	private void OnInputEvent(InputEvent inputEvent)
+	{
+		if (inputEvent is InputEventMouseButton mouseButton && mouseButton.Pressed)
+		{
+			CircleAnimationPlayer.Play("hit");
+		}
+	}
+
+	private void OnAnimationFinished(StringName animationName)
+	{
+		if (animationName == "hit" || animationName == "miss")
+			CircleAnimationPlayer.Play("fade_in");
+
+		if (animationName == "fade_in")
+			CircleAnimationPlayer.Play("miss");
 	}
 }
