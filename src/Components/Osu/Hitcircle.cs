@@ -16,6 +16,8 @@ public partial class Hitcircle : Node2D
     private Sprite2D DefaultSprite;
     private Control Control;
 
+    private OsuSkin _skin;
+
     private Color[] _comboColors;
 
     private int _currentComboIndex;
@@ -35,10 +37,11 @@ public partial class Hitcircle : Node2D
 
     public void SetSkin(OsuSkin skin)
     {
+        _skin = skin;
+
         ApproachcircleSprite.Texture = skin.GetTexture("approachcircle.png");
         HitcircleSprite.Texture = skin.GetTexture("hitcircle.png");
         HitcircleoverlaySprite.Texture = skin.GetTexture("hitcircleoverlay.png");
-        DefaultSprite.Texture = skin.GetTexture("default-1.png");
 
         OsuSkinIniSection colorsSection = skin
             .SkinIni?
@@ -112,7 +115,9 @@ public partial class Hitcircle : Node2D
     private void NextCombo()
     {
         _currentComboIndex = (_currentComboIndex + 1) % _comboColors.Length;
+
         HitcircleSprite.Modulate = _comboColors[_currentComboIndex];
+        DefaultSprite.Texture = _skin.GetTexture($"default-{(_currentComboIndex == 0 ? _comboColors.Length : _currentComboIndex)}.png");
     }
 
     private void OnInputEvent(InputEvent inputEvent)
