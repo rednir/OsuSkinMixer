@@ -12,61 +12,41 @@ public partial class SkinInfoPanel : PanelContainer
 
 	private VBoxContainer DeletedContainer;
 	private VBoxContainer MainContentContainer;
-	private QuestionPopup DeleteQuestionPopup;
 	private SkinPreview SkinPreview;
 	private HitcircleIcon HitcircleIcon;
 	private Label SkinNameLabel;
 	private Label SkinAuthorLabel;
-	private Button DeleteButton;
-	private Button HideButton;
+	private Button MoreButton;
 	private Label DetailsLabel;
 	private Button OpenFolderButton;
 	private Button OpenInOsuButton;
+	private ManageSkinPopup ManageSkinPopup;
 
 	public override void _Ready()
 	{
 		DeletedContainer = GetNode<VBoxContainer>("%DeletedContainer");
 		MainContentContainer = GetNode<VBoxContainer>("%MainContentContainer");
-		DeleteQuestionPopup = GetNode<QuestionPopup>("%DeleteQuestionPopup");
 		SkinPreview = GetNode<SkinPreview>("%SkinPreview");
 		HitcircleIcon = GetNode<HitcircleIcon>("%HitcircleIcon");
 		SkinNameLabel = GetNode<Label>("%SkinName");
 		SkinAuthorLabel = GetNode<Label>("%SkinAuthor");
-		DeleteButton = GetNode<Button>("%DeleteButton");
-		HideButton = GetNode<Button>("%HideButton");
+		MoreButton = GetNode<Button>("%MoreButton");
 		DetailsLabel = GetNode<Label>("%Details");
 		OpenFolderButton = GetNode<Button>("%OpenFolderButton");
 		OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
+		ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
-		DeleteQuestionPopup.ConfirmAction = OnDeleteConfirmed;
 		SkinPreview.SetSkin(Skin);
 		HitcircleIcon.SetSkin(Skin);
 		SkinNameLabel.Text = Skin.Name;
 		SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
+		MoreButton.Pressed += OnMoreButtonPressed;
 		DetailsLabel.Text = $"Last modified: {Skin.Directory.LastWriteTime}";
-		DeleteButton.Pressed += OnDeleteButtonPressed;
 		OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
 		OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
-	}
+		ManageSkinPopup.SetSkin(Skin);
 
-	private void OnDeleteButtonPressed()
-	{
-		DeleteQuestionPopup.In();
-	}
-
-	private void OnDeleteConfirmed()
-	{
-		try
-		{
-			Skin.Directory.Delete(true);
-			OsuData.RemoveSkin(Skin);
-			MainContentContainer.Visible = false;
-			DeletedContainer.Visible = true;
-		}
-		catch (Exception ex)
-		{
-			GD.PrintErr(ex);
-		}
+		OsuData.SkinRemoved += OnSkinRemoved;
 	}
 
 	private void OnOpenFolderButtonPressed()
@@ -77,5 +57,19 @@ public partial class SkinInfoPanel : PanelContainer
 	private void OnOpenInOsuButtonPressed()
 	{
         SkinMachine.TriggerOskImport(Skin);
+	}
+
+	private void OnMoreButtonPressed()
+	{
+		ManageSkinPopup.In();
+	}
+
+	private void OnSkinRemoved(OsuSkin skin)
+	{
+		if (skin != Skin)
+			return;
+
+		MainContentContainer.Visible = false;
+		DeletedContainer.Visible = true;
 	}
 }

@@ -1,0 +1,88 @@
+[gd_scene load_steps=10 format=3 uid="uid://ce6pfh8ys6arg"]
+
+[ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_t014q"]
+[ext_resource type="Script" path="res://src/Components/Popup/ManageSkinPopup.cs" id="2_fl3js"]
+[ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="3_iiyw2"]
+[ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="4_j2fsb"]
+[ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="5_iav3h"]
+[ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="5_tgksf"]
+[ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="5_uoyka"]
+[ext_resource type="Texture2D" uid="uid://bo3g8fwecbbbx" path="res://assets/materialicons/delete.png" id="8_fgi0p"]
+[ext_resource type="PackedScene" uid="uid://7805vr243ofu" path="res://src/Components/Popup/Generic/QuestionPopup.tscn" id="9_4k8fj"]
+
+[node name="ManageSkinPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_t014q")
+script = ExtResource("2_fl3js")
+
+[node name="Popup" parent="." instance=ExtResource("3_iiyw2")]
+layout_mode = 1
+
+[node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
+offset_bottom = 0.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "very very very very very long skin name"
+label_settings = ExtResource("4_j2fsb")
+autowrap_mode = 3
+
+[node name="Text" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 80)
+layout_mode = 2
+text = "What would you like to do with this skin?"
+label_settings = ExtResource("5_iav3h")
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+alignment = 2
+
+[node name="ModifyButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_uoyka")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 10
+text = "Modify
+"
+
+[node name="HideButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_uoyka")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 10
+text = "Hide from osu!"
+
+[node name="DeleteButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_tgksf")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Delete permanently"
+icon = ExtResource("8_fgi0p")
+expand_icon = true
+
+[node name="DeleteQuestionPopup" parent="." instance=ExtResource("9_4k8fj")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="ScrollContainer" parent="DeleteQuestionPopup/Popup/CanvasLayer" index="1"]
+offset_bottom = 6.10352e-05
+
+[node name="Title" parent="DeleteQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
+text = "Delete this skin?"
+
+[node name="Text" parent="DeleteQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+text = "Be warned, the skin will be deleted permanently!"
+
+[editable path="Popup"]
+[editable path="DeleteQuestionPopup"]
+[editable path="DeleteQuestionPopup/Popup"]
