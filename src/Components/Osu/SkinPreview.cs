@@ -42,7 +42,7 @@ public partial class SkinPreview : PanelContainer
 		Cursor.Texture = skin.GetTexture("cursor.png");
 		Cursortrail.Texture = skin.GetTexture("cursortrail.png");
 
-		Hitcircle.SetSkin(skin, 1);
+		Hitcircle.SetSkin(skin);
 	}
 
 	private void OnMouseEntered()

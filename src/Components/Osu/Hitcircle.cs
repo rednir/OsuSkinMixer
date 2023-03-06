@@ -9,76 +9,129 @@ namespace OsuSkinMixer.Components;
 
 public partial class Hitcircle : Node2D
 {
-	private AnimationPlayer CircleAnimationPlayer;
-	private Sprite2D ApproachcircleSprite;
-	private Sprite2D HitcircleSprite;
-	private Sprite2D HitcircleoverlaySprite;
-	private Sprite2D DefaultSprite;
-	private Control Control;
+    private AnimationPlayer CircleAnimationPlayer;
+    private Sprite2D ApproachcircleSprite;
+    private Sprite2D HitcircleSprite;
+    private Sprite2D HitcircleoverlaySprite;
+    private Sprite2D DefaultSprite;
+    private Control Control;
 
-	public override void _Ready()
-	{
-		CircleAnimationPlayer = GetNode<AnimationPlayer>("%CircleAnimationPlayer");
-		ApproachcircleSprite = GetNode<Sprite2D>("%ApproachcircleSprite");
-		HitcircleSprite = GetNode<Sprite2D>("%HitcircleSprite");
-		HitcircleoverlaySprite = GetNode<Sprite2D>("%HitcircleoverlaySprite");
-		DefaultSprite = GetNode<Sprite2D>("%DefaultSprite");
-		Control = GetNode<Control>("%Control");
+    private Color[] _comboColors;
 
-		CircleAnimationPlayer.AnimationFinished += OnAnimationFinished;
-		Control.GuiInput += OnInputEvent;
-	}
+    private int _currentComboIndex;
 
-	public void SetSkin(OsuSkin skin, int combo)
-	{
-		ApproachcircleSprite.Texture = skin.GetTexture("approachcircle.png");
-		HitcircleSprite.Texture = skin.GetTexture("hitcircle.png");
-		HitcircleoverlaySprite.Texture = skin.GetTexture("hitcircleoverlay.png");
-		DefaultSprite.Texture = skin.GetTexture("default-1.png");
+    public override void _Ready()
+    {
+        CircleAnimationPlayer = GetNode<AnimationPlayer>("%CircleAnimationPlayer");
+        ApproachcircleSprite = GetNode<Sprite2D>("%ApproachcircleSprite");
+        HitcircleSprite = GetNode<Sprite2D>("%HitcircleSprite");
+        HitcircleoverlaySprite = GetNode<Sprite2D>("%HitcircleoverlaySprite");
+        DefaultSprite = GetNode<Sprite2D>("%DefaultSprite");
+        Control = GetNode<Control>("%Control");
 
-		string[] iniColorRgb = skin
-			.SkinIni?
-			.TryGetPropertyValue("Colours", $"Combo{combo}")?
-			.Replace(" ", string.Empty)
-			.Split(',');
+        CircleAnimationPlayer.AnimationFinished += OnAnimationFinished;
+        Control.GuiInput += OnInputEvent;
+    }
 
-		if (iniColorRgb != null
-			&& float.TryParse(iniColorRgb[0], out float r)
-			&& float.TryParse(iniColorRgb[1], out float g)
-			&& float.TryParse(iniColorRgb[2], out float b))
+    public void SetSkin(OsuSkin skin)
+    {
+        ApproachcircleSprite.Texture = skin.GetTexture("approachcircle.png");
+        HitcircleSprite.Texture = skin.GetTexture("hitcircle.png");
+        HitcircleoverlaySprite.Texture = skin.GetTexture("hitcircleoverlay.png");
+        DefaultSprite.Texture = skin.GetTexture("default-1.png");
+
+        OsuSkinIniSection colorsSection = skin
+            .SkinIni?
+            .Sections
+            .Find(x => x.Name == "Colours");
+
+        if (colorsSection == null)
+        {
+			SetDefaultComboColors();
+			return;
+        }
+
+        List<Color> comboColorList = new();
+
+        for (int i = 1; i <= 8; i++)
+        {
+            string[] rgb = colorsSection
+                .GetValueOrDefault($"Combo{i}")?
+                .Replace(" ", string.Empty)
+                .Split(',');
+
+            // Break if no more colors defined in skin.ini.
+            if (rgb == null)
+                break;
+
+            if (float.TryParse(rgb[0], out float r)
+                && float.TryParse(rgb[1], out float g)
+                && float.TryParse(rgb[2], out float b))
+            {
+                comboColorList.Add(new Color(r / 255, g / 255, b / 255));
+            }
+            else
+            {
+				// TODO: what does osu! do?
+            }
+        }
+
+		if (comboColorList.Count == 0)
 		{
-			HitcircleSprite.Modulate = new Color(r / 255, g / 255, b / 255);
+			SetDefaultComboColors();
+			return;
 		}
-		else
+
+        _comboColors = comboColorList.ToArray();
+		NextCombo();
+    }
+
+    public void Pause()
+    {
+        CircleAnimationPlayer.Pause();
+    }
+
+    public void Resume()
+    {
+        CircleAnimationPlayer.Play();
+    }
+
+	private void SetDefaultComboColors()
+	{
+		_comboColors = new Color[]
 		{
-			HitcircleSprite.Modulate = new Color(0, 202, 0);
-		}
+			new Color(1, 0.7529f, 0),
+			new Color(0, 0.7922f, 0),
+			new Color(0.0706f, 0.4863f, 1),
+			new Color(0.9490f, 0.0941f, 0.2235f),
+		};
+
+		NextCombo();
 	}
 
-	public void Pause()
-	{
-		CircleAnimationPlayer.Pause();
-	}
+    private void NextCombo()
+    {
+        _currentComboIndex = (_currentComboIndex + 1) % _comboColors.Length;
+        HitcircleSprite.Modulate = _comboColors[_currentComboIndex];
+    }
 
-	public void Resume()
-	{
-		CircleAnimationPlayer.Play();
-	}
+    private void OnInputEvent(InputEvent inputEvent)
+    {
+        if (inputEvent is InputEventMouseButton mouseButton && mouseButton.Pressed)
+        {
+            CircleAnimationPlayer.Play("hit");
+        }
+    }
 
-	private void OnInputEvent(InputEvent inputEvent)
-	{
-		if (inputEvent is InputEventMouseButton mouseButton && mouseButton.Pressed)
-		{
-			CircleAnimationPlayer.Play("hit");
-		}
-	}
+    private void OnAnimationFinished(StringName animationName)
+    {
+        if (animationName == "hit" || animationName == "miss")
+        {
+            NextCombo();
+            CircleAnimationPlayer.Play("fade_in");
+        }
 
-	private void OnAnimationFinished(StringName animationName)
-	{
-		if (animationName == "hit" || animationName == "miss")
-			CircleAnimationPlayer.Play("fade_in");
-
-		if (animationName == "fade_in")
-			CircleAnimationPlayer.Play("miss");
-	}
+        if (animationName == "fade_in")
+            CircleAnimationPlayer.Play("miss");
+    }
 }
