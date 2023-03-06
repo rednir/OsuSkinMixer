@@ -81,6 +81,7 @@ libraries = {
 
 [node name="MenuBackground" type="TextureRect" parent="."]
 unique_name_in_owner = true
+modulate = Color(0.784314, 0.784314, 0.784314, 1)
 layout_mode = 2
 texture = ExtResource("1_8ery0")
 expand_mode = 1
