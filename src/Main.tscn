@@ -512,15 +512,16 @@ stretch_mode = 5
 
 [node name="Title" type="Label" parent="TopBar/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
 text = "osu! skin mixer"
-horizontal_alignment = 1
 vertical_alignment = 1
+text_overrun_behavior = 3
 
 [node name="VersionLabel" type="Label" parent="TopBar/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 10
+size_flags_horizontal = 8
 theme_override_colors/font_color = Color(0.505882, 0.427451, 0.470588, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_esylg")
