@@ -85,11 +85,13 @@ public static class OsuData
 			{
 				Settings.Log($"Hiding skin: {skin.Name}");
 				skin.Directory.MoveTo(Path.Combine(Settings.SkinsFolderPath, skin.Name));
+                skin.Hidden = false;
 			}
 			else
 			{
 				Settings.Log($"Unhiding skin: {skin.Name}");
 				skin.Directory.MoveTo(Path.Combine(Settings.HiddenSkinsFolderPath, skin.Name));
+                skin.Hidden = true;
 			}
 		}
 		catch (Exception ex)
