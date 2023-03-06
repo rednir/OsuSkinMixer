@@ -9,17 +9,19 @@ namespace OsuSkinMixer.Models;
 
 public class OsuSkin
 {
-    public OsuSkin(string name, DirectoryInfo dir)
+    public OsuSkin(string name, DirectoryInfo dir, bool hidden = false)
     {
         Name = name;
         Directory = dir;
         SkinIni = new OsuSkinIni(name, "osu! skin mixer by rednir");
+        Hidden = hidden;
     }
 
-    public OsuSkin(DirectoryInfo dir)
+    public OsuSkin(DirectoryInfo dir, bool hidden = false)
     {
         Name = dir.Name;
         Directory = dir;
+        Hidden = hidden;
         if (File.Exists($"{dir.FullName}/skin.ini"))
         {
             try
@@ -39,6 +41,8 @@ public class OsuSkin
     public DirectoryInfo Directory { get; set; }
 
     public OsuSkinIni SkinIni { get; set; }
+
+    public bool Hidden { get; set; }
 
     public override string ToString()
         => Name;

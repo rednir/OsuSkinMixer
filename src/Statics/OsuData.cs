@@ -39,17 +39,12 @@ public static class OsuData
         if (Settings.Content.OsuFolder == null || !Directory.Exists(Settings.SkinsFolderPath))
             return false;
 
-        Settings.Log($"About to load all skins into memory from {Settings.SkinsFolderPath}");
+        Settings.Log($"About to load all skins into memory from {Settings.Content.OsuFolder}");
 
-        var skinsFolder = new DirectoryInfo(Settings.SkinsFolderPath);
+        LoadSkinsFromDirectory(new DirectoryInfo(Settings.SkinsFolderPath), false);
 
-        foreach (var dir in skinsFolder.EnumerateDirectories())
-        {
-            if (_skins.TryAdd(new OsuSkin(dir), dir.LastWriteTime))
-                Settings.Log($"Loaded skin into memory: {dir.Name}");
-            else
-                Settings.Log($"Did not load skin into memory as it already exists: {dir.Name}");
-        }
+        if (Directory.Exists(Settings.HiddenSkinsFolderPath))
+            LoadSkinsFromDirectory(new DirectoryInfo(Settings.HiddenSkinsFolderPath), true);
 
         AllSkinsLoaded?.Invoke();
         SweepPaused = false;
@@ -82,6 +77,17 @@ public static class OsuData
         SkinRemoved?.Invoke(skin);
     }
 
+    private static void LoadSkinsFromDirectory(DirectoryInfo directoryInfo, bool hidden)
+    {
+        foreach (var dir in directoryInfo.EnumerateDirectories())
+        {
+            if (_skins.TryAdd(new OsuSkin(dir, hidden), dir.LastWriteTime))
+                Settings.Log($"Loaded skin into memory: {dir.Name} ({(hidden ? "hidden" : string.Empty)})");
+            else
+                Settings.Log($"Did not load skin into memory as it already exists: {dir.Name} ({(hidden ? "hidden" : string.Empty)})");
+        }
+    }
+
     private static void StartSweepTask()
     {
         Task.Run(() =>
@@ -90,16 +96,19 @@ public static class OsuData
             while (true)
             {
                 if (!SweepPaused)
-                    SweepSkinsFolder();
+                {
+                    SweepDirectory(Settings.SkinsFolderPath, false);
+                    SweepDirectory(Settings.HiddenSkinsFolderPath, true);
+                }
 
                 Task.Delay(SWEEP_INTERVAL_MSEC).Wait();
             }
         });
     }
 
-    private static void SweepSkinsFolder()
+    private static void SweepDirectory(string directoryPath, bool hidden)
     {
-        if (!Directory.Exists(Settings.SkinsFolderPath))
+        if (!Directory.Exists(directoryPath) || directoryPath == null)
             return;
 
         foreach (var pair in _skins)
@@ -108,7 +117,7 @@ public static class OsuData
                 RemoveSkin(pair.Key);
         }
 
-        DirectoryInfo skinsFolder = new(Settings.SkinsFolderPath);
+        DirectoryInfo skinsFolder = new(directoryPath);
         foreach (var dir in skinsFolder.EnumerateDirectories())
         {
             var pair = _skins.FirstOrDefault(p => p.Key.Directory.Name == dir.Name);
@@ -116,7 +125,7 @@ public static class OsuData
             if (pair.Key == null)
             {
                 // Skin was added since the last sweep.
-                AddSkin(new OsuSkin(dir));
+                AddSkin(new OsuSkin(dir, hidden));
                 continue;
             }
 

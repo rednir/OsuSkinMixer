@@ -17,6 +17,8 @@ public static class Settings
 
     public static string SkinsFolderPath => $"{Content.OsuFolder}/Skins/";
 
+    public static string HiddenSkinsFolderPath => $"{Content.OsuFolder}/HiddenSkins/";
+
     public static SettingsContent Content { get; set; }
 
     static Settings()
