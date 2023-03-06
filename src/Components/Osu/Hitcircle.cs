@@ -55,6 +55,16 @@ public partial class Hitcircle : Node2D
 		}
 	}
 
+	public void Pause()
+	{
+		CircleAnimationPlayer.Pause();
+	}
+
+	public void Resume()
+	{
+		CircleAnimationPlayer.Play();
+	}
+
 	private void OnInputEvent(InputEvent inputEvent)
 	{
 		if (inputEvent is InputEventMouseButton mouseButton && mouseButton.Pressed)

@@ -13,9 +13,7 @@ public partial class SkinInfoPanel : PanelContainer
 	private VBoxContainer DeletedContainer;
 	private VBoxContainer MainContentContainer;
 	private QuestionPopup DeleteQuestionPopup;
-	private Sprite2D Cursor;
-	private CpuParticles2D Cursortrail;
-	private Hitcircle Hitcircle;
+	private SkinPreview SkinPreview;
 	private HitcircleIcon HitcircleIcon;
 	private Label SkinNameLabel;
 	private Label SkinAuthorLabel;
@@ -31,10 +29,8 @@ public partial class SkinInfoPanel : PanelContainer
 		DeletedContainer = GetNode<VBoxContainer>("%DeletedContainer");
 		MainContentContainer = GetNode<VBoxContainer>("%MainContentContainer");
 		DeleteQuestionPopup = GetNode<QuestionPopup>("%DeleteQuestionPopup");
-		Cursor = GetNode<Sprite2D>("%Cursor");
-		Cursortrail = GetNode<CpuParticles2D>("%Cursortrail");
+		SkinPreview = GetNode<SkinPreview>("%SkinPreview");
 		HitcircleIcon = GetNode<HitcircleIcon>("%HitcircleIcon");
-		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
 		SkinNameLabel = GetNode<Label>("%SkinName");
 		SkinAuthorLabel = GetNode<Label>("%SkinAuthor");
 		DeleteButton = GetNode<Button>("%DeleteButton");
@@ -45,10 +41,7 @@ public partial class SkinInfoPanel : PanelContainer
 		OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
 
 		DeleteQuestionPopup.ConfirmAction = OnDeleteConfirmed;
-		Cursor.Texture = Skin.GetTexture("cursor.png");
-		Cursortrail.Texture = Skin.GetTexture("cursortrail.png");
-		HitcircleIcon.SetSkin(Skin);
-		Hitcircle.SetSkin(Skin, 1);
+		SkinPreview.SetSkin(Skin);
 		SkinNameLabel.Text = Skin.Name;
 		SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
 		MenuBackground.Texture = Skin.GetTexture("menu-background.jpg") ?? Skin.GetTexture("menu-background.png");
@@ -56,11 +49,6 @@ public partial class SkinInfoPanel : PanelContainer
 		DeleteButton.Pressed += OnDeleteButtonPressed;
 		OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
 		OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
-	}
-
-	public override void _Process(double delta)
-	{
-		Cursor.GlobalPosition = GetGlobalMousePosition();
 	}
 
 	private void OnDeleteButtonPressed()

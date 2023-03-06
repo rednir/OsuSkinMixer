@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bygywxo1hix1y"]
+[gd_scene load_steps=15 format=3 uid="uid://bygywxo1hix1y"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_08l8f"]
 [ext_resource type="Script" path="res://src/Components/SkinInfoPanel.cs" id="2_dwrdw"]
@@ -10,18 +10,10 @@
 [ext_resource type="StyleBox" uid="uid://y2wn7t22jivk" path="res://src/Styles/Buttons/StandardIconButtonHover.tres" id="7_es4fe"]
 [ext_resource type="StyleBox" uid="uid://brmcwao5xcsti" path="res://src/Styles/Buttons/StandardIconButtonPressed.tres" id="8_yr3ei"]
 [ext_resource type="Texture2D" uid="uid://cgnidqld7ff0p" path="res://assets/materialicons/visibility_off.png" id="9_lgbjm"]
-[ext_resource type="Texture2D" uid="uid://05l1bgbm243m" path="res://assets/defaultskin/menu-background.jpg" id="10_2s2kn"]
 [ext_resource type="Texture2D" uid="uid://bo3g8fwecbbbx" path="res://assets/materialicons/delete.png" id="10_lk70x"]
-[ext_resource type="PackedScene" uid="uid://dg5gq6ty35cmr" path="res://src/Components/Osu/Hitcircle.tscn" id="13_ac6pp"]
+[ext_resource type="PackedScene" uid="uid://ysal13cqaoit" path="res://src/Components/Osu/SkinPreview.tscn" id="12_u3tvk"]
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="13_t4web"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="14_isl58"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bt0da"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="Gradient" id="Gradient_28nnj"]
-interpolation_mode = 2
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [node name="SkinInfoPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 2.08165e-12)
@@ -114,35 +106,9 @@ theme_override_styles/hover = ExtResource("7_es4fe")
 theme_override_styles/pressed = ExtResource("8_yr3ei")
 icon = ExtResource("10_lk70x")
 
-[node name="PreviewContainer" type="PanelContainer" parent="MainContentContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(2.08165e-12, 228)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_bt0da")
-
-[node name="MenuBackground" type="TextureRect" parent="MainContentContainer/PreviewContainer"]
+[node name="SkinPreview" parent="MainContentContainer" instance=ExtResource("12_u3tvk")]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("10_2s2kn")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Hitcircle" parent="MainContentContainer/PreviewContainer" instance=ExtResource("13_ac6pp")]
-unique_name_in_owner = true
-position = Vector2(223, 112)
-
-[node name="Cursor" type="Sprite2D" parent="MainContentContainer/PreviewContainer"]
-unique_name_in_owner = true
-z_index = 5
-position = Vector2(-151, -73)
-
-[node name="Cursortrail" type="CPUParticles2D" parent="MainContentContainer/PreviewContainer/Cursor"]
-unique_name_in_owner = true
-show_behind_parent = true
-amount = 12
-lifetime = 0.3
-gravity = Vector2(2.08165e-12, 2.08165e-12)
-color_ramp = SubResource("Gradient_28nnj")
 
 [node name="Details" type="Label" parent="MainContentContainer"]
 unique_name_in_owner = true
