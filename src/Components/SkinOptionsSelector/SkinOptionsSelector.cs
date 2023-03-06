@@ -99,6 +99,8 @@ public partial class SkinOptionsSelector : VBoxContainer
 
     public void OptionComponentSelected(SkinOptionValue valueSelected)
     {
+        Settings.Log($"Skin option '{SkinOptionComponentInSelection.SkinOption.Name}' set to '{valueSelected}'");
+
         // TODO: This method can be optimized further by recursively looping through the components and their
         // children (in their respective VBoxContainers) instead of looping through the ParentSkinOption's children.
         SkinOptionComponentInSelection.SetValue(valueSelected);
