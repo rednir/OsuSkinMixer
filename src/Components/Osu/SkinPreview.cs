@@ -7,6 +7,7 @@ namespace OsuSkinMixer.Components;
 public partial class SkinPreview : PanelContainer
 {
 	private AnimationPlayer AnimationPlayer;
+	private TextureRect MenuBackground;
 	private Sprite2D Cursor;
 	private CpuParticles2D Cursortrail;
 	private Hitcircle Hitcircle;
@@ -16,6 +17,7 @@ public partial class SkinPreview : PanelContainer
 	public override void _Ready()
 	{
 		AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
+		MenuBackground = GetNode<TextureRect>("%MenuBackground");
 		Cursor = GetNode<Sprite2D>("%Cursor");
 		Cursortrail = GetNode<CpuParticles2D>("%Cursortrail");
 		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
@@ -36,6 +38,7 @@ public partial class SkinPreview : PanelContainer
 
 	public void SetSkin(OsuSkin skin)
 	{
+		MenuBackground.Texture = skin.GetTexture("menu-background.jpg") ?? skin.GetTexture("menu-background.png");
 		Cursor.Texture = skin.GetTexture("cursor.png");
 		Cursortrail.Texture = skin.GetTexture("cursortrail.png");
 

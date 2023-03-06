@@ -19,7 +19,7 @@ public partial class SkinInfoPanel : PanelContainer
 	private Label SkinAuthorLabel;
 	private Button DeleteButton;
 	private Button HideButton;
-	private TextureRect MenuBackground;
+	
 	private Label DetailsLabel;
 	private Button OpenFolderButton;
 	private Button OpenInOsuButton;
@@ -35,7 +35,6 @@ public partial class SkinInfoPanel : PanelContainer
 		SkinAuthorLabel = GetNode<Label>("%SkinAuthor");
 		DeleteButton = GetNode<Button>("%DeleteButton");
 		HideButton = GetNode<Button>("%HideButton");
-		MenuBackground = GetNode<TextureRect>("%MenuBackground");
 		DetailsLabel = GetNode<Label>("%Details");
 		OpenFolderButton = GetNode<Button>("%OpenFolderButton");
 		OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
@@ -44,7 +43,6 @@ public partial class SkinInfoPanel : PanelContainer
 		SkinPreview.SetSkin(Skin);
 		SkinNameLabel.Text = Skin.Name;
 		SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
-		MenuBackground.Texture = Skin.GetTexture("menu-background.jpg") ?? Skin.GetTexture("menu-background.png");
 		DetailsLabel.Text = $"Last modified: {Skin.Directory.LastWriteTime}";
 		DeleteButton.Pressed += OnDeleteButtonPressed;
 		OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
