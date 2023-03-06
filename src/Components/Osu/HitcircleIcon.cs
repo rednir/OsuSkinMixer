@@ -28,7 +28,7 @@ public partial class HitcircleIcon : CenterContainer
 
 		string[] iniColorRgb = skin
 			.SkinIni?
-			.TryGetPropertyValue("Colours", "Combo1")?
+			.TryGetPropertyValue("Colours", "Combo2")?
 			.Replace(" ", string.Empty)
 			.Split(',');
 

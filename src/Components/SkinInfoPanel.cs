@@ -40,6 +40,7 @@ public partial class SkinInfoPanel : PanelContainer
 
 		DeleteQuestionPopup.ConfirmAction = OnDeleteConfirmed;
 		SkinPreview.SetSkin(Skin);
+		HitcircleIcon.SetSkin(Skin);
 		SkinNameLabel.Text = Skin.Name;
 		SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
 		DetailsLabel.Text = $"Last modified: {Skin.Directory.LastWriteTime}";
