@@ -20,6 +20,8 @@ public static class OsuData
 
     public static event Action<OsuSkin> SkinRemoved;
 
+    public static event Action<OsuSkin, bool> SkinHiddenStateChanged;
+
     public static bool SweepPaused { get; set; } = true;
 
     public static OsuSkin[] Skins { get => _skins.Keys.OrderBy(s => s.Name).ToArray(); }
@@ -75,6 +77,30 @@ public static class OsuData
 
         Settings.Log($"Removed skin from memory: {skin.Name}");
         SkinRemoved?.Invoke(skin);
+    }
+
+    public static void ToggleSkinHiddenState(OsuSkin skin)
+    {
+		try
+		{
+			if (skin.Hidden)
+			{
+				Settings.Log($"Hiding skin: {skin.Name}");
+				skin.Directory.MoveTo(Path.Combine(Settings.SkinsFolderPath, skin.Name));
+			}
+			else
+			{
+				Settings.Log($"Unhiding skin: {skin.Name}");
+				skin.Directory.MoveTo(Path.Combine(Settings.HiddenSkinsFolderPath, skin.Name));
+			}
+		}
+		catch (Exception ex)
+		{
+			GD.PrintErr(ex);
+			OS.Alert("Failed to hide/unhide skin. Please report this issue with logs.", "Error");
+		}
+
+        SkinModified?.Invoke(skin);
     }
 
     private static void LoadSkinsFromDirectory(DirectoryInfo directoryInfo, bool hidden)

@@ -2,11 +2,16 @@ using Godot;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
 using System;
+using System.IO;
 
 namespace OsuSkinMixer.Components;
 
 public partial class ManageSkinPopup : Popup
 {
+	private const string HIDE_BUTTON_TEXT = "Hide from osu!";
+
+	private const string UNHIDE_BUTTON_TEXT = "Unhide from osu!";
+
 	public Action ModifySkin { get; set; }
 
 	private QuestionPopup DeleteQuestionPopup;
@@ -30,6 +35,7 @@ public partial class ManageSkinPopup : Popup
 
 		DeleteQuestionPopup.ConfirmAction = OnDeleteConfirmed;
 		ModifyButton.Pressed += OnModifyButtonPressed;
+		HideButton.Pressed += OnHideButtonPressed;
 		DeleteButton.Pressed += OnDeleteButtonPressed;
 	}
 
@@ -37,6 +43,7 @@ public partial class ManageSkinPopup : Popup
 	{
 		_skin = skin;
 		TitleLabel.Text = skin.Name;
+		HideButton.Text = skin.Hidden ? UNHIDE_BUTTON_TEXT : HIDE_BUTTON_TEXT;
 	}
 
 	private void OnModifyButtonPressed()
@@ -47,6 +54,9 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnHideButtonPressed()
 	{
+		OsuData.ToggleSkinHiddenState(_skin);
+		HideButton.Text = _skin.Hidden ? UNHIDE_BUTTON_TEXT : HIDE_BUTTON_TEXT;
+		Out();
 	}
 
 	private void OnDeleteButtonPressed()
@@ -58,6 +68,7 @@ public partial class ManageSkinPopup : Popup
 	{
 		try
 		{
+			Settings.Log($"Deleting skin: {_skin.Name}");
 			_skin.Directory.Delete(true);
 			OsuData.RemoveSkin(_skin);
 		}
