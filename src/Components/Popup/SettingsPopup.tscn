@@ -41,6 +41,11 @@ visible = false
 layout_mode = 2
 text = "Update to latest version"
 
+[node name="UseCompactSkinSelectorButton" type="CheckButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Use compact skin selector"
+
 [node name="ChangeSkinsFolderButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("5_8w4ka")]
 unique_name_in_owner = true
 layout_mode = 2

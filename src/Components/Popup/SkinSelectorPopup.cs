@@ -11,11 +11,11 @@ public partial class SkinSelectorPopup : Popup
 {
 	public Action<OsuSkin> OnSelected { get; set; }
 
-	public bool Compact { get; set; }
-
 	private PackedScene SkinComponentScene;
 
 	private readonly List<SkinComponent> DisabledSkinComponents = new();
+
+	private bool _isCompact;
 
 	private TextureButton BackButton;
 	private LineEdit SearchLineEdit;
@@ -25,10 +25,7 @@ public partial class SkinSelectorPopup : Popup
 	public override void _Ready()
 	{
 		base._Ready();
-
-		SkinComponentScene = Compact
-			? GD.Load<PackedScene>("res://src/Components/SkinComponentCompact.tscn")
-			: GD.Load<PackedScene>("res://src/Components/SkinComponent.tscn");
+		SetCompactFlag();
 
 		BackButton = GetNode<TextureButton>("%BackButton");
 		SkinsContainer = GetNode<VBoxContainer>("%SkinComponentsContainer");
@@ -56,6 +53,13 @@ public partial class SkinSelectorPopup : Popup
 	public override void In()
 	{
 		base.In();
+
+		if (Settings.Content.UseCompactSkinSelector != _isCompact)
+		{
+			SetCompactFlag();
+			AddAllSkinComponents();
+		}
+
 		SearchLineEdit.Clear();
 		SearchLineEdit.GrabFocus();
 	}
@@ -72,6 +76,14 @@ public partial class SkinSelectorPopup : Popup
 		var skinComponent = GetExistingComponentFromSkin(skin);
 		skinComponent.Visible = true;
 		DisabledSkinComponents.Remove(skinComponent);
+	}
+
+	private void SetCompactFlag()
+	{
+		_isCompact = Settings.Content.UseCompactSkinSelector;
+		SkinComponentScene = _isCompact
+			? GD.Load<PackedScene>("res://src/Components/SkinComponentCompact.tscn")
+			: GD.Load<PackedScene>("res://src/Components/SkinComponent.tscn");
 	}
 
 	private void AddAllSkinComponents()

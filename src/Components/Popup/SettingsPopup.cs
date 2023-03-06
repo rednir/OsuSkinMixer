@@ -10,6 +10,7 @@ namespace OsuSkinMixer.Components;
 public partial class SettingsPopup : Popup
 {
 	private Button UpdateButton;
+	private CheckButton UseCompactSkinSelectorButton;
 	private Button ChangeSkinsFolderButton;
 	private Button ReportIssueButton;
 	private Button OpenLogsButton;
@@ -20,12 +21,14 @@ public partial class SettingsPopup : Popup
 		base._Ready();
 
 		UpdateButton = GetNode<Button>("%UpdateButton");
+		UseCompactSkinSelectorButton = GetNode<CheckButton>("%UseCompactSkinSelectorButton");
 		ChangeSkinsFolderButton = GetNode<Button>("%ChangeSkinsFolderButton");
 		ReportIssueButton = GetNode<Button>("%ReportIssueButton");
 		OpenLogsButton = GetNode<Button>("%OpenLogsButton");
 		SetupPopup = GetNode<SetupPopup>("%SetupPopup");
 
-		UpdateButton.Pressed += () => UpdateButtonPressed();
+		UpdateButton.Pressed += UpdateButtonPressed;
+		UseCompactSkinSelectorButton.Pressed += UseCompactSkinSelectorButtonPressed;
 		ChangeSkinsFolderButton.Pressed += SetupPopup.In;
 		ReportIssueButton.Pressed += () => OS.ShellOpen($"https://github.com/{Settings.GITHUB_REPO_PATH}/issues/new/choose");
 		OpenLogsButton.Pressed += () => OS.ShellOpen(ProjectSettings.GlobalizePath("user://logs"));
@@ -34,6 +37,12 @@ public partial class SettingsPopup : Popup
 	public void ShowUpdateButton()
 	{
 		UpdateButton.Visible = true;
+	}
+
+	private void UseCompactSkinSelectorButtonPressed()
+	{
+		Settings.Content.UseCompactSkinSelector = UseCompactSkinSelectorButton.ButtonPressed;
+		Settings.Save();
 	}
 
 	private void UpdateButtonPressed()

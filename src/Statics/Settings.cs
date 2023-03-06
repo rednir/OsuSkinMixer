@@ -110,6 +110,9 @@ public static class Settings
         [JsonPropertyName("osu_folder")]
         public string OsuFolder { get; set; }
 
+        [JsonPropertyName("use_compact_skin_selector")]
+        public bool UseCompactSkinSelector { get; set; }
+
         [JsonPropertyName("import_to_game_if_open")]
         public bool ImportToGameIfOpen { get; set; } = OS.GetName() == "Windows";
 
