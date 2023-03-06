@@ -39,6 +39,9 @@ text = "Default skin"
 [node name="Author" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="2"]
 text = "osu!"
 
+[node name="HiddenIcon" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="3"]
+visible = false
+
 [node name="BlankComponent" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer" index="1" instance=ExtResource("4_3gkpc")]
 unique_name_in_owner = true
 layout_mode = 2
