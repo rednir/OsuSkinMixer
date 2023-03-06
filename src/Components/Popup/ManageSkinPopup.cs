@@ -7,6 +7,8 @@ namespace OsuSkinMixer.Components;
 
 public partial class ManageSkinPopup : Popup
 {
+	public Action ModifySkin { get; set; }
+
 	private QuestionPopup DeleteQuestionPopup;
 	private Label TitleLabel;
 	private Button ModifyButton;
@@ -27,6 +29,7 @@ public partial class ManageSkinPopup : Popup
 		DeleteButton = GetNode<Button>("%DeleteButton");
 
 		DeleteQuestionPopup.ConfirmAction = OnDeleteConfirmed;
+		ModifyButton.Pressed += OnModifyButtonPressed;
 		DeleteButton.Pressed += OnDeleteButtonPressed;
 	}
 
@@ -38,6 +41,8 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnModifyButtonPressed()
 	{
+		ModifySkin();
+		Out();
 	}
 
 	private void OnHideButtonPressed()

@@ -9,7 +9,7 @@ public partial class SkinModifierSkinSelect : StackScene
 {
 	public override string Title => "Skin Modifier";
 
-	private List<OsuSkin> SkinsToModify { get; set; } = new();
+	public List<OsuSkin> SkinsToModify { get; set; } = new();
 
 	private PackedScene SkinModifierModificationSelectScene;
 	private PackedScene SkinComponentScene;
@@ -33,6 +33,10 @@ public partial class SkinModifierSkinSelect : StackScene
 		AddSkinToModifyButton.Pressed += AddSkinToModifyButtonPressed;
 
 		SkinSelectorPopup.OnSelected = OnSkinSelected;
+
+		// Add components if the scene has been initalised with skins to modify.
+		foreach (var skin in SkinsToModify)
+			AddSkinComponent(skin);
 	}
 
 	private void AddSkinToModifyButtonPressed()
@@ -42,8 +46,15 @@ public partial class SkinModifierSkinSelect : StackScene
 
 	private void OnSkinSelected(OsuSkin skin)
 	{
-		SkinSelectorPopup.DisableSkinComponent(skin);
 		SkinSelectorPopup.Out();
+		AddSkinComponent(skin);
+		SkinsToModify.Add(skin);
+	}
+
+	private void AddSkinComponent(OsuSkin skin)
+	{
+		// Don't show already selected skins in the selector.
+		SkinSelectorPopup.DisableSkinComponent(skin);
 
 		var component = SkinComponentScene.Instantiate<SkinComponent>();
 		component.Skin = skin;
@@ -59,7 +70,6 @@ public partial class SkinModifierSkinSelect : StackScene
 		};
 		SkinsToModifyContainer.AddChild(component);
 
-		SkinsToModify.Add(skin);
 		ContinueButton.Disabled = false;
 	}
 
