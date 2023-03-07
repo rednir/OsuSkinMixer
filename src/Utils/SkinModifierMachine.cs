@@ -15,6 +15,10 @@ public class SkinModifierMachine : SkinMachine
 
     public IEnumerable<OsuSkin> SkinsToModify { get; set; }
 
+    public bool SmoothTrail { get; set; }
+
+    public bool Instafade { get; set; }
+
     protected override void PopulateTasks()
     {
         var flattenedOptions = FlattenedBottomLevelOptions;

@@ -25,6 +25,8 @@ public partial class SkinModifierModificationSelect : StackScene
 	private Button ApplyChangesButton;
 	private Button ExtraOptionsButton;
 	private OkPopup ExtraOptionsPopup;
+	private CheckButton SmoothTrailButton;
+	private CheckButton InstafadeButton;
 	private LoadingPopup LoadingPopup;
 
 	public override void _Ready()
@@ -58,6 +60,8 @@ public partial class SkinModifierModificationSelect : StackScene
 			SkinOptions = SkinOptionsSelector.SkinOptions,
 			ProgressChanged = LoadingPopup.SetProgress,
 			SkinsToModify = SkinsToModify,
+			SmoothTrail = SmoothTrailButton.ButtonPressed,
+			Instafade = InstafadeButton.ButtonPressed,
 		};
 
 		Task.Run(() => machine.Run(CancellationTokenSource.Token))
