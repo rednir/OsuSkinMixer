@@ -125,10 +125,9 @@ public class SkinModifierMachine : SkinMachine
             hitcircle = Image.Load<Rgba32>(hitcirclePath);
             hitcircleoverlay = Image.Load(hitcircleoverlayPath);
         }
-        catch
+        catch (Exception ex)
         {
-            // TOOD: use default skin.
-            throw;
+            throw new NotImplementedException("Instafade option currently does not support default hitcircles, which this skin uses.", ex);
         }
 
         hitcircleoverlay.Mutate(i => i.Resize((int)(hitcircleoverlay.Width * 1.25), (int)(hitcircleoverlay.Height * 1.25)));
