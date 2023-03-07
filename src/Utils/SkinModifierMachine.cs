@@ -108,9 +108,14 @@ public class SkinModifierMachine : SkinMachine
         // With help from https://skinship.xyz/guides/insta_fade_hc.html
         Settings.Log($"Making circles instafade for skin '{workingSkin.Name}'");
 
+        OsuSkinIniSection fontsSection = workingSkin.SkinIni?.Sections.Find(s => s.Name == "Fonts");
+
         string skinDirectory = workingSkin.Directory.FullName;
         string hitcirclePath = $"{skinDirectory}/hitcircle.png";
         string hitcircleoverlayPath = $"{skinDirectory}/hitcircleoverlay.png";
+
+        fontsSection.TryGetValue("HitCirclePrefix", out string hitcirclePrefix);
+        hitcirclePrefix = hitcirclePrefix != null ? $"{skinDirectory}/{hitcirclePrefix}" : $"{skinDirectory}/default";
 
         Image<Rgba32> hitcircle;
         Image hitcircleoverlay;
@@ -133,7 +138,7 @@ public class SkinModifierMachine : SkinMachine
 
         for (int i = 0; i <= 9; i++)
         {
-            string defaultXPath = $"{skinDirectory}/default-{i}.png";
+            string defaultXPath = $"{hitcirclePrefix}-{i}.png";
             Image defaultX = Image.Load(defaultXPath);
 
             Image<Rgba32> newDefaultX = hitcircle.Clone();
@@ -180,7 +185,6 @@ public class SkinModifierMachine : SkinMachine
         hitcircle.Save(hitcirclePath);
         hitcircleoverlay.Save(hitcircleoverlayPath);
 
-        OsuSkinIniSection fontsSection = workingSkin.SkinIni?.Sections.Find(s => s.Name == "Fonts");
         if (fontsSection != null)
         {
             // Prevents hitcircles from appearing incorrectly when the combo is greater than 10.
