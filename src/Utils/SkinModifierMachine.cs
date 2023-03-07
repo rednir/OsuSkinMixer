@@ -98,7 +98,7 @@ public class SkinModifierMachine : SkinMachine
             return;
         }
 
-        File.Move(cursorPath, $"{workingSkin.Directory.FullName}/cursormiddle{suffix}.png");
+        File.Move(cursorPath, $"{workingSkin.Directory.FullName}/cursormiddle{suffix}.png", true);
         File.WriteAllBytes(cursorPath, TransparentPngFile);
 
         Image<Rgba32> cursorTrail = Image.Load<Rgba32>(cursorTrailPath);
