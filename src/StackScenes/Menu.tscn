@@ -33,7 +33,7 @@ size_flags_horizontal = 4
 text = "Skin Modifier"
 
 [node name="Description" parent="SkinModifierButton/VBoxContainer" index="1"]
-text = "Change the elements of one or more of your skins!"
+text = "Swap out elements, add a smooth cursor trail, make hitcircles insta-fade and more!"
 
 [node name="SkinManagerButton" parent="." instance=ExtResource("3_ppo7p")]
 unique_name_in_owner = true
