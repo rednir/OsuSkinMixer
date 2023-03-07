@@ -179,6 +179,9 @@ public class SkinModifierMachine : SkinMachine
 
         hitcircle.Save(hitcirclePath);
         hitcircleoverlay.Save(hitcircleoverlayPath);
+
+        hitcircle.Dispose();
+        hitcircleoverlay.Dispose();
     }
 
     protected override void CopyIniPropertyOption(OsuSkin workingSkin, SkinIniPropertyOption iniPropertyOption)
