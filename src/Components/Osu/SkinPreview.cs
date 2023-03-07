@@ -9,6 +9,7 @@ public partial class SkinPreview : PanelContainer
 	private AnimationPlayer AnimationPlayer;
 	private TextureRect MenuBackground;
 	private Sprite2D Cursor;
+	private Sprite2D Cursormiddle;
 	private CpuParticles2D Cursortrail;
 	private Hitcircle Hitcircle;
 
@@ -19,6 +20,7 @@ public partial class SkinPreview : PanelContainer
 		AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
 		MenuBackground = GetNode<TextureRect>("%MenuBackground");
 		Cursor = GetNode<Sprite2D>("%Cursor");
+		Cursormiddle = GetNode<Sprite2D>("%Cursormiddle");
 		Cursortrail = GetNode<CpuParticles2D>("%Cursortrail");
 		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
 	}
@@ -40,6 +42,7 @@ public partial class SkinPreview : PanelContainer
 	{
 		MenuBackground.Texture = skin.GetTexture("menu-background.jpg") ?? skin.GetTexture("menu-background.png");
 		Cursor.Texture = skin.GetTexture("cursor.png");
+		Cursormiddle.Texture = skin.GetTexture("cursormiddle.png");
 		Cursortrail.Texture = skin.GetTexture("cursortrail.png");
 
 		Hitcircle.SetSkin(skin);

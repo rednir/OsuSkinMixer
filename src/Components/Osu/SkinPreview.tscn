@@ -1,8 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://ysal13cqaoit"]
+[gd_scene load_steps=13 format=3 uid="uid://xr6hy2d5if82"]
 
 [ext_resource type="Texture2D" uid="uid://05l1bgbm243m" path="res://assets/defaultskin/menu-background.jpg" id="1_8ery0"]
 [ext_resource type="Script" path="res://src/Components/Osu/SkinPreview.cs" id="1_o7mmq"]
 [ext_resource type="PackedScene" uid="uid://dg5gq6ty35cmr" path="res://src/Components/Osu/Hitcircle.tscn" id="2_cyhy6"]
+[ext_resource type="Texture2D" uid="uid://d1cwqoepjg34a" path="res://assets/defaultskin/cursormiddle.png" id="4_fw12c"]
+[ext_resource type="Texture2D" uid="uid://dmtvgydyh3asw" path="res://assets/defaultskin/cursor.png" id="4_s2rty"]
+[ext_resource type="Texture2D" uid="uid://b1mtabrprwav4" path="res://assets/defaultskin/cursortrail.png" id="5_wirir"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bt0da"]
 bg_color = Color(0, 0, 0, 1)
@@ -95,11 +98,19 @@ position = Vector2(223, 112)
 unique_name_in_owner = true
 z_index = 5
 position = Vector2(-151, -73)
+texture = ExtResource("4_s2rty")
+
+[node name="Cursormiddle" type="Sprite2D" parent="Cursor"]
+unique_name_in_owner = true
+show_behind_parent = true
+z_index = 5
+texture = ExtResource("4_fw12c")
 
 [node name="Cursortrail" type="CPUParticles2D" parent="Cursor"]
 unique_name_in_owner = true
 show_behind_parent = true
 amount = 12
 lifetime = 0.3
+texture = ExtResource("5_wirir")
 gravity = Vector2(2.08165e-12, 2.08165e-12)
 color_ramp = SubResource("Gradient_28nnj")
