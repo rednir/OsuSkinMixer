@@ -83,6 +83,8 @@ public partial class SkinModifierModificationSelect : StackScene
                 }
 
 				SkinOptionsSelector.Reset();
+				InstafadeButton.ButtonPressed = false;
+				SmoothTrailButton.ButtonPressed = false;
 
 				var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
 				skinInfoInstance.Skins = SkinsToModify;
