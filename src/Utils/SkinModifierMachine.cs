@@ -78,7 +78,11 @@ public class SkinModifierMachine : SkinMachine
 
         if (Instafade)
         {
-            AddTask(() => MakeCirclesInstafade(workingSkin));
+            AddTask(() =>
+            {
+                MakeCirclesInstafade(workingSkin);
+                MakeCirclesInstafade(workingSkin, "@2x");
+            });
         }
 
         string skinIniDestination = $"{workingSkin.Directory.FullName}/skin.ini";
@@ -103,32 +107,28 @@ public class SkinModifierMachine : SkinMachine
         image.Save(cursorTrailPath);
     }
 
-    private static void MakeCirclesInstafade(OsuSkin workingSkin, int comboColor = 1)
+    private static void MakeCirclesInstafade(OsuSkin workingSkin, string suffix = null, int comboColor = 1)
     {
         // With help from https://skinship.xyz/guides/insta_fade_hc.html
-        Settings.Log($"Making circles instafade for skin '{workingSkin.Name}'");
-
-        OsuSkinIniSection fontsSection = workingSkin.SkinIni?.Sections.Find(s => s.Name == "Fonts");
+        Settings.Log($"Making circles{suffix} instafade for skin '{workingSkin.Name}'");
 
         string skinDirectory = workingSkin.Directory.FullName;
-        string hitcirclePath = $"{skinDirectory}/hitcircle.png";
-        string hitcircleoverlayPath = $"{skinDirectory}/hitcircleoverlay.png";
+        string hitcirclePath = $"{skinDirectory}/hitcircle{suffix}.png";
+        string hitcircleoverlayPath = $"{skinDirectory}/hitcircleoverlay{suffix}.png";
+
+        if (!File.Exists(hitcirclePath) || !File.Exists(hitcircleoverlayPath))
+        {
+            Settings.Log("Hitcircle image not found, skipping instafade option.");
+            return;
+        }
+
+        OsuSkinIniSection fontsSection = workingSkin.SkinIni?.Sections.Find(s => s.Name == "Fonts");
 
         fontsSection.TryGetValue("HitCirclePrefix", out string hitcirclePrefix);
         hitcirclePrefix = hitcirclePrefix != null ? $"{skinDirectory}/{hitcirclePrefix}" : $"{skinDirectory}/default";
 
-        Image<Rgba32> hitcircle;
-        Image hitcircleoverlay;
-
-        try
-        {
-            hitcircle = Image.Load<Rgba32>(hitcirclePath);
-            hitcircleoverlay = Image.Load(hitcircleoverlayPath);
-        }
-        catch (Exception ex)
-        {
-            throw new NotImplementedException("Instafade option currently does not support default hitcircles, which this skin uses.", ex);
-        }
+        Image<Rgba32> hitcircle = Image.Load<Rgba32>(hitcirclePath);
+        Image hitcircleoverlay = Image.Load(hitcircleoverlayPath);
 
         hitcircleoverlay.Mutate(i => i.Resize((int)(hitcircleoverlay.Width * 1.25), (int)(hitcircleoverlay.Height * 1.25)));
         hitcircle.Mutate(i => i.Resize((int)(hitcircle.Width * 1.1), (int)(hitcircle.Height * 1.1)));
@@ -152,9 +152,15 @@ public class SkinModifierMachine : SkinMachine
 
         for (int i = 0; i <= 9; i++)
         {
-            string defaultXPath = $"{hitcirclePrefix}-{i}.png";
-            Image defaultX = Image.Load(defaultXPath);
+            string defaultXPath = $"{hitcirclePrefix}-{i}{suffix}.png";
 
+            if (!File.Exists(defaultXPath))
+            {
+                Settings.Log($"{defaultXPath} not found, skipping.");
+                continue;
+            }
+
+            Image defaultX = Image.Load(defaultXPath);
             Image<Rgba32> newDefaultX = hitcircle.Clone();
 
             newDefaultX.Mutate(img =>
