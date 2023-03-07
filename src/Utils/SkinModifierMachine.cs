@@ -103,7 +103,7 @@ public class SkinModifierMachine : SkinMachine
         image.Save(cursorTrailPath);
     }
 
-    private static void MakeCirclesInstafade(OsuSkin workingSkin)
+    private static void MakeCirclesInstafade(OsuSkin workingSkin, int comboColor = 1)
     {
         // With help from https://skinship.xyz/guides/insta_fade_hc.html
         Settings.Log($"Making circles instafade for skin '{workingSkin.Name}'");
@@ -135,30 +135,27 @@ public class SkinModifierMachine : SkinMachine
 
         Godot.Color[] comboColors = workingSkin.ComboColors;
 
+        // Modulate the image with the combo color.
+        Godot.Color color = comboColors[comboColor];
+        for (int x = 0; x < hitcircle.Width; x++)
+        {
+            for (int y = 0; y < hitcircle.Height; y++)
+            {
+                Rgba32 oldColor = hitcircle[x, y];
+                byte red = (byte)(256.0f * (oldColor.R / 256.0f) * color.R);
+                byte green = (byte)(256.0f * (oldColor.G / 256.0f) * color.G);
+                byte blue = (byte)(256.0f * (oldColor.B / 256.0f) * color.B);
+
+                hitcircle[x, y] = Color.FromRgba(red, green, blue, oldColor.A);
+            }
+        }
+
         for (int i = 0; i <= 9; i++)
         {
             string defaultXPath = $"{hitcirclePrefix}-{i}.png";
             Image defaultX = Image.Load(defaultXPath);
 
             Image<Rgba32> newDefaultX = hitcircle.Clone();
-
-            if (i <= comboColors.Length)
-            {
-                // Modulate the image with the combo color.
-                Godot.Color color = comboColors[(i + 1) % comboColors.Length];
-                for (int x = 0; x < newDefaultX.Width; x++)
-                {
-                    for (int y = 0; y < newDefaultX.Height; y++)
-                    {
-                        Rgba32 oldColor = newDefaultX[x, y];
-                        byte red = (byte)(256.0f * (oldColor.R / 256.0f) * color.R);
-                        byte green = (byte)(256.0f * (oldColor.G / 256.0f) * color.G);
-                        byte blue = (byte)(256.0f * (oldColor.B / 256.0f) * color.B);
-
-                        newDefaultX[x, y] = Color.FromRgba(red, green, blue, oldColor.A);
-                    }
-                }
-            }
 
             newDefaultX.Mutate(img =>
             {
