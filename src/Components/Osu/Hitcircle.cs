@@ -43,49 +43,7 @@ public partial class Hitcircle : Node2D
         HitcircleSprite.Texture = skin.GetTexture("hitcircle.png");
         HitcircleoverlaySprite.Texture = skin.GetTexture("hitcircleoverlay.png");
 
-        OsuSkinIniSection colorsSection = skin
-            .SkinIni?
-            .Sections
-            .Find(x => x.Name == "Colours");
-
-        if (colorsSection == null)
-        {
-			SetDefaultComboColors();
-			return;
-        }
-
-        List<Color> comboColorList = new();
-
-        for (int i = 1; i <= 8; i++)
-        {
-            string[] rgb = colorsSection
-                .GetValueOrDefault($"Combo{i}")?
-                .Replace(" ", string.Empty)
-                .Split(',');
-
-            // Break if no more colors defined in skin.ini.
-            if (rgb == null)
-                break;
-
-            if (float.TryParse(rgb[0], out float r)
-                && float.TryParse(rgb[1], out float g)
-                && float.TryParse(rgb[2], out float b))
-            {
-                comboColorList.Add(new Color(r / 255, g / 255, b / 255));
-            }
-            else
-            {
-				// TODO: what does osu! do?
-            }
-        }
-
-		if (comboColorList.Count == 0)
-		{
-			SetDefaultComboColors();
-			return;
-		}
-
-        _comboColors = comboColorList.ToArray();
+        _comboColors = skin.ComboColors;
 		NextCombo();
     }
 
@@ -98,19 +56,6 @@ public partial class Hitcircle : Node2D
     {
         CircleAnimationPlayer.Play();
     }
-
-	private void SetDefaultComboColors()
-	{
-		_comboColors = new Color[]
-		{
-			new Color(1, 0.7529f, 0),
-			new Color(0, 0.7922f, 0),
-			new Color(0.0706f, 0.4863f, 1),
-			new Color(0.9490f, 0.0941f, 0.2235f),
-		};
-
-		NextCombo();
-	}
 
     private void NextCombo()
     {
