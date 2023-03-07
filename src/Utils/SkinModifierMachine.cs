@@ -180,6 +180,14 @@ public class SkinModifierMachine : SkinMachine
         hitcircle.Save(hitcirclePath);
         hitcircleoverlay.Save(hitcircleoverlayPath);
 
+        OsuSkinIniSection fontsSection = workingSkin.SkinIni?.Sections.Find(s => s.Name == "Fonts");
+        if (fontsSection != null)
+        {
+            // Prevents hitcircles from appearing incorrectly when the combo is greater than 10.
+            fontsSection.Remove("HitCircleOverlap");
+            fontsSection.Add("HitCircleOverlap", hitcircle.Width.ToString());
+        }
+
         hitcircle.Dispose();
         hitcircleoverlay.Dispose();
     }
