@@ -130,7 +130,7 @@ public class SkinModifierMachine : SkinMachine
         Image<Rgba32> hitcircle = Image.Load<Rgba32>(hitcirclePath);
         Image hitcircleoverlay = Image.Load(hitcircleoverlayPath);
 
-        hitcircleoverlay.Mutate(i => i.Resize((int)(hitcircleoverlay.Width * 1.25), (int)(hitcircleoverlay.Height * 1.25)));
+        hitcircleoverlay.Mutate(i => i.Resize((int)(hitcircleoverlay.Width * 1.1), (int)(hitcircleoverlay.Height * 1.1)));
         hitcircle.Mutate(i => i.Resize((int)(hitcircle.Width * 1.1), (int)(hitcircle.Height * 1.1)));
 
         Godot.Color[] comboColors = workingSkin.ComboColors;
