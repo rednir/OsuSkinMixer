@@ -87,7 +87,7 @@ visible = false
 text = "More options"
 
 [node name="Text" parent="ExtraOptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
-text = "Some options have not been implemented yet."
+text = "Take care! - these options are experimental, they aren't guarenteed to work with all skins so please report any issues you find."
 
 [node name="SmoothTrailButton" type="CheckButton" parent="ExtraOptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="2"]
 unique_name_in_owner = true
