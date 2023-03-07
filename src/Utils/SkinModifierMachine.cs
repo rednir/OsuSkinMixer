@@ -107,7 +107,7 @@ public class SkinModifierMachine : SkinMachine
         image.Save(cursorTrailPath);
     }
 
-    private static void MakeCirclesInstafade(OsuSkin workingSkin, string suffix = null, int comboColor = 1)
+    private static void MakeCirclesInstafade(OsuSkin workingSkin, string suffix = null)
     {
         // With help from https://skinship.xyz/guides/insta_fade_hc.html
         Settings.Log($"Making circles{suffix} instafade for skin '{workingSkin.Name}'");
@@ -123,6 +123,7 @@ public class SkinModifierMachine : SkinMachine
         }
 
         OsuSkinIniSection fontsSection = workingSkin.SkinIni?.Sections.Find(s => s.Name == "Fonts");
+        OsuSkinIniSection coloursSection = workingSkin.SkinIni?.Sections.Find(s => s.Name == "Colours");
 
         fontsSection.TryGetValue("HitCirclePrefix", out string hitcirclePrefix);
         hitcirclePrefix = hitcirclePrefix != null ? $"{skinDirectory}/{hitcirclePrefix}" : $"{skinDirectory}/default";
@@ -130,13 +131,13 @@ public class SkinModifierMachine : SkinMachine
         Image<Rgba32> hitcircle = Image.Load<Rgba32>(hitcirclePath);
         Image hitcircleoverlay = Image.Load(hitcircleoverlayPath);
 
-        hitcircleoverlay.Mutate(i => i.Resize((int)(hitcircleoverlay.Width * 1.1), (int)(hitcircleoverlay.Height * 1.1)));
-        hitcircle.Mutate(i => i.Resize((int)(hitcircle.Width * 1.1), (int)(hitcircle.Height * 1.1)));
+        hitcircleoverlay.Mutate(i => i.Resize((int)(hitcircleoverlay.Width * 1.25), (int)(hitcircleoverlay.Height * 1.25)));
+        hitcircle.Mutate(i => i.Resize((int)(hitcircle.Width * 1.25), (int)(hitcircle.Height * 1.25)));
 
         Godot.Color[] comboColors = workingSkin.ComboColors;
 
         // Modulate the image with the combo color.
-        Godot.Color color = comboColors[comboColor];
+        Godot.Color color = comboColors[1];
         for (int x = 0; x < hitcircle.Width; x++)
         {
             for (int y = 0; y < hitcircle.Height; y++)
@@ -192,6 +193,18 @@ public class SkinModifierMachine : SkinMachine
             // Prevents hitcircles from appearing incorrectly when the combo is greater than 10.
             fontsSection.Remove("HitCircleOverlap");
             fontsSection.Add("HitCircleOverlap", hitcircle.Width.ToString());
+        }
+
+        if (coloursSection != null)
+        {
+            // Make approach circle color the same as the hitcircle color.
+            for (int i = 1; i <= comboColors.Length; i++)
+            {
+                if (i > 2)
+                    coloursSection.Remove($"Combo{i}");
+            }
+
+            coloursSection["Combo1"] = coloursSection["Combo2"];
         }
 
         hitcircle.Dispose();
