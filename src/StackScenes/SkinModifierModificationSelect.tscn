@@ -97,7 +97,6 @@ text = "Smooth cursor trail"
 [node name="InstafadeButton" type="CheckButton" parent="ExtraOptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3"]
 unique_name_in_owner = true
 layout_mode = 2
-disabled = true
 text = "Insta-fade hitcircles"
 
 [node name="OkButton" parent="ExtraOptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="4"]
