@@ -39,6 +39,8 @@ public partial class SkinModifierModificationSelect : StackScene
 		ApplyChangesButton = GetNode<Button>("%ApplyChangesButton");
 		ExtraOptionsButton = GetNode<Button>("%ExtraOptionsButton");
 		ExtraOptionsPopup = GetNode<OkPopup>("%ExtraOptionsPopup");
+		SmoothTrailButton = GetNode<CheckButton>("%SmoothTrailButton");
+		InstafadeButton = GetNode<CheckButton>("%InstafadeButton");
 		LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
 
 		SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.Unchanged));

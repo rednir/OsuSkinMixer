@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Godot;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
 
@@ -54,6 +55,25 @@ public class SkinModifierMachine : SkinMachine
             CancellationToken.ThrowIfCancellationRequested();
         }
 
+        if (SmoothTrail)
+        {
+            AddTask(() =>
+            {
+                if (File.Exists($"{workingSkin.Directory.FullName}/cursortrail.png"))
+                {
+                    MakeCursorTrailSmooth(workingSkin, $"{workingSkin.Directory.FullName}/cursortrail.png");
+                    return;
+                }
+                if (File.Exists($"{workingSkin.Directory.FullName}/cursortrail@2x.png"))
+                {
+                    MakeCursorTrailSmooth(workingSkin, $"{workingSkin.Directory.FullName}/cursortrail@2x.png");
+                    return;
+                }
+
+                Settings.Log($"No cursortrail image found for skin '{workingSkin.Name}', skipping smooth trail option.");
+            });
+        }
+
         string skinIniDestination = $"{workingSkin.Directory.FullName}/skin.ini";
         AddTask(() =>
         {
@@ -62,6 +82,18 @@ public class SkinModifierMachine : SkinMachine
         });
 
         Settings.Log($"Skin modification for '{workingSkin.Name}' has completed.");
+    }
+
+    private static void MakeCursorTrailSmooth(OsuSkin workingSkin, string cursorTrailPath)
+    {
+        Settings.Log($"Making cursor trail smooth for skin '{workingSkin.Name}'");
+
+        using Image image = Image.Load(cursorTrailPath);
+        int width = (int)(image.Width * 0.6);
+        int height = (int)(image.Height * 0.6);
+
+        image.Mutate(i => i.Resize(width, height));
+        image.Save(cursorTrailPath);
     }
 
     protected override void CopyIniPropertyOption(OsuSkin workingSkin, SkinIniPropertyOption iniPropertyOption)
