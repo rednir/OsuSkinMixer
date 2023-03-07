@@ -61,18 +61,8 @@ public class SkinModifierMachine : SkinMachine
         {
             AddTask(() =>
             {
-                if (File.Exists($"{workingSkin.Directory.FullName}/cursortrail.png"))
-                {
-                    MakeCursorTrailSmooth(workingSkin, $"{workingSkin.Directory.FullName}/cursortrail.png");
-                    return;
-                }
-                if (File.Exists($"{workingSkin.Directory.FullName}/cursortrail@2x.png"))
-                {
-                    MakeCursorTrailSmooth(workingSkin, $"{workingSkin.Directory.FullName}/cursortrail@2x.png");
-                    return;
-                }
-
-                Settings.Log($"No cursortrail image found for skin '{workingSkin.Name}', skipping smooth trail option.");
+                MakeCursorTrailSmooth(workingSkin);
+                MakeCursorTrailSmooth(workingSkin, "@2x");
             });
         }
 
@@ -95,16 +85,51 @@ public class SkinModifierMachine : SkinMachine
         Settings.Log($"Skin modification for '{workingSkin.Name}' has completed.");
     }
 
-    private static void MakeCursorTrailSmooth(OsuSkin workingSkin, string cursorTrailPath)
+    private static void MakeCursorTrailSmooth(OsuSkin workingSkin, string suffix = null)
     {
-        Settings.Log($"Making cursor trail smooth for skin '{workingSkin.Name}'");
+        Settings.Log($"Making cursor{suffix} trail smooth for skin '{workingSkin.Name}'");
 
-        using Image image = Image.Load(cursorTrailPath);
-        int width = (int)(image.Width * 0.6);
-        int height = (int)(image.Height * 0.6);
+        string cursorPath = $"{workingSkin.Directory.FullName}/cursor{suffix}.png";
+        string cursorTrailPath = $"{workingSkin.Directory.FullName}/cursortrail{suffix}.png";
 
-        image.Mutate(i => i.Resize(width, height));
-        image.Save(cursorTrailPath);
+        if (!File.Exists(cursorPath) || !File.Exists(cursorTrailPath))
+        {
+            Settings.Log("Cursor image not found, skipping smooth trail option.");
+            return;
+        }
+
+        File.Move(cursorPath, $"{workingSkin.Directory.FullName}/cursormiddle{suffix}.png");
+        File.WriteAllBytes(cursorPath, TransparentPngFile);
+
+        Image<Rgba32> cursorTrail = Image.Load<Rgba32>(cursorTrailPath);
+
+        int width = cursorTrail.Width;
+        int height = cursorTrail.Height;
+
+        int minX = width;
+        int minY = height;
+        int maxX = 0;
+        int maxY = 0;
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Rgba32 pixel = cursorTrail[x, y];
+
+                if (pixel.A != 0)
+                {
+                    minX = Math.Min(minX, x);
+                    minY = Math.Min(minY, y);
+                    maxX = Math.Max(maxX, x);
+                    maxY = Math.Max(maxY, y);
+                }
+            }
+        }
+
+        cursorTrail.Mutate(ctx => ctx.Crop(new Rectangle(minX, minY, maxX - minX + 1, maxY - minY + 1)));
+        cursorTrail.Save(cursorTrailPath);
+        cursorTrail.Dispose();
     }
 
     private static void MakeCirclesInstafade(OsuSkin workingSkin, string suffix = null)
