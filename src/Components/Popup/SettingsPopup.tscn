@@ -38,6 +38,7 @@ label_settings = ExtResource("3_kxkd6")
 
 [node name="UpdateButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("5_8w4ka")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "Update to latest version"
 
