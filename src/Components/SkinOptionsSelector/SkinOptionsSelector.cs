@@ -116,6 +116,7 @@ public partial class SkinOptionsSelector : VBoxContainer
 
         SetValueOfAllChildrenOfOption(SkinOptionComponentInSelection.SkinOption, valueSelected);
         SkinSelectorPopup.Out();
+        SkinOptionComponentInSelection.Button.GrabFocus();
     }
 
     private void SetValueOfAllChildrenOfOption(SkinOption option, SkinOptionValue value)

@@ -47,6 +47,7 @@ theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = ExtResource("3_w4p0r")
 theme_override_styles/hover = ExtResource("6_xqnwr")
 theme_override_styles/pressed = ExtResource("7_pm80f")
+theme_override_styles/focus = ExtResource("6_xqnwr")
 text = "default_value"
 text_overrun_behavior = 3
 clip_text = true

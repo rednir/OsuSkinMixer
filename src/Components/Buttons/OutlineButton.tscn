@@ -24,4 +24,5 @@ theme_override_styles/normal = ExtResource("1_jnfj4")
 theme_override_styles/hover = ExtResource("2_bbtew")
 theme_override_styles/pressed = ExtResource("3_7xwed")
 theme_override_styles/disabled = ExtResource("4_a8uba")
+theme_override_styles/focus = ExtResource("2_bbtew")
 text = "Outline"
