@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://xr6hy2d5if82"]
+[gd_scene load_steps=13 format=3 uid="uid://ysal13cqaoit"]
 
 [ext_resource type="Texture2D" uid="uid://05l1bgbm243m" path="res://assets/defaultskin/menu-background.jpg" id="1_8ery0"]
 [ext_resource type="Script" path="res://src/Components/Osu/SkinPreview.cs" id="1_o7mmq"]
@@ -103,7 +103,6 @@ texture = ExtResource("4_s2rty")
 [node name="Cursormiddle" type="Sprite2D" parent="Cursor"]
 unique_name_in_owner = true
 show_behind_parent = true
-z_index = 5
 texture = ExtResource("4_fw12c")
 
 [node name="Cursortrail" type="CPUParticles2D" parent="Cursor"]
