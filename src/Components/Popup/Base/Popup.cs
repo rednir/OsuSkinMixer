@@ -1,9 +1,14 @@
+using System;
 using Godot;
 
 namespace OsuSkinMixer.Components;
 
 public partial class Popup : Control
 {
+	public event Action PopupIn;
+
+	public event Action PopupOut;
+
 	protected virtual bool IsImportant => false;
 
     protected AnimationPlayer AnimationPlayer { get; private set; }
@@ -29,8 +34,14 @@ public partial class Popup : Control
 	}
 
     public virtual void In()
-		=> AnimationPlayer.Play("in");
+    {
+        AnimationPlayer.Play("in");
+		PopupIn?.Invoke();
+    }
 
     public virtual void Out()
-        => AnimationPlayer.Play("out");
+    {
+        AnimationPlayer.Play("out");
+		PopupOut?.Invoke();
+    }
 }

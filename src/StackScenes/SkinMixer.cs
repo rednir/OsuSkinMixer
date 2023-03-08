@@ -36,11 +36,7 @@ public partial class SkinMixer : StackScene
 		CreateSkinButton.Pressed += OnCreateSkinButtonPressed;
 		RandomButton.Pressed += OnRandomButtonPressed;
 
-		SkinNamePopup.ConfirmAction = s =>
-		{
-			SkinNamePopup.Out();
-			RunSkinCreator(s);
-		};
+		SkinNamePopup.ConfirmAction = RunSkinCreator;
 
 		SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.DefaultSkin));
 	}

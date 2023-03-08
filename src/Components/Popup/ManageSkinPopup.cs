@@ -39,6 +39,7 @@ public partial class ManageSkinPopup : Popup
 
 		DeleteQuestionPopup.ConfirmAction = OnDeleteConfirmed;
 		SkinNamePopup.ConfirmAction = OnDuplicateSkinNameConfirmed;
+		SkinNamePopup.PopupOut += Out;
 		ModifyButton.Pressed += OnModifyButtonPressed;
 		HideButton.Pressed += OnHideButtonPressed;
 		DuplicateButton.Pressed += OnDuplicateButtonPressed;
@@ -85,7 +86,7 @@ public partial class ManageSkinPopup : Popup
 			OS.Alert("Failed to duplicate skin. Please report this issue with logs.", "Error");
 		}
 
-		Out();
+		SkinNamePopup.Out();
 	}
 
 	private void OnDeleteButtonPressed()
