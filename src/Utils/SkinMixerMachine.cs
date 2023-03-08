@@ -77,33 +77,12 @@ public class SkinMixerMachine : SkinMachine
         catch (IOException e)
         {
             GD.PushWarning($"Exception thrown, probably because we are trying to move across different volumes or devices. Falling back to copy method.\n{e.Message}");
-            DirectoryInfo copiedDir = CopyDirectory(NewSkin.Directory, dirDestPath);
+            DirectoryInfo copiedDir = NewSkin.Directory.CopyDirectory(dirDestPath);
             NewSkin.Directory.Delete(true);
             NewSkin.Directory = copiedDir;
         }
 
         OsuData.AddSkin(NewSkin);
-    }
-
-    private static DirectoryInfo CopyDirectory(DirectoryInfo sourceDir, string destinationDir)
-    {
-        DirectoryInfo[] dirs = sourceDir.GetDirectories();
-
-        Directory.CreateDirectory(destinationDir);
-
-        foreach (FileInfo file in sourceDir.GetFiles())
-        {
-            string targetFilePath = Path.Combine(destinationDir, file.Name);
-            file.CopyTo(targetFilePath);
-        }
-
-        foreach (DirectoryInfo subDir in dirs)
-        {
-            string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
-            CopyDirectory(subDir, newDestinationDir);
-        }
-
-        return new DirectoryInfo(destinationDir);
     }
 
     private static bool IsInSkinsFolder(string path)

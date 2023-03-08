@@ -77,7 +77,7 @@ public partial class ManageSkinPopup : Popup
 		{
 			Settings.Log($"Duplicating skin: {_skin.Name} -> {newSkinName}");
 
-			OsuSkin newSkin = new(CopyDirectory(_skin.Directory, Path.Combine(Settings.SkinsFolderPath, newSkinName), true));
+			OsuSkin newSkin = new(_skin.Directory.CopyDirectory(Path.Combine(Settings.SkinsFolderPath, newSkinName), true));
 			OsuData.AddSkin(newSkin);
 			OsuData.RequestSkinInfo(newSkin);
 		}
@@ -111,28 +111,4 @@ public partial class ManageSkinPopup : Popup
 
 		Out();
 	}
-
-    private static DirectoryInfo CopyDirectory(DirectoryInfo sourceDir, string destinationDir, bool overwrite = true)
-    {
-		if (overwrite && Directory.Exists(destinationDir))
-			Directory.Delete(destinationDir, true);
-
-        DirectoryInfo[] dirs = sourceDir.GetDirectories();
-
-        Directory.CreateDirectory(destinationDir);
-
-        foreach (FileInfo file in sourceDir.GetFiles())
-        {
-            string targetFilePath = Path.Combine(destinationDir, file.Name);
-            file.CopyTo(targetFilePath);
-        }
-
-        foreach (DirectoryInfo subDir in dirs)
-        {
-            string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
-            CopyDirectory(subDir, newDestinationDir);
-        }
-
-        return new DirectoryInfo(destinationDir);
-    }
 }
