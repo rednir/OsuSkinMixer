@@ -6,12 +6,15 @@ using System.Text;
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Statics;
 using OsuSkinMixer.StackScenes;
+using OsuSkinMixer.Models;
 
 namespace OsuSkinMixer;
 
 public partial class Main : Control
 {
 	private PackedScene MenuScene;
+
+	private PackedScene SkinInfoScene;
 
 	private CanvasLayer Background;
 	private AnimationPlayer ScenesAnimationPlayer;
@@ -38,6 +41,7 @@ public partial class Main : Control
 		DisplayServer.WindowSetMinSize(new Vector2I(600, 300));
 
 		MenuScene = GD.Load<PackedScene>("res://src/StackScenes/Menu.tscn");
+		SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
 
 		Background = GetNode<CanvasLayer>("Background");
 		ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
@@ -96,6 +100,12 @@ public partial class Main : Control
 		OsuData.SkinAdded += s => PushToast($"Skin was created:\n{s.Name}");
 		OsuData.SkinModified += s => PushToast($"Skin was modified:\n{s.Name}");
 		OsuData.SkinRemoved += s => PushToast($"Skin was deleted:\n{s.Name}");
+		OsuData.SkinInfoRequested += s =>
+		{
+			var instance = SkinInfoScene.Instantiate<SkinInfo>();
+			instance.Skins = new OsuSkin[] { s };
+			PushScene(instance);
+		};
 
 		PushScene(MenuScene.Instantiate<StackScene>());
 		CheckForUpdates();

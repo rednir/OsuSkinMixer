@@ -7,8 +7,8 @@
 [ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="5_iav3h"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="5_tgksf"]
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="5_uoyka"]
-[ext_resource type="Texture2D" uid="uid://bo3g8fwecbbbx" path="res://assets/materialicons/delete.png" id="8_fgi0p"]
 [ext_resource type="PackedScene" uid="uid://7805vr243ofu" path="res://src/Components/Popup/Generic/QuestionPopup.tscn" id="9_4k8fj"]
+[ext_resource type="PackedScene" uid="uid://c3t32td5tieq" path="res://src/Components/Popup/SkinNamePopup.tscn" id="9_k23o4"]
 
 [node name="ManageSkinPopup" type="Control"]
 layout_mode = 3
@@ -48,6 +48,13 @@ layout_mode = 2
 size_flags_vertical = 10
 alignment = 2
 
+[node name="HideButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_uoyka")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 10
+text = "Hide from osu!"
+
 [node name="ModifyButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_uoyka")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -56,19 +63,17 @@ size_flags_vertical = 10
 text = "Modify
 "
 
-[node name="HideButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_uoyka")]
+[node name="DuplicateButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_uoyka")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 10
-text = "Hide from osu!"
+text = "Duplicate"
 
 [node name="DeleteButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_tgksf")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Delete permanently"
-icon = ExtResource("8_fgi0p")
-expand_icon = true
+text = "Delete"
 
 [node name="DeleteQuestionPopup" parent="." instance=ExtResource("9_4k8fj")]
 unique_name_in_owner = true
@@ -83,6 +88,12 @@ text = "Delete this skin?"
 [node name="Text" parent="DeleteQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
 text = "Be warned, the skin will be deleted permanently!"
 
+[node name="SkinNamePopup" parent="." instance=ExtResource("9_k23o4")]
+unique_name_in_owner = true
+layout_mode = 1
+
 [editable path="Popup"]
 [editable path="DeleteQuestionPopup"]
 [editable path="DeleteQuestionPopup/Popup"]
+[editable path="SkinNamePopup"]
+[editable path="SkinNamePopup/Popup"]

@@ -10,6 +10,12 @@ public partial class SkinNamePopup : Popup
 {
 	public Action<string> ConfirmAction { get; set; }
 
+	public string LineEditText
+	{
+		get => LineEdit.Text;
+		set => LineEdit.Text = value;
+	}
+
 	private Label WarningLabel;
 	private LineEdit LineEdit;
 	private Button ConfirmButton;

@@ -15,9 +15,11 @@ public partial class ManageSkinPopup : Popup
 	public Action ModifySkin { get; set; }
 
 	private QuestionPopup DeleteQuestionPopup;
+	private SkinNamePopup SkinNamePopup;
 	private Label TitleLabel;
 	private Button ModifyButton;
 	private Button HideButton;
+	private Button DuplicateButton;
 	private Button DeleteButton;
 
 	private OsuSkin _skin;
@@ -28,14 +30,18 @@ public partial class ManageSkinPopup : Popup
 		base._Ready();
 
 		DeleteQuestionPopup = GetNode<QuestionPopup>("%DeleteQuestionPopup");
+		SkinNamePopup = GetNode<SkinNamePopup>("%SkinNamePopup");
 		TitleLabel = GetNode<Label>("%Title");
 		ModifyButton = GetNode<Button>("%ModifyButton");
 		HideButton = GetNode<Button>("%HideButton");
+		DuplicateButton = GetNode<Button>("%DuplicateButton");
 		DeleteButton = GetNode<Button>("%DeleteButton");
 
 		DeleteQuestionPopup.ConfirmAction = OnDeleteConfirmed;
+		SkinNamePopup.ConfirmAction = OnDuplicateSkinNameConfirmed;
 		ModifyButton.Pressed += OnModifyButtonPressed;
 		HideButton.Pressed += OnHideButtonPressed;
+		DuplicateButton.Pressed += OnDuplicateButtonPressed;
 		DeleteButton.Pressed += OnDeleteButtonPressed;
 	}
 
@@ -55,6 +61,30 @@ public partial class ManageSkinPopup : Popup
 	private void OnHideButtonPressed()
 	{
 		OsuData.ToggleSkinHiddenState(_skin);
+		Out();
+	}
+
+	private void OnDuplicateButtonPressed()
+	{
+		SkinNamePopup.LineEditText = $"{_skin.Name} (copy)";
+		SkinNamePopup.In();
+	}
+
+	private void OnDuplicateSkinNameConfirmed(string newSkinName)
+	{
+		try
+		{
+			Settings.Log($"Duplicating skin: {_skin.Name} -> {newSkinName}");
+			OsuSkin newSkin = new(CopyDirectory(_skin.Directory, Path.Combine(Settings.SkinsFolderPath, newSkinName)));
+			OsuData.AddSkin(newSkin);
+			OsuData.RequestSkinInfo(newSkin);
+		}
+		catch (Exception ex)
+		{
+			GD.PrintErr(ex);
+			OS.Alert("Failed to duplicate skin. Please report this issue with logs.", "Error");
+		}
+
 		Out();
 	}
 
@@ -79,4 +109,25 @@ public partial class ManageSkinPopup : Popup
 
 		Out();
 	}
+
+    private static DirectoryInfo CopyDirectory(DirectoryInfo sourceDir, string destinationDir)
+    {
+        DirectoryInfo[] dirs = sourceDir.GetDirectories();
+
+        Directory.CreateDirectory(destinationDir);
+
+        foreach (FileInfo file in sourceDir.GetFiles())
+        {
+            string targetFilePath = Path.Combine(destinationDir, file.Name);
+            file.CopyTo(targetFilePath);
+        }
+
+        foreach (DirectoryInfo subDir in dirs)
+        {
+            string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
+            CopyDirectory(subDir, newDestinationDir);
+        }
+
+        return new DirectoryInfo(destinationDir);
+    }
 }
