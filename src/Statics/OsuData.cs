@@ -89,6 +89,7 @@ public static class OsuData
     {
 		try
 		{
+            Directory.CreateDirectory(Settings.HiddenSkinsFolderPath);
 			if (skin.Hidden)
 			{
 				Settings.Log($"Hiding skin: {skin.Name}");
