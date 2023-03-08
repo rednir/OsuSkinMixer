@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bimdldtywn6nm"]
+[gd_scene load_steps=9 format=3 uid="uid://bimdldtywn6nm"]
 
 [ext_resource type="Script" path="res://src/Components/Popup/SettingsPopup.cs" id="1_0q4fj"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_dq35g"]
@@ -6,6 +6,7 @@
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_kxkd6"]
 [ext_resource type="PackedScene" uid="uid://sni5bqyyrgfj" path="res://src/Components/Popup/SetupPopup.tscn" id="5_4lsaw"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="5_8w4ka"]
+[ext_resource type="PackedScene" uid="uid://r28lp1qj0ucs" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="7_x536e"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_n54bi"]
 font_size = 12
@@ -37,7 +38,6 @@ label_settings = ExtResource("3_kxkd6")
 
 [node name="UpdateButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("5_8w4ka")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 text = "Update to latest version"
 
@@ -72,4 +72,19 @@ text = "Open debug logs"
 unique_name_in_owner = true
 layout_mode = 1
 
+[node name="UpdateLoadingPopup" parent="." instance=ExtResource("7_x536e")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="Title" parent="UpdateLoadingPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
+text = "Downloading latest update"
+
+[node name="Text" parent="UpdateLoadingPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+text = "This may take a while depending on your internet speeds."
+
+[node name="CancelButton" parent="UpdateLoadingPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3"]
+visible = false
+
 [editable path="Popup"]
+[editable path="UpdateLoadingPopup"]
+[editable path="UpdateLoadingPopup/Popup"]

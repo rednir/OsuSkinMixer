@@ -15,6 +15,7 @@ public partial class SettingsPopup : Popup
 	private Button ReportIssueButton;
 	private Button OpenLogsButton;
 	private SetupPopup SetupPopup;
+	private LoadingPopup UpdateLoadingPopup;
 
 	public override void _Ready()
 	{
@@ -26,6 +27,7 @@ public partial class SettingsPopup : Popup
 		ReportIssueButton = GetNode<Button>("%ReportIssueButton");
 		OpenLogsButton = GetNode<Button>("%OpenLogsButton");
 		SetupPopup = GetNode<SetupPopup>("%SetupPopup");
+		UpdateLoadingPopup = GetNode<LoadingPopup>("%UpdateLoadingPopup");
 
 		UpdateButton.Pressed += UpdateButtonPressed;
 		UseCompactSkinSelectorButton.Pressed += UseCompactSkinSelectorButtonPressed;
@@ -55,8 +57,7 @@ public partial class SettingsPopup : Popup
 			return;
 		}
 
-		UpdateButton.Disabled = true;
-		UpdateButton.Text = "Downloading...";
+		UpdateLoadingPopup.In();
 		HttpClient client = new();
 
         client.GetStreamAsync($"https://github.com/{Settings.GITHUB_REPO_PATH}/releases/latest/download/osu-skin-mixer-setup.exe")
@@ -80,8 +81,8 @@ public partial class SettingsPopup : Popup
 					t.Result.Dispose();
 					fileStream.Dispose();
 
+					UpdateLoadingPopup.SetProgress(100);
 					Process.Start(installerPath, "/silent");
-					UpdateButton.Text = "Installing...";
 				}
 				catch (Exception ex)
 				{
