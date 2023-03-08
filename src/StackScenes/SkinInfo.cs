@@ -11,12 +11,12 @@ public partial class SkinInfo : StackScene
 
     public IEnumerable<OsuSkin> Skins { get; set; }
 
-	private PackedScene SkinModifierSkinSelectScene;
+	private PackedScene SkinModiferModificationSelectScene;
     private PackedScene SkinInfoPanelScene;
 
     public override void _Ready()
     {
-		SkinModifierSkinSelectScene = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierSkinSelect.tscn");
+		SkinModiferModificationSelectScene = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierModificationSelect.tscn");
         SkinInfoPanelScene = GD.Load<PackedScene>("res://src/Components/SkinInfoPanel.tscn");
 
         foreach (var skin in Skins)
@@ -30,7 +30,7 @@ public partial class SkinInfo : StackScene
 
     private void PushModifierScene(OsuSkin skin)
     {
-        var scene = SkinModifierSkinSelectScene.Instantiate<SkinModifierSkinSelect>();
+        var scene = SkinModiferModificationSelectScene.Instantiate<SkinModifierModificationSelect>();
         scene.SkinsToModify = new List<OsuSkin> { skin };
         EmitSignal(SignalName.ScenePushed, scene);
     }
