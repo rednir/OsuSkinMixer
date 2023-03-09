@@ -5,7 +5,9 @@
 
 *Mix and manage your osu! skins with ease!*
 
-This is a tool that aims to get rid the days of opening your skins folder, editing .png images and watching tutorials. It makes tinkering and editing skins a walk in the park, providing an easy to use interface that requires no prior knowledge of skinning.
+This is a tool that aims to get rid the days of opening your skins folder, editing .png images and watching tutorials.
+
+It makes tinkering and editing skins a walk in the park, providing an easy to use interface that requires no prior knowledge of skinning.
 
 
 https://user-images.githubusercontent.com/10225220/224090214-206b6459-4612-40ca-832f-ce72f3f2e60a.mp4
