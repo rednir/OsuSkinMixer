@@ -22,21 +22,23 @@ Alternative downloads are available on the releases page.
 
 ### Skin mixer:
 
-Create a skin mix in seconds. Choose what hitcircles to use, what sounds you want etc.. and it's done! - no need to scour through your skins folder in file explorer.
+- Create a skin mix in seconds.
+ 
+- Choose what hitcircles to use, what sounds you want etc.. and it's done! - no need to scour through your skins folder in file explorer.
 
 ### Skin modifier:
 
-Want to quickly change the cursor of a skin, or multiple skins at once?
+- Want to quickly change the cursor of a skin, or multiple skins at once?
 
-Or.. do you want to convert a skin to use a smooth cursor trail, instant-fading hitcircles or an invisible cursor?
+- Or.. do you want to convert a skin to use a smooth cursor trail, instant-fading hitcircles or an invisible cursor?
 
-A couple clicks and your modified skin is ready to go!
+- A couple clicks and your modified skin is ready to go!
 
 ### Skin manager
 
-A place to view a preview of your skin, **duplicate or delete** it from your system. Search for a skin and open it directly in osu!
+- A place to view a preview of your skin, duplicate or delete it from your system. Search for a skin and open it directly in osu!
 
-Do you have loads of skins? You can hide skins so they don't show up in osu! + restore them at any time from the skin manager.
+- Do you have loads of skins? You can hide skins so they don't show up in osu! + restore them at any time from the skin manager.
 
 
 ## Contributing
