@@ -18,7 +18,6 @@ https://user-images.githubusercontent.com/10225220/224090214-206b6459-4612-40ca-
 
 Alternative downloads are available on the releases page.
 
-
 ## Features
 
 ### Skin mixer:
@@ -45,3 +44,10 @@ Do you have loads of skins? You can hide skins so they don't show up in osu! + r
 Feature requests and bug reports are more than welcome. If you are reporting a bug, attaching debug logs is optional but can be very useful for replication purposes. Steps to upload debug logs are shown on the issue template. To open an issue, [click on this link](https://github.com/rednir/OsuSkinMixer/issues).
 
 If you wish to contribute in the form of pull requests, that is also welcomed. You can build from source using the .NET version of [Godot Engine 4.0](https://godotengine.org/).
+
+
+## Other links
+
+- [Go to osu! forums post](https://osu.ppy.sh/community/forums/topics/1458320?n=1)
+- [Contact me on osu!](http://osu.ppy.sh/community/chat?sendto=17204559)
+- [Donate to support development](https://github.com/rednir/rednir/blob/master/DONATE.md)
