@@ -3,7 +3,43 @@
 [![Latest](https://img.shields.io/github/v/release/rednir/OsuSkinMixer)](https://github.com/rednir/OsuSkinMixer/releases/latest/)
 [![Downloads](https://img.shields.io/github/downloads/rednir/OsuSkinMixer/total)](https://github.com/rednir/OsuSkinMixer/releases/latest/)
 
-### [Download for Windows](https://github.com/rednir/OsuSkinMixer/releases/latest/download/osu-skin-mixer-setup.exe)
+*Mix and manage your osu! skins with ease!*
 
-[![](https://user-images.githubusercontent.com/10225220/218430003-17085907-f970-4ba1-b62e-707f076db62c.png)](https://www.youtube.com/watch?v=Tr6hPX3P8Es)
+This is a tool that aims to get rid the days of opening your skins folder, editing .png images and watching tutorials. It makes tinkering and editing skins a walk in the park, providing an easy to use interface that requires no prior knowledge of skinning.
 
+
+https://user-images.githubusercontent.com/10225220/224090214-206b6459-4612-40ca-832f-ce72f3f2e60a.mp4
+
+
+## Downloads
+**[Download for Windows](https://github.com/rednir/OsuSkinMixer/releases/latest/download/osu-skin-mixer-setup.exe)**
+
+Alternative downloads are available on the releases page.
+
+
+## Features
+
+### Skin mixer:
+
+Create a skin mix in seconds. Choose what hitcircles to use, what sounds you want etc.. and it's done! - no need to scour through your skins folder in file explorer.
+
+### Skin modifier:
+
+Want to quickly change the cursor of a skin, or multiple skins at once?
+
+Or.. do you want to convert a skin to use a smooth cursor trail, instant-fading hitcircles or an invisible cursor?
+
+A couple clicks and your modified skin is ready to go!
+
+### Skin manager
+
+A place to view a preview of your skin, **duplicate or delete** it from your system. Search for a skin and open it directly in osu!
+
+Do you have loads of skins? You can hide skins so they don't show up in osu! + restore them at any time from the skin manager.
+
+
+## Contributing
+
+Feature requests and bug reports are more than welcome. If you are reporting a bug, attaching debug logs is optional but can be very useful for replication purposes. Steps to upload debug logs are shown on the issue template. To open an issue, [click on this link](https://github.com/rednir/OsuSkinMixer/issues).
+
+If you wish to contribute in the form of pull requests, that is also welcomed. You can build from source using the .NET version of [Godot Engine 4.0](https://godotengine.org/).
