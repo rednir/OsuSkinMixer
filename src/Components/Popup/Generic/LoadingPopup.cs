@@ -27,9 +27,12 @@ public partial class LoadingPopup : Popup
 
 	public void SetProgress(double progress)
 	{
-		if (progress <= 0)
+		if (progress <= 0 || progress >= 100)
 		{
-			LoadingAnimationPlayer.Play("unknown");
+			if (progress >= 100)
+				LoadingAnimationPlayer.Play("finish");
+
+			LoadingAnimationPlayer.Queue("unknown");
 			return;
 		}
 		else if (LoadingAnimationPlayer.PlaybackActive)
