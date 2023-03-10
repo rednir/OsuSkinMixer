@@ -38,9 +38,6 @@ script = ExtResource("1_5b4pt")
 [node name="Popup" parent="." instance=ExtResource("1_jm6w5")]
 layout_mode = 1
 
-[node name="CanvasLayer" parent="Popup" index="1"]
-visible = true
-
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
 offset_bottom = 0.00012207
 grow_horizontal = 2
