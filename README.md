@@ -55,3 +55,7 @@ If you wish to contribute in the form of pull requests, that is also welcomed. Y
 - [Go to osu! forums post](https://osu.ppy.sh/community/forums/topics/1458320?n=1)
 - [Contact me on osu!](http://osu.ppy.sh/community/chat?sendto=17204559)
 - [Donate to support development](https://github.com/rednir/rednir/blob/master/DONATE.md)
+
+This project uses some assets from the [osu-resources](https://github.com/ppy/osu-resources) repository.
+
+Features in osu! skin mixer such as deleting skins can be destructive, I cannot take responsibility for any damages to your osu! folder.
