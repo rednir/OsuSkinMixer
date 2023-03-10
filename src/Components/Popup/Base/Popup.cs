@@ -3,7 +3,7 @@ using Godot;
 
 namespace OsuSkinMixer.Components;
 
-public partial class Popup : Control
+public abstract partial class Popup : Control
 {
 	public event Action PopupIn;
 
