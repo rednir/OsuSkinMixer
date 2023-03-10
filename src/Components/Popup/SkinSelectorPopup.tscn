@@ -1,9 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://md4n10t0o7i4"]
+[gd_scene load_steps=14 format=3 uid="uid://md4n10t0o7i4"]
 
 [ext_resource type="Script" path="res://src/Components/Popup/SkinSelectorPopup.cs" id="1_5b4pt"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="1_jm6w5"]
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="3_rw0cv"]
 [ext_resource type="Texture2D" uid="uid://crgnranuin71j" path="res://assets/materialicons/arrow_back.png" id="4_oc0m3"]
+[ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="5_0ibfj"]
+[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="5_4xuux"]
+[ext_resource type="Texture2D" uid="uid://d3c0n4oyhnm8e" path="res://assets/materialicons/library_add.png" id="6_qokrs"]
+[ext_resource type="PackedScene" uid="uid://dsgg2xjv4sebx" path="res://src/Components/Popup/GetMoreSkinsPopup.tscn" id="8_c7cta"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sfgka"]
 content_margin_left = 0.0
@@ -26,6 +30,10 @@ content_margin_right = 4.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_apwiq"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d1niq"]
+content_margin_top = 32.0
+content_margin_bottom = 32.0
+
 [node name="SkinSelectorPopup" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -37,6 +45,9 @@ script = ExtResource("1_5b4pt")
 
 [node name="Popup" parent="." instance=ExtResource("1_jm6w5")]
 layout_mode = 1
+
+[node name="CanvasLayer" parent="Popup" index="1"]
+visible = true
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
 offset_bottom = 0.00012207
@@ -90,5 +101,30 @@ theme_override_constants/separation = 0
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
+
+[node name="GetMoreSkinsContainer" type="PanelContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_styles/panel = SubResource("StyleBoxEmpty_d1niq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GetMoreSkinsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GetMoreSkinsContainer/VBoxContainer"]
+layout_mode = 2
+text = "Couldn't find the one?"
+label_settings = ExtResource("5_4xuux")
+horizontal_alignment = 1
+
+[node name="GetMoreSkinsButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GetMoreSkinsContainer/VBoxContainer" instance=ExtResource("5_0ibfj")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "  Get more skins"
+icon = ExtResource("6_qokrs")
+
+[node name="GetMoreSkinsPopup" parent="." instance=ExtResource("8_c7cta")]
+unique_name_in_owner = true
+layout_mode = 1
 
 [editable path="Popup"]
