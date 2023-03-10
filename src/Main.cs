@@ -13,7 +13,7 @@ namespace OsuSkinMixer;
 public partial class Main : Control
 {
 	private PackedScene MenuScene;
-
+	private PackedScene SkinModiferModificationSelectScene;
 	private PackedScene SkinInfoScene;
 
 	private CanvasLayer Background;
@@ -42,6 +42,7 @@ public partial class Main : Control
 
 		MenuScene = GD.Load<PackedScene>("res://src/StackScenes/Menu.tscn");
 		SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
+		SkinModiferModificationSelectScene = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierModificationSelect.tscn");
 
 		Background = GetNode<CanvasLayer>("Background");
 		ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
@@ -105,6 +106,12 @@ public partial class Main : Control
 			var instance = SkinInfoScene.Instantiate<SkinInfo>();
 			instance.Skins = new OsuSkin[] { s };
 			PushScene(instance);
+		};
+		OsuData.SkinModifyRequested += s =>
+		{
+			var scene = SkinModiferModificationSelectScene.Instantiate<SkinModifierModificationSelect>();
+			scene.SkinsToModify = new List<OsuSkin> { s };
+			PushScene(scene);
 		};
 
 		PushScene(MenuScene.Instantiate<StackScene>());

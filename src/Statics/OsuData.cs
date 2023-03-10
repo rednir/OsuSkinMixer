@@ -22,6 +22,8 @@ public static class OsuData
 
     public static event Action<OsuSkin> SkinInfoRequested;
 
+    public static event Action<OsuSkin> SkinModifyRequested;
+
     public static bool SweepPaused { get; set; } = true;
 
     public static OsuSkin[] Skins { get => _skins.Keys.OrderBy(s => s.Name).ToArray(); }
@@ -83,6 +85,12 @@ public static class OsuData
     {
         Settings.Log($"Requested skin info: {skin.Name}");
         SkinInfoRequested?.Invoke(skin);
+    }
+
+    public static void RequestSkinModify(OsuSkin skin)
+    {
+        Settings.Log($"Requested skin modify: {skin.Name}");
+        SkinModifyRequested?.Invoke(skin);
     }
 
     public static void ToggleSkinHiddenState(OsuSkin skin)

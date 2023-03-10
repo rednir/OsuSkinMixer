@@ -13,8 +13,6 @@ public partial class ManageSkinPopup : Popup
 
 	private const string UNHIDE_BUTTON_TEXT = "Unhide from osu!";
 
-	public Action ModifySkin { get; set; }
-
 	private QuestionPopup DeleteQuestionPopup;
 	private SkinNamePopup SkinNamePopup;
 	private LoadingPopup LoadingPopup;
@@ -58,7 +56,7 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnModifyButtonPressed()
 	{
-		ModifySkin();
+		OsuData.RequestSkinModify(_skin);
 		Out();
 	}
 

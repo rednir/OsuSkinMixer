@@ -10,8 +10,6 @@ public partial class SkinInfoPanel : PanelContainer
 {
 	public OsuSkin Skin { get; set; }
 
-	public Action ModifySkin { get; set; }
-
 	private VBoxContainer DeletedContainer;
 	private VBoxContainer MainContentContainer;
 	private SkinPreview SkinPreview;
@@ -43,7 +41,6 @@ public partial class SkinInfoPanel : PanelContainer
 		MoreButton.Pressed += OnMoreButtonPressed;
 		OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
 		OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
-		ManageSkinPopup.ModifySkin += OnModifySkin;
 
 		OsuData.SkinModified += OnSkinModified;
 		OsuData.SkinRemoved += OnSkinRemoved;
@@ -89,11 +86,6 @@ public partial class SkinInfoPanel : PanelContainer
 	private void OnMoreButtonPressed()
 	{
 		ManageSkinPopup.In();
-	}
-
-	private void OnModifySkin()
-	{
-		ModifySkin();
 	}
 
 	private void OnSkinRemoved(OsuSkin skin)
