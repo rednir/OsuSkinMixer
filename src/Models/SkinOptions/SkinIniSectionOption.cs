@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace OsuSkinMixer.Models;
 
+/// <summary>Represents an option with the target of an entire skin.ini section which contains a matching <see cref="Property"/> key-pair value.</summary>
 public class SkinIniSectionOption : SkinOption
 {
     public SkinIniSectionOption(string section, string propertyName, string propertyValue)

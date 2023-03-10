@@ -1,5 +1,6 @@
 namespace OsuSkinMixer.Models;
 
+/// <summary>Represents an option with the target of an image or audio file, or several.</summary>
 public class SkinFileOption : SkinOption
 {
     public SkinFileOption(string fileName, bool isAudio)

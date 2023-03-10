@@ -12,6 +12,7 @@ using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Utils;
 
+/// <summary>Provides methods to modify one or more skins based on a list of <see cref="SkinOption"/> and extra flags.</summary>
 public class SkinModifierMachine : SkinMachine
 {
     public const double UNCANCELLABLE_AFTER = 80.0;

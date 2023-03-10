@@ -5,6 +5,7 @@ using System.Text;
 
 namespace OsuSkinMixer.Models;
 
+/// <summary>Represents a osu! skin's skin.ini file.</summary>
 public class OsuSkinIni
 {
     public static bool PropertyHasFilePath(string propertyName) =>
@@ -23,6 +24,7 @@ public class OsuSkinIni
         || propertyName == "Hit300"
         || propertyName == "Hit300g";
 
+    /// <summary>Initializes a new instance of the <see cref="OsuSkinIni"/> class with the default sections: "General", "Colours", "Fonts" and "CatchTheBeat".</summary>
     public OsuSkinIni(string name, string author, string version = "latest")
     {
         Sections = new List<OsuSkinIniSection>()
@@ -39,6 +41,7 @@ public class OsuSkinIni
             };
     }
 
+    /// <summary>Initializes a new instance of the <see cref="OsuSkinIni"/> class based on the given contents of a skin.ini file.</summary>
     public OsuSkinIni(string fileContent)
     {
         Sections = new List<OsuSkinIniSection>();

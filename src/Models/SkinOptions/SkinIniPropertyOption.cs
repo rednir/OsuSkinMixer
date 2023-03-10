@@ -1,5 +1,6 @@
 namespace OsuSkinMixer.Models;
 
+/// <summary>Represents an option with the target of a single skin.ini property.</summary>
 public class SkinIniPropertyOption : SkinOption
 {
     public SkinIniPropertyOption(string section, string property)

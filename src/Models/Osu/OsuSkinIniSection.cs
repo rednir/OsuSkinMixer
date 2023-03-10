@@ -3,15 +3,18 @@ using System.Text;
 
 namespace OsuSkinMixer.Models;
 
+/// <summary>Represents a section in a osu! skin's skin.ini file, such as "[General]", with its values represented as key-value pairs.</summary>
 public class OsuSkinIniSection : Dictionary<string, string>
 {
+    public string Name { get; set; }
+
     public OsuSkinIniSection(string name)
     {
         Name = name;
     }
 
-    public string Name { get; set; }
-
+    /// <summary>Converts this section to a string in the skin.ini format.</summary>
+    /// <returns>A string in the skin.ini format.</returns>
     public override string ToString()
     {
         var sb = new StringBuilder();

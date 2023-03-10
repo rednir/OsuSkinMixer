@@ -10,6 +10,7 @@ using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Utils;
 
+/// <summary>Base for classes that peform tasks based on a list of <see cref="SkinOption"/>. Provides abstract methods for populating tasks to be peformed on the relevant skin folders.</summary>
 public abstract class SkinMachine
 {
     protected static byte[] TransparentPngFile => new byte[] {
@@ -20,8 +21,10 @@ public abstract class SkinMachine
         0xAE, 0x42, 0x60, 0x82
     };
 
+    /// <summary>The skin options that will be used to populate the tasks.</summary>
     public SkinOption[] SkinOptions { get; set; }
 
+    /// <summary>Represents the progress of the operation as a value between 0 and 100 or null if there is no ongoing operation..</summary>
     public double? Progress
     {
         get

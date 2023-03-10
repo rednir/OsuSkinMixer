@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace OsuSkinMixer.Models;
 
+/// <summary>Base class for all skin options.</summary>
 public abstract class SkinOption
 {
     public virtual string Name { get; set; }
@@ -32,6 +33,8 @@ public abstract class SkinOption
         }
     }
 
+    /// <summary>Flattens a skin option hierarchy into a single list ready for iteration.</summary>
+    /// <returns>A single list of skin options.</returns>
     public static IEnumerable<SkinOption> Flatten(SkinOption[] skinOptions)
     {
         var result = new List<SkinOption>();
@@ -51,6 +54,7 @@ public abstract class SkinOption
         }
     }
 
+    /// <summary>Gets the default skin option hierarchy.</summary>
     public static SkinOption[] Default => new SkinOption[]
     {
             new ParentSkinOption
