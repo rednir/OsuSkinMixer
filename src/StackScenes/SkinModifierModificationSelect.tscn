@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://4a2d561f0p72" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.tscn" id="3_4hx6p"]
 [ext_resource type="PackedScene" uid="uid://r28lp1qj0ucs" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="3_dgftf"]
 [ext_resource type="PackedScene" uid="uid://bncwf73sgcemr" path="res://src/Components/SkinComponent.tscn" id="4_3gkpc"]
-[ext_resource type="Texture2D" uid="uid://d3x84ulkau6ag" path="res://assets/check.png" id="4_h3oms"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="4_qbo2l"]
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="5_clcj8"]
+[ext_resource type="Texture2D" uid="uid://cvpikgocffedt" path="res://assets/materialicons/done.png" id="7_mb77d"]
 [ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="8_hqq3a"]
 
 [node name="SkinModifierModificationSelect" type="VBoxContainer"]
@@ -73,7 +73,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Apply changes"
-icon = ExtResource("4_h3oms")
+icon = ExtResource("7_mb77d")
 
 [node name="ExtraOptionsPopup" parent="." instance=ExtResource("8_hqq3a")]
 unique_name_in_owner = true

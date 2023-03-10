@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://v4nnpxtm2ltr" path="res://assets/folder.png" id="10_cd86c"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="11_kv18r"]
 [ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="11_yvhcf"]
-[ext_resource type="Texture2D" uid="uid://d3x84ulkau6ag" path="res://assets/check.png" id="12_ykxx5"]
+[ext_resource type="Texture2D" uid="uid://cvpikgocffedt" path="res://assets/materialicons/done.png" id="12_oveo6"]
 
 [node name="SetupPopup" type="Control"]
 layout_mode = 3
@@ -32,7 +32,7 @@ layout_mode = 1
 unique_name_in_owner = true
 title = "Open a Directory"
 size = Vector2i(1000, 500)
-ok_button_text = "Select Current Folder"
+ok_button_text = "Select This Folder"
 dialog_hide_on_ok = true
 file_mode = 2
 access = 2
@@ -89,7 +89,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
 text = "Done"
-icon = ExtResource("12_ykxx5")
+icon = ExtResource("12_oveo6")
 
 [node name="OkPopup" parent="." instance=ExtResource("11_yvhcf")]
 unique_name_in_owner = true
