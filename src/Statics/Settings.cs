@@ -72,6 +72,12 @@ public static class Settings
             return false;
         }
 
+        if (File.Exists($"{path}/client.realm"))
+        {
+            error = "osu! skin mixer does not support the lazer client yet, please use your osu! stable folder.";
+            return false;
+        }
+
         if (!Directory.Exists($"{path}/Skins"))
         {
             error = "We couldn't find a 'Skins' folder in the specified folder, please make sure you're pointing to a valid osu! folder.\n\nIf you are struggling to find your osu! folder, open osu! and search for 'Open osu! folder' in the options menu.";
