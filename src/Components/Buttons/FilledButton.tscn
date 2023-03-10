@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://6nansuosn1ru"]
+[gd_scene load_steps=6 format=3 uid="uid://6nansuosn1ru"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r2cc1"]
 content_margin_left = 24.0
@@ -44,6 +44,17 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ntbh"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+bg_color = Color(0.878431, 0.67451, 0.756863, 0.282353)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
 [node name="FilledButton" type="Button"]
 custom_minimum_size = Vector2(90, 2.08165e-12)
 theme_override_colors/font_color = Color(0.286275, 0.145098, 0.196078, 1)
@@ -63,5 +74,5 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_r2cc1")
 theme_override_styles/hover = SubResource("StyleBoxFlat_2yrnt")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_xa0g1")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_mg5o3")
-theme_override_styles/focus = SubResource("StyleBoxFlat_2yrnt")
+theme_override_styles/focus = SubResource("StyleBoxFlat_7ntbh")
 text = "Filled"
