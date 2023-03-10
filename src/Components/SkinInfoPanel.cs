@@ -62,6 +62,7 @@ public partial class SkinInfoPanel : PanelContainer
 		SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
 		DetailsLabel.Text = $"Last modified: {Skin.Directory.LastWriteTime}";
 		HiddenIcon.Visible = Skin.Hidden;
+		OpenInOsuButton.Disabled = Skin.Hidden;
 		ManageSkinPopup.SetSkin(Skin);
 	}
 
