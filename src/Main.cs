@@ -83,7 +83,7 @@ public partial class Main : Control
 			}
 
 			BackButton.Disabled = SceneStack.Count <= 1;
-			TitleLabel.Text = SceneStack.Peek().Title;
+			TitleLabel.Text = SceneStack.Peek()?.Title ?? "osu! skin mixer";
 		};
 
 		ToastAnimationPlayer.AnimationFinished += (animationName) =>
