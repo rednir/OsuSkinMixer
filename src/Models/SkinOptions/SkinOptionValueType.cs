@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace OsuSkinMixer.Models;
 
 public enum SkinOptionValueType

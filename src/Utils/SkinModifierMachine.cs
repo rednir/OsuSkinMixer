@@ -6,7 +6,6 @@ using System.Threading;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Advanced;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
 
