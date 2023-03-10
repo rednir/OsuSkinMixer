@@ -162,7 +162,8 @@ public class SkinModifierMachine : SkinMachine
         Godot.Color[] comboColors = workingSkin.ComboColors;
 
         // Modulate the image with the combo color.
-        Godot.Color color = comboColors[1];
+        Godot.Color color = comboColors.Length > 1 ? comboColors[1] : comboColors[0];
+
         for (int x = 0; x < hitcircle.Width; x++)
         {
             for (int y = 0; y < hitcircle.Height; y++)
@@ -229,7 +230,8 @@ public class SkinModifierMachine : SkinMachine
                     coloursSection.Remove($"Combo{i}");
             }
 
-            coloursSection["Combo1"] = coloursSection["Combo2"];
+            coloursSection.TryGetValue("Combo2", out string combo2);
+            coloursSection["Combo1"] = combo2 ?? "0, 192, 0";
         }
 
         hitcircle.Dispose();
