@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d27pthmur486x"
-path="res://.godot/imported/toast-x-hovered.png-0f8bbaee7710f536d771a99b332e655e.ctex"
+uid="uid://d35i1tw6xkwef"
+path="res://.godot/imported/close.png-96187ce1bc7b11a7ea45135d177a4848.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/toast-x-hovered.png"
-dest_files=["res://.godot/imported/toast-x-hovered.png-0f8bbaee7710f536d771a99b332e655e.ctex"]
+source_file="res://assets/materialicons/close.png"
+dest_files=["res://.godot/imported/close.png-96187ce1bc7b11a7ea45135d177a4848.ctex"]
 
 [params]
 

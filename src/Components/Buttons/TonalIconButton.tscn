@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://c0bqc573eb7ys"]
+
+[ext_resource type="StyleBox" uid="uid://dpn5uqxivy72l" path="res://src/Styles/Buttons/IconButton.tres" id="1_daqen"]
+[ext_resource type="StyleBox" uid="uid://bjdmqh67w4bku" path="res://src/Styles/Buttons/IconButtonHover.tres" id="2_ie8bq"]
+[ext_resource type="StyleBox" uid="uid://dxqdk1ixl2ys" path="res://src/Styles/Buttons/IconButtonPressed.tres" id="3_l4d0r"]
+[ext_resource type="StyleBox" uid="uid://bqwmwc0s8kyx" path="res://src/Styles/Buttons/IconButtonDisabled.tres" id="4_c7xwc"]
+[ext_resource type="Texture2D" uid="uid://bmps2565xtlyd" path="res://assets/materialicons/more_vert.png" id="5_ha7lo"]
+
+[node name="TonalIconButton" type="Button"]
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_focus_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_disabled_color = Color(0.470588, 0.458824, 0.47451, 1)
+theme_override_colors/icon_normal_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_focus_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_disabled_color = Color(0.470588, 0.458824, 0.47451, 1)
+theme_override_styles/normal = ExtResource("1_daqen")
+theme_override_styles/hover = ExtResource("2_ie8bq")
+theme_override_styles/pressed = ExtResource("3_l4d0r")
+theme_override_styles/disabled = ExtResource("4_c7xwc")
+icon = ExtResource("5_ha7lo")

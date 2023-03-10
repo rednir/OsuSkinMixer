@@ -1,15 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://sni5bqyyrgfj"]
+[gd_scene load_steps=11 format=3 uid="uid://sni5bqyyrgfj"]
 
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="1_vbxph"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_x82gr"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="2_2dpv6"]
 [ext_resource type="Script" path="res://src/Components/Popup/SetupPopup.cs" id="2_bnnvj"]
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="3_8g2co"]
-[ext_resource type="StyleBox" uid="uid://dpn5uqxivy72l" path="res://src/Styles/Buttons/IconButton.tres" id="6_s2yk7"]
-[ext_resource type="StyleBox" uid="uid://bjdmqh67w4bku" path="res://src/Styles/Buttons/IconButtonHover.tres" id="7_i61yb"]
-[ext_resource type="StyleBox" uid="uid://dxqdk1ixl2ys" path="res://src/Styles/Buttons/IconButtonPressed.tres" id="8_wnuf3"]
-[ext_resource type="StyleBox" uid="uid://bqwmwc0s8kyx" path="res://src/Styles/Buttons/IconButtonDisabled.tres" id="9_kg386"]
-[ext_resource type="Texture2D" uid="uid://v4nnpxtm2ltr" path="res://assets/folder.png" id="10_cd86c"]
+[ext_resource type="PackedScene" uid="uid://c0bqc573eb7ys" path="res://src/Components/Buttons/TonalIconButton.tscn" id="6_onwsb"]
+[ext_resource type="Texture2D" uid="uid://msx778bigq5g" path="res://assets/materialicons/folder_open.png" id="7_88cey"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="11_kv18r"]
 [ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="11_yvhcf"]
 [ext_resource type="Texture2D" uid="uid://cvpikgocffedt" path="res://assets/materialicons/done.png" id="12_oveo6"]
@@ -32,7 +29,7 @@ layout_mode = 1
 unique_name_in_owner = true
 title = "Open a Directory"
 size = Vector2i(1000, 500)
-ok_button_text = "Select This Folder"
+ok_button_text = "Select Current Folder"
 dialog_hide_on_ok = true
 file_mode = 2
 access = 2
@@ -74,14 +71,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Click the folder to browse"
 
-[node name="FolderPickerButton" type="Button" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]
+[node name="FolderPickerButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_onwsb")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/normal = ExtResource("6_s2yk7")
-theme_override_styles/hover = ExtResource("7_i61yb")
-theme_override_styles/pressed = ExtResource("8_wnuf3")
-theme_override_styles/disabled = ExtResource("9_kg386")
-icon = ExtResource("10_cd86c")
+icon = ExtResource("7_88cey")
 
 [node name="DoneButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("11_kv18r")]
 unique_name_in_owner = true

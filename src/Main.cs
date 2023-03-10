@@ -26,7 +26,7 @@ public partial class Main : Control
 	private SettingsPopup SettingsPopup;
 	private AnimationPlayer ToastAnimationPlayer;
 	private Label ToastTextLabel;
-	private TextureButton ToastCloseButton;
+	private Button ToastCloseButton;
 	private Label VersionLabel;
 
 	private Stack<StackScene> SceneStack { get; } = new();
@@ -53,7 +53,7 @@ public partial class Main : Control
 		SettingsPopup = GetNode<SettingsPopup>("SettingsPopup");
 		ToastAnimationPlayer = GetNode<AnimationPlayer>("%ToastAnimationPlayer");
 		ToastTextLabel = GetNode<Label>("%ToastText");
-		ToastCloseButton = GetNode<TextureButton>("%ToastClose");
+		ToastCloseButton = GetNode<Button>("%ToastClose");
 		VersionLabel = GetNode<Label>("%VersionLabel");
 
 		VersionLabel.Text = Settings.VERSION;
