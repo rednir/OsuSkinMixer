@@ -58,8 +58,8 @@ layout_mode = 2
 [node name="Title" parent="LoadingPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
 text = "Creating skin..."
 
-[node name="Text" parent="LoadingPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
-visible = false
+[node name="CancelButton" parent="LoadingPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3"]
+visible = true
 
 [editable path="LoadingPopup"]
 [editable path="LoadingPopup/Popup"]

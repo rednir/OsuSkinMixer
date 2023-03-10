@@ -112,8 +112,8 @@ offset_bottom = -0.000305176
 [node name="Title" parent="LoadingPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
 text = "Modifying..."
 
-[node name="Text" parent="LoadingPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
-visible = false
+[node name="CancelButton" parent="LoadingPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3"]
+visible = true
 
 [editable path="SkinOptionsSelector"]
 [editable path="SkinOptionsSelector/SkinSelectorPopup"]

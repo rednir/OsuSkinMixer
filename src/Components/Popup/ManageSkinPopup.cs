@@ -3,6 +3,7 @@ using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace OsuSkinMixer.Components;
 
@@ -16,6 +17,7 @@ public partial class ManageSkinPopup : Popup
 
 	private QuestionPopup DeleteQuestionPopup;
 	private SkinNamePopup SkinNamePopup;
+	private LoadingPopup LoadingPopup;
 	private Label TitleLabel;
 	private Button ModifyButton;
 	private Button HideButton;
@@ -31,6 +33,7 @@ public partial class ManageSkinPopup : Popup
 
 		DeleteQuestionPopup = GetNode<QuestionPopup>("%DeleteQuestionPopup");
 		SkinNamePopup = GetNode<SkinNamePopup>("%SkinNamePopup");
+		LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
 		TitleLabel = GetNode<Label>("%Title");
 		ModifyButton = GetNode<Button>("%ModifyButton");
 		HideButton = GetNode<Button>("%HideButton");
@@ -73,21 +76,26 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnDuplicateSkinNameConfirmed(string newSkinName)
 	{
-		try
-		{
-			Settings.Log($"Duplicating skin: {_skin.Name} -> {newSkinName}");
+		Settings.Log($"Duplicating skin: {_skin.Name} -> {newSkinName}");
+		LoadingPopup.In();
 
+		Task.Run(() =>
+		{
 			OsuSkin newSkin = new(_skin.Directory.CopyDirectory(Path.Combine(Settings.SkinsFolderPath, newSkinName), true));
 			OsuData.AddSkin(newSkin);
 			OsuData.RequestSkinInfo(newSkin);
-		}
-		catch (Exception ex)
+		})
+		.ContinueWith(t =>
 		{
-			GD.PrintErr(ex);
-			OS.Alert("Failed to duplicate skin. Please report this issue with logs.", "Error");
-		}
+			LoadingPopup.Out();
+			SkinNamePopup.Out();
 
-		SkinNamePopup.Out();
+			if (t.IsFaulted)
+			{
+				GD.PrintErr(t.Exception);
+				OS.Alert("Failed to duplicate skin. Please report this issue with logs.", "Error");
+			}
+		});
 	}
 
 	private void OnDeleteButtonPressed()
@@ -97,18 +105,24 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnDeleteConfirmed()
 	{
-		try
+		Settings.Log($"Deleting skin: {_skin.Name}");
+		LoadingPopup.In();
+
+		Task.Run(() =>
 		{
-			Settings.Log($"Deleting skin: {_skin.Name}");
 			_skin.Directory.Delete(true);
 			OsuData.RemoveSkin(_skin);
-		}
-		catch (Exception ex)
+		})
+		.ContinueWith(t =>
 		{
-			GD.PrintErr(ex);
-			OS.Alert("Failed to delete skin. Please report this issue with logs.", "Error");
-		}
+			LoadingPopup.Out();
+			Out();
 
-		Out();
+			if (t.IsFaulted)
+			{
+				GD.PrintErr(t.Exception);
+				OS.Alert("Failed to delete skin. Please report this issue with logs.", "Error");
+			}
+		});
 	}
 }
