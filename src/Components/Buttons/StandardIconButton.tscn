@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://d14i1rg6d8m7w"]
+
+[ext_resource type="StyleBox" uid="uid://brb6aa48f2ww7" path="res://src/Styles/Buttons/StandardIconButton.tres" id="1_i5n03"]
+[ext_resource type="StyleBox" uid="uid://y2wn7t22jivk" path="res://src/Styles/Buttons/StandardIconButtonHover.tres" id="2_8w6x6"]
+[ext_resource type="StyleBox" uid="uid://brmcwao5xcsti" path="res://src/Styles/Buttons/StandardIconButtonPressed.tres" id="3_do76i"]
+[ext_resource type="Texture2D" uid="uid://bmps2565xtlyd" path="res://assets/materialicons/more_vert.png" id="4_ir445"]
+
+[node name="StandardIconButton" type="Button"]
+custom_minimum_size = Vector2(40, 40)
+size_flags_vertical = 4
+theme_override_colors/icon_normal_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_pressed_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_hover_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_focus_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_disabled_color = Color(0.819608, 0.772549, 0.811765, 0.701961)
+theme_override_styles/normal = ExtResource("1_i5n03")
+theme_override_styles/hover = ExtResource("2_8w6x6")
+theme_override_styles/pressed = ExtResource("3_do76i")
+theme_override_styles/disabled = ExtResource("1_i5n03")
+icon = ExtResource("4_ir445")
+icon_alignment = 1

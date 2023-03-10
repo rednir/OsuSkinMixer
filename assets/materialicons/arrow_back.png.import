@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfb6b04ifjvav"
-path="res://.godot/imported/backarrow-hover.png-e80a2f800345ea65f11641bf5f523cac.ctex"
+uid="uid://crgnranuin71j"
+path="res://.godot/imported/arrow_back.png-f13e790cb224651965e28f94256c1e2d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/backarrow-hover.png"
-dest_files=["res://.godot/imported/backarrow-hover.png-e80a2f800345ea65f11641bf5f523cac.ctex"]
+source_file="res://assets/materialicons/arrow_back.png"
+dest_files=["res://.godot/imported/arrow_back.png-f13e790cb224651965e28f94256c1e2d.ctex"]
 
 [params]
 

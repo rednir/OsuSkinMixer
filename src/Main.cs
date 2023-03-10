@@ -19,7 +19,7 @@ public partial class Main : Control
 	private CanvasLayer Background;
 	private AnimationPlayer ScenesAnimationPlayer;
 	private Control ScenesContainer;
-	private TextureButton BackButton;
+	private Button BackButton;
 	private Label TitleLabel;
 	private Button SettingsButton;
 	private SetupPopup SetupPopup;
@@ -46,7 +46,7 @@ public partial class Main : Control
 		Background = GetNode<CanvasLayer>("Background");
 		ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
 		ScenesContainer = GetNode<Control>("Scenes/ScrollContainer");
-		BackButton = GetNode<TextureButton>("TopBar/HBoxContainer/BackButton");
+		BackButton = GetNode<Button>("TopBar/HBoxContainer/BackButton");
 		TitleLabel = GetNode<Label>("TopBar/HBoxContainer/Title");
 		SettingsButton = GetNode<Button>("TopBar/HBoxContainer/SettingsButton");
 		SetupPopup = GetNode<SetupPopup>("SetupPopup");

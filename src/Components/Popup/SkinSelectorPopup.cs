@@ -17,7 +17,7 @@ public partial class SkinSelectorPopup : Popup
 
 	private bool _isCompact;
 
-	private TextureButton BackButton;
+	private Button BackButton;
 	private LineEdit SearchLineEdit;
 	private VBoxContainer SkinOptionsContainer;
 	private VBoxContainer SkinsContainer;
@@ -27,7 +27,7 @@ public partial class SkinSelectorPopup : Popup
 		base._Ready();
 		SetCompactFlag();
 
-		BackButton = GetNode<TextureButton>("%BackButton");
+		BackButton = GetNode<Button>("%BackButton");
 		SkinsContainer = GetNode<VBoxContainer>("%SkinComponentsContainer");
 		SkinOptionsContainer = GetNode<VBoxContainer>("%SkinOptionsContainer");
 		SearchLineEdit = GetNode<LineEdit>("%SearchLineEdit");
