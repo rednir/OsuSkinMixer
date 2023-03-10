@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://md4n10t0o7i4"]
+[gd_scene load_steps=9 format=3 uid="uid://md4n10t0o7i4"]
 
 [ext_resource type="Script" path="res://src/Components/Popup/SkinSelectorPopup.cs" id="1_5b4pt"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="1_jm6w5"]
@@ -13,6 +13,12 @@ content_margin_bottom = 0.0
 bg_color = Color(0.219608, 0.176471, 0.207843, 1)
 corner_radius_top_left = 28
 corner_radius_top_right = 28
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ftm2n"]
+content_margin_left = 6.0
+content_margin_top = 0.0
+content_margin_right = 6.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l345a"]
 content_margin_left = 4.0
@@ -48,17 +54,21 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_sfgka")
 layout_mode = 2
 theme_override_constants/separation = -1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ftm2n")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/PanelContainer"]
 custom_minimum_size = Vector2(2.08165e-12, 56)
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="BackButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_rw0cv")]
+[node name="BackButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/PanelContainer/HBoxContainer" instance=ExtResource("3_rw0cv")]
 unique_name_in_owner = true
 layout_mode = 2
 icon = ExtResource("4_oc0m3")
 
-[node name="SearchLineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]
+[node name="SearchLineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(2.08165e-12, 56)
 layout_mode = 2
