@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cxcudjntoc6uv"]
+[gd_scene load_steps=36 format=3 uid="uid://cxcudjntoc6uv"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_3ca2l"]
 [ext_resource type="Script" path="res://src/Main.cs" id="2_ajhyw"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="7_shsih"]
 [ext_resource type="Texture2D" uid="uid://crgnranuin71j" path="res://assets/materialicons/arrow_back.png" id="8_1aqc5"]
 [ext_resource type="Texture2D" uid="uid://d35i1tw6xkwef" path="res://assets/materialicons/close.png" id="10_182my"]
+[ext_resource type="PackedScene" uid="uid://hfjvkcilxe1d" path="res://src/Components/Popup/ResolveSkinConflictPopup.tscn" id="11_e8ymy"]
 [ext_resource type="Texture2D" uid="uid://cu5dir4lry6tx" path="res://assets/settings.png" id="12_qh468"]
 
 [sub_resource type="Gradient" id="Gradient_gqud0"]
@@ -665,3 +666,6 @@ theme_override_styles/background = SubResource("StyleBoxEmpty_o1sp6")
 theme_override_styles/fill = SubResource("StyleBoxFlat_0ppss")
 value = 50.0
 show_percentage = false
+
+[node name="ResolveSkinConflictPopup" parent="." instance=ExtResource("11_e8ymy")]
+layout_mode = 1

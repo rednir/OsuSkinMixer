@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://hfjvkcilxe1d"]
+
+[ext_resource type="Script" path="res://src/Components/Popup/ResolveSkinConflictPopup.cs" id="1_n2mms"]
+[ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_71jnc"]
+[ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_l8qlq"]
+[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="4_7jfy6"]
+[ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="5_by417"]
+[ext_resource type="PackedScene" uid="uid://bncwf73sgcemr" path="res://src/Components/SkinComponent.tscn" id="5_uyotq"]
+[ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="7_m5jtc"]
+
+[node name="ResolveSkinConflictPopup" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n2mms")
+
+[node name="Popup" parent="." instance=ExtResource("2_71jnc")]
+layout_mode = 1
+
+[node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
+offset_bottom = -0.000183105
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resolve skin conflict"
+label_settings = ExtResource("3_l8qlq")
+
+[node name="Text" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "A skin and a hidden skin both share the same name. You must resolve this conflict by either renaming or deleting one skin, then press the \"Done\" button."
+label_settings = ExtResource("4_7jfy6")
+autowrap_mode = 3
+
+[node name="SkinComponentContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VisibleSkinComponent" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinComponentContainer" instance=ExtResource("5_uyotq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HiddenSkinComponent" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinComponentContainer" instance=ExtResource("5_uyotq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DoneButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("5_by417")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Done"
+
+[node name="ResolveFailedPopup" parent="." instance=ExtResource("7_m5jtc")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="Title" parent="ResolveFailedPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
+text = "Conflict not resolved"
+
+[node name="Text" parent="ResolveFailedPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+text = "You need to delete or rename one of the skins before you can continue."
+
+[editable path="Popup"]
+[editable path="ResolveFailedPopup"]
+[editable path="ResolveFailedPopup/Popup"]

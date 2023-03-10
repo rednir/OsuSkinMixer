@@ -24,6 +24,8 @@ public static class OsuData
 
     public static event Action<OsuSkin> SkinModifyRequested;
 
+    public static event Action<OsuSkin, OsuSkin> SkinConflictDetected;
+
     public static bool SweepPaused { get; set; } = true;
 
     public static OsuSkin[] Skins { get => _skins.Keys.OrderBy(s => s.Name).ToArray(); }
@@ -140,8 +142,8 @@ public static class OsuData
             {
                 if (!SweepPaused)
                 {
-                    SweepDirectory(Settings.SkinsFolderPath, false);
-                    SweepDirectory(Settings.HiddenSkinsFolderPath, true);
+                    SweepSkins(false);
+                    SweepSkins(true);
                 }
 
                 Task.Delay(SWEEP_INTERVAL_MSEC).Wait();
@@ -149,9 +151,11 @@ public static class OsuData
         });
     }
 
-    private static void SweepDirectory(string directoryPath, bool hidden)
+    private static void SweepSkins(bool hidden)
     {
-        if (!Directory.Exists(directoryPath) || directoryPath == null)
+        string path = hidden ? Settings.HiddenSkinsFolderPath : Settings.SkinsFolderPath;
+
+        if (!Directory.Exists(path) || path == null)
             return;
 
         foreach (var pair in _skins)
@@ -160,7 +164,7 @@ public static class OsuData
                 RemoveSkin(pair.Key);
         }
 
-        DirectoryInfo skinsFolder = new(directoryPath);
+        DirectoryInfo skinsFolder = new(path);
         foreach (var dir in skinsFolder.EnumerateDirectories())
         {
             var pair = _skins.FirstOrDefault(p => p.Key.Directory.Name == dir.Name);
@@ -172,18 +176,32 @@ public static class OsuData
                 continue;
             }
 
+            if (pair.Key.Hidden != hidden)
+            {
+                string visibleSkinPath = Path.Combine(Settings.SkinsFolderPath, pair.Key.Name);
+                string hiddenSkinPath = Path.Combine(Settings.HiddenSkinsFolderPath, pair.Key.Name);
+                if (Directory.Exists(visibleSkinPath) && Directory.Exists(hiddenSkinPath))
+                {
+                    // There is a skin with the same name as the hidden skin in the visible skins folder.
+                    Settings.Log($"Skin conflict detected for skin: {pair.Key.Name}");
+                    SkinConflictDetected?.Invoke(
+                        new OsuSkin(new DirectoryInfo(visibleSkinPath), false),
+                        new OsuSkin(new DirectoryInfo(hiddenSkinPath), true));
+
+                    SweepPaused = true;
+                    return;
+                }
+
+                // Skin changed hidden state since the last sweep.
+                InvokeSkinModified(pair.Key);
+                pair.Key.Hidden = hidden;
+            }
+
             if (pair.Value != dir.LastWriteTime)
             {
                 // Skin was modified since the last sweep.
                 InvokeSkinModified(pair.Key);
                 _skins[pair.Key] = dir.LastWriteTime;
-            }
-
-            if (pair.Key.Hidden != hidden)
-            {
-                // Skin changed hidden state since the last sweep.
-                InvokeSkinModified(pair.Key);
-                pair.Key.Hidden = hidden;
             }
         }
     }
