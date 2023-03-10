@@ -27,6 +27,8 @@ public partial class LoadingPopup : Popup
 
 	public void SetProgress(double progress)
 	{
+		CancelButton.Disabled = progress >= DisableCancelAt;
+
 		if (progress <= 0 || progress >= 100)
 		{
 			if (progress >= 100)
@@ -41,7 +43,6 @@ public partial class LoadingPopup : Popup
 		}
 
 		ProgressBar.Value = progress;
-		CancelButton.Disabled = progress >= DisableCancelAt;
 	}
 
 	private void OnCancelButtonPressed()
