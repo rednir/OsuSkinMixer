@@ -26,6 +26,8 @@ Alternative downloads are available on the releases page.
  
 - Choose what hitcircles to use, what sounds you want etc.. and it's done! - no need to scour through your skins folder in file explorer.
 
+- Expand an option by clicking its arrow button to explore a myriad of sub-options; you can even choose a specific .png file!
+
 ### Skin modifier:
 
 - Want to quickly change the cursor of a skin, or multiple skins at once?
