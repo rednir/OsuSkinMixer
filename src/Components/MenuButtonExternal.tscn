@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://n54x7oanqib1"]
+
+[ext_resource type="PackedScene" uid="uid://fl107kh3okl5" path="res://src/Components/MenuButton.tscn" id="1_4juhm"]
+[ext_resource type="Texture2D" uid="uid://bwwbpgod763s" path="res://icon.png" id="2_c0akb"]
+
+[node name="MenuButtonExternal" instance=ExtResource("1_4juhm")]
+custom_minimum_size = Vector2(264, 160)
+offset_right = 264.0
+offset_bottom = 160.0
+
+[node name="VBoxContainer" parent="." index="0"]
+offset_left = 15.0
+offset_right = 249.0
+offset_bottom = 144.0
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="VBoxContainer" index="0"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+texture = ExtResource("2_c0akb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" parent="VBoxContainer" index="1"]
+horizontal_alignment = 1
+
+[node name="Description" parent="VBoxContainer" index="2"]
+size_flags_vertical = 0
+text = "This is a description"
+horizontal_alignment = 1

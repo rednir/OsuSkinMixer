@@ -1,7 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsgg2xjv4sebx"]
+[gd_scene load_steps=14 format=3 uid="uid://dsgg2xjv4sebx"]
 
 [ext_resource type="Script" path="res://src/Components/Popup/GetMoreSkinsPopup.cs" id="1_wao56"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_4rfqf"]
+[ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_8wjk6"]
+[ext_resource type="PackedScene" uid="uid://n54x7oanqib1" path="res://src/Components/MenuButtonExternal.tscn" id="3_qkanq"]
+[ext_resource type="Texture2D" uid="uid://cse3npi24h8l8" path="res://assets/external/osu.png" id="4_6w0uq"]
+[ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="4_c5ekd"]
+[ext_resource type="Texture2D" uid="uid://d35i1tw6xkwef" path="res://assets/materialicons/close.png" id="5_0g2c5"]
+[ext_resource type="Texture2D" uid="uid://c4i7o6pn5r8dj" path="res://assets/external/rosuskins.png" id="5_v26m5"]
+[ext_resource type="Texture2D" uid="uid://sur6rm7047nt" path="res://assets/external/osuck.png" id="6_6g2nr"]
+[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="6_n6whc"]
+[ext_resource type="Texture2D" uid="uid://colbm2v6db7qd" path="res://assets/external/circlepeople.png" id="7_ajbm4"]
+[ext_resource type="Texture2D" uid="uid://37q6go7i02l2" path="res://assets/external/skinship.png" id="8_8ckvd"]
+[ext_resource type="Texture2D" uid="uid://ml4xbs8gfu2w" path="res://assets/external/osuskinsnet.png" id="9_3w4ch"]
 
 [node name="GetMoreSkinsPopup" type="Control"]
 visible = false
@@ -17,9 +28,123 @@ script = ExtResource("1_wao56")
 layout_mode = 1
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
-offset_bottom = -0.000183105
+offset_bottom = -0.000305176
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
 layout_mode = 2
 
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Places to get skins"
+label_settings = ExtResource("3_8wjk6")
+
+[node name="CloseButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_c5ekd")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+icon = ExtResource("5_0g2c5")
+
+[node name="Text" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "These are links to popular osu! skin websites and are not affiliated or endorsed by osu! skin mixer nor by osu!, so use them at your own discretion and risk."
+label_settings = ExtResource("6_n6whc")
+autowrap_mode = 3
+
+[node name="GridContainer" type="GridContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+columns = 2
+
+[node name="OsuForumsButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer" instance=ExtResource("3_qkanq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Icon" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuForumsButton/VBoxContainer" index="0"]
+texture = ExtResource("4_6w0uq")
+
+[node name="Title" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuForumsButton/VBoxContainer" index="1"]
+text = "osu! skinning forums"
+
+[node name="Description" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuForumsButton/VBoxContainer" index="2"]
+text = "The official place to explore skins"
+
+[node name="RedditButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer" instance=ExtResource("3_qkanq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Icon" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/RedditButton/VBoxContainer" index="0"]
+texture = ExtResource("5_v26m5")
+
+[node name="Title" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/RedditButton/VBoxContainer" index="1"]
+text = "r/OsuSkins"
+
+[node name="Description" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/RedditButton/VBoxContainer" index="2"]
+text = "The biggest osu! skins reddit community"
+
+[node name="OsuckButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer" instance=ExtResource("3_qkanq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Icon" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuckButton/VBoxContainer" index="0"]
+texture = ExtResource("6_6g2nr")
+
+[node name="Title" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuckButton/VBoxContainer" index="1"]
+text = "skins.osuck"
+
+[node name="Description" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuckButton/VBoxContainer" index="2"]
+text = "A modern and actively kept skin collection"
+
+[node name="CirclePeopleButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer" instance=ExtResource("3_qkanq")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
+"
+
+[node name="Icon" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/CirclePeopleButton/VBoxContainer" index="0"]
+texture = ExtResource("7_ajbm4")
+
+[node name="Title" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/CirclePeopleButton/VBoxContainer" index="1"]
+text = "Circle People"
+
+[node name="Description" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/CirclePeopleButton/VBoxContainer" index="2"]
+text = "Get top player skins"
+
+[node name="CompendiumButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer" instance=ExtResource("3_qkanq")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
+"
+
+[node name="Icon" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/CompendiumButton/VBoxContainer" index="0"]
+texture = ExtResource("8_8ckvd")
+
+[node name="Title" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/CompendiumButton/VBoxContainer" index="1"]
+text = "Skinship's compendium"
+
+[node name="Description" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/CompendiumButton/VBoxContainer" index="2"]
+text = "An elegant way to browse completed skins"
+
+[node name="OsuskinsNetButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer" instance=ExtResource("3_qkanq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Icon" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuskinsNetButton/VBoxContainer" index="0"]
+texture = ExtResource("9_3w4ch")
+
+[node name="Title" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuskinsNetButton/VBoxContainer" index="1"]
+text = "osuskins.net"
+
+[node name="Description" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuskinsNetButton/VBoxContainer" index="2"]
+text = "A simple website to filter and search skins"
+
 [editable path="Popup"]
+[editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuForumsButton"]
+[editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/RedditButton"]
+[editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuckButton"]
+[editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/CirclePeopleButton"]
+[editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/CompendiumButton"]
+[editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuskinsNetButton"]

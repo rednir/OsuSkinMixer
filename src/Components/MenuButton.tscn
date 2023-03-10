@@ -6,7 +6,7 @@
 [ext_resource type="StyleBox" uid="uid://bptx6n2id2at7" path="res://src/Styles/Buttons/MenuButtonPressed.tscn.tres" id="3_172ep"]
 [ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="3_cxcdh"]
 
-[node name="Button" type="Button"]
+[node name="MenuButton" type="Button"]
 custom_minimum_size = Vector2(380, 74)
 offset_right = 380.0
 offset_bottom = 60.0
