@@ -9,6 +9,10 @@ namespace OsuSkinMixer.Components;
 
 public partial class Hitcircle : Node2D
 {
+    const int OD = 6;
+
+    const double HIT_300_TIME_MSEC = 1000;
+
     private AnimationPlayer CircleAnimationPlayer;
     private AnimationPlayer HitJudgementAnimationPlayer;
     private AnimatedSprite2D HitJudgementSprite;
@@ -75,13 +79,33 @@ public partial class Hitcircle : Node2D
         DefaultSprite.Texture = _skin.GetTexture($"default-{(_currentComboIndex == 0 ? _comboColors.Length : _currentComboIndex)}.png");
     }
 
+    private void Hit(string score)
+    {
+        CircleAnimationPlayer.Play(score == "0" ? "miss" : "hit");
+        HitJudgementSprite.Play($"hit{score}");
+        HitJudgementAnimationPlayer.Play("show");
+    }
+
     private void OnInputEvent(InputEvent inputEvent)
     {
         if (inputEvent is InputEventMouseButton mouseButton && mouseButton.Pressed)
         {
-            CircleAnimationPlayer.Play("hit");
-            HitJudgementSprite.Play("hit100");
-            HitJudgementAnimationPlayer.Play("show");
+            double animationPosition = CircleAnimationPlayer.CurrentAnimationPosition * 1000;
+            switch (Math.Abs(HIT_300_TIME_MSEC - animationPosition))
+            {
+                case < 80 - (6 * OD):
+                    Hit("300");
+                    break;
+                case < 140 - (10 * OD):
+                    Hit("100");
+                    break;
+                case < 200 - (10 * OD):
+                    Hit("50");
+                    break;
+                default:
+                    Hit("0");
+                    break;
+            }
         }
     }
 
@@ -94,10 +118,6 @@ public partial class Hitcircle : Node2D
         }
 
         if (animationName == "fade_in")
-        {
-            CircleAnimationPlayer.Play("miss");
-            HitJudgementSprite.Play("hit0");
-            HitJudgementAnimationPlayer.Play("show");
-        }
+            Hit("0");
     }
 }
