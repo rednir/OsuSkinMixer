@@ -55,11 +55,15 @@ public partial class Hitcircle : Node2D
     public void Pause()
     {
         CircleAnimationPlayer.Pause();
+        HitJudgementAnimationPlayer.Pause();
+        HitJudgementSprite.Pause();
     }
 
     public void Resume()
     {
         CircleAnimationPlayer.Play();
+        HitJudgementAnimationPlayer.Play();
+        HitJudgementSprite.Play();
     }
 
     private void NextCombo()
