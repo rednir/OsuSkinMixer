@@ -67,6 +67,21 @@ _data = {
 [sub_resource type="Gradient" id="Gradient_28nnj"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
+[sub_resource type="Animation" id="Animation_5jun1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
 [sub_resource type="Animation" id="Animation_jsbfs"]
 resource_name = "rotate"
 length = 12.0
@@ -82,21 +97,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.0, 6.28319]
-}
-
-[sub_resource type="Animation" id="Animation_5jun1"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ku4pg"]
@@ -140,7 +140,7 @@ texture = ExtResource("4_fw12c")
 unique_name_in_owner = true
 show_behind_parent = true
 amount = 12
-lifetime = 0.5
+lifetime = 0.15
 texture = ExtResource("5_wirir")
 gravity = Vector2(2.08165e-12, 2.08165e-12)
 color_ramp = SubResource("Gradient_28nnj")
