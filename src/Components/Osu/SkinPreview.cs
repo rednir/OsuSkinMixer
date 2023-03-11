@@ -9,6 +9,7 @@ public partial class SkinPreview : PanelContainer
 	private AnimationPlayer AnimationPlayer;
 	private TextureRect MenuBackground;
 	private Sprite2D Cursor;
+	private AnimationPlayer CursorRotateAnimationPlayer;
 	private Sprite2D Cursormiddle;
 	private CpuParticles2D Cursortrail;
 	private Hitcircle Hitcircle;
@@ -20,6 +21,7 @@ public partial class SkinPreview : PanelContainer
 		AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
 		MenuBackground = GetNode<TextureRect>("%MenuBackground");
 		Cursor = GetNode<Sprite2D>("%Cursor");
+		CursorRotateAnimationPlayer = GetNode<AnimationPlayer>("%CursorRotateAnimationPlayer");
 		Cursormiddle = GetNode<Sprite2D>("%Cursormiddle");
 		Cursortrail = GetNode<CpuParticles2D>("%Cursortrail");
 		Hitcircle = GetNode<Hitcircle>("%Hitcircle");
@@ -30,6 +32,7 @@ public partial class SkinPreview : PanelContainer
 		Vector2 mousePosition = GetGlobalMousePosition();
 
 		Cursor.GlobalPosition = mousePosition;
+		Cursormiddle.GlobalPosition = mousePosition;
 
 		// The MouseEntered and MouseExited control node don't work as the hitcircle handles mouse input.
 		if (GetGlobalRect().HasPoint(mousePosition))
@@ -44,6 +47,11 @@ public partial class SkinPreview : PanelContainer
 		Cursor.Texture = skin.GetTexture("cursor.png");
 		Cursormiddle.Texture = skin.GetTexture("cursormiddle.png");
 		Cursortrail.Texture = skin.GetTexture("cursortrail.png");
+
+		if (skin.SkinIni?.TryGetPropertyValue("General", "CursorRotate") is "1" or null)
+			CursorRotateAnimationPlayer.Play("rotate");
+		else
+			CursorRotateAnimationPlayer.Stop();
 
 		Hitcircle.SetSkin(skin);
 	}
