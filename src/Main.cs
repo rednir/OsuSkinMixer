@@ -22,7 +22,6 @@ public partial class Main : Control
 	private Button BackButton;
 	private Label TitleLabel;
 	private Button SettingsButton;
-	private SetupPopup SetupPopup;
 	private SettingsPopup SettingsPopup;
 	private AnimationPlayer ToastAnimationPlayer;
 	private Label ToastTextLabel;
@@ -35,11 +34,6 @@ public partial class Main : Control
 
 	public override void _Ready()
 	{
-		Settings.Log($"osu! skin mixer {Settings.VERSION} at {DateTime.Now}");
-
-		DisplayServer.WindowSetTitle("osu! skin mixer by rednir");
-		DisplayServer.WindowSetMinSize(new Vector2I(600, 300));
-
 		MenuScene = GD.Load<PackedScene>("res://src/StackScenes/Menu.tscn");
 		SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
 		SkinModiferModificationSelectScene = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierModificationSelect.tscn");
@@ -50,7 +44,6 @@ public partial class Main : Control
 		BackButton = GetNode<Button>("TopBar/HBoxContainer/BackButton");
 		TitleLabel = GetNode<Label>("TopBar/HBoxContainer/Title");
 		SettingsButton = GetNode<Button>("TopBar/HBoxContainer/SettingsButton");
-		SetupPopup = GetNode<SetupPopup>("SetupPopup");
 		SettingsPopup = GetNode<SettingsPopup>("SettingsPopup");
 		ToastAnimationPlayer = GetNode<AnimationPlayer>("%ToastAnimationPlayer");
 		ToastTextLabel = GetNode<Label>("%ToastText");
@@ -116,9 +109,6 @@ public partial class Main : Control
 
 		PushScene(MenuScene.Instantiate<StackScene>());
 		CheckForUpdates();
-
-		if (!OsuData.TryLoadSkins())
-			SetupPopup.In();
 	}
 
 	public override void _Process(double delta)

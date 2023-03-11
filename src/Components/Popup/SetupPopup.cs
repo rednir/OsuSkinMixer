@@ -46,7 +46,7 @@ public partial class SetupPopup : Popup
         }
 
 		Settings.Save();
-		AnimationPlayer.Play("out");
+		Out();
     }
 
     private void FolderPickerButtonPressed()

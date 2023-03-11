@@ -21,7 +21,7 @@ public static class Settings
 
     public static SettingsContent Content { get; set; }
 
-    static Settings()
+    public static void InitialiseSettingsFile()
     {
         if (File.Exists(SettingsFilePath))
         {
@@ -35,7 +35,7 @@ public static class Settings
             {
                 GD.PushError($"Failed to deserialize {SettingsFilePath} due to exception {ex.Message}");
                 OS.Alert("Your settings have beeen corrupted, please report this issue and attach logs. All settings have been reset.", "Error");
-                Settings.Log($"SETTINGS:\n{File.ReadAllText(SettingsFilePath)}");
+                Log($"SETTINGS:\n{File.ReadAllText(SettingsFilePath)}");
                 File.Delete(SettingsFilePath + ".bak");
                 File.Move(SettingsFilePath, SettingsFilePath + ".bak");
             }

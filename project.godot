@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="osu! skin mixer"
-run/main_scene="res://src/Main.tscn"
+run/main_scene="res://src/Splash.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="osu-skin-mixer"
 config/features=PackedStringArray("4.0")

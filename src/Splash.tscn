@@ -1,0 +1,269 @@
+[gd_scene load_steps=13 format=3 uid="uid://k0qxbqorem5i"]
+
+[ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_2iasy"]
+[ext_resource type="Script" path="res://src/Splash.cs" id="1_iscfa"]
+[ext_resource type="Texture2D" uid="uid://bwwbpgod763s" path="res://icon.png" id="1_ovcig"]
+[ext_resource type="PackedScene" uid="uid://sni5bqyyrgfj" path="res://src/Components/Popup/SetupPopup.tscn" id="3_ow7ee"]
+[ext_resource type="PackedScene" uid="uid://7805vr243ofu" path="res://src/Components/Popup/Generic/QuestionPopup.tscn" id="4_05fhe"]
+
+[sub_resource type="Animation" id="Animation_h17hn"]
+resource_name = "out"
+length = 0.32
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay/Icon:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.3),
+"transitions": PackedFloat32Array(3, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ProgressBar:value")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 2,
+"values": [100.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ProgressBar:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Overlay/Icon/PointLight2D:energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 2,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_pmguw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay/Icon:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ProgressBar:value")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ProgressBar:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ProgressBar:fill_mode")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Overlay/Icon/PointLight2D:energy")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_hmhb3"]
+resource_name = "loading"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ProgressBar:value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4, 4.5, 5),
+"transitions": PackedFloat32Array(-2, 1, 0.25, 1),
+"update": 0,
+"values": [0.0, 100.0, 100.0, 2.08165e-12]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ProgressBar:fill_mode")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Overlay/Icon/PointLight2D:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2, 1, 1.8),
+"transitions": PackedFloat32Array(0.4, -2, 1),
+"update": 0,
+"values": [0.0, 0.75, 0.4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ndr8t"]
+_data = {
+"RESET": SubResource("Animation_pmguw"),
+"loading": SubResource("Animation_hmhb3"),
+"out": SubResource("Animation_h17hn")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fxoyt"]
+bg_color = Color(0.109804, 0.105882, 0.121569, 1)
+
+[sub_resource type="Gradient" id="Gradient_414vv"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.720682)
+colors = PackedColorArray(1, 0.787527, 0.998038, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hi6gm"]
+gradient = SubResource("Gradient_414vv")
+width = 200
+height = 200
+fill = 1
+fill_from = Vector2(0.502137, 0.504274)
+fill_to = Vector2(0, 1)
+
+[node name="Splash" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_2iasy")
+script = ExtResource("1_iscfa")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_ndr8t")
+}
+
+[node name="Overlay" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fxoyt")
+
+[node name="Icon" type="TextureRect" parent="Overlay"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+pivot_offset = Vector2(32, 33)
+texture = ExtResource("1_ovcig")
+
+[node name="PointLight2D" type="PointLight2D" parent="Overlay/Icon"]
+position = Vector2(32, 33)
+energy = 0.0
+texture = SubResource("GradientTexture2D_hi6gm")
+
+[node name="SetupPopup" parent="." instance=ExtResource("3_ow7ee")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="ExceptionPopup" parent="." instance=ExtResource("4_05fhe")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="Title" parent="ExceptionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
+text = "Something went wrong"
+
+[node name="Text" parent="ExceptionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+text = "We failed to start osu! skin mixer. Please report this error."
+autowrap_mode = 3
+
+[node name="ExceptionTextEdit" type="TextEdit" parent="ExceptionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 2.08165e-12)
+layout_mode = 2
+editable = false
+wrap_mode = 1
+scroll_fit_content_height = true
+
+[node name="NoButton" parent="ExceptionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" index="0"]
+visible = false
+
+[node name="YesButton" parent="ExceptionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" index="1"]
+visible = false
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_right = 751.0
+offset_bottom = 4.0
+show_percentage = false
+
+[editable path="ExceptionPopup"]
+[editable path="ExceptionPopup/Popup"]
