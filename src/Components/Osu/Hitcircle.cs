@@ -65,9 +65,14 @@ public partial class Hitcircle : Node2D
 
     public void Resume()
     {
-        CircleAnimationPlayer.Play();
-        HitJudgementAnimationPlayer.Play();
-        HitJudgementSprite.Play();
+        if (CircleAnimationPlayer.AssignedAnimation != string.Empty)
+            CircleAnimationPlayer.Play();
+
+        if (HitJudgementAnimationPlayer.AssignedAnimation != string.Empty)
+            HitJudgementAnimationPlayer.Play();
+
+        if (HitJudgementSprite.FrameProgress > 0.0 && HitJudgementSprite.FrameProgress < 1.0)
+            HitJudgementSprite.Play();
     }
 
     private void NextCombo()
