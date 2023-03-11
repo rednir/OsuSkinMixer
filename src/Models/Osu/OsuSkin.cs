@@ -143,6 +143,33 @@ public class OsuSkin
         return texture;
     }
 
+    public SpriteFrames GetSpriteFrames(params string[] filenames)
+    {
+        SpriteFrames spriteFrames = new();
+
+        if (!int.TryParse(SkinIni?.TryGetPropertyValue("General", "AnimationFramerate"), out int fps))
+            fps = -1;
+
+        foreach (string filename in filenames)
+        {
+            string pathPrefix = $"{Directory.FullName}/{filename}";
+
+            spriteFrames.AddAnimation(filename);
+
+            for (int i = 0; File.Exists($"{pathPrefix}-{i}.png"); i++)
+                spriteFrames.AddFrame(filename, GetTexture($"{filename}-{i}.png"));
+
+            // AnimationFramerate of the default value -1 makes osu! play all the frames in 1 second.
+            spriteFrames.SetAnimationSpeed(filename, fps != -1 ? fps : spriteFrames.GetFrameCount(filename));
+            spriteFrames.SetAnimationLoop(filename, false);
+
+            if (spriteFrames.GetFrameCount(filename) == 0)
+                spriteFrames.AddFrame(filename, GetTexture($"{filename}.png"));
+        }
+
+        return spriteFrames;
+    }
+
     public void ClearTextureCache()
         => _textureCache.Clear();
 

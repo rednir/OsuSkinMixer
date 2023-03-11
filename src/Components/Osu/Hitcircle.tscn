@@ -1,10 +1,72 @@
-[gd_scene load_steps=11 format=3 uid="uid://dg5gq6ty35cmr"]
+[gd_scene load_steps=15 format=3 uid="uid://dg5gq6ty35cmr"]
 
 [ext_resource type="Script" path="res://src/Components/Osu/Hitcircle.cs" id="1_0sbfk"]
 [ext_resource type="Texture2D" uid="uid://d2i4vkrwdm57x" path="res://assets/defaultskin/hitcircle.png" id="1_iep1f"]
 [ext_resource type="Texture2D" uid="uid://ir0spv2c5483" path="res://assets/defaultskin/approachcircle.png" id="2_oqal1"]
 [ext_resource type="Texture2D" uid="uid://fhdeit7as0yi" path="res://assets/defaultskin/hitcircleoverlay.png" id="2_x6gi0"]
 [ext_resource type="Texture2D" uid="uid://dcn0qk3g4475p" path="res://assets/defaultskin/default-1.png" id="4_r4s6t"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_abytn"]
+
+[sub_resource type="Animation" id="Animation_b0x8y"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.7, 0.7), Vector2(1.05, 1.05), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_w4d65"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_osjpk"]
+_data = {
+"RESET": SubResource("Animation_w4d65"),
+"show": SubResource("Animation_b0x8y")
+}
 
 [sub_resource type="Animation" id="Animation_ob3db"]
 length = 0.001
@@ -157,46 +219,6 @@ tracks/5/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_3qtoc"]
-resource_name = "miss"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ApproachcircleSprite:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Circle:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("DefaultSprite:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_0lg0p"]
 resource_name = "hit"
 length = 0.5
@@ -249,6 +271,46 @@ tracks/3/keys = {
 "values": [Color(1, 1, 1, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_3qtoc"]
+resource_name = "miss"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ApproachcircleSprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Circle:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DefaultSprite:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_o6j6o"]
 _data = {
 "RESET": SubResource("Animation_ob3db"),
@@ -260,14 +322,26 @@ _data = {
 [node name="Hitcircle" type="Node2D"]
 script = ExtResource("1_0sbfk")
 
-[node name="CircleAnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="HitJudgementSprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_abytn")
+autoplay = "default"
+
+[node name="HitJudgementAnimationPlayer" type="AnimationPlayer" parent="HitJudgementSprite"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_osjpk")
+}
+
+[node name="Circle" type="CanvasGroup" parent="."]
+
+[node name="CircleAnimationPlayer" type="AnimationPlayer" parent="Circle"]
+unique_name_in_owner = true
+root_node = NodePath("../..")
 autoplay = "fade_in"
 libraries = {
 "": SubResource("AnimationLibrary_o6j6o")
 }
-
-[node name="Circle" type="CanvasGroup" parent="."]
 
 [node name="HitcircleoverlaySprite" type="Sprite2D" parent="Circle"]
 unique_name_in_owner = true

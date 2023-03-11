@@ -65,7 +65,6 @@ _data = {
 }
 
 [sub_resource type="Gradient" id="Gradient_28nnj"]
-interpolation_mode = 2
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="Animation" id="Animation_jsbfs"]
@@ -141,7 +140,7 @@ texture = ExtResource("4_fw12c")
 unique_name_in_owner = true
 show_behind_parent = true
 amount = 12
-lifetime = 0.3
+lifetime = 0.5
 texture = ExtResource("5_wirir")
 gravity = Vector2(2.08165e-12, 2.08165e-12)
 color_ramp = SubResource("Gradient_28nnj")

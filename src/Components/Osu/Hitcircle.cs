@@ -10,6 +10,8 @@ namespace OsuSkinMixer.Components;
 public partial class Hitcircle : Node2D
 {
     private AnimationPlayer CircleAnimationPlayer;
+    private AnimationPlayer HitJudgementAnimationPlayer;
+    private AnimatedSprite2D HitJudgementSprite;
     private Sprite2D ApproachcircleSprite;
     private Sprite2D HitcircleSprite;
     private Sprite2D HitcircleoverlaySprite;
@@ -25,6 +27,8 @@ public partial class Hitcircle : Node2D
     public override void _Ready()
     {
         CircleAnimationPlayer = GetNode<AnimationPlayer>("%CircleAnimationPlayer");
+        HitJudgementAnimationPlayer = GetNode<AnimationPlayer>("%HitJudgementAnimationPlayer");
+        HitJudgementSprite = GetNode<AnimatedSprite2D>("%HitJudgementSprite");
         ApproachcircleSprite = GetNode<Sprite2D>("%ApproachcircleSprite");
         HitcircleSprite = GetNode<Sprite2D>("%HitcircleSprite");
         HitcircleoverlaySprite = GetNode<Sprite2D>("%HitcircleoverlaySprite");
@@ -39,6 +43,7 @@ public partial class Hitcircle : Node2D
     {
         _skin = skin;
 
+        HitJudgementSprite.SpriteFrames = skin.GetSpriteFrames("hit0", "hit50", "hit100", "hit300");
         ApproachcircleSprite.Texture = skin.GetTexture("approachcircle.png");
         HitcircleSprite.Texture = skin.GetTexture("hitcircle.png");
         HitcircleoverlaySprite.Texture = skin.GetTexture("hitcircleoverlay.png");
@@ -71,6 +76,8 @@ public partial class Hitcircle : Node2D
         if (inputEvent is InputEventMouseButton mouseButton && mouseButton.Pressed)
         {
             CircleAnimationPlayer.Play("hit");
+            HitJudgementSprite.Play("hit100");
+            HitJudgementAnimationPlayer.Play("show");
         }
     }
 
@@ -83,6 +90,10 @@ public partial class Hitcircle : Node2D
         }
 
         if (animationName == "fade_in")
+        {
             CircleAnimationPlayer.Play("miss");
+            HitJudgementSprite.Play("hit0");
+            HitJudgementAnimationPlayer.Play("show");
+        }
     }
 }
