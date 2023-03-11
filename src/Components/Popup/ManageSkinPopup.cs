@@ -40,7 +40,6 @@ public partial class ManageSkinPopup : Popup
 
 		DeleteQuestionPopup.ConfirmAction = OnDeleteConfirmed;
 		SkinNamePopup.ConfirmAction = OnDuplicateSkinNameConfirmed;
-		SkinNamePopup.PopupOut += Out;
 		ModifyButton.Pressed += OnModifyButtonPressed;
 		HideButton.Pressed += OnHideButtonPressed;
 		DuplicateButton.Pressed += OnDuplicateButtonPressed;
@@ -87,6 +86,7 @@ public partial class ManageSkinPopup : Popup
 		{
 			LoadingPopup.Out();
 			SkinNamePopup.Out();
+			Out();
 
 			if (t.IsFaulted)
 			{
