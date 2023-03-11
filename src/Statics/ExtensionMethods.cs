@@ -16,13 +16,13 @@ public static class ExtensionMethods
         foreach (FileInfo file in sourceDir.GetFiles())
         {
             string targetFilePath = Path.Combine(destinationDir, file.Name);
-            file.CopyTo(targetFilePath);
+            file.CopyTo(targetFilePath, overwrite);
         }
 
         foreach (DirectoryInfo subDir in dirs)
         {
             string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
-            CopyDirectory(subDir, newDestinationDir);
+            CopyDirectory(subDir, newDestinationDir, overwrite);
         }
 
         return new DirectoryInfo(destinationDir);
