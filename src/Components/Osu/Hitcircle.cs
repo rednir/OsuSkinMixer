@@ -62,6 +62,7 @@ public partial class Hitcircle : Node2D
         _currentComboIndex = (_currentComboIndex + 1) % _comboColors.Length;
 
         HitcircleSprite.Modulate = _comboColors[_currentComboIndex];
+        ApproachcircleSprite.SelfModulate = _comboColors[_currentComboIndex];
         DefaultSprite.Texture = _skin.GetTexture($"default-{(_currentComboIndex == 0 ? _comboColors.Length : _currentComboIndex)}.png");
     }
 
