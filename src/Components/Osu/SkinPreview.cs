@@ -43,10 +43,10 @@ public partial class SkinPreview : PanelContainer
 
 	public void SetSkin(OsuSkin skin)
 	{
-		MenuBackground.Texture = skin.GetTexture("menu-background.jpg") ?? skin.GetTexture("menu-background.png");
-		Cursor.Texture = skin.GetTexture("cursor.png");
-		Cursormiddle.Texture = skin.GetTexture("cursormiddle.png");
-		Cursortrail.Texture = skin.GetTexture("cursortrail.png");
+		MenuBackground.Texture = skin.GetTexture("menu-background", "jpg", true) ?? skin.GetTexture("menu-background", "png");
+		Cursor.Texture = skin.GetTexture("cursor");
+		Cursormiddle.Texture = skin.GetTexture("cursormiddle");
+		Cursortrail.Texture = skin.GetTexture("cursortrail");
 
 		if (skin.SkinIni?.TryGetPropertyValue("General", "CursorRotate") is "1" or null)
 			CursorRotateAnimationPlayer.Play("rotate");

@@ -106,14 +106,14 @@ public class OsuSkin
     public override int GetHashCode()
         => Name.GetHashCode();
 
-    public Texture2D GetTexture(string filename)
+    public Texture2D GetTexture(string filename, string extension = "png", bool fallbackToNull = false)
     {
         if (_textureCache.TryGetValue(filename, out Texture2D value))
             return value;
 
-        Settings.Log($"Loading texture {filename} for skin: {Name}");
+        Settings.Log($"Loading texture '{filename}' for skin: {Name}");
 
-        string path = $"{Directory.FullName}/{filename}";
+        string path = $"{Directory.FullName}/{filename}.{extension}";
 
         // Often default-x.png is found in a subdirectory defined by the skin.ini, so check for that.
         if (filename.StartsWith("default-", StringComparison.OrdinalIgnoreCase))
@@ -121,13 +121,16 @@ public class OsuSkin
             string hitCirclePrefix = SkinIni?.TryGetPropertyValue("Fonts", "HitCirclePrefix");
 
             if (hitCirclePrefix != null)
-                path = hitCirclePrefix != null ? $"{Directory.FullName}/{hitCirclePrefix}{filename[7..]}" : $"{Directory.FullName}/default";
+                path = hitCirclePrefix != null ? $"{Directory.FullName}/{hitCirclePrefix}{filename[7..]}.{extension}" : $"{Directory.FullName}/default";
         }
 
         if (!File.Exists(path))
         {
-            Settings.Log("Falling back to default texture.");
-            var defaultTexture = GetDefaultTexture(filename);
+            if (fallbackToNull)
+                return null;
+
+            Settings.Log("Falling back to default texture");
+            var defaultTexture = GetDefaultTexture($"{filename}.png");
             _textureCache.Add(filename, defaultTexture);
             return defaultTexture;
         }
@@ -157,14 +160,14 @@ public class OsuSkin
             spriteFrames.AddAnimation(filename);
 
             for (int i = 0; File.Exists($"{pathPrefix}-{i}.png"); i++)
-                spriteFrames.AddFrame(filename, GetTexture($"{filename}-{i}.png"));
+                spriteFrames.AddFrame(filename, GetTexture($"{filename}-{i}"));
 
             // AnimationFramerate of the default value -1 makes osu! play all the frames in 1 second.
             spriteFrames.SetAnimationSpeed(filename, fps != -1 ? fps : spriteFrames.GetFrameCount(filename));
             spriteFrames.SetAnimationLoop(filename, false);
 
             if (spriteFrames.GetFrameCount(filename) == 0)
-                spriteFrames.AddFrame(filename, GetTexture($"{filename}.png"));
+                spriteFrames.AddFrame(filename, GetTexture($"{filename}"));
         }
 
         return spriteFrames;
@@ -175,6 +178,6 @@ public class OsuSkin
 
     private readonly Dictionary<string, Texture2D> _textureCache = new();
 
-    private static Texture2D GetDefaultTexture(string filename)
-        => GD.Load<Texture2D>($"res://assets/defaultskin/{filename}");
+    private static Texture2D GetDefaultTexture(string filenameWithExtension)
+        => GD.Load<Texture2D>($"res://assets/defaultskin/{filenameWithExtension}");
 }
