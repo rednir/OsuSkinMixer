@@ -49,7 +49,7 @@ icon = ExtResource("5_0g2c5")
 
 [node name="Text" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "These are links to popular osu! skin websites and are not affiliated or endorsed by osu! skin mixer nor by osu!, so use them at your own discretion and risk."
+text = "These are links to popular osu! skin websites of which the contents of are not affiliated or endorsed by osu! skin mixer nor by osu!, so use them at your own discretion and risk."
 label_settings = ExtResource("6_n6whc")
 autowrap_mode = 3
 
