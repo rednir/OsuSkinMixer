@@ -104,11 +104,13 @@ public partial class ManageSkinPopup : Popup
 		OsuData.SweepPaused = true;
 		LoadingPopup.In();
 
+		List<OsuSkin> newSkins = new();
+
 		Task.Run(() =>
 		{
 			foreach (OsuSkin skin in _skins)
 			{
-				DuplicateSingleSkin(skin, SkinNamePopup.SuffixMode ? skin.Name + value : value);
+				newSkins.Add(DuplicateSingleSkin(skin, SkinNamePopup.SuffixMode ? skin.Name + value : value));
 				progress += 100.0 / _skins.Length;
 				LoadingPopup.SetProgress(progress);
 			}
@@ -127,16 +129,17 @@ public partial class ManageSkinPopup : Popup
 			}
 			else
 			{
-				OsuData.RequestSkinInfo(_skins);
+				OsuData.RequestSkinInfo(newSkins);
 			}
 		});
 	}
 
-	private static void DuplicateSingleSkin(OsuSkin skin, string newSkinName)
+	private static OsuSkin DuplicateSingleSkin(OsuSkin skin, string newSkinName)
 	{
 		Settings.Log($"Duplicating skin: {skin.Name} -> {newSkinName}");
 		OsuSkin newSkin = new(skin.Directory.CopyDirectory(Path.Combine(Settings.SkinsFolderPath, newSkinName), true));
 		OsuData.AddSkin(newSkin);
+		return newSkin;
 	}
 
 	private void OnDeleteButtonPressed()
