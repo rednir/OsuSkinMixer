@@ -91,3 +91,16 @@ layout_mode = 2
 [node name="ManageSkinPopup" parent="." instance=ExtResource("8_3qc15")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="Title" parent="ManageSkinPopup/DeleteQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
+text = "Really delete?"
+
+[node name="Text" parent="ManageSkinPopup/DeleteQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+text = "The skin(s) you have selected will be deleted permanently!"
+
+[editable path="ManageSkinPopup"]
+[editable path="ManageSkinPopup/Popup"]
+[editable path="ManageSkinPopup/DeleteQuestionPopup"]
+[editable path="ManageSkinPopup/DeleteQuestionPopup/Popup"]
+[editable path="ManageSkinPopup/SkinNamePopup"]
+[editable path="ManageSkinPopup/SkinNamePopup/Popup"]
