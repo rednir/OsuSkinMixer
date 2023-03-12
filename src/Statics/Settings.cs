@@ -125,13 +125,12 @@ public static class Settings
         [JsonPropertyName("use_compact_skin_selector")]
         public bool UseCompactSkinSelector { get; set; }
 
+        [JsonPropertyName("arrow_button_pressed")]
+        public bool ArrowButtonPressed { get; set; }
+
         [JsonPropertyName("import_to_game_if_open")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool ImportToGameIfOpen { get; set; } = OS.GetName() == "Windows";
-
-        [JsonPropertyName("arrow_button_pressed")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool ArrowButtonPressed { get; set; }
 
         [JsonPropertyName("skins_folder")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

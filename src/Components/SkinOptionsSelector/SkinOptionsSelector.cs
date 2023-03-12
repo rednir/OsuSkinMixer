@@ -13,6 +13,7 @@ public partial class SkinOptionsSelector : VBoxContainer
 
     private PackedScene SkinOptionComponentScene;
 
+    private Panel ExpandHint;
     private SkinSelectorPopup SkinSelectorPopup;
 
     private SkinOptionComponent SkinOptionComponentInSelection;
@@ -25,8 +26,11 @@ public partial class SkinOptionsSelector : VBoxContainer
     {
         SkinOptionComponentScene = GD.Load<PackedScene>("res://src/Components/SkinOptionsSelector/SkinOptionComponent.tscn");
 
+        ExpandHint = GetNode<Panel>("ExpandHint");
         SkinSelectorPopup = GetNode<SkinSelectorPopup>("SkinSelectorPopup");
+
         SkinSelectorPopup.OnSelected = s => OptionComponentSelected(new SkinOptionValue(s));
+        ExpandHint.Visible = !Settings.Content.ArrowButtonPressed;
     }
 
     public void CreateOptionComponents(SkinOptionValue defaultValue)
@@ -69,7 +73,17 @@ public partial class SkinOptionsSelector : VBoxContainer
                 vbox.AddChild(newVbox);
                 vbox.MoveChild(newVbox, component.GetIndex() + 1);
 
-                component.ArrowButton.Toggled += p => newVbox.Visible = p;
+                component.ArrowButton.Toggled += p =>
+                {
+                    newVbox.Visible = p;
+
+                    if (!Settings.Content.ArrowButtonPressed)
+                    {
+                        ExpandHint.Visible = false;
+                        Settings.Content.ArrowButtonPressed = true;
+                        Settings.Save();
+                    }
+                };
 
                 foreach (var child in parentOption.Children)
                     addOptionComponent(child, newVbox, layer + 1);
