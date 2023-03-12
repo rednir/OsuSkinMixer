@@ -17,6 +17,7 @@ public partial class SkinManager : StackScene
 	private Button DeselectAllButton;
 	private Button ManageSkinButton;
 	private SkinComponentsContainer SkinComponentsContainer;
+	private ManageSkinPopup ManageSkinPopup;
 
 	private readonly List<OsuSkin> _checkedSkins = new();
 
@@ -29,6 +30,7 @@ public partial class SkinManager : StackScene
 		DeselectAllButton = GetNode<Button>("%DeselectAllButton");
 		ManageSkinButton = GetNode<Button>("%ManageSkinButton");
 		SkinComponentsContainer = GetNode<SkinComponentsContainer>("%SkinComponentsContainer");
+		ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
 		SkinComponentsContainer.SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinComponentSkinManager.tscn");
 		SkinComponentsContainer.SkinSelected += OnSkinSelected;
@@ -38,6 +40,7 @@ public partial class SkinManager : StackScene
 		SearchLineEdit.TextChanged += SkinComponentsContainer.FilterSkins;
 		SelectAllButton.Pressed += () => SkinComponentsContainer.SelectAll(true);
 		DeselectAllButton.Pressed += () => SkinComponentsContainer.SelectAll(false);
+		ManageSkinButton.Pressed += OnManageSkinButtonPressed;
     }
 
     private void OnSkinSelected(OsuSkin skin)
@@ -59,5 +62,11 @@ public partial class SkinManager : StackScene
 		bool allChecked = _checkedSkins.Count == SkinComponentsContainer.GetChildCount();
 		SelectAllButton.Visible = !allChecked;
 		DeselectAllButton.Visible = allChecked;
+	}
+
+	private void OnManageSkinButtonPressed()
+	{
+		ManageSkinPopup.SetSkins(_checkedSkins);
+		ManageSkinPopup.In();
 	}
 }

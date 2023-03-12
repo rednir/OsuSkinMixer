@@ -20,9 +20,9 @@ public static class OsuData
 
     public static event Action<OsuSkin> SkinRemoved;
 
-    public static event Action<OsuSkin> SkinInfoRequested;
+    public static event Action<IEnumerable<OsuSkin>> SkinInfoRequested;
 
-    public static event Action<OsuSkin> SkinModifyRequested;
+    public static event Action<IEnumerable<OsuSkin>> SkinModifyRequested;
 
     public static event Action<OsuSkin, OsuSkin> SkinConflictDetected;
 
@@ -83,43 +83,44 @@ public static class OsuData
         SkinRemoved?.Invoke(skin);
     }
 
-    public static void RequestSkinInfo(OsuSkin skin)
+    public static void RequestSkinInfo(IEnumerable<OsuSkin> skins)
     {
-        Settings.Log($"Requested skin info: {skin.Name}");
-        SkinInfoRequested?.Invoke(skin);
+        Settings.Log($"Requested skin info for {skins.Count()} skins.");
+        SkinInfoRequested?.Invoke(skins);
     }
 
-    public static void RequestSkinModify(OsuSkin skin)
+    public static void RequestSkinModify(IEnumerable<OsuSkin> skins)
     {
-        Settings.Log($"Requested skin modify: {skin.Name}");
-        SkinModifyRequested?.Invoke(skin);
+        Settings.Log($"Requested skin modify for {skins.Count()} skins.");
+        SkinModifyRequested?.Invoke(skins);
     }
 
-    public static void ToggleSkinHiddenState(OsuSkin skin)
+    public static void ToggleSkinsHiddenState(IEnumerable<OsuSkin> skins)
     {
-		try
-		{
-            Directory.CreateDirectory(Settings.HiddenSkinsFolderPath);
-			if (skin.Hidden)
-			{
-				Settings.Log($"Hiding skin: {skin.Name}");
-				skin.Directory.MoveTo(Path.Combine(Settings.SkinsFolderPath, skin.Name));
-                skin.Hidden = false;
-			}
-			else
-			{
-				Settings.Log($"Unhiding skin: {skin.Name}");
-				skin.Directory.MoveTo(Path.Combine(Settings.HiddenSkinsFolderPath, skin.Name));
-                skin.Hidden = true;
-			}
-		}
-		catch (Exception ex)
-		{
-			GD.PrintErr(ex);
-			OS.Alert("Failed to hide/unhide skin. Please report this issue with logs.", "Error");
-		}
+        foreach (var skin in skins)
+            ToggleSkinsHiddenState(skin);
+    }
+
+    public static void ToggleSkinsHiddenState(OsuSkin skin)
+    {
+        SweepPaused = true;
+        Directory.CreateDirectory(Settings.HiddenSkinsFolderPath);
+
+        if (skin.Hidden)
+        {
+            Settings.Log($"Hiding skin: {skin.Name}");
+            skin.Directory.MoveTo(Path.Combine(Settings.SkinsFolderPath, skin.Name));
+            skin.Hidden = false;
+        }
+        else
+        {
+            Settings.Log($"Unhiding skin: {skin.Name}");
+            skin.Directory.MoveTo(Path.Combine(Settings.HiddenSkinsFolderPath, skin.Name));
+            skin.Hidden = true;
+        }
 
         SkinModified?.Invoke(skin);
+        SweepPaused = false;
     }
 
     private static void LoadSkinsFromDirectory(DirectoryInfo directoryInfo, bool hidden)

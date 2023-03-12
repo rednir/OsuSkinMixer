@@ -10,6 +10,10 @@ public partial class SkinNamePopup : Popup
 {
 	public Action<string> ConfirmAction { get; set; }
 
+	public bool SuffixMode { get; set; }
+
+	public string[] SkinNames { get; set; }
+
 	public string LineEditText
 	{
 		get => LineEdit.Text;
@@ -70,17 +74,41 @@ public partial class SkinNamePopup : Popup
 		else if (string.IsNullOrWhiteSpace(text))
 		{
 			ConfirmButton.Disabled = true;
-			WarningLabel.Text = "Skin name cannot be empty.";
+			WarningLabel.Text = !SuffixMode ? "Skin name cannot be empty." : "Skin name suffix cannot be empty.";
 		}
-		else if (OsuData.Skins.Any(s => s.Name == text))
+		else if (!SuffixMode && SkinNames.FirstOrDefault() == text)
+		{
+			ConfirmButton.Disabled = true;
+			WarningLabel.Text = "New skin name cannot be the same as the original skin.";
+		}
+		else if (!SuffixMode && OsuData.Skins.Any(s => s.Name == text))
 		{
 			ConfirmButton.Disabled = false;
 			WarningLabel.Text = "Skin with this name already exists and will be replaced.";
+		}
+		else if (CheckForSuffixConflicts(text))
+		{
+			ConfirmButton.Disabled = false;
+			WarningLabel.Text = "Some skins will be replaced due to conflicting skin names.";
 		}
 		else
 		{
 			ConfirmButton.Disabled = false;
 			WarningLabel.Text = string.Empty;
 		}
+	}
+
+	private bool CheckForSuffixConflicts(string suffix)
+	{
+		if (SkinNames == null)
+			return false;
+
+		foreach (string skinName in OsuData.Skins.Select(s => s.Name))
+		{
+			if (SkinNames.Any(s => s + suffix == skinName))
+				return true;
+		}
+
+		return false;
 	}
 }

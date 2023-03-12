@@ -2,7 +2,9 @@ using Godot;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OsuSkinMixer.Components;
@@ -22,7 +24,7 @@ public partial class ManageSkinPopup : Popup
 	private Button DuplicateButton;
 	private Button DeleteButton;
 
-	private OsuSkin _skin;
+	private OsuSkin[] _skins;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -48,42 +50,69 @@ public partial class ManageSkinPopup : Popup
 
 	public void SetSkin(OsuSkin skin)
 	{
-		_skin = skin;
+		_skins = new OsuSkin[] { skin };
 		TitleLabel.Text = skin.Name;
 		HideButton.Text = skin.Hidden ? UNHIDE_BUTTON_TEXT : HIDE_BUTTON_TEXT;
 	}
 
+	public void SetSkins(IEnumerable<OsuSkin> skins)
+	{
+		_skins = skins.ToArray();
+		TitleLabel.Text = $"{_skins.Length} skins selected.";
+	}
+
 	private void OnModifyButtonPressed()
 	{
-		OsuData.RequestSkinModify(_skin);
+		OsuData.RequestSkinModify(_skins);
 		Out();
 	}
 
 	private void OnHideButtonPressed()
 	{
-		OsuData.ToggleSkinHiddenState(_skin);
+		try
+		{
+			OsuData.ToggleSkinsHiddenState(_skins);
+		}
+		catch (Exception ex)
+		{
+			GD.PrintErr(ex);
+			OS.Alert("Failed to hide/unhide skin. Please report this issue with logs.", "Error");
+		}
+
 		Out();
 	}
 
 	private void OnDuplicateButtonPressed()
 	{
-		SkinNamePopup.LineEditText = $"{_skin.Name} (copy)";
+		if (_skins.Length > 1)
+		{
+			SkinNamePopup.LineEditText = " (copy)";
+			SkinNamePopup.SkinNames = _skins.Select(s => s.Name).ToArray();
+			SkinNamePopup.SuffixMode = true;
+		}
+		else
+		{
+			SkinNamePopup.LineEditText = $"{_skins[0].Name} (copy)";
+			SkinNamePopup.SkinNames = new string[] { _skins[0].Name };
+			SkinNamePopup.SuffixMode = false;
+		}
+
 		SkinNamePopup.In();
 	}
 
-	private void OnDuplicateSkinNameConfirmed(string newSkinName)
+	private void OnDuplicateSkinNameConfirmed(string value)
 	{
-		Settings.Log($"Duplicating skin: {_skin.Name} -> {newSkinName}");
+		OsuData.SweepPaused = true;
 		LoadingPopup.In();
 
 		Task.Run(() =>
 		{
-			OsuSkin newSkin = new(_skin.Directory.CopyDirectory(Path.Combine(Settings.SkinsFolderPath, newSkinName), true));
-			OsuData.AddSkin(newSkin);
-			OsuData.RequestSkinInfo(newSkin);
+			foreach (OsuSkin skin in _skins)
+				DuplicateSingleSkin(skin, SkinNamePopup.SuffixMode ? skin.Name + value : value);
 		})
 		.ContinueWith(t =>
 		{
+			OsuData.SweepPaused = false;
 			LoadingPopup.Out();
 			SkinNamePopup.Out();
 			Out();
@@ -91,9 +120,20 @@ public partial class ManageSkinPopup : Popup
 			if (t.IsFaulted)
 			{
 				GD.PrintErr(t.Exception);
-				OS.Alert("Failed to duplicate skin. Please report this issue with logs.", "Error");
+				OS.Alert("Failed to duplicate skins. Please report this issue with logs.", "Error");
+			}
+			else
+			{
+				OsuData.RequestSkinInfo(_skins);
 			}
 		});
+	}
+
+	private static void DuplicateSingleSkin(OsuSkin skin, string newSkinName)
+	{
+		Settings.Log($"Duplicating skin: {skin.Name} -> {newSkinName}");
+		OsuSkin newSkin = new(skin.Directory.CopyDirectory(Path.Combine(Settings.SkinsFolderPath, newSkinName), true));
+		OsuData.AddSkin(newSkin);
 	}
 
 	private void OnDeleteButtonPressed()
@@ -103,23 +143,28 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnDeleteConfirmed()
 	{
-		Settings.Log($"Deleting skin: {_skin.Name}");
+		OsuData.SweepPaused = true;
 		LoadingPopup.In();
 
 		Task.Run(() =>
 		{
-			_skin.Directory.Delete(true);
-			OsuData.RemoveSkin(_skin);
+			foreach (OsuSkin skin in _skins)
+			{
+				Settings.Log($"Deleting skin: {skin.Name}");
+				skin.Directory.Delete(true);
+				OsuData.RemoveSkin(skin);
+			}
 		})
 		.ContinueWith(t =>
 		{
+			OsuData.SweepPaused = false;
 			LoadingPopup.Out();
 			Out();
 
 			if (t.IsFaulted)
 			{
 				GD.PrintErr(t.Exception);
-				OS.Alert("Failed to delete skin. Please report this issue with logs.", "Error");
+				OS.Alert("Failed to delete skins. Please report this issue with logs.", "Error");
 			}
 		});
 	}

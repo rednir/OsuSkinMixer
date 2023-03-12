@@ -7,6 +7,7 @@ using OsuSkinMixer.Components;
 using OsuSkinMixer.Statics;
 using OsuSkinMixer.StackScenes;
 using OsuSkinMixer.Models;
+using System.Linq;
 
 namespace OsuSkinMixer;
 
@@ -86,13 +87,13 @@ public partial class Main : Control
 		OsuData.SkinInfoRequested += s =>
 		{
 			var instance = SkinInfoScene.Instantiate<SkinInfo>();
-			instance.Skins = new OsuSkin[] { s };
+			instance.Skins = s;
 			PushScene(instance);
 		};
 		OsuData.SkinModifyRequested += s =>
 		{
 			var scene = SkinModiferModificationSelectScene.Instantiate<SkinModifierModificationSelect>();
-			scene.SkinsToModify = new List<OsuSkin> { s };
+			scene.SkinsToModify = s.ToList();
 			PushScene(scene);
 		};
 
