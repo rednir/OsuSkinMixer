@@ -15,6 +15,8 @@ public partial class SkinComponentsContainer : VBoxContainer
 
 	public SkinComponent BestMatch => GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Visible);
 
+	public IEnumerable<SkinComponent> VisibleComponents => GetChildren().Cast<SkinComponent>().Where(c => c.Visible);
+
 	private readonly List<SkinComponent> _disabledSkinComponents = new();
 
 	private bool _skinComponentsInitialised;
@@ -62,8 +64,12 @@ public partial class SkinComponentsContainer : VBoxContainer
 	{
 		foreach (var component in GetChildren().Cast<SkinComponent>())
         {
-            component.Visible = component.Name.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)
+			bool visible = component.Name.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)
 				&& !_disabledSkinComponents.Contains(component);
+            component.Visible = visible;
+
+			if (component.IsChecked && !visible)
+				component.IsChecked = visible;
         }
 	}
 
@@ -83,7 +89,7 @@ public partial class SkinComponentsContainer : VBoxContainer
 
 	public void SelectAll(bool select)
 	{
-		foreach (var component in GetChildren().Cast<SkinComponent>())
+		foreach (var component in GetChildren().Cast<SkinComponent>().Where(c => c.Visible))
 			component.IsChecked = select;
 	}
 

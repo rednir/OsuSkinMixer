@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using System.Collections.Generic;
 using Godot;
 using OsuSkinMixer.Components;
@@ -37,11 +37,17 @@ public partial class SkinManager : StackScene
 		SkinComponentsContainer.SkinChecked += OnSkinChecked;
 		SkinComponentsContainer.InitialiseSkinComponents();
 
-		SearchLineEdit.TextChanged += SkinComponentsContainer.FilterSkins;
+		SearchLineEdit.TextChanged += OnSearchTextChanged;
 		SelectAllButton.Pressed += () => SkinComponentsContainer.SelectAll(true);
 		DeselectAllButton.Pressed += () => SkinComponentsContainer.SelectAll(false);
 		ManageSkinButton.Pressed += OnManageSkinButtonPressed;
     }
+
+	private void UpdateSelectAllButtons()
+	{
+		SelectAllButton.Disabled = _checkedSkins.Count == SkinComponentsContainer.VisibleComponents.Count();
+		DeselectAllButton.Disabled = _checkedSkins.Count == 0;
+	}
 
     private void OnSkinSelected(OsuSkin skin)
     {
@@ -58,10 +64,13 @@ public partial class SkinManager : StackScene
 			_checkedSkins.Remove(skin);
 
 		ManageSkinButton.Disabled = _checkedSkins.Count == 0;
+		UpdateSelectAllButtons();
+	}
 
-		bool allChecked = _checkedSkins.Count == SkinComponentsContainer.GetChildCount();
-		SelectAllButton.Visible = !allChecked;
-		DeselectAllButton.Visible = allChecked;
+	private void OnSearchTextChanged(string newText)
+	{
+		SkinComponentsContainer.FilterSkins(newText);
+		UpdateSelectAllButtons();
 	}
 
 	private void OnManageSkinButtonPressed()
