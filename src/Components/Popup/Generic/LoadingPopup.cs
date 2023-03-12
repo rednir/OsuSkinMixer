@@ -45,8 +45,15 @@ public partial class LoadingPopup : Popup
 		ProgressBar.Value = progress;
 	}
 
+	public override void In()
+	{
+		SetProgress(0);
+		base.In();
+	}
+
 	private void OnCancelButtonPressed()
 	{
+		SetProgress(100);
 		CancelAction();
 	}
 }
