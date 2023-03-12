@@ -41,12 +41,14 @@ public partial class SkinManager : StackScene
 		SelectAllButton.Pressed += () => SkinComponentsContainer.SelectAll(true);
 		DeselectAllButton.Pressed += () => SkinComponentsContainer.SelectAll(false);
 		ManageSkinButton.Pressed += OnManageSkinButtonPressed;
+
+		UpdateSelectAllButtons();
     }
 
 	private void UpdateSelectAllButtons()
 	{
 		SelectAllButton.Disabled = _checkedSkins.Count == SkinComponentsContainer.VisibleComponents.Count();
-		DeselectAllButton.Disabled = _checkedSkins.Count == 0;
+		DeselectAllButton.Disabled = _checkedSkins.Count == 0;	
 	}
 
     private void OnSkinSelected(OsuSkin skin)
