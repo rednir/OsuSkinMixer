@@ -79,7 +79,7 @@ public class SkinModifierMachine : SkinMachine
         AddTask(() =>
         {
             Settings.Log($"Writing to {skinIniDestination}");
-            File.WriteAllText(skinIniDestination, workingSkin.SkinIni.ToString());
+            File.WriteAllText(skinIniDestination, workingSkin.SkinIni?.ToString());
         });
 
         Settings.Log($"Skin modification for '{workingSkin.Name}' has completed.");
