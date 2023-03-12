@@ -13,6 +13,16 @@ public partial class SkinComponent : HBoxContainer
 
     public Action<bool> Checked { get; set; }
 
+    public bool IsChecked
+    {
+        get => CheckBox?.ButtonPressed ?? false;
+        set
+        {
+            if (CheckBox != null)
+                CheckBox.ButtonPressed = value;
+        }
+    }
+
     private Button Button;
     private Label NameLabel;
     private Label AuthorLabel;
@@ -44,18 +54,12 @@ public partial class SkinComponent : HBoxContainer
         Button.TooltipText = Skin.Name;
         HiddenIcon.Visible = Skin.Hidden;
 
-		// Compact components don't have these nodes.
+        // Compact components don't have these nodes.
         if (AuthorLabel != null && HitcircleIcon != null)
         {
             AuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
             HitcircleIcon.SetSkin(Skin);
         }
-    }
-
-    public void SetChecked(bool value)
-    {
-        if (CheckBox != null)
-            CheckBox.ButtonPressed = value;
     }
 
     private void OnButtonPressed()

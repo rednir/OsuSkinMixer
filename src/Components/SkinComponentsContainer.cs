@@ -84,7 +84,7 @@ public partial class SkinComponentsContainer : VBoxContainer
 	public void SelectAll(bool select)
 	{
 		foreach (var component in GetChildren().Cast<SkinComponent>())
-			component.SetChecked(select);
+			component.IsChecked = select;
 	}
 
 	private SkinComponent CreateSkinComponentFrom(OsuSkin skin)
@@ -119,6 +119,8 @@ public partial class SkinComponentsContainer : VBoxContainer
 
 	private void OnSkinRemoved(OsuSkin skin)
 	{
-		GetExistingComponentFromSkin(skin).QueueFree();
+		var skinComponent = GetExistingComponentFromSkin(skin);
+		skinComponent.IsChecked = false;
+		skinComponent.QueueFree();
 	}
 }
