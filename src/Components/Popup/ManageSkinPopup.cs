@@ -11,9 +11,6 @@ namespace OsuSkinMixer.Components;
 
 public partial class ManageSkinPopup : Popup
 {
-	private const string HIDE_BUTTON_TEXT = "Hide from osu!";
-
-	private const string UNHIDE_BUTTON_TEXT = "Unhide from osu!";
 
 	private QuestionPopup DeleteQuestionPopup;
 	private SkinNamePopup SkinNamePopup;
@@ -52,13 +49,14 @@ public partial class ManageSkinPopup : Popup
 	{
 		_skins = new OsuSkin[] { skin };
 		TitleLabel.Text = skin.Name;
-		HideButton.Text = skin.Hidden ? UNHIDE_BUTTON_TEXT : HIDE_BUTTON_TEXT;
+		HideButton.Text = skin.Hidden ? "Unhide from osu!" : "Hide from osu!";
 	}
 
 	public void SetSkins(IEnumerable<OsuSkin> skins)
 	{
 		_skins = skins.ToArray();
 		TitleLabel.Text = $"{_skins.Length} skins selected.";
+		HideButton.Text = "Toggle hidden state";
 	}
 
 	private void OnModifyButtonPressed()
