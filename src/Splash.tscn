@@ -59,10 +59,22 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Overlay/Icon/PointLight2D:energy")
+tracks/4/path = NodePath("Overlay/Icon/CenterLight:energy")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Overlay/Icon/WideLight:energy")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -100,7 +112,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Overlay/Icon/PointLight2D:energy")
+tracks/2/path = NodePath("Overlay/Icon/CenterLight:energy")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -108,6 +120,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(0.4, -2, 1),
 "update": 0,
 "values": [0.0, 0.75, 0.4]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Overlay/Icon/WideLight:energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2, 0.6, 1.4, 3.9),
+"transitions": PackedFloat32Array(0.4, 0.4, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 0.3, 0.0]
 }
 
 [sub_resource type="Animation" id="Animation_h17hn"]
@@ -152,7 +176,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Overlay/Icon/PointLight2D:energy")
+tracks/3/path = NodePath("Overlay/Icon/CenterLight:energy")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -223,8 +247,14 @@ offset_bottom = 32.0
 pivot_offset = Vector2(32, 33)
 texture = ExtResource("1_ovcig")
 
-[node name="PointLight2D" type="PointLight2D" parent="Overlay/Icon"]
+[node name="CenterLight" type="PointLight2D" parent="Overlay/Icon"]
 position = Vector2(32, 33)
+energy = 0.0
+texture = SubResource("GradientTexture2D_hi6gm")
+
+[node name="WideLight" type="PointLight2D" parent="Overlay/Icon"]
+position = Vector2(31.9999, 32)
+scale = Vector2(3.44, 0.101675)
 energy = 0.0
 texture = SubResource("GradientTexture2D_hi6gm")
 
