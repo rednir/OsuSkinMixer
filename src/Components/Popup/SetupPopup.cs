@@ -2,6 +2,7 @@ using Godot;
 using System;
 using Environment = System.Environment;
 using OsuSkinMixer.Statics;
+using System.Threading.Tasks;
 
 namespace OsuSkinMixer.Components;
 
@@ -25,7 +26,7 @@ public partial class SetupPopup : Popup
 		FileDialog = GetNode<FileDialog>("%FileDialog");
 		OkPopup = GetNode<OkPopup>("%OkPopup");
 
-		DoneButton.Pressed += DoneButtonPressed;
+		DoneButton.Pressed += () => Task.Run(DoneButtonPressed);
 		FolderPickerButton.Pressed += FolderPickerButtonPressed;
 		FileDialog.DirSelected += d => LineEdit.Text = d;
 	}
@@ -38,8 +39,11 @@ public partial class SetupPopup : Popup
 
 	private void DoneButtonPressed()
     {
+		DoneButton.Disabled = true;
+
         if (!Settings.TrySetOsuFolder(LineEdit.Text, out string error))
         {
+			DoneButton.Disabled = false;
 			OkPopup.SetValues(error, "That doesn't seem right...");
             OkPopup.In();
 			return;
