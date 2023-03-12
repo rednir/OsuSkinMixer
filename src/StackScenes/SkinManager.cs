@@ -8,37 +8,20 @@ public partial class SkinManager : StackScene
 {
     public override string Title => "Skin Manager";
 
-	private PackedScene SkinInfoScene;
+    private PackedScene SkinInfoScene;
+	private PackedScene SkinComponentScene;
 
-	private SkinSelectorPopup SkinSelectorPopup;
-	private Button SelectSkinButton;
+	private LineEdit SearchLineEdit;
+	private Button SelectAllButton;
+	private VBoxContainer SkinComponentContainer;
 
     public override void _Ready()
-	{
-		SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
+    {
+        SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
+		SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinComponentSkinManager.tscn");
 
-		VisibilityChanged += OnVisibilityChanged;
-
-		SelectSkinButton = GetNode<Button>("%SelectSkinButton");
-		SelectSkinButton.Pressed += () => SkinSelectorPopup.In();
-
-		SkinSelectorPopup = GetNode<SkinSelectorPopup>("%SkinSelectorPopup");
-		SkinSelectorPopup.In();
-		SkinSelectorPopup.OnSelected = OnSkinSelected;
-	}
-
-	private void OnSkinSelected(OsuSkin skin)
-	{
-		SkinSelectorPopup.Out();
-
-		SkinInfo instance = SkinInfoScene.Instantiate<SkinInfo>();
-		instance.Skins = new OsuSkin[] { skin };
-		EmitSignal(SignalName.ScenePushed, instance);
-	}
-
-	private void OnVisibilityChanged()
-	{
-		if (Visible)
-			SkinSelectorPopup.In();
-	}
+		SearchLineEdit = GetNode<LineEdit>("%SearchLineEdit");
+		SelectAllButton = GetNode<Button>("%SelectAllButton");
+		SkinComponentContainer = GetNode<VBoxContainer>("%SkinComponentContainer");
+    }
 }

@@ -10,12 +10,24 @@ bg_color = Color(0.227451, 0.207843, 0.258824, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1r3i5"]
 bg_color = Color(0.996078, 0.996078, 0.996078, 0.0392157)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_au1y4"]
 bg_color = Color(0.996078, 0.996078, 0.996078, 0.0980392)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ary6"]
 bg_color = Color(0.996078, 0.996078, 0.996078, 0.0588235)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [node name="SkinComponentSkinManager" type="HBoxContainer"]
 custom_minimum_size = Vector2(544, 72)
