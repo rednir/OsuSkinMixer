@@ -13,7 +13,7 @@ public partial class SkinComponent : HBoxContainer
     private Button Button;
     private Label NameLabel;
     private Label AuthorLabel;
-    private HitcircleIcon Hitcircle;
+    private HitcircleIcon HitcircleIcon;
     private TextureRect HiddenIcon;
 
     public override void _Ready()
@@ -21,7 +21,7 @@ public partial class SkinComponent : HBoxContainer
         Button = GetNode<Button>("%Button");
         NameLabel = GetNode<Label>("%Name");
         AuthorLabel = GetNodeOrNull<Label>("%Author");
-        Hitcircle = GetNodeOrNull<HitcircleIcon>("%Hitcircle");
+        HitcircleIcon = GetNodeOrNull<HitcircleIcon>("%HitcircleIcon");
         HiddenIcon = GetNode<TextureRect>("%HiddenIcon");
 
         Button.Pressed += OnButtonPressed;
@@ -37,10 +37,10 @@ public partial class SkinComponent : HBoxContainer
         HiddenIcon.Visible = Skin.Hidden;
 
 		// Compact components don't have these nodes.
-        if (AuthorLabel != null && Hitcircle != null)
+        if (AuthorLabel != null && HitcircleIcon != null)
         {
             AuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
-            Hitcircle.SetSkin(Skin);
+            HitcircleIcon.SetSkin(Skin);
         }
     }
 

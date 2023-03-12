@@ -32,7 +32,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_1r3i5")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_au1y4")
 theme_override_styles/focus = SubResource("StyleBoxFlat_2ary6")
 
-[node name="Hitcircle" parent="Button" instance=ExtResource("2_fkdqu")]
+[node name="HitcircleIcon" parent="Button" instance=ExtResource("2_fkdqu")]
 unique_name_in_owner = true
 layout_mode = 2
 offset_left = 16.0
