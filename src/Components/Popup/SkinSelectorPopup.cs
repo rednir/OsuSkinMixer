@@ -21,8 +21,6 @@ public partial class SkinSelectorPopup : Popup
 	private LineEdit SearchLineEdit;
 	private VBoxContainer SkinOptionsContainer;
 	private VBoxContainer SkinsContainer;
-	private Button GetMoreSkinsButton;
-	private GetMoreSkinsPopup GetMoreSkinsPopup;
 
 	public override void _Ready()
 	{
@@ -33,13 +31,10 @@ public partial class SkinSelectorPopup : Popup
 		SkinsContainer = GetNode<VBoxContainer>("%SkinComponentsContainer");
 		SkinOptionsContainer = GetNode<VBoxContainer>("%SkinOptionsContainer");
 		SearchLineEdit = GetNode<LineEdit>("%SearchLineEdit");
-		GetMoreSkinsButton = GetNode<Button>("%GetMoreSkinsButton");
-		GetMoreSkinsPopup = GetNode<GetMoreSkinsPopup>("%GetMoreSkinsPopup");
 
 		BackButton.Pressed += Out;
 		SearchLineEdit.TextChanged += OnSearchTextChanged;
 		SearchLineEdit.TextSubmitted += OnSearchTextSubmitted;
-		GetMoreSkinsButton.Pressed += GetMoreSkinsPopup.In;
 
 		OsuData.SkinAdded += OnSkinAdded;
 		OsuData.SkinModified += OnSkinModified;

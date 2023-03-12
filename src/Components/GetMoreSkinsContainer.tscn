@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://cqe1efqtsolo0"]
+
+[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="1_lqy7h"]
+[ext_resource type="Script" path="res://src/Components/GetMoreSkinsContainer.cs" id="1_tmuiu"]
+[ext_resource type="PackedScene" uid="uid://dsgg2xjv4sebx" path="res://src/Components/Popup/GetMoreSkinsPopup.tscn" id="2_0m8mb"]
+[ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="2_j0igh"]
+[ext_resource type="Texture2D" uid="uid://d3c0n4oyhnm8e" path="res://assets/materialicons/library_add.png" id="3_m4gyx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d1niq"]
+content_margin_top = 32.0
+content_margin_bottom = 32.0
+
+[node name="GetMoreSkinsContainer" type="PanelContainer"]
+size_flags_vertical = 6
+theme_override_styles/panel = SubResource("StyleBoxEmpty_d1niq")
+script = ExtResource("1_tmuiu")
+
+[node name="GetMoreSkinsPopup" parent="." instance=ExtResource("2_0m8mb")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Couldn't find the one?"
+label_settings = ExtResource("1_lqy7h")
+horizontal_alignment = 1
+
+[node name="GetMoreSkinsButton" parent="VBoxContainer" instance=ExtResource("2_j0igh")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "  Get more skins"
+icon = ExtResource("3_m4gyx")
