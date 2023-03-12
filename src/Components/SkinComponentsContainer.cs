@@ -11,6 +11,8 @@ public partial class SkinComponentsContainer : VBoxContainer
 {
 	public Action<OsuSkin> SkinSelected { get; set; }
 
+	public Action<OsuSkin, bool> SkinChecked { get; set; }
+
 	public SkinComponent BestMatch => GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Visible);
 
 	private readonly List<SkinComponent> _disabledSkinComponents = new();
@@ -79,12 +81,19 @@ public partial class SkinComponentsContainer : VBoxContainer
 		_disabledSkinComponents.Remove(skinComponent);
 	}
 
+	public void SelectAll(bool select)
+	{
+		foreach (var component in GetChildren().Cast<SkinComponent>())
+			component.SetChecked(select);
+	}
+
 	private SkinComponent CreateSkinComponentFrom(OsuSkin skin)
 	{
 		SkinComponent instance = SkinComponentScene.Instantiate<SkinComponent>();
 		instance.Skin = skin;
 		instance.Name = skin.Name;
 		instance.Pressed += () => SkinSelected(skin);
+		instance.Checked += p => SkinChecked(skin, p);
 
 		return instance;
 	}

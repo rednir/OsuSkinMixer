@@ -51,6 +51,12 @@ public partial class SkinComponent : HBoxContainer
         }
     }
 
+    public void SetChecked(bool value)
+    {
+        if (CheckBox != null)
+            CheckBox.ButtonPressed = value;
+    }
+
     private void OnButtonPressed()
         => Pressed.Invoke();
 
