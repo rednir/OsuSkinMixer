@@ -1,9 +1,13 @@
-[gd_resource type="Theme" load_steps=23 format=3 uid="uid://8t4xh5nel3pn"]
+[gd_resource type="Theme" load_steps=32 format=3 uid="uid://8t4xh5nel3pn"]
 
+[ext_resource type="Texture2D" uid="uid://bc0m3veg2l6pl" path="res://assets/checkbox-checked.png" id="1_b5f5r"]
 [ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="1_tlv3r"]
 [ext_resource type="Texture2D" uid="uid://bo6f077t5e5d5" path="res://assets/switch-on.png" id="1_tqjfj"]
 [ext_resource type="Texture2D" uid="uid://cx24xiq1i5j0a" path="res://assets/switch-off.png" id="2_d45h6"]
+[ext_resource type="Texture2D" uid="uid://dsec3sxwgyips" path="res://assets/checkbox-checked-disabled.png" id="2_g5stg"]
 [ext_resource type="Texture2D" uid="uid://dphsfm5armejq" path="res://assets/switch-on-disabled.png" id="2_gju2v"]
+[ext_resource type="Texture2D" uid="uid://cl7mtivx5k2o1" path="res://assets/checkbox-unchecked.png" id="3_qwmkp"]
+[ext_resource type="Texture2D" uid="uid://dm4ksx134c3s3" path="res://assets/checkbox-unchecked-disabled.png" id="4_fi0cn"]
 [ext_resource type="Texture2D" uid="uid://c01mstlxqnlbk" path="res://assets/switch-off-disabled.png" id="4_tiywa"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4icrn"]
@@ -51,6 +55,40 @@ corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d2k4g"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u1m5g"]
+bg_color = Color(1, 0.737255, 0.988235, 0.0862745)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h3anj"]
+bg_color = Color(1, 0.737255, 0.988235, 0.0862745)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vq6kk"]
+bg_color = Color(1, 0.737255, 0.988235, 0.0862745)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_85yrh"]
+bg_color = Color(0.254902, 0.243137, 0.27451, 0.0784314)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b5vfa"]
 
@@ -173,6 +211,31 @@ Button/styles/focus = SubResource("StyleBoxEmpty_apak1")
 Button/styles/hover = SubResource("StyleBoxFlat_nhyir")
 Button/styles/normal = SubResource("StyleBoxFlat_5g35s")
 Button/styles/pressed = SubResource("StyleBoxFlat_h15ob")
+CheckBox/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+CheckBox/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+CheckBox/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+CheckBox/colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+CheckBox/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+CheckBox/colors/font_outline_color = Color(1, 1, 1, 1)
+CheckBox/colors/font_pressed_color = Color(1, 1, 1, 1)
+CheckBox/constants/check_v_offset = 0
+CheckBox/constants/h_separation = 4
+CheckBox/constants/outline_size = 0
+CheckBox/font_sizes/font_size = 16
+CheckBox/icons/checked = ExtResource("1_b5f5r")
+CheckBox/icons/checked_disabled = ExtResource("2_g5stg")
+CheckBox/icons/radio_checked = null
+CheckBox/icons/radio_checked_disabled = null
+CheckBox/icons/radio_unchecked = null
+CheckBox/icons/radio_unchecked_disabled = null
+CheckBox/icons/unchecked = ExtResource("3_qwmkp")
+CheckBox/icons/unchecked_disabled = ExtResource("4_fi0cn")
+CheckBox/styles/disabled = SubResource("StyleBoxEmpty_d2k4g")
+CheckBox/styles/focus = SubResource("StyleBoxFlat_u1m5g")
+CheckBox/styles/hover = SubResource("StyleBoxFlat_h3anj")
+CheckBox/styles/hover_pressed = SubResource("StyleBoxFlat_vq6kk")
+CheckBox/styles/normal = SubResource("StyleBoxEmpty_d2k4g")
+CheckBox/styles/pressed = SubResource("StyleBoxFlat_85yrh")
 CheckButton/colors/font_color = Color(0.875, 0.875, 0.875, 1)
 CheckButton/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
 CheckButton/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
