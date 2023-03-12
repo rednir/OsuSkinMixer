@@ -105,10 +105,20 @@ public static class Settings
             if (TrySetOsuFolder(osuFolder, out _))
                 Save();
         }
+
+        // Migration from before v2.3.0
+        if (Content.OsuFolder != null && Content.LastVersion == null)
+        {
+            Content.LastVersion = "v1.0.0";
+            Save();
+        }
     }
 
     public class SettingsContent
     {
+        [JsonPropertyName("last_version")]
+        public string LastVersion { get; set; }
+
         [JsonPropertyName("osu_folder")]
         public string OsuFolder { get; set; }
 

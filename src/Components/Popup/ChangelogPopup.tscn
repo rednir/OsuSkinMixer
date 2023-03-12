@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://da2vul0iiwek5"]
+
+[ext_resource type="Script" path="res://src/Components/Popup/ChangelogPopup.cs" id="1_xx64c"]
+[ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_pw4e0"]
+[ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_7o7bx"]
+[ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="4_vcpkl"]
+[ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="5_6lh28"]
+[ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="6_6l8qj"]
+
+[node name="ChangeLogPopup" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_xx64c")
+
+[node name="Popup" parent="." instance=ExtResource("2_pw4e0")]
+layout_mode = 1
+
+[node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
+offset_bottom = 0.000183105
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Update successful 👏"
+label_settings = ExtResource("3_7o7bx")
+
+[node name="Text" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Things changed in this update.. for the better!"
+label_settings = ExtResource("4_vcpkl")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+alignment = 2
+
+[node name="ViewChangelogButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_6lh28")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "View changelog"
+
+[node name="CloseButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_6l8qj")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Close"
+
+[editable path="Popup"]
