@@ -79,7 +79,7 @@ public partial class SkinNamePopup : Popup
 			ConfirmButton.Disabled = true;
 			WarningLabel.Text = !SuffixMode ? "Skin name cannot be empty." : "Skin name suffix cannot be empty.";
 		}
-		else if (!SuffixMode && SkinNames.FirstOrDefault() == text)
+		else if (!SuffixMode && SkinNames != null && SkinNames.FirstOrDefault() == text)
 		{
 			ConfirmButton.Disabled = true;
 			WarningLabel.Text = "New skin name cannot be the same as the original skin.";
