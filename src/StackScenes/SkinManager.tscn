@@ -48,17 +48,20 @@ flat = true
 [node name="SelectAllButton" parent="TopPanelContainer/HBoxContainer" instance=ExtResource("3_25b43")]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Select all"
 icon = ExtResource("4_e17jv")
 
 [node name="DeselectAllButton" parent="TopPanelContainer/HBoxContainer" instance=ExtResource("3_25b43")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+tooltip_text = "Deselect all"
 icon = ExtResource("5_e7oge")
 
 [node name="ManageSkinButton" parent="TopPanelContainer/HBoxContainer" instance=ExtResource("3_25b43")]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Manage selected skin(s)s"
 disabled = true
 
 [node name="SkinsPanelContainer" type="PanelContainer" parent="."]

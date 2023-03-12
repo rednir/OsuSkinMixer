@@ -292,9 +292,9 @@ _data = {
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ca2ql"]
 content_margin_left = 16.0
-content_margin_top = 48.0
+content_margin_top = 36.0
 content_margin_right = 16.0
-content_margin_bottom = 48.0
+content_margin_bottom = 36.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r3rsy"]
 bg_color = Color(0.109804, 0.105882, 0.121569, 1)
@@ -501,7 +501,6 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_ca2ql")
 follow_focus = true
 
 [node name="Toast" parent="." instance=ExtResource("10_hysk3")]
-visible = false
 layout_mode = 1
 anchor_left = 0.503
 anchor_top = 1.0

@@ -18,7 +18,7 @@ public partial class Splash : Control
 		Settings.Log($"osu! skin mixer {Settings.VERSION} at {DateTime.Now}");
 
 		DisplayServer.WindowSetTitle("osu! skin mixer by rednir");
-		DisplayServer.WindowSetMinSize(new Vector2I(600, 300));
+		DisplayServer.WindowSetMinSize(new Vector2I(650, 300));
 
 		SetupPopup = GetNode<SetupPopup>("%SetupPopup");
 		ExceptionPopup = GetNode<QuestionPopup>("%ExceptionPopup");
