@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://md4n10t0o7i4"]
+[gd_scene load_steps=11 format=3 uid="uid://md4n10t0o7i4"]
 
 [ext_resource type="Script" path="res://src/Components/Popup/SkinSelectorPopup.cs" id="1_5b4pt"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="1_jm6w5"]
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="3_rw0cv"]
 [ext_resource type="Texture2D" uid="uid://crgnranuin71j" path="res://assets/materialicons/arrow_back.png" id="4_oc0m3"]
 [ext_resource type="PackedScene" uid="uid://cqe1efqtsolo0" path="res://src/Components/GetMoreSkinsContainer.tscn" id="5_820pu"]
+[ext_resource type="PackedScene" uid="uid://bcv0yhlt68htu" path="res://src/Components/SkinComponentsContainer.tscn" id="5_adbym"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sfgka"]
 content_margin_left = 0.0
@@ -87,10 +88,9 @@ visible = false
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="SkinComponentsContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="SkinComponentsContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("5_adbym")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 0
 
 [node name="GetMoreSkinsContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("5_820pu")]
 layout_mode = 2

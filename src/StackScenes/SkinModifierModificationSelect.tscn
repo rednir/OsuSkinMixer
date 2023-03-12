@@ -30,7 +30,7 @@ visible = true
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HitcircleTexture" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/Hitcircle" index="2"]
+[node name="HitcircleTexture" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon" index="2"]
 modulate = Color(0, 0.823529, 0, 1)
 
 [node name="Name" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="1"]
@@ -46,7 +46,7 @@ visible = false
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Hitcircle" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="0"]
+[node name="HitcircleIcon" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="0"]
 visible = false
 
 [node name="Name" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="1"]
@@ -119,8 +119,9 @@ visible = true
 [editable path="SkinOptionsSelector/SkinSelectorPopup"]
 [editable path="SkinOptionsSelector/SkinSelectorPopup/Popup"]
 [editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent"]
-[editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/Hitcircle"]
+[editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon"]
 [editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent"]
+[editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon"]
 [editable path="ExtraOptionsPopup"]
 [editable path="ExtraOptionsPopup/Popup"]
 [editable path="LoadingPopup"]

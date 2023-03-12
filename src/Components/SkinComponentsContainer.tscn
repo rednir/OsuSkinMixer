@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcv0yhlt68htu"]
+
+[ext_resource type="Script" path="res://src/Components/SkinComponentsContainer.cs" id="1_p1acj"]
+
+[node name="SkinComponentsContainer" type="VBoxContainer"]
+theme_override_constants/separation = 0
+script = ExtResource("1_p1acj")

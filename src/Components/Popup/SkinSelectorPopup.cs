@@ -9,149 +9,69 @@ namespace OsuSkinMixer.Components;
 
 public partial class SkinSelectorPopup : Popup
 {
-	public Action<OsuSkin> OnSelected { get; set; }
+    public Action<OsuSkin> OnSelected { get; set; }
 
-	private PackedScene SkinComponentScene;
+    private bool _isCompact;
 
-	private readonly List<SkinComponent> DisabledSkinComponents = new();
+    private Button BackButton;
+    private LineEdit SearchLineEdit;
+    private VBoxContainer SkinOptionsContainer;
+    private SkinComponentsContainer SkinComponentsContainer;
 
-	private bool _isCompact;
+    public override void _Ready()
+    {
+        base._Ready();
 
-	private Button BackButton;
-	private LineEdit SearchLineEdit;
-	private VBoxContainer SkinOptionsContainer;
-	private VBoxContainer SkinsContainer;
+        BackButton = GetNode<Button>("%BackButton");
+        SkinComponentsContainer = GetNode<SkinComponentsContainer>("%SkinComponentsContainer");
+        SkinOptionsContainer = GetNode<VBoxContainer>("%SkinOptionsContainer");
+        SearchLineEdit = GetNode<LineEdit>("%SearchLineEdit");
 
-	public override void _Ready()
-	{
-		base._Ready();
+        BackButton.Pressed += Out;
+        SkinComponentsContainer.SkinSelected += OnSkinSelected;
+        SearchLineEdit.TextChanged += OnSearchTextChanged;
+        SearchLineEdit.TextSubmitted += _ => OnSkinSelected(SkinComponentsContainer.BestMatch.Skin);
+
 		SetCompactFlag();
-
-		BackButton = GetNode<Button>("%BackButton");
-		SkinsContainer = GetNode<VBoxContainer>("%SkinComponentsContainer");
-		SkinOptionsContainer = GetNode<VBoxContainer>("%SkinOptionsContainer");
-		SearchLineEdit = GetNode<LineEdit>("%SearchLineEdit");
-
-		BackButton.Pressed += Out;
-		SearchLineEdit.TextChanged += OnSearchTextChanged;
-		SearchLineEdit.TextSubmitted += OnSearchTextSubmitted;
-
-		OsuData.SkinAdded += OnSkinAdded;
-		OsuData.SkinModified += OnSkinModified;
-		OsuData.SkinRemoved += OnSkinRemoved;
-
-		TreeExiting += () =>
-		{
-			OsuData.SkinAdded -= OnSkinAdded;
-			OsuData.SkinModified -= OnSkinModified;
-			OsuData.SkinRemoved -= OnSkinRemoved;
-		};
-
-		AddAllSkinComponents();
-	}
-
-	public override void In()
-	{
-		base.In();
-
-		if (Settings.Content.UseCompactSkinSelector != _isCompact)
-		{
-			SetCompactFlag();
-			AddAllSkinComponents();
-		}
-
-		SearchLineEdit.Clear();
-		SearchLineEdit.GrabFocus();
-	}
-
-	public void DisableSkinComponent(OsuSkin skin)
-	{
-		var skinComponent = GetExistingComponentFromSkin(skin);
-		skinComponent.Visible = false;
-		DisabledSkinComponents.Add(skinComponent);
-	}
-
-	public void EnableSkinComponent(OsuSkin skin)
-	{
-		var skinComponent = GetExistingComponentFromSkin(skin);
-		skinComponent.Visible = true;
-		DisabledSkinComponents.Remove(skinComponent);
-	}
-
-	private void SetCompactFlag()
-	{
-		_isCompact = Settings.Content.UseCompactSkinSelector;
-		SkinComponentScene = _isCompact
-			? GD.Load<PackedScene>("res://src/Components/SkinComponentCompact.tscn")
-			: GD.Load<PackedScene>("res://src/Components/SkinComponent.tscn");
-	}
-
-	private void AddAllSkinComponents()
-	{
-		foreach (var child in SkinsContainer.GetChildren())
-			child.QueueFree();
-
-		foreach (OsuSkin skin in OsuData.Skins)
-			SkinsContainer.AddChild(CreateSkinComponentFrom(skin));
-	}
-
-	private SkinComponent CreateSkinComponentFrom(OsuSkin skin)
-	{
-		SkinComponent instance = SkinComponentScene.Instantiate<SkinComponent>();
-		instance.Skin = skin;
-		instance.Name = skin.Name;
-		instance.Pressed += () => OnSkinSelected(skin);
-
-		return instance;
-	}
-
-	private SkinComponent GetExistingComponentFromSkin(OsuSkin skin)
-	{
-		return SkinsContainer
-			.GetChildren()
-			.Cast<SkinComponent>()
-			.FirstOrDefault(c => c.Skin.Name == skin.Name);
-	}
-
-	private void OnSkinAdded(OsuSkin skin)
-	{
-		var skinComponent = CreateSkinComponentFrom(skin);
-		SkinsContainer.AddChild(skinComponent);
-		SkinsContainer.MoveChild(skinComponent, Array.IndexOf(OsuData.Skins, skin));
-	}
-
-	private void OnSkinModified(OsuSkin skin)
-	{
-		var skinComponent = GetExistingComponentFromSkin(skin);
-		skinComponent.Skin = skin;
-		skinComponent.SetValues();
-	}
-
-	private void OnSkinRemoved(OsuSkin skin)
-	{
-		GetExistingComponentFromSkin(skin).QueueFree();
-	}
-
-	private void OnSkinSelected(OsuSkin skin)
-	{
-		OnSelected(skin);
-	}
-
-	private void OnSearchTextChanged(string text)
-	{
-		SkinOptionsContainer.Visible = string.IsNullOrWhiteSpace(text);
-
-		foreach (var component in SkinsContainer.GetChildren().Cast<SkinComponent>())
-        {
-            component.Visible = component.Name.ToString().Contains(text, StringComparison.OrdinalIgnoreCase)
-				&& !DisabledSkinComponents.Contains(component);
-        }
+        SkinComponentsContainer.InitialiseSkinComponents();
     }
 
-	private void OnSearchTextSubmitted(string text)
-	{
-		SkinComponent selectedComponent = SkinsContainer.GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Visible);
-		if (selectedComponent != null)
-			OnSkinSelected(selectedComponent.Skin);
-	}
+    public override void In()
+    {
+        base.In();
+
+        if (Settings.Content.UseCompactSkinSelector != _isCompact)
+            SetCompactFlag();
+
+        SearchLineEdit.Clear();
+        SearchLineEdit.GrabFocus();
+    }
+
+    public void DisableSkinComponent(OsuSkin skin)
+        => SkinComponentsContainer.DisableSkinComponent(skin);
+
+    public void EnableSkinComponent(OsuSkin skin)
+        => SkinComponentsContainer.EnableSkinComponent(skin);
+
+    private void SetCompactFlag()
+    {
+        _isCompact = Settings.Content.UseCompactSkinSelector;
+        SkinComponentsContainer.SkinComponentScene = _isCompact
+            ? GD.Load<PackedScene>("res://src/Components/SkinComponentCompact.tscn")
+            : GD.Load<PackedScene>("res://src/Components/SkinComponent.tscn");
+    }
+
+    private void OnSkinSelected(OsuSkin skin)
+    {
+        if (skin == null)
+            return;
+
+        OnSelected(skin);
+    }
+
+    private void OnSearchTextChanged(string text)
+    {
+        SkinOptionsContainer.Visible = string.IsNullOrWhiteSpace(text);
+        SkinComponentsContainer.FilterSkins(text);
+    }
 }
