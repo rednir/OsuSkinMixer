@@ -91,6 +91,9 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Text" parent="ManageSkinPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+text = "What would you like to do?"
+
 [node name="Title" parent="ManageSkinPopup/DeleteQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
 text = "Really delete?"
 
