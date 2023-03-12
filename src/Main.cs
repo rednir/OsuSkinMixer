@@ -22,10 +22,8 @@ public partial class Main : Control
 	private Button BackButton;
 	private Label TitleLabel;
 	private Button SettingsButton;
+	private Toast Toast;
 	private SettingsPopup SettingsPopup;
-	private AnimationPlayer ToastAnimationPlayer;
-	private Label ToastTextLabel;
-	private Button ToastCloseButton;
 	private Label VersionLabel;
 
 	private Stack<StackScene> SceneStack { get; } = new();
@@ -44,10 +42,8 @@ public partial class Main : Control
 		BackButton = GetNode<Button>("TopBar/HBoxContainer/BackButton");
 		TitleLabel = GetNode<Label>("TopBar/HBoxContainer/Title");
 		SettingsButton = GetNode<Button>("TopBar/HBoxContainer/SettingsButton");
+		Toast = GetNode<Toast>("Toast");
 		SettingsPopup = GetNode<SettingsPopup>("SettingsPopup");
-		ToastAnimationPlayer = GetNode<AnimationPlayer>("%ToastAnimationPlayer");
-		ToastTextLabel = GetNode<Label>("%ToastText");
-		ToastCloseButton = GetNode<Button>("%ToastClose");
 		VersionLabel = GetNode<Label>("%VersionLabel");
 
 		VersionLabel.Text = Settings.VERSION;
@@ -67,7 +63,7 @@ public partial class Main : Control
 					currentlyActiveScene.Visible = false;
 
 				PendingScene.ScenePushed += PushScene;
-				PendingScene.ToastPushed += PushToast;
+				PendingScene.ToastPushed += Toast.Push;
 				PendingScene.Visible = true;
 				SceneStack.Push(PendingScene);
 				ScenesContainer.AddChild(PendingScene);
@@ -80,20 +76,13 @@ public partial class Main : Control
 			TitleLabel.Text = SceneStack.Peek()?.Title ?? "osu! skin mixer";
 		};
 
-		ToastAnimationPlayer.AnimationFinished += (animationName) =>
-		{
-			if (animationName == "in")
-				ToastAnimationPlayer.Play("out");
-		};
-
-		ToastCloseButton.Pressed += () => ToastAnimationPlayer.Play("out");
 		BackButton.Pressed += PopScene;
 		SettingsButton.Pressed += SettingsPopup.In;
 
 		OsuData.AllSkinsLoaded += PopAllScenes;
-		OsuData.SkinAdded += s => PushToast($"Skin was created:\n{s.Name}");
-		OsuData.SkinModified += s => PushToast($"Skin was modified:\n{s.Name}");
-		OsuData.SkinRemoved += s => PushToast($"Skin was deleted:\n{s.Name}");
+		OsuData.SkinAdded += s => Toast.Push($"Skin was created:\n{s.Name}");
+		OsuData.SkinModified += s => Toast.Push($"Skin was modified:\n{s.Name}");
+		OsuData.SkinRemoved += s => Toast.Push($"Skin was deleted:\n{s.Name}");
 		OsuData.SkinInfoRequested += s =>
 		{
 			var instance = SkinInfoScene.Instantiate<SkinInfo>();
@@ -144,13 +133,6 @@ public partial class Main : Control
 		ScenesAnimationPlayer.Play("pop_out");
 	}
 
-	private void PushToast(string text)
-	{
-		ToastTextLabel.Text = text;
-		ToastAnimationPlayer.Stop();
-		ToastAnimationPlayer.Play("in");
-	}
-
 	private void CheckForUpdates()
 	{
 		var req = GetNode<HttpRequest>("HTTPRequest");
@@ -175,7 +157,7 @@ public partial class Main : Control
 		}
 		catch
 		{
-			PushToast("Failed to check for updates");
+			Toast.Push("Failed to check for updates");
 		}
 	}
 }
