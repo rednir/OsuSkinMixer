@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://l5lkphprcihd"]
 
 [ext_resource type="Script" path="res://src/Components/SkinComponent.cs" id="1_w8iv4"]
-[ext_resource type="PackedScene" path="res://src/Components/Osu/HitcircleIcon.tscn" id="2_6i15s"]
+[ext_resource type="PackedScene" uid="uid://dyarkbs87kwmf" path="res://src/Components/Osu/HitcircleIcon.tscn" id="2_6i15s"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="3_egut0"]
 [ext_resource type="Texture2D" uid="uid://cgnidqld7ff0p" path="res://assets/materialicons/visibility_off.png" id="4_d6l8n"]
 
@@ -30,9 +30,9 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
 [node name="SkinComponentSkinManager" type="HBoxContainer"]
-custom_minimum_size = Vector2(544, 72)
+custom_minimum_size = Vector2(544, 64)
 offset_right = 544.0
-offset_bottom = 72.0
+offset_bottom = 64.0
 theme = ExtResource("3_egut0")
 script = ExtResource("1_w8iv4")
 
@@ -50,15 +50,15 @@ unique_name_in_owner = true
 layout_mode = 2
 offset_left = 16.0
 offset_right = 58.0
-offset_bottom = 72.0
+offset_bottom = 64.0
 
 [node name="Name" type="Label" parent="Button"]
 unique_name_in_owner = true
 layout_mode = 2
 offset_left = 74.0
-offset_top = 16.0
+offset_top = 13.0
 offset_right = 440.0
-offset_bottom = 38.0
+offset_bottom = 35.0
 theme = ExtResource("3_egut0")
 text = "this is a very very very long placeholder skin name"
 text_overrun_behavior = 3
@@ -67,9 +67,9 @@ text_overrun_behavior = 3
 unique_name_in_owner = true
 layout_mode = 2
 offset_left = 74.0
-offset_top = 37.0
+offset_top = 34.0
 offset_right = 459.0
-offset_bottom = 59.0
+offset_bottom = 56.0
 theme = ExtResource("3_egut0")
 theme_override_colors/font_color = Color(0.792157, 0.768627, 0.815686, 1)
 theme_override_font_sizes/font_size = 14
@@ -77,10 +77,12 @@ text = "Unknown author"
 
 [node name="HiddenIcon" type="TextureRect" parent="Button"]
 unique_name_in_owner = true
+modulate = Color(0.972549, 0.882353, 1, 1)
 layout_mode = 2
-offset_left = 25.0
-offset_right = 49.0
-offset_bottom = 72.0
+offset_left = 35.0
+offset_top = 31.0
+offset_right = 59.0
+offset_bottom = 55.0
 tooltip_text = "This skin is hidden"
 texture = ExtResource("4_d6l8n")
 stretch_mode = 3
@@ -89,6 +91,6 @@ stretch_mode = 3
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 483.0
-offset_top = 11.0
+offset_top = 8.0
 offset_right = 531.0
-offset_bottom = 59.0
+offset_bottom = 56.0
