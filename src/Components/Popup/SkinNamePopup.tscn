@@ -25,7 +25,8 @@ offset_bottom = -0.000183105
 [node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Name your new skin"
 label_settings = ExtResource("3_7htho")

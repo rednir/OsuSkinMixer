@@ -20,6 +20,7 @@ public partial class SkinNamePopup : Popup
 		set => LineEdit.Text = value;
 	}
 
+	private Label TitleLabel;
 	private Label WarningLabel;
 	private LineEdit LineEdit;
 	private Button ConfirmButton;
@@ -28,6 +29,7 @@ public partial class SkinNamePopup : Popup
 	{
 		base._Ready();
 
+		TitleLabel = GetNode<Label>("%TitleLabel");
 		WarningLabel = GetNode<Label>("%WarningLabel");
 		LineEdit = GetNode<LineEdit>("%LineEdit");
 		ConfirmButton = GetNode<Button>("%ConfirmButton");
@@ -47,6 +49,7 @@ public partial class SkinNamePopup : Popup
 	public override void In()
 	{
 		base.In();
+		TitleLabel.Text = SuffixMode ? "Choose a suffix for the new skins" : "Name your new skin";
 		LineEdit.GrabFocus();
 		LineEdit.SelectAll();
 		OnTextChanged(LineEdit.Text);
