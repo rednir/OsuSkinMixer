@@ -1,6 +1,7 @@
 using System;
 using Godot;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Components;
 
@@ -58,8 +59,18 @@ public partial class SkinComponent : HBoxContainer
     }
 
     private void OnButtonPressed()
-        => Pressed.Invoke();
+    {
+        if (Pressed == null)
+        {
+            OsuData.RequestSkinInfo(new OsuSkin[] { Skin });
+            return;
+        }
+
+        Pressed();
+    }
 
     private void OnCheckBoxToggled(bool value)
-        => Checked.Invoke(value);
+    {
+        Checked?.Invoke(value);
+    }
 }

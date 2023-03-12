@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Godot;
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -22,7 +23,7 @@ public partial class SkinModifierSkinSelect : StackScene
 	public override void _Ready()
 	{
 		SkinModifierModificationSelectScene = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierModificationSelect.tscn");
-		SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinComponent.tscn");
+		SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinComponentSkinManager.tscn");
 
 		SkinsToModifyContainer = GetNode<VBoxContainer>("%SkinsToModifyContainer");
 		AddSkinToModifyButton = GetNode<Button>("%AddSkinToModifyButton");
@@ -58,8 +59,14 @@ public partial class SkinModifierSkinSelect : StackScene
 
 		var component = SkinComponentScene.Instantiate<SkinComponent>();
 		component.Skin = skin;
-		component.Pressed += () =>
+		SkinsToModifyContainer.AddChild(component);
+		component.SetChecked(true);
+
+		component.Checked += c =>
 		{
+			if (c)
+				return;
+
 			SkinSelectorPopup.EnableSkinComponent(skin);
 
 			SkinsToModify.Remove(skin);
@@ -68,7 +75,6 @@ public partial class SkinModifierSkinSelect : StackScene
 			if (SkinsToModify.Count == 0)
 				ContinueButton.Disabled = true;
 		};
-		SkinsToModifyContainer.AddChild(component);
 
 		ContinueButton.Disabled = false;
 	}

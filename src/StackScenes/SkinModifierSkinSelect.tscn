@@ -31,7 +31,7 @@ text = "Skins to modify:"
 [node name="SkinsToModifyContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 8
 
 [node name="AddSkinToModifyButton" parent="PanelContainer/VBoxContainer" instance=ExtResource("3_j0wcv")]
 unique_name_in_owner = true
