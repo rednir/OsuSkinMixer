@@ -102,13 +102,18 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnDuplicateSkinNameConfirmed(string value)
 	{
+		double progress = 0;
 		OsuData.SweepPaused = true;
 		LoadingPopup.In();
 
 		Task.Run(() =>
 		{
 			foreach (OsuSkin skin in _skins)
+			{
 				DuplicateSingleSkin(skin, SkinNamePopup.SuffixMode ? skin.Name + value : value);
+				progress += 100.0 / _skins.Length;
+				LoadingPopup.SetProgress(progress);
+			}
 		})
 		.ContinueWith(t =>
 		{
@@ -143,6 +148,7 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnDeleteConfirmed()
 	{
+		double progress = 0;
 		OsuData.SweepPaused = true;
 		LoadingPopup.In();
 
@@ -153,6 +159,8 @@ public partial class ManageSkinPopup : Popup
 				Settings.Log($"Deleting skin: {skin.Name}");
 				skin.Directory.Delete(true);
 				OsuData.RemoveSkin(skin);
+				progress += 100.0 / _skins.Length;
+				LoadingPopup.SetProgress(progress);
 			}
 		})
 		.ContinueWith(t =>
