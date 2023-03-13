@@ -4,6 +4,7 @@ using OsuSkinMixer.Statics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,6 +19,7 @@ public partial class ManageSkinPopup : Popup
 	private Label TitleLabel;
 	private Button ModifyButton;
 	private Button HideButton;
+	private Button ExportButton;
 	private Button DuplicateButton;
 	private Button DeleteButton;
 
@@ -34,6 +36,7 @@ public partial class ManageSkinPopup : Popup
 		TitleLabel = GetNode<Label>("%Title");
 		ModifyButton = GetNode<Button>("%ModifyButton");
 		HideButton = GetNode<Button>("%HideButton");
+		ExportButton = GetNode<Button>("%ExportButton");
 		DuplicateButton = GetNode<Button>("%DuplicateButton");
 		DeleteButton = GetNode<Button>("%DeleteButton");
 
@@ -41,6 +44,7 @@ public partial class ManageSkinPopup : Popup
 		SkinNamePopup.ConfirmAction = OnDuplicateSkinNameConfirmed;
 		ModifyButton.Pressed += OnModifyButtonPressed;
 		HideButton.Pressed += OnHideButtonPressed;
+		ExportButton.Pressed += OnExportButtonPressed;
 		DuplicateButton.Pressed += OnDuplicateButtonPressed;
 		DeleteButton.Pressed += OnDeleteButtonPressed;
 	}
@@ -78,6 +82,45 @@ public partial class ManageSkinPopup : Popup
 		}
 
 		Out();
+	}
+
+	private void OnExportButtonPressed()
+	{
+		double progress = 0;
+		string destPath = Path.Combine(Settings.Content.OsuFolder, "Exports");
+		OsuData.SweepPaused = true;
+		LoadingPopup.In();
+
+		Task.Run(() =>
+		{
+			Directory.CreateDirectory(destPath);
+			foreach (var skin in _skins)
+			{
+				ZipFile.CreateFromDirectory(
+						Path.Combine(Settings.SkinsFolderPath, skin.Name),
+						Path.Combine(Settings.Content.OsuFolder, "Exports", $"{skin.Name}.osk")
+				);
+
+				progress += 100.0 / _skins.Length;
+				LoadingPopup.SetProgress(progress);
+			}
+		})
+		.ContinueWith(t =>
+		{
+			OsuData.SweepPaused = false;
+			LoadingPopup.Out();
+			Out();
+
+			if (t.IsFaulted)
+			{
+				GD.PrintErr(t.Exception);
+				OS.Alert("Failed to export skins. Please report this issue with logs.", "Error");
+			}
+			else
+			{
+				OS.ShellOpen(destPath);
+			}
+		});
 	}
 
 	private void OnDuplicateButtonPressed()
