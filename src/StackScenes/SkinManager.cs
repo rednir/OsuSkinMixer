@@ -37,6 +37,7 @@ public partial class SkinManager : StackScene
 			? GD.Load<PackedScene>("res://src/Components/SkinComponentCompact.tscn")
 			: GD.Load<PackedScene>("res://src/Components/SkinComponentSkinManager.tscn");
 
+		SkinComponentsContainer.CheckableComponents = true;
 		SkinComponentsContainer.SkinSelected += OnSkinSelected;
 		SkinComponentsContainer.SkinChecked += OnSkinChecked;
 		SkinComponentsContainer.InitialiseSkinComponents();

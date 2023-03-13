@@ -13,6 +13,8 @@ public partial class SkinComponentsContainer : VBoxContainer
 
 	public Action<OsuSkin, bool> SkinChecked { get; set; }
 
+	public bool CheckableComponents { get; set; }
+
 	public SkinComponent BestMatch => GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Visible);
 
 	public IEnumerable<SkinComponent> VisibleComponents => GetChildren().Cast<SkinComponent>().Where(c => c.Visible);
@@ -101,6 +103,7 @@ public partial class SkinComponentsContainer : VBoxContainer
 		SkinComponent instance = SkinComponentScene.Instantiate<SkinComponent>();
 		instance.Skin = skin;
 		instance.Name = skin.Name;
+		instance.CheckBoxVisible = CheckableComponents;
 		instance.Pressed += () => SkinSelected(skin);
 		instance.Checked += p => SkinChecked(skin, p);
 

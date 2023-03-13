@@ -23,6 +23,19 @@ public partial class SkinComponent : HBoxContainer
         }
     }
 
+    public bool CheckBoxVisible
+    {
+        get => visibleCheckBox;
+        set
+        {
+            visibleCheckBox = value;
+            if (CheckBox != null)
+                CheckBox.Visible = value;
+        }
+    }
+
+    private bool visibleCheckBox;
+
     private Button Button;
     private Label NameLabel;
     private Label AuthorLabel;
@@ -53,6 +66,7 @@ public partial class SkinComponent : HBoxContainer
         NameLabel.Text = Skin.Name;
         Button.TooltipText = Skin.Name;
         HiddenIcon.Visible = Skin.Hidden;
+        CheckBox.Visible = CheckBoxVisible;
 
         // Compact components don't have these nodes.
         if (AuthorLabel != null && HitcircleIcon != null)

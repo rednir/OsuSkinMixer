@@ -59,6 +59,8 @@ public partial class SkinModifierSkinSelect : StackScene
 
 		var component = SkinComponentScene.Instantiate<SkinComponent>();
 		component.Skin = skin;
+		component.Visible = true;
+		component.CheckBoxVisible = true;
 		SkinsToModifyContainer.AddChild(component);
 		component.IsChecked = true;
 
