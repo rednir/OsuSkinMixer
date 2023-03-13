@@ -8,6 +8,10 @@ using OsuSkinMixer.Models;
 
 namespace OsuSkinMixer.Statics;
 
+/// <summary>
+/// A static class that provides other objects with the user's osu! data, such as their list of skins.
+/// However, this class will never peform write operations in the user's osu! folder.
+/// </summary>
 public static class OsuData
 {
     private const int SWEEP_INTERVAL_MSEC = 1500;
