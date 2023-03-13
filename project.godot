@@ -24,7 +24,7 @@ config/icon="res://icon.png"
 [display]
 
 window/size/viewport_width=750
-window/size/viewport_height=450
+window/size/viewport_height=500
 window/energy_saving/keep_screen_on=false
 window/dpi/allow_hidpi=false
 window/subwindows/embed_subwindows=false
