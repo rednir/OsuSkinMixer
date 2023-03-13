@@ -95,32 +95,21 @@ public static class OsuData
         SkinModifyRequested?.Invoke(skins);
     }
 
-    public static void ToggleSkinsHiddenState(IEnumerable<OsuSkin> skins)
-    {
-        foreach (var skin in skins)
-            ToggleSkinsHiddenState(skin);
-    }
-
-    public static void ToggleSkinsHiddenState(OsuSkin skin)
+    public static Task RunIOTask(Action action)
     {
         SweepPaused = true;
-        Directory.CreateDirectory(Settings.HiddenSkinsFolderPath);
 
-        if (skin.Hidden)
-        {
-            Settings.Log($"Hiding skin: {skin.Name}");
-            skin.Directory.MoveTo(Path.Combine(Settings.SkinsFolderPath, skin.Name));
-            skin.Hidden = false;
-        }
-        else
-        {
-            Settings.Log($"Unhiding skin: {skin.Name}");
-            skin.Directory.MoveTo(Path.Combine(Settings.HiddenSkinsFolderPath, skin.Name));
-            skin.Hidden = true;
-        }
+        return Task.Run(() => Task.Run(() => action()))
+            .ContinueWith(t =>
+            {
+                SweepPaused = false;
 
-        SkinModified?.Invoke(skin);
-        SweepPaused = false;
+                if (t.IsFaulted)
+                {
+                    GD.PrintErr(t.Exception);
+                    OS.Alert($"{t.Exception.Message}\n\nPlease report this error with logs.", "Error");
+                }
+            });
     }
 
     private static void LoadSkinsFromDirectory(DirectoryInfo directoryInfo, bool hidden)

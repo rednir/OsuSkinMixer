@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace OsuSkinMixer.Components;
 
@@ -70,26 +69,36 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnHideButtonPressed()
 	{
-		try
+		OsuData.RunIOTask(() =>
 		{
-			OsuData.ToggleSkinsHiddenState(_skins);
-		}
-		catch (Exception ex)
-		{
-			GD.PrintErr(ex);
-			OS.Alert("Failed to hide/unhide skin. Please report this issue with logs.", "Error");
-		}
+			Directory.CreateDirectory(Settings.HiddenSkinsFolderPath);
+			foreach (var skin in _skins)
+			{
+				if (skin.Hidden)
+				{
+					Settings.Log($"Hiding skin: {skin.Name}");
+					skin.Directory.MoveTo(Path.Combine(Settings.SkinsFolderPath, skin.Name));
+					skin.Hidden = false;
+				}
+				else
+				{
+					Settings.Log($"Unhiding skin: {skin.Name}");
+					skin.Directory.MoveTo(Path.Combine(Settings.HiddenSkinsFolderPath, skin.Name));
+					skin.Hidden = true;
+				}
 
-		Out();
+				OsuData.InvokeSkinModified(skin);
+			}
+		})
+		.ContinueWith(_ => Out());
 	}
 
 	private void OnExportButtonPressed()
 	{
 		string exportFolderPath = Path.Combine(Settings.Content.OsuFolder, "Exports");
-		OsuData.SweepPaused = true;
 		LoadingPopup.In();
 
-		Task.Run(() =>
+		OsuData.RunIOTask(() =>
 		{
 			Directory.CreateDirectory(exportFolderPath);
 
@@ -102,22 +111,13 @@ public partial class ManageSkinPopup : Popup
 				ZipFile.CreateFromDirectory(Path.Combine(Settings.SkinsFolderPath, skin.Name), destPath);
 				LoadingPopup.Progress += 100.0 / _skins.Length;
 			}
+
+			Tools.ShellOpenFile(exportFolderPath);
 		})
-		.ContinueWith(t =>
+		.ContinueWith(_ =>
 		{
-			OsuData.SweepPaused = false;
 			LoadingPopup.Out();
 			Out();
-
-			if (t.IsFaulted)
-			{
-				GD.PrintErr(t.Exception);
-				OS.Alert("Failed to export skins. Please report this issue with logs.", "Error");
-			}
-			else
-			{
-				Tools.ShellOpenFile(exportFolderPath);
-			}
 		});
 	}
 
@@ -141,35 +141,24 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnDuplicateSkinNameConfirmed(string value)
 	{
-		OsuData.SweepPaused = true;
 		LoadingPopup.In();
-
 		List<OsuSkin> newSkins = new();
 
-		Task.Run(() =>
+		OsuData.RunIOTask(() =>
 		{
 			foreach (OsuSkin skin in _skins)
 			{
 				newSkins.Add(DuplicateSingleSkin(skin, SkinNamePopup.SuffixMode ? skin.Name + value : value));
 				LoadingPopup.Progress += 100.0 / _skins.Length;
 			}
+
+			OsuData.RequestSkinInfo(newSkins);
 		})
-		.ContinueWith(t =>
+		.ContinueWith(_ =>
 		{
-			OsuData.SweepPaused = false;
 			LoadingPopup.Out();
 			SkinNamePopup.Out();
 			Out();
-
-			if (t.IsFaulted)
-			{
-				GD.PrintErr(t.Exception);
-				OS.Alert("Failed to duplicate skins. Please report this issue with logs.", "Error");
-			}
-			else
-			{
-				OsuData.RequestSkinInfo(newSkins);
-			}
 		});
 	}
 
@@ -188,10 +177,9 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnDeleteConfirmed()
 	{
-		OsuData.SweepPaused = true;
 		LoadingPopup.In();
 
-		Task.Run(() =>
+		OsuData.RunIOTask(() =>
 		{
 			foreach (OsuSkin skin in _skins)
 			{
@@ -201,17 +189,10 @@ public partial class ManageSkinPopup : Popup
 				LoadingPopup.Progress += 100.0 / _skins.Length;
 			}
 		})
-		.ContinueWith(t =>
+		.ContinueWith(_ =>
 		{
-			OsuData.SweepPaused = false;
 			LoadingPopup.Out();
 			Out();
-
-			if (t.IsFaulted)
-			{
-				GD.PrintErr(t.Exception);
-				OS.Alert("Failed to delete skins. Please report this issue with logs.", "Error");
-			}
 		});
 	}
 }
