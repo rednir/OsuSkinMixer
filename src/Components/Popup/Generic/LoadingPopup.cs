@@ -11,6 +11,30 @@ public partial class LoadingPopup : Popup
 
 	public double DisableCancelAt { get; set; } = 100;
 
+	public double Progress
+	{
+		get => ProgressBar.Value;
+		set
+		{
+			CancelButton.Disabled = value >= DisableCancelAt;
+
+			if (value <= 0 || value >= 100)
+			{
+				if (value >= 100)
+					LoadingAnimationPlayer.Play("finish");
+
+				LoadingAnimationPlayer.Queue("unknown");
+				return;
+			}
+			else if (LoadingAnimationPlayer.PlaybackActive)
+			{
+				LoadingAnimationPlayer.Stop();
+			}
+
+			ProgressBar.Value = value;
+		}
+	}
+
 	private AnimationPlayer LoadingAnimationPlayer;
 	private ProgressBar ProgressBar;
 	private Button CancelButton;
@@ -25,35 +49,15 @@ public partial class LoadingPopup : Popup
 		CancelButton.Pressed += OnCancelButtonPressed;
 	}
 
-	public void SetProgress(double progress)
-	{
-		CancelButton.Disabled = progress >= DisableCancelAt;
-
-		if (progress <= 0 || progress >= 100)
-		{
-			if (progress >= 100)
-				LoadingAnimationPlayer.Play("finish");
-
-			LoadingAnimationPlayer.Queue("unknown");
-			return;
-		}
-		else if (LoadingAnimationPlayer.PlaybackActive)
-		{
-			LoadingAnimationPlayer.Stop();
-		}
-
-		ProgressBar.Value = progress;
-	}
-
 	public override void In()
 	{
-		SetProgress(0);
+		Progress = 0;
 		base.In();
 	}
 
 	private void OnCancelButtonPressed()
 	{
-		SetProgress(100);
+		Progress = 0;
 		CancelAction();
 	}
 }

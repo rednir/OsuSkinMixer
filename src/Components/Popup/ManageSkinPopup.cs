@@ -86,7 +86,6 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnExportButtonPressed()
 	{
-		double progress = 0;
 		string exportFolderPath = Path.Combine(Settings.Content.OsuFolder, "Exports");
 		OsuData.SweepPaused = true;
 		LoadingPopup.In();
@@ -102,8 +101,7 @@ public partial class ManageSkinPopup : Popup
 					File.Delete(destPath);
 
 				ZipFile.CreateFromDirectory(Path.Combine(Settings.SkinsFolderPath, skin.Name), destPath);
-				progress += 100.0 / _skins.Length;
-				LoadingPopup.SetProgress(progress);
+				LoadingPopup.Progress += 100.0 / _skins.Length;
 			}
 		})
 		.ContinueWith(t =>
@@ -144,7 +142,6 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnDuplicateSkinNameConfirmed(string value)
 	{
-		double progress = 0;
 		OsuData.SweepPaused = true;
 		LoadingPopup.In();
 
@@ -155,8 +152,7 @@ public partial class ManageSkinPopup : Popup
 			foreach (OsuSkin skin in _skins)
 			{
 				newSkins.Add(DuplicateSingleSkin(skin, SkinNamePopup.SuffixMode ? skin.Name + value : value));
-				progress += 100.0 / _skins.Length;
-				LoadingPopup.SetProgress(progress);
+				LoadingPopup.Progress += 100.0 / _skins.Length;
 			}
 		})
 		.ContinueWith(t =>
@@ -193,7 +189,6 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnDeleteConfirmed()
 	{
-		double progress = 0;
 		OsuData.SweepPaused = true;
 		LoadingPopup.In();
 
@@ -204,8 +199,7 @@ public partial class ManageSkinPopup : Popup
 				Settings.Log($"Deleting skin: {skin.Name}");
 				skin.Directory.Delete(true);
 				OsuData.RemoveSkin(skin);
-				progress += 100.0 / _skins.Length;
-				LoadingPopup.SetProgress(progress);
+				LoadingPopup.Progress += 100.0 / _skins.Length;
 			}
 		})
 		.ContinueWith(t =>

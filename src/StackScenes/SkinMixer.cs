@@ -61,7 +61,7 @@ public partial class SkinMixer : StackScene
 		{
 			NewSkinName = skinName,
 			SkinOptions = SkinOptionsSelector.SkinOptions,
-			ProgressChanged = LoadingPopup.SetProgress,
+			ProgressChanged = v => LoadingPopup.Progress = v,
 		};
 
 		CancellationTokenSource = new CancellationTokenSource();

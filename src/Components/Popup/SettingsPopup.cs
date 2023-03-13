@@ -81,7 +81,7 @@ public partial class SettingsPopup : Popup
 					t.Result.Dispose();
 					fileStream.Dispose();
 
-					UpdateLoadingPopup.SetProgress(100);
+					UpdateLoadingPopup.Progress = 100;
 					Process.Start(installerPath, "/silent");
 				}
 				catch (Exception ex)

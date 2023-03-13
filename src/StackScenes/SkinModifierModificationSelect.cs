@@ -60,7 +60,7 @@ public partial class SkinModifierModificationSelect : StackScene
 		SkinModifierMachine machine = new()
 		{
 			SkinOptions = SkinOptionsSelector.SkinOptions,
-			ProgressChanged = LoadingPopup.SetProgress,
+			ProgressChanged = v => LoadingPopup.Progress = v,
 			SkinsToModify = SkinsToModify,
 			SmoothTrail = SmoothTrailButton.ButtonPressed,
 			Instafade = InstafadeButton.ButtonPressed,
