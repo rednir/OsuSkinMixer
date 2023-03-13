@@ -127,6 +127,12 @@ public class SkinModifierMachine : SkinMachine
             }
         }
 
+        if (minX == width || minY == height || maxX == 0 || maxY == 0)
+        {
+            Settings.Log("Cursor trail image is empty, skipping smooth trail option.");
+            return;
+        }
+
         cursorTrail.Mutate(ctx => ctx.Crop(new Rectangle(minX, minY, maxX - minX + 1, maxY - minY + 1)));
         cursorTrail.Save(cursorTrailPath);
         cursorTrail.Dispose();
