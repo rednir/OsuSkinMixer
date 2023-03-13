@@ -21,6 +21,7 @@ bg_color = Color(0.996078, 0.996078, 0.996078, 0.0588235)
 custom_minimum_size = Vector2(544, 72)
 offset_right = 40.0
 offset_bottom = 40.0
+theme = ExtResource("3_adour")
 script = ExtResource("1_7h4pf")
 
 [node name="Button" type="Button" parent="."]
@@ -61,6 +62,14 @@ theme = ExtResource("3_adour")
 theme_override_colors/font_color = Color(0.792157, 0.768627, 0.815686, 1)
 theme_override_font_sizes/font_size = 14
 text = "Unknown author"
+
+[node name="CheckBox" type="CheckBox" parent="Button"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 442.0
+offset_top = 13.0
+offset_right = 490.0
+offset_bottom = 61.0
 
 [node name="HiddenIcon" type="TextureRect" parent="Button"]
 unique_name_in_owner = true
