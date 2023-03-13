@@ -85,8 +85,9 @@ public class OsuSkinIni
 
             var section = Sections.Last();
 
-            // Replace already existing keys.
-            section.Remove(keyAndValue[0]);
+            // Ignore duplicate keys, prefer the one first defined.
+            if (section.ContainsKey(keyAndValue[0]))
+                return;
 
             section.Add(keyAndValue[0], keyAndValue[1]);
         }
