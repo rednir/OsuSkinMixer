@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Godot;
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -32,7 +33,10 @@ public partial class SkinManager : StackScene
 		SkinComponentsContainer = GetNode<SkinComponentsContainer>("%SkinComponentsContainer");
 		ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
-		SkinComponentsContainer.SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinComponentSkinManager.tscn");
+		SkinComponentsContainer.SkinComponentScene = Settings.Content.UseCompactSkinSelector
+			? GD.Load<PackedScene>("res://src/Components/SkinComponentCompact.tscn")
+			: GD.Load<PackedScene>("res://src/Components/SkinComponentSkinManager.tscn");
+
 		SkinComponentsContainer.SkinSelected += OnSkinSelected;
 		SkinComponentsContainer.SkinChecked += OnSkinChecked;
 		SkinComponentsContainer.InitialiseSkinComponents();
