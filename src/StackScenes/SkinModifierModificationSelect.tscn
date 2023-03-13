@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://src/StackScenes/SkinModifierModificationSelect.cs" id="2_je2sr"]
 [ext_resource type="PackedScene" uid="uid://4a2d561f0p72" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.tscn" id="3_4hx6p"]
 [ext_resource type="PackedScene" uid="uid://r28lp1qj0ucs" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="3_dgftf"]
-[ext_resource type="PackedScene" uid="uid://bncwf73sgcemr" path="res://src/Components/SkinComponent.tscn" id="4_3gkpc"]
+[ext_resource type="PackedScene" uid="uid://l5lkphprcihd" path="res://src/Components/SkinComponentSkinManager.tscn" id="4_fdpti"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="4_qbo2l"]
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="5_clcj8"]
 [ext_resource type="Texture2D" uid="uid://cvpikgocffedt" path="res://assets/materialicons/done.png" id="7_mb77d"]
@@ -23,40 +23,56 @@ script = ExtResource("2_je2sr")
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="SkinOptionsContainer" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="2"]
+[node name="CanvasLayer" parent="SkinOptionsSelector/SkinSelectorPopup/Popup" index="1"]
 visible = true
 
-[node name="DefaultSkinComponent" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer" index="0" instance=ExtResource("4_3gkpc")]
+[node name="SkinOptionsContainer" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer" index="0"]
+visible = true
+
+[node name="DefaultSkinComponent" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer" index="0" instance=ExtResource("4_fdpti")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HitcircleTexture" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon" index="2"]
+[node name="HitcircleTexture" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon" index="2"]
 modulate = Color(0, 0.823529, 0, 1)
 
-[node name="Name" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="1"]
+[node name="Name" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="1"]
 text = "Default skin"
 
-[node name="Author" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="2"]
+[node name="Author" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="2"]
 text = "osu!"
 
-[node name="HiddenIcon" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="3"]
+[node name="HiddenIcon" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="3"]
 visible = false
 
-[node name="BlankComponent" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer" index="1" instance=ExtResource("4_3gkpc")]
+[node name="CheckBox" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="4"]
+visible = false
+
+[node name="BlankComponent" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer" index="1" instance=ExtResource("4_fdpti")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HitcircleIcon" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="0"]
+[node name="HitcircleoverlayTexture" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon" index="1"]
 visible = false
 
-[node name="Name" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="1"]
+[node name="HitcircleTexture" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon" index="2"]
+modulate = Color(0.183021, 0.145438, 0.172777, 1)
+
+[node name="Default1Texture" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon" index="3"]
+visible = false
+
+[node name="Name" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="1"]
 text = "Blank"
 
-[node name="Author" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="2"]
-text = "(use an empty file for this skin element)"
+[node name="Author" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="2"]
+text = "Select this to use an empty file for this skin element."
 
-[node name="HSeparator" type="HSeparator" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer" index="2"]
+[node name="CheckBox" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="4"]
+visible = false
+
+[node name="HSeparator" type="HSeparator" parent="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer" index="2"]
 layout_mode = 2
+theme_override_constants/separation = 24
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -118,10 +134,10 @@ visible = true
 [editable path="SkinOptionsSelector"]
 [editable path="SkinOptionsSelector/SkinSelectorPopup"]
 [editable path="SkinOptionsSelector/SkinSelectorPopup/Popup"]
-[editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent"]
-[editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon"]
-[editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent"]
-[editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon"]
+[editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent"]
+[editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon"]
+[editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent"]
+[editable path="SkinOptionsSelector/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon"]
 [editable path="ExtraOptionsPopup"]
 [editable path="ExtraOptionsPopup/Popup"]
 [editable path="LoadingPopup"]

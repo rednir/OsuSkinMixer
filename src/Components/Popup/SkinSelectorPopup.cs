@@ -58,7 +58,7 @@ public partial class SkinSelectorPopup : Popup
         _isCompact = Settings.Content.UseCompactSkinSelector;
         SkinComponentsContainer.SkinComponentScene = _isCompact
             ? GD.Load<PackedScene>("res://src/Components/SkinComponentCompact.tscn")
-            : GD.Load<PackedScene>("res://src/Components/SkinComponent.tscn");
+            : GD.Load<PackedScene>("res://src/Components/SkinComponentSkinManager.tscn");
     }
 
     private void OnSkinSelected(OsuSkin skin)

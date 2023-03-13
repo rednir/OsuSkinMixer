@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://md4n10t0o7i4"]
+[gd_scene load_steps=12 format=3 uid="uid://md4n10t0o7i4"]
 
 [ext_resource type="Script" path="res://src/Components/Popup/SkinSelectorPopup.cs" id="1_5b4pt"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="1_jm6w5"]
@@ -28,6 +28,12 @@ content_margin_right = 4.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_apwiq"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s5se2"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+
 [node name="SkinSelectorPopup" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -41,7 +47,7 @@ script = ExtResource("1_5b4pt")
 layout_mode = 1
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
-offset_bottom = 0.00012207
+offset_bottom = 0.000244141
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -53,21 +59,21 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_sfgka")
 layout_mode = 2
 theme_override_constants/separation = -1
 
-[node name="PanelContainer" type="PanelContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="TopPanelContainer" type="PanelContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ftm2n")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/TopPanelContainer"]
 custom_minimum_size = Vector2(2.08165e-12, 56)
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="BackButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/PanelContainer/HBoxContainer" instance=ExtResource("3_rw0cv")]
+[node name="BackButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/TopPanelContainer/HBoxContainer" instance=ExtResource("3_rw0cv")]
 unique_name_in_owner = true
 layout_mode = 2
 icon = ExtResource("4_oc0m3")
 
-[node name="SearchLineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="SearchLineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/TopPanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(2.08165e-12, 56)
 layout_mode = 2
@@ -82,13 +88,21 @@ flat = true
 [node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="SkinOptionsContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="BottomPanelContainer" type="PanelContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_s5se2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="SkinOptionsContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="SkinComponentsContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("5_adbym")]
+[node name="SkinComponentsContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer" instance=ExtResource("5_adbym")]
 unique_name_in_owner = true
 layout_mode = 2
 
