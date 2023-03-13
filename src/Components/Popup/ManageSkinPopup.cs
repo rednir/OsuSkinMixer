@@ -12,7 +12,6 @@ namespace OsuSkinMixer.Components;
 
 public partial class ManageSkinPopup : Popup
 {
-
 	private QuestionPopup DeleteQuestionPopup;
 	private SkinNamePopup SkinNamePopup;
 	private LoadingPopup LoadingPopup;
