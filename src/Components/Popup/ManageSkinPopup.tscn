@@ -1,12 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://ce6pfh8ys6arg"]
+[gd_scene load_steps=12 format=3 uid="uid://ce6pfh8ys6arg"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_t014q"]
 [ext_resource type="Script" path="res://src/Components/Popup/ManageSkinPopup.cs" id="2_fl3js"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="3_iiyw2"]
-[ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="4_j2fsb"]
-[ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="5_iav3h"]
-[ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="5_tgksf"]
-[ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="5_uoyka"]
+[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="4_2lqt4"]
+[ext_resource type="PackedScene" uid="uid://busp308wwxdtn" path="res://src/Components/Buttons/NavButton.tscn" id="5_30rci"]
+[ext_resource type="Texture2D" uid="uid://bmgwj72vb4hvh" path="res://assets/materialicons/edit.png" id="6_fci5o"]
+[ext_resource type="Texture2D" uid="uid://cmpmpilvgo6ar" path="res://assets/materialicons/visibility.png" id="7_4lse7"]
+[ext_resource type="Texture2D" uid="uid://j2txuiukkqrh" path="res://assets/materialicons/content_copy.png" id="8_6g7oc"]
 [ext_resource type="PackedScene" uid="uid://7805vr243ofu" path="res://src/Components/Popup/Generic/QuestionPopup.tscn" id="9_4k8fj"]
 [ext_resource type="PackedScene" uid="uid://c3t32td5tieq" path="res://src/Components/Popup/SkinNamePopup.tscn" id="9_k23o4"]
 [ext_resource type="PackedScene" uid="uid://r28lp1qj0ucs" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="10_dhcff"]
@@ -35,51 +36,46 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 text = "very very very very very long skin name"
-label_settings = ExtResource("4_j2fsb")
+label_settings = ExtResource("4_2lqt4")
 autowrap_mode = 3
 
-[node name="Text" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(2.08165e-12, 80)
+[node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "What would you like to do with this skin?"
-label_settings = ExtResource("5_iav3h")
-autowrap_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="ButtonsContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 10
-alignment = 2
+theme_override_constants/separation = 0
 
-[node name="HideButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_uoyka")]
+[node name="ModifyButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/ButtonsContainer" instance=ExtResource("5_30rci")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 10
-text = "Hide from osu!"
+text = "    Open in Skin Modifier"
+icon = ExtResource("6_fci5o")
 
-[node name="ModifyButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_uoyka")]
+[node name="HideButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/ButtonsContainer" instance=ExtResource("5_30rci")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 10
-text = "Modify
-"
+text = "    Hide from osu!"
+icon = ExtResource("7_4lse7")
 
-[node name="DuplicateButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_uoyka")]
+[node name="DuplicateButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/ButtonsContainer" instance=ExtResource("5_30rci")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 10
-text = "Duplicate"
+text = "    Duplicate"
+icon = ExtResource("8_6g7oc")
 
-[node name="DeleteButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_tgksf")]
+[node name="DeleteButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/ButtonsContainer" instance=ExtResource("5_30rci")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Delete"
+text = "    Delete permanently"
 
 [node name="DeleteQuestionPopup" parent="." instance=ExtResource("9_4k8fj")]
 unique_name_in_owner = true
-layout_mode = 1
+layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 352.0
 
 [node name="ScrollContainer" parent="DeleteQuestionPopup/Popup/CanvasLayer" index="1"]
 offset_bottom = 6.10352e-05

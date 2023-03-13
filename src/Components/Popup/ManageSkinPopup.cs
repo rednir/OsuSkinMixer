@@ -49,14 +49,14 @@ public partial class ManageSkinPopup : Popup
 	{
 		_skins = new OsuSkin[] { skin };
 		TitleLabel.Text = skin.Name;
-		HideButton.Text = skin.Hidden ? "Unhide from osu!" : "Hide from osu!";
+		HideButton.Text = skin.Hidden ? "    Unhide from osu!" : "    Hide from osu!";
 	}
 
 	public void SetSkins(IEnumerable<OsuSkin> skins)
 	{
 		_skins = skins.ToArray();
-		TitleLabel.Text = $"{_skins.Length} skins selected.";
-		HideButton.Text = "Toggle hidden state";
+		TitleLabel.Text = $"{_skins.Length} skins selected";
+		HideButton.Text = "    Toggle hidden state";
 	}
 
 	private void OnModifyButtonPressed()
