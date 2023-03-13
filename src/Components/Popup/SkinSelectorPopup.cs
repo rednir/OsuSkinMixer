@@ -30,7 +30,7 @@ public partial class SkinSelectorPopup : Popup
         BackButton.Pressed += Out;
         SkinComponentsContainer.SkinSelected += OnSkinSelected;
         SearchLineEdit.TextChanged += OnSearchTextChanged;
-        SearchLineEdit.TextSubmitted += _ => OnSkinSelected(SkinComponentsContainer.BestMatch.Skin);
+        SearchLineEdit.TextSubmitted += _ => OnSkinSelected(SkinComponentsContainer.BestMatch?.Skin);
 
 		SetCompactFlag();
         SkinComponentsContainer.InitialiseSkinComponents();
