@@ -101,7 +101,7 @@ public class SkinModifierMachine : SkinMachine
         File.Move(cursorPath, $"{workingSkin.Directory.FullName}/cursormiddle{suffix}.png", true);
         File.WriteAllBytes(cursorPath, TransparentPngFile);
 
-        Image<Rgba32> cursorTrail = Image.Load<Rgba32>(cursorTrailPath);
+        using Image<Rgba32> cursorTrail = Image.Load<Rgba32>(cursorTrailPath);
 
         int width = cursorTrail.Width;
         int height = cursorTrail.Height;
@@ -135,7 +135,6 @@ public class SkinModifierMachine : SkinMachine
 
         cursorTrail.Mutate(ctx => ctx.Crop(new Rectangle(minX, minY, maxX - minX + 1, maxY - minY + 1)));
         cursorTrail.Save(cursorTrailPath);
-        cursorTrail.Dispose();
     }
 
     private static void MakeCirclesInstafade(OsuSkin workingSkin, string suffix = null)
@@ -159,8 +158,8 @@ public class SkinModifierMachine : SkinMachine
         fontsSection.TryGetValue("HitCirclePrefix", out string hitcirclePrefix);
         hitcirclePrefix = hitcirclePrefix != null ? $"{skinDirectory}/{hitcirclePrefix}" : $"{skinDirectory}/default";
 
-        Image<Rgba32> hitcircle = Image.Load<Rgba32>(hitcirclePath);
-        Image hitcircleoverlay = Image.Load(hitcircleoverlayPath);
+        using Image<Rgba32> hitcircle = Image.Load<Rgba32>(hitcirclePath);
+        using Image<Rgba32> hitcircleoverlay = Image.Load<Rgba32>(hitcircleoverlayPath);
 
         hitcircleoverlay.Mutate(i => i.Resize((int)(hitcircleoverlay.Width * 1.25), (int)(hitcircleoverlay.Height * 1.25)));
         hitcircle.Mutate(i => i.Resize((int)(hitcircle.Width * 1.25), (int)(hitcircle.Height * 1.25)));
@@ -239,9 +238,6 @@ public class SkinModifierMachine : SkinMachine
             coloursSection.TryGetValue("Combo2", out string combo2);
             coloursSection["Combo1"] = combo2 ?? "0, 192, 0";
         }
-
-        hitcircle.Dispose();
-        hitcircleoverlay.Dispose();
     }
 
     protected override void CopyIniPropertyOption(OsuSkin workingSkin, SkinIniPropertyOption iniPropertyOption)
