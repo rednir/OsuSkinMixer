@@ -130,7 +130,7 @@ public class OsuSkin
                 return null;
 
             Settings.Log("Falling back to default texture");
-            var defaultTexture = GetDefaultTexture($"{filename}.png");
+            var defaultTexture = GetDefaultTexture($"{filename}.{extension}");
             _textureCache.Add(filename, defaultTexture);
             return defaultTexture;
         }

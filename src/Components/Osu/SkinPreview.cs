@@ -43,7 +43,7 @@ public partial class SkinPreview : PanelContainer
 
 	public void SetSkin(OsuSkin skin)
 	{
-		MenuBackground.Texture = skin.GetTexture("menu-background", "jpg", true) ?? skin.GetTexture("menu-background", "png");
+		MenuBackground.Texture = skin.GetTexture("menu-background", "png", true) ?? skin.GetTexture("menu-background", "jpg");
 		Cursor.Texture = skin.GetTexture("cursor");
 		Cursormiddle.Texture = skin.GetTexture("cursormiddle");
 		Cursortrail.Texture = skin.GetTexture("cursortrail");
