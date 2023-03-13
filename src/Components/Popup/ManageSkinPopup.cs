@@ -87,20 +87,21 @@ public partial class ManageSkinPopup : Popup
 	private void OnExportButtonPressed()
 	{
 		double progress = 0;
-		string destPath = Path.Combine(Settings.Content.OsuFolder, "Exports");
+		string exportFolderPath = Path.Combine(Settings.Content.OsuFolder, "Exports");
 		OsuData.SweepPaused = true;
 		LoadingPopup.In();
 
 		Task.Run(() =>
 		{
-			Directory.CreateDirectory(destPath);
+			Directory.CreateDirectory(exportFolderPath);
+
 			foreach (var skin in _skins)
 			{
-				ZipFile.CreateFromDirectory(
-						Path.Combine(Settings.SkinsFolderPath, skin.Name),
-						Path.Combine(Settings.Content.OsuFolder, "Exports", $"{skin.Name}.osk")
-				);
+				string destPath = Path.Combine(exportFolderPath, $"{skin.Name}.osk");
+				if (File.Exists(destPath))
+					File.Delete(destPath);
 
+				ZipFile.CreateFromDirectory(Path.Combine(Settings.SkinsFolderPath, skin.Name), destPath);
 				progress += 100.0 / _skins.Length;
 				LoadingPopup.SetProgress(progress);
 			}
@@ -118,7 +119,7 @@ public partial class ManageSkinPopup : Popup
 			}
 			else
 			{
-				Tools.ShellOpenFile(destPath);
+				Tools.ShellOpenFile(exportFolderPath);
 			}
 		});
 	}
