@@ -118,7 +118,7 @@ public partial class ManageSkinPopup : Popup
 			}
 			else
 			{
-				OS.ShellOpen(destPath);
+				Tools.ShellOpenFile(destPath);
 			}
 		});
 	}

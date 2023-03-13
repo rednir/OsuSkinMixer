@@ -76,12 +76,12 @@ public partial class SkinInfoPanel : PanelContainer
 
 	private void OnOpenFolderButtonPressed()
 	{
-		OS.ShellOpen(Skin.Directory.FullName);
+		Tools.ShellOpenFile(Skin.Directory.FullName);
 	}
 
 	private void OnOpenInOsuButtonPressed()
 	{
-        SkinMachine.TriggerOskImport(Skin);
+        Tools.TriggerOskImport(Skin);
 	}
 
 	private void OnMoreButtonPressed()
