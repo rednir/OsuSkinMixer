@@ -62,10 +62,13 @@ public partial class SkinComponentsContainer : VBoxContainer
 
 	public void FilterSkins(string filter)
 	{
+		string[] filterWords = filter.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
 		foreach (var component in GetChildren().Cast<SkinComponent>())
         {
-			bool visible = component.Name.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)
-				&& !_disabledSkinComponents.Contains(component);
+			bool filterMatch = filterWords.All(w => component.Name.ToString().Contains(w, StringComparison.OrdinalIgnoreCase));
+			bool visible = filterMatch && !_disabledSkinComponents.Contains(component);
+
             component.Visible = visible;
 
 			if (component.IsChecked && !visible)
