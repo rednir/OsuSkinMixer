@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://k0qxbqorem5i"]
+[gd_scene load_steps=14 format=3 uid="uid://k0qxbqorem5i"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_2iasy"]
 [ext_resource type="Script" path="res://src/Splash.cs" id="1_iscfa"]
 [ext_resource type="Texture2D" uid="uid://bwwbpgod763s" path="res://icon.png" id="1_ovcig"]
 [ext_resource type="PackedScene" uid="uid://sni5bqyyrgfj" path="res://src/Components/Popup/SetupPopup.tscn" id="3_ow7ee"]
 [ext_resource type="PackedScene" uid="uid://7805vr243ofu" path="res://src/Components/Popup/Generic/QuestionPopup.tscn" id="4_05fhe"]
+[ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="5_tk6ko"]
 
 [sub_resource type="Animation" id="Animation_pmguw"]
 length = 0.001
@@ -247,20 +248,8 @@ offset_bottom = 32.0
 pivot_offset = Vector2(32, 33)
 texture = ExtResource("1_ovcig")
 
-[node name="CenterLight" type="PointLight2D" parent="Overlay/Icon"]
-position = Vector2(32, 33)
-energy = 0.0
-texture = SubResource("GradientTexture2D_hi6gm")
-
-[node name="WideLight" type="PointLight2D" parent="Overlay/Icon"]
-position = Vector2(31.9999, 32)
-scale = Vector2(3.44, 0.101675)
-energy = 0.0
-texture = SubResource("GradientTexture2D_hi6gm")
-
-[node name="UpdatingLabel" type="Label" parent="Overlay"]
+[node name="UpdatingLabel" type="Label" parent="Overlay/Icon"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -273,6 +262,17 @@ offset_right = 246.0
 offset_bottom = 83.0
 text = "Running auto-updater..."
 horizontal_alignment = 1
+
+[node name="CenterLight" type="PointLight2D" parent="Overlay/Icon"]
+position = Vector2(32, 33)
+energy = 0.0
+texture = SubResource("GradientTexture2D_hi6gm")
+
+[node name="WideLight" type="PointLight2D" parent="Overlay/Icon"]
+position = Vector2(31.9999, 32)
+scale = Vector2(3.44, 0.101675)
+energy = 0.0
+texture = SubResource("GradientTexture2D_hi6gm")
 
 [node name="SetupPopup" parent="." instance=ExtResource("3_ow7ee")]
 unique_name_in_owner = true
@@ -305,6 +305,18 @@ visible = false
 [node name="YesButton" parent="ExceptionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" index="1"]
 visible = false
 
+[node name="UpdateCanceledPopup" parent="." instance=ExtResource("5_tk6ko")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="Title" parent="UpdateCanceledPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
+text = "Update canceled "
+
+[node name="Text" parent="UpdateCanceledPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+text = "If you want to disable auto-updating, you can do so in the settings menu.
+
+Or if the update failed due to an error, please report the issue."
+
 [node name="ProgressBar" type="ProgressBar" parent="."]
 layout_mode = 1
 anchors_preset = 10
@@ -316,3 +328,5 @@ show_percentage = false
 
 [editable path="ExceptionPopup"]
 [editable path="ExceptionPopup/Popup"]
+[editable path="UpdateCanceledPopup"]
+[editable path="UpdateCanceledPopup/Popup"]

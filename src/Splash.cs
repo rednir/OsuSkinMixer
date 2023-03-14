@@ -14,6 +14,7 @@ public partial class Splash : Control
 	private SetupPopup SetupPopup;
 	private QuestionPopup ExceptionPopup;
 	private TextEdit ExceptionTextEdit;
+	private OkPopup UpdateCanceledPopup;
 	private AnimationPlayer AnimationPlayer;
 
 	public override void _Ready()
@@ -27,8 +28,10 @@ public partial class Splash : Control
 		SetupPopup = GetNode<SetupPopup>("%SetupPopup");
 		ExceptionPopup = GetNode<QuestionPopup>("%ExceptionPopup");
 		ExceptionTextEdit = GetNode<TextEdit>("%ExceptionTextEdit");
+		UpdateCanceledPopup = GetNode<OkPopup>("%UpdateCanceledPopup");
 		AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
 		AnimationPlayer.AnimationFinished += OnAnimationFinished;
+		UpdateCanceledPopup.PopupOut += LoadSkinsAndFinish;
 
 		AnimationPlayer.Play("loading");
 
@@ -55,35 +58,49 @@ public partial class Splash : Control
 				// Try run installer, if it succeeds execution should stop here.
 				UpdatingLabel.Visible = true;
 				TryRunInstaller();
+				return;
 			}
 
 			// Update finished, clean up installer.
 			File.Delete(Settings.AutoUpdateInstallerPath);
 		}
 
+		LoadSkinsAndFinish();
+	}
+
+	private void TryRunInstaller()
+	{
+		Settings.Log($"Running installer from {Settings.AutoUpdateInstallerPath}");
+
+		try
+		{
+			Process installer = Process.Start(Settings.AutoUpdateInstallerPath);
+			installer.WaitForExit();
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr(e);
+			UpdateCanceledPopup.In();
+		}
+	}
+
+	private void LoadSkinsAndFinish()
+	{
 		if (!OsuData.TryLoadSkins())
 		{
 			SetupPopup.In();
 			SetupPopup.PopupOut += () => AnimationPlayer.Play("out");
-			return;
 		}
 
 		AnimationPlayer.Play("out");
 	}
 
-	private static void TryRunInstaller()
-	{
-		Settings.Log($"Running installer from {Settings.AutoUpdateInstallerPath}");
-		Process installer = Process.Start(Settings.AutoUpdateInstallerPath);
-		installer.WaitForExit();
-	}
-
 	private void OnAnimationFinished(StringName animationName)
 	{
-		if (animationName == "out")
+        if (animationName == "out" && GetTree().ChangeSceneToFile("res://src/Main.tscn") != Error.Ok)
 		{
-			if (GetTree().ChangeSceneToFile("res://src/Main.tscn") != Error.Ok)
-				OS.Alert("Error");
+			ExceptionTextEdit.Text = "Failed to load scene.";
+			ExceptionPopup.In();
 		}
-	}
+    }
 }
