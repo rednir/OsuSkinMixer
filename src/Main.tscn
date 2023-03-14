@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://cxcudjntoc6uv"]
+[gd_scene load_steps=35 format=3 uid="uid://cxcudjntoc6uv"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_3ca2l"]
 [ext_resource type="Script" path="res://src/Main.cs" id="2_ajhyw"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://hfjvkcilxe1d" path="res://src/Components/Popup/ResolveSkinConflictPopup.tscn" id="11_e8ymy"]
 [ext_resource type="Texture2D" uid="uid://cu5dir4lry6tx" path="res://assets/settings.png" id="12_qh468"]
 [ext_resource type="PackedScene" uid="uid://da2vul0iiwek5" path="res://src/Components/Popup/ChangelogPopup.tscn" id="12_v1kfe"]
+[ext_resource type="PackedScene" uid="uid://r28lp1qj0ucs" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="13_sdxu4"]
 
 [sub_resource type="Gradient" id="Gradient_gqud0"]
 offsets = PackedFloat32Array(0.108747, 1)
@@ -520,6 +521,22 @@ layout_mode = 1
 [node name="ChangeLogPopup" parent="." instance=ExtResource("12_v1kfe")]
 layout_mode = 1
 
+[node name="UpdateInProgressPopup" parent="." instance=ExtResource("13_sdxu4")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="Title" parent="UpdateInProgressPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
+text = "Woah! Not so fast..."
+
+[node name="Text" parent="UpdateInProgressPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+visible = true
+text = "We're downloading an update right now. Once it's done, we'll close osu! skin mixer for you.
+"
+
+[node name="CancelButton" parent="UpdateInProgressPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3"]
+visible = true
+text = "Close anyway"
+
 [node name="Splash" type="Panel" parent="."]
 visible = false
 layout_mode = 0
@@ -532,3 +549,6 @@ autoplay = "fade_out"
 libraries = {
 "": SubResource("AnimationLibrary_e104j")
 }
+
+[editable path="UpdateInProgressPopup"]
+[editable path="UpdateInProgressPopup/Popup"]

@@ -26,6 +26,7 @@ public partial class Main : Control
 	private Button SettingsButton;
 	private Toast Toast;
 	private SettingsPopup SettingsPopup;
+	private LoadingPopup UpdateInProgressPopup;
 	private Label VersionLabel;
 
 	private Stack<StackScene> SceneStack { get; } = new();
@@ -48,6 +49,7 @@ public partial class Main : Control
 		BackButton = GetNode<Button>("TopBar/HBoxContainer/BackButton");
 		TitleLabel = GetNode<Label>("TopBar/HBoxContainer/Title");
 		SettingsButton = GetNode<Button>("TopBar/HBoxContainer/SettingsButton");
+		UpdateInProgressPopup = GetNode<LoadingPopup>("%UpdateInProgressPopup");
 		Toast = GetNode<Toast>("Toast");
 		SettingsPopup = GetNode<SettingsPopup>("SettingsPopup");
 		VersionLabel = GetNode<Label>("%VersionLabel");
@@ -122,7 +124,10 @@ public partial class Main : Control
 			}
 
 			_closeRequestCount++;
-			Toast.Push("Please wait for the update to finish downloading.");
+			UpdateInProgressPopup.In();
+
+			UpdateInProgressPopup.CancelAction = () => GetTree().Quit();
+			_downloadUpdateTask.ContinueWith(_ => GetTree().Quit());
 		}
 	}
 
