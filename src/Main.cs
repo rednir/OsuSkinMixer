@@ -8,6 +8,7 @@ using OsuSkinMixer.Statics;
 using OsuSkinMixer.StackScenes;
 using OsuSkinMixer.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OsuSkinMixer;
 
@@ -30,6 +31,10 @@ public partial class Main : Control
 	private Stack<StackScene> SceneStack { get; } = new();
 
 	private StackScene PendingScene { get; set; }
+
+	private Task _downloadUpdateTask;
+
+	private int _closeRequestCount;
 
 	public override void _Ready()
 	{
@@ -101,6 +106,26 @@ public partial class Main : Control
 		CheckForUpdates();
 	}
 
+	public override void _Notification(int what)
+	{
+		if (what == NotificationWMCloseRequest)
+		{
+			if (_downloadUpdateTask == null)
+				return;
+
+			GetTree().AutoAcceptQuit = false;
+
+			if (_closeRequestCount > 0 || _downloadUpdateTask.IsCompleted)
+			{
+				GetTree().Quit();
+				return;
+			}
+
+			_closeRequestCount++;
+			Toast.Push("Please wait for the update to finish downloading.");
+		}
+	}
+
 	public override void _Process(double delta)
 	{
 		float value = GetViewportRect().Size.Y / 450;
@@ -136,29 +161,42 @@ public partial class Main : Control
 
 	private void CheckForUpdates()
 	{
-		var req = GetNode<HttpRequest>("HTTPRequest");
-		req.RequestCompleted += OnHttpRequestCompleted;
-		req.Request($"https://api.github.com/repos/{Settings.GITHUB_REPO_PATH}/releases/latest", new string[] { "User-Agent: OsuSkinMixer" });
+		Settings.GetLatestReleaseOrNullAsync().ContinueWith(t =>
+		{
+			if (t.IsFaulted)
+			{
+				GD.PrintErr(t.Exception);
+				Toast.Push("Failed to check for updates.");
+			}
+
+			GithubRelease release = t.Result;
+
+			if (release == null)
+				return;
+
+			if (OS.GetName() == "Windows")
+			{
+				UpdateAvailable(release);
+				return;
+			}
+
+			_downloadUpdateTask = Settings.DownloadInstallerAsync(release).ContinueWith(t =>
+			{
+				if (t.IsFaulted)
+				{
+					GD.PrintErr(t.Exception);
+					Toast.Push("Failed to download update.\nPlease report this error.");
+				}
+
+				UpdateAvailable(release);
+			});
+		});
 	}
 
-	private void OnHttpRequestCompleted(long result, long responseCode, string[] headers, byte[] body)
+	private void UpdateAvailable(GithubRelease release)
 	{
-		if (result != 0)
-			return;
-
-		try
-		{
-			string latest = JsonSerializer.Deserialize<Dictionary<string, object>>(Encoding.UTF8.GetString(body))["tag_name"].ToString();
-			if (latest != Settings.VERSION)
-			{
-				GetNode<AnimationPlayer>("%UpdateAnimationPlayer").Play("available");
-				SettingsButton.Text = $"Update to {latest}";
-				SettingsPopup.ShowUpdateButton();
-			}
-		}
-		catch
-		{
-			Toast.Push("Failed to check for updates");
-		}
+		GetNode<AnimationPlayer>("%UpdateAnimationPlayer").Play("available");
+		SettingsButton.Text = $"Update to latest {release.TagName}";
+		SettingsPopup.ShowUpdateButton();
 	}
 }

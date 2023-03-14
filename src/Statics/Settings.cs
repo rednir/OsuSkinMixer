@@ -1,15 +1,19 @@
 using Godot;
 using System;
+using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using File = System.IO.File;
 using Directory = System.IO.Directory;
+using HttpClient = System.Net.Http.HttpClient;
+using OsuSkinMixer.Models;
 
 namespace OsuSkinMixer.Statics;
 
 public static class Settings
 {
-    public const string VERSION = "v2.3.2";
+    public const string VERSION = "v2.3.2a";
 
     public const string GITHUB_REPO_PATH = "rednir/OsuSkinMixer";
 
@@ -19,10 +23,20 @@ public static class Settings
 
     public static string HiddenSkinsFolderPath => $"{Content.OsuFolder}/HiddenSkins/";
 
+    public static string TempFolderPath => Path.Combine(Path.GetTempPath(), "osu-skin-mixer");
+
+    public static string AutoUpdateInstallerPath => Path.Combine(TempFolderPath, "osu-skin-mixer-setup.exe");
+
     public static SettingsContent Content { get; set; }
+
+    private static readonly HttpClient _httpClient = new();
 
     public static void InitialiseSettingsFile()
     {
+        Directory.CreateDirectory(TempFolderPath);
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", "osu! skin mixer");
+        _httpClient.Timeout = TimeSpan.FromSeconds(300);
+
         if (File.Exists(SettingsFilePath))
         {
             try
@@ -87,6 +101,31 @@ public static class Settings
         Content.OsuFolder = path;
         error = null;
         return OsuData.TryLoadSkins();
+    }
+
+    public static async Task<GithubRelease> GetLatestReleaseOrNullAsync()
+    {
+        await using Stream stream = await _httpClient.GetStreamAsync($"https://api.github.com/repos/{GITHUB_REPO_PATH}/releases/latest");
+        GithubRelease release = await JsonSerializer.DeserializeAsync<GithubRelease>(stream);
+        Log($"Got latest release: {release.TagName}");
+
+        return release.TagName != VERSION ? release : null;
+    }
+
+    public static async Task DownloadInstallerAsync(GithubRelease release)
+    {
+        Log($"Downloading installer for {release.TagName}");
+        string installerPath = Path.Combine(TempFolderPath, "osu-skin-mixer-setup.exe");
+
+        if (File.Exists(installerPath))
+            File.Delete(installerPath);
+
+        await using Stream downloadStream = await _httpClient.GetStreamAsync($"https://github.com/{GITHUB_REPO_PATH}/releases/latest/download/osu-skin-mixer-setup.exe");
+
+        using FileStream fileStream = new(installerPath, FileMode.CreateNew);
+        await downloadStream.CopyToAsync(fileStream);
+
+        Log($"Finished downloading installer to {installerPath}");
     }
 
     public static void Log(string message)
