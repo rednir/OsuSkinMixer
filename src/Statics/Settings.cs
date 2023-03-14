@@ -48,20 +48,18 @@ public static class Settings
             }
             catch (Exception ex)
             {
-                GD.PushError($"Failed to deserialize {SettingsFilePath} due to exception {ex.Message}");
-                OS.Alert("Your settings have beeen corrupted, please report this issue and attach logs. All settings have been reset.", "Error");
+                GD.PushError($"Failed to deserialize {SettingsFilePath} due to exception {ex}");
                 Log($"SETTINGS:\n{File.ReadAllText(SettingsFilePath)}");
                 File.Delete(SettingsFilePath + ".bak");
                 File.Move(SettingsFilePath, SettingsFilePath + ".bak");
             }
+            finally
+            {
+            }
         }
 
         Content = new SettingsContent();
-
-        // If running from an executable created by the installer, enable auto update by default.
-        string executableDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        Content.AutoUpdate = File.Exists(Path.Combine(executableDirectory, "..", "auto-update"));
-
+        CheckForAutoUpdateFlag();
         Save();
     }
 
@@ -161,7 +159,27 @@ public static class Settings
         {
             Content.LastVersion = "v1.0.0";
             Save();
+            return;
         }
+
+        // Migration from before v2.4.0
+        if (Version.TryParse(Content.LastVersion.TrimStart('v'), out Version lastVersionObject)
+            && lastVersionObject < new Version(2, 4, 0))
+        {
+            CheckForAutoUpdateFlag();
+            Save();
+        }
+    }
+
+    private static void CheckForAutoUpdateFlag()
+    {
+        // Find out if we are running from an executable created by the installer, if so enable auto update by default.
+        string executableDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+        if (executableDirectory == null)
+            return;
+
+        Content.AutoUpdate = File.Exists(Path.Combine(executableDirectory, "..", "auto-update"));
     }
 
     public class SettingsContent
