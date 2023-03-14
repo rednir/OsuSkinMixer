@@ -28,7 +28,7 @@ public partial class SkinOptionComponent : HBoxContainer
     public void SetSkinOption(SkinOption option, SkinOptionValue defaultValue, int indentLayer)
     {
         SkinOption = option;
-        TooltipText = option.ToString();
+        ArrowButton.TooltipText = option.ToString();
         Name = option.Name;
         Label.Text = option.Name;
         DefaultValue = defaultValue;
