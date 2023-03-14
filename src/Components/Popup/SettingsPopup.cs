@@ -1,8 +1,6 @@
-using System;
 using System.IO;
 using System.Diagnostics;
 using Godot;
-using HttpClient = System.Net.Http.HttpClient;
 using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Components;
@@ -59,7 +57,6 @@ public partial class SettingsPopup : Popup
 		Settings.Content.AutoUpdate = AutoUpdateButton.ButtonPressed;
 		Settings.Save();
 	}
-
 
 	private void UpdateButtonPressed()
 	{
