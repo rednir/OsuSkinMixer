@@ -258,6 +258,22 @@ scale = Vector2(3.44, 0.101675)
 energy = 0.0
 texture = SubResource("GradientTexture2D_hi6gm")
 
+[node name="UpdatingLabel" type="Label" parent="Overlay"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -243.0
+offset_top = 61.0
+offset_right = 246.0
+offset_bottom = 83.0
+text = "Running auto-updater..."
+horizontal_alignment = 1
+
 [node name="SetupPopup" parent="." instance=ExtResource("3_ow7ee")]
 unique_name_in_owner = true
 visible = false
