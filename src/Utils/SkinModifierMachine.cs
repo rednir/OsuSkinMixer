@@ -146,20 +146,19 @@ public class SkinModifierMachine : SkinMachine
         string hitcirclePath = $"{skinDirectory}/hitcircle{suffix}.png";
         string hitcircleoverlayPath = $"{skinDirectory}/hitcircleoverlay{suffix}.png";
 
-        if (!File.Exists(hitcirclePath) || !File.Exists(hitcircleoverlayPath))
-        {
-            Settings.Log("Hitcircle image not found, skipping instafade option.");
-            return;
-        }
-
         OsuSkinIniSection fontsSection = workingSkin.SkinIni?.Sections.Find(s => s.Name == "Fonts");
         OsuSkinIniSection coloursSection = workingSkin.SkinIni?.Sections.Find(s => s.Name == "Colours");
 
         fontsSection.TryGetValue("HitCirclePrefix", out string hitcirclePrefix);
         hitcirclePrefix = hitcirclePrefix != null ? $"{skinDirectory}/{hitcirclePrefix}" : $"{skinDirectory}/default";
 
-        using Image<Rgba32> hitcircle = Image.Load<Rgba32>(hitcirclePath);
-        using Image<Rgba32> hitcircleoverlay = Image.Load<Rgba32>(hitcircleoverlayPath);
+        using Image<Rgba32> hitcircle = File.Exists(hitcirclePath)
+            ? Image.Load<Rgba32>(hitcirclePath)
+            : Image.Load<Rgba32>(GetDefaultElementBytes($"hitcircle{suffix}.png"));
+
+        using Image<Rgba32> hitcircleoverlay = File.Exists(hitcircleoverlayPath)
+            ? Image.Load<Rgba32>(hitcircleoverlayPath)
+            : Image.Load<Rgba32>(GetDefaultElementBytes($"hitcircleoverlay{suffix}.png"));
 
         hitcircleoverlay.Mutate(i => i.Resize((int)(hitcircleoverlay.Width * 1.25), (int)(hitcircleoverlay.Height * 1.25)));
         hitcircle.Mutate(i => i.Resize((int)(hitcircle.Width * 1.25), (int)(hitcircle.Height * 1.25)));
@@ -186,14 +185,11 @@ public class SkinModifierMachine : SkinMachine
         {
             string defaultXPath = $"{hitcirclePrefix}-{i}{suffix}.png";
 
-            if (!File.Exists(defaultXPath))
-            {
-                Settings.Log($"{defaultXPath} not found, skipping.");
-                continue;
-            }
+            using Image<Rgba32> defaultX = File.Exists(defaultXPath)
+                ? Image.Load<Rgba32>(defaultXPath)
+                : Image.Load<Rgba32>(GetDefaultElementBytes($"default-{i}{suffix}.png"));
 
-            Image defaultX = Image.Load(defaultXPath);
-            Image<Rgba32> newDefaultX = hitcircle.Clone();
+            using Image<Rgba32> newDefaultX = hitcircle.Clone();
 
             newDefaultX.Mutate(img =>
             {
@@ -239,6 +235,9 @@ public class SkinModifierMachine : SkinMachine
             coloursSection["Combo1"] = combo2 ?? "0, 192, 0";
         }
     }
+
+    private static byte[] GetDefaultElementBytes(string filename)
+        => Godot.FileAccess.GetFileAsBytes($"res://assets/defaultskin/{filename}");
 
     protected override void CopyIniPropertyOption(OsuSkin workingSkin, SkinIniPropertyOption iniPropertyOption)
     {
