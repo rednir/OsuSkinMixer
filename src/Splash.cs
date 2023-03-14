@@ -80,8 +80,9 @@ public partial class Splash : Control
 		catch (Exception e)
 		{
 			GD.PrintErr(e);
-			UpdateCanceledPopup.In();
 		}
+
+		UpdateCanceledPopup.In();
 	}
 
 	private void LoadSkinsAndFinish()
