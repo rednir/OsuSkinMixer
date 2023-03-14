@@ -179,7 +179,7 @@ public partial class Main : Control
 			if (release == null)
 				return;
 
-			if (OS.GetName() != "Windows")
+			if (OS.GetName() != "Windows" || !Settings.Content.AutoUpdate)
 			{
 				// Do not auto-update.
 				UpdateAvailable(release);

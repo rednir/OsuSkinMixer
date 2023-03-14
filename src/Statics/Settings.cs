@@ -161,6 +161,9 @@ public static class Settings
         [JsonPropertyName("osu_folder")]
         public string OsuFolder { get; set; }
 
+        [JsonPropertyName("auto-update")]
+        public bool AutoUpdate { get; set; }
+
         [JsonPropertyName("use_compact_skin_selector")]
         public bool UseCompactSkinSelector { get; set; }
 
