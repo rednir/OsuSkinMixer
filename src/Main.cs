@@ -202,7 +202,7 @@ public partial class Main : Control
 	private void UpdateAvailable(GithubRelease release)
 	{
 		GetNode<AnimationPlayer>("%UpdateAnimationPlayer").Play("available");
-		SettingsButton.Text = $"Update to latest {release.TagName}";
+		SettingsButton.Text = $"Update to {release.TagName}";
 		SettingsPopup.ShowUpdateButton();
 	}
 }
