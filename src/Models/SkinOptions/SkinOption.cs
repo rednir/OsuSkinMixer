@@ -176,6 +176,7 @@ public abstract class SkinOption
                         Name = "Pause/Fail screen",
                         Children = new SkinOption[]
                         {
+                            new SkinFileOption("arrow-pause", false),
                             new SkinFileOption("fail-background", false),
                             new SkinFileOption("pause-back", false),
                             new SkinFileOption("pause-continue", false),
@@ -238,7 +239,6 @@ public abstract class SkinOption
                                 },
                             },
 
-                            new SkinFileOption("arrow-pause", false),
                             new SkinFileOption("arrow-warning", false),
                             new SkinFileOption("masking-border", false),
                             new SkinFileOption("play-skip*", false),
