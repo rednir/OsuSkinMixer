@@ -1,7 +1,9 @@
-# osu! skin mixer
+<p align="left"><img src="icon-text.png"></p>
 
 [![Latest](https://img.shields.io/github/v/release/rednir/OsuSkinMixer)](https://github.com/rednir/OsuSkinMixer/releases/latest/)
 [![Downloads](https://img.shields.io/github/downloads/rednir/OsuSkinMixer/total)](https://github.com/rednir/OsuSkinMixer/releases/latest/)
+
+---
 
 *Mix and manage your osu! skins with ease!*
 
