@@ -2,6 +2,7 @@
 
 [![Latest](https://img.shields.io/github/v/release/rednir/OsuSkinMixer)](https://github.com/rednir/OsuSkinMixer/releases/latest/)
 [![Downloads](https://img.shields.io/github/downloads/rednir/OsuSkinMixer/total)](https://github.com/rednir/OsuSkinMixer/releases/latest/)
+[![CodeFactor](https://www.codefactor.io/repository/github/rednir/osuskinmixer/badge)](https://www.codefactor.io/repository/github/rednir/osuskinmixer)
 
 ---
 
