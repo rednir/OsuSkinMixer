@@ -103,37 +103,15 @@ public class SkinModifierMachine : SkinMachine
 
         using Image<Rgba32> cursorTrail = Image.Load<Rgba32>(cursorTrailPath);
 
-        int width = cursorTrail.Width;
-        int height = cursorTrail.Height;
+        Rectangle cropRectangle = Tools.GetContentRectFromImage(cursorTrail);
 
-        int minX = width;
-        int minY = height;
-        int maxX = 0;
-        int maxY = 0;
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                Rgba32 pixel = cursorTrail[x, y];
-
-                if (pixel.A != 0)
-                {
-                    minX = Math.Min(minX, x);
-                    minY = Math.Min(minY, y);
-                    maxX = Math.Max(maxX, x);
-                    maxY = Math.Max(maxY, y);
-                }
-            }
-        }
-
-        if (minX == width || minY == height || maxX == 0 || maxY == 0)
+        if (cropRectangle == Rectangle.Empty)
         {
             Settings.Log("Cursor trail image is empty, skipping smooth trail option.");
             return;
         }
 
-        cursorTrail.Mutate(ctx => ctx.Crop(new Rectangle(minX, minY, maxX - minX + 1, maxY - minY + 1)));
+        cursorTrail.Mutate(ctx => ctx.Crop(cropRectangle));
         cursorTrail.Save(cursorTrailPath);
     }
 
