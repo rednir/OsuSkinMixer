@@ -188,35 +188,66 @@ public abstract class SkinOption
                         Name = "In-game",
                         Children = new SkinOption[]
                         {
+                            new ParentSkinOption
+                            {
+                                Name = "Health bar",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("scorebar-bg", false),
+                                    new SkinFileOption("scorebar-colour*", false),
+                                    new SkinFileOption("scorebar-ki", false),
+                                    new SkinFileOption("scorebar-kidanger", false),
+                                    new SkinFileOption("scorebar-kidanger2", false),
+                                    new SkinFileOption("scorebar-marker", false),
+                                },
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Countdown",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("ready", false),
+                                    new SkinFileOption("count3", false),
+                                    new SkinFileOption("count2", false),
+                                    new SkinFileOption("count1", false),
+                                    new SkinFileOption("go", false),
+                                },
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Fonts",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("scoreentry-*", false),
+                                    new SkinFileOption("score-*", false),
+
+                                    new SkinIniPropertyOption("Fonts", "ScorePrefix"),
+                                    new SkinIniPropertyOption("Fonts", "ScoreOverlap"),
+                                    new SkinIniPropertyOption("Fonts", "ComboPrefix"),
+                                    new SkinIniPropertyOption("Fonts", "ComboOverlap"),
+                                }
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Key overlay",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("inputoverlay*", false),
+
+                                    new SkinIniPropertyOption("Colours", "InputOverlayText"),
+                                },
+                            },
+
                             new SkinFileOption("arrow-pause", false),
                             new SkinFileOption("arrow-warning", false),
-                            new SkinFileOption("count1", false),
-                            new SkinFileOption("count2", false),
-                            new SkinFileOption("count3", false),
-                            new SkinFileOption("go", false),
-                            new SkinFileOption("inputoverlay*", false),
                             new SkinFileOption("masking-border", false),
                             new SkinFileOption("play-skip*", false),
                             new SkinFileOption("play-unranked", false),
                             new SkinFileOption("play-warningarrow", false),
-                            new SkinFileOption("scorebar-bg", false),
-                            new SkinFileOption("scorebar-colour*", false),
-                            new SkinFileOption("scorebar-ki", false),
-                            new SkinFileOption("scorebar-kidanger", false),
-                            new SkinFileOption("scorebar-kidanger2", false),
-                            new SkinFileOption("scorebar-marker", false),
-                            new SkinFileOption("scoreentry-*", false),
                             new SkinFileOption("section-fail", false),
                             new SkinFileOption("section-pass", false),
-                            new SkinFileOption("ready", false),
-                            new SkinFileOption("score-*", false),
 
                             new SkinIniPropertyOption("General", "ComboBurstRandom"),
-                            new SkinIniPropertyOption("Colours", "InputOverlayText"),
-                            new SkinIniPropertyOption("Fonts", "ScorePrefix"),
-                            new SkinIniPropertyOption("Fonts", "ScoreOverlap"),
-                            new SkinIniPropertyOption("Fonts", "ComboPrefix"),
-                            new SkinIniPropertyOption("Fonts", "ComboOverlap"),
                         },
                     },
                 },
