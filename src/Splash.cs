@@ -75,7 +75,7 @@ public partial class Splash : Control
 
 		try
 		{
-			Process installer = Process.Start(Settings.AutoUpdateInstallerPath);
+			Process installer = Process.Start(Settings.AutoUpdateInstallerPath, "/silent");
 			installer.WaitForExit();
 		}
 		catch (Exception e)
