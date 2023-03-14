@@ -53,7 +53,7 @@ public partial class Splash : Control
 
 		if (File.Exists(Settings.AutoUpdateInstallerPath))
 		{
-			if (Settings.Content.LastVersion == Settings.VERSION)
+			if (Settings.Content.LastVersion == Settings.VERSION && Settings.Content.AutoUpdate)
 			{
 				// Try run installer, if it succeeds execution should stop here.
 				UpdatingLabel.Visible = true;
