@@ -250,6 +250,7 @@ texture = ExtResource("1_ovcig")
 
 [node name="UpdatingLabel" type="Label" parent="Overlay/Icon"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5

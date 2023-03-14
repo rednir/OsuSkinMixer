@@ -31,7 +31,7 @@ public partial class Splash : Control
 		UpdateCanceledPopup = GetNode<OkPopup>("%UpdateCanceledPopup");
 		AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
 		AnimationPlayer.AnimationFinished += OnAnimationFinished;
-		UpdateCanceledPopup.PopupOut += LoadSkinsAndFinish;
+		UpdateCanceledPopup.PopupOut += LoadSkins;
 
 		AnimationPlayer.Play("loading");
 
@@ -65,7 +65,7 @@ public partial class Splash : Control
 			File.Delete(Settings.AutoUpdateInstallerPath);
 		}
 
-		LoadSkinsAndFinish();
+		LoadSkins();
 	}
 
 	private void TryRunInstaller()
@@ -85,15 +85,13 @@ public partial class Splash : Control
 		UpdateCanceledPopup.In();
 	}
 
-	private void LoadSkinsAndFinish()
+	private void LoadSkins()
 	{
 		if (!OsuData.TryLoadSkins())
 		{
 			SetupPopup.In();
 			SetupPopup.PopupOut += () => AnimationPlayer.Play("out");
 		}
-
-		AnimationPlayer.Play("out");
 	}
 
 	private void OnAnimationFinished(StringName animationName)
