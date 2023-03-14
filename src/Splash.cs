@@ -58,6 +58,7 @@ public partial class Splash : Control
 				// Try run installer, if it succeeds execution should stop here.
 				UpdatingLabel.Visible = true;
 				TryRunInstaller();
+				UpdatingLabel.Visible = false;
 				return;
 			}
 
@@ -91,7 +92,10 @@ public partial class Splash : Control
 		{
 			SetupPopup.In();
 			SetupPopup.PopupOut += () => AnimationPlayer.Play("out");
+			return;
 		}
+
+		AnimationPlayer.Play("out");
 	}
 
 	private void OnAnimationFinished(StringName animationName)
