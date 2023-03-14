@@ -60,7 +60,7 @@ public static class Settings
 
         // If running from an executable created by the installer, enable auto update by default.
         string executableDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        Content.AutoUpdate = File.Exists(Path.Combine(executableDirectory, "auto-update"));
+        Content.AutoUpdate = File.Exists(Path.Combine(executableDirectory, "..", "auto-update"));
 
         Save();
     }
