@@ -34,13 +34,9 @@ public partial class SkinOptionComponent : HBoxContainer
         DefaultValue = defaultValue;
 		SetValue(defaultValue);
 
+        // Disable button to expand option if the option has no children;
         if (option is not ParentSkinOption)
-        {
-            // Option has no children, so hide button to expand option.
-            // Don't set visible to false so the button still takes up space. 
             ArrowButton.Disabled = true;
-            ArrowButton.Modulate = new Color(0, 0, 0, 0);
-        }
 
         var indent = new Panel()
         {
