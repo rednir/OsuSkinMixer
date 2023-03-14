@@ -114,11 +114,16 @@ public static class Settings
 
     public static async Task DownloadInstallerAsync(GithubRelease release)
     {
-        Log($"Downloading installer for {release.TagName}");
         string installerPath = Path.Combine(TempFolderPath, "osu-skin-mixer-setup.exe");
 
         if (File.Exists(installerPath))
+        {
+            // The last update attempt was probably canceled or failed.
             File.Delete(installerPath);
+            return;
+        }
+
+        Log($"Downloading installer for {release.TagName}");
 
         await using Stream downloadStream = await _httpClient.GetStreamAsync($"https://github.com/{GITHUB_REPO_PATH}/releases/latest/download/osu-skin-mixer-setup.exe");
 
