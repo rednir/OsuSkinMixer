@@ -52,9 +52,6 @@ public static partial class Settings
                 File.Delete(SettingsFilePath + ".bak");
                 File.Move(SettingsFilePath, SettingsFilePath + ".bak");
             }
-            finally
-            {
-            }
         }
 
         Content = new SettingsContent();

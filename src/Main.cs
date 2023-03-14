@@ -1,8 +1,5 @@
 using Godot;
-using System;
 using System.Collections.Generic;
-using System.Text.Json;
-using System.Text;
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Statics;
 using OsuSkinMixer.StackScenes;
