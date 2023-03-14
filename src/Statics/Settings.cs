@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -56,6 +57,11 @@ public static class Settings
         }
 
         Content = new SettingsContent();
+
+        // If running from an executable created by the installer, enable auto update by default.
+        string executableDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        Content.AutoUpdate = File.Exists(Path.Combine(executableDirectory, "auto-update"));
+
         Save();
     }
 
