@@ -3,7 +3,6 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using File = System.IO.File;
 using Directory = System.IO.Directory;
@@ -12,7 +11,7 @@ using OsuSkinMixer.Models;
 
 namespace OsuSkinMixer.Statics;
 
-public static class Settings
+public static partial class Settings
 {
     public const string VERSION = "v2.3.2a";
 
@@ -180,31 +179,5 @@ public static class Settings
             return;
 
         Content.AutoUpdate = File.Exists(Path.Combine(executableDirectory, "..", "auto-update"));
-    }
-
-    public class SettingsContent
-    {
-        [JsonPropertyName("last_version")]
-        public string LastVersion { get; set; }
-
-        [JsonPropertyName("osu_folder")]
-        public string OsuFolder { get; set; }
-
-        [JsonPropertyName("auto-update")]
-        public bool AutoUpdate { get; set; }
-
-        [JsonPropertyName("use_compact_skin_selector")]
-        public bool UseCompactSkinSelector { get; set; }
-
-        [JsonPropertyName("arrow_button_pressed")]
-        public bool ArrowButtonPressed { get; set; }
-
-        [JsonPropertyName("import_to_game_if_open")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool ImportToGameIfOpen { get; set; } = OS.GetName() == "Windows";
-
-        [JsonPropertyName("skins_folder")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string SkinsFolder { get; set; }
     }
 }
