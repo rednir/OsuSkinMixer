@@ -67,6 +67,22 @@ public abstract class SkinOption
                         Name = "Song select",
                         Children = new SkinOption[]
                         {
+                            new ParentSkinOption
+                            {
+                                Name = "Ranking icons",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("ranking-a-small", false),
+                                    new SkinFileOption("ranking-b-small", false),
+                                    new SkinFileOption("ranking-c-small", false),
+                                    new SkinFileOption("ranking-d-small", false),
+                                    new SkinFileOption("ranking-s-small", false),
+                                    new SkinFileOption("ranking-sh-small", false),
+                                    new SkinFileOption("ranking-x-small", false),
+                                    new SkinFileOption("ranking-xh-small", false),
+                                },
+                            },
+
                             new SkinFileOption("button-left", false),
                             new SkinFileOption("button-middle", false),
                             new SkinFileOption("button-right", false),
@@ -87,14 +103,6 @@ public abstract class SkinOption
                             new SkinFileOption("mode-taiko-small", false),
                             new SkinFileOption("mode-taiko", false),
                             new SkinFileOption("options-offset-tick", false),
-                            new SkinFileOption("ranking-a-small", false),
-                            new SkinFileOption("ranking-b-small", false),
-                            new SkinFileOption("ranking-c-small", false),
-                            new SkinFileOption("ranking-d-small", false),
-                            new SkinFileOption("ranking-s-small", false),
-                            new SkinFileOption("ranking-sh-small", false),
-                            new SkinFileOption("ranking-x-small", false),
-                            new SkinFileOption("ranking-xh-small", false),
                             new SkinFileOption("selection-mode*", false),
                             new SkinFileOption("selection-mods*", false),
                             new SkinFileOption("selection-options*", false),
