@@ -40,15 +40,27 @@ public class SkinModifierMachine : SkinMachine
                     foreach (var pair in OriginalElementsCache)
                     {
                         string fullFilePath = pair.Key;
-                        File.WriteAllBytes(fullFilePath, Array.Empty<byte>());
-
-                        using MemoryStream memoryStream = pair.Value;
-                        using FileStream fileStream = File.OpenWrite(fullFilePath);
-
                         Settings.Log($"Restoring: {fullFilePath} ");
 
+                        MemoryStream memoryStream = pair.Value;
+
+                        if (memoryStream == null)
+                        {
+                            if (File.Exists(fullFilePath))
+                                File.Delete(fullFilePath);
+
+                            continue;
+                        }
+
+                        // Don't leave remnants of data from previous file.
+                        File.WriteAllBytes(fullFilePath, Array.Empty<byte>());
+
+                        FileStream fileStream = File.OpenWrite(fullFilePath);
                         memoryStream.Position = 0;
                         memoryStream.CopyTo(fileStream);
+
+                        memoryStream.Dispose();
+                        fileStream.Dispose();
                     }
 
                     OsuData.InvokeSkinModified(skin);

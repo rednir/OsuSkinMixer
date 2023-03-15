@@ -268,11 +268,14 @@ public abstract class SkinMachine : IDisposable
         if (!CacheOriginalElements)
             return;
 
+        Settings.Log($"Adding '{fullFilePath}' to original elements cache.");
+
         // Cache original element for when after creation has finished, in case an undo operation is requested.
-        MemoryStream originalMemoryStream = new();
+        MemoryStream originalMemoryStream = null;
         if (File.Exists(fullFilePath))
         {
             FileStream originalFileStream = File.OpenRead(fullFilePath);
+            originalMemoryStream = new MemoryStream();
             originalFileStream.CopyTo(originalMemoryStream);
             originalFileStream.Dispose();
         }
