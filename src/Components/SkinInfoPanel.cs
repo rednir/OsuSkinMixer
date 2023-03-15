@@ -42,6 +42,7 @@ public partial class SkinInfoPanel : PanelContainer
 		OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
 		OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
 
+		OsuData.SkinAdded += OnSkinAdded;
 		OsuData.SkinModified += OnSkinModified;
 		OsuData.SkinRemoved += OnSkinRemoved;
 
@@ -50,6 +51,7 @@ public partial class SkinInfoPanel : PanelContainer
 
 	public override void _ExitTree()
 	{
+		OsuData.SkinAdded -= OnSkinAdded;
 		OsuData.SkinModified -= OnSkinModified;
 		OsuData.SkinRemoved -= OnSkinRemoved;
 	}
@@ -66,12 +68,31 @@ public partial class SkinInfoPanel : PanelContainer
 		ManageSkinPopup.SetSkin(Skin);
 	}
 
+	private void OnSkinAdded(OsuSkin skin)
+	{
+		if (skin != Skin)
+			return;
+
+		MainContentContainer.Visible = true;
+		DeletedContainer.Visible = false;
+		SetValues();
+	}
+
 	private void OnSkinModified(OsuSkin skin)
 	{
 		if (skin != Skin)
 			return;
 
 		SetValues();
+	}
+
+	private void OnSkinRemoved(OsuSkin skin)
+	{
+		if (skin != Skin)
+			return;
+
+		MainContentContainer.Visible = false;
+		DeletedContainer.Visible = true;
 	}
 
 	private void OnOpenFolderButtonPressed()
@@ -87,14 +108,5 @@ public partial class SkinInfoPanel : PanelContainer
 	private void OnMoreButtonPressed()
 	{
 		ManageSkinPopup.In();
-	}
-
-	private void OnSkinRemoved(OsuSkin skin)
-	{
-		if (skin != Skin)
-			return;
-
-		MainContentContainer.Visible = false;
-		DeletedContainer.Visible = true;
 	}
 }
