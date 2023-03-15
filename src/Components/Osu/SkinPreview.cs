@@ -58,7 +58,9 @@ public partial class SkinPreview : PanelContainer
 
 		// TODO: this is very arbitrary, make this more accurate to osu!
 		bool hasCursorMiddle = File.Exists($"{skin.Directory.FullName}/cursormiddle.png");
-		bool transparentCursor = Tools.GetContentRectFromImage($"{skin.Directory.FullName}/cursor.png") == Rectangle.Empty;
+		bool transparentCursor = File.Exists($"{skin.Directory.FullName}/cursor.png")
+			&& Tools.GetContentRectFromImage($"{skin.Directory.FullName}/cursor.png") == Rectangle.Empty;
+
 		if (hasCursorMiddle && transparentCursor)
 		{
 			Cursortrail.Lifetime = 0.5f;
