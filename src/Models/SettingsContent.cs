@@ -24,6 +24,7 @@ public static partial class Settings
         public bool ArrowButtonPressed { get; set; }
 
         [JsonPropertyName("operations")]
+        [JsonIgnore]
         public Stack<Operation> Operations { get; set; } = new();
 
         [JsonPropertyName("skins_folder")]
