@@ -27,7 +27,12 @@ public class SkinModifierMachine : SkinMachine
         var flattenedOptions = FlattenedBottomLevelOptions;
         foreach (OsuSkin skin in SkinsToModify)
         {
-            ModifySingleSkin(skin, flattenedOptions);
+            new Operation(
+                type: OperationType.SkinModifier,
+                targetSkin: skin,
+                action: () => ModifySingleSkin(skin, flattenedOptions)
+            )
+            .RunOperation().Wait();
             CancellationToken.ThrowIfCancellationRequested();
         }
     }
