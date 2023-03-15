@@ -30,6 +30,7 @@ alignment = 1
 [node name="RandomButton" parent="HBoxContainer" instance=ExtResource("4_kcgsn")]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Randomise"
 icon = ExtResource("5_qe3m8")
 
 [node name="CreateSkinButton" parent="HBoxContainer" instance=ExtResource("9_g6sw2")]
