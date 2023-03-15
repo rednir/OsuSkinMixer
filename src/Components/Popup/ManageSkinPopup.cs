@@ -123,7 +123,6 @@ public partial class ManageSkinPopup : Popup
                     targetSkin: skin,
                     action: () =>
                     {
-                        throw new IOException();
                         string destPath = Path.Combine(exportFolderPath, $"{skin.Name}.osk");
                         if (File.Exists(destPath))
                             File.Delete(destPath);
