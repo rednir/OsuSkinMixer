@@ -6,6 +6,7 @@ using OsuSkinMixer.StackScenes;
 using OsuSkinMixer.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace OsuSkinMixer;
 
@@ -117,6 +118,8 @@ public partial class Main : Control
 			GetTree().AutoAcceptQuit = false;
 			Settings.Save();
 
+			ClearTrash();
+
 			if (_closeRequestCount > 0 || ExitBlockingTasks.Count == 0)
 			{
 				GetTree().Quit();
@@ -168,6 +171,21 @@ public partial class Main : Control
 
 		SceneStack.Peek().Visible = true;
 		ScenesAnimationPlayer.Play("pop_out");
+	}
+
+	private void ClearTrash()
+	{
+		if (!Directory.Exists(Settings.TrashFolderPath))
+			return;
+
+		Task task = Task.Run(() => Directory.Delete(Settings.TrashFolderPath, true))
+		.ContinueWith(t =>
+		{
+			if (t.IsFaulted)
+				GD.PrintErr(t.Exception);
+		});
+
+		ExitBlockingTasks.Add(task);
 	}
 
 	private void CheckForUpdates()
