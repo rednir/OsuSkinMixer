@@ -22,6 +22,8 @@ public class SkinModifierMachine : SkinMachine
 
     public bool Instafade { get; set; }
 
+    protected override bool CacheOriginalElements => true;
+
     protected override void PopulateTasks()
     {
         var flattenedOptions = FlattenedBottomLevelOptions;
@@ -30,7 +32,26 @@ public class SkinModifierMachine : SkinMachine
             new Operation(
                 type: OperationType.SkinModifier,
                 targetSkin: skin,
-                action: () => ModifySingleSkin(skin, flattenedOptions)
+                action: () => ModifySingleSkin(skin, flattenedOptions),
+                undoAction: () =>
+                {
+                    Settings.Log($"Beginning skin modify undo for skin: {skin.Name}");
+
+                    foreach (var pair in OriginalElementsCache)
+                    {
+                        string fullFilePath = pair.Key;
+                        using MemoryStream memoryStream = pair.Value;
+                        using FileStream fileStream = File.OpenWrite(fullFilePath);
+
+                        Settings.Log($"Restoring: {fullFilePath} ");
+
+                        memoryStream.Position = 0;
+                        memoryStream.CopyTo(fileStream);
+                    }
+
+                    OsuData.InvokeSkinModified(skin);
+                    Settings.Log($"Finished skin modify undo for skin: {skin.Name}");
+                }
             )
             .RunOperation().Wait();
             CancellationToken.ThrowIfCancellationRequested();

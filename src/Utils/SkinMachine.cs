@@ -11,7 +11,7 @@ using OsuSkinMixer.Statics;
 namespace OsuSkinMixer.Utils;
 
 /// <summary>Base for classes that peform tasks based on a list of <see cref="SkinOption"/>. Provides abstract methods for populating tasks to be peformed on the relevant skin folders.</summary>
-public abstract class SkinMachine
+public abstract class SkinMachine : IDisposable
 {
     protected static byte[] TransparentPngFile => new byte[] {
         0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52,
@@ -48,6 +48,10 @@ public abstract class SkinMachine
 
     public Action<double> ProgressChanged { get; set; }
 
+    protected virtual bool CacheOriginalElements => false;
+
+    protected Dictionary<string, MemoryStream> OriginalElementsCache { get; } = new();
+
     protected CancellationToken CancellationToken { get; set; }
 
     protected IEnumerable<SkinOption> FlattenedBottomLevelOptions => SkinOption.Flatten(SkinOptions).Where(o => o is not ParentSkinOption);
@@ -55,6 +59,8 @@ public abstract class SkinMachine
     private readonly List<Action> _tasks = new();
 
     private double? _progress;
+
+    private bool _disposedValue;
 
     public void Run(CancellationToken cancellationToken)
     {
@@ -213,15 +219,30 @@ public abstract class SkinMachine
         MemoryStream memoryStream = new();
         file.OpenRead().CopyTo(memoryStream);
 
+        // Cache original element for when after creation has finished, in case an undo operation is requested.
+        if (CacheOriginalElements)
+        {
+            MemoryStream originalMemoryStream = new();
+            if (File.Exists(destFullPath))
+            {
+                FileStream originalFileStream = File.OpenRead(destFullPath);
+                originalFileStream.CopyTo(originalMemoryStream);
+                originalFileStream.Dispose();
+            }
+
+            OriginalElementsCache.TryAdd(destFullPath, originalMemoryStream);
+        }
+
         _tasks.Add(() =>
         {
             Settings.Log($"Run task '{file.FullName}' -> '{destFullPath}' ({reason})");
 
-            FileStream fileStream = File.Create(destFullPath);
+            using FileStream fileStream = File.Create(destFullPath);
             memoryStream.Position = 0;
             memoryStream.CopyTo(fileStream);
-            memoryStream.Dispose();
-            fileStream.Dispose();
+
+            if (!CacheOriginalElements)
+                memoryStream.Dispose();
         });
     }
 
@@ -271,5 +292,26 @@ public abstract class SkinMachine
         }
 
         return false;
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposedValue)
+        {
+            if (disposing)
+            {
+                foreach (var pair in OriginalElementsCache)
+                    pair.Value.Dispose();
+            }
+
+            _tasks.Clear();
+            _disposedValue = true;
+        }
     }
 }
