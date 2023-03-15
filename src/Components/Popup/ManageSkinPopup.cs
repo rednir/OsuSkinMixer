@@ -243,6 +243,9 @@ public partial class ManageSkinPopup : Popup
                     },
                     undoAction: () =>
                     {
+                        if (!Directory.Exists(skin.Directory.FullName))
+                            return;
+
                         string originalPath = Path.Combine(skin.Hidden ? Settings.HiddenSkinsFolderPath : Settings.SkinsFolderPath, skin.Directory.Name);
                         skin.Directory.MoveTo(originalPath);
                         OsuData.AddSkin(skin);
