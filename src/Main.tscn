@@ -556,19 +556,20 @@ layout_mode = 1
 [node name="ChangeLogPopup" parent="." instance=ExtResource("12_v1kfe")]
 layout_mode = 1
 
-[node name="UpdateInProgressPopup" parent="." instance=ExtResource("13_sdxu4")]
+[node name="ExitBlockedPopup" parent="." instance=ExtResource("13_sdxu4")]
 unique_name_in_owner = true
 layout_mode = 1
 
-[node name="Title" parent="UpdateInProgressPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
-text = "Woah! Not so fast..."
+[node name="Title" parent="ExitBlockedPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
+text = "Hold on..."
 
-[node name="Text" parent="UpdateInProgressPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+[node name="Text" parent="ExitBlockedPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
 visible = true
-text = "We're downloading an update right now. Once it's done, we'll close osu! skin mixer for you.
+text = "We're making some final touches.
+Once we're done, we'll close osu! skin mixer for you.
 "
 
-[node name="CancelButton" parent="UpdateInProgressPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3"]
+[node name="CancelButton" parent="ExitBlockedPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3"]
 visible = true
 text = "Close anyway"
 
@@ -585,5 +586,5 @@ libraries = {
 "": SubResource("AnimationLibrary_e104j")
 }
 
-[editable path="UpdateInProgressPopup"]
-[editable path="UpdateInProgressPopup/Popup"]
+[editable path="ExitBlockedPopup"]
+[editable path="ExitBlockedPopup/Popup"]

@@ -25,7 +25,7 @@ public partial class Main : Control
 	private SettingsPopup SettingsPopup;
 	private Button HistoryButton;
 	private HistoryPopup HistoryPopup;
-	private LoadingPopup UpdateInProgressPopup;
+	private LoadingPopup ExitBlockedPopup;
 	private Toast Toast;
 	private Label VersionLabel;
 
@@ -51,7 +51,7 @@ public partial class Main : Control
 		SettingsButton = GetNode<Button>("%SettingsButton");
 		HistoryButton = GetNode<Button>("%HistoryButton");
 		HistoryPopup = GetNode<HistoryPopup>("%HistoryPopup");
-		UpdateInProgressPopup = GetNode<LoadingPopup>("%UpdateInProgressPopup");
+		ExitBlockedPopup = GetNode<LoadingPopup>("%ExitBlockedPopup");
 		Toast = GetNode<Toast>("Toast");
 		SettingsPopup = GetNode<SettingsPopup>("SettingsPopup");
 		VersionLabel = GetNode<Label>("%VersionLabel");
@@ -127,8 +127,8 @@ public partial class Main : Control
 			}
 
 			_closeRequestCount++;
-			UpdateInProgressPopup.CancelAction = () => GetTree().Quit();
-			UpdateInProgressPopup.In();
+			ExitBlockedPopup.CancelAction = () => GetTree().Quit();
+			ExitBlockedPopup.In();
 
 			Task.Run(async () =>
 			{
