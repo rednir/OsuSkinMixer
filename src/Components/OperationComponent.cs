@@ -21,7 +21,7 @@ public partial class OperationComponent : HBoxContainer
         UndoButton = GetNode<Button>("%UndoButton");
 
         DescriptionLabel.Text = Operation.Description;
-        TimeStartedLabel.Text = Operation.TimeStarted.ToString();
+        TimeStartedLabel.Text = Operation.TimeStarted.GetValueOrDefault().ToLongTimeString();
         UndoButton.Disabled = !Operation.CanUndo;
 
         UndoButton.Pressed += OnUndoButtonPressed;
