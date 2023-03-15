@@ -303,6 +303,7 @@ public class SkinModifierMachine : SkinMachine
             foreach (FileInfo file in workingSkin.Directory.GetFiles().Where(f => CheckIfFileAndOptionMatch(f, fileOption)).ToArray())
             {
                 Settings.Log($"Removing '{file.FullName}' to avoid remnants");
+                AddFileToOriginalElementsCache(file.FullName);
                 file.Delete();
             }
         });
