@@ -11,6 +11,8 @@ namespace OsuSkinMixer.Models;
 /// </summary>
 public class Operation
 {
+    private const int MAX_OPERATION_COUNT = 100;
+
     [JsonPropertyName("type")]
     public OperationType Type { get; set; }
 
@@ -67,6 +69,9 @@ public class Operation
 
         Settings.Log($"Running operation: {Description}");
         Settings.Content.Operations.Add(this);
+
+        if (Settings.Content.Operations.Count > MAX_OPERATION_COUNT)
+            Settings.Content.Operations.RemoveRange(0, Settings.Content.Operations.Count - MAX_OPERATION_COUNT);
 
         _task = Task.Run(() => Action())
             .ContinueWith(t =>
