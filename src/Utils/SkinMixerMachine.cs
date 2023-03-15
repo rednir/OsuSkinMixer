@@ -13,16 +13,20 @@ public class SkinMixerMachine : SkinMachine
 {
     private const string WORKING_DIR_NAME = ".osu-skin-mixer_working-skin";
 
-    public string NewSkinName { get; set; }
+    public OsuSkin NewSkin { get; private set; }
 
-    public OsuSkin NewSkin { get; set; }
+    public void SetNewSkin(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new InvalidOperationException("Skin name cannot be empty.");
+
+        NewSkin = new OsuSkin(name, Directory.CreateDirectory($"{Path.GetTempPath()}/{WORKING_DIR_NAME}"));
+    }
 
     protected override void PopulateTasks()
     {
-        if (string.IsNullOrWhiteSpace(NewSkinName))
-            throw new InvalidOperationException("Skin name cannot be empty.");
-
-        NewSkin = new OsuSkin(NewSkinName, Directory.CreateDirectory($"{Path.GetTempPath()}/{WORKING_DIR_NAME}"));
+        if (NewSkin == null)
+            throw new InvalidOperationException("New skin not set.");
 
         var flattenedOptions = FlattenedBottomLevelOptions;
         foreach (var option in flattenedOptions)
@@ -56,15 +60,15 @@ public class SkinMixerMachine : SkinMachine
 
     protected override void PostRun()
     {
-        string dirDestPath = $"{Settings.SkinsFolderPath}/{NewSkinName}";
+        string dirDestPath = $"{Settings.SkinsFolderPath}/{NewSkin.Name}";
         Settings.Log($"Copying working folder to '{dirDestPath}'");
 
         if (!IsInSkinsFolder(dirDestPath))
             throw new InvalidOperationException("Destination path is not in the skins folder.");
 
         // Also replace the skin in the hidden skins folder to avoid duplicate names.
-        if (Directory.Exists($"{Settings.HiddenSkinsFolderPath}/{NewSkinName}"))
-            Directory.Delete($"{Settings.HiddenSkinsFolderPath}/{NewSkinName}", true);
+        if (Directory.Exists($"{Settings.HiddenSkinsFolderPath}/{NewSkin.Name}"))
+            Directory.Delete($"{Settings.HiddenSkinsFolderPath}/{NewSkin.Name}", true);
 
         if (Directory.Exists(dirDestPath))
             Directory.Delete(dirDestPath, true);

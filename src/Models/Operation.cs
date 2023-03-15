@@ -70,6 +70,12 @@ public class Operation
 
                 if (t.IsFaulted)
                 {
+                    if (t.Exception.InnerException is OperationCanceledException)
+                    {
+                        Settings.Log($"Operation canceled: {Description}");
+                        return;
+                    }
+
                     GD.PrintErr(t.Exception);
                     OS.Alert($"{t.Exception.Message}\n\nPlease report this error with logs.", "Error");
                     return;

@@ -5,6 +5,8 @@ using System;
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Utils;
+using OsuSkinMixer.Statics;
+using System.IO;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -59,32 +61,39 @@ public partial class SkinMixer : StackScene
 
         SkinMixerMachine machine = new()
         {
-            NewSkinName = skinName,
             SkinOptions = SkinOptionsSelector.SkinOptions,
             ProgressChanged = v => LoadingPopup.Progress = v,
         };
 
+        machine.SetNewSkin(skinName);
         CancellationTokenSource = new CancellationTokenSource();
-        Task.Run(() => machine.Run(CancellationTokenSource.Token))
-            .ContinueWith(t =>
+
+        new Operation(
+            type: OperationType.SkinMixer,
+            targetSkin: machine.NewSkin,
+            action: () =>
             {
-                LoadingPopup.Out();
-
-                var ex = t.Exception;
-                if (ex != null)
-                {
-                    if (ex.InnerException is OperationCanceledException)
-                        return;
-
-                    GD.PrintErr(ex);
-                    OS.Alert($"{ex.Message}\nPlease report this error with logs.", "Skin creation failure");
-                    return;
-                }
+                machine.Run(CancellationTokenSource.Token);
 
                 var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
                 skinInfoInstance.Skins = new OsuSkin[] { machine.NewSkin };
                 EmitSignal(SignalName.ScenePushed, skinInfoInstance);
-            });
+            },
+            undoAction: () =>
+            {
+                if (!Directory.Exists(machine.NewSkin.Directory.FullName))
+                    return;
+
+                machine.NewSkin.Directory.Delete(true);
+                OsuData.RemoveSkin(machine.NewSkin);
+            }
+        )
+        .RunOperation()
+        .ContinueWith(_ =>
+        {
+            LoadingPopup.Out();
+            SkinNamePopup.Out();
+        });
     }
 
     private void OnCancelButtonPressed()
