@@ -34,14 +34,17 @@ public partial class SkinPreview : PanelContainer
 	{
 		Vector2 mousePosition = GetGlobalMousePosition();
 
-		Cursor.GlobalPosition = mousePosition;
-		Cursormiddle.GlobalPosition = mousePosition;
-
 		// The MouseEntered and MouseExited control node don't work as the hitcircle handles mouse input.
 		if (GetGlobalRect().HasPoint(mousePosition))
 			OnMouseEntered();
 		else
 			OnMouseExited();
+
+		if (_paused)
+			return;
+
+		Cursor.GlobalPosition = mousePosition;
+		Cursormiddle.GlobalPosition = mousePosition;
 	}
 
 	public void SetSkin(OsuSkin skin)
@@ -81,6 +84,7 @@ public partial class SkinPreview : PanelContainer
 			return;
 
 		_paused = false;
+		Cursortrail.SpeedScale = 1;
 		AnimationPlayer.Play("enter");
 		Hitcircle.Resume();
 	}
@@ -91,6 +95,7 @@ public partial class SkinPreview : PanelContainer
 			return;
 
 		_paused = true;
+		Cursortrail.SpeedScale = 0;
 		AnimationPlayer.Play("exit");
 		Hitcircle.Pause();
 	}
