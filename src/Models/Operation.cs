@@ -21,7 +21,10 @@ public class Operation
     public DateTime? TimeStarted { get; set; }
 
     [JsonIgnore]
-    public Action Action { get; }
+    public Operation UndoOperation { get; }
+
+    [JsonIgnore]
+    private Action Action { get; }
 
     private Task _task;
 
@@ -29,11 +32,14 @@ public class Operation
     {
     }
 
-    public Operation(OperationType type, string description, Action action)
+    public Operation(OperationType type, string description, Action action, Action undoAction = null)
     {
         Type = type;
         Description = description;
         Action = action;
+
+        if (undoAction != null)
+            UndoOperation = new Operation(type, $"Undo: {description}", undoAction);
     }
 
     public Task RunOperation()

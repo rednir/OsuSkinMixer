@@ -23,6 +23,8 @@ public static partial class Settings
 
     public static string HiddenSkinsFolderPath => $"{Content.OsuFolder}/HiddenSkins/";
 
+    public static string TrashFolderPath => Path.Combine(Content.OsuFolder, ".trash");
+
     public static string TempFolderPath => Path.Combine(Path.GetTempPath(), "osu-skin-mixer");
 
     public static string AutoUpdateInstallerPath => Path.Combine(TempFolderPath, "osu-skin-mixer-setup.exe");
