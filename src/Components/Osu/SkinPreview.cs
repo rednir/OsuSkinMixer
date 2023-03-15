@@ -87,7 +87,6 @@ public partial class SkinPreview : PanelContainer
         Cursortrail.SpeedScale = 1;
         AnimationPlayer.Play("enter");
         Hitcircle.Resume();
-        Input.MouseMode = Input.MouseModeEnum.Hidden;
     }
 
     private void OnMouseExited()
@@ -99,6 +98,5 @@ public partial class SkinPreview : PanelContainer
         Cursortrail.SpeedScale = 0;
         AnimationPlayer.Play("exit");
         Hitcircle.Pause();
-        Input.MouseMode = Input.MouseModeEnum.Visible;
     }
 }
