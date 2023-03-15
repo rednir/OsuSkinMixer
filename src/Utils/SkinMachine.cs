@@ -65,6 +65,7 @@ public abstract class SkinMachine : IDisposable
     public void Run(CancellationToken cancellationToken)
     {
         CancellationToken = cancellationToken;
+        OriginalElementsCache.Clear();
         _tasks.Clear();
 
         Settings.Log("Started");
@@ -72,8 +73,10 @@ public abstract class SkinMachine : IDisposable
         stopwatch.Start();
 
         Progress = 0;
+
         PopulateTasks();
         RunAllTasks();
+
         Progress = 100;
 
         PostRun();
@@ -219,19 +222,7 @@ public abstract class SkinMachine : IDisposable
         MemoryStream memoryStream = new();
         file.OpenRead().CopyTo(memoryStream);
 
-        // Cache original element for when after creation has finished, in case an undo operation is requested.
-        if (CacheOriginalElements)
-        {
-            MemoryStream originalMemoryStream = new();
-            if (File.Exists(destFullPath))
-            {
-                FileStream originalFileStream = File.OpenRead(destFullPath);
-                originalFileStream.CopyTo(originalMemoryStream);
-                originalFileStream.Dispose();
-            }
-
-            OriginalElementsCache.TryAdd(destFullPath, originalMemoryStream);
-        }
+        AddFileToOriginalElementsCache(destFullPath);
 
         _tasks.Add(() =>
         {
@@ -249,6 +240,8 @@ public abstract class SkinMachine : IDisposable
     protected void AddCopyBlankFileTask(SkinFileOption fileOption, DirectoryInfo fileDestDir)
     {
         string destFullPath = $"{fileDestDir.FullName}/{fileOption.Name.Replace("-*", "").Replace("*", "")}";
+
+        AddFileToOriginalElementsCache(destFullPath);
 
         if (fileOption.IsAudio)
         {
@@ -268,6 +261,23 @@ public abstract class SkinMachine : IDisposable
                 File.WriteAllBytes(destFullPath, TransparentPngFile);
             });
         }
+    }
+
+    protected void AddFileToOriginalElementsCache(string fullFilePath)
+    {
+        if (!CacheOriginalElements)
+            return;
+
+        // Cache original element for when after creation has finished, in case an undo operation is requested.
+        MemoryStream originalMemoryStream = new();
+        if (File.Exists(fullFilePath))
+        {
+            FileStream originalFileStream = File.OpenRead(fullFilePath);
+            originalFileStream.CopyTo(originalMemoryStream);
+            originalFileStream.Dispose();
+        }
+
+        OriginalElementsCache.TryAdd(fullFilePath, originalMemoryStream);
     }
 
     protected static bool CheckIfFileAndOptionMatch(FileInfo file, SkinFileOption fileOption)

@@ -40,6 +40,8 @@ public class SkinModifierMachine : SkinMachine
                     foreach (var pair in OriginalElementsCache)
                     {
                         string fullFilePath = pair.Key;
+                        File.WriteAllBytes(fullFilePath, Array.Empty<byte>());
+
                         using MemoryStream memoryStream = pair.Value;
                         using FileStream fileStream = File.OpenWrite(fullFilePath);
 
@@ -102,6 +104,7 @@ public class SkinModifierMachine : SkinMachine
         }
 
         string skinIniDestination = $"{workingSkin.Directory.FullName}/skin.ini";
+        AddFileToOriginalElementsCache(skinIniDestination);
         AddTask(() =>
         {
             Settings.Log($"Writing to {skinIniDestination}");
@@ -141,7 +144,7 @@ public class SkinModifierMachine : SkinMachine
         cursorTrail.Save(cursorTrailPath);
     }
 
-    private static void MakeCirclesInstafade(OsuSkin workingSkin, string suffix = null)
+    private void MakeCirclesInstafade(OsuSkin workingSkin, string suffix = null)
     {
         // With help from https://skinship.xyz/guides/insta_fade_hc.html
         Settings.Log($"Making circles{suffix} instafade for skin '{workingSkin.Name}'");
@@ -210,12 +213,15 @@ public class SkinModifierMachine : SkinMachine
             if (i == 0)
                 newDefaultX.Mutate(i => i.Opacity(0));
 
+            AddFileToOriginalElementsCache(defaultXPath);
             newDefaultX.Save(defaultXPath);
         }
 
         hitcircle.Mutate(i => i.Opacity(0));
         hitcircleoverlay.Mutate(i => i.Opacity(0));
 
+        AddFileToOriginalElementsCache(hitcirclePath);
+        AddFileToOriginalElementsCache(hitcircleoverlayPath);
         hitcircle.Save(hitcirclePath);
         hitcircleoverlay.Save(hitcircleoverlayPath);
 

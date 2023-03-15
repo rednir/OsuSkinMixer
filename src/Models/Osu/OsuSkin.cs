@@ -32,17 +32,7 @@ public class OsuSkin
         Name = dir.Name;
         Directory = dir;
         Hidden = hidden;
-        if (File.Exists($"{dir.FullName}/skin.ini"))
-        {
-            try
-            {
-                SkinIni = new OsuSkinIni(File.ReadAllText($"{dir.FullName}/skin.ini"));
-            }
-            catch (Exception ex)
-            {
-                Settings.PushException(new InvalidOperationException($"Failed to load {dir.FullName}/skin.ini", ex));
-            }
-        }
+        LoadSkinIni();
     }
 
     public string Name { get; set; }
@@ -173,7 +163,29 @@ public class OsuSkin
     }
 
     public void ClearTextureCache()
-        => _textureCache.Clear();
+    {
+        _textureCache.Clear();
+        LoadSkinIni();
+    }
+
+    private void LoadSkinIni()
+    {
+        if (File.Exists($"{Directory.FullName}/skin.ini"))
+        {
+            try
+            {
+                SkinIni = new OsuSkinIni(File.ReadAllText($"{Directory.FullName}/skin.ini"));
+            }
+            catch (Exception ex)
+            {
+                Settings.PushException(new InvalidOperationException($"Failed to load {Directory.FullName}/skin.ini", ex));
+            }
+        }
+        else
+        {
+            SkinIni = null;
+        }
+    }
 
     private readonly Dictionary<string, Texture2D> _textureCache = new();
 
