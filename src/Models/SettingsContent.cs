@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using OsuSkinMixer.Models;
 
 namespace OsuSkinMixer.Statics;
 
@@ -20,6 +22,9 @@ public static partial class Settings
 
         [JsonPropertyName("arrow_button_pressed")]
         public bool ArrowButtonPressed { get; set; }
+
+        [JsonPropertyName("operations")]
+        public Stack<Operation> Operations { get; set; } = new();
 
         [JsonPropertyName("skins_folder")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

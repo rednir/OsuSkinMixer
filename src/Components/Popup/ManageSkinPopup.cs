@@ -69,7 +69,7 @@ public partial class ManageSkinPopup : Popup
 
 	private void OnHideButtonPressed()
 	{
-		OsuData.RunIOTask(() =>
+		new Operation(OperationType.Hide, $"Hide {_skins.Length} skins", () =>
 		{
 			Directory.CreateDirectory(Settings.HiddenSkinsFolderPath);
 			foreach (var skin in _skins)
@@ -90,6 +90,7 @@ public partial class ManageSkinPopup : Popup
 				OsuData.InvokeSkinModified(skin);
 			}
 		})
+		.RunOperation()
 		.ContinueWith(_ => Out());
 	}
 
@@ -98,7 +99,7 @@ public partial class ManageSkinPopup : Popup
 		string exportFolderPath = Path.Combine(Settings.Content.OsuFolder, "Exports");
 		LoadingPopup.In();
 
-		OsuData.RunIOTask(() =>
+		new Operation(OperationType.Other, $"Export {_skins.Length} skins", () =>
 		{
 			Directory.CreateDirectory(exportFolderPath);
 
@@ -114,6 +115,7 @@ public partial class ManageSkinPopup : Popup
 
 			Tools.ShellOpenFile(exportFolderPath);
 		})
+		.RunOperation()
 		.ContinueWith(_ =>
 		{
 			LoadingPopup.Out();
@@ -144,7 +146,7 @@ public partial class ManageSkinPopup : Popup
 		LoadingPopup.In();
 		List<OsuSkin> newSkins = new();
 
-		OsuData.RunIOTask(() =>
+		new Operation(OperationType.Duplicate, $"Duplicate {_skins.Length} skins", () =>
 		{
 			foreach (OsuSkin skin in _skins)
 			{
@@ -154,6 +156,7 @@ public partial class ManageSkinPopup : Popup
 
 			OsuData.RequestSkinInfo(newSkins);
 		})
+		.RunOperation()
 		.ContinueWith(_ =>
 		{
 			LoadingPopup.Out();
@@ -179,7 +182,7 @@ public partial class ManageSkinPopup : Popup
 	{
 		LoadingPopup.In();
 
-		OsuData.RunIOTask(() =>
+		new Operation(OperationType.Delete, $"Delete {_skins.Length} skins", () =>
 		{
 			foreach (OsuSkin skin in _skins)
 			{
@@ -189,6 +192,7 @@ public partial class ManageSkinPopup : Popup
 				LoadingPopup.Progress += 100.0 / _skins.Length;
 			}
 		})
+		.RunOperation()
 		.ContinueWith(_ =>
 		{
 			LoadingPopup.Out();

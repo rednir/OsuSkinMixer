@@ -99,23 +99,6 @@ public static class OsuData
         SkinModifyRequested?.Invoke(skins);
     }
 
-    public static Task RunIOTask(Action action)
-    {
-        SweepPaused = true;
-
-        return Task.Run(() => Task.Run(() => action()))
-            .ContinueWith(t =>
-            {
-                SweepPaused = false;
-
-                if (t.IsFaulted)
-                {
-                    GD.PrintErr(t.Exception);
-                    OS.Alert($"{t.Exception.Message}\n\nPlease report this error with logs.", "Error");
-                }
-            });
-    }
-
     private static void LoadSkinsFromDirectory(DirectoryInfo directoryInfo, bool hidden)
     {
         foreach (var dir in directoryInfo.EnumerateDirectories())
