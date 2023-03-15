@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OsuSkinMixer.Components;
 
@@ -69,28 +70,40 @@ public partial class ManageSkinPopup : Popup
 
     private void OnHideButtonPressed()
     {
-        new Operation(OperationType.Hide, $"Hide {_skins.Length} skins", () =>
+        Directory.CreateDirectory(Settings.HiddenSkinsFolderPath);
+
+        Task.Run(async () =>
         {
-            Directory.CreateDirectory(Settings.HiddenSkinsFolderPath);
             foreach (var skin in _skins)
             {
                 if (skin.Hidden)
                 {
-                    Settings.Log($"Hiding skin: {skin.Name}");
-                    skin.Directory.MoveTo(Path.Combine(Settings.SkinsFolderPath, skin.Name));
-                    skin.Hidden = false;
+                    await new Operation(
+                        type: OperationType.Unhide,
+                        targetSkin: skin,
+                        action: () =>
+                        {
+                            skin.Directory.MoveTo(Path.Combine(Settings.SkinsFolderPath, skin.Name));
+                            skin.Hidden = false;
+                        })
+                        .RunOperation();
                 }
                 else
                 {
-                    Settings.Log($"Unhiding skin: {skin.Name}");
-                    skin.Directory.MoveTo(Path.Combine(Settings.HiddenSkinsFolderPath, skin.Name));
-                    skin.Hidden = true;
+                    await new Operation(
+                        type: OperationType.Hide,
+                        targetSkin: skin,
+                        action: () =>
+                        {
+                            skin.Directory.MoveTo(Path.Combine(Settings.HiddenSkinsFolderPath, skin.Name));
+                            skin.Hidden = true;
+                        })
+                        .RunOperation();
                 }
 
                 OsuData.InvokeSkinModified(skin);
             }
         })
-        .RunOperation()
         .ContinueWith(_ => Out());
     }
 
@@ -99,36 +112,38 @@ public partial class ManageSkinPopup : Popup
         string exportFolderPath = Path.Combine(Settings.Content.OsuFolder, "Exports");
         LoadingPopup.In();
 
-        new Operation(
-			type: OperationType.Other,
-			description: $"Export {_skins.Length} skins",
-			action: () =>
-			{
-				Directory.CreateDirectory(exportFolderPath);
+        Directory.CreateDirectory(exportFolderPath);
 
-				foreach (var skin in _skins)
-				{
-					string destPath = Path.Combine(exportFolderPath, $"{skin.Name}.osk");
-					if (File.Exists(destPath))
-						File.Delete(destPath);
+        Task.Run(async () =>
+        {
+            foreach (var skin in _skins)
+            {
+                await new Operation(
+                    type: OperationType.Export,
+                    targetSkin: skin,
+                    action: () =>
+                    {
+                        string destPath = Path.Combine(exportFolderPath, $"{skin.Name}.osk");
+                        if (File.Exists(destPath))
+                            File.Delete(destPath);
 
-					ZipFile.CreateFromDirectory(Path.Combine(Settings.SkinsFolderPath, skin.Name), destPath);
-					LoadingPopup.Progress += 100.0 / _skins.Length;
-				}
-
-				Tools.ShellOpenFile(exportFolderPath);
-			},
-			undoAction: () =>
-			{
-				foreach (var skin in _skins.Where(s => File.Exists(Path.Combine(exportFolderPath, $"{s.Name}.osk"))))
-					File.Delete(Path.Combine(exportFolderPath, $"{skin.Name}.osk"));
-			})
-			.RunOperation()
-			.ContinueWith(_ =>
-			{
-				LoadingPopup.Out();
-				Out();
-			});
+                        ZipFile.CreateFromDirectory(Path.Combine(Settings.SkinsFolderPath, skin.Name), destPath);
+                        LoadingPopup.Progress += 100.0 / _skins.Length;
+                    },
+                    undoAction: () =>
+                    {
+                        if (File.Exists(Path.Combine(exportFolderPath, $"{skin.Name}.osk")))
+                            File.Delete(Path.Combine(exportFolderPath, $"{skin.Name}.osk"));
+                    })
+                    .RunOperation();
+            }
+        })
+        .ContinueWith(_ =>
+        {
+            LoadingPopup.Out();
+            Out();
+            Tools.ShellOpenFile(exportFolderPath);
+        });
     }
 
     private void OnDuplicateButtonPressed()
@@ -154,34 +169,40 @@ public partial class ManageSkinPopup : Popup
         LoadingPopup.In();
         List<OsuSkin> newSkins = new();
 
-        var a = new Operation(
-            type: OperationType.Duplicate,
-            description: $"Duplicate {_skins.Length} skins",
-            action: () =>
+        Task.Run(async () =>
+        {
+            foreach (OsuSkin skin in _skins)
             {
-                foreach (OsuSkin skin in _skins)
-                {
-                    newSkins.Add(DuplicateSingleSkin(skin, SkinNamePopup.SuffixMode ? skin.Name + value : value));
-                    LoadingPopup.Progress += 100.0 / _skins.Length;
-                }
+                OsuSkin newSkin = null;
 
-                OsuData.RequestSkinInfo(newSkins);
-            },
-            undoAction: () =>
-            {
-                foreach (OsuSkin skin in newSkins.Where(s => Directory.Exists(s.Directory.FullName)))
-                {
-                    skin.Directory.Delete(true);
-                    OsuData.RemoveSkin(skin);
-                }
-            })
-            .RunOperation()
-            .ContinueWith(_ =>
-            {
-                LoadingPopup.Out();
-                SkinNamePopup.Out();
-                Out();
-            });
+                await new Operation(
+                    type: OperationType.Duplicate,
+                    targetSkin: skin,
+                    action: () =>
+                    {
+                        newSkin = DuplicateSingleSkin(skin, SkinNamePopup.SuffixMode ? skin.Name + value : value);
+                        newSkins.Add(newSkin);
+                        LoadingPopup.Progress += 100.0 / _skins.Length;
+                    },
+                    undoAction: () =>
+                    {
+                        if (Directory.Exists(newSkin.Directory.FullName))
+                        {
+                            newSkin.Directory.Delete(true);
+                            OsuData.RemoveSkin(newSkin);
+                        }
+                    })
+                    .RunOperation();
+            }
+
+            OsuData.RequestSkinInfo(newSkins);
+        })
+        .ContinueWith(_ =>
+        {
+            LoadingPopup.Out();
+            SkinNamePopup.Out();
+            Out();
+        });
     }
 
     private static OsuSkin DuplicateSingleSkin(OsuSkin skin, string newSkinName)
@@ -200,39 +221,39 @@ public partial class ManageSkinPopup : Popup
     private void OnDeleteConfirmed()
     {
         LoadingPopup.In();
+        Directory.CreateDirectory(Settings.TrashFolderPath);
 
-        new Operation(
-			type: OperationType.Delete,
-			description: $"Delete {_skins.Length} skins",
-			action: () =>
-			{
-				Directory.CreateDirectory(Settings.TrashFolderPath);
-				foreach (OsuSkin skin in _skins)
-				{
-					string trashPath = Path.Combine(Settings.TrashFolderPath, skin.Directory.Name);
+        Task.Run(async () =>
+        {
+            foreach (OsuSkin skin in _skins)
+            {
+                await new Operation(
+                    type: OperationType.Delete,
+                    targetSkin: skin,
+                    action: () =>
+                    {
+                        string trashPath = Path.Combine(Settings.TrashFolderPath, skin.Directory.Name);
 
-					if (Directory.Exists(trashPath))
-						Directory.Delete(trashPath, true);
+                        if (Directory.Exists(trashPath))
+                            Directory.Delete(trashPath, true);
 
-					skin.Directory.MoveTo(trashPath);
-					OsuData.RemoveSkin(skin);
-					LoadingPopup.Progress += 100.0 / _skins.Length;
-				}
-			},
-			undoAction: () =>
-			{
-				foreach (OsuSkin skin in _skins)
-				{
-					string originalPath = Path.Combine(skin.Hidden ? Settings.HiddenSkinsFolderPath : Settings.SkinsFolderPath, skin.Directory.Name);
-					skin.Directory.MoveTo(originalPath);
-					OsuData.AddSkin(skin);
-				}
-			})
-			.RunOperation()
-			.ContinueWith(_ =>
-			{
-				LoadingPopup.Out();
-				Out();
-			});
+                        skin.Directory.MoveTo(trashPath);
+                        OsuData.RemoveSkin(skin);
+                        LoadingPopup.Progress += 100.0 / _skins.Length;
+                    },
+                    undoAction: () =>
+                    {
+                        string originalPath = Path.Combine(skin.Hidden ? Settings.HiddenSkinsFolderPath : Settings.SkinsFolderPath, skin.Directory.Name);
+                        skin.Directory.MoveTo(originalPath);
+                        OsuData.AddSkin(skin);
+                    })
+                    .RunOperation();
+            }
+        })
+        .ContinueWith(_ =>
+        {
+            LoadingPopup.Out();
+            Out();
+        });
     }
 }

@@ -7,24 +7,30 @@ using OsuSkinMixer.Statics;
 namespace OsuSkinMixer.Models;
 
 /// <summary>
-/// A class that represents an operation to be peformed on the user's osu! folder.
+/// A class that represents an operation to be peformed to a single skin.
 /// </summary>
 public class Operation
 {
     [JsonPropertyName("type")]
     public OperationType Type { get; set; }
 
-    [JsonPropertyName("name")]
-    public string Description { get; set; }
+    [JsonPropertyName("target_skin_name")]
+    public string TargetSkinName { get; set; }
 
     [JsonPropertyName("time_started")]
     public DateTime? TimeStarted { get; set; }
 
     [JsonIgnore]
-    public Operation UndoOperation { get; }
+    public OsuSkin TargetSkin { get; }
+
+    [JsonIgnore]
+    public string Description => $"{Type} {TargetSkinName}";
 
     [JsonIgnore]
     public bool Started => _task != null;
+
+    [JsonIgnore]
+    public Operation UndoOperation { get; }
 
     [JsonIgnore]
     private Action Action { get; }
@@ -35,14 +41,15 @@ public class Operation
     {
     }
 
-    public Operation(OperationType type, string description, Action action, Action undoAction = null)
+    public Operation(OperationType type, OsuSkin targetSkin, Action action, Action undoAction = null)
     {
         Type = type;
-        Description = description;
+        TargetSkin = targetSkin;
+        TargetSkinName = targetSkin.Name;
         Action = action;
 
         if (undoAction != null)
-            UndoOperation = new Operation(type, $"Undo: {description}", undoAction);
+            UndoOperation = new Operation(type, targetSkin, undoAction);
     }
 
     public Task RunOperation()

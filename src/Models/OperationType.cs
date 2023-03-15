@@ -10,5 +10,7 @@ public enum OperationType
     Delete,
     Duplicate,
     Hide,
+    Unhide,
+    Export,
     Other,
 }
