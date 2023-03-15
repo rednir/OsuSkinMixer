@@ -5,43 +5,43 @@ namespace OsuSkinMixer.Components;
 
 public abstract partial class Popup : Control
 {
-	public event Action PopupIn;
+    public event Action PopupIn;
 
-	public event Action PopupOut;
+    public event Action PopupOut;
 
-	protected virtual bool IsImportant => false;
+    protected virtual bool IsImportant => false;
 
     protected AnimationPlayer AnimationPlayer { get; private set; }
 
-	public override void _Ready()
-	{
-		AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
+    public override void _Ready()
+    {
+        AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
 
-		GetNode<ScrollContainer>("Popup/CanvasLayer/ScrollContainer").GuiInput += OnGuiInputOutsideContent;
-		GetNode<VBoxContainer>("Popup/CanvasLayer/ScrollContainer/VBoxContainer").GuiInput += OnGuiInputOutsideContent;
-	}
+        GetNode<ScrollContainer>("Popup/CanvasLayer/ScrollContainer").GuiInput += OnGuiInputOutsideContent;
+        GetNode<VBoxContainer>("Popup/CanvasLayer/ScrollContainer/VBoxContainer").GuiInput += OnGuiInputOutsideContent;
+    }
 
     public override void _Input(InputEvent inputEvent)
     {
-		if (inputEvent.IsActionPressed("ui_cancel") && !IsImportant)
-			Out();
+        if (inputEvent.IsActionPressed("ui_cancel") && !IsImportant)
+            Out();
     }
 
-	private void OnGuiInputOutsideContent(InputEvent inputEvent)
-	{
-		if ((inputEvent as InputEventMouseButton)?.ButtonIndex == MouseButton.Left && !IsImportant)
-			Out();
-	}
+    private void OnGuiInputOutsideContent(InputEvent inputEvent)
+    {
+        if ((inputEvent as InputEventMouseButton)?.ButtonIndex == MouseButton.Left && !IsImportant)
+            Out();
+    }
 
     public virtual void In()
     {
         AnimationPlayer.Play("in");
-		PopupIn?.Invoke();
+        PopupIn?.Invoke();
     }
 
     public virtual void Out()
     {
         AnimationPlayer.Play("out");
-		PopupOut?.Invoke();
+        PopupOut?.Invoke();
     }
 }

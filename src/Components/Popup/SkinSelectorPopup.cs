@@ -32,7 +32,7 @@ public partial class SkinSelectorPopup : Popup
         SearchLineEdit.TextChanged += OnSearchTextChanged;
         SearchLineEdit.TextSubmitted += _ => OnSkinSelected(SkinComponentsContainer.BestMatch?.Skin);
 
-		SetCompactFlag();
+        SetCompactFlag();
         SkinComponentsContainer.InitialiseSkinComponents();
     }
 

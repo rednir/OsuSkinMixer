@@ -9,38 +9,38 @@ namespace OsuSkinMixer.Components;
 
 public partial class HitcircleIcon : CenterContainer
 {
-	private VisibleOnScreenNotifier2D VisibleOnScreenNotifier2D;
-	private TextureRect HitcircleTexture;
-	private TextureRect HitcircleoverlayTexture;
-	private TextureRect Default1Texture;
+    private VisibleOnScreenNotifier2D VisibleOnScreenNotifier2D;
+    private TextureRect HitcircleTexture;
+    private TextureRect HitcircleoverlayTexture;
+    private TextureRect Default1Texture;
 
-	private OsuSkin _skin;
+    private OsuSkin _skin;
 
-	private bool _isTexturesLoaded;
+    private bool _isTexturesLoaded;
 
-	public override void _Ready()
-	{
-		VisibleOnScreenNotifier2D = GetNode<VisibleOnScreenNotifier2D>("VisibleOnScreenNotifier2D");
-		HitcircleTexture = GetNode<TextureRect>("HitcircleTexture");
-		HitcircleoverlayTexture = GetNode<TextureRect>("HitcircleoverlayTexture");
-		Default1Texture = GetNode<TextureRect>("Default1Texture");
+    public override void _Ready()
+    {
+        VisibleOnScreenNotifier2D = GetNode<VisibleOnScreenNotifier2D>("VisibleOnScreenNotifier2D");
+        HitcircleTexture = GetNode<TextureRect>("HitcircleTexture");
+        HitcircleoverlayTexture = GetNode<TextureRect>("HitcircleoverlayTexture");
+        Default1Texture = GetNode<TextureRect>("Default1Texture");
 
-		VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
-	}
+        VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
+    }
 
-	public void SetSkin(OsuSkin skin)
-	{
-		_skin = skin;
-		_isTexturesLoaded = false;
+    public void SetSkin(OsuSkin skin)
+    {
+        _skin = skin;
+        _isTexturesLoaded = false;
 
-		string[] iniColorRgb = skin
-			.SkinIni?
-			.TryGetPropertyValue("Colours", "Combo2")?
-			.Replace(" ", string.Empty)
-			.Split(',');
+        string[] iniColorRgb = skin
+            .SkinIni?
+            .TryGetPropertyValue("Colours", "Combo2")?
+            .Replace(" ", string.Empty)
+            .Split(',');
 
         if (iniColorRgb != null
-			&& float.TryParse(iniColorRgb[0], out float r)
+            && float.TryParse(iniColorRgb[0], out float r)
             && float.TryParse(iniColorRgb[1], out float g)
             && float.TryParse(iniColorRgb[2], out float b))
         {
@@ -52,15 +52,15 @@ public partial class HitcircleIcon : CenterContainer
         }
     }
 
-	private void OnScreenEntered()
-	{
-		if (_skin == null || _isTexturesLoaded)
-			return;
+    private void OnScreenEntered()
+    {
+        if (_skin == null || _isTexturesLoaded)
+            return;
 
-		_isTexturesLoaded = true;
+        _isTexturesLoaded = true;
 
-		HitcircleTexture.Texture = _skin.GetTexture("hitcircle");
-		HitcircleoverlayTexture.Texture = _skin.GetTexture("hitcircleoverlay");
-		Default1Texture.Texture = _skin.GetTexture("default-1");
-	}
+        HitcircleTexture.Texture = _skin.GetTexture("hitcircle");
+        HitcircleoverlayTexture.Texture = _skin.GetTexture("hitcircleoverlay");
+        Default1Texture.Texture = _skin.GetTexture("default-1");
+    }
 }

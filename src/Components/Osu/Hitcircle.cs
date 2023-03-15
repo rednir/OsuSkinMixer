@@ -53,7 +53,7 @@ public partial class Hitcircle : Node2D
         HitcircleoverlaySprite.Texture = skin.GetTexture("hitcircleoverlay");
 
         _comboColors = skin.ComboColors;
-		NextCombo();
+        NextCombo();
     }
 
     public void Pause()

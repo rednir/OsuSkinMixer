@@ -6,8 +6,8 @@ public static class ExtensionMethods
 {
     public static DirectoryInfo CopyDirectory(this DirectoryInfo sourceDir, string destinationDir, bool overwrite = false)
     {
-		if (overwrite && Directory.Exists(destinationDir))
-			Directory.Delete(destinationDir, true);
+        if (overwrite && Directory.Exists(destinationDir))
+            Directory.Delete(destinationDir, true);
 
         DirectoryInfo[] dirs = sourceDir.GetDirectories();
 

@@ -32,7 +32,7 @@ public partial class SkinOptionComponent : HBoxContainer
         Name = option.Name;
         Label.Text = option.Name;
         DefaultValue = defaultValue;
-		SetValue(defaultValue);
+        SetValue(defaultValue);
 
         // Disable button to expand option if the option has no children;
         if (option is not ParentSkinOption)
@@ -51,13 +51,13 @@ public partial class SkinOptionComponent : HBoxContainer
     public void SetValue(SkinOptionValue value)
     {
         SkinOption.Value = value;
-		Button.TooltipText = null;
+        Button.TooltipText = null;
 
         switch (value.Type)
         {
-			case SkinOptionValueType.Various:
-				Button.Text = "<<VARIOUS>>";
-				break;
+            case SkinOptionValueType.Various:
+                Button.Text = "<<VARIOUS>>";
+                break;
             case SkinOptionValueType.Unchanged:
                 Button.Text = "<<UNCHANGED>>";
                 break;

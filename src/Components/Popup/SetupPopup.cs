@@ -8,54 +8,54 @@ namespace OsuSkinMixer.Components;
 
 public partial class SetupPopup : Popup
 {
-	protected override bool IsImportant => true;
+    protected override bool IsImportant => true;
 
-	private LineEdit LineEdit;
-	private Button DoneButton;
-	private Button FolderPickerButton;
-	private FileDialog FileDialog;
-	private OkPopup OkPopup;
+    private LineEdit LineEdit;
+    private Button DoneButton;
+    private Button FolderPickerButton;
+    private FileDialog FileDialog;
+    private OkPopup OkPopup;
 
-	public override void _Ready()
-	{
-		base._Ready();
-
-		LineEdit = GetNode<LineEdit>("%LineEdit");
-		DoneButton = GetNode<Button>("%DoneButton");
-		FolderPickerButton = GetNode<Button>("%FolderPickerButton");
-		FileDialog = GetNode<FileDialog>("%FileDialog");
-		OkPopup = GetNode<OkPopup>("%OkPopup");
-
-		DoneButton.Pressed += () => Task.Run(DoneButtonPressed);
-		FolderPickerButton.Pressed += FolderPickerButtonPressed;
-		FileDialog.DirSelected += d => LineEdit.Text = d;
-	}
-
-	public override void In()
-	{
-		base.In();
-		LineEdit.Text = Settings.Content.OsuFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!";
-	}
-
-	private void DoneButtonPressed()
+    public override void _Ready()
     {
-		DoneButton.Disabled = true;
+        base._Ready();
+
+        LineEdit = GetNode<LineEdit>("%LineEdit");
+        DoneButton = GetNode<Button>("%DoneButton");
+        FolderPickerButton = GetNode<Button>("%FolderPickerButton");
+        FileDialog = GetNode<FileDialog>("%FileDialog");
+        OkPopup = GetNode<OkPopup>("%OkPopup");
+
+        DoneButton.Pressed += () => Task.Run(DoneButtonPressed);
+        FolderPickerButton.Pressed += FolderPickerButtonPressed;
+        FileDialog.DirSelected += d => LineEdit.Text = d;
+    }
+
+    public override void In()
+    {
+        base.In();
+        LineEdit.Text = Settings.Content.OsuFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!";
+    }
+
+    private void DoneButtonPressed()
+    {
+        DoneButton.Disabled = true;
 
         if (!Settings.TrySetOsuFolder(LineEdit.Text, out string error))
         {
-			DoneButton.Disabled = false;
-			OkPopup.SetValues(error, "That doesn't seem right...");
+            DoneButton.Disabled = false;
+            OkPopup.SetValues(error, "That doesn't seem right...");
             OkPopup.In();
-			return;
+            return;
         }
 
-		Settings.Save();
-		Out();
+        Settings.Save();
+        Out();
     }
 
     private void FolderPickerButtonPressed()
-	{
-		FileDialog.CurrentDir = LineEdit.Text;
-		FileDialog.PopupCentered();
-	}
+    {
+        FileDialog.CurrentDir = LineEdit.Text;
+        FileDialog.PopupCentered();
+    }
 }

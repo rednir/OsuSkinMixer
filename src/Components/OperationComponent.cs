@@ -6,30 +6,30 @@ namespace OsuSkinMixer.Components;
 
 public partial class OperationComponent : HBoxContainer
 {
-	public Action UndoPressed { get; set; }
+    public Action UndoPressed { get; set; }
 
-	public Operation Operation { get; set; }
+    public Operation Operation { get; set; }
 
-	private Label DescriptionLabel;
-	private Label TimeStartedLabel;
-	private Button UndoButton;
+    private Label DescriptionLabel;
+    private Label TimeStartedLabel;
+    private Button UndoButton;
 
-	public override void _Ready()
-	{
-		DescriptionLabel = GetNode<Label>("%DescriptionLabel");
-		TimeStartedLabel = GetNode<Label>("%TimeStartedLabel");
-		UndoButton = GetNode<Button>("%UndoButton");
+    public override void _Ready()
+    {
+        DescriptionLabel = GetNode<Label>("%DescriptionLabel");
+        TimeStartedLabel = GetNode<Label>("%TimeStartedLabel");
+        UndoButton = GetNode<Button>("%UndoButton");
 
-		DescriptionLabel.Text = Operation.Description;
-		TimeStartedLabel.Text = Operation.TimeStarted.ToString();
-		UndoButton.Disabled = Operation.UndoOperation?.Started ?? true;
+        DescriptionLabel.Text = Operation.Description;
+        TimeStartedLabel.Text = Operation.TimeStarted.ToString();
+        UndoButton.Disabled = Operation.UndoOperation?.Started ?? true;
 
-		UndoButton.Pressed += OnUndoButtonPressed;
-	}
+        UndoButton.Pressed += OnUndoButtonPressed;
+    }
 
-	private void OnUndoButtonPressed()
-	{
-		UndoButton.Disabled = false;
-		Operation.UndoOperation.RunOperation().ContinueWith(_ => UndoPressed?.Invoke());
-	}
+    private void OnUndoButtonPressed()
+    {
+        UndoButton.Disabled = false;
+        Operation.UndoOperation.RunOperation().ContinueWith(_ => UndoPressed?.Invoke());
+    }
 }

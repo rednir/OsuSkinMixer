@@ -11,89 +11,89 @@ namespace OsuSkinMixer.StackScenes;
 
 public partial class SkinModifierModificationSelect : StackScene
 {
-	public override string Title => SkinsToModify.Count == 1 ? $"Modifying: {SkinsToModify[0].Name}" : $"Modifying {SkinsToModify.Count} skins";
+    public override string Title => SkinsToModify.Count == 1 ? $"Modifying: {SkinsToModify[0].Name}" : $"Modifying {SkinsToModify.Count} skins";
 
-	private PackedScene SkinInfoScene;
+    private PackedScene SkinInfoScene;
 
     private CancellationTokenSource CancellationTokenSource;
 
-	public List<OsuSkin> SkinsToModify { get; set; }
+    public List<OsuSkin> SkinsToModify { get; set; }
 
-	private SkinOptionsSelector SkinOptionsSelector;
-	private SkinComponent DefaultSkinComponent;
-	private SkinComponent BlankComponent;
-	private Button ApplyChangesButton;
-	private Button ExtraOptionsButton;
-	private OkPopup ExtraOptionsPopup;
-	private CheckButton SmoothTrailButton;
-	private CheckButton InstafadeButton;
-	private LoadingPopup LoadingPopup;
+    private SkinOptionsSelector SkinOptionsSelector;
+    private SkinComponent DefaultSkinComponent;
+    private SkinComponent BlankComponent;
+    private Button ApplyChangesButton;
+    private Button ExtraOptionsButton;
+    private OkPopup ExtraOptionsPopup;
+    private CheckButton SmoothTrailButton;
+    private CheckButton InstafadeButton;
+    private LoadingPopup LoadingPopup;
 
-	public override void _Ready()
-	{
-		SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
+    public override void _Ready()
+    {
+        SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
 
-		SkinOptionsSelector = GetNode<SkinOptionsSelector>("%SkinOptionsSelector");
-		DefaultSkinComponent = GetNode<SkinComponent>("%DefaultSkinComponent");
-		BlankComponent = GetNode<SkinComponent>("%BlankComponent");
-		ApplyChangesButton = GetNode<Button>("%ApplyChangesButton");
-		ExtraOptionsButton = GetNode<Button>("%ExtraOptionsButton");
-		ExtraOptionsPopup = GetNode<OkPopup>("%ExtraOptionsPopup");
-		SmoothTrailButton = GetNode<CheckButton>("%SmoothTrailButton");
-		InstafadeButton = GetNode<CheckButton>("%InstafadeButton");
-		LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
+        SkinOptionsSelector = GetNode<SkinOptionsSelector>("%SkinOptionsSelector");
+        DefaultSkinComponent = GetNode<SkinComponent>("%DefaultSkinComponent");
+        BlankComponent = GetNode<SkinComponent>("%BlankComponent");
+        ApplyChangesButton = GetNode<Button>("%ApplyChangesButton");
+        ExtraOptionsButton = GetNode<Button>("%ExtraOptionsButton");
+        ExtraOptionsPopup = GetNode<OkPopup>("%ExtraOptionsPopup");
+        SmoothTrailButton = GetNode<CheckButton>("%SmoothTrailButton");
+        InstafadeButton = GetNode<CheckButton>("%InstafadeButton");
+        LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
 
-		SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.Unchanged));
-		DefaultSkinComponent.Pressed += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.DefaultSkin));
-		BlankComponent.Pressed += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.Blank));
-		ExtraOptionsButton.Pressed += ExtraOptionsPopup.In;
-		ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
-		LoadingPopup.CancelAction = OnCancelButtonPressed;
-		LoadingPopup.DisableCancelAt = SkinModifierMachine.UNCANCELLABLE_AFTER;
-	}
+        SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.Unchanged));
+        DefaultSkinComponent.Pressed += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.DefaultSkin));
+        BlankComponent.Pressed += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.Blank));
+        ExtraOptionsButton.Pressed += ExtraOptionsPopup.In;
+        ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
+        LoadingPopup.CancelAction = OnCancelButtonPressed;
+        LoadingPopup.DisableCancelAt = SkinModifierMachine.UNCANCELLABLE_AFTER;
+    }
 
-	private void OnApplyChangesButtonPressed()
-	{
-		LoadingPopup.In();
+    private void OnApplyChangesButtonPressed()
+    {
+        LoadingPopup.In();
 
-		CancellationTokenSource = new CancellationTokenSource();
-		SkinModifierMachine machine = new()
-		{
-			SkinOptions = SkinOptionsSelector.SkinOptions,
-			ProgressChanged = v => LoadingPopup.Progress = v,
-			SkinsToModify = SkinsToModify,
-			SmoothTrail = SmoothTrailButton.ButtonPressed,
-			Instafade = InstafadeButton.ButtonPressed,
-		};
+        CancellationTokenSource = new CancellationTokenSource();
+        SkinModifierMachine machine = new()
+        {
+            SkinOptions = SkinOptionsSelector.SkinOptions,
+            ProgressChanged = v => LoadingPopup.Progress = v,
+            SkinsToModify = SkinsToModify,
+            SmoothTrail = SmoothTrailButton.ButtonPressed,
+            Instafade = InstafadeButton.ButtonPressed,
+        };
 
-		Task.Run(() => machine.Run(CancellationTokenSource.Token))
-	        .ContinueWith(t =>
+        Task.Run(() => machine.Run(CancellationTokenSource.Token))
+            .ContinueWith(t =>
             {
                 LoadingPopup.Out();
 
                 var ex = t.Exception;
                 if (ex != null)
                 {
-					if (ex.InnerException is OperationCanceledException)
-						return;
+                    if (ex.InnerException is OperationCanceledException)
+                        return;
 
                     GD.PrintErr(ex);
                     OS.Alert($"{ex.Message}\nPlease report this error with logs.", "Skin creation failure");
                     return;
                 }
 
-				SkinOptionsSelector.Reset();
-				InstafadeButton.ButtonPressed = false;
-				SmoothTrailButton.ButtonPressed = false;
+                SkinOptionsSelector.Reset();
+                InstafadeButton.ButtonPressed = false;
+                SmoothTrailButton.ButtonPressed = false;
 
-				var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
-				skinInfoInstance.Skins = SkinsToModify;
-				EmitSignal(SignalName.ScenePushed, skinInfoInstance);
+                var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
+                skinInfoInstance.Skins = SkinsToModify;
+                EmitSignal(SignalName.ScenePushed, skinInfoInstance);
             });
-	}
+    }
 
-	private void OnCancelButtonPressed()
-	{
-		CancellationTokenSource?.Cancel();
-	}
+    private void OnCancelButtonPressed()
+    {
+        CancellationTokenSource?.Cancel();
+    }
 }

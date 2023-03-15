@@ -12,12 +12,12 @@ public class OsuSkin
 {
     public static Color[] DefaultComboColors
         => new Color[]
-		{
-			new Color(1, 0.7529f, 0),
-			new Color(0, 0.7922f, 0),
-			new Color(0.0706f, 0.4863f, 1),
-			new Color(0.9490f, 0.0941f, 0.2235f),
-		};
+        {
+            new Color(1, 0.7529f, 0),
+            new Color(0, 0.7922f, 0),
+            new Color(0.0706f, 0.4863f, 1),
+            new Color(0.9490f, 0.0941f, 0.2235f),
+        };
 
     public OsuSkin(string name, DirectoryInfo dir, bool hidden = false)
     {
@@ -136,7 +136,7 @@ public class OsuSkin
         }
 
         Image image = new();
-		Error err = image.Load(path);
+        Error err = image.Load(path);
 
         if (err != Error.Ok)
             return null;

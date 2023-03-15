@@ -9,125 +9,125 @@ namespace OsuSkinMixer.Components;
 
 public partial class SkinInfoPanel : PanelContainer
 {
-	public OsuSkin Skin { get; set; }
+    public OsuSkin Skin { get; set; }
 
-	private VBoxContainer DeletedContainer;
-	private Button UndoDeleteButton;
-	private VBoxContainer MainContentContainer;
-	private SkinPreview SkinPreview;
-	private HitcircleIcon HitcircleIcon;
-	private Label SkinNameLabel;
-	private Label SkinAuthorLabel;
-	private Button MoreButton;
-	private Label DetailsLabel;
-	private TextureRect HiddenIcon;
-	private Button OpenFolderButton;
-	private Button OpenInOsuButton;
-	private ManageSkinPopup ManageSkinPopup;
+    private VBoxContainer DeletedContainer;
+    private Button UndoDeleteButton;
+    private VBoxContainer MainContentContainer;
+    private SkinPreview SkinPreview;
+    private HitcircleIcon HitcircleIcon;
+    private Label SkinNameLabel;
+    private Label SkinAuthorLabel;
+    private Button MoreButton;
+    private Label DetailsLabel;
+    private TextureRect HiddenIcon;
+    private Button OpenFolderButton;
+    private Button OpenInOsuButton;
+    private ManageSkinPopup ManageSkinPopup;
 
-	private Action _undoAction;
+    private Action _undoAction;
 
-	public override void _Ready()
-	{
-		DeletedContainer = GetNode<VBoxContainer>("%DeletedContainer");
-		UndoDeleteButton = GetNode<Button>("%UndoDeleteButton");
-		MainContentContainer = GetNode<VBoxContainer>("%MainContentContainer");
-		SkinPreview = GetNode<SkinPreview>("%SkinPreview");
-		HitcircleIcon = GetNode<HitcircleIcon>("%HitcircleIcon");
-		SkinNameLabel = GetNode<Label>("%SkinName");
-		SkinAuthorLabel = GetNode<Label>("%SkinAuthor");
-		MoreButton = GetNode<Button>("%MoreButton");
-		DetailsLabel = GetNode<Label>("%Details");
-		HiddenIcon = GetNode<TextureRect>("%HiddenIcon");
-		OpenFolderButton = GetNode<Button>("%OpenFolderButton");
-		OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
-		ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
+    public override void _Ready()
+    {
+        DeletedContainer = GetNode<VBoxContainer>("%DeletedContainer");
+        UndoDeleteButton = GetNode<Button>("%UndoDeleteButton");
+        MainContentContainer = GetNode<VBoxContainer>("%MainContentContainer");
+        SkinPreview = GetNode<SkinPreview>("%SkinPreview");
+        HitcircleIcon = GetNode<HitcircleIcon>("%HitcircleIcon");
+        SkinNameLabel = GetNode<Label>("%SkinName");
+        SkinAuthorLabel = GetNode<Label>("%SkinAuthor");
+        MoreButton = GetNode<Button>("%MoreButton");
+        DetailsLabel = GetNode<Label>("%Details");
+        HiddenIcon = GetNode<TextureRect>("%HiddenIcon");
+        OpenFolderButton = GetNode<Button>("%OpenFolderButton");
+        OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
+        ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
-		UndoDeleteButton.Pressed += OnUndoDeleteButtonPressed;
-		MoreButton.Pressed += OnMoreButtonPressed;
-		OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
-		OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
+        UndoDeleteButton.Pressed += OnUndoDeleteButtonPressed;
+        MoreButton.Pressed += OnMoreButtonPressed;
+        OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
+        OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
 
-		OsuData.SkinAdded += OnSkinAdded;
-		OsuData.SkinModified += OnSkinModified;
-		OsuData.SkinRemoved += OnSkinRemoved;
+        OsuData.SkinAdded += OnSkinAdded;
+        OsuData.SkinModified += OnSkinModified;
+        OsuData.SkinRemoved += OnSkinRemoved;
 
-		SetValues();
-	}
+        SetValues();
+    }
 
-	public override void _ExitTree()
-	{
-		OsuData.SkinAdded -= OnSkinAdded;
-		OsuData.SkinModified -= OnSkinModified;
-		OsuData.SkinRemoved -= OnSkinRemoved;
-	}
+    public override void _ExitTree()
+    {
+        OsuData.SkinAdded -= OnSkinAdded;
+        OsuData.SkinModified -= OnSkinModified;
+        OsuData.SkinRemoved -= OnSkinRemoved;
+    }
 
-	private void SetValues()
-	{
-		SkinPreview.SetSkin(Skin);
-		HitcircleIcon.SetSkin(Skin);
-		SkinNameLabel.Text = Skin.Name;
-		SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
-		DetailsLabel.Text = $"Last modified: {Skin.Directory.LastWriteTime}";
-		HiddenIcon.Visible = Skin.Hidden;
-		OpenInOsuButton.Disabled = Skin.Hidden;
-		ManageSkinPopup.SetSkin(Skin);
-	}
+    private void SetValues()
+    {
+        SkinPreview.SetSkin(Skin);
+        HitcircleIcon.SetSkin(Skin);
+        SkinNameLabel.Text = Skin.Name;
+        SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
+        DetailsLabel.Text = $"Last modified: {Skin.Directory.LastWriteTime}";
+        HiddenIcon.Visible = Skin.Hidden;
+        OpenInOsuButton.Disabled = Skin.Hidden;
+        ManageSkinPopup.SetSkin(Skin);
+    }
 
-	private void OnSkinAdded(OsuSkin skin)
-	{
-		if (skin != Skin)
-			return;
+    private void OnSkinAdded(OsuSkin skin)
+    {
+        if (skin != Skin)
+            return;
 
-		MainContentContainer.Visible = true;
-		DeletedContainer.Visible = false;
-		SetValues();
-	}
+        MainContentContainer.Visible = true;
+        DeletedContainer.Visible = false;
+        SetValues();
+    }
 
-	private void OnSkinModified(OsuSkin skin)
-	{
-		if (skin != Skin)
-			return;
+    private void OnSkinModified(OsuSkin skin)
+    {
+        if (skin != Skin)
+            return;
 
-		SetValues();
-	}
+        SetValues();
+    }
 
-	private void OnSkinRemoved(OsuSkin skin)
-	{
-		if (skin != Skin)
-			return;
+    private void OnSkinRemoved(OsuSkin skin)
+    {
+        if (skin != Skin)
+            return;
 
-		MainContentContainer.Visible = false;
-		DeletedContainer.Visible = true;
+        MainContentContainer.Visible = false;
+        DeletedContainer.Visible = true;
 
-		Operation deleteOperation = Settings.Content.Operations.LastOrDefault(o => o.Type == OperationType.Delete && o.TargetSkin?.Name == skin.Name);
-		if (deleteOperation == null)
-		{
-			UndoDeleteButton.Disabled = true;
-			return;
-		}
+        Operation deleteOperation = Settings.Content.Operations.LastOrDefault(o => o.Type == OperationType.Delete && o.TargetSkin?.Name == skin.Name);
+        if (deleteOperation == null)
+        {
+            UndoDeleteButton.Disabled = true;
+            return;
+        }
 
-		UndoDeleteButton.Disabled = false;
-		_undoAction = () => deleteOperation.UndoOperation.RunOperation();
-	}
+        UndoDeleteButton.Disabled = false;
+        _undoAction = () => deleteOperation.UndoOperation.RunOperation();
+    }
 
-	private void OnUndoDeleteButtonPressed()
-	{
-		_undoAction?.Invoke();
-	}
+    private void OnUndoDeleteButtonPressed()
+    {
+        _undoAction?.Invoke();
+    }
 
-	private void OnOpenFolderButtonPressed()
-	{
-		Tools.ShellOpenFile(Skin.Directory.FullName);
-	}
+    private void OnOpenFolderButtonPressed()
+    {
+        Tools.ShellOpenFile(Skin.Directory.FullName);
+    }
 
-	private void OnOpenInOsuButtonPressed()
-	{
+    private void OnOpenInOsuButtonPressed()
+    {
         Tools.TriggerOskImport(Skin);
-	}
+    }
 
-	private void OnMoreButtonPressed()
-	{
-		ManageSkinPopup.In();
-	}
+    private void OnMoreButtonPressed()
+    {
+        ManageSkinPopup.In();
+    }
 }
