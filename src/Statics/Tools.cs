@@ -53,4 +53,10 @@ public static class Tools
 
         return new Rectangle(minX, minY, maxX - minX + 1, maxY - minY + 1);
     }
+
+    public static Rectangle GetContentRectFromImage(string path)
+    {
+        using Image<Rgba32> image = SixLabors.ImageSharp.Image.Load<Rgba32>(path);
+        return GetContentRectFromImage(image);
+    }
 }

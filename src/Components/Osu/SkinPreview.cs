@@ -1,6 +1,9 @@
 using Godot;
 using System;
 using OsuSkinMixer.Models;
+using System.IO;
+using OsuSkinMixer.Statics;
+using SixLabors.ImageSharp;
 
 namespace OsuSkinMixer.Components;
 
@@ -52,6 +55,20 @@ public partial class SkinPreview : PanelContainer
 			CursorRotateAnimationPlayer.Play("rotate");
 		else
 			CursorRotateAnimationPlayer.Stop();
+
+		// TODO: this is very arbitrary, make this more accurate to osu!
+		bool hasCursorMiddle = File.Exists($"{skin.Directory.FullName}/cursormiddle.png");
+		bool transparentCursor = Tools.GetContentRectFromImage($"{skin.Directory.FullName}/cursor.png") == Rectangle.Empty;
+		if (hasCursorMiddle && transparentCursor)
+		{
+			Cursortrail.Lifetime = 0.5f;
+			Cursortrail.Amount = 800;
+		}
+		else
+		{
+			Cursortrail.Lifetime = 0.15f;
+			Cursortrail.Amount = 5;
+		}
 
 		Hitcircle.SetSkin(skin);
 	}
