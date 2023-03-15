@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace OsuSkinMixer.Statics;
@@ -26,5 +27,17 @@ public static class ExtensionMethods
         }
 
         return new DirectoryInfo(destinationDir);
+    }
+
+    public static string Humanise(this TimeSpan timespan)
+    {
+        return timespan.TotalSeconds switch
+        {
+            < 1 => "Just now",
+            < 60 => $"{timespan.Seconds} seconds",
+            < 3600 => $"{timespan.Minutes} minutes",
+            < 86400 => $"{timespan.Hours} hours",
+            _ => $"{timespan.Days} days"
+        };
     }
 }

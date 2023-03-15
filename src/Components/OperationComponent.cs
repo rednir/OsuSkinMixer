@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Components;
 
@@ -21,7 +22,7 @@ public partial class OperationComponent : HBoxContainer
         UndoButton = GetNode<Button>("%UndoButton");
 
         DescriptionLabel.Text = Operation.Description;
-        TimeStartedLabel.Text = Operation.TimeStarted.GetValueOrDefault().ToLongTimeString();
+        TimeStartedLabel.Text = $"{(DateTime.Now - Operation.TimeStarted.GetValueOrDefault()).Humanise()} ago";
         UndoButton.Disabled = !Operation.CanUndo;
 
         UndoButton.Pressed += OnUndoButtonPressed;
