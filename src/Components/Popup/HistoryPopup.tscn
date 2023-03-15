@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c6qmivrrdwgur"]
+[gd_scene load_steps=5 format=3 uid="uid://c6qmivrrdwgur"]
 
 [ext_resource type="Script" path="res://src/Components/Popup/HistoryPopup.cs" id="1_n6xvt"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_nlr3u"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_6iapu"]
+[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="4_lv5rg"]
 
 [node name="HistoryPopup" type="Control"]
 visible = false
@@ -27,6 +28,11 @@ layout_mode = 2
 layout_mode = 2
 text = "History"
 label_settings = ExtResource("3_6iapu")
+
+[node name="Label2" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Your recent operations this session lie here."
+label_settings = ExtResource("4_lv5rg")
 
 [node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
