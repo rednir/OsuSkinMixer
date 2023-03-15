@@ -61,6 +61,7 @@ public class Operation
         TimeStarted = DateTime.Now;
 
         Settings.Log($"Running operation: {Description}");
+        Settings.Content.Operations.Push(this);
 
         _task = Task.Run(() => Action())
             .ContinueWith(t =>
@@ -75,7 +76,6 @@ public class Operation
                 }
 
                 Settings.Log($"Operation completed: {Description}");
-                Settings.Content.Operations.Push(this);
             });
 
         return _task;

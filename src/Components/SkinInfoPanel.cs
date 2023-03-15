@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Godot;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
@@ -11,6 +12,7 @@ public partial class SkinInfoPanel : PanelContainer
 	public OsuSkin Skin { get; set; }
 
 	private VBoxContainer DeletedContainer;
+	private Button UndoDeleteButton;
 	private VBoxContainer MainContentContainer;
 	private SkinPreview SkinPreview;
 	private HitcircleIcon HitcircleIcon;
@@ -23,9 +25,12 @@ public partial class SkinInfoPanel : PanelContainer
 	private Button OpenInOsuButton;
 	private ManageSkinPopup ManageSkinPopup;
 
+	private Action _undoAction;
+
 	public override void _Ready()
 	{
 		DeletedContainer = GetNode<VBoxContainer>("%DeletedContainer");
+		UndoDeleteButton = GetNode<Button>("%UndoDeleteButton");
 		MainContentContainer = GetNode<VBoxContainer>("%MainContentContainer");
 		SkinPreview = GetNode<SkinPreview>("%SkinPreview");
 		HitcircleIcon = GetNode<HitcircleIcon>("%HitcircleIcon");
@@ -38,6 +43,7 @@ public partial class SkinInfoPanel : PanelContainer
 		OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
 		ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
+		UndoDeleteButton.Pressed += OnUndoDeleteButtonPressed;
 		MoreButton.Pressed += OnMoreButtonPressed;
 		OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
 		OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
@@ -93,6 +99,21 @@ public partial class SkinInfoPanel : PanelContainer
 
 		MainContentContainer.Visible = false;
 		DeletedContainer.Visible = true;
+
+		Operation deleteOperation = Settings.Content.Operations.LastOrDefault(o => o.Type == OperationType.Delete && o.TargetSkin?.Name == skin.Name);
+		if (deleteOperation == null)
+		{
+			UndoDeleteButton.Disabled = true;
+			return;
+		}
+
+		UndoDeleteButton.Disabled = false;
+		_undoAction = () => deleteOperation.UndoOperation.RunOperation();
+	}
+
+	private void OnUndoDeleteButtonPressed()
+	{
+		_undoAction?.Invoke();
 	}
 
 	private void OnOpenFolderButtonPressed()
