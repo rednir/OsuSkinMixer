@@ -1,6 +1,6 @@
 using Godot;
 using OsuSkinMixer.Statics;
-using System;
+using System.Linq;
 
 namespace OsuSkinMixer.Components;
 
@@ -28,7 +28,7 @@ public partial class HistoryPopup : Popup
         foreach (var child in OperationComponentContainer.GetChildren())
             child.QueueFree();
 
-        foreach (var operation in Settings.Content.Operations)
+        foreach (var operation in Enumerable.Reverse(Settings.Content.Operations))
         {
             var operationComponent = OperationComponentScene.Instantiate<OperationComponent>();
             operationComponent.Operation = operation;
