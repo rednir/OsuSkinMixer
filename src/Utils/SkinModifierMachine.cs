@@ -126,21 +126,19 @@ public class SkinModifierMachine : SkinMachine
         Settings.Log($"Skin modification for '{workingSkin.Name}' has completed.");
     }
 
-    private static void MakeCursorTrailSmooth(OsuSkin workingSkin, string suffix = null)
+    private void MakeCursorTrailSmooth(OsuSkin workingSkin, string suffix = null)
     {
         Settings.Log($"Making cursor{suffix} trail smooth for skin '{workingSkin.Name}'");
 
         string cursorPath = $"{workingSkin.Directory.FullName}/cursor{suffix}.png";
         string cursorTrailPath = $"{workingSkin.Directory.FullName}/cursortrail{suffix}.png";
+        string cursorMiddlePath = $"{workingSkin.Directory.FullName}/cursormiddle{suffix}.png";
 
         if (!File.Exists(cursorPath) || !File.Exists(cursorTrailPath))
         {
             Settings.Log("Cursor image not found, skipping smooth trail option.");
             return;
         }
-
-        File.Move(cursorPath, $"{workingSkin.Directory.FullName}/cursormiddle{suffix}.png", true);
-        File.WriteAllBytes(cursorPath, TransparentPngFile);
 
         using Image<Rgba32> cursorTrail = Image.Load<Rgba32>(cursorTrailPath);
 
@@ -152,8 +150,15 @@ public class SkinModifierMachine : SkinMachine
             return;
         }
 
+        AddFileToOriginalElementsCache(cursorPath);
+        AddFileToOriginalElementsCache(cursorMiddlePath);
+        AddFileToOriginalElementsCache(cursorTrailPath);
+
         cursorTrail.Mutate(ctx => ctx.Crop(cropRectangle));
         cursorTrail.Save(cursorTrailPath);
+
+        File.Move(cursorPath, cursorMiddlePath, true);
+        File.WriteAllBytes(cursorPath, TransparentPngFile);
     }
 
     private void MakeCirclesInstafade(OsuSkin workingSkin, string suffix = null)
