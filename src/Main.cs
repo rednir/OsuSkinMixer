@@ -32,7 +32,7 @@ public partial class Main : Control
 
 	private StackScene PendingScene { get; set; }
 
-	private Task _downloadUpdateTask;
+	private List<Task> ExitBlockingTasks { get; } = new();
 
 	private int _closeRequestCount;
 
@@ -114,24 +114,26 @@ public partial class Main : Control
 	{
 		if (what == NotificationWMCloseRequest)
 		{
+			GetTree().AutoAcceptQuit = false;
 			Settings.Save();
 
-			if (_downloadUpdateTask == null)
-				return;
-
-			GetTree().AutoAcceptQuit = false;
-
-			if (_closeRequestCount > 0 || _downloadUpdateTask.IsCompleted)
+			if (_closeRequestCount > 0 || ExitBlockingTasks.Count == 0)
 			{
 				GetTree().Quit();
 				return;
 			}
 
 			_closeRequestCount++;
+			UpdateInProgressPopup.CancelAction = () => GetTree().Quit();
 			UpdateInProgressPopup.In();
 
-			UpdateInProgressPopup.CancelAction = () => GetTree().Quit();
-			_downloadUpdateTask.ContinueWith(_ => GetTree().Quit());
+			Task.Run(async () =>
+			{
+				foreach (var task in ExitBlockingTasks)
+					await task;
+
+   				GetTree().Quit();
+			});
 		}
 	}
 
@@ -190,7 +192,7 @@ public partial class Main : Control
 				return;
 			}
 
-			_downloadUpdateTask = Settings.DownloadInstallerAsync(release).ContinueWith(t =>
+			Task task = Settings.DownloadInstallerAsync(release).ContinueWith(t =>
 			{
 				if (t.IsFaulted)
 				{
@@ -200,6 +202,8 @@ public partial class Main : Control
 
 				UpdateAvailable(release);
 			});
+
+			ExitBlockingTasks.Add(task);
 		});
 	}
 
