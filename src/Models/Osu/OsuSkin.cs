@@ -162,7 +162,7 @@ public class OsuSkin
         return spriteFrames;
     }
 
-    public void ClearTextureCache()
+    public void ClearCache()
     {
         _textureCache.Clear();
         LoadSkinIni();

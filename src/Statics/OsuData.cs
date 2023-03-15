@@ -74,7 +74,7 @@ public static class OsuData
     public static void InvokeSkinModified(OsuSkin skin)
     {
         Settings.Log($"Skin modified: {skin.Name}");
-        skin.ClearTextureCache();
+        skin.ClearCache();
         SkinModified?.Invoke(skin);
     }
 
