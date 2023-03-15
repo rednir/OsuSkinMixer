@@ -109,6 +109,8 @@ public partial class Main : Control
 	{
 		if (what == NotificationWMCloseRequest)
 		{
+			Settings.Save();
+
 			if (_downloadUpdateTask == null)
 				return;
 
