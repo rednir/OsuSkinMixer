@@ -30,12 +30,19 @@ public class Operation
     public bool Started => _task != null;
 
     [JsonIgnore]
-    public Operation UndoOperation { get; }
+    public bool CanUndo => UndoAction != null && !_isUndone;
+
+    [JsonIgnore]
+    private Action UndoAction { get; }
 
     [JsonIgnore]
     private Action Action { get; }
 
+    [JsonIgnore]
     private Task _task;
+
+    [JsonIgnore]
+    private bool _isUndone;
 
     public Operation()
     {
@@ -47,9 +54,7 @@ public class Operation
         TargetSkin = targetSkin;
         TargetSkinName = targetSkin.Name;
         Action = action;
-
-        if (undoAction != null)
-            UndoOperation = new Operation(type, targetSkin, undoAction);
+        UndoAction = undoAction;
     }
 
     public Task RunOperation()
@@ -61,7 +66,7 @@ public class Operation
         TimeStarted = DateTime.Now;
 
         Settings.Log($"Running operation: {Description}");
-        Settings.Content.Operations.Push(this);
+        Settings.Content.Operations.Add(this);
 
         _task = Task.Run(() => Action())
             .ContinueWith(t =>
@@ -85,5 +90,25 @@ public class Operation
             });
 
         return _task;
+    }
+
+    public void UndoOperation()
+    {
+        if (_task?.IsCompleted != true)
+            return;
+
+        Settings.Log($"Undoing operation: {Description}");
+
+        try
+        {
+            UndoAction();
+            _isUndone = true;
+            Settings.Content.Operations.Remove(this);
+        }
+        catch (Exception e)
+        {
+            GD.PrintErr(e);
+            OS.Alert($"{e.Message}\n\nPlease report this error with logs.", "Error");
+        }
     }
 }

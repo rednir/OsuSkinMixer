@@ -22,7 +22,7 @@ public partial class OperationComponent : HBoxContainer
 
         DescriptionLabel.Text = Operation.Description;
         TimeStartedLabel.Text = Operation.TimeStarted.ToString();
-        UndoButton.Disabled = Operation.UndoOperation?.Started ?? true;
+        UndoButton.Disabled = !Operation.CanUndo;
 
         UndoButton.Pressed += OnUndoButtonPressed;
     }
@@ -30,6 +30,7 @@ public partial class OperationComponent : HBoxContainer
     private void OnUndoButtonPressed()
     {
         UndoButton.Disabled = false;
-        Operation.UndoOperation.RunOperation().ContinueWith(_ => UndoPressed?.Invoke());
+        Operation.UndoOperation();
+        UndoPressed?.Invoke();
     }
 }

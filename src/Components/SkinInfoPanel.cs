@@ -101,19 +101,20 @@ public partial class SkinInfoPanel : PanelContainer
         DeletedContainer.Visible = true;
 
         Operation deleteOperation = Settings.Content.Operations.LastOrDefault(o => o.Type == OperationType.Delete && o.TargetSkin?.Name == skin.Name);
-        if (deleteOperation == null)
+        if (deleteOperation?.CanUndo != true)
         {
             UndoDeleteButton.Disabled = true;
             return;
         }
 
         UndoDeleteButton.Disabled = false;
-        _undoAction = () => deleteOperation.UndoOperation.RunOperation();
+        _undoAction = deleteOperation.UndoOperation;
     }
 
     private void OnUndoDeleteButtonPressed()
     {
         _undoAction?.Invoke();
+        UndoDeleteButton.Disabled = true;
     }
 
     private void OnOpenFolderButtonPressed()

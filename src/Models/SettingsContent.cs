@@ -25,7 +25,7 @@ public static partial class Settings
 
         [JsonPropertyName("operations")]
         [JsonIgnore]
-        public Stack<Operation> Operations { get; set; } = new();
+        public List<Operation> Operations { get; set; } = new();
 
         [JsonPropertyName("skins_folder")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
