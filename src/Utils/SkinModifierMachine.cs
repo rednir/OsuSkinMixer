@@ -276,7 +276,7 @@ public class SkinModifierMachine : SkinMachine
         AddPriorityTask(() =>
         {
             Settings.Log($"Removing '{property.section}'.'{property.property}' to avoid remnants");
-            workingSkin.SkinIni.Sections.LastOrDefault(s => s.Name == property.section)?.Remove(property.property);
+            workingSkin.SkinIni?.Sections.LastOrDefault(s => s.Name == property.section)?.Remove(property.property);
         });
 
         base.CopyIniPropertyOption(workingSkin, iniPropertyOption);
@@ -290,8 +290,8 @@ public class SkinModifierMachine : SkinMachine
         // Remove the skin.ini section to avoid remnants when using skin modifier.
         AddPriorityTask(() =>
         {
-            Settings.Log($"Remov`ing skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}' to avoid remnants");
-            workingSkin.SkinIni.Sections.Remove(section);
+            Settings.Log($"Removing skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}' to avoid remnants");
+            workingSkin.SkinIni?.Sections.Remove(section);
         });
 
         base.CopyIniSectionOption(workingSkin, iniSectionOption);

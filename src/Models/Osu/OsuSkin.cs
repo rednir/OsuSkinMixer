@@ -183,7 +183,7 @@ public class OsuSkin
         }
         else
         {
-            SkinIni = null;
+            SkinIni = new OsuSkinIni(Name, "unknown");
         }
     }
 
