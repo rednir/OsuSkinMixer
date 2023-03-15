@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Utils;
+using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.StackScenes;
 
@@ -77,8 +78,7 @@ public partial class SkinModifierModificationSelect : StackScene
                     if (ex.InnerException is OperationCanceledException)
                         return;
 
-                    GD.PrintErr(ex);
-                    OS.Alert($"{ex.Message}\nPlease report this error with logs.", "Skin creation failure");
+                    Settings.PushException(ex);
                     return;
                 }
 

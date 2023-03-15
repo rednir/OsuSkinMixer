@@ -26,6 +26,7 @@ public partial class Main : Control
     private Button HistoryButton;
     private HistoryPopup HistoryPopup;
     private LoadingPopup ExitBlockedPopup;
+    private OkPopup OkPopup;
     private Toast Toast;
     private Label VersionLabel;
 
@@ -48,12 +49,13 @@ public partial class Main : Control
         ScenesContainer = GetNode<Control>("Scenes/ScrollContainer");
         BackButton = GetNode<Button>("TopBar/HBoxContainer/BackButton");
         TitleLabel = GetNode<Label>("TopBar/HBoxContainer/Title");
-        SettingsButton = GetNode<Button>("%SettingsButton");
         HistoryButton = GetNode<Button>("%HistoryButton");
         HistoryPopup = GetNode<HistoryPopup>("%HistoryPopup");
-        ExitBlockedPopup = GetNode<LoadingPopup>("%ExitBlockedPopup");
-        Toast = GetNode<Toast>("Toast");
+        SettingsButton = GetNode<Button>("%SettingsButton");
         SettingsPopup = GetNode<SettingsPopup>("SettingsPopup");
+        ExitBlockedPopup = GetNode<LoadingPopup>("%ExitBlockedPopup");
+        OkPopup = GetNode<OkPopup>("%OkPopup");
+        Toast = GetNode<Toast>("Toast");
         VersionLabel = GetNode<Label>("%VersionLabel");
 
         VersionLabel.Text = Settings.VERSION;
@@ -89,6 +91,12 @@ public partial class Main : Control
         BackButton.Pressed += PopScene;
         SettingsButton.Pressed += SettingsPopup.In;
         HistoryButton.Pressed += HistoryPopup.In;
+
+        Settings.ExceptionPushed += e =>
+        {
+            OkPopup.SetValues($"{e.Message}\n\nPlease report this error and attach logs.", "Something went wrong...");
+            OkPopup.In();
+        };
 
         OsuData.AllSkinsLoaded += PopAllScenes;
         OsuData.SkinAdded += s => Toast.Push($"Skin was created:\n{s.Name}");

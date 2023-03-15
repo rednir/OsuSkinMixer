@@ -81,8 +81,7 @@ public class Operation
                         return;
                     }
 
-                    GD.PrintErr(t.Exception);
-                    OS.Alert($"{t.Exception.Message}\n\nPlease report this error with logs.", "Error");
+                    Settings.PushException(t.Exception);
                     return;
                 }
 
@@ -107,8 +106,7 @@ public class Operation
         }
         catch (Exception e)
         {
-            GD.PrintErr(e);
-            OS.Alert($"{e.Message}\n\nPlease report this error with logs.", "Error");
+            Settings.PushException(e);
         }
     }
 }

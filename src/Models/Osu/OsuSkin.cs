@@ -40,8 +40,7 @@ public class OsuSkin
             }
             catch (Exception ex)
             {
-                GD.PushError($"Failed to parse skin.ini for skin '{Name}' due to exception {ex.Message}");
-                OS.Alert($"Skin.ini parse error for skin '{Name}', please report this error!\n\n{ex.Message}");
+                Settings.PushException(new InvalidOperationException($"Failed to load {dir.FullName}/skin.ini", ex));
             }
         }
     }

@@ -58,10 +58,7 @@ public partial class SkinNamePopup : Popup
     private void OnConfirm()
     {
         if (string.IsNullOrWhiteSpace(LineEdit.Text))
-        {
-            OS.Alert("Skin name cannot be empty.", "Error");
             return;
-        }
 
         Out();
         ConfirmAction?.Invoke(LineEdit.Text);

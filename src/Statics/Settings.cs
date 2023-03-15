@@ -17,6 +17,8 @@ public static partial class Settings
 
     public const string GITHUB_REPO_PATH = "rednir/OsuSkinMixer";
 
+    public static event Action<Exception> ExceptionPushed;
+
     public static string SettingsFilePath => ProjectSettings.GlobalizePath("user://settings.json");
 
     public static string SkinsFolderPath => $"{Content.OsuFolder}/Skins/";
@@ -70,7 +72,7 @@ public static partial class Settings
         }
         catch (Exception ex)
         {
-            OS.Alert($"Couldn't save settings file due to the following error:\n\n'{ex.Message}'\n\nPlease make sure the program has sufficient privileges. Your settings will not be saved this session.");
+            PushException(new IOException("Failed to save settings file.", ex));
         }
     }
 
@@ -136,7 +138,15 @@ public static partial class Settings
     }
 
     public static void Log(string message)
-        => GD.Print($"[{DateTime.Now.ToLongTimeString()}] {message}");
+    {
+        GD.Print($"[{DateTime.Now.ToLongTimeString()}] {message}");
+    }
+
+    public static void PushException(Exception ex)
+    {
+        GD.PushError(ex);
+        ExceptionPushed?.Invoke(ex);
+    }
 
     private static void MigrateSettings()
     {
