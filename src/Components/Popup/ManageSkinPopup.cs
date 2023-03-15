@@ -127,7 +127,7 @@ public partial class ManageSkinPopup : Popup
                         if (File.Exists(destPath))
                             File.Delete(destPath);
 
-                        ZipFile.CreateFromDirectory(Path.Combine(Settings.SkinsFolderPath, skin.Name), destPath);
+                        ZipFile.CreateFromDirectory(skin.Directory.FullName, destPath);
                         LoadingPopup.Progress += 100.0 / _skins.Length;
                     },
                     undoAction: () =>
