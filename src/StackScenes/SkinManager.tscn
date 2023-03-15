@@ -95,7 +95,7 @@ layout_mode = 2
 text = "Really delete?"
 
 [node name="Text" parent="ManageSkinPopup/DeleteQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
-text = "The skin(s) you have selected will be deleted permanently!"
+text = "The skin(s) will be deleted permanently after osu! skin mixer closes."
 
 [editable path="ManageSkinPopup"]
 [editable path="ManageSkinPopup/Popup"]

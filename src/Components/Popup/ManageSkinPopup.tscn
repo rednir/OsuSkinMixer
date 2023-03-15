@@ -74,7 +74,7 @@ icon = ExtResource("8_6g7oc")
 [node name="DeleteButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/ButtonsContainer" instance=ExtResource("5_30rci")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "    Delete permanently"
+text = "    Delete"
 
 [node name="DeleteQuestionPopup" parent="." instance=ExtResource("9_4k8fj")]
 unique_name_in_owner = true
@@ -91,7 +91,7 @@ offset_bottom = 6.10352e-05
 text = "Delete this skin?"
 
 [node name="Text" parent="DeleteQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
-text = "Be warned, the skin will be deleted permanently!"
+text = "The skin will be deleted permanently after osu! skin mixer closes."
 
 [node name="SkinNamePopup" parent="." instance=ExtResource("9_k23o4")]
 unique_name_in_owner = true
