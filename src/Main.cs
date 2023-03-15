@@ -21,10 +21,11 @@ public partial class Main : Control
 	private Button BackButton;
 	private Label TitleLabel;
 	private Button SettingsButton;
-	private Button HistoryButton;
-	private Toast Toast;
 	private SettingsPopup SettingsPopup;
+	private Button HistoryButton;
+	private HistoryPopup HistoryPopup;
 	private LoadingPopup UpdateInProgressPopup;
+	private Toast Toast;
 	private Label VersionLabel;
 
 	private Stack<StackScene> SceneStack { get; } = new();
@@ -48,6 +49,7 @@ public partial class Main : Control
 		TitleLabel = GetNode<Label>("TopBar/HBoxContainer/Title");
 		SettingsButton = GetNode<Button>("%SettingsButton");
 		HistoryButton = GetNode<Button>("%HistoryButton");
+		HistoryPopup = GetNode<HistoryPopup>("%HistoryPopup");
 		UpdateInProgressPopup = GetNode<LoadingPopup>("%UpdateInProgressPopup");
 		Toast = GetNode<Toast>("Toast");
 		SettingsPopup = GetNode<SettingsPopup>("SettingsPopup");
@@ -85,6 +87,7 @@ public partial class Main : Control
 
 		BackButton.Pressed += PopScene;
 		SettingsButton.Pressed += SettingsPopup.In;
+		HistoryButton.Pressed += HistoryPopup.In;
 
 		OsuData.AllSkinsLoaded += PopAllScenes;
 		OsuData.SkinAdded += s => Toast.Push($"Skin was created:\n{s.Name}");

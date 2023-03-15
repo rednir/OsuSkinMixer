@@ -24,6 +24,9 @@ public class Operation
     public Operation UndoOperation { get; }
 
     [JsonIgnore]
+    public bool Started => _task != null;
+
+    [JsonIgnore]
     private Action Action { get; }
 
     private Task _task;
