@@ -173,7 +173,9 @@ public class SkinModifierMachine : SkinMachine
         OsuSkinIniSection fontsSection = workingSkin.SkinIni?.Sections.Find(s => s.Name == "Fonts");
         OsuSkinIniSection coloursSection = workingSkin.SkinIni?.Sections.Find(s => s.Name == "Colours");
 
-        fontsSection.TryGetValue("HitCirclePrefix", out string hitcirclePrefix);
+        string hitcirclePrefix = null;
+        fontsSection?.TryGetValue("HitCirclePrefix", out hitcirclePrefix);
+
         hitcirclePrefix = hitcirclePrefix != null ? $"{skinDirectory}/{hitcirclePrefix}" : $"{skinDirectory}/default";
 
         using Image<Rgba32> hitcircle = File.Exists(hitcirclePath)
@@ -288,7 +290,7 @@ public class SkinModifierMachine : SkinMachine
         // Remove the skin.ini section to avoid remnants when using skin modifier.
         AddPriorityTask(() =>
         {
-            Settings.Log($"Removing skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}' to avoid remnants");
+            Settings.Log($"Remov`ing skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}' to avoid remnants");
             workingSkin.SkinIni.Sections.Remove(section);
         });
 
