@@ -23,14 +23,14 @@ public partial class OperationComponent : HBoxContainer
 
         DescriptionLabel.Text = Operation.Description;
         TimeStartedLabel.Text = $"{(DateTime.Now - Operation.TimeStarted.GetValueOrDefault()).Humanise()} ago";
-        UndoButton.Disabled = !Operation.CanUndo;
+        UndoButton.Visible = Operation.CanUndo;
 
         UndoButton.Pressed += OnUndoButtonPressed;
     }
 
     private void OnUndoButtonPressed()
     {
-        UndoButton.Disabled = false;
+        UndoButton.Disabled = true;
         Operation.UndoOperation();
         UndoPressed?.Invoke();
     }
