@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cxcudjntoc6uv"]
+[gd_scene load_steps=36 format=3 uid="uid://cxcudjntoc6uv"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_3ca2l"]
 [ext_resource type="Script" path="res://src/Main.cs" id="2_ajhyw"]
@@ -8,9 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://sni5bqyyrgfj" path="res://src/Components/Popup/SetupPopup.tscn" id="4_gusp5"]
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="7_shsih"]
 [ext_resource type="Texture2D" uid="uid://crgnranuin71j" path="res://assets/materialicons/arrow_back.png" id="8_1aqc5"]
+[ext_resource type="Texture2D" uid="uid://bp1ndcvygrvgw" path="res://assets/materialicons/history.png" id="9_ottjh"]
+[ext_resource type="Texture2D" uid="uid://b7pcj2bm25odo" path="res://assets/materialicons/settings.png" id="10_8n7kr"]
 [ext_resource type="PackedScene" uid="uid://feflo812i8ns" path="res://src/Components/Toast.tscn" id="10_hysk3"]
 [ext_resource type="PackedScene" uid="uid://hfjvkcilxe1d" path="res://src/Components/Popup/ResolveSkinConflictPopup.tscn" id="11_e8ymy"]
-[ext_resource type="Texture2D" uid="uid://cu5dir4lry6tx" path="res://assets/settings.png" id="12_qh468"]
 [ext_resource type="PackedScene" uid="uid://da2vul0iiwek5" path="res://src/Components/Popup/ChangelogPopup.tscn" id="12_v1kfe"]
 [ext_resource type="PackedScene" uid="uid://r28lp1qj0ucs" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="13_sdxu4"]
 
@@ -444,6 +445,30 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_esylg")
 text = "Version number"
 vertical_alignment = 1
 
+[node name="HistoryButton" type="Button" parent="TopBar/HBoxContainer"]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_focus_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_normal_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_focus_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_m8k4v")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vcrbn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ssp4a")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_6m58q")
+icon = ExtResource("9_ottjh")
+icon_alignment = 2
+
 [node name="SettingsButton" type="Button" parent="TopBar/HBoxContainer"]
 unique_name_in_owner = true
 clip_contents = true
@@ -455,12 +480,17 @@ theme_override_colors/font_pressed_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_focus_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_normal_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_focus_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_m8k4v")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vcrbn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ssp4a")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_6m58q")
-icon = ExtResource("12_qh468")
+icon = ExtResource("10_8n7kr")
 icon_alignment = 2
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="TopBar/HBoxContainer/SettingsButton"]

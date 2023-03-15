@@ -21,6 +21,7 @@ public partial class Main : Control
 	private Button BackButton;
 	private Label TitleLabel;
 	private Button SettingsButton;
+	private Button HistoryButton;
 	private Toast Toast;
 	private SettingsPopup SettingsPopup;
 	private LoadingPopup UpdateInProgressPopup;
@@ -45,7 +46,8 @@ public partial class Main : Control
 		ScenesContainer = GetNode<Control>("Scenes/ScrollContainer");
 		BackButton = GetNode<Button>("TopBar/HBoxContainer/BackButton");
 		TitleLabel = GetNode<Label>("TopBar/HBoxContainer/Title");
-		SettingsButton = GetNode<Button>("TopBar/HBoxContainer/SettingsButton");
+		SettingsButton = GetNode<Button>("%SettingsButton");
+		HistoryButton = GetNode<Button>("%HistoryButton");
 		UpdateInProgressPopup = GetNode<LoadingPopup>("%UpdateInProgressPopup");
 		Toast = GetNode<Toast>("Toast");
 		SettingsPopup = GetNode<SettingsPopup>("SettingsPopup");
