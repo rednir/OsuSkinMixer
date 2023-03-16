@@ -14,6 +14,8 @@ namespace OsuSkinMixer.Utils;
 /// <summary>Base for classes that peform tasks based on a list of <see cref="SkinOption"/>. Provides abstract methods for populating tasks to be peformed on the relevant skin folders.</summary>
 public abstract class SkinMachine : IDisposable
 {
+    private const int LOG_SPLIT_CHAR_SIZE = 100000;
+
     protected static byte[] TransparentPngFile => new byte[] {
         0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52,
         0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x08, 0x04, 0x00, 0x00, 0x00, 0xB5, 0x1C, 0x0C,
@@ -57,9 +59,11 @@ public abstract class SkinMachine : IDisposable
 
     protected IEnumerable<SkinOption> FlattenedBottomLevelOptions => SkinOption.Flatten(SkinOptions).Where(o => o is not ParentSkinOption);
 
-    private readonly List<Action> _tasks = new();
+    private readonly List<StringBuilder> _logBuilders = new();
 
-    private readonly StringBuilder _logBuilder = new();
+    private StringBuilder _currentLogBuilder;
+
+    private readonly List<Action> _tasks = new();
 
     private readonly Stopwatch _stopwatch = new();
 
@@ -72,7 +76,7 @@ public abstract class SkinMachine : IDisposable
         CancellationToken = cancellationToken;
         OriginalElementsCache.Clear();
         _tasks.Clear();
-        _logBuilder.Clear();
+        _logBuilders.Clear();
 
         Settings.Log("Started skin machine.");
         _stopwatch.Reset();
@@ -99,7 +103,11 @@ public abstract class SkinMachine : IDisposable
         finally
         {
             Progress = null;
-            Settings.Log("Logs for skin machine:" + _logBuilder.ToString());
+            Settings.Log("Logs for skin machine follows:");
+
+            _logBuilders.Add(_currentLogBuilder);
+            foreach (var builder in _logBuilders)
+                Settings.Log(builder.ToString());
         }
     }
 
@@ -306,10 +314,22 @@ public abstract class SkinMachine : IDisposable
 
     protected void Log(string message)
     {
-        _logBuilder
-            .AppendLine(_stopwatch.ElapsedMilliseconds.ToString())
+        _currentLogBuilder ??= new StringBuilder() { Capacity = LOG_SPLIT_CHAR_SIZE };
+
+        _currentLogBuilder
+            .AppendLine()
+            .Append(_stopwatch.ElapsedMilliseconds)
             .Append("ms: ")
             .Append(message);
+
+        // Funky stuff happens if we print a massive string, so split it.
+        // We don't print the logs as soon as they arrive as we print a lot of logs at once,
+        // and Godot flushes the output buffer on program exit, causing a freeze.
+        if (_currentLogBuilder.Length > LOG_SPLIT_CHAR_SIZE)
+        {
+            _logBuilders.Add(_currentLogBuilder);
+            _currentLogBuilder = null;
+        }
     }
 
     protected static bool CheckIfFileAndOptionMatch(FileInfo file, SkinFileOption fileOption)
@@ -353,7 +373,7 @@ public abstract class SkinMachine : IDisposable
             }
 
             _tasks.Clear();
-            _logBuilder.Clear();
+            _logBuilders.Clear();
             _disposedValue = true;
         }
     }
