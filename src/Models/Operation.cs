@@ -13,6 +13,22 @@ public class Operation
 {
     private const int MAX_OPERATION_COUNT = 100;
 
+    public static void AddOperationToMemory(Operation operation)
+    {
+        if (Settings.Content.Operations.Count > MAX_OPERATION_COUNT)
+            Settings.Content.Operations.RemoveRange(0, Settings.Content.Operations.Count - MAX_OPERATION_COUNT);
+
+        foreach (var op in Settings.Content.Operations)
+        {
+            // Only allow the latest operation done to a skin to be undone.
+            // e.g. if you create a skin mix, then delete it, you can't undo the creation as that is not relvant anymore.
+            if (op.TargetSkinName == operation.TargetSkinName)
+                op._undoDisabled = true;
+        }
+
+        Settings.Content.Operations.Add(operation);
+    }
+
     [JsonPropertyName("type")]
     public OperationType Type { get; set; }
 
@@ -32,7 +48,7 @@ public class Operation
     public bool Started => _task != null;
 
     [JsonIgnore]
-    public bool CanUndo => UndoAction != null && !_isUndone;
+    public bool CanUndo => UndoAction != null && !_undoDisabled;
 
     [JsonIgnore]
     private Action UndoAction { get; }
@@ -44,7 +60,7 @@ public class Operation
     private Task _task;
 
     [JsonIgnore]
-    private bool _isUndone;
+    private bool _undoDisabled;
 
     public Operation()
     {
@@ -68,10 +84,7 @@ public class Operation
         TimeStarted = DateTime.Now;
 
         Settings.Log($"Running operation: {Description}");
-        Settings.Content.Operations.Add(this);
-
-        if (Settings.Content.Operations.Count > MAX_OPERATION_COUNT)
-            Settings.Content.Operations.RemoveRange(0, Settings.Content.Operations.Count - MAX_OPERATION_COUNT);
+        AddOperationToMemory(this);
 
         _task = Task.Run(() => Action())
             .ContinueWith(t =>
@@ -106,7 +119,7 @@ public class Operation
         try
         {
             UndoAction();
-            _isUndone = true;
+            _undoDisabled = true;
             Settings.Content.Operations.Remove(this);
         }
         catch (Exception e)
