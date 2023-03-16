@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c6qmivrrdwgur"]
+[gd_scene load_steps=5 format=3 uid="uid://cuo6ytxuc1kjh"]
 
 [ext_resource type="Script" path="res://src/Components/Popup/HistoryPopup.cs" id="1_n6xvt"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_nlr3u"]
@@ -20,6 +20,9 @@ layout_mode = 1
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
 offset_bottom = -0.000366211
+
+[node name="ContentPanelContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer" index="1"]
+custom_minimum_size = Vector2(470, 200)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
 layout_mode = 2
