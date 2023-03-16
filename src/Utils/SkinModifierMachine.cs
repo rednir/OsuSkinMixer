@@ -275,7 +275,10 @@ public class SkinModifierMachine : SkinMachine
     }
 
     private static byte[] GetDefaultElementBytes(string filename)
-        => Godot.FileAccess.GetFileAsBytes($"res://assets/defaultskin/{filename}");
+    {
+        var texture = Godot.GD.Load<Godot.Texture2D>($"res://assets/defaultskin/{filename}");
+        return texture.GetImage().SavePngToBuffer();
+    }
 
     protected override void CopyIniPropertyOption(OsuSkin workingSkin, SkinIniPropertyOption iniPropertyOption)
     {
