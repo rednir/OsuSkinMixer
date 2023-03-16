@@ -9,6 +9,7 @@ namespace OsuSkinMixer.Components;
 
 public partial class SkinPreview : PanelContainer
 {
+    private VisibleOnScreenNotifier2D VisibleOnScreenNotifier2D;
     private AnimationPlayer AnimationPlayer;
     private TextureRect MenuBackground;
     private Sprite2D Cursor;
@@ -19,8 +20,13 @@ public partial class SkinPreview : PanelContainer
 
     private bool _paused;
 
+    private OsuSkin _skin;
+
+    private bool _isTexturesLoaded;
+
     public override void _Ready()
     {
+        VisibleOnScreenNotifier2D = GetNode<VisibleOnScreenNotifier2D>("%VisibleOnScreenNotifier2D");
         AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
         MenuBackground = GetNode<TextureRect>("%MenuBackground");
         Cursor = GetNode<Sprite2D>("%Cursor");
@@ -28,6 +34,8 @@ public partial class SkinPreview : PanelContainer
         Cursormiddle = GetNode<Sprite2D>("%Cursormiddle");
         Cursortrail = GetNode<CpuParticles2D>("%Cursortrail");
         Hitcircle = GetNode<Hitcircle>("%Hitcircle");
+
+        VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
     }
 
     public override void _Process(double delta)
@@ -49,19 +57,29 @@ public partial class SkinPreview : PanelContainer
 
     public void SetSkin(OsuSkin skin)
     {
-        MenuBackground.Texture = skin.GetTexture("menu-background", "png", true) ?? skin.GetTexture("menu-background", "jpg");
-        Cursor.Texture = skin.GetTexture("cursor");
-        Cursormiddle.Texture = skin.GetTexture("cursormiddle");
-        Cursortrail.Texture = skin.GetTexture("cursortrail");
+        _skin = skin;
 
-        if (skin.SkinIni?.TryGetPropertyValue("General", "CursorRotate") is "1" or null)
+        if (_isTexturesLoaded)
+            LoadTextures();
+    }
+
+    private void LoadTextures()
+    {
+        _isTexturesLoaded = true;
+
+        MenuBackground.Texture = _skin.GetTexture("menu-background", "png", true) ?? _skin.GetTexture("menu-background", "jpg");
+        Cursor.Texture = _skin.GetTexture("cursor");
+        Cursormiddle.Texture = _skin.GetTexture("cursormiddle");
+        Cursortrail.Texture = _skin.GetTexture("cursortrail");
+
+        if (_skin.SkinIni?.TryGetPropertyValue("General", "CursorRotate") is "1" or null)
             CursorRotateAnimationPlayer.Play("rotate");
         else
             CursorRotateAnimationPlayer.Stop();
 
-        bool hasCursorMiddle = File.Exists($"{skin.Directory.FullName}/cursormiddle.png");
-        bool transparentCursor = File.Exists($"{skin.Directory.FullName}/cursor.png")
-            && Tools.GetContentRectFromImage($"{skin.Directory.FullName}/cursor.png") == Rectangle.Empty;
+        bool hasCursorMiddle = File.Exists($"{_skin.Directory.FullName}/cursormiddle.png");
+        bool transparentCursor = File.Exists($"{_skin.Directory.FullName}/cursor.png")
+            && Tools.GetContentRectFromImage($"{_skin.Directory.FullName}/cursor.png") == Rectangle.Empty;
 
         // TODO: this is very arbitrary, make this more accurate to osu!
         if (hasCursorMiddle && transparentCursor)
@@ -76,9 +94,17 @@ public partial class SkinPreview : PanelContainer
         }
 
         // This seems to be how it works in osu! but idk really.
-        Cursormiddle.Visible = hasCursorMiddle || !File.Exists($"{skin.Directory.FullName}/cursor.png");
+        Cursormiddle.Visible = hasCursorMiddle || !File.Exists($"{_skin.Directory.FullName}/cursor.png");
 
-        Hitcircle.SetSkin(skin);
+        Hitcircle.SetSkin(_skin);
+    }
+
+    private void OnScreenEntered()
+    {
+        if (_skin == null || _isTexturesLoaded)
+            return;
+
+        LoadTextures();
     }
 
     private void OnMouseEntered()

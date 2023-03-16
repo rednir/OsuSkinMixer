@@ -113,6 +113,12 @@ offset_bottom = 228.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bt0da")
 script = ExtResource("1_o7mmq")
 
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(2, 114.25)
+scale = Vector2(22.15, 11.375)
+rect = Rect2(0, -10, 20, 20)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {

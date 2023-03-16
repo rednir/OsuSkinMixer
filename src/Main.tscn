@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://b7pcj2bm25odo" path="res://assets/materialicons/settings.png" id="10_8n7kr"]
 [ext_resource type="PackedScene" uid="uid://feflo812i8ns" path="res://src/Components/Toast.tscn" id="10_hysk3"]
 [ext_resource type="PackedScene" uid="uid://hfjvkcilxe1d" path="res://src/Components/Popup/ResolveSkinConflictPopup.tscn" id="11_e8ymy"]
-[ext_resource type="PackedScene" uid="uid://c6qmivrrdwgur" path="res://src/Components/Popup/HistoryPopup.tscn" id="12_n1u7x"]
+[ext_resource type="PackedScene" uid="uid://cuo6ytxuc1kjh" path="res://src/Components/Popup/HistoryPopup.tscn" id="12_n1u7x"]
 [ext_resource type="PackedScene" uid="uid://da2vul0iiwek5" path="res://src/Components/Popup/ChangelogPopup.tscn" id="12_v1kfe"]
 [ext_resource type="PackedScene" uid="uid://r28lp1qj0ucs" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="13_sdxu4"]
 [ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="16_s5jw8"]
