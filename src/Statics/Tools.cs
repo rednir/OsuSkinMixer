@@ -56,7 +56,14 @@ public static class Tools
 
     public static Rectangle GetContentRectFromImage(string path)
     {
-        using Image<Rgba32> image = SixLabors.ImageSharp.Image.Load<Rgba32>(path);
-        return GetContentRectFromImage(image);
+        try
+        {
+            using Image<Rgba32> image = SixLabors.ImageSharp.Image.Load<Rgba32>(path);
+            return GetContentRectFromImage(image);
+        }
+        catch
+        {
+            return Rectangle.Empty;
+        }
     }
 }
