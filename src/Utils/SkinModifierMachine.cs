@@ -40,6 +40,10 @@ public class SkinModifierMachine : SkinMachine
                     foreach (var pair in OriginalElementsCache)
                     {
                         string fullFilePath = pair.Key;
+
+                        if (!fullFilePath.StartsWith(skin.Directory.FullName, StringComparison.OrdinalIgnoreCase))
+                            continue;
+
                         Settings.Log($"Restoring: {fullFilePath} ");
 
                         MemoryStream memoryStream = pair.Value;
