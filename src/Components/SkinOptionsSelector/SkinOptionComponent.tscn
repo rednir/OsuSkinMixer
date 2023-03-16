@@ -68,9 +68,10 @@ text_overrun_behavior = 3
 [node name="ResetButton" type="TextureButton" parent="Button"]
 modulate = Color(1, 0.847059, 0.894118, 1)
 layout_mode = 0
-offset_left = 190.0
-offset_top = 3.0
-offset_right = 216.0
-offset_bottom = 29.0
+offset_left = 189.0
+offset_top = 4.0
+offset_right = 220.0
+offset_bottom = 33.0
+scale = Vector2(0.85, 0.85)
 texture_normal = ExtResource("9_hab4j")
 stretch_mode = 3
