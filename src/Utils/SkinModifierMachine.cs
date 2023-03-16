@@ -279,8 +279,8 @@ public class SkinModifierMachine : SkinMachine
         // Remove the skin.ini properties to avoid remnants when using skin modifier.
         AddPriorityTask(() =>
         {
-            Settings.Log($"Removing '{property.section}'.'{property.property}' to avoid remnants");
-            workingSkin.SkinIni?.Sections.LastOrDefault(s => s.Name == property.section)?.Remove(property.property);
+            if (workingSkin.SkinIni?.Sections.LastOrDefault(s => s.Name == property.section)?.Remove(property.property) == true)
+                Settings.Log($"Removed skin.ini property '{property.section}.{property.property}' to avoid remnants");
         });
 
         base.CopyIniPropertyOption(workingSkin, iniPropertyOption);
@@ -294,8 +294,8 @@ public class SkinModifierMachine : SkinMachine
         // Remove the skin.ini section to avoid remnants when using skin modifier.
         AddPriorityTask(() =>
         {
-            Settings.Log($"Removing skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}' to avoid remnants");
-            workingSkin.SkinIni?.Sections.Remove(section);
+            if (workingSkin.SkinIni?.Sections.Remove(section) == true)
+                Settings.Log($"Removed skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}' to avoid remnants");
         });
 
         base.CopyIniSectionOption(workingSkin, iniSectionOption);
@@ -308,7 +308,7 @@ public class SkinModifierMachine : SkinMachine
         {
             foreach (FileInfo file in workingSkin.Directory.GetFiles().Where(f => CheckIfFileAndOptionMatch(f, fileOption)).ToArray())
             {
-                Settings.Log($"Removing '{file.FullName}' to avoid remnants");
+                Settings.Log($"Removing file '{file.FullName}' to avoid remnants");
                 AddFileToOriginalElementsCache(file.FullName);
                 file.Delete();
             }
