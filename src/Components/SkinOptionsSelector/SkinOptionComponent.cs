@@ -16,6 +16,7 @@ public partial class SkinOptionComponent : HBoxContainer
     public SkinOption SkinOption { get; private set; }
 
     private Label Label;
+    private Label SpecialTextLabel;
 
     public override void _Ready()
     {
@@ -23,6 +24,7 @@ public partial class SkinOptionComponent : HBoxContainer
         Label = GetNode<Label>("Label");
         Button = GetNode<Button>("Button");
         ResetButton = GetNode<TextureButton>("Button/ResetButton");
+        SpecialTextLabel = GetNode<Label>("Button/SpecialText");
     }
 
     public void SetSkinOption(SkinOption option, SkinOptionValue defaultValue, int indentLayer)
@@ -52,22 +54,24 @@ public partial class SkinOptionComponent : HBoxContainer
     {
         SkinOption.Value = value;
         Button.TooltipText = null;
+        Button.Text = string.Empty;
 
         switch (value.Type)
         {
             case SkinOptionValueType.Various:
-                Button.Text = "<<VARIOUS>>";
+                SpecialTextLabel.Text = "<<VARIOUS>>";
                 break;
             case SkinOptionValueType.Unchanged:
-                Button.Text = "<<UNCHANGED>>";
+                SpecialTextLabel.Text = "<<UNCHANGED>>";
                 break;
             case SkinOptionValueType.DefaultSkin:
-                Button.Text = "<<DEFAULT SKIN>>";
+                SpecialTextLabel.Text = "<<DEFAULT SKIN>>";
                 break;
             case SkinOptionValueType.Blank:
-                Button.Text = "<<BLANK>>";
+                SpecialTextLabel.Text = "<<BLANK>>";
                 break;
             case SkinOptionValueType.CustomSkin:
+                SpecialTextLabel.Text = string.Empty;
                 Button.Text = value.CustomSkin.Name;
                 Button.TooltipText = value.CustomSkin.Name;
                 break;
