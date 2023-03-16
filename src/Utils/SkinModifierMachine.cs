@@ -65,6 +65,7 @@ public class SkinModifierMachine : SkinMachine
 
                         memoryStream.Dispose();
                         fileStream.Dispose();
+                        OriginalElementsCache.Remove(pair.Key);
                     }
 
                     OsuData.InvokeSkinModified(skin);
