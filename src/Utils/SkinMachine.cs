@@ -130,7 +130,13 @@ public abstract class SkinMachine : IDisposable
             {
                 if (pair.Key == iniPropertyOption.IncludeSkinIniProperty.property)
                 {
-                    OsuSkinIniSection newSkinSection = workingSkin.SkinIni.Sections.Last(s => s.Name == section.Name);
+                    OsuSkinIniSection newSkinSection = workingSkin.SkinIni.Sections.LastOrDefault(s => s.Name == section.Name);
+                    if (newSkinSection == null)
+                    {
+                        newSkinSection = new OsuSkinIniSection(section.Name);
+                        workingSkin.SkinIni.Sections.Add(newSkinSection);
+                    }
+
                     AddTask(() =>
                     {
                         Settings.Log($"Run task copy skin.ini property '{section.Name}.{pair.Key}: {pair.Value}'");
