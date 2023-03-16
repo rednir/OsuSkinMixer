@@ -133,7 +133,7 @@ public abstract class SkinMachine : IDisposable
                     OsuSkinIniSection newSkinSection = workingSkin.SkinIni.Sections.Last(s => s.Name == section.Name);
                     AddTask(() =>
                     {
-                        Settings.Log($"Copying skin.ini property '{section.Name}.{pair.Key}: {pair.Value}'");
+                        Settings.Log($"Run task copy skin.ini property '{section.Name}.{pair.Key}: {pair.Value}'");
                         newSkinSection.TryAdd(
                             key: pair.Key,
                             value: pair.Value);
