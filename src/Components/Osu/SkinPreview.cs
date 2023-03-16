@@ -59,11 +59,11 @@ public partial class SkinPreview : PanelContainer
         else
             CursorRotateAnimationPlayer.Stop();
 
-        // TODO: this is very arbitrary, make this more accurate to osu!
         bool hasCursorMiddle = File.Exists($"{skin.Directory.FullName}/cursormiddle.png");
         bool transparentCursor = File.Exists($"{skin.Directory.FullName}/cursor.png")
             && Tools.GetContentRectFromImage($"{skin.Directory.FullName}/cursor.png") == Rectangle.Empty;
 
+        // TODO: this is very arbitrary, make this more accurate to osu!
         if (hasCursorMiddle && transparentCursor)
         {
             Cursortrail.Lifetime = 0.5f;
@@ -74,6 +74,9 @@ public partial class SkinPreview : PanelContainer
             Cursortrail.Lifetime = 0.15f;
             Cursortrail.Amount = 5;
         }
+
+        // This seems to be how it works in osu! but idk really.
+        Cursormiddle.Visible = hasCursorMiddle || !File.Exists($"{skin.Directory.FullName}/cursor.png");
 
         Hitcircle.SetSkin(skin);
     }

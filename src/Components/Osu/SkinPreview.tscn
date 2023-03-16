@@ -131,12 +131,12 @@ stretch_mode = 6
 unique_name_in_owner = true
 position = Vector2(223, 112)
 
-[node name="Cursormiddle" type="Sprite2D" parent="."]
+[node name="Cursor" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(47, 46)
-texture = ExtResource("4_fw12c")
+texture = ExtResource("4_s2rty")
 
-[node name="Cursortrail" type="CPUParticles2D" parent="Cursormiddle"]
+[node name="Cursortrail" type="CPUParticles2D" parent="Cursor"]
 unique_name_in_owner = true
 show_behind_parent = true
 amount = 12
@@ -145,14 +145,13 @@ texture = ExtResource("5_wirir")
 gravity = Vector2(2.08165e-12, 2.08165e-12)
 color_ramp = SubResource("Gradient_28nnj")
 
-[node name="Cursor" type="Sprite2D" parent="."]
-unique_name_in_owner = true
-z_index = 5
-position = Vector2(47, 46)
-texture = ExtResource("4_s2rty")
-
 [node name="CursorRotateAnimationPlayer" type="AnimationPlayer" parent="Cursor"]
 unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_ku4pg")
 }
+
+[node name="Cursormiddle" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(47, 46)
+texture = ExtResource("4_fw12c")
