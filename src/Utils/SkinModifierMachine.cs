@@ -89,12 +89,12 @@ public class SkinModifierMachine : SkinMachine
 
     private void ModifySingleSkin(OsuSkin workingSkin, IEnumerable<SkinOption> flattenedOptions)
     {
-        Settings.Log($"Beginning skin modification for single skin '{workingSkin.Name}'");
+        Log($"Beginning skin modification for single skin '{workingSkin.Name}'");
 
         double progressInterval = UNCANCELLABLE_AFTER / SkinsToModify.Count() / flattenedOptions.Count(o => o.Value.Type != SkinOptionValueType.Unchanged);
         foreach (var option in flattenedOptions)
         {
-            Settings.Log($"About to copy option '{option.Name}' set to {option.Value.Type}, skin '{option.Value.CustomSkin?.Name ?? "null"}'");
+            Log($"About to copy option '{option.Name}' set to {option.Value.Type}, skin '{option.Value.CustomSkin?.Name ?? "null"}'");
 
             // User wants this skin element to be unchanged.
             if (option.Value.Type == SkinOptionValueType.Unchanged || option.Value.CustomSkin == workingSkin)
@@ -128,16 +128,16 @@ public class SkinModifierMachine : SkinMachine
         AddFileToOriginalElementsCache(skinIniDestination);
         AddTask(() =>
         {
-            Settings.Log($"Writing to {skinIniDestination}");
+            Log($"Writing to {skinIniDestination}");
             File.WriteAllText(skinIniDestination, workingSkin.SkinIni?.ToString());
         });
 
-        Settings.Log($"Skin modification for '{workingSkin.Name}' has completed.");
+        Log($"Skin modification for '{workingSkin.Name}' has completed.");
     }
 
     private void MakeCursorTrailSmooth(OsuSkin workingSkin, string suffix = null)
     {
-        Settings.Log($"Making cursor{suffix} trail smooth for skin '{workingSkin.Name}'");
+        Log($"Making cursor{suffix} trail smooth for skin '{workingSkin.Name}'");
 
         string cursorPath = $"{workingSkin.Directory.FullName}/cursor{suffix}.png";
         string cursorTrailPath = $"{workingSkin.Directory.FullName}/cursortrail{suffix}.png";
@@ -145,7 +145,7 @@ public class SkinModifierMachine : SkinMachine
 
         if (!File.Exists(cursorPath) || !File.Exists(cursorTrailPath))
         {
-            Settings.Log("Cursor image not found, skipping smooth trail option.");
+            Log("Cursor image not found, skipping smooth trail option.");
             return;
         }
 
@@ -155,7 +155,7 @@ public class SkinModifierMachine : SkinMachine
 
         if (cropRectangle == Rectangle.Empty)
         {
-            Settings.Log("Cursor trail image is empty, skipping smooth trail option.");
+            Log("Cursor trail image is empty, skipping smooth trail option.");
             return;
         }
 
@@ -173,7 +173,7 @@ public class SkinModifierMachine : SkinMachine
     private void MakeCirclesInstafade(OsuSkin workingSkin, string suffix = null)
     {
         // With help from https://skinship.xyz/guides/insta_fade_hc.html
-        Settings.Log($"Making circles{suffix} instafade for skin '{workingSkin.Name}'");
+        Log($"Making circles{suffix} instafade for skin '{workingSkin.Name}'");
 
         string skinDirectory = workingSkin.Directory.FullName;
         string hitcirclePath = $"{skinDirectory}/hitcircle{suffix}.png";
@@ -288,7 +288,7 @@ public class SkinModifierMachine : SkinMachine
         AddPriorityTask(() =>
         {
             if (workingSkin.SkinIni?.Sections.LastOrDefault(s => s.Name == property.section)?.Remove(property.property) == true)
-                Settings.Log($"Removed skin.ini property '{property.section}.{property.property}' to avoid remnants");
+                Log($"Removed skin.ini property '{property.section}.{property.property}' to avoid remnants");
         });
 
         base.CopyIniPropertyOption(workingSkin, iniPropertyOption);
@@ -303,7 +303,7 @@ public class SkinModifierMachine : SkinMachine
         AddPriorityTask(() =>
         {
             if (workingSkin.SkinIni?.Sections.Remove(section) == true)
-                Settings.Log($"Removed skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}' to avoid remnants");
+                Log($"Removed skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}' to avoid remnants");
         });
 
         base.CopyIniSectionOption(workingSkin, iniSectionOption);
@@ -316,7 +316,7 @@ public class SkinModifierMachine : SkinMachine
         {
             foreach (FileInfo file in workingSkin.Directory.GetFiles().Where(f => CheckIfFileAndOptionMatch(f, fileOption)).ToArray())
             {
-                Settings.Log($"Removing file '{file.FullName}' to avoid remnants");
+                Log($"Removing file '{file.FullName}' to avoid remnants");
                 AddFileToOriginalElementsCache(file.FullName);
                 file.Delete();
             }

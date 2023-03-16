@@ -31,7 +31,7 @@ public class SkinMixerMachine : SkinMachine
         var flattenedOptions = FlattenedBottomLevelOptions;
         foreach (var option in flattenedOptions)
         {
-            Settings.Log($"About to copy option '{option.Name}' set to '{option.Value.CustomSkin?.Name ?? "null"}'");
+            Log($"About to copy option '{option.Name}' set to '{option.Value.CustomSkin?.Name ?? "null"}'");
 
             if (option.Value.Type == SkinOptionValueType.DefaultSkin)
                 continue;
@@ -45,7 +45,7 @@ public class SkinMixerMachine : SkinMachine
         string skinIniDestination = $"{NewSkin.Directory.FullName}/skin.ini";
         AddTask(() =>
         {
-            Settings.Log($"Writing to {skinIniDestination}");
+            Log($"Writing to {skinIniDestination}");
             File.WriteAllText(skinIniDestination, NewSkin.SkinIni.ToString());
         });
 
@@ -61,7 +61,7 @@ public class SkinMixerMachine : SkinMachine
     protected override void PostRun()
     {
         string dirDestPath = $"{Settings.SkinsFolderPath}/{NewSkin.Name}";
-        Settings.Log($"Copying working folder to '{dirDestPath}'");
+        Log($"Copying working folder to '{dirDestPath}'");
 
         if (!IsInSkinsFolder(dirDestPath))
             throw new InvalidOperationException("Destination path is not in the skins folder.");

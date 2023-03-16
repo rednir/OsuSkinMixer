@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using Godot;
 using OsuSkinMixer.Models;
@@ -58,6 +59,10 @@ public abstract class SkinMachine : IDisposable
 
     private readonly List<Action> _tasks = new();
 
+    private readonly StringBuilder _logBuilder = new();
+
+    private readonly Stopwatch _stopwatch = new();
+
     private double? _progress;
 
     private bool _disposedValue;
@@ -67,23 +72,35 @@ public abstract class SkinMachine : IDisposable
         CancellationToken = cancellationToken;
         OriginalElementsCache.Clear();
         _tasks.Clear();
+        _logBuilder.Clear();
 
-        Settings.Log("Started");
-        Stopwatch stopwatch = new();
-        stopwatch.Start();
+        Settings.Log("Started skin machine.");
+        _stopwatch.Reset();
+        _stopwatch.Start();
 
-        Progress = 0;
+        try
+        {
+            Progress = 0;
 
-        PopulateTasks();
-        RunAllTasks();
+            PopulateTasks();
+            RunAllTasks();
 
-        Progress = 100;
+            Progress = 100;
 
-        PostRun();
+            PostRun();
 
-        stopwatch.Stop();
-        Settings.Log($"Finished in {stopwatch.Elapsed.TotalSeconds}s");
-        Progress = null;
+            _stopwatch.Stop();
+            Settings.Log($"Finished skin machine in {_stopwatch.Elapsed.TotalSeconds}s");
+        }
+        catch
+        {
+            throw;
+        }
+        finally
+        {
+            Progress = null;
+            Settings.Log("Logs for skin machine:" + _logBuilder.ToString());
+        }
     }
 
     protected abstract void PopulateTasks();
@@ -139,7 +156,7 @@ public abstract class SkinMachine : IDisposable
 
                     AddTask(() =>
                     {
-                        Settings.Log($"Run task copy skin.ini property '{section.Name}.{pair.Key}: {pair.Value}'");
+                        Log($"Run task copy skin.ini property '{section.Name}.{pair.Key}: {pair.Value}'");
                         newSkinSection.Add(
                             key: pair.Key,
                             value: pair.Value);
@@ -164,7 +181,7 @@ public abstract class SkinMachine : IDisposable
         if (section == null)
             return;
 
-        Settings.Log($"Copying skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}'");
+        Log($"Copying skin.ini section '{iniSectionOption.SectionName}' where '{iniSectionOption.Property.Key}: {iniSectionOption.Property.Value}'");
 
         workingSkin.SkinIni.Sections.Add(section);
         foreach (var property in section)
@@ -232,7 +249,7 @@ public abstract class SkinMachine : IDisposable
 
         _tasks.Add(() =>
         {
-            Settings.Log($"Run task '{file.FullName}' -> '{destFullPath}' ({reason})");
+            Log($"Run task '{file.FullName}' -> '{destFullPath}' ({reason})");
 
             using FileStream fileStream = File.Create(destFullPath);
             memoryStream.Position = 0;
@@ -253,7 +270,7 @@ public abstract class SkinMachine : IDisposable
         {
             _tasks.Add(() =>
             {
-                Settings.Log($"Run task (blank file) -> '{destFullPath}'");
+                Log($"Run task (blank file) -> '{destFullPath}'");
                 File.Create(destFullPath).Dispose();
             });
         }
@@ -261,7 +278,7 @@ public abstract class SkinMachine : IDisposable
         {
             _tasks.Add(() =>
             {
-                Settings.Log($"Run task (blank file) -> '{destFullPath}'");
+                Log($"Run task (blank file) -> '{destFullPath}'");
 
                 // This is a 1x1 transparent PNG file. A zero byte file will cause osu! to fall back to the default skin.
                 File.WriteAllBytes(destFullPath, TransparentPngFile);
@@ -285,6 +302,14 @@ public abstract class SkinMachine : IDisposable
         }
 
         OriginalElementsCache.TryAdd(fullFilePath, originalMemoryStream);
+    }
+
+    protected void Log(string message)
+    {
+        _logBuilder
+            .AppendLine(_stopwatch.ElapsedMilliseconds.ToString())
+            .Append("ms: ")
+            .Append(message);
     }
 
     protected static bool CheckIfFileAndOptionMatch(FileInfo file, SkinFileOption fileOption)
@@ -328,6 +353,7 @@ public abstract class SkinMachine : IDisposable
             }
 
             _tasks.Clear();
+            _logBuilder.Clear();
             _disposedValue = true;
         }
     }
