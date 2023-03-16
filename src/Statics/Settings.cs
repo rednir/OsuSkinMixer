@@ -13,7 +13,7 @@ namespace OsuSkinMixer.Statics;
 
 public static partial class Settings
 {
-    public const string VERSION = "v2.4.0";
+    public const string VERSION = "v2.4.1";
 
     public const string GITHUB_REPO_PATH = "rednir/OsuSkinMixer";
 
