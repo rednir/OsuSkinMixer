@@ -21,6 +21,10 @@ boot_splash/image="res://icon.png"
 boot_splash/fullsize=false
 config/icon="res://icon.png"
 
+[debug]
+
+file_logging/max_log_files=3
+
 [display]
 
 window/size/viewport_width=750
