@@ -114,6 +114,7 @@ public partial class SkinPreview : PanelContainer
 
         _paused = false;
         Cursortrail.SpeedScale = 1;
+        Cursortrail.Emitting = true;
         AnimationPlayer.Play("enter");
         Hitcircle.Resume();
     }
@@ -125,6 +126,7 @@ public partial class SkinPreview : PanelContainer
 
         _paused = true;
         Cursortrail.SpeedScale = 0;
+        Cursortrail.Emitting = false;
         AnimationPlayer.Play("exit");
         Hitcircle.Pause();
     }
