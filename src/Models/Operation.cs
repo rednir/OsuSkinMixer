@@ -111,7 +111,7 @@ public class Operation
 
     public void UndoOperation()
     {
-        if (_task?.IsCompleted != true)
+        if (_task?.IsCompleted != true || !CanUndo)
             return;
 
         Settings.Log($"Undoing operation: {Description}");
