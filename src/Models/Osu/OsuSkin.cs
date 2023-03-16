@@ -100,8 +100,6 @@ public class OsuSkin
         if (_textureCache.TryGetValue(filename, out Texture2D value))
             return value;
 
-        Settings.Log($"Loading texture '{filename}' for skin: {Name}");
-
         string path = $"{Directory.FullName}/{filename}.{extension}";
 
         // Often default-x.png is found in a subdirectory defined by the skin.ini, so check for that.
@@ -118,7 +116,6 @@ public class OsuSkin
             if (fallbackToNull)
                 return null;
 
-            Settings.Log("Falling back to default texture");
             var defaultTexture = GetDefaultTexture($"{filename}.{extension}");
             _textureCache.Add(filename, defaultTexture);
             return defaultTexture;
