@@ -140,7 +140,7 @@ public abstract class SkinMachine : IDisposable
                     AddTask(() =>
                     {
                         Settings.Log($"Run task copy skin.ini property '{section.Name}.{pair.Key}: {pair.Value}'");
-                        newSkinSection.TryAdd(
+                        newSkinSection.Add(
                             key: pair.Key,
                             value: pair.Value);
                     });

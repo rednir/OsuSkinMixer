@@ -72,12 +72,14 @@ public class Operation
         UndoAction = undoAction;
     }
 
-    public Task RunOperation()
+    public Task RunOperation(bool pauseSweep = true)
     {
         if (_task != null)
             return _task;
 
-        OsuData.SweepPaused = true;
+        if (pauseSweep)
+            OsuData.SweepPaused = true;
+
         TimeStarted = DateTime.Now;
 
         Settings.Log($"Running operation: {Description}");
@@ -86,7 +88,8 @@ public class Operation
         _task = Task.Run(() => Action())
             .ContinueWith(t =>
             {
-                OsuData.SweepPaused = false;
+                if (pauseSweep)
+                    OsuData.SweepPaused = false;
 
                 if (t.IsFaulted)
                 {

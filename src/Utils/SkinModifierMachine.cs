@@ -26,6 +26,8 @@ public class SkinModifierMachine : SkinMachine
 
     protected override void PopulateTasks()
     {
+        OsuData.SweepPaused = true;
+
         var flattenedOptions = FlattenedBottomLevelOptions;
         foreach (OsuSkin skin in SkinsToModify)
         {
@@ -72,7 +74,7 @@ public class SkinModifierMachine : SkinMachine
                     Settings.Log($"Finished skin modify undo for skin: {skin.Name}");
                 }
             )
-            .RunOperation().Wait();
+            .RunOperation(false).Wait();
             CancellationToken.ThrowIfCancellationRequested();
         }
     }
@@ -81,6 +83,8 @@ public class SkinModifierMachine : SkinMachine
     {
         foreach (OsuSkin skin in SkinsToModify)
             OsuData.InvokeSkinModified(skin);
+
+        OsuData.SweepPaused = false;
     }
 
     private void ModifySingleSkin(OsuSkin workingSkin, IEnumerable<SkinOption> flattenedOptions)
