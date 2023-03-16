@@ -23,7 +23,7 @@ public class Operation
             // Only allow the latest operation done to a skin to be undone.
             // e.g. if you create a skin mix, then delete it, you can't undo the creation as that is not relvant anymore.
             if (op.TargetSkinName == operation.TargetSkinName)
-                op._undoDisabled = true;
+                op.UndoAction = null;
         }
 
         Settings.Content.Operations.Add(operation);
@@ -48,19 +48,16 @@ public class Operation
     public bool Started => _task != null;
 
     [JsonIgnore]
-    public bool CanUndo => UndoAction != null && !_undoDisabled;
+    public bool CanUndo => UndoAction != null;
 
     [JsonIgnore]
-    private Action UndoAction { get; }
+    private Action UndoAction { get; set; }
 
     [JsonIgnore]
     private Action Action { get; }
 
     [JsonIgnore]
     private Task _task;
-
-    [JsonIgnore]
-    private bool _undoDisabled;
 
     public Operation()
     {
@@ -119,7 +116,7 @@ public class Operation
         try
         {
             UndoAction();
-            _undoDisabled = true;
+            UndoAction = null;
             Settings.Content.Operations.Remove(this);
         }
         catch (Exception e)
