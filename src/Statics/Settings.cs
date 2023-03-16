@@ -21,9 +21,9 @@ public static partial class Settings
 
     public static string SettingsFilePath => ProjectSettings.GlobalizePath("user://settings.json");
 
-    public static string SkinsFolderPath => $"{Content.OsuFolder}/Skins/";
+    public static string SkinsFolderPath => Path.Combine(Content.OsuFolder, "Skins");
 
-    public static string HiddenSkinsFolderPath => $"{Content.OsuFolder}/HiddenSkins/";
+    public static string HiddenSkinsFolderPath => Path.Combine(Content.OsuFolder, "HiddenSkins");
 
     public static string TrashFolderPath => Path.Combine(Content.OsuFolder, ".osu-skin-mixer-trash");
 

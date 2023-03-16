@@ -3,6 +3,7 @@ using System;
 using Environment = System.Environment;
 using OsuSkinMixer.Statics;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace OsuSkinMixer.Components;
 
@@ -34,7 +35,7 @@ public partial class SetupPopup : Popup
     public override void In()
     {
         base.In();
-        LineEdit.Text = Settings.Content.OsuFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/osu!";
+        LineEdit.Text = Settings.Content.OsuFolder ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "osu!");
     }
 
     private void DoneButtonPressed()
