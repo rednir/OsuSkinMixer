@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using System.IO;
 using Godot;
 using OsuSkinMixer.Models;
 using SixLabors.ImageSharp;
@@ -14,12 +16,22 @@ public static class Tools
 
     public static void TriggerOskImport(OsuSkin skin)
     {
-        string oskDestPath = $"{Settings.SkinsFolderPath}/{skin.Name}.osk";
-        Settings.Log($"Importing skin into game from '{oskDestPath}'");
+        string osuPath = Path.Combine(Settings.Content.OsuFolder, "osu!.exe");
 
-        // osu! will handle the empty .osk (zip) file by switching the current skin to the skin with name `newSkinName`.
+        if (!File.Exists(osuPath))
+            throw new FileNotFoundException($"osu! executable not found at {osuPath}");
+
+        string oskDestPath = $"{Settings.TempFolderPath}/{skin.Name}.osk";
+
+        // osu! will handle the empty .osk (zip) file by switching the current skin to the skin with name `skin.Name`.
         File.WriteAllBytes(oskDestPath, new byte[] { 0x50, 0x4B, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-        ShellOpenFile(oskDestPath);
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = osuPath,
+            Arguments = oskDestPath,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+        });
     }
 
     public static Rectangle GetContentRectFromImage(Image<Rgba32> image)

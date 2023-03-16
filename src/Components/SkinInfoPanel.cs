@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using Godot;
 using OsuSkinMixer.Models;
@@ -124,7 +125,14 @@ public partial class SkinInfoPanel : PanelContainer
 
     private void OnOpenInOsuButtonPressed()
     {
-        Tools.TriggerOskImport(Skin);
+        try
+        {
+            Tools.TriggerOskImport(Skin);
+        }
+        catch (Exception ex)
+        {
+            Settings.PushException(ex);
+        }
     }
 
     private void OnMoreButtonPressed()
