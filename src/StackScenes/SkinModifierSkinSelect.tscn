@@ -26,12 +26,7 @@ size_flags_horizontal = 4
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
 
-[node name="SkinsToModifyContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="HintLabel" type="Label" parent="PanelContainer/VBoxContainer/SkinsToModifyContainer"]
+[node name="HintLabel" type="Label" parent="PanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(544, 2.08165e-12)
 layout_mode = 2
 text = "Select one or more skins to modify!"
@@ -39,13 +34,21 @@ label_settings = ExtResource("3_u5v8k")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="HintLabel2" type="Label" parent="PanelContainer/VBoxContainer/SkinsToModifyContainer"]
+[node name="HintLabel2" type="Label" parent="PanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(544, 2.08165e-12)
 layout_mode = 2
 text = "You might want to make a copy of the skins you want to modify first. You can do this from the Skin Manager."
 label_settings = ExtResource("4_gngcc")
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SkinsToModifyContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
 
 [node name="AddSkinToModifyButton" parent="PanelContainer/VBoxContainer" instance=ExtResource("3_j0wcv")]
 unique_name_in_owner = true
