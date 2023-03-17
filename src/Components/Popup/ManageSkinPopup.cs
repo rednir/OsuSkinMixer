@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
+using System;
 
 namespace OsuSkinMixer.Components;
 
@@ -21,6 +22,8 @@ public partial class ManageSkinPopup : Popup
     private SkinNamePopup SkinNamePopup;
     private LoadingPopup LoadingPopup;
     private Label TitleLabel;
+    private Button OpenInOsuButton;
+    private Button OpenFolderButton;
     private Button ModifyButton;
     private Button HideButton;
     private Button ExportButton;
@@ -36,6 +39,8 @@ public partial class ManageSkinPopup : Popup
         SkinNamePopup = GetNode<SkinNamePopup>("%SkinNamePopup");
         LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
         TitleLabel = GetNode<Label>("%Title");
+        OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
+        OpenFolderButton = GetNode<Button>("%OpenFolderButton");
         ModifyButton = GetNode<Button>("%ModifyButton");
         HideButton = GetNode<Button>("%HideButton");
         ExportButton = GetNode<Button>("%ExportButton");
@@ -44,6 +49,8 @@ public partial class ManageSkinPopup : Popup
 
         DeleteQuestionPopup.ConfirmAction = OnDeleteConfirmed;
         SkinNamePopup.ConfirmAction = OnDuplicateSkinNameConfirmed;
+        OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
+        OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
         ModifyButton.Pressed += OnModifyButtonPressed;
         HideButton.Pressed += OnHideButtonPressed;
         ExportButton.Pressed += OnExportButtonPressed;
@@ -72,6 +79,8 @@ public partial class ManageSkinPopup : Popup
 
     private void SetValues()
     {
+        OpenInOsuButton.Visible = (Options & ManageSkinOptions.OpenInOsu) == ManageSkinOptions.OpenInOsu && _skins.Length == 1;
+        OpenFolderButton.Visible = (Options & ManageSkinOptions.OpenFolder) == ManageSkinOptions.OpenFolder;
         ModifyButton.Visible = (Options & ManageSkinOptions.Modify) == ManageSkinOptions.Modify;
         HideButton.Visible = (Options & ManageSkinOptions.Hide) == ManageSkinOptions.Hide;
         ExportButton.Visible = (Options & ManageSkinOptions.Export) == ManageSkinOptions.Export;
@@ -87,6 +96,24 @@ public partial class ManageSkinPopup : Popup
 
         TitleLabel.Text = $"{_skins.Length} skins selected";
         HideButton.Text = "    Toggle hidden state";
+    }
+
+    private void OnOpenInOsuButtonPressed()
+    {
+        try
+        {
+            Tools.TriggerOskImport(_skins[0]);
+        }
+        catch (Exception ex)
+        {
+            Settings.PushException(ex);
+        }
+    }
+
+    private void OnOpenFolderButtonPressed()
+    {
+        foreach (var skin in _skins)
+            Tools.ShellOpenFile(skin.Directory.FullName);
     }
 
     private void OnModifyButtonPressed()
