@@ -92,22 +92,11 @@ public partial class SkinComponent : HBoxContainer
 
     private void OnGuiInput(InputEvent inputEvent)
     {
-        if (inputEvent is InputEventMouseButton mouseButton && mouseButton.Pressed)
+        if (inputEvent is InputEventMouseButton mouseButton
+            && mouseButton.ButtonIndex == MouseButton.Right
+            && mouseButton.Pressed)
         {
-            if (mouseButton.ButtonIndex == MouseButton.Right)
-            {
-                RightClicked?.Invoke();
-            }
-            else if (mouseButton.ButtonIndex == MouseButton.Left)
-            {
-                if (LeftClicked == null)
-                {
-                    OsuData.RequestSkinInfo(new OsuSkin[] { Skin });
-                    return;
-                }
-
-                LeftClicked();
-            }
+            RightClicked?.Invoke();
         }
     }
 
