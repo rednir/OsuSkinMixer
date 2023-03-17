@@ -1,11 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://m5b2ccanh81i"]
+[gd_scene load_steps=9 format=3 uid="uid://m5b2ccanh81i"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_2xdlb"]
 [ext_resource type="Script" path="res://src/StackScenes/SkinModifierSkinSelect.cs" id="2_gu1du"]
 [ext_resource type="PackedScene" uid="uid://c0bqc573eb7ys" path="res://src/Components/Buttons/TonalIconButton.tscn" id="3_j0wcv"]
 [ext_resource type="PackedScene" uid="uid://md4n10t0o7i4" path="res://src/Components/Popup/SkinSelectorPopup.tscn" id="3_psfnl"]
+[ext_resource type="LabelSettings" uid="uid://cunaagboquiic" path="res://src/Styles/LabelSettings/MenuButtonTitle.tres" id="3_u5v8k"]
+[ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="4_gngcc"]
 [ext_resource type="Texture2D" uid="uid://cqwxbxy12xlnt" path="res://assets/materialicons/add.png" id="4_jexl6"]
-[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="6_0fa01"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="8_fpowc"]
 
 [node name="SkinModifierSkinSelect" type="VBoxContainer"]
@@ -33,12 +34,16 @@ theme_override_constants/separation = 8
 [node name="HintLabel" type="Label" parent="PanelContainer/VBoxContainer/SkinsToModifyContainer"]
 custom_minimum_size = Vector2(544, 2.08165e-12)
 layout_mode = 2
-text = "Select one or more skins to modify!
+text = "Select one or more skins to modify!"
+label_settings = ExtResource("3_u5v8k")
+horizontal_alignment = 1
+autowrap_mode = 3
 
-You might want to make a copy of the skins you want to modify first. You can do this from the Skin Manager.
-
-"
-label_settings = ExtResource("6_0fa01")
+[node name="HintLabel2" type="Label" parent="PanelContainer/VBoxContainer/SkinsToModifyContainer"]
+custom_minimum_size = Vector2(544, 2.08165e-12)
+layout_mode = 2
+text = "You might want to make a copy of the skins you want to modify first. You can do this from the Skin Manager."
+label_settings = ExtResource("4_gngcc")
 horizontal_alignment = 1
 autowrap_mode = 3
 
