@@ -22,7 +22,7 @@ public partial class ManageSkinPopup : Popup
     private Button DuplicateButton;
     private Button DeleteButton;
 
-    private OsuSkin[] _skins;
+    private OsuSkin[] _skins = Array.Empty<OsuSkin>();
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -46,6 +46,14 @@ public partial class ManageSkinPopup : Popup
         ExportButton.Pressed += OnExportButtonPressed;
         DuplicateButton.Pressed += OnDuplicateButtonPressed;
         DeleteButton.Pressed += OnDeleteButtonPressed;
+    }
+
+    public override void In()
+    {
+        if (_skins.Length == 0)
+            return;
+
+        base.In();
     }
 
     public void SetSkin(OsuSkin skin)
