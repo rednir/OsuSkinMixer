@@ -9,12 +9,6 @@ namespace OsuSkinMixer.Components;
 
 public partial class SkinComponentsContainer : PanelContainer
 {
-    public ManageSkinOptions Options
-    {
-        get => ManageSkinPopup.Options;
-        set => ManageSkinPopup.Options = value;
-    }
-
     public bool PreventSkinInfoRequest
     {
         get => ManageSkinPopup.PreventSkinInfoRequest;

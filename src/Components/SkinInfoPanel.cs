@@ -48,6 +48,7 @@ public partial class SkinInfoPanel : PanelContainer
         MoreButton.Pressed += OnMoreButtonPressed;
         OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
         OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
+        ManageSkinPopup.Options = ManageSkinOptions.All & ~ManageSkinOptions.OpenInOsu & ~ManageSkinOptions.OpenFolder;
 
         OsuData.SkinAdded += OnSkinAdded;
         OsuData.SkinModified += OnSkinModified;
