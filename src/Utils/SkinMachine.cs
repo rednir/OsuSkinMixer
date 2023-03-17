@@ -270,7 +270,7 @@ public abstract class SkinMachine : IDisposable
 
     protected void AddCopyBlankFileTask(SkinFileOption fileOption, DirectoryInfo fileDestDir)
     {
-        string destFullPath = $"{fileDestDir.FullName}/{fileOption.Name.Replace("-*", "").Replace("*", "")}";
+        string destFullPath = $"{fileDestDir.FullName}/{fileOption.IncludeFileName.Replace("-*", "").Replace("*", "")}.png";
 
         AddFileToOriginalElementsCache(destFullPath);
 
