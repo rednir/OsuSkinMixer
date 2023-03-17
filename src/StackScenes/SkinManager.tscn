@@ -82,7 +82,6 @@ layout_mode = 2
 [node name="SkinComponentsContainer" parent="SkinsPanelContainer/ScrollContainer/VBoxContainer" instance=ExtResource("6_d3lsj")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 8
 
 [node name="GetMoreSkinsContainer" parent="SkinsPanelContainer/ScrollContainer/VBoxContainer" instance=ExtResource("5_x378n")]
 layout_mode = 2

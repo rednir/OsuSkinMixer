@@ -1,7 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://bcv0yhlt68htu"]
+[gd_scene load_steps=4 format=3 uid="uid://bcv0yhlt68htu"]
 
 [ext_resource type="Script" path="res://src/Components/SkinComponentsContainer.cs" id="1_p1acj"]
+[ext_resource type="PackedScene" uid="uid://ce6pfh8ys6arg" path="res://src/Components/Popup/ManageSkinPopup.tscn" id="2_3wvog"]
 
-[node name="SkinComponentsContainer" type="VBoxContainer"]
-theme_override_constants/separation = 0
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mqrpf"]
+
+[node name="SkinComponentsContainer" type="PanelContainer"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mqrpf")
 script = ExtResource("1_p1acj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ManageSkinPopup" parent="." instance=ExtResource("2_3wvog")]
+unique_name_in_owner = true
+layout_mode = 2

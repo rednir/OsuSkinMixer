@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace OsuSkinMixer.Components;
 
-public partial class SkinComponentsContainer : VBoxContainer
+public partial class SkinComponentsContainer : PanelContainer
 {
     public Action<OsuSkin> SkinSelected { get; set; }
 
@@ -15,9 +15,9 @@ public partial class SkinComponentsContainer : VBoxContainer
 
     public bool CheckableComponents { get; set; }
 
-    public SkinComponent BestMatch => GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Visible);
+    public SkinComponent BestMatch => VBoxContainer.GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Visible);
 
-    public IEnumerable<SkinComponent> VisibleComponents => GetChildren().Cast<SkinComponent>().Where(c => c.Visible);
+    public IEnumerable<SkinComponent> VisibleComponents => VBoxContainer.GetChildren().Cast<SkinComponent>().Where(c => c.Visible);
 
     private readonly List<SkinComponent> _disabledSkinComponents = new();
 
@@ -37,8 +37,14 @@ public partial class SkinComponentsContainer : VBoxContainer
 
     private PackedScene _skinComponentScene;
 
+    private VBoxContainer VBoxContainer;
+    private ManageSkinPopup ManageSkinPopup;
+
     public override void _Ready()
     {
+        VBoxContainer = GetNode<VBoxContainer>("%VBoxContainer");
+        ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
+
         OsuData.SkinAdded += OnSkinAdded;
         OsuData.SkinModified += OnSkinModified;
         OsuData.SkinRemoved += OnSkinRemoved;
@@ -55,18 +61,18 @@ public partial class SkinComponentsContainer : VBoxContainer
     {
         _skinComponentsInitialised = true;
 
-        foreach (var child in GetChildren())
+        foreach (var child in VBoxContainer.GetChildren())
             child.QueueFree();
 
         foreach (OsuSkin skin in OsuData.Skins)
-            AddChild(CreateSkinComponentFrom(skin));
+            VBoxContainer.AddChild(CreateSkinComponentFrom(skin));
     }
 
     public void FilterSkins(string filter)
     {
         string[] filterWords = filter.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-        foreach (var component in GetChildren().Cast<SkinComponent>())
+        foreach (var component in VBoxContainer.GetChildren().Cast<SkinComponent>())
         {
             bool filterMatch = filterWords.All(w => component.Name.ToString().Contains(w, StringComparison.OrdinalIgnoreCase));
             bool visible = filterMatch && !_disabledSkinComponents.Contains(component);
@@ -94,7 +100,7 @@ public partial class SkinComponentsContainer : VBoxContainer
 
     public void SelectAll(bool select)
     {
-        foreach (var component in GetChildren().Cast<SkinComponent>().Where(c => c.Visible))
+        foreach (var component in VBoxContainer.GetChildren().Cast<SkinComponent>().Where(c => c.Visible))
             component.IsChecked = select;
     }
 
@@ -104,22 +110,27 @@ public partial class SkinComponentsContainer : VBoxContainer
         instance.Skin = skin;
         instance.Name = skin.Name;
         instance.CheckBoxVisible = CheckableComponents;
-        instance.Pressed += () => SkinSelected(skin);
+        instance.LeftClicked += () => SkinSelected(skin);
         instance.Checked += p => SkinChecked(skin, p);
+        instance.RightClicked += () =>
+        {
+            ManageSkinPopup.SetSkin(skin);
+            ManageSkinPopup.In();
+        };
 
         return instance;
     }
 
     private SkinComponent GetExistingComponentFromSkin(OsuSkin skin)
     {
-        return GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Skin.Name == skin.Name);
+        return VBoxContainer.GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Skin.Name == skin.Name);
     }
 
     private void OnSkinAdded(OsuSkin skin)
     {
         var skinComponent = CreateSkinComponentFrom(skin);
-        AddChild(skinComponent);
-        MoveChild(skinComponent, Array.IndexOf(OsuData.Skins, skin));
+        VBoxContainer.AddChild(skinComponent);
+        VBoxContainer.MoveChild(skinComponent, Array.IndexOf(OsuData.Skins, skin));
     }
 
     private void OnSkinModified(OsuSkin skin)

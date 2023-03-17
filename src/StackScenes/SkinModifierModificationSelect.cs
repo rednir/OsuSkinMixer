@@ -41,8 +41,8 @@ public partial class SkinModifierModificationSelect : StackScene
         LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
 
         SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.Unchanged));
-        DefaultSkinComponent.Pressed += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.DefaultSkin));
-        BlankComponent.Pressed += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.Blank));
+        DefaultSkinComponent.LeftClicked += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.DefaultSkin));
+        BlankComponent.LeftClicked += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.Blank));
         ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
         LoadingPopup.CancelAction = OnCancelButtonPressed;
         LoadingPopup.DisableCancelAt = SkinModifierMachine.UNCANCELLABLE_AFTER;

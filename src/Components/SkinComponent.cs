@@ -9,7 +9,9 @@ public partial class SkinComponent : HBoxContainer
 {
     public OsuSkin Skin { get; set; }
 
-    public Action Pressed { get; set; }
+    public Action LeftClicked { get; set; }
+
+    public Action RightClicked { get; set; }
 
     public Action<bool> Checked { get; set; }
 
@@ -42,7 +44,6 @@ public partial class SkinComponent : HBoxContainer
     private HitcircleIcon HitcircleIcon;
     private CheckBox CheckBox;
     private TextureRect HiddenIcon;
-    private ManageSkinPopup ManageSkinPopup;
 
     public override void _Ready()
     {
@@ -52,13 +53,9 @@ public partial class SkinComponent : HBoxContainer
         HitcircleIcon = GetNodeOrNull<HitcircleIcon>("%HitcircleIcon");
         CheckBox = GetNodeOrNull<CheckBox>("%CheckBox");
         HiddenIcon = GetNode<TextureRect>("%HiddenIcon");
-        ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
         Button.Pressed += OnButtonPressed;
         Button.GuiInput += OnGuiInput;
-
-        if (Skin != null)
-            ManageSkinPopup.SetSkin(Skin);
 
         if (CheckBox != null)
             CheckBox.Toggled += OnCheckBoxToggled;
@@ -84,13 +81,13 @@ public partial class SkinComponent : HBoxContainer
 
     private void OnButtonPressed()
     {
-        if (Pressed == null)
+        if (LeftClicked == null)
         {
             OsuData.RequestSkinInfo(new OsuSkin[] { Skin });
             return;
         }
 
-        Pressed();
+        LeftClicked();
     }
 
     private void OnGuiInput(InputEvent inputEvent)
@@ -99,17 +96,17 @@ public partial class SkinComponent : HBoxContainer
         {
             if (mouseButton.ButtonIndex == MouseButton.Right)
             {
-                ManageSkinPopup.In();
+                RightClicked?.Invoke();
             }
             else if (mouseButton.ButtonIndex == MouseButton.Left)
             {
-                if (Pressed == null)
+                if (LeftClicked == null)
                 {
                     OsuData.RequestSkinInfo(new OsuSkin[] { Skin });
                     return;
                 }
 
-                Pressed();
+                LeftClicked();
             }
         }
     }

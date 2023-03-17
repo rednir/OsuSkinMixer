@@ -1,17 +1,18 @@
 using Godot;
-using OsuSkinMixer.Models;
-using OsuSkinMixer.Statics;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
+using OsuSkinMixer.Models;
+using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Components;
 
 public partial class ManageSkinPopup : Popup
 {
+    private OsuSkin[] _skins;
+
     private QuestionPopup DeleteQuestionPopup;
     private SkinNamePopup SkinNamePopup;
     private LoadingPopup LoadingPopup;
@@ -21,8 +22,6 @@ public partial class ManageSkinPopup : Popup
     private Button ExportButton;
     private Button DuplicateButton;
     private Button DeleteButton;
-
-    private OsuSkin[] _skins = Array.Empty<OsuSkin>();
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -53,19 +52,32 @@ public partial class ManageSkinPopup : Popup
         if (_skins.Length == 0)
             return;
 
+        SetValues();
         base.In();
     }
 
     public void SetSkin(OsuSkin skin)
     {
         _skins = new OsuSkin[] { skin };
-        TitleLabel.Text = skin.Name;
-        HideButton.Text = skin.Hidden ? "    Unhide from osu!" : "    Hide from osu!";
     }
 
     public void SetSkins(IEnumerable<OsuSkin> skins)
     {
         _skins = skins.ToArray();
+    }
+
+    private void SetValues()
+    {
+        if (!Visible)
+            return;
+
+        if (_skins.Length == 1)
+        {
+            TitleLabel.Text = _skins[0].Name;
+            HideButton.Text = _skins[0].Hidden ? "    Unhide from osu!" : "    Hide from osu!";
+            return;
+        }
+
         TitleLabel.Text = $"{_skins.Length} skins selected";
         HideButton.Text = "    Toggle hidden state";
     }

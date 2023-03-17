@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://l5lkphprcihd"]
+[gd_scene load_steps=9 format=3 uid="uid://l5lkphprcihd"]
 
 [ext_resource type="Script" path="res://src/Components/SkinComponent.cs" id="1_w8iv4"]
 [ext_resource type="PackedScene" uid="uid://dyarkbs87kwmf" path="res://src/Components/Osu/HitcircleIcon.tscn" id="2_6i15s"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="3_egut0"]
 [ext_resource type="Texture2D" uid="uid://cgnidqld7ff0p" path="res://assets/materialicons/visibility_off.png" id="4_d6l8n"]
-[ext_resource type="PackedScene" uid="uid://ce6pfh8ys6arg" path="res://src/Components/Popup/ManageSkinPopup.tscn" id="5_wvvjs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uek0x"]
 bg_color = Color(0.227451, 0.207843, 0.258824, 0)
@@ -95,7 +94,3 @@ offset_left = 483.0
 offset_top = 8.0
 offset_right = 531.0
 offset_bottom = 56.0
-
-[node name="ManageSkinPopup" parent="." instance=ExtResource("5_wvvjs")]
-unique_name_in_owner = true
-layout_mode = 2

@@ -37,8 +37,8 @@ public partial class ResolveSkinConflictPopup : Popup
         DoneButton = GetNode<Button>("%DoneButton");
         ResolveFailedPopup = GetNode<OkPopup>("%ResolveFailedPopup");
 
-        VisibleSkinComponent.Pressed += () => Tools.ShellOpenFile(VisibleSkinComponent.Skin.Directory.FullName);
-        HiddenSkinComponent.Pressed += () => Tools.ShellOpenFile(HiddenSkinComponent.Skin.Directory.FullName);
+        VisibleSkinComponent.LeftClicked += () => Tools.ShellOpenFile(VisibleSkinComponent.Skin.Directory.FullName);
+        HiddenSkinComponent.LeftClicked += () => Tools.ShellOpenFile(HiddenSkinComponent.Skin.Directory.FullName);
         DoneButton.Pressed += OnDoneButtonPressed;
     }
 
