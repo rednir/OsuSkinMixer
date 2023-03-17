@@ -67,7 +67,7 @@ public partial class SkinComponent : HBoxContainer
     public void SetValues()
     {
         NameLabel.Text = Skin.Name;
-        Button.TooltipText = Skin.Name;
+        Button.TooltipText = $"{Skin.Name}\nRight click for options...";
         HiddenIcon.Visible = Skin.Hidden;
         CheckBox.Visible = CheckBoxVisible;
 
