@@ -24,8 +24,6 @@ public partial class SkinModifierModificationSelect : StackScene
     private SkinComponent DefaultSkinComponent;
     private SkinComponent BlankComponent;
     private Button ApplyChangesButton;
-    private Button ExtraOptionsButton;
-    private OkPopup ExtraOptionsPopup;
     private CheckButton SmoothTrailButton;
     private CheckButton InstafadeButton;
     private LoadingPopup LoadingPopup;
@@ -38,8 +36,6 @@ public partial class SkinModifierModificationSelect : StackScene
         DefaultSkinComponent = GetNode<SkinComponent>("%DefaultSkinComponent");
         BlankComponent = GetNode<SkinComponent>("%BlankComponent");
         ApplyChangesButton = GetNode<Button>("%ApplyChangesButton");
-        ExtraOptionsButton = GetNode<Button>("%ExtraOptionsButton");
-        ExtraOptionsPopup = GetNode<OkPopup>("%ExtraOptionsPopup");
         SmoothTrailButton = GetNode<CheckButton>("%SmoothTrailButton");
         InstafadeButton = GetNode<CheckButton>("%InstafadeButton");
         LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
@@ -47,7 +43,6 @@ public partial class SkinModifierModificationSelect : StackScene
         SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.Unchanged));
         DefaultSkinComponent.Pressed += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.DefaultSkin));
         BlankComponent.Pressed += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.Blank));
-        ExtraOptionsButton.Pressed += ExtraOptionsPopup.In;
         ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
         LoadingPopup.CancelAction = OnCancelButtonPressed;
         LoadingPopup.DisableCancelAt = SkinModifierMachine.UNCANCELLABLE_AFTER;
