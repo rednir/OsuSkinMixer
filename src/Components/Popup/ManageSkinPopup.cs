@@ -11,6 +11,8 @@ namespace OsuSkinMixer.Components;
 
 public partial class ManageSkinPopup : Popup
 {
+    public bool PreventSkinInfoRequest { get; set; }
+
     private OsuSkin[] _skins;
 
     private QuestionPopup DeleteQuestionPopup;
@@ -215,7 +217,8 @@ public partial class ManageSkinPopup : Popup
                     .RunOperation();
             }
 
-            OsuData.RequestSkinInfo(newSkins);
+            if (!PreventSkinInfoRequest)
+                OsuData.RequestSkinInfo(newSkins);
         })
         .ContinueWith(_ =>
         {
