@@ -34,6 +34,13 @@ public partial class SkinSelectorPopup : Popup
 
         SetCompactFlag();
         SkinComponentsContainer.InitialiseSkinComponents();
+
+        OsuData.SkinInfoRequested += _ => Out();
+    }
+
+    public override void _ExitTree()
+    {
+        OsuData.SkinInfoRequested -= _ => Out();
     }
 
     public override void In()
