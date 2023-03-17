@@ -11,6 +11,8 @@ namespace OsuSkinMixer.Components;
 
 public partial class ManageSkinPopup : Popup
 {
+    public ManageSkinOptions Options { get; set; } = ManageSkinOptions.All;
+
     public bool PreventSkinInfoRequest { get; set; }
 
     private OsuSkin[] _skins;
@@ -70,8 +72,11 @@ public partial class ManageSkinPopup : Popup
 
     private void SetValues()
     {
-        if (!Visible)
-            return;
+        ModifyButton.Visible = (Options & ManageSkinOptions.Modify) == ManageSkinOptions.Modify;
+        HideButton.Visible = (Options & ManageSkinOptions.Hide) == ManageSkinOptions.Hide;
+        ExportButton.Visible = (Options & ManageSkinOptions.Export) == ManageSkinOptions.Export;
+        DuplicateButton.Visible = (Options & ManageSkinOptions.Duplicate) == ManageSkinOptions.Duplicate;
+        DeleteButton.Visible = (Options & ManageSkinOptions.Delete) == ManageSkinOptions.Delete;
 
         if (_skins.Length == 1)
         {
