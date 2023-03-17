@@ -1,27 +1,53 @@
-[gd_scene load_steps=4 format=3 uid="uid://4a2d561f0p72"]
+[gd_scene load_steps=7 format=3 uid="uid://4a2d561f0p72"]
 
+[ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_7mxwm"]
 [ext_resource type="Script" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.cs" id="1_g5aud"]
 [ext_resource type="Texture2D" uid="uid://br6o22oy66ajp" path="res://assets/hint.png" id="2_4hlh4"]
+[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="2_k4g60"]
 [ext_resource type="PackedScene" uid="uid://md4n10t0o7i4" path="res://src/Components/Popup/SkinSelectorPopup.tscn" id="2_pokuf"]
 
-[node name="SkinOptionsSelector" type="VBoxContainer"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_evjpp"]
+
+[node name="SkinOptionsSelector" type="PanelContainer"]
+custom_minimum_size = Vector2(460, 2.08165e-12)
+offset_top = 16.0
 offset_right = 388.0
-offset_bottom = 40.0
+offset_bottom = 16.0
 size_flags_horizontal = 4
-theme_override_constants/separation = 8
+theme = ExtResource("1_7mxwm")
 script = ExtResource("1_g5aud")
 
 [node name="ExpandHint" type="Panel" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_evjpp")
 
 [node name="TextureRect" type="TextureRect" parent="ExpandHint"]
-layout_mode = 0
-offset_left = -85.0
-offset_top = -13.0
-offset_right = 70.0
-offset_bottom = 44.0
+layout_mode = 2
+offset_left = -152.0
+offset_top = 56.0
+offset_right = 24.0
+offset_bottom = 126.0
 texture = ExtResource("2_4hlh4")
+stretch_mode = 3
 
-[node name="SkinSelectorPopup" parent="." instance=ExtResource("2_pokuf")]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Choose skin elements"
+label_settings = ExtResource("2_k4g60")
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="OptionsContainer" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 8
+
+[node name="SkinSelectorPopup" parent="VBoxContainer/OptionsContainer" instance=ExtResource("2_pokuf")]
+unique_name_in_owner = true
 layout_mode = 2

@@ -7,12 +7,13 @@ using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Components;
 
-public partial class SkinOptionsSelector : VBoxContainer
+public partial class SkinOptionsSelector : PanelContainer
 {
     public SkinOption[] SkinOptions { get; } = SkinOption.Default;
 
     private PackedScene SkinOptionComponentScene;
 
+    private VBoxContainer OptionsContainer;
     private Panel ExpandHint;
     private SkinSelectorPopup SkinSelectorPopup;
 
@@ -26,8 +27,9 @@ public partial class SkinOptionsSelector : VBoxContainer
     {
         SkinOptionComponentScene = GD.Load<PackedScene>("res://src/Components/SkinOptionsSelector/SkinOptionComponent.tscn");
 
-        ExpandHint = GetNode<Panel>("ExpandHint");
-        SkinSelectorPopup = GetNode<SkinSelectorPopup>("SkinSelectorPopup");
+        OptionsContainer = GetNode<VBoxContainer>("%OptionsContainer");
+        ExpandHint = GetNode<Panel>("%ExpandHint");
+        SkinSelectorPopup = GetNode<SkinSelectorPopup>("%SkinSelectorPopup");
 
         SkinSelectorPopup.OnSelected = s => OptionComponentSelected(new SkinOptionValue(s));
         ExpandHint.Visible = !Settings.Content.ArrowButtonPressed;
@@ -41,7 +43,7 @@ public partial class SkinOptionsSelector : VBoxContainer
         SkinOptionComponents = new List<SkinOptionComponent>();
 
         foreach (var option in SkinOptions)
-            addOptionComponent(option, this, 0);
+            addOptionComponent(option, OptionsContainer, 0);
 
         void addOptionComponent(SkinOption option, VBoxContainer vbox, int layer)
         {

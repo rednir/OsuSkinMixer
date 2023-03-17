@@ -6,13 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://dcdbkf8ucvk1q" path="res://assets/arrow-pressed.png" id="2_sir7b"]
 [ext_resource type="StyleBox" uid="uid://cy2ikxf8c0ve" path="res://src/Styles/Buttons/Chip.tres" id="3_w4p0r"]
 [ext_resource type="Texture2D" uid="uid://pkn7gyf1kum8" path="res://assets/arrow-hover.png" id="5_o3cll"]
-[ext_resource type="Texture2D" path="res://assets/arrow-disabled.png" id="6_j7g6j"]
+[ext_resource type="Texture2D" uid="uid://lguqtk6t3ppw" path="res://assets/arrow-disabled.png" id="6_j7g6j"]
 [ext_resource type="StyleBox" uid="uid://bcbdqcnl2e61r" path="res://src/Styles/Buttons/ChipHover.tres" id="6_xqnwr"]
 [ext_resource type="StyleBox" uid="uid://bqphu8xbk8c28" path="res://src/Styles/Buttons/ChipPressed.tres" id="7_pm80f"]
 [ext_resource type="Texture2D" uid="uid://d35i1tw6xkwef" path="res://assets/materialicons/close.png" id="9_hab4j"]
 
 [node name="SkinOptionComponent" type="HBoxContainer"]
-custom_minimum_size = Vector2(388, 32)
+custom_minimum_size = Vector2(420, 32)
 offset_right = 388.0
 offset_bottom = 32.0
 theme = ExtResource("1_usaoi")
