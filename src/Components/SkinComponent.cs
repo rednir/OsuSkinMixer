@@ -42,6 +42,7 @@ public partial class SkinComponent : HBoxContainer
     private HitcircleIcon HitcircleIcon;
     private CheckBox CheckBox;
     private TextureRect HiddenIcon;
+    private ManageSkinPopup ManageSkinPopup;
 
     public override void _Ready()
     {
@@ -51,8 +52,13 @@ public partial class SkinComponent : HBoxContainer
         HitcircleIcon = GetNodeOrNull<HitcircleIcon>("%HitcircleIcon");
         CheckBox = GetNodeOrNull<CheckBox>("%CheckBox");
         HiddenIcon = GetNode<TextureRect>("%HiddenIcon");
+        ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
         Button.Pressed += OnButtonPressed;
+        Button.GuiInput += OnGuiInput;
+
+        if (Skin != null)
+            ManageSkinPopup.SetSkin(Skin);
 
         if (CheckBox != null)
             CheckBox.Toggled += OnCheckBoxToggled;
@@ -85,6 +91,27 @@ public partial class SkinComponent : HBoxContainer
         }
 
         Pressed();
+    }
+
+    private void OnGuiInput(InputEvent inputEvent)
+    {
+        if (inputEvent is InputEventMouseButton mouseButton && mouseButton.Pressed)
+        {
+            if (mouseButton.ButtonIndex == MouseButton.Right)
+            {
+                ManageSkinPopup.In();
+            }
+            else if (mouseButton.ButtonIndex == MouseButton.Left)
+            {
+                if (Pressed == null)
+                {
+                    OsuData.RequestSkinInfo(new OsuSkin[] { Skin });
+                    return;
+                }
+
+                Pressed();
+            }
+        }
     }
 
     private void OnCheckBoxToggled(bool value)

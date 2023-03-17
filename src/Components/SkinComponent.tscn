@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bncwf73sgcemr"]
+[gd_scene load_steps=10 format=3 uid="uid://bncwf73sgcemr"]
 
 [ext_resource type="Script" path="res://src/Components/SkinComponent.cs" id="1_7h4pf"]
 [ext_resource type="PackedScene" uid="uid://dyarkbs87kwmf" path="res://src/Components/Osu/HitcircleIcon.tscn" id="2_fkdqu"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="3_adour"]
 [ext_resource type="Texture2D" uid="uid://cgnidqld7ff0p" path="res://assets/materialicons/visibility_off.png" id="4_73dit"]
+[ext_resource type="PackedScene" uid="uid://ce6pfh8ys6arg" path="res://src/Components/Popup/ManageSkinPopup.tscn" id="5_sphem"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uek0x"]
 bg_color = Color(0.227451, 0.207843, 0.258824, 0)
@@ -81,3 +82,7 @@ offset_bottom = 72.0
 tooltip_text = "This skin is hidden"
 texture = ExtResource("4_73dit")
 stretch_mode = 3
+
+[node name="ManageSkinPopup" parent="." instance=ExtResource("5_sphem")]
+unique_name_in_owner = true
+layout_mode = 2
