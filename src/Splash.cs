@@ -11,6 +11,7 @@ namespace OsuSkinMixer;
 public partial class Splash : Control
 {
     private Label UpdatingLabel;
+    private Label LockFileLabel;
     private SetupPopup SetupPopup;
     private QuestionPopup ExceptionPopup;
     private TextEdit ExceptionTextEdit;
@@ -25,6 +26,7 @@ public partial class Splash : Control
         DisplayServer.WindowSetMinSize(new Vector2I(650, 300));
 
         UpdatingLabel = GetNode<Label>("%UpdatingLabel");
+        LockFileLabel = GetNode<Label>("%LockFileLabel");
         SetupPopup = GetNode<SetupPopup>("%SetupPopup");
         ExceptionPopup = GetNode<QuestionPopup>("%ExceptionPopup");
         ExceptionTextEdit = GetNode<TextEdit>("%ExceptionTextEdit");
@@ -35,16 +37,26 @@ public partial class Splash : Control
 
         AnimationPlayer.Play("loading");
 
-        Task.Run(Initialise)
-            .ContinueWith(t =>
+        Task.Run(async () =>
+        {
+            while (!Settings.TryCreateLockFile())
             {
-                if (t.IsFaulted)
-                {
-                    GD.PushError(t.Exception);
-                    ExceptionTextEdit.Text = t.Exception.ToString();
-                    ExceptionPopup.In();
-                }
-            });
+                LockFileLabel.Visible = true;
+                await Task.Delay(1500);
+            }
+
+            LockFileLabel.Visible = false;
+            Initialise();
+        })
+        .ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+            {
+                GD.PushError(t.Exception);
+                ExceptionTextEdit.Text = t.Exception.ToString();
+                ExceptionPopup.In();
+            }
+        });
     }
 
     private void Initialise()

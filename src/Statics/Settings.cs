@@ -19,7 +19,11 @@ public static partial class Settings
 
     public static event Action<Exception> ExceptionPushed;
 
-    public static string SettingsFilePath => ProjectSettings.GlobalizePath("user://settings.json");
+    public static string AppdataFolderPath => ProjectSettings.GlobalizePath("user://");
+
+    public static string SettingsFilePath => Path.Combine(AppdataFolderPath, "settings.json");
+
+    public static string LockFilePath => Path.Combine(AppdataFolderPath, "lock");
 
     public static string SkinsFolderPath => Path.Combine(Content.OsuFolder, "Skins");
 
@@ -33,7 +37,25 @@ public static partial class Settings
 
     public static SettingsContent Content { get; set; }
 
+    public static FileStream LockFile { get; set; }
+
     private static readonly HttpClient _httpClient = new();
+
+    public static bool TryCreateLockFile()
+    {
+        if (!File.Exists(LockFilePath))
+            File.Create(LockFilePath).Dispose();
+
+        try
+        {
+            LockFile = new(LockFilePath, FileMode.Open, System.IO.FileAccess.ReadWrite, FileShare.None);
+            return true;
+        }
+        catch (IOException)
+        {
+            return false;
+        }
+    }
 
     public static void InitialiseSettingsFile()
     {

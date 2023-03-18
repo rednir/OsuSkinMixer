@@ -264,6 +264,23 @@ offset_bottom = 83.0
 text = "Running auto-updater..."
 horizontal_alignment = 1
 
+[node name="LockFileLabel" type="Label" parent="Overlay/Icon"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -373.0
+offset_top = 61.0
+offset_right = 375.0
+offset_bottom = 83.0
+text = "osu! skin mixer is already running!
+Waiting for other instances to close..."
+horizontal_alignment = 1
+
 [node name="CenterLight" type="PointLight2D" parent="Overlay/Icon"]
 position = Vector2(32, 33)
 energy = 0.0
