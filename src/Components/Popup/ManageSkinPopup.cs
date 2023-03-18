@@ -80,7 +80,7 @@ public partial class ManageSkinPopup : Popup
     private void SetValues()
     {
         OpenInOsuButton.Visible = (Options & ManageSkinOptions.OpenInOsu) == ManageSkinOptions.OpenInOsu && _skins.Length == 1;
-        OpenFolderButton.Visible = (Options & ManageSkinOptions.OpenFolder) == ManageSkinOptions.OpenFolder;
+        OpenFolderButton.Visible = (Options & ManageSkinOptions.OpenFolder) == ManageSkinOptions.OpenFolder && _skins.Length <= 4;
         ModifyButton.Visible = (Options & ManageSkinOptions.Modify) == ManageSkinOptions.Modify;
         HideButton.Visible = (Options & ManageSkinOptions.Hide) == ManageSkinOptions.Hide;
         ExportButton.Visible = (Options & ManageSkinOptions.Export) == ManageSkinOptions.Export;
