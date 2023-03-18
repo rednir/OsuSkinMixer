@@ -1,10 +1,10 @@
 [gd_scene load_steps=15 format=3 uid="uid://dg5gq6ty35cmr"]
 
 [ext_resource type="Script" path="res://src/Components/Osu/Hitcircle.cs" id="1_0sbfk"]
-[ext_resource type="Texture2D" uid="uid://d2i4vkrwdm57x" path="res://assets/defaultskin/hitcircle.png" id="1_iep1f"]
-[ext_resource type="Texture2D" uid="uid://ir0spv2c5483" path="res://assets/defaultskin/approachcircle.png" id="2_oqal1"]
-[ext_resource type="Texture2D" uid="uid://fhdeit7as0yi" path="res://assets/defaultskin/hitcircleoverlay.png" id="2_x6gi0"]
-[ext_resource type="Texture2D" uid="uid://dcn0qk3g4475p" path="res://assets/defaultskin/default-1.png" id="4_r4s6t"]
+[ext_resource type="Texture2D" uid="uid://cwjwgh7bqjf2l" path="res://assets/defaultskin/hitcircleoverlay@2x.png" id="2_p4d0r"]
+[ext_resource type="Texture2D" uid="uid://biba7o5rx073v" path="res://assets/defaultskin/hitcircle@2x.png" id="3_uscib"]
+[ext_resource type="Texture2D" uid="uid://byionytqxos8d" path="res://assets/defaultskin/default-0@2x.png" id="4_o3rnm"]
+[ext_resource type="Texture2D" uid="uid://b4upbvminbd5q" path="res://assets/defaultskin/approachcircle@2x.png" id="5_0yg7y"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_abytn"]
 
@@ -345,12 +345,12 @@ libraries = {
 
 [node name="HitcircleoverlaySprite" type="Sprite2D" parent="Circle"]
 unique_name_in_owner = true
-texture = ExtResource("2_x6gi0")
+texture = ExtResource("2_p4d0r")
 
 [node name="HitcircleSprite" type="Sprite2D" parent="Circle"]
 unique_name_in_owner = true
 modulate = Color(0, 0.823529, 0, 1)
-texture = ExtResource("1_iep1f")
+texture = ExtResource("3_uscib")
 
 [node name="Control" type="Control" parent="Circle"]
 unique_name_in_owner = true
@@ -363,10 +363,10 @@ offset_bottom = 58.0
 
 [node name="DefaultSprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
-texture = ExtResource("4_r4s6t")
+texture = ExtResource("4_o3rnm")
 
 [node name="ApproachcircleSprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0)
 scale = Vector2(4, 4)
-texture = ExtResource("2_oqal1")
+texture = ExtResource("5_0yg7y")

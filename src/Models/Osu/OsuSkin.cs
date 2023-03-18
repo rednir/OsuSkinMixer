@@ -95,7 +95,12 @@ public class OsuSkin
     public override int GetHashCode()
         => Name.GetHashCode();
 
-    public Texture2D GetTexture(string filename, string extension = "png", bool fallbackToNull = false)
+    public Texture2D GetTexture(string filename, string extension = "png")
+    {
+        return GetTextureOrFallback($"{filename}@2x", extension, filename);
+    }
+
+    private Texture2D GetTextureOrFallback(string filename, string extension, string fallback)
     {
         if (_textureCache.TryGetValue(filename, out Texture2D value))
             return value;
@@ -113,8 +118,8 @@ public class OsuSkin
 
         if (!File.Exists(path))
         {
-            if (fallbackToNull)
-                return null;
+            if (fallback != null)
+                return GetTextureOrFallback(fallback, extension, null);
 
             var defaultTexture = GetDefaultTexture($"{filename}.{extension}");
             _textureCache.Add(filename, defaultTexture);
@@ -145,8 +150,22 @@ public class OsuSkin
 
             spriteFrames.AddAnimation(filename);
 
-            for (int i = 0; File.Exists($"{pathPrefix}-{i}.png"); i++)
-                spriteFrames.AddFrame(filename, GetTexture($"{filename}-{i}"));
+            for (int i = 0;; i++)
+            {
+                if (File.Exists($"{pathPrefix}-{i}@2x.png"))
+                {
+                    spriteFrames.AddFrame(filename, GetTextureOrFallback($"{filename}-{i}@2x", "png", $"{filename}-{i}"));
+                    continue;
+                }
+
+                if (File.Exists($"{pathPrefix}-{i}.png"))
+                {
+                    spriteFrames.AddFrame(filename, GetTextureOrFallback($"{filename}-{i}", "png", null));
+                    continue;
+                }
+
+                break;
+            }
 
             // AnimationFramerate of the default value -1 makes osu! play all the frames in 1 second.
             spriteFrames.SetAnimationSpeed(filename, fps != -1 ? fps : spriteFrames.GetFrameCount(filename));
