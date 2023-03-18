@@ -26,7 +26,7 @@ size_flags_horizontal = 4
 text = "Skin Mixer"
 
 [node name="Description" parent="SkinMixerButton/VBoxContainer" index="1"]
-text = "Create a new skin!"
+text = "Create a new skin using elements from other skins!"
 
 [node name="SkinModifierButton" parent="." instance=ExtResource("3_ppo7p")]
 unique_name_in_owner = true
