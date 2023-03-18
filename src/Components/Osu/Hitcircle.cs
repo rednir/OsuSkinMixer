@@ -48,9 +48,9 @@ public partial class Hitcircle : Node2D
         _skin = skin;
 
         HitJudgementSprite.SpriteFrames = skin.GetSpriteFrames("hit0", "hit50", "hit100", "hit300");
-        ApproachcircleSprite.Texture = skin.Get2XTextureOrDefault("approachcircle");
-        HitcircleSprite.Texture = skin.Get2XTextureOrDefault("hitcircle");
-        HitcircleoverlaySprite.Texture = skin.Get2XTextureOrDefault("hitcircleoverlay");
+        ApproachcircleSprite.Texture = skin.Get2XTexture("approachcircle");
+        HitcircleSprite.Texture = skin.Get2XTexture("hitcircle");
+        HitcircleoverlaySprite.Texture = skin.Get2XTexture("hitcircleoverlay");
 
         _comboColors = skin.ComboColors;
         NextCombo();
@@ -81,7 +81,7 @@ public partial class Hitcircle : Node2D
 
         HitcircleSprite.Modulate = _comboColors[_currentComboIndex];
         ApproachcircleSprite.SelfModulate = _comboColors[_currentComboIndex];
-        DefaultSprite.Texture = _skin.Get2XTextureOrDefault($"default-{(_currentComboIndex == 0 ? _comboColors.Length : _currentComboIndex)}");
+        DefaultSprite.Texture = _skin.Get2XTexture($"default-{(_currentComboIndex == 0 ? _comboColors.Length : _currentComboIndex)}");
     }
 
     private void Hit(string score)

@@ -67,10 +67,15 @@ public partial class SkinPreview : PanelContainer
     {
         _isTexturesLoaded = true;
 
-        MenuBackground.Texture = _skin.GetTextureOrDefault("menu-background", "jpg");
-        Cursor.Texture = _skin.Get2XTextureOrDefault("cursor");
-        Cursormiddle.Texture = _skin.Get2XTextureOrDefault("cursormiddle");
-        Cursortrail.Texture = _skin.Get2XTextureOrDefault("cursortrail");
+        _skin.TryGetTexture("menu-background", out var menuBackground, "jpg");
+        _skin.TryGet2XTexture("cursor", out var cursor);
+        _skin.TryGet2XTexture("cursormiddle", out var cursormiddle);
+        _skin.TryGet2XTexture("cursortrail", out var cursortrail);
+
+        MenuBackground.Texture = menuBackground;
+        Cursor.Texture = cursor;
+        Cursormiddle.Texture = cursormiddle;
+        Cursortrail.Texture = cursortrail;
 
         if (_skin.SkinIni?.TryGetPropertyValue("General", "CursorRotate") is "1" or null)
             CursorRotateAnimationPlayer.Play("rotate");

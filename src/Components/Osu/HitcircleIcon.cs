@@ -59,8 +59,8 @@ public partial class HitcircleIcon : CenterContainer
 
         _isTexturesLoaded = true;
 
-        HitcircleTexture.Texture = _skin.Get2XTextureOrDefault("hitcircle");
-        HitcircleoverlayTexture.Texture = _skin.Get2XTextureOrDefault("hitcircleoverlay");
-        Default1Texture.Texture = _skin.Get2XTextureOrDefault("default-1");
+        HitcircleTexture.Texture = _skin.Get2XTexture("hitcircle");
+        HitcircleoverlayTexture.Texture = _skin.Get2XTexture("hitcircleoverlay");
+        Default1Texture.Texture = _skin.Get2XTexture("default-1");
     }
 }
