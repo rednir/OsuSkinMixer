@@ -67,7 +67,7 @@ public partial class SkinPreview : PanelContainer
     {
         _isTexturesLoaded = true;
 
-        MenuBackground.Texture = _skin.GetTexture("menu-background", "png", true) ?? _skin.GetTexture("menu-background", "jpg");
+        MenuBackground.Texture = _skin.GetTexture("menu-background", "jpg");
         Cursor.Texture = _skin.GetTexture("cursor");
         Cursormiddle.Texture = _skin.GetTexture("cursormiddle");
         Cursortrail.Texture = _skin.GetTexture("cursortrail");
