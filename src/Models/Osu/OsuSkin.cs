@@ -95,12 +95,14 @@ public class OsuSkin
     public override int GetHashCode()
         => Name.GetHashCode();
 
-    public Texture2D GetTexture(string filename, string extension = "png")
+    public Texture2D Get2XTextureOrDefault(string filename, string extension = "png")
     {
-        return GetTextureOrFallback($"{filename}@2x", extension, filename);
+        return GetTextureOrNull($"{filename}@2x", extension)
+            ?? GetTextureOrNull(filename, extension)
+            ?? GetDefaultTexture($"{filename}@2x.{extension}");
     }
 
-    private Texture2D GetTextureOrFallback(string filename, string extension, string fallback)
+    private Texture2D GetTextureOrNull(string filename, string extension)
     {
         if (_textureCache.TryGetValue(filename, out Texture2D value))
             return value;
@@ -118,19 +120,18 @@ public class OsuSkin
 
         if (!File.Exists(path))
         {
-            if (fallback != null)
-                return GetTextureOrFallback(fallback, extension, null);
-
-            var defaultTexture = GetDefaultTexture($"{filename}.{extension}");
-            _textureCache.Add(filename, defaultTexture);
-            return defaultTexture;
+            _textureCache.Add(filename, null);
+            return null;
         }
 
         Image image = new();
         Error err = image.Load(path);
 
         if (err != Error.Ok)
+        {
+            _textureCache.Add(filename, null);
             return null;
+        }
 
         var texture = ImageTexture.CreateFromImage(image);
         _textureCache.Add(filename, texture);
@@ -152,15 +153,9 @@ public class OsuSkin
 
             for (int i = 0;; i++)
             {
-                if (File.Exists($"{pathPrefix}-{i}@2x.png"))
+                if (File.Exists($"{pathPrefix}-{i}@2x.png") || File.Exists($"{pathPrefix}-{i}.png"))
                 {
-                    spriteFrames.AddFrame(filename, GetTextureOrFallback($"{filename}-{i}@2x", "png", $"{filename}-{i}"));
-                    continue;
-                }
-
-                if (File.Exists($"{pathPrefix}-{i}.png"))
-                {
-                    spriteFrames.AddFrame(filename, GetTextureOrFallback($"{filename}-{i}", "png", null));
+                    spriteFrames.AddFrame(filename, Get2XTextureOrDefault($"{filename}-{i}"));
                     continue;
                 }
 
@@ -172,7 +167,7 @@ public class OsuSkin
             spriteFrames.SetAnimationLoop(filename, false);
 
             if (spriteFrames.GetFrameCount(filename) == 0)
-                spriteFrames.AddFrame(filename, GetTexture($"{filename}"));
+                spriteFrames.AddFrame(filename, Get2XTextureOrDefault($"{filename}"));
         }
 
         return spriteFrames;
