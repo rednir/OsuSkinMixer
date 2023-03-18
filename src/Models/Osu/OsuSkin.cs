@@ -102,6 +102,12 @@ public class OsuSkin
             ?? GetDefaultTexture($"{filename}@2x.{extension}");
     }
 
+    public Texture2D GetTextureOrDefault(string filename, string extension = "png")
+    {
+        return GetTextureOrNull(filename, extension)
+            ?? GetDefaultTexture($"{filename}.{extension}");
+    }
+
     private Texture2D GetTextureOrNull(string filename, string extension)
     {
         if (_textureCache.TryGetValue(filename, out Texture2D value))
