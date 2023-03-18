@@ -82,31 +82,66 @@ public abstract class SkinOption
                                     new SkinFileOption("ranking-xh-small", false, "SS rank (hidden)"),
                                 },
                             },
+                            new ParentSkinOption
+                            {
+                                Name = "Button",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("button-left", false),
+                                    new SkinFileOption("button-middle", false),
+                                    new SkinFileOption("button-right", false),
+                                },
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Bottom bar buttons",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("selection-mode*", false),
+                                    new SkinFileOption("selection-mods*", false),
+                                    new SkinFileOption("selection-options*", false),
+                                    new SkinFileOption("selection-random*", false),
+                                }
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Gamemode icons (background)",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("mode-osu", false),
+                                    new SkinFileOption("mode-taiko", false),
+                                    new SkinFileOption("mode-fruits", false),
+                                    new SkinFileOption("mode-mania", false),
+                                },
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Gamemode icons (selection menu)",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("mode-osu-med", false),
+                                    new SkinFileOption("mode-taiko-med", false),
+                                    new SkinFileOption("mode-fruits-med", false),
+                                    new SkinFileOption("mode-mania-med", false),
+                                },
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Gameode icons (bottom bar)",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("mode-osu-small", false),
+                                    new SkinFileOption("mode-taiko-small", false),
+                                    new SkinFileOption("mode-fruits-small", false),
+                                    new SkinFileOption("mode-mania-small", false),
+                                },
+                            },
 
-                            new SkinFileOption("button-left", false),
-                            new SkinFileOption("button-middle", false),
-                            new SkinFileOption("button-right", false),
                             new SkinFileOption("menu-background", false),
                             new SkinFileOption("menu-back", false, null, true),
                             new SkinFileOption("menu-button-background", false),
                             new SkinFileOption("menu-snow", false),
-                            new SkinFileOption("mode-fruits-med", false),
-                            new SkinFileOption("mode-fruits-small", false),
-                            new SkinFileOption("mode-fruits", false),
-                            new SkinFileOption("mode-mania-med", false),
-                            new SkinFileOption("mode-mania-small", false),
-                            new SkinFileOption("mode-mania", false),
-                            new SkinFileOption("mode-osu-med", false),
-                            new SkinFileOption("mode-osu-small", false),
-                            new SkinFileOption("mode-osu", false),
-                            new SkinFileOption("mode-taiko-med", false),
-                            new SkinFileOption("mode-taiko-small", false),
-                            new SkinFileOption("mode-taiko", false),
                             new SkinFileOption("options-offset-tick", false),
-                            new SkinFileOption("selection-mode*", false),
-                            new SkinFileOption("selection-mods*", false),
-                            new SkinFileOption("selection-options*", false),
-                            new SkinFileOption("selection-random*", false),
                             new SkinFileOption("selection-tab", false),
                             new SkinFileOption("star", false),
                             new SkinFileOption("welcome_text", false),
