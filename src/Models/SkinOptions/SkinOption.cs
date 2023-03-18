@@ -87,7 +87,7 @@ public abstract class SkinOption
                             new SkinFileOption("button-middle", false),
                             new SkinFileOption("button-right", false),
                             new SkinFileOption("menu-background", false),
-                            new SkinFileOption("menu-back*", false),
+                            new SkinFileOption("menu-back", false, null, true),
                             new SkinFileOption("menu-button-background", false),
                             new SkinFileOption("menu-snow", false),
                             new SkinFileOption("mode-fruits-med", false),
@@ -203,7 +203,7 @@ public abstract class SkinOption
                                 Children = new SkinOption[]
                                 {
                                     new SkinFileOption("scorebar-bg", false),
-                                    new SkinFileOption("scorebar-colour*", false),
+                                    new SkinFileOption("scorebar-colour", false, null, true),
                                     new SkinFileOption("scorebar-ki", false),
                                     new SkinFileOption("scorebar-kidanger", false),
                                     new SkinFileOption("scorebar-kidanger2", false),
@@ -247,7 +247,7 @@ public abstract class SkinOption
                                 },
                             },
 
-                            new SkinFileOption("play-skip*", false, "Skip button"),
+                            new SkinFileOption("play-skip", false, "Skip button", true),
                             new SkinFileOption("section-fail", false, "Section pass"),
                             new SkinFileOption("section-pass", false, "Section fail"),
                             new SkinFileOption("play-warningarrow", false, "Warning/selection arrows"),
@@ -292,7 +292,7 @@ public abstract class SkinOption
                                 Name = "Sliders",
                                 Children = new SkinOption[]
                                 {
-                                    new SkinFileOption("sliderb*", false, "Slider ball"),
+                                    new SkinFileOption("sliderb", false, "Slider ball", true),
                                     new SkinFileOption("sliderendcircle*", false, "Slider end circle"),
                                     new SkinFileOption("sliderfollowcircle", false, "Slider follow circle"),
                                     new SkinFileOption("sliderscorepoint", false, "Slider tick"),
@@ -352,14 +352,14 @@ public abstract class SkinOption
                                 Name = "Hit judgements",
                                 Children = new SkinOption[]
                                 {
-                                    new SkinFileOption("hit0*", false, "Miss"),
-                                    new SkinFileOption("hit50*", false, "50"),
-                                    new SkinFileOption("hit100*", false, "100"),
-                                    new SkinFileOption("hit300*", false, "300"),
+                                    new SkinFileOption("hit0", false, "Miss", true),
+                                    new SkinFileOption("hit50", false, "50", true),
+                                    new SkinFileOption("hit100", false, "100", true),
+                                    new SkinFileOption("hit300", false, "300", true),
                                     new SkinFileOption("particle*", false, "Particles"),
                                 },
                             },
-                            new SkinFileOption("followpoint*", false, "Follow points"),
+                            new SkinFileOption("followpoint", false, "Follow points", true),
                             new SkinFileOption("comboburst", false, "Combo burst"),
                         },
                     },
