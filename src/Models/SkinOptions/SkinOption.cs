@@ -652,19 +652,40 @@ public abstract class SkinOption
                         Name = "In-game",
                         Children = new SkinOption[]
                         {
-                            new SkinFileOption("count1s", true, "Countdown 1"),
-                            new SkinFileOption("count2s", true, "Countdown 2"),
-                            new SkinFileOption("count3s", true, "Countdown 3"),
-                            new SkinFileOption("gos", true, "Countdown go"),
-                            new SkinFileOption("failsound", true, "Fail"),
-                            new SkinFileOption("pause-back*", true, "Pause back"),
-                            new SkinFileOption("pause-continue*", true, "Pause continue"),
-                            new SkinFileOption("pause-retry*", true, "Pause retry"),
-                            new SkinFileOption("pause-hover", true, "Pause hover button"),
-                            new SkinFileOption("pause-loop", true, "Pause music"),
-                            new SkinFileOption("readys", true, "Countdown ready"),
-                            new SkinFileOption("sectionfail", true, "Section fail"),
-                            new SkinFileOption("sectionpass", true, "Section pass"),
+                            new ParentSkinOption
+                            {
+                                Name = "Countdown",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("readys", true, "Ready?"),
+                                    new SkinFileOption("count3s", true, "3"),
+                                    new SkinFileOption("count2s", true, "2"),
+                                    new SkinFileOption("count1s", true, "1"),
+                                    new SkinFileOption("gos", true, "Go!"),
+                                },
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Pause/fail screen",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("failsound", true, "Fail sound"),
+                                    new SkinFileOption("pause-loop", true, "Pause music"),
+                                    new SkinFileOption("pause-hover", true, "Button hover"),
+                                    new SkinFileOption("pause-continue*", true, "Continue button"),
+                                    new SkinFileOption("pause-retry*", true, "Retry button"),
+                                    new SkinFileOption("pause-back*", true, "Back button"),
+                                }
+                            },
+                            new ParentSkinOption
+                            {
+                                Name = "Section pass/fail",
+                                Children = new SkinOption[]
+                                {
+                                    new SkinFileOption("sectionfail", true, "Section fail"),
+                                    new SkinFileOption("sectionpass", true, "Section pass"),
+                                },
+                            }
                         },
                     },
                 },
