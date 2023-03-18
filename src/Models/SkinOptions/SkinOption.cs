@@ -64,6 +64,18 @@ public abstract class SkinOption
                 {
                     new ParentSkinOption
                     {
+                        Name = "Main menu",
+                        Children = new SkinOption[]
+                        {
+                            new SkinFileOption("welcome_text", false, "Welcome text (req. supporter)"),
+                            new SkinFileOption("menu-background", false, "Background image (req. supporter)"),
+                            new SkinFileOption("menu-snow", false, "Snow"),
+
+                            new SkinIniPropertyOption("Colours", "MenuGlow"),
+                        },
+                    },
+                    new ParentSkinOption
+                    {
                         Name = "Song select",
                         Children = new SkinOption[]
                         {
@@ -127,7 +139,7 @@ public abstract class SkinOption
                             },
                             new ParentSkinOption
                             {
-                                Name = "Gameode icons (bottom bar)",
+                                Name = "Gamemode icons (bottom bar)",
                                 Children = new SkinOption[]
                                 {
                                     new SkinFileOption("mode-osu-small", false),
@@ -137,16 +149,12 @@ public abstract class SkinOption
                                 },
                             },
 
-                            new SkinFileOption("menu-background", false),
-                            new SkinFileOption("menu-back", false, null, true),
-                            new SkinFileOption("menu-button-background", false),
-                            new SkinFileOption("menu-snow", false),
-                            new SkinFileOption("options-offset-tick", false),
-                            new SkinFileOption("selection-tab", false),
-                            new SkinFileOption("star", false),
-                            new SkinFileOption("welcome_text", false),
+                            new SkinFileOption("menu-back", false, "Back button", true),
+                            new SkinFileOption("menu-button-background", false, "Beatmap/scoreboard item"),
+                            new SkinFileOption("options-offset-tick", false, "Offset wizard tick"),
+                            new SkinFileOption("selection-tab", false, "Tab"),
+                            new SkinFileOption("star", false, "Difficulty star"),
 
-                            new SkinIniPropertyOption("Colours", "MenuGlow"),
                             new SkinIniPropertyOption("Colours", "SongSelectActiveText"),
                             new SkinIniPropertyOption("Colours", "SongSelectInactiveText"),
                         },
