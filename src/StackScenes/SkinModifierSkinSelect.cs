@@ -36,6 +36,7 @@ public partial class SkinModifierSkinSelect : StackScene
 
         ContinueButton.Pressed += OnContinueButtonPressed;
         AddSkinToModifyButton.Pressed += AddSkinToModifyButtonPressed;
+        ManageSkinPopup.Options = ManageSkinOptions.All & ~ManageSkinOptions.Modify & ~ManageSkinOptions.Duplicate & ~ManageSkinOptions.Delete;
         ManageSkinPopup.PreventSkinInfoRequest = true;
         SkinSelectorPopup.OnSelected = OnSkinSelected;
 
@@ -61,6 +62,7 @@ public partial class SkinModifierSkinSelect : StackScene
         // Don't show already selected skins in the selector.
         SkinSelectorPopup.DisableSkinComponent(skin);
 
+        // TODO: use SkinComponentsContainer.
         var component = SkinComponentScene.Instantiate<SkinComponent>();
         component.Skin = skin;
         component.Visible = true;
@@ -80,6 +82,12 @@ public partial class SkinModifierSkinSelect : StackScene
 
             if (SkinsToModify.Count == 0)
                 ContinueButton.Disabled = true;
+        };
+
+        component.RightClicked += () =>
+        {
+            ManageSkinPopup.SetSkins(new OsuSkin[] { skin });
+            ManageSkinPopup.In();
         };
 
         ContinueButton.Disabled = false;
