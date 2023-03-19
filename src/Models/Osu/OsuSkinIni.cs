@@ -87,7 +87,7 @@ public class OsuSkinIni
 
             // Ignore duplicate keys, prefer the one first defined.
             if (section.ContainsKey(keyAndValue[0]))
-                return;
+                continue;
 
             section.Add(keyAndValue[0], keyAndValue[1]);
         }
