@@ -270,27 +270,55 @@ public abstract class SkinMachine : IDisposable
 
     protected void AddCopyBlankFileTask(SkinFileOption fileOption, DirectoryInfo fileDestDir)
     {
-        string destFullPath = $"{fileDestDir.FullName}/{fileOption.IncludeFileName.Replace("-*", "").Replace("*", "")}.png";
-
-        AddFileToOriginalElementsCache(destFullPath);
-
-        if (fileOption.IsAudio)
+        if (fileOption.IncludeFileName.EndsWith("*"))
         {
-            _tasks.Add(() =>
+            string filenameWithoutWildcard = fileOption.IncludeFileName.Replace("*", string.Empty);
+
+            if (fileOption.AllowedSuffixes == null)
             {
-                Log($"Run task (blank file) -> '{destFullPath}'");
-                File.Create(destFullPath).Dispose();
-            });
+                add(filenameWithoutWildcard);
+                return;
+            }
+
+            foreach (var suffix in fileOption.AllowedSuffixes)
+                add($"{filenameWithoutWildcard}{suffix}");
+
+            return;
         }
-        else
-        {
-            _tasks.Add(() =>
-            {
-                Log($"Run task (blank file) -> '{destFullPath}'");
 
-                // This is a 1x1 transparent PNG file. A zero byte file will cause osu! to fall back to the default skin.
-                File.WriteAllBytes(destFullPath, TransparentPngFile);
-            });
+        add(fileOption.IncludeFileName);
+
+        void add(string filename)
+        {
+            string destPathWithoutExtension = Path.Combine(fileDestDir.FullName, filename);
+
+            if (fileOption.IsAudio)
+            {
+                string wavDestPath = $"{destPathWithoutExtension}.wav";
+                AddFileToOriginalElementsCache(wavDestPath);
+                _tasks.Add(() =>
+                {
+                    Log($"Run task (blank file) -> '{wavDestPath}'");
+                    File.Create(wavDestPath).Dispose();
+                });
+            }
+            else
+            {
+                string pngDestPath = $"{destPathWithoutExtension}.png";
+                string pngDestPath2x = $"{destPathWithoutExtension}@2x.png";
+
+                AddFileToOriginalElementsCache(pngDestPath);
+                AddFileToOriginalElementsCache(pngDestPath2x);
+
+                _tasks.Add(() =>
+                {
+                    Log($"Run task (blank file) -> '{pngDestPath}'");
+
+                    // This is a 1x1 transparent PNG file. A zero byte file will cause osu! to fall back to the default skin.
+                    File.WriteAllBytes(pngDestPath, TransparentPngFile);
+                    File.WriteAllBytes(pngDestPath2x, TransparentPngFile);
+                });
+            }
         }
     }
 
