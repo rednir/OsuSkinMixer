@@ -68,9 +68,11 @@ public partial class SkinPreview : PanelContainer
         _isTexturesLoaded = true;
 
         _skin.TryGetTexture("menu-background", out var menuBackground, "jpg");
-        _skin.TryGet2XTexture("cursor", out var cursor);
-        _skin.TryGet2XTexture("cursormiddle", out var cursormiddle);
-        _skin.TryGet2XTexture("cursortrail", out var cursortrail);
+
+        // Scale textures based on whether they are @2x or not.
+        Cursor.Scale = _skin.TryGet2XTexture("cursor", out var cursor) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1);
+        Cursormiddle.Scale = _skin.TryGet2XTexture("cursormiddle", out var cursormiddle) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1);
+        Cursortrail.ScaleAmountMax = Cursortrail.ScaleAmountMin = _skin.TryGet2XTexture("cursortrail", out var cursortrail) ? 0.5f : 1;
 
         MenuBackground.Texture = menuBackground;
         Cursor.Texture = cursor;

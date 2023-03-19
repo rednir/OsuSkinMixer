@@ -48,9 +48,24 @@ public partial class Hitcircle : Node2D
         _skin = skin;
 
         HitJudgementSprite.SpriteFrames = skin.GetSpriteFrames("hit0", "hit50", "hit100", "hit300");
-        ApproachcircleSprite.Texture = skin.Get2XTexture("approachcircle");
-        HitcircleSprite.Texture = skin.Get2XTexture("hitcircle");
-        HitcircleoverlaySprite.Texture = skin.Get2XTexture("hitcircleoverlay");
+
+        // Scale textures based on whether they are @2x or not.
+        if (skin.TryGet2XTexture("approachcircle", out var approachcircle) &&
+            skin.TryGet2XTexture("hitcircle", out var hitcircle) &&
+            skin.TryGet2XTexture("hitcircleoverlay", out var hitcircleoverlay))
+        {
+            Scale = new Vector2(0.5f, 0.5f);
+            ApproachcircleSprite.Texture = approachcircle;
+            HitcircleSprite.Texture = hitcircle;
+            HitcircleoverlaySprite.Texture = hitcircleoverlay;
+        }
+        else
+        {
+            Scale = new Vector2(1, 1);
+            ApproachcircleSprite.Texture = skin.GetTexture("approachcircle");
+            HitcircleSprite.Texture = skin.GetTexture("hitcircle");
+            HitcircleoverlaySprite.Texture = skin.GetTexture("hitcircleoverlay");
+        }
 
         _comboColors = skin.ComboColors;
         NextCombo();
@@ -81,7 +96,10 @@ public partial class Hitcircle : Node2D
 
         HitcircleSprite.Modulate = _comboColors[_currentComboIndex];
         ApproachcircleSprite.SelfModulate = _comboColors[_currentComboIndex];
-        DefaultSprite.Texture = _skin.Get2XTexture($"default-{(_currentComboIndex == 0 ? _comboColors.Length : _currentComboIndex)}");
+
+        // Hitcircle scale is set previously based on whether the textures are @2x or not.
+        string filename = $"default-{(_currentComboIndex == 0 ? _comboColors.Length : _currentComboIndex)}";
+        DefaultSprite.Texture = Scale == new Vector2(0.5f, 0.5f) ? _skin.Get2XTexture(filename) : _skin.GetTexture(filename);
     }
 
     private void Hit(string score)

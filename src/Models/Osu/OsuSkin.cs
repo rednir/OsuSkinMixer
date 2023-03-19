@@ -114,8 +114,13 @@ public class OsuSkin
         if (result != null)
             return true;
 
-        result = GetTextureOrNull(filename, extension) ?? GetDefaultTexture($"{filename}@2x.{extension}");
-        return false;
+        result = GetTextureOrNull(filename, extension);
+
+        if (result != null)
+            return false;
+
+        result = GetDefaultTexture($"{filename}@2x.{extension}");
+        return true;
     }
 
     public bool TryGetTexture(string filename, out Texture2D result, string extension = "png")
