@@ -33,6 +33,13 @@ public partial class SkinOptionsSelector : PanelContainer
 
         SkinSelectorPopup.OnSelected = s => OptionComponentSelected(new SkinOptionValue(s));
         ExpandHint.Visible = !Settings.Content.ArrowButtonPressed;
+
+        OsuData.SkinRemoved += OnSkinRemoved;
+    }
+
+    public override void _ExitTree()
+    {
+        OsuData.SkinRemoved -= OnSkinRemoved;
     }
 
     public void CreateOptionComponents(SkinOptionValue defaultValue)
@@ -144,5 +151,19 @@ public partial class SkinOptionsSelector : PanelContainer
         }
 
         SkinOptionComponents.Find(c => c.SkinOption == option).SetValue(value);
+    }
+
+    private void OnSkinRemoved(OsuSkin skin)
+    {
+        var invalidComponents = SkinOptionComponents.Where(c => c.SkinOption.Value.CustomSkin?.Equals(skin) == true);
+
+        if (!invalidComponents.Any())
+            return;
+
+        foreach (var component in invalidComponents)
+        {
+            SkinOptionComponentInSelection = component;
+            OptionComponentSelected(component.DefaultValue);
+        }
     }
 }
