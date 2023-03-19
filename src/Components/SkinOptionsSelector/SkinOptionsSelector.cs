@@ -31,8 +31,12 @@ public partial class SkinOptionsSelector : PanelContainer
         ExpandHint = GetNode<Panel>("%ExpandHint");
         SkinSelectorPopup = GetNode<SkinSelectorPopup>("%SkinSelectorPopup");
 
-        SkinSelectorPopup.OnSelected = s => OptionComponentSelected(new SkinOptionValue(s));
         ExpandHint.Visible = !Settings.Content.ArrowButtonPressed;
+        SkinSelectorPopup.OnSelected = s =>
+        {
+            Settings.Log($"Skin option '{SkinOptionComponentInSelection.SkinOption.Name}' set to: {s}");
+            OptionComponentSelected(new SkinOptionValue(s));
+        };
 
         OsuData.SkinRemoved += OnSkinRemoved;
     }
@@ -59,6 +63,7 @@ public partial class SkinOptionsSelector : PanelContainer
 
             component.ResetButton.Pressed += () =>
             {
+                Settings.Log($"Skin option '{option.Name}' reset to default: {component.DefaultValue}");
                 SkinOptionComponentInSelection = component;
                 OptionComponentSelected(defaultValue);
             };
@@ -104,6 +109,8 @@ public partial class SkinOptionsSelector : PanelContainer
 
     public void Randomize()
     {
+        Settings.Log("Randomising all skin options");
+
         foreach (var component in SkinOptionComponents.Where(c => c.SkinOption is not ParentSkinOption))
         {
             SkinOptionComponentInSelection = component;
@@ -113,6 +120,8 @@ public partial class SkinOptionsSelector : PanelContainer
 
     public void Reset()
     {
+        Settings.Log("Reseting all skin options");
+
         foreach (var component in SkinOptionComponents.Where(c => c.SkinOption is not ParentSkinOption))
         {
             SkinOptionComponentInSelection = component;
@@ -122,8 +131,6 @@ public partial class SkinOptionsSelector : PanelContainer
 
     public void OptionComponentSelected(SkinOptionValue valueSelected)
     {
-        Settings.Log($"Skin option '{SkinOptionComponentInSelection.SkinOption.Name}' set to '{valueSelected}'");
-
         // TODO: This method can be optimized further by recursively looping through the components and their
         // children (in their respective VBoxContainers) instead of looping through the ParentSkinOption's children.
         SkinOptionComponentInSelection.SetValue(valueSelected);
