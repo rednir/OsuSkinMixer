@@ -40,6 +40,23 @@ public partial class SkinModifierSkinSelect : StackScene
         ManageSkinPopup.SkinInfoRequested = OnSkinInfoRequest;
         ManageSkinPopup.Options = ManageSkinOptions.All & ~ManageSkinOptions.Modify & ~ManageSkinOptions.Duplicate & ~ManageSkinOptions.Delete;
         SkinSelectorPopup.OnSelected = OnSkinSelected;
+
+        OsuData.SkinRemoved += OnSkinRemoved;
+    }
+
+    public override void _ExitTree()
+    {
+        OsuData.SkinRemoved -= OnSkinRemoved;
+    }
+
+    private void OnSkinRemoved(OsuSkin skin)
+    {
+        var component = SkinsToModifyComponents.Find(c => c.Skin.Equals(skin));
+
+        if (component == null)
+            return;
+
+        component.Checked(false);
     }
 
     private void AddSkinToModifyButtonPressed()
