@@ -46,6 +46,19 @@ public partial class SkinModifierModificationSelect : StackScene
         ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
         LoadingPopup.CancelAction = OnCancelButtonPressed;
         LoadingPopup.DisableCancelAt = SkinModifierMachine.UNCANCELLABLE_AFTER;
+
+        OsuData.SkinRemoved += OnSkinRemoved;
+    }
+
+    public override void _ExitTree()
+    {
+        OsuData.SkinRemoved -= OnSkinRemoved;
+    }
+
+    private void OnSkinRemoved(OsuSkin skin)
+    {
+        if (SkinsToModify.Remove(skin) && Visible && SkinsToModify.Count == 0)
+            EmitSignal(SignalName.ScenePopped);
     }
 
     private void OnApplyChangesButtonPressed()

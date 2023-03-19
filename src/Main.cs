@@ -75,6 +75,7 @@ public partial class Main : Control
                     currentlyActiveScene.Visible = false;
 
                 PendingScene.ScenePushed += PushScene;
+                PendingScene.ScenePopped += PopScene;
                 PendingScene.ToastPushed += Toast.Push;
                 PendingScene.Visible = true;
                 SceneStack.Push(PendingScene);
