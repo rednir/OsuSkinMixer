@@ -344,9 +344,7 @@ public abstract class SkinMachine : IDisposable
                 && filename.StartsWith(fileOption.IncludeFileName, StringComparison.OrdinalIgnoreCase)
                 && CheckIfFileNameIsAnimation(filename, fileOption.IncludeFileName)
             )
-            || (fileOption.IncludeFileName.EndsWith("*")
-                && filename.StartsWith(fileOption.IncludeFileName.TrimEnd('*'), StringComparison.OrdinalIgnoreCase)
-            )
+            || CheckIfWildcardMatchesFile(filename, fileOption)
         )
         {
             // Check for file type match.
@@ -367,6 +365,18 @@ public abstract class SkinMachine : IDisposable
         // An file representing an animation frame would have a number suffix e.g. menu-back-10.png or sliderb10.png.
         string filenameSuffix = filename.ToLower().TrimPrefix(fileOptionInclude.ToLower());
         return int.TryParse(filenameSuffix, out int _) || int.TryParse(filenameSuffix.TrimSuffix("@2x"), out int _);
+    }
+
+    private static bool CheckIfWildcardMatchesFile(string filename, SkinFileOption fileOption)
+    {
+        if (!fileOption.IncludeFileName.EndsWith("*"))
+            return false;
+
+        if (fileOption.AllowedSuffixes == null)
+            return true;
+
+        string filenameSuffix = filename.ToLower().TrimPrefix(fileOption.IncludeFileName.ToLower().TrimEnd('*'));
+        return fileOption.AllowedSuffixes.Any(s => filenameSuffix.Equals(s, StringComparison.OrdinalIgnoreCase));
     }
 
     public void Dispose()
