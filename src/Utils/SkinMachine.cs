@@ -339,12 +339,15 @@ public abstract class SkinMachine : IDisposable
 
         // Check for file name match.
         if (
-            filename.Equals(fileOption.IncludeFileName, StringComparison.OrdinalIgnoreCase) || filename.Equals(fileOption.IncludeFileName + "@2x", StringComparison.OrdinalIgnoreCase)
-            || (fileOption.IsAnimatable
-                && filename.StartsWith(fileOption.IncludeFileName, StringComparison.OrdinalIgnoreCase)
-                && CheckIfFileNameIsAnimation(filename, fileOption.IncludeFileName)
+            filename.Equals(fileOption.IncludeFileName, StringComparison.OrdinalIgnoreCase)
+            || filename.Equals(fileOption.IncludeFileName + "@2x", StringComparison.OrdinalIgnoreCase)
+            || (
+                filename.StartsWith(fileOption.IncludeFileName.TrimEnd('*'), StringComparison.OrdinalIgnoreCase)
+                && (
+                    CheckIfFileNameIsAnimation(filename, fileOption)
+                    || CheckIfWildcardMatchesFile(filename, fileOption)
+                )
             )
-            || CheckIfWildcardMatchesFile(filename, fileOption)
         )
         {
             // Check for file type match.
@@ -360,10 +363,13 @@ public abstract class SkinMachine : IDisposable
         return false;
     }
 
-    private static bool CheckIfFileNameIsAnimation(string filename, string fileOptionInclude)
+    private static bool CheckIfFileNameIsAnimation(string filename, SkinFileOption fileOption)
     {
+        if (!fileOption.IsAnimatable)
+            return false;
+
         // An file representing an animation frame would have a number suffix e.g. menu-back-10.png or sliderb10.png.
-        string filenameSuffix = filename.ToLower().TrimPrefix(fileOptionInclude.ToLower());
+        string filenameSuffix = filename.ToLower().TrimPrefix(fileOption.IncludeFileName.ToLower());
         return int.TryParse(filenameSuffix, out int _) || int.TryParse(filenameSuffix.TrimSuffix("@2x"), out int _);
     }
 

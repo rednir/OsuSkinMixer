@@ -109,10 +109,10 @@ public abstract class SkinOption
                             Name = "Bottom bar buttons",
                             Children = new SkinOption[]
                             {
-                                new SkinFileOption("selection-mode*", false, allowedSuffixes: new[] { "-over" }),
-                                new SkinFileOption("selection-mods*", false),
-                                new SkinFileOption("selection-options*", false),
-                                new SkinFileOption("selection-random*", false),
+                                new SkinFileOption("selection-mode*", false, allowedSuffixes: new[] { string.Empty, "-over" }),
+                                new SkinFileOption("selection-mods*", false, allowedSuffixes: new[] { string.Empty, "-over" }),
+                                new SkinFileOption("selection-options*", false, allowedSuffixes: new[] { string.Empty, "-over" }),
+                                new SkinFileOption("selection-random*", false, allowedSuffixes: new[] { string.Empty, "-over" }),
                             }
                         },
                         new ParentSkinOption
