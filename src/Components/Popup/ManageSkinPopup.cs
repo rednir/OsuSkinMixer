@@ -98,7 +98,7 @@ public partial class ManageSkinPopup : Popup
         HideButton.Text = "    Toggle hidden state";
     }
 
-    private void OnOpenInOsuButtonPressed()
+    public void OnOpenInOsuButtonPressed()
     {
         try
         {
@@ -110,19 +110,19 @@ public partial class ManageSkinPopup : Popup
         }
     }
 
-    private void OnOpenFolderButtonPressed()
+    public void OnOpenFolderButtonPressed()
     {
         foreach (var skin in _skins)
             Tools.ShellOpenFile(skin.Directory.FullName);
     }
 
-    private void OnModifyButtonPressed()
+    public void OnModifyButtonPressed()
     {
         OsuData.RequestSkinModify(_skins);
         Out();
     }
 
-    private void OnHideButtonPressed()
+    public void OnHideButtonPressed()
     {
         Directory.CreateDirectory(Settings.HiddenSkinsFolderPath);
 
@@ -161,7 +161,7 @@ public partial class ManageSkinPopup : Popup
         .ContinueWith(_ => Out());
     }
 
-    private void OnExportButtonPressed()
+    public void OnExportButtonPressed()
     {
         string exportFolderPath = Path.Combine(Settings.Content.OsuFolder, "Exports");
         LoadingPopup.In();
@@ -200,7 +200,7 @@ public partial class ManageSkinPopup : Popup
         });
     }
 
-    private void OnDuplicateButtonPressed()
+    public void OnDuplicateButtonPressed()
     {
         if (_skins.Length > 1)
         {
@@ -268,7 +268,7 @@ public partial class ManageSkinPopup : Popup
         return newSkin;
     }
 
-    private void OnDeleteButtonPressed()
+    public void OnDeleteButtonPressed()
     {
         DeleteQuestionPopup.In();
     }

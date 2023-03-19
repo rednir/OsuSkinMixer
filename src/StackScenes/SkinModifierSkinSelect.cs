@@ -17,7 +17,9 @@ public partial class SkinModifierSkinSelect : StackScene
 
     private VBoxContainer SkinsToModifyContainer;
     private Button AddSkinToModifyButton;
+    private CheckButton MakeCopyButton;
     private Button ContinueButton;
+    private ManageSkinPopup ManageSkinPopup;
     private SkinSelectorPopup SkinSelectorPopup;
 
     public override void _Ready()
@@ -27,12 +29,14 @@ public partial class SkinModifierSkinSelect : StackScene
 
         SkinsToModifyContainer = GetNode<VBoxContainer>("%SkinsToModifyContainer");
         AddSkinToModifyButton = GetNode<Button>("%AddSkinToModifyButton");
+        MakeCopyButton = GetNode<CheckButton>("%MakeCopyButton");
         ContinueButton = GetNode<Button>("%ContinueButton");
         SkinSelectorPopup = GetNode<SkinSelectorPopup>("%SkinSelectorPopup");
+        ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
         ContinueButton.Pressed += OnContinueButtonPressed;
         AddSkinToModifyButton.Pressed += AddSkinToModifyButtonPressed;
-
+        ManageSkinPopup.PreventSkinInfoRequest = true;
         SkinSelectorPopup.OnSelected = OnSkinSelected;
 
         // Add components if the scene has been initalised with skins to modify.
@@ -82,6 +86,18 @@ public partial class SkinModifierSkinSelect : StackScene
     }
 
     private void OnContinueButtonPressed()
+    {
+        if (!MakeCopyButton.ButtonPressed)
+        {
+            PushNextScene();
+            return;
+        }
+
+        ManageSkinPopup.SetSkins(SkinsToModify);
+        ManageSkinPopup.OnDuplicateButtonPressed();
+    }
+
+    private void PushNextScene()
     {
         var instance = SkinModifierModificationSelectScene.Instantiate<SkinModifierModificationSelect>();
         instance.SkinsToModify = SkinsToModify;
