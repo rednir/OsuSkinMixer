@@ -52,6 +52,8 @@ public partial class SetupPopup : Popup
 
         Settings.Save();
         Out();
+
+        DoneButton.Disabled = false;
     }
 
     private void FolderPickerButtonPressed()
