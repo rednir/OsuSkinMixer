@@ -20,7 +20,7 @@ public partial class LoadingPopup : Popup
 
             if (value <= 0 || value >= 100)
             {
-                if (value >= 100)
+                if (value >= 100 && !LoadingAnimationPlayer.IsPlaying())
                     LoadingAnimationPlayer.Play("finish");
 
                 LoadingAnimationPlayer.Queue("unknown");
