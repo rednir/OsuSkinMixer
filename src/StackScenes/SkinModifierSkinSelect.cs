@@ -128,6 +128,7 @@ public partial class SkinModifierSkinSelect : StackScene
         foreach (var skin in skins)
             AddSkinComponent(skin);
 
+        MakeCopyButton.ButtonPressed = false;
         PushNextScene();
     }
 
