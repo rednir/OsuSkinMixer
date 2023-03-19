@@ -57,8 +57,16 @@ public partial class SkinModifierModificationSelect : StackScene
 
     private void OnSkinRemoved(OsuSkin skin)
     {
-        if (SkinsToModify.Remove(skin) && Visible && SkinsToModify.Count == 0)
-            EmitSignal(SignalName.ScenePopped);
+        if (SkinsToModify.Remove(skin) && SkinsToModify.Count == 0)
+        {
+            if (Visible)
+            {
+                EmitSignal(SignalName.ScenePopped);
+                return;
+            }
+
+            ApplyChangesButton.Disabled = true;
+        }
     }
 
     private void OnApplyChangesButtonPressed()
