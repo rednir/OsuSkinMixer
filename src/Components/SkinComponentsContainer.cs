@@ -9,10 +9,10 @@ namespace OsuSkinMixer.Components;
 
 public partial class SkinComponentsContainer : PanelContainer
 {
-    public bool PreventSkinInfoRequest
+    public Action<IEnumerable<OsuSkin>> SkinInfoRequested
     {
-        get => ManageSkinPopup.PreventSkinInfoRequest;
-        set => ManageSkinPopup.PreventSkinInfoRequest = value;
+        get => ManageSkinPopup.SkinInfoRequested;
+        set => ManageSkinPopup.SkinInfoRequested = value;
     }
 
     public Action<OsuSkin> SkinSelected { get; set; }

@@ -12,9 +12,9 @@ namespace OsuSkinMixer.Components;
 
 public partial class ManageSkinPopup : Popup
 {
-    public ManageSkinOptions Options { get; set; } = ManageSkinOptions.All;
+    public Action<IEnumerable<OsuSkin>> SkinInfoRequested { get; set; } = OsuData.RequestSkinInfo;
 
-    public bool PreventSkinInfoRequest { get; set; }
+    public ManageSkinOptions Options { get; set; } = ManageSkinOptions.All;
 
     private OsuSkin[] _skins;
 
@@ -249,8 +249,7 @@ public partial class ManageSkinPopup : Popup
                     .RunOperation();
             }
 
-            if (!PreventSkinInfoRequest)
-                OsuData.RequestSkinInfo(newSkins);
+            SkinInfoRequested?.Invoke(newSkins);
         })
         .ContinueWith(_ =>
         {

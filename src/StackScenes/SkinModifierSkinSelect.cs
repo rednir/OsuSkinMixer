@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
@@ -10,7 +11,7 @@ public partial class SkinModifierSkinSelect : StackScene
 {
     public override string Title => "Skin Modifier";
 
-    public List<OsuSkin> SkinsToModify { get; set; } = new();
+    public List<SkinComponent> SkinsToModifyComponents { get; set; } = new();
 
     private PackedScene SkinModifierModificationSelectScene;
     private PackedScene SkinComponentScene;
@@ -36,13 +37,9 @@ public partial class SkinModifierSkinSelect : StackScene
 
         ContinueButton.Pressed += OnContinueButtonPressed;
         AddSkinToModifyButton.Pressed += AddSkinToModifyButtonPressed;
+        ManageSkinPopup.SkinInfoRequested = OnSkinInfoRequest;
         ManageSkinPopup.Options = ManageSkinOptions.All & ~ManageSkinOptions.Modify & ~ManageSkinOptions.Duplicate & ~ManageSkinOptions.Delete;
-        ManageSkinPopup.PreventSkinInfoRequest = true;
         SkinSelectorPopup.OnSelected = OnSkinSelected;
-
-        // Add components if the scene has been initalised with skins to modify.
-        foreach (var skin in SkinsToModify)
-            AddSkinComponent(skin);
     }
 
     private void AddSkinToModifyButtonPressed()
@@ -54,7 +51,6 @@ public partial class SkinModifierSkinSelect : StackScene
     {
         SkinSelectorPopup.Out();
         AddSkinComponent(skin);
-        SkinsToModify.Add(skin);
     }
 
     private void AddSkinComponent(OsuSkin skin)
@@ -77,10 +73,10 @@ public partial class SkinModifierSkinSelect : StackScene
 
             SkinSelectorPopup.EnableSkinComponent(skin);
 
-            SkinsToModify.Remove(skin);
+            SkinsToModifyComponents.Remove(component);
             component.QueueFree();
 
-            if (SkinsToModify.Count == 0)
+            if (SkinsToModifyComponents.Count == 0)
                 ContinueButton.Disabled = true;
         };
 
@@ -89,6 +85,8 @@ public partial class SkinModifierSkinSelect : StackScene
             ManageSkinPopup.SetSkins(new OsuSkin[] { skin });
             ManageSkinPopup.In();
         };
+
+        SkinsToModifyComponents.Add(component);
 
         ContinueButton.Disabled = false;
     }
@@ -101,14 +99,25 @@ public partial class SkinModifierSkinSelect : StackScene
             return;
         }
 
-        ManageSkinPopup.SetSkins(SkinsToModify);
+        ManageSkinPopup.SetSkins(SkinsToModifyComponents.Select(c => c.Skin));
         ManageSkinPopup.OnDuplicateButtonPressed();
+    }
+
+    private void OnSkinInfoRequest(IEnumerable<OsuSkin> skins)
+    {
+        foreach (var component in SkinsToModifyContainer.GetChildren().Cast<SkinComponent>())
+            component.Checked(false);
+
+        foreach (var skin in skins)
+            AddSkinComponent(skin);
+
+        PushNextScene();
     }
 
     private void PushNextScene()
     {
         var instance = SkinModifierModificationSelectScene.Instantiate<SkinModifierModificationSelect>();
-        instance.SkinsToModify = SkinsToModify;
+        instance.SkinsToModify = SkinsToModifyComponents.ConvertAll(c => c.Skin);
         EmitSignal(SignalName.ScenePushed, instance);
     }
 }
