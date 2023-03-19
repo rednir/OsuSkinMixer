@@ -109,7 +109,7 @@ public abstract class SkinOption
                             Name = "Bottom bar buttons",
                             Children = new SkinOption[]
                             {
-                                new SkinFileOption("selection-mode*", false),
+                                new SkinFileOption("selection-mode*", false, allowedSuffixes: new[] { "-over" }),
                                 new SkinFileOption("selection-mods*", false),
                                 new SkinFileOption("selection-options*", false),
                                 new SkinFileOption("selection-random*", false),
@@ -270,8 +270,8 @@ public abstract class SkinOption
                             Name = "Fonts",
                             Children = new SkinOption[]
                             {
-                                new SkinFileOption("scoreentry-*", false, "Score entry"),
-                                new SkinFileOption("score-*", false, "Score/accuracy/combo"),
+                                new SkinFileOption("scoreentry-*", false, "Score entry", false, allowedSuffixes: new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "comma", "dot", "percent", "x" }),
+                                new SkinFileOption("score-*", false, "Score/accuracy/combo", false, allowedSuffixes: new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "comma", "dot", "percent", "x" }),
 
                                 new SkinIniPropertyOption("Fonts", "ScorePrefix"),
                                 new SkinIniPropertyOption("Fonts", "ScoreOverlap"),
@@ -320,7 +320,7 @@ public abstract class SkinOption
                             Children = new SkinOption[]
                             {
                                 new SkinFileOption("approachcircle", false, "Approach circle"),
-                                new SkinFileOption("default-*", false, "Numbers"),
+                                new SkinFileOption("default-*", false, "Numbers", false, allowedSuffixes: new[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }),
                                 new SkinFileOption("hitcircle", false, "Hitcircle"),
                                 new SkinFileOption("hitcircleoverlay", false, "Hitcircle overlay"),
                                 new SkinFileOption("hitcircleselect", false, "Editor selection"),
@@ -337,12 +337,12 @@ public abstract class SkinOption
                             Children = new SkinOption[]
                             {
                                 new SkinFileOption("sliderb", false, "Slider ball", true),
-                                new SkinFileOption("sliderendcircle*", false, "Slider end circle"),
+                                new SkinFileOption("sliderendcircle*", false, "Slider end circle", false, allowedSuffixes: new[] { string.Empty, "overlay" }),
                                 new SkinFileOption("sliderfollowcircle", false, "Slider follow circle"),
                                 new SkinFileOption("sliderscorepoint", false, "Slider tick"),
-                                new SkinFileOption("sliderstartcircle*", false, "Slider start circle"),
+                                new SkinFileOption("sliderstartcircle*", false, "Slider start circle", allowedSuffixes: new[] { string.Empty, "overlay" }),
                                 new SkinFileOption("reversearrow", false, "Reverse arrow"),
-                                new SkinFileOption("sliderpoint*", false, "Legacy slider point"),
+                                new SkinFileOption("sliderpoint*", false, "Legacy slider point", false, allowedSuffixes: new[] { "10", "30" }),
 
                                 new SkinIniPropertyOption("General", "AllowSliderBallTint"),
                                 new SkinIniPropertyOption("General", "SliderBallFlip"),
@@ -378,7 +378,8 @@ public abstract class SkinOption
                                 new SkinFileOption("spinner-clear", false),
                                 new SkinFileOption("spinner-glow", false),
                                 new SkinFileOption("spinner-metre", false),
-                                new SkinFileOption("spinner-middle*", false),
+                                new SkinFileOption("spinner-middle", false),
+                                new SkinFileOption("spinner-middle2", false),
                                 new SkinFileOption("spinner-osu", false),
                                 new SkinFileOption("spinner-rpm", false),
                                 new SkinFileOption("spinner-spin", false),
@@ -396,11 +397,37 @@ public abstract class SkinOption
                             Name = "Hit judgements",
                             Children = new SkinOption[]
                             {
+                                new ParentSkinOption
+                                {
+                                    Name = "50",
+                                    Children = new SkinOption[]
+                                    {
+                                        new SkinFileOption("hit50", false, "Image", true),
+                                        new SkinFileOption("particle50", false, "Particles"),
+                                    },
+                                },
+                                new ParentSkinOption
+                                {
+                                    Name = "100",
+                                    Children = new SkinOption[]
+                                    {
+                                        new SkinFileOption("hit100", false, "Image", true),
+                                        new SkinFileOption("hit100k", false, "Image (katsu)"),
+                                        new SkinFileOption("particle100", false, "Particles"),
+                                    },
+                                },
+                                new ParentSkinOption
+                                {
+                                    Name = "300",
+                                    Children = new SkinOption[]
+                                    {
+                                        new SkinFileOption("hit300", false, "Image", true),
+                                        new SkinFileOption("hit300k", false, "Image (katsu)"),
+                                        new SkinFileOption("hit300g", false, "Image (geki)"),
+                                        new SkinFileOption("particle300", false, "Particles"),
+                                    },
+                                },
                                 new SkinFileOption("hit0", false, "Miss", true),
-                                new SkinFileOption("hit50", false, "50", true),
-                                new SkinFileOption("hit100", false, "100", true),
-                                new SkinFileOption("hit300", false, "300", true),
-                                new SkinFileOption("particle*", false, "Particles"),
                             },
                         },
                         new SkinFileOption("followpoint", false, "Follow points", true),
@@ -448,8 +475,8 @@ public abstract class SkinOption
                         new SkinFileOption("taiko-roll-middle", false),
                         new SkinFileOption("taiko-slider-fail", false),
                         new SkinFileOption("taiko-slider", false),
-                        new SkinFileOption("taikobigcircle*", false),
-                        new SkinFileOption("taikohitcircle*", false),
+                        new SkinFileOption("taikobigcircle*", false, allowedSuffixes: new[] { string.Empty, "overlay"}),
+                        new SkinFileOption("taikohitcircle*", false, allowedSuffixes: new[] { string.Empty, "overlay"}),
                     },
                 },
                 new ParentSkinOption
@@ -616,14 +643,15 @@ public abstract class SkinOption
                     {
                         new SkinFileOption("welcome", true, "Welcome to osu!"),
                         new SkinFileOption("seeya", true, "See ya next time!"),
-                        new SkinFileOption("menu-play*", true, "Menu play button"),
-                        new SkinFileOption("menu-freeplay*", true, "Menu solo button"),
-                        new SkinFileOption("menu-multiplayer*", true, "Menu multi button"),
-                        new SkinFileOption("menu-charts*", true, "Menu charts button"),
-                        new SkinFileOption("menu-edit*", true, "Menu edit button"),
-                        new SkinFileOption("menu-options*", true, "Menu options button"),
-                        new SkinFileOption("menu-exit*", true, "Menu exit button"),
-                        new SkinFileOption("menu-direct*", true, "Menu osu!direct button"),
+                        new SkinFileOption("menu-play-*", true, "Menu play button", allowedSuffixes: new[] { "hover", "click" }),
+                        new SkinFileOption("menu-freeplay-*", true, "Menu solo button", allowedSuffixes: new[] { "hover", "click" }),
+                        new SkinFileOption("menu-multiplayer-*", true, "Menu multi button", allowedSuffixes: new[] { "hover", "click" }),
+                        new SkinFileOption("menu-charts-*", true, "Menu charts button", allowedSuffixes: new[] { "hover", "click" }),
+                        new SkinFileOption("menu-edit-*", true, "Menu edit button", allowedSuffixes: new[] { "hover", "click" }),
+                        new SkinFileOption("menu-options-*", true, "Menu options button", allowedSuffixes: new[] { "hover", "click" }),
+                        new SkinFileOption("menu-exit-*", true, "Menu exit button", allowedSuffixes: new[] { "hover", "click" }),
+                        new SkinFileOption("menu-direct-*", true, "Menu osu!direct button", allowedSuffixes: new[] { "hover", "click" }),
+                        new SkinFileOption("menu-back*", true, "Menu back button", allowedSuffixes: new[] { "hover", "click" }),
                         new SkinFileOption("applause", true, "Applause"),
                         new SkinFileOption("back-button-click", true, "Back button click"),
                         new SkinFileOption("back-button-hover", true, "Back button hover"),
@@ -636,9 +664,8 @@ public abstract class SkinOption
                         new SkinFileOption("key-confirm", true, "Chat message send"),
                         new SkinFileOption("key-movement", true, "Text cursor move"),
                         new SkinFileOption("key-delete", true, "Backspace"),
-                        new SkinFileOption("key-press*", true, "Typing sounds"),
-                        new SkinFileOption("match*", true, "Multiplayer"),
-                        new SkinFileOption("menu-back*", true, "Menu back button"),
+                        new SkinFileOption("key-press*", true, "Typing sounds", allowedSuffixes: new[] { "1", "2", "3", "4" }),
+                        new SkinFileOption("match*", true, "Multiplayer", allowedSuffixes: new[] { "confirm", "join", "leave", "ready", "notready", "start" }),
                         new SkinFileOption("menuback", true, "Menu back button (alt)"),
                         new SkinFileOption("menuclick", true, "Difficulty hover"),
                         new SkinFileOption("menuhit", true, "Scene switch"),
@@ -675,9 +702,9 @@ public abstract class SkinOption
                                 new SkinFileOption("failsound", true, "Fail sound"),
                                 new SkinFileOption("pause-loop", true, "Pause music"),
                                 new SkinFileOption("pause-hover", true, "Button hover"),
-                                new SkinFileOption("pause-continue*", true, "Continue button"),
-                                new SkinFileOption("pause-retry*", true, "Retry button"),
-                                new SkinFileOption("pause-back*", true, "Back button"),
+                                new SkinFileOption("pause-continue*", true, "Continue button", allowedSuffixes: new[] { "hover", "click" }),
+                                new SkinFileOption("pause-retry*", true, "Retry button", allowedSuffixes: new[] { "hover", "click" }),
+                                new SkinFileOption("pause-back*", true, "Back button", allowedSuffixes: new[] { "hover", "click" }),
                             }
                         },
                         new ParentSkinOption
