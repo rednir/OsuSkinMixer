@@ -93,6 +93,11 @@ public partial class SkinComponentsContainer : PanelContainer
     public void DisableSkinComponent(OsuSkin skin)
     {
         var skinComponent = GetExistingComponentFromSkin(skin);
+
+        // Skin is no longer available, maybe it was deleted.
+        if (skinComponent == null)
+            return;
+
         skinComponent.Visible = false;
         _disabledSkinComponents.Add(skinComponent);
     }
@@ -100,6 +105,11 @@ public partial class SkinComponentsContainer : PanelContainer
     public void EnableSkinComponent(OsuSkin skin)
     {
         var skinComponent = GetExistingComponentFromSkin(skin);
+
+        // Skin is no longer available, maybe it was deleted.
+        if (skinComponent == null)
+            return;
+
         skinComponent.Visible = true;
         _disabledSkinComponents.Remove(skinComponent);
     }
