@@ -1,10 +1,8 @@
 using System;
-using System.IO;
 using System.Linq;
 using Godot;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
-using OsuSkinMixer.Utils;
 
 namespace OsuSkinMixer.Components;
 
