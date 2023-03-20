@@ -356,10 +356,10 @@ texture = ExtResource("3_uscib")
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 0
-offset_left = -58.0
-offset_top = -57.0
-offset_right = 58.0
-offset_bottom = 58.0
+offset_left = -119.0
+offset_top = -117.0
+offset_right = 118.0
+offset_bottom = 118.0
 
 [node name="DefaultSprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
