@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://8wf60277okh8"]
+
+[ext_resource type="PackedScene" uid="uid://biyslssc1eaxx" path="res://src/Components/Buttons/ToggleChip.tscn" id="1_cysn1"]
+
+[node name="SkinSortChipsContainer" type="HBoxContainer"]
+size_flags_vertical = 0
+
+[node name="SortNameButton" parent="." instance=ExtResource("1_cysn1")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Name"
+
+[node name="SortAuthorButton" parent="." instance=ExtResource("1_cysn1")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Author"
+
+[node name="SortLastModifiedButton" parent="." instance=ExtResource("1_cysn1")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Last modified"
+
+[node name="SortHiddenButton" parent="." instance=ExtResource("1_cysn1")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Hidden"
+
+[node name="SortSelectedButton" parent="." instance=ExtResource("1_cysn1")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Selected"

@@ -73,31 +73,31 @@ size_flags_vertical = 3
 [node name="VBoxContainer" type="VBoxContainer" parent="SkinsPanelContainer"]
 layout_mode = 2
 
-[node name="FilterChipsContianer" type="HBoxContainer" parent="SkinsPanelContainer/VBoxContainer"]
+[node name="SkinSortChipsContainer" type="HBoxContainer" parent="SkinsPanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="FilterNameButton" parent="SkinsPanelContainer/VBoxContainer/FilterChipsContianer" instance=ExtResource("6_6sklw")]
+[node name="SortNameButton" parent="SkinsPanelContainer/VBoxContainer/SkinSortChipsContainer" instance=ExtResource("6_6sklw")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Name"
 
-[node name="FilterAuthorButton" parent="SkinsPanelContainer/VBoxContainer/FilterChipsContianer" instance=ExtResource("6_6sklw")]
+[node name="SortAuthorButton" parent="SkinsPanelContainer/VBoxContainer/SkinSortChipsContainer" instance=ExtResource("6_6sklw")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Author"
 
-[node name="FilterLastModifiedButton" parent="SkinsPanelContainer/VBoxContainer/FilterChipsContianer" instance=ExtResource("6_6sklw")]
+[node name="SortLastModifiedButton" parent="SkinsPanelContainer/VBoxContainer/SkinSortChipsContainer" instance=ExtResource("6_6sklw")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Last modified"
 
-[node name="FilterHiddenButton" parent="SkinsPanelContainer/VBoxContainer/FilterChipsContianer" instance=ExtResource("6_6sklw")]
+[node name="SortHiddenButton" parent="SkinsPanelContainer/VBoxContainer/SkinSortChipsContainer" instance=ExtResource("6_6sklw")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Hidden"
 
-[node name="FilterSelectedButton" parent="SkinsPanelContainer/VBoxContainer/FilterChipsContianer" instance=ExtResource("6_6sklw")]
+[node name="SortSelectedButton" parent="SkinsPanelContainer/VBoxContainer/SkinSortChipsContainer" instance=ExtResource("6_6sklw")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Selected"
