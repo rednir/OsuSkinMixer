@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cmq51eqle0u61"]
+[gd_scene load_steps=11 format=3 uid="uid://cmq51eqle0u61"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_dl5xc"]
 [ext_resource type="Script" path="res://src/StackScenes/SkinManager.cs" id="2_jflee"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cckyjajbewoii" path="res://assets/materialicons/select_all.png" id="4_e17jv"]
 [ext_resource type="Texture2D" uid="uid://dvi2878o80rby" path="res://assets/materialicons/deselect.png" id="5_e7oge"]
 [ext_resource type="PackedScene" uid="uid://cqe1efqtsolo0" path="res://src/Components/GetMoreSkinsContainer.tscn" id="5_x378n"]
+[ext_resource type="PackedScene" uid="uid://biyslssc1eaxx" path="res://src/Components/Buttons/ToggleChip.tscn" id="6_6sklw"]
 [ext_resource type="PackedScene" uid="uid://bcv0yhlt68htu" path="res://src/Components/SkinComponentsContainer.tscn" id="6_d3lsj"]
 [ext_resource type="PackedScene" uid="uid://ce6pfh8ys6arg" path="res://src/Components/Popup/ManageSkinPopup.tscn" id="8_3qc15"]
 
@@ -69,21 +70,54 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="SkinsPanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SkinsPanelContainer"]
+layout_mode = 2
+
+[node name="FilterChipsContianer" type="HBoxContainer" parent="SkinsPanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="FilterNameButton" parent="SkinsPanelContainer/VBoxContainer/FilterChipsContianer" instance=ExtResource("6_6sklw")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Name"
+
+[node name="FilterAuthorButton" parent="SkinsPanelContainer/VBoxContainer/FilterChipsContianer" instance=ExtResource("6_6sklw")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Author"
+
+[node name="FilterLastModifiedButton" parent="SkinsPanelContainer/VBoxContainer/FilterChipsContianer" instance=ExtResource("6_6sklw")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Last modified"
+
+[node name="FilterHiddenButton" parent="SkinsPanelContainer/VBoxContainer/FilterChipsContianer" instance=ExtResource("6_6sklw")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Hidden"
+
+[node name="FilterSelectedButton" parent="SkinsPanelContainer/VBoxContainer/FilterChipsContianer" instance=ExtResource("6_6sklw")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Selected"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="SkinsPanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(552, 2.08165e-12)
 layout_mode = 2
+size_flags_vertical = 3
 follow_focus = true
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SkinsPanelContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SkinsPanelContainer/VBoxContainer/ScrollContainer"]
 custom_minimum_size = Vector2(544, 2.08165e-12)
 layout_mode = 2
 
-[node name="SkinComponentsContainer" parent="SkinsPanelContainer/ScrollContainer/VBoxContainer" instance=ExtResource("6_d3lsj")]
+[node name="SkinComponentsContainer" parent="SkinsPanelContainer/VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("6_d3lsj")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="GetMoreSkinsContainer" parent="SkinsPanelContainer/ScrollContainer/VBoxContainer" instance=ExtResource("5_x378n")]
+[node name="GetMoreSkinsContainer" parent="SkinsPanelContainer/VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("5_x378n")]
 layout_mode = 2
 
 [node name="ManageSkinPopup" parent="." instance=ExtResource("8_3qc15")]
