@@ -21,6 +21,8 @@ public partial class SkinComponentsContainer : PanelContainer
 
     public bool CheckableComponents { get; set; }
 
+    public SkinSort Sort { get; set; } = SkinSort.Name;
+
     public SkinComponent BestMatch => VBoxContainer.GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Visible);
 
     public IEnumerable<SkinComponent> VisibleComponents => VBoxContainer.GetChildren().Cast<SkinComponent>().Where(c => c.Visible);
