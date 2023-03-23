@@ -9,6 +9,8 @@ script = ExtResource("1_ih85k")
 
 [node name="Name" parent="." instance=ExtResource("1_cysn1")]
 layout_mode = 2
+disabled = true
+button_pressed = true
 text = "Name"
 
 [node name="Author" parent="." instance=ExtResource("1_cysn1")]

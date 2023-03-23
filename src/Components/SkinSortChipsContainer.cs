@@ -28,10 +28,12 @@ public partial class SkinSortChipsContainer : HBoxContainer
 		{
 			if (i == index)
 			{
+				_sortButtons[i].Disabled = true;
 				SortSelected?.Invoke((SkinSort)index);
 				continue;
 			}
 
+			_sortButtons[i].Disabled = false;
 			_sortButtons[i].ButtonPressed = false;
 		}
 	}
