@@ -21,8 +21,6 @@ public partial class SkinComponentsContainer : PanelContainer
 
     public bool CheckableComponents { get; set; }
 
-    public SkinSort Sort { get; set; } = SkinSort.Name;
-
     public SkinComponent BestMatch => VBoxContainer.GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Visible);
 
     public IEnumerable<SkinComponent> VisibleComponents => VBoxContainer.GetChildren().Cast<SkinComponent>().Where(c => c.Visible);
@@ -42,6 +40,8 @@ public partial class SkinComponentsContainer : PanelContainer
                 InitialiseSkinComponents();
         }
     }
+
+    private SkinSort _sort = SkinSort.Name;
 
     private PackedScene _skinComponentScene;
 
@@ -90,6 +90,10 @@ public partial class SkinComponentsContainer : PanelContainer
             if (component.IsChecked && !visible)
                 component.IsChecked = visible;
         }
+    }
+
+    public void SortSkins(SkinSort sort)
+    {
     }
 
     public void DisableSkinComponent(OsuSkin skin)

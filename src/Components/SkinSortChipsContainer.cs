@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Godot;
 using OsuSkinMixer.Models;
@@ -6,6 +7,8 @@ namespace OsuSkinMixer;
 
 public partial class SkinSortChipsContainer : HBoxContainer
 {
+	public event Action<SkinSort> SortSelected;
+
 	private Button[] _sortButtons;
 
 	public override void _Ready()
@@ -24,7 +27,10 @@ public partial class SkinSortChipsContainer : HBoxContainer
 		for (int i = 0; i < _sortButtons.Length; i++)
 		{
 			if (i == index)
+			{
+				SortSelected?.Invoke((SkinSort)index);
 				continue;
+			}
 
 			_sortButtons[i].ButtonPressed = false;
 		}

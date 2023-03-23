@@ -17,6 +17,7 @@ public partial class SkinManager : StackScene
     private Button SelectAllButton;
     private Button DeselectAllButton;
     private Button ManageSkinButton;
+    private SkinSortChipsContainer SkinSortChipsContainer;
     private SkinComponentsContainer SkinComponentsContainer;
     private ManageSkinPopup ManageSkinPopup;
 
@@ -30,6 +31,7 @@ public partial class SkinManager : StackScene
         SelectAllButton = GetNode<Button>("%SelectAllButton");
         DeselectAllButton = GetNode<Button>("%DeselectAllButton");
         ManageSkinButton = GetNode<Button>("%ManageSkinButton");
+        SkinSortChipsContainer = GetNode<SkinSortChipsContainer>("%SkinSortChipsContainer");
         SkinComponentsContainer = GetNode<SkinComponentsContainer>("%SkinComponentsContainer");
         ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
@@ -46,6 +48,7 @@ public partial class SkinManager : StackScene
         SelectAllButton.Pressed += () => SkinComponentsContainer.SelectAll(true);
         DeselectAllButton.Pressed += () => SkinComponentsContainer.SelectAll(false);
         ManageSkinButton.Pressed += OnManageSkinButtonPressed;
+        SkinSortChipsContainer.SortSelected += SkinComponentsContainer.SortSkins;
 
         UpdateSelectAllButtons();
     }

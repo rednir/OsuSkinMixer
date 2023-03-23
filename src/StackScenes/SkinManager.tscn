@@ -74,6 +74,7 @@ size_flags_vertical = 3
 layout_mode = 2
 
 [node name="SkinSortChipsContainer" parent="SkinsPanelContainer/VBoxContainer" instance=ExtResource("6_ca1xh")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="SkinsPanelContainer/VBoxContainer"]
