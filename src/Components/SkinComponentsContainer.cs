@@ -9,15 +9,15 @@ namespace OsuSkinMixer.Components;
 
 public partial class SkinComponentsContainer : PanelContainer
 {
+    public event Action<OsuSkin> SkinSelected;
+
+    public event Action<OsuSkin, bool> SkinChecked;
+
     public Action<IEnumerable<OsuSkin>> SkinInfoRequested
     {
         get => ManageSkinPopup.SkinInfoRequested;
         set => ManageSkinPopup.SkinInfoRequested = value;
     }
-
-    public Action<OsuSkin> SkinSelected { get; set; }
-
-    public Action<OsuSkin, bool> SkinChecked { get; set; }
 
     public bool CheckableComponents { get; set; }
 
@@ -52,6 +52,12 @@ public partial class SkinComponentsContainer : PanelContainer
     {
         VBoxContainer = GetNode<VBoxContainer>("%VBoxContainer");
         ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
+
+        SkinChecked += (_, _) =>
+        {
+            if (_sort == SkinSort.Selected)
+                SortSkins(_sort);
+        };
 
         OsuData.SkinAdded += OnSkinAdded;
         OsuData.SkinModified += OnSkinModified;
@@ -175,7 +181,7 @@ public partial class SkinComponentsContainer : PanelContainer
     {
         var skinComponent = CreateSkinComponentFrom(skin);
         VBoxContainer.AddChild(skinComponent);
-        VBoxContainer.MoveChild(skinComponent, Array.IndexOf(OsuData.Skins, skin));
+        SortSkins(_sort);
     }
 
     private void OnSkinModified(OsuSkin skin)
@@ -183,6 +189,9 @@ public partial class SkinComponentsContainer : PanelContainer
         var skinComponent = GetExistingComponentFromSkin(skin);
         skinComponent.Skin = skin;
         skinComponent.SetValues();
+
+        if (_sort == SkinSort.Hidden)
+            SortSkins(_sort);
     }
 
     private void OnSkinRemoved(OsuSkin skin)
