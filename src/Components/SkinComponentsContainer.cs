@@ -110,13 +110,13 @@ public partial class SkinComponentsContainer : PanelContainer
                 children = children.OrderBy(c => c.Skin.SkinIni.TryGetPropertyValue("General", "Author"));
                 break;
             case SkinSort.LastModified:
-                children = children.OrderBy(c => c.Skin.Directory.LastWriteTime);
+                children = children.OrderByDescending(c => c.Skin.Directory.LastWriteTime);
                 break;
             case SkinSort.Hidden:
-                children = children.OrderBy(c => !c.Skin.Hidden);
+                children = children.OrderByDescending(c => c.Skin.Hidden);
                 break;
             case SkinSort.Selected:
-                children = children.OrderBy(c => !c.IsChecked);
+                children = children.OrderByDescending(c => c.IsChecked);
                 break;
         }
 
