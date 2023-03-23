@@ -9,6 +9,8 @@ public partial class SkinSelectorPopup : Popup
 {
     public Action<OsuSkin> OnSelected { get; set; }
 
+    private bool _initialised;
+
     private bool _isCompact;
 
     private Button BackButton;
@@ -31,9 +33,6 @@ public partial class SkinSelectorPopup : Popup
         SearchLineEdit.TextChanged += OnSearchTextChanged;
         SearchLineEdit.TextSubmitted += _ => OnSkinSelected(SkinComponentsContainer.BestMatch?.Skin);
 
-        SetCompactFlag();
-        SkinComponentsContainer.InitialiseSkinComponents();
-
         OsuData.SkinInfoRequested += _ => Out();
     }
 
@@ -46,8 +45,16 @@ public partial class SkinSelectorPopup : Popup
     {
         base.In();
 
-        if (Settings.Content.UseCompactSkinSelector != _isCompact)
+        if (!_initialised)
+        {
             SetCompactFlag();
+            SkinComponentsContainer.InitialiseSkinComponents();
+            _initialised = true;
+        }
+        else if (Settings.Content.UseCompactSkinSelector != _isCompact)
+        {
+            SetCompactFlag();
+        }
 
         SearchLineEdit.Clear();
         SearchLineEdit.GrabFocus();
