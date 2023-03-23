@@ -24,10 +24,10 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_evjpp")
 
 [node name="TextureRect" type="TextureRect" parent="ExpandHint"]
 layout_mode = 2
-offset_left = -152.0
-offset_top = 56.0
-offset_right = 24.0
-offset_bottom = 126.0
+offset_left = -163.0
+offset_top = 52.0
+offset_right = 13.0
+offset_bottom = 122.0
 texture = ExtResource("2_4hlh4")
 stretch_mode = 3
 
