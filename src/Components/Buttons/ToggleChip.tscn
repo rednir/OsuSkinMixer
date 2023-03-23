@@ -2,7 +2,7 @@
 
 [ext_resource type="StyleBox" uid="uid://hvpjda7dkac3" path="res://src/Styles/Buttons/ToggleChip.tres" id="1_3y0go"]
 [ext_resource type="StyleBox" uid="uid://dunt2ib66qsre" path="res://src/Styles/Buttons/ToggleChipPressed.tres" id="2_2dywo"]
-[ext_resource type="StyleBox" uid="uid://ci65jr0iw3vnn" path="res://src/Styles/Buttons/ToggleChipDisabled.tres" id="3_dt844"]
+[ext_resource type="StyleBox" uid="uid://iwf5d33k0exq" path="res://src/Styles/Buttons/ToggleChipDisabledPressed.tres" id="3_61pp1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wt3we"]
 
@@ -15,18 +15,18 @@ theme_override_colors/font_pressed_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_hover_color = Color(0.815686, 0.768627, 0.807843, 1)
 theme_override_colors/font_focus_color = Color(0.815686, 0.768627, 0.807843, 1)
 theme_override_colors/font_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/font_disabled_color = Color(0.815686, 0.768627, 0.807843, 1)
+theme_override_colors/font_disabled_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/icon_normal_color = Color(0.815686, 0.768627, 0.807843, 1)
 theme_override_colors/icon_pressed_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/icon_hover_color = Color(0.815686, 0.768627, 0.807843, 1)
 theme_override_colors/icon_hover_pressed_color = Color(0.815686, 0.768627, 0.807843, 1)
 theme_override_colors/icon_focus_color = Color(0.815686, 0.768627, 0.807843, 1)
-theme_override_colors/icon_disabled_color = Color(0.815686, 0.768627, 0.807843, 1)
+theme_override_colors/icon_disabled_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = ExtResource("1_3y0go")
 theme_override_styles/hover = ExtResource("1_3y0go")
 theme_override_styles/pressed = ExtResource("2_2dywo")
-theme_override_styles/disabled = ExtResource("3_dt844")
+theme_override_styles/disabled = ExtResource("3_61pp1")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_wt3we")
 toggle_mode = true
 text = "Toggle"
