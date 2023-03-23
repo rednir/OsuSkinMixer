@@ -190,7 +190,7 @@ public partial class SkinComponentsContainer : PanelContainer
         skinComponent.Skin = skin;
         skinComponent.SetValues();
 
-        if (_sort == SkinSort.Hidden)
+        if (_sort == SkinSort.Hidden || _sort == SkinSort.LastModified)
             SortSkins(_sort);
     }
 
