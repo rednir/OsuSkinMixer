@@ -94,6 +94,34 @@ public partial class SkinComponentsContainer : PanelContainer
 
     public void SortSkins(SkinSort sort)
     {
+        _sort = sort;
+
+        SkinComponent[] children = VBoxContainer.GetChildren().Cast<SkinComponent>().ToArray();
+
+        Array.Sort(children, (a, b) => string.Compare(a.Name, b.Name));
+
+        switch (sort)
+        {
+            case SkinSort.Name:
+                break;
+            case SkinSort.Author:
+                Array.Sort(children, (a, b) => string.Compare(
+                    a.Skin.SkinIni.TryGetPropertyValue("General", "Author"),
+                    b.Skin.SkinIni.TryGetPropertyValue("General", "Author")));
+                break;
+            case SkinSort.LastModified:
+                Array.Sort(children, (a, b) => b.Skin.Directory.LastWriteTime.CompareTo(a.Skin.Directory.LastWriteTime));
+                break;
+            case SkinSort.Hidden:
+                Array.Sort(children, (a, b) => b.Skin.Hidden.CompareTo(a.Skin.Hidden));
+                break;
+            case SkinSort.Selected:
+                Array.Sort(children, (a, b) => b.IsChecked.CompareTo(a.IsChecked));
+                break;
+        }
+
+        foreach (var child in children)
+            VBoxContainer.MoveChild(child, Array.IndexOf(children, child));
     }
 
     public void DisableSkinComponent(OsuSkin skin)
