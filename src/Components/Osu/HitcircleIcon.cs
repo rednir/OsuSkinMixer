@@ -9,6 +9,7 @@ public partial class HitcircleIcon : CenterContainer
     private TextureRect HitcircleTexture;
     private TextureRect HitcircleoverlayTexture;
     private TextureRect Default1Texture;
+    private TextureRect HiddenIcon;
 
     private OsuSkin _skin;
 
@@ -20,6 +21,7 @@ public partial class HitcircleIcon : CenterContainer
         HitcircleTexture = GetNode<TextureRect>("HitcircleTexture");
         HitcircleoverlayTexture = GetNode<TextureRect>("HitcircleoverlayTexture");
         Default1Texture = GetNode<TextureRect>("Default1Texture");
+        HiddenIcon = GetNode<TextureRect>("%HiddenIcon");
 
         VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
     }
@@ -28,6 +30,8 @@ public partial class HitcircleIcon : CenterContainer
     {
         _skin = skin;
         _isTexturesLoaded = false;
+
+        HiddenIcon.Visible = skin.Hidden;
 
         string[] iniColorRgb = skin
             .SkinIni?

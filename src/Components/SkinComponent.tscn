@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://bncwf73sgcemr"]
+[gd_scene load_steps=8 format=3 uid="uid://bncwf73sgcemr"]
 
 [ext_resource type="Script" path="res://src/Components/SkinComponent.cs" id="1_7h4pf"]
 [ext_resource type="PackedScene" uid="uid://dyarkbs87kwmf" path="res://src/Components/Osu/HitcircleIcon.tscn" id="2_fkdqu"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="3_adour"]
-[ext_resource type="Texture2D" uid="uid://cgnidqld7ff0p" path="res://assets/materialicons/visibility_off.png" id="4_73dit"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uek0x"]
 bg_color = Color(0.227451, 0.207843, 0.258824, 0)
@@ -70,14 +69,3 @@ offset_left = 442.0
 offset_top = 13.0
 offset_right = 490.0
 offset_bottom = 61.0
-
-[node name="HiddenIcon" type="TextureRect" parent="Button"]
-unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0.784314)
-layout_mode = 2
-offset_left = 478.0
-offset_right = 544.0
-offset_bottom = 72.0
-tooltip_text = "This skin is hidden"
-texture = ExtResource("4_73dit")
-stretch_mode = 3

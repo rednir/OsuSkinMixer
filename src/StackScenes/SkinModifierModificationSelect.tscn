@@ -32,16 +32,16 @@ layout_mode = 2
 [node name="HitcircleTexture" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon" index="2"]
 modulate = Color(0, 0.823529, 0, 1)
 
+[node name="HiddenIcon" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon/Control" index="0"]
+visible = false
+
 [node name="Name" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="1"]
 text = "Default skin"
 
 [node name="Author" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="2"]
 text = "osu!"
 
-[node name="HiddenIcon" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="3"]
-visible = false
-
-[node name="CheckBox" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="4"]
+[node name="CheckBox" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="3"]
 visible = false
 
 [node name="BlankComponent" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer" index="1" instance=ExtResource("4_fdpti")]
@@ -63,7 +63,7 @@ text = "Blank"
 [node name="Author" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="2"]
 text = "Select this to use an empty file for this skin element."
 
-[node name="CheckBox" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="4"]
+[node name="CheckBox" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="3"]
 visible = false
 
 [node name="HSeparator" type="HSeparator" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer" index="2"]
