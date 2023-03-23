@@ -96,32 +96,27 @@ public partial class SkinComponentsContainer : PanelContainer
     {
         _sort = sort;
 
-        SkinComponent[] children = VBoxContainer.GetChildren().Cast<SkinComponent>().ToArray();
-
-        Array.Sort(children, (a, b) => string.Compare(a.Name, b.Name));
+        IEnumerable<SkinComponent> children = VBoxContainer.GetChildren().Cast<SkinComponent>().OrderBy(c => c.Name.ToString());
 
         switch (sort)
         {
-            case SkinSort.Name:
-                break;
             case SkinSort.Author:
-                Array.Sort(children, (a, b) => string.Compare(
-                    a.Skin.SkinIni.TryGetPropertyValue("General", "Author"),
-                    b.Skin.SkinIni.TryGetPropertyValue("General", "Author")));
+                children = children.OrderBy(c => c.Skin.SkinIni.TryGetPropertyValue("General", "Author"));
                 break;
             case SkinSort.LastModified:
-                Array.Sort(children, (a, b) => b.Skin.Directory.LastWriteTime.CompareTo(a.Skin.Directory.LastWriteTime));
+                children = children.OrderBy(c => c.Skin.Directory.LastWriteTime);
                 break;
             case SkinSort.Hidden:
-                Array.Sort(children, (a, b) => b.Skin.Hidden.CompareTo(a.Skin.Hidden));
+                children = children.OrderBy(c => !c.Skin.Hidden);
                 break;
             case SkinSort.Selected:
-                Array.Sort(children, (a, b) => b.IsChecked.CompareTo(a.IsChecked));
+                children = children.OrderBy(c => !c.IsChecked);
                 break;
         }
 
+        SkinComponent[] sortedArray = children.ToArray();
         foreach (var child in children)
-            VBoxContainer.MoveChild(child, Array.IndexOf(children, child));
+            VBoxContainer.MoveChild(child, Array.IndexOf(sortedArray, child));
     }
 
     public void DisableSkinComponent(OsuSkin skin)
