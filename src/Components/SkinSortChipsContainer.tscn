@@ -1,31 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://8wf60277okh8"]
+[gd_scene load_steps=3 format=3 uid="uid://8wf60277okh8"]
 
 [ext_resource type="PackedScene" uid="uid://biyslssc1eaxx" path="res://src/Components/Buttons/ToggleChip.tscn" id="1_cysn1"]
+[ext_resource type="Script" path="res://src/Components/SkinSortChipsContainer.cs" id="1_ih85k"]
 
 [node name="SkinSortChipsContainer" type="HBoxContainer"]
 size_flags_vertical = 0
+script = ExtResource("1_ih85k")
 
-[node name="SortNameButton" parent="." instance=ExtResource("1_cysn1")]
-unique_name_in_owner = true
+[node name="Name" parent="." instance=ExtResource("1_cysn1")]
 layout_mode = 2
 text = "Name"
 
-[node name="SortAuthorButton" parent="." instance=ExtResource("1_cysn1")]
-unique_name_in_owner = true
+[node name="Author" parent="." instance=ExtResource("1_cysn1")]
 layout_mode = 2
 text = "Author"
 
-[node name="SortLastModifiedButton" parent="." instance=ExtResource("1_cysn1")]
-unique_name_in_owner = true
+[node name="LastModified" parent="." instance=ExtResource("1_cysn1")]
 layout_mode = 2
 text = "Last modified"
 
-[node name="SortHiddenButton" parent="." instance=ExtResource("1_cysn1")]
-unique_name_in_owner = true
+[node name="Hidden" parent="." instance=ExtResource("1_cysn1")]
 layout_mode = 2
 text = "Hidden"
 
-[node name="SortSelectedButton" parent="." instance=ExtResource("1_cysn1")]
-unique_name_in_owner = true
+[node name="Selected" parent="." instance=ExtResource("1_cysn1")]
 layout_mode = 2
 text = "Selected"

@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cckyjajbewoii" path="res://assets/materialicons/select_all.png" id="4_e17jv"]
 [ext_resource type="Texture2D" uid="uid://dvi2878o80rby" path="res://assets/materialicons/deselect.png" id="5_e7oge"]
 [ext_resource type="PackedScene" uid="uid://cqe1efqtsolo0" path="res://src/Components/GetMoreSkinsContainer.tscn" id="5_x378n"]
-[ext_resource type="PackedScene" uid="uid://biyslssc1eaxx" path="res://src/Components/Buttons/ToggleChip.tscn" id="6_6sklw"]
+[ext_resource type="PackedScene" uid="uid://8wf60277okh8" path="res://src/Components/SkinSortChipsContainer.tscn" id="6_ca1xh"]
 [ext_resource type="PackedScene" uid="uid://bcv0yhlt68htu" path="res://src/Components/SkinComponentsContainer.tscn" id="6_d3lsj"]
 [ext_resource type="PackedScene" uid="uid://ce6pfh8ys6arg" path="res://src/Components/Popup/ManageSkinPopup.tscn" id="8_3qc15"]
 
@@ -73,34 +73,8 @@ size_flags_vertical = 3
 [node name="VBoxContainer" type="VBoxContainer" parent="SkinsPanelContainer"]
 layout_mode = 2
 
-[node name="SkinSortChipsContainer" type="HBoxContainer" parent="SkinsPanelContainer/VBoxContainer"]
+[node name="SkinSortChipsContainer" parent="SkinsPanelContainer/VBoxContainer" instance=ExtResource("6_ca1xh")]
 layout_mode = 2
-size_flags_vertical = 0
-
-[node name="SortNameButton" parent="SkinsPanelContainer/VBoxContainer/SkinSortChipsContainer" instance=ExtResource("6_6sklw")]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Name"
-
-[node name="SortAuthorButton" parent="SkinsPanelContainer/VBoxContainer/SkinSortChipsContainer" instance=ExtResource("6_6sklw")]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Author"
-
-[node name="SortLastModifiedButton" parent="SkinsPanelContainer/VBoxContainer/SkinSortChipsContainer" instance=ExtResource("6_6sklw")]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Last modified"
-
-[node name="SortHiddenButton" parent="SkinsPanelContainer/VBoxContainer/SkinSortChipsContainer" instance=ExtResource("6_6sklw")]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Hidden"
-
-[node name="SortSelectedButton" parent="SkinsPanelContainer/VBoxContainer/SkinSortChipsContainer" instance=ExtResource("6_6sklw")]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Selected"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="SkinsPanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(552, 2.08165e-12)
