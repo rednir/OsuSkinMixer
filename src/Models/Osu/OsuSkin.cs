@@ -212,6 +212,7 @@ public class OsuSkin
     public void ClearCache()
     {
         _textureCache.Clear();
+        Directory.Refresh();
         LoadSkinIni();
     }
 
