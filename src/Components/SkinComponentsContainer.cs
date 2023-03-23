@@ -179,6 +179,9 @@ public partial class SkinComponentsContainer : PanelContainer
 
     private void OnSkinAdded(OsuSkin skin)
     {
+        if (!_skinComponentsInitialised)
+            return;
+
         var skinComponent = CreateSkinComponentFrom(skin);
         VBoxContainer.AddChild(skinComponent);
         SortSkins(_sort);
@@ -186,6 +189,9 @@ public partial class SkinComponentsContainer : PanelContainer
 
     private void OnSkinModified(OsuSkin skin)
     {
+        if (!_skinComponentsInitialised)
+            return;
+
         var skinComponent = GetExistingComponentFromSkin(skin);
         skinComponent.Skin = skin;
         skinComponent.SetValues();
@@ -196,6 +202,9 @@ public partial class SkinComponentsContainer : PanelContainer
 
     private void OnSkinRemoved(OsuSkin skin)
     {
+        if (!_skinComponentsInitialised)
+            return;
+
         var skinComponent = GetExistingComponentFromSkin(skin);
         skinComponent.IsChecked = false;
         skinComponent.QueueFree();
