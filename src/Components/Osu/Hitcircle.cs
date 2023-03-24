@@ -10,6 +10,7 @@ public partial class Hitcircle : Node2D
 
     const double HIT_300_TIME_MSEC = 1000;
 
+    private AudioStreamPlayer AudioStreamPlayer;
     private AnimationPlayer CircleAnimationPlayer;
     private AnimationPlayer HitJudgementAnimationPlayer;
     private AnimatedSprite2D HitJudgementSprite;
@@ -27,6 +28,7 @@ public partial class Hitcircle : Node2D
 
     public override void _Ready()
     {
+        AudioStreamPlayer = GetNode<AudioStreamPlayer>("%AudioStreamPlayer");
         CircleAnimationPlayer = GetNode<AnimationPlayer>("%CircleAnimationPlayer");
         HitJudgementAnimationPlayer = GetNode<AnimationPlayer>("%HitJudgementAnimationPlayer");
         HitJudgementSprite = GetNode<AnimatedSprite2D>("%HitJudgementSprite");
@@ -101,7 +103,16 @@ public partial class Hitcircle : Node2D
 
     private void Hit(string score)
     {
-        CircleAnimationPlayer.Play(score == "0" ? "miss" : "hit");
+        if (score == "0")
+        {
+            CircleAnimationPlayer.Play("miss");
+        }
+        else
+        {
+            AudioStreamPlayer.Play();
+            CircleAnimationPlayer.Play("hit");
+        }
+
         HitJudgementSprite.Play($"hit{score}");
         HitJudgementAnimationPlayer.Play("show");
     }
