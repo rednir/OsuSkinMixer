@@ -34,10 +34,13 @@ public static class ExtensionMethods
         return timespan.TotalSeconds switch
         {
             < 1 => "Just now",
-            < 60 => $"{timespan.Seconds} seconds ago",
-            < 3600 => $"{timespan.Minutes} minutes ago",
-            < 86400 => $"{timespan.Hours} hours ago",
-            _ => $"{timespan.Days} days ago"
+            < 60 => $"{timespan.Seconds} {(timespan.Seconds == 1 ? "second" : "seconds")} ago",
+            < 60 * 60 => $"{timespan.Minutes} {(timespan.Minutes == 1 ? "minute" : "minutes")} ago",
+            < 60 * 60 * 24 => $"{timespan.Hours} {(timespan.Hours == 1 ? "hour" : "hours")} ago",
+            < 60 * 60 * 24 * 7 => $"{timespan.Days} {(timespan.Days == 1 ? "day" : "days")} ago",
+            < 60 * 60 * 24 * 30 => $"{timespan.Days / 7} {(timespan.Days / 7 == 1 ? "week" : "weeks")} ago",
+            < 60 * 60 * 24 * 365 => $"{timespan.Days / 30} {(timespan.Days / 30 == 1 ? "month" : "months")} ago",
+            _ => $"{timespan.Days / 365} {(timespan.Days / 365 == 1 ? "year" : "years")} ago",
         };
     }
 }
