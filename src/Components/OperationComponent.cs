@@ -22,7 +22,7 @@ public partial class OperationComponent : HBoxContainer
         UndoButton = GetNode<Button>("%UndoButton");
 
         DescriptionLabel.Text = Operation.Description;
-        TimeStartedLabel.Text = $"{(DateTime.Now - Operation.TimeStarted.GetValueOrDefault()).Humanise()} ago";
+        TimeStartedLabel.Text = (DateTime.Now - Operation.TimeStarted.GetValueOrDefault()).Humanise();
         UndoButton.Visible = Operation.CanUndo;
 
         UndoButton.Pressed += OnUndoButtonPressed;

@@ -68,7 +68,7 @@ public partial class SkinInfoPanel : PanelContainer
         HitcircleIcon.SetSkin(Skin);
         SkinNameLabel.Text = Skin.Name;
         SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
-        DetailsLabel.Text = $"Last modified: {Skin.Directory.LastWriteTime}";
+        DetailsLabel.Text = $"Last modified: {(DateTime.Now - Skin.Directory.LastWriteTime).Humanise()}";
         HiddenIcon.Visible = Skin.Hidden;
         OpenInOsuButton.Disabled = Skin.Hidden;
         ManageSkinPopup.SetSkin(Skin);
