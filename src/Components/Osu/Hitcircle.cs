@@ -10,7 +10,8 @@ public partial class Hitcircle : Node2D
 
     const double HIT_300_TIME_MSEC = 1000;
 
-    private AudioStreamPlayer AudioStreamPlayer;
+    private AudioStreamPlayer HitSoundPlayer;
+    private AudioStreamPlayer ComboBreakPlayer;
     private AnimationPlayer CircleAnimationPlayer;
     private AnimationPlayer HitJudgementAnimationPlayer;
     private AnimatedSprite2D HitJudgementSprite;
@@ -26,9 +27,12 @@ public partial class Hitcircle : Node2D
 
     private int _currentComboIndex;
 
+    private int _combo;
+
     public override void _Ready()
     {
-        AudioStreamPlayer = GetNode<AudioStreamPlayer>("%AudioStreamPlayer");
+        HitSoundPlayer = GetNode<AudioStreamPlayer>("%HitSoundPlayer");
+        ComboBreakPlayer = GetNode<AudioStreamPlayer>("%ComboBreakPlayer");
         CircleAnimationPlayer = GetNode<AnimationPlayer>("%CircleAnimationPlayer");
         HitJudgementAnimationPlayer = GetNode<AnimationPlayer>("%HitJudgementAnimationPlayer");
         HitJudgementSprite = GetNode<AnimatedSprite2D>("%HitJudgementSprite");
@@ -106,10 +110,16 @@ public partial class Hitcircle : Node2D
         if (score == "0")
         {
             CircleAnimationPlayer.Play("miss");
+            if (_combo > 0)
+            {
+                _combo = 0;
+                ComboBreakPlayer.Play();
+            }
         }
         else
         {
-            AudioStreamPlayer.Play();
+            _combo++;
+            HitSoundPlayer.Play();
             CircleAnimationPlayer.Play("hit");
         }
 
