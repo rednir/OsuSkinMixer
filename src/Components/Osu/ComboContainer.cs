@@ -13,7 +13,7 @@ public partial class ComboContainer : HBoxContainer
         {
             _skin = value;
             if (ScoreX != null)
-                ScoreX.Texture = value.GetTexture("score-x");
+                ScoreX.Texture = value.Get2XTexture("score-x");
         }
     }
 
@@ -43,11 +43,11 @@ public partial class ComboContainer : HBoxContainer
 
         if (tens > 0)
         {
-            Tens.Texture = Skin.GetTexture($"score-{tens}");
+            Tens.Texture = Skin.Get2XTexture($"score-{tens}");
             Tens.Visible = true;
         }
 
-        Ones.Texture = Skin.GetTexture($"score-{ones}");
+        Ones.Texture = Skin.Get2XTexture($"score-{ones}");
         AnimationPlayer.Play("increment");
     }
 
@@ -59,7 +59,7 @@ public partial class ComboContainer : HBoxContainer
         _combo = 0;
 
         Tens.Visible = false;
-        Ones.Texture = Skin.GetTexture("score-0");
+        Ones.Texture = Skin.Get2XTexture("score-0");
         AnimationPlayer.Play("break");
     }
 }
