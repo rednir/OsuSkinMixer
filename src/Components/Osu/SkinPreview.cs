@@ -11,6 +11,7 @@ public partial class SkinPreview : PanelContainer
     private VisibleOnScreenNotifier2D VisibleOnScreenNotifier2D;
     private AnimationPlayer AnimationPlayer;
     private TextureRect MenuBackground;
+    private ComboContainer ComboContainer;
     private Sprite2D Cursor;
     private AnimationPlayer CursorRotateAnimationPlayer;
     private Sprite2D Cursormiddle;
@@ -28,6 +29,7 @@ public partial class SkinPreview : PanelContainer
         VisibleOnScreenNotifier2D = GetNode<VisibleOnScreenNotifier2D>("%VisibleOnScreenNotifier2D");
         AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
         MenuBackground = GetNode<TextureRect>("%MenuBackground");
+        ComboContainer = GetNode<ComboContainer>("%ComboContainer");
         Cursor = GetNode<Sprite2D>("%Cursor");
         CursorRotateAnimationPlayer = GetNode<AnimationPlayer>("%CursorRotateAnimationPlayer");
         Cursormiddle = GetNode<Sprite2D>("%Cursormiddle");
@@ -103,6 +105,7 @@ public partial class SkinPreview : PanelContainer
         Cursormiddle.Visible = hasCursorMiddle || !File.Exists($"{_skin.Directory.FullName}/cursor.png");
 
         Hitcircle.SetSkin(_skin);
+        ComboContainer.Skin = _skin;
     }
 
     private void OnScreenEntered()

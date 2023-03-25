@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgiijo0aonvwu"]
+
+[ext_resource type="Script" path="res://src/Components/Osu/ComboContainer.cs" id="1_it14u"]
+[ext_resource type="Texture2D" uid="uid://cc4lla3cnjhs7" path="res://assets/defaultskin/score-0.png" id="1_pmo37"]
+[ext_resource type="Texture2D" uid="uid://c3k8wpsfgmne4" path="res://assets/defaultskin/score-x.png" id="2_iemc6"]
+
+[node name="ComboContainer" type="HBoxContainer"]
+theme_override_constants/separation = 0
+script = ExtResource("1_it14u")
+
+[node name="Tens" type="TextureRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("1_pmo37")
+stretch_mode = 5
+
+[node name="Ones" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("1_pmo37")
+stretch_mode = 5
+
+[node name="ScoreX" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("2_iemc6")
+stretch_mode = 5
