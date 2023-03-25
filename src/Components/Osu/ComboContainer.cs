@@ -12,23 +12,26 @@ public partial class ComboContainer : HBoxContainer
         set
         {
             _skin = value;
-			if (ScoreX != null)
-				ScoreX.Texture = value.GetTexture("score-x");
+            if (ScoreX != null)
+                ScoreX.Texture = value.GetTexture("score-x");
         }
     }
+
+    private OsuSkin _skin;
 
     private int _combo;
 
     private TextureRect Tens;
     private TextureRect Ones;
     private TextureRect ScoreX;
-    private OsuSkin _skin;
+    private AnimationPlayer AnimationPlayer;
 
     public override void _Ready()
     {
         Tens = GetNode<TextureRect>("%Tens");
         Ones = GetNode<TextureRect>("%Ones");
         ScoreX = GetNode<TextureRect>("%ScoreX");
+        AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
     }
 
     public void Increment()
@@ -45,13 +48,18 @@ public partial class ComboContainer : HBoxContainer
         }
 
         Ones.Texture = Skin.GetTexture($"score-{ones}");
+        AnimationPlayer.Play("increment");
     }
 
     public void Break()
     {
+        if (_combo == 0)
+            return;
+
         _combo = 0;
 
         Tens.Visible = false;
         Ones.Texture = Skin.GetTexture("score-0");
+        AnimationPlayer.Play("break");
     }
 }
