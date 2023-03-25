@@ -134,7 +134,9 @@ public partial class Hitcircle : Node2D
 
     private void OnInputEvent(InputEvent inputEvent)
     {
-        if (inputEvent is InputEventMouseButton mouseButton && mouseButton.Pressed)
+        if (inputEvent is InputEventMouseButton mouseButton
+            && mouseButton.Pressed
+            && mouseButton.ButtonIndex is MouseButton.Left or MouseButton.Right)
         {
             double animationPosition = CircleAnimationPlayer.CurrentAnimationPosition * 1000;
             switch (Math.Abs(HIT_300_TIME_MSEC - animationPosition))
