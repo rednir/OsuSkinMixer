@@ -37,6 +37,7 @@ public partial class SkinPreview : PanelContainer
         Hitcircle = GetNode<Hitcircle>("%Hitcircle");
 
         VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
+        Hitcircle.CircleHit += OnCircleHit;
     }
 
     public override void _Process(double delta)
@@ -138,5 +139,13 @@ public partial class SkinPreview : PanelContainer
         Cursortrail.Emitting = false;
         AnimationPlayer.Play("exit");
         Hitcircle.Pause();
+    }
+
+    private void OnCircleHit(string score)
+    {
+        if (score == "0")
+            ComboContainer.Break();
+        else
+            ComboContainer.Increment();
     }
 }

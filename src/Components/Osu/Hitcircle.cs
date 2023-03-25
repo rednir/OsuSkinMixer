@@ -10,6 +10,9 @@ public partial class Hitcircle : Node2D
 
     const double HIT_300_TIME_MSEC = 1000;
 
+    [Signal]
+    public delegate void CircleHitEventHandler(string score);
+
     private AudioStreamPlayer HitSoundPlayer;
     private AudioStreamPlayer ComboBreakPlayer;
     private AnimationPlayer CircleAnimationPlayer;
@@ -125,6 +128,8 @@ public partial class Hitcircle : Node2D
 
         HitJudgementSprite.Play($"hit{score}");
         HitJudgementAnimationPlayer.Play("show");
+
+        EmitSignal(SignalName.CircleHit, score);
     }
 
     private void OnInputEvent(InputEvent inputEvent)
