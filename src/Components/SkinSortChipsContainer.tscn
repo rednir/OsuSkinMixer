@@ -5,6 +5,7 @@
 
 [node name="SkinSortChipsContainer" type="HBoxContainer"]
 size_flags_vertical = 0
+theme_override_constants/separation = 4
 script = ExtResource("1_ih85k")
 
 [node name="Name" parent="." instance=ExtResource("1_cysn1")]
@@ -23,8 +24,8 @@ text = "Last modified"
 
 [node name="Hidden" parent="." instance=ExtResource("1_cysn1")]
 layout_mode = 2
-text = "Hidden"
+text = "Hidden first"
 
 [node name="Selected" parent="." instance=ExtResource("1_cysn1")]
 layout_mode = 2
-text = "Selected"
+text = "Selected first"
