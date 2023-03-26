@@ -412,7 +412,7 @@ public abstract class SkinOption
                                     Children = new SkinOption[]
                                     {
                                         new SkinFileOption("hit100", false, "Image", true),
-                                        new SkinFileOption("hit100k", false, "Image (katsu)"),
+                                        new SkinFileOption("hit100k", false, "Image (katsu)", true),
                                         new SkinFileOption("particle100", false, "Particles"),
                                     },
                                 },
@@ -422,8 +422,8 @@ public abstract class SkinOption
                                     Children = new SkinOption[]
                                     {
                                         new SkinFileOption("hit300", false, "Image", true),
-                                        new SkinFileOption("hit300k", false, "Image (katsu)"),
-                                        new SkinFileOption("hit300g", false, "Image (geki)"),
+                                        new SkinFileOption("hit300k", false, "Image (katsu)", true),
+                                        new SkinFileOption("hit300g", false, "Image (geki)", true),
                                         new SkinFileOption("particle300", false, "Particles"),
                                     },
                                 },
