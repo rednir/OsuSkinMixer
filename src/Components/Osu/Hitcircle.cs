@@ -26,6 +26,8 @@ public partial class Hitcircle : Node2D
 
     private OsuSkin _skin;
 
+    private string _hitcirclePrefix;
+
     private Color[] _comboColors;
 
     private int _currentComboIndex;
@@ -74,6 +76,7 @@ public partial class Hitcircle : Node2D
         }
 
         _comboColors = skin.ComboColors;
+        _hitcirclePrefix = skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
         NextCombo();
     }
 
@@ -104,7 +107,7 @@ public partial class Hitcircle : Node2D
         ApproachcircleSprite.SelfModulate = _comboColors[_currentComboIndex];
 
         // Hitcircle scale is set previously based on whether the textures are @2x or not.
-        string filename = $"default-{(_currentComboIndex == 0 ? _comboColors.Length : _currentComboIndex)}";
+        string filename = $"{_hitcirclePrefix}-{(_currentComboIndex == 0 ? _comboColors.Length : _currentComboIndex)}";
         DefaultSprite.Texture = Scale == new Vector2(0.5f, 0.5f) ? _skin.Get2XTexture(filename) : _skin.GetTexture(filename);
     }
 

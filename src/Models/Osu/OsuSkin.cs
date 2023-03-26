@@ -141,15 +141,6 @@ public class OsuSkin
 
         string path = $"{Directory.FullName}/{filename}.{extension}";
 
-        // Often default-x.png is found in a subdirectory defined by the skin.ini, so check for that.
-        if (filename.StartsWith("default-", StringComparison.OrdinalIgnoreCase))
-        {
-            string hitCirclePrefix = SkinIni?.TryGetPropertyValue("Fonts", "HitCirclePrefix");
-
-            if (hitCirclePrefix != null)
-                path = hitCirclePrefix != null ? $"{Directory.FullName}/{hitCirclePrefix}{filename[7..]}.{extension}" : $"{Directory.FullName}/default";
-        }
-
         if (!File.Exists(path))
         {
             _textureCache.Add(filename, null);
