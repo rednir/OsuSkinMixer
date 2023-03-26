@@ -25,5 +25,5 @@ public class SkinFileOption : SkinOption
     /// <summary>Represents the allowed suffixes for the file, ignored if the include filename does not end with a wildcard. If null, all prefixes are allowed.</summary>
     public string[] AllowedSuffixes { get; set; }
 
-    public override string ToString() => $"{(IsAudio ? "Audio" : "Image")}:  '{IncludeFileName}'";
+    public override string ToString() => $"{(IsAudio ? "Audio" : "Image")}{(IsAnimatable ? " (animatable)" : string.Empty)}:  '{IncludeFileName}'";
 }
