@@ -19,6 +19,12 @@ public partial class SkinComponentsContainer : PanelContainer
         set => ManageSkinPopup.SkinInfoRequested = value;
     }
 
+    public ManageSkinOptions ManageSkinOptions
+    {
+        get => ManageSkinPopup.Options;
+        set => ManageSkinPopup.Options = value;
+    }
+
     public bool CheckableComponents { get; set; }
 
     public SkinComponent BestMatch => VBoxContainer.GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Visible);

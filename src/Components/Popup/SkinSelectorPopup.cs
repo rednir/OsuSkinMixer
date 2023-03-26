@@ -28,6 +28,7 @@ public partial class SkinSelectorPopup : Popup
         SearchLineEdit = GetNode<LineEdit>("%SearchLineEdit");
 
         BackButton.Pressed += Out;
+        SkinComponentsContainer.ManageSkinOptions = ManageSkinOptions.All & ~ManageSkinOptions.Modify;
         SkinComponentsContainer.SkinInfoRequested = null;
         SkinComponentsContainer.SkinSelected += OnSkinSelected;
         SearchLineEdit.TextChanged += OnSearchTextChanged;
