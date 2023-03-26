@@ -12,12 +12,17 @@ public partial class ComboContainer : HBoxContainer
         set
         {
             _skin = value;
+
+            _comboPrefix = value.SkinIni.TryGetPropertyValue("Fonts", "ComboPrefix") ?? "score";
+
             if (ScoreX != null)
-                ScoreX.Texture = value.Get2XTexture("score-x");
+                ScoreX.Texture = value.Get2XTexture($"{_comboPrefix}-x");
         }
     }
 
     private OsuSkin _skin;
+
+    private string _comboPrefix;
 
     private int _combo;
 
@@ -43,11 +48,11 @@ public partial class ComboContainer : HBoxContainer
 
         if (tens > 0)
         {
-            Tens.Texture = Skin.Get2XTexture($"score-{tens}");
+            Tens.Texture = Skin.Get2XTexture($"{_comboPrefix}-{tens}");
             Tens.Visible = true;
         }
 
-        Ones.Texture = Skin.Get2XTexture($"score-{ones}");
+        Ones.Texture = Skin.Get2XTexture($"{_comboPrefix}-{ones}");
         AnimationPlayer.Play("increment");
     }
 
@@ -59,7 +64,7 @@ public partial class ComboContainer : HBoxContainer
         _combo = 0;
 
         Tens.Visible = false;
-        Ones.Texture = Skin.Get2XTexture("score-0");
+        Ones.Texture = Skin.Get2XTexture($"{_comboPrefix}-0");
         AnimationPlayer.Play("break");
     }
 }
