@@ -2,6 +2,7 @@ using Godot;
 using System;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
+using System.Collections.Generic;
 
 namespace OsuSkinMixer.Components;
 
@@ -34,12 +35,12 @@ public partial class SkinSelectorPopup : Popup
         SearchLineEdit.TextChanged += OnSearchTextChanged;
         SearchLineEdit.TextSubmitted += _ => OnSkinSelected(SkinComponentsContainer.BestMatch?.Skin);
 
-        OsuData.SkinInfoRequested += _ => Out();
+        OsuData.SkinInfoRequested += OnSkinInfoRequested;
     }
 
     public override void _ExitTree()
     {
-        OsuData.SkinInfoRequested -= _ => Out();
+        OsuData.SkinInfoRequested -= OnSkinInfoRequested;
     }
 
     public override void In()
@@ -73,6 +74,11 @@ public partial class SkinSelectorPopup : Popup
         SkinComponentsContainer.SkinComponentScene = _isCompact
             ? GD.Load<PackedScene>("res://src/Components/SkinComponentCompact.tscn")
             : GD.Load<PackedScene>("res://src/Components/SkinComponentSkinManager.tscn");
+    }
+
+    private void OnSkinInfoRequested(IEnumerable<OsuSkin> _)
+    {
+        Out();
     }
 
     private void OnSkinSelected(OsuSkin skin)
