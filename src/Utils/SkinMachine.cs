@@ -409,7 +409,7 @@ public abstract class SkinMachine : IDisposable
         if (fileOption.AllowedSuffixes == null)
             return true;
 
-        string filenameSuffix = filename.ToLower().TrimPrefix(fileOption.IncludeFileName.ToLower().TrimEnd('*'));
+        string filenameSuffix = filename.ToLower().TrimSuffix("@2x").TrimPrefix(fileOption.IncludeFileName.ToLower().TrimEnd('*'));
         return fileOption.AllowedSuffixes.Any(s => filenameSuffix.Equals(s, StringComparison.OrdinalIgnoreCase));
     }
 
