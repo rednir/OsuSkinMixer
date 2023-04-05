@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=32 format=3 uid="uid://8t4xh5nel3pn"]
+[gd_resource type="Theme" load_steps=38 format=3 uid="uid://8t4xh5nel3pn"]
 
 [ext_resource type="Texture2D" uid="uid://bc0m3veg2l6pl" path="res://assets/checkbox-checked.png" id="1_b5f5r"]
 [ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="1_tlv3r"]
@@ -187,6 +187,77 @@ content_margin_bottom = 2.0
 bg_color = Color(0.937255, 0.721569, 0.784314, 1)
 corner_detail = 6
 
+[sub_resource type="ImageTexture" id="ImageTexture_i6bvy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_umax5"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.662745, 0.588235, 0.639216, 0.713726)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4psih"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.662745, 0.588235, 0.639216, 0.878431)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eopov"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.701961, 0.631373, 0.682353, 0.937255)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_txxfo"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ycet5"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
 [resource]
 default_font = ExtResource("1_tlv3r")
 default_font_size = 0
@@ -300,3 +371,14 @@ ProgressBar/font_sizes/font_size = 16
 ProgressBar/styles/background = SubResource("StyleBoxFlat_5jk4o")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_y5a64")
 VBoxContainer/constants/separation = 12
+VScrollBar/icons/decrement = SubResource("ImageTexture_i6bvy")
+VScrollBar/icons/decrement_highlight = SubResource("ImageTexture_i6bvy")
+VScrollBar/icons/decrement_pressed = SubResource("ImageTexture_i6bvy")
+VScrollBar/icons/increment = SubResource("ImageTexture_i6bvy")
+VScrollBar/icons/increment_highlight = SubResource("ImageTexture_i6bvy")
+VScrollBar/icons/increment_pressed = SubResource("ImageTexture_i6bvy")
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_umax5")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_4psih")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_eopov")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_txxfo")
+VScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_ycet5")
