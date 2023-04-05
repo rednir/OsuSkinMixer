@@ -7,7 +7,6 @@ assignees: ''
 
 ---
 
-<!--
 Provide details about the bug below.
 
 Logs may be helpful to me. To upload logs:
@@ -16,4 +15,3 @@ Logs may be helpful to me. To upload logs:
  3. click the gear icon in the top right
  4. click on the "Open debug logs" button
  5. drag and drop the "godot.log" file into here.
--->
