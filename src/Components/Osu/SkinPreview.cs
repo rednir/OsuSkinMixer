@@ -37,6 +37,7 @@ public partial class SkinPreview : PanelContainer
         Hitcircle = GetNode<Hitcircle>("%Hitcircle");
 
         VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
+        VisibleOnScreenNotifier2D.ScreenExited += OnMouseExited;
         Hitcircle.CircleHit += OnCircleHit;
     }
 
@@ -119,7 +120,7 @@ public partial class SkinPreview : PanelContainer
 
     private void OnMouseEntered()
     {
-        if (!_paused)
+        if (!_paused || !VisibleOnScreenNotifier2D.IsOnScreen())
             return;
 
         _paused = false;
