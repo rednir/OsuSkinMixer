@@ -270,8 +270,8 @@ public abstract class SkinOption
                             Name = "Fonts",
                             Children = new SkinOption[]
                             {
-                                new SkinFileOption("scoreentry-*", false, "Score entry", false, allowedSuffixes: new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "comma", "dot", "percent", "x" }),
-                                new SkinFileOption("score-*", false, "Score/accuracy/combo", false, allowedSuffixes: new[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "comma", "dot", "percent", "x" }),
+                                new SkinFileOption("scoreentry-*", false, "Score entry", false, allowedSuffixes: new[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "comma", "dot", "percent", "x" }),
+                                new SkinFileOption("score-*", false, "Score/accuracy/combo", false, allowedSuffixes: new[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "comma", "dot", "percent", "x" }),
 
                                 new SkinIniPropertyOption("Fonts", "ScorePrefix"),
                                 new SkinIniPropertyOption("Fonts", "ScoreOverlap"),
