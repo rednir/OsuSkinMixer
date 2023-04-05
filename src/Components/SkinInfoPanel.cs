@@ -19,7 +19,6 @@ public partial class SkinInfoPanel : PanelContainer
     private Label SkinAuthorLabel;
     private Button MoreButton;
     private Label DetailsLabel;
-    private TextureRect HiddenIcon;
     private Button OpenFolderButton;
     private Button OpenInOsuButton;
     private ManageSkinPopup ManageSkinPopup;
@@ -37,7 +36,6 @@ public partial class SkinInfoPanel : PanelContainer
         SkinAuthorLabel = GetNode<Label>("%SkinAuthor");
         MoreButton = GetNode<Button>("%MoreButton");
         DetailsLabel = GetNode<Label>("%Details");
-        HiddenIcon = GetNode<TextureRect>("%HiddenIcon");
         OpenFolderButton = GetNode<Button>("%OpenFolderButton");
         OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
         ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
@@ -69,7 +67,6 @@ public partial class SkinInfoPanel : PanelContainer
         SkinNameLabel.Text = Skin.Name;
         SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
         DetailsLabel.Text = $"Last modified: {(DateTime.Now - Skin.Directory.LastWriteTime).Humanise()}";
-        HiddenIcon.Visible = Skin.Hidden;
         OpenInOsuButton.Disabled = Skin.Hidden;
         ManageSkinPopup.SetSkin(Skin);
     }

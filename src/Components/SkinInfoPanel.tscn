@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://blii18dv1joyh"]
+[gd_scene load_steps=13 format=3 uid="uid://blii18dv1joyh"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_08l8f"]
 [ext_resource type="Script" path="res://src/Components/SkinInfoPanel.cs" id="2_dwrdw"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://ciei67qdyomec" path="res://assets/materialicons/undo.png" id="5_iy2mq"]
 [ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="5_iyi87"]
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="6_7bjey"]
-[ext_resource type="Texture2D" uid="uid://cgnidqld7ff0p" path="res://assets/materialicons/visibility_off.png" id="11_dv88h"]
 [ext_resource type="PackedScene" uid="uid://ysal13cqaoit" path="res://src/Components/Osu/SkinPreview.tscn" id="12_u3tvk"]
 [ext_resource type="PackedScene" uid="uid://ce6pfh8ys6arg" path="res://src/Components/Popup/ManageSkinPopup.tscn" id="13_kxp8t"]
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="13_t4web"]
@@ -96,15 +95,6 @@ text_overrun_behavior = 3
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 2
-
-[node name="HiddenIcon" type="TextureRect" parent="MainContentContainer/HBoxContainer"]
-unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0.784314)
-layout_mode = 2
-size_flags_horizontal = 2
-tooltip_text = "This skin is hidden"
-texture = ExtResource("11_dv88h")
-stretch_mode = 3
 
 [node name="OpenFolderButton" parent="MainContentContainer/HBoxContainer" instance=ExtResource("13_t4web")]
 unique_name_in_owner = true
