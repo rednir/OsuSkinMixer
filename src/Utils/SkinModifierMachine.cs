@@ -253,9 +253,10 @@ public class SkinModifierMachine : SkinMachine
         hitcircle.Save(hitcirclePath);
         hitcircleoverlay.Save(hitcircleoverlayPath);
 
-        if (fontsSection != null)
+        if (fontsSection != null && suffix == null)
         {
             // Prevents hitcircles from appearing incorrectly when the combo is greater than 10.
+            // Only do this for the @1x elements, the @2x elements are scaled up by osu!.
             fontsSection.Remove("HitCircleOverlap");
             fontsSection.Add("HitCircleOverlap", hitcircle.Width.ToString());
         }
