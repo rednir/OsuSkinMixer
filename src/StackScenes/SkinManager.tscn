@@ -44,7 +44,7 @@ theme_override_constants/separation = 4
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 2.08165e-12)
 layout_mode = 2
-placeholder_text = "Search for a skin"
+placeholder_text = "Filter skins"
 flat = true
 
 [node name="SelectAllButton" parent="TopPanelContainer/HBoxContainer" instance=ExtResource("3_25b43")]
