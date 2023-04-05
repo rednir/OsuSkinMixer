@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using Godot;
@@ -143,7 +144,7 @@ public class OsuSkin
 
         if (!File.Exists(path))
         {
-            _textureCache.Add(filename, null);
+            _textureCache.TryAdd(filename, null);
             return null;
         }
 
@@ -152,12 +153,12 @@ public class OsuSkin
 
         if (err != Error.Ok)
         {
-            _textureCache.Add(filename, null);
+            _textureCache.TryAdd(filename, null);
             return null;
         }
 
         var texture = ImageTexture.CreateFromImage(image);
-        _textureCache.Add(filename, texture);
+        _textureCache.TryAdd(filename, texture);
         return texture;
     }
 
@@ -226,7 +227,7 @@ public class OsuSkin
         }
     }
 
-    private readonly Dictionary<string, Texture2D> _textureCache = new();
+    private readonly ConcurrentDictionary<string, Texture2D> _textureCache = new();
 
     private static Texture2D GetDefaultTexture(string filenameWithExtension)
         => GD.Load<Texture2D>($"res://assets/defaultskin/{filenameWithExtension}");
