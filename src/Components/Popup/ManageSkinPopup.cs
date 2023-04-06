@@ -108,10 +108,15 @@ public partial class ManageSkinPopup : Popup
         {
             Settings.PushException(ex);
         }
+        finally
+        {
+            Out();
+        }
     }
 
     public void OnOpenFolderButtonPressed()
     {
+        Out();
         foreach (var skin in _skins)
             Tools.ShellOpenFile(skin.Directory.FullName);
     }
