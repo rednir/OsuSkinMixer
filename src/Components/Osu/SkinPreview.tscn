@@ -109,7 +109,7 @@ _data = {
 [node name="SkinPreview" type="PanelContainer"]
 clip_contents = true
 custom_minimum_size = Vector2(448, 228)
-offset_right = 386.0
+offset_right = 480.0
 offset_bottom = 228.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bt0da")
 script = ExtResource("1_o7mmq")
@@ -149,7 +149,7 @@ pivot_offset = Vector2(-1, 97)
 
 [node name="Hitcircle" parent="." instance=ExtResource("2_cyhy6")]
 unique_name_in_owner = true
-position = Vector2(223, 112)
+position = Vector2(240, 114)
 scale = Vector2(0.5, 0.5)
 
 [node name="Cursor" type="Sprite2D" parent="."]
