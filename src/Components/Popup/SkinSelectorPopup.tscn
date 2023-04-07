@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://md4n10t0o7i4"]
+[gd_scene load_steps=13 format=3 uid="uid://md4n10t0o7i4"]
 
 [ext_resource type="Script" path="res://src/Components/Popup/SkinSelectorPopup.cs" id="1_5b4pt"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="1_jm6w5"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://crgnranuin71j" path="res://assets/materialicons/arrow_back.png" id="4_oc0m3"]
 [ext_resource type="PackedScene" uid="uid://cqe1efqtsolo0" path="res://src/Components/GetMoreSkinsContainer.tscn" id="5_820pu"]
 [ext_resource type="PackedScene" uid="uid://bcv0yhlt68htu" path="res://src/Components/SkinComponentsContainer.tscn" id="5_adbym"]
+[ext_resource type="PackedScene" uid="uid://l5lkphprcihd" path="res://src/Components/SkinComponentSkinManager.tscn" id="5_n2y8m"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sfgka"]
 content_margin_left = 0.0
@@ -99,9 +100,53 @@ theme_override_constants/separation = 0
 
 [node name="SkinOptionsContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 0
+
+[node name="DefaultSkinComponent" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer" instance=ExtResource("5_n2y8m")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HitcircleTexture" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon" index="2"]
+modulate = Color(0, 0.823529, 0, 1)
+
+[node name="HiddenIcon" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon/Control" index="0"]
+visible = false
+
+[node name="Name" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="1"]
+text = "Default skin"
+
+[node name="Author" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="2"]
+text = "osu!"
+
+[node name="CheckBox" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="3"]
+visible = false
+
+[node name="BlankComponent" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer" instance=ExtResource("5_n2y8m")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HitcircleoverlayTexture" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon" index="1"]
+visible = false
+
+[node name="HitcircleTexture" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon" index="2"]
+modulate = Color(0.187014, 0.14882, 0.176602, 1)
+
+[node name="Default1Texture" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon" index="3"]
+visible = false
+
+[node name="Name" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="1"]
+text = "Blank"
+
+[node name="Author" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="2"]
+text = "Select this to use an empty file for this skin element."
+
+[node name="CheckBox" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="3"]
+visible = false
+
+[node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
 
 [node name="SkinComponentsContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer" instance=ExtResource("5_adbym")]
 unique_name_in_owner = true
@@ -111,3 +156,7 @@ layout_mode = 2
 layout_mode = 2
 
 [editable path="Popup"]
+[editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent"]
+[editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon"]
+[editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent"]
+[editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon"]

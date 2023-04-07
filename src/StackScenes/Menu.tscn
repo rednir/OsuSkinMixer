@@ -52,12 +52,22 @@ text = "Skin Manager"
 [node name="Description" parent="SkinManagerButton/VBoxContainer" index="1"]
 text = "View or manage your installed skins!"
 
-[node name="GetMoreSkinsButton" parent="." instance=ExtResource("4_ncxws")]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="GetMoreSkinsButton" parent="HBoxContainer" instance=ExtResource("4_ncxws")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "  Get more skins"
 icon = ExtResource("5_53k1b")
+
+[node name="LuckyButton" parent="HBoxContainer" instance=ExtResource("4_ncxws")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "I'm feeling lucky"
 
 [node name="GetMoreSkinsPopup" parent="." instance=ExtResource("6_ukxmq")]
 unique_name_in_owner = true
