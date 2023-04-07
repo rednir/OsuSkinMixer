@@ -82,6 +82,8 @@ public class SkinModifierMachine : SkinMachine
             .RunOperation(false).Wait();
             CancellationToken.ThrowIfCancellationRequested();
         }
+
+        Progress = UNCANCELLABLE_AFTER;
     }
 
     protected override void PostRun()
