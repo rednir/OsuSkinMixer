@@ -81,7 +81,7 @@ public partial class SkinModifierSkinSelect : StackScene
         component.Visible = true;
         component.CheckBoxVisible = true;
         SkinsToModifyContainer.CallDeferred(MethodName.AddChild, component);
-        component.IsChecked = true;
+        component.Ready += () => component.IsChecked = true;
 
         component.Checked += c =>
         {
