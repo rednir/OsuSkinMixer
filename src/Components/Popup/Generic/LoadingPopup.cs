@@ -35,15 +35,29 @@ public partial class LoadingPopup : Popup
         }
     }
 
+    public string ProgressStatusText
+    {
+        get => ProgressStatus.Text;
+        set
+        {
+            ProgressStatus.Text = value;
+            StatusAnimationPlayer.Play("new");
+        }
+    }
+
     private AnimationPlayer LoadingAnimationPlayer;
+    private AnimationPlayer StatusAnimationPlayer;
     private ProgressBar ProgressBar;
+    private Label ProgressStatus;
     private Button CancelButton;
 
     public override void _Ready()
     {
         base._Ready();
         LoadingAnimationPlayer = GetNode<AnimationPlayer>("%LoadingAnimationPlayer");
+        StatusAnimationPlayer = GetNode<AnimationPlayer>("%StatusAnimationPlayer");
         ProgressBar = GetNode<ProgressBar>("%ProgressBar");
+        ProgressStatus = GetNode<Label>("%ProgressStatus");
         CancelButton = GetNode<Button>("%CancelButton");
 
         CancelButton.Pressed += OnCancelButtonPressed;
