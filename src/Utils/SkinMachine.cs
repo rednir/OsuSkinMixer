@@ -130,7 +130,7 @@ public abstract class SkinMachine : IDisposable
 
     protected void CopyOption(OsuSkin workingSkin, SkinOption option)
     {
-        StatusChanged?.Invoke($"Copying: {option.Name}");
+        StatusChanged?.Invoke($"Copying: {(option as SkinFileOption)?.IncludeFileName ?? option.Name}");
         switch (option)
         {
             case SkinIniPropertyOption iniPropertyOption:
