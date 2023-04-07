@@ -11,6 +11,8 @@ namespace OsuSkinMixer.Models;
 /// <summary>Represents an osu! skin and provides methods to fetch its elements.</summary>
 public class OsuSkin
 {
+    private readonly object _lock = new();
+
     public static Color[] DefaultComboColors
         => new Color[]
         {
@@ -98,41 +100,53 @@ public class OsuSkin
 
     public Texture2D Get2XTexture(string filename, string extension = "png")
     {
-        TryGet2XTexture(filename, out Texture2D result, extension);
-        return result;
+        lock (_lock)
+        {
+            TryGet2XTexture(filename, out Texture2D result, extension);
+            return result;
+        }
     }
 
     public Texture2D GetTexture(string filename, string extension = "png")
     {
-        TryGetTexture(filename, out Texture2D result, extension);
-        return result;
+        lock (_lock)
+        {
+            TryGetTexture(filename, out Texture2D result, extension);
+            return result;
+        }
     }
 
     public bool TryGet2XTexture(string filename, out Texture2D result, string extension = "png")
     {
-        result = GetTextureOrNull($"{filename}@2x", extension);
+        lock (_lock)
+        {
+            result = GetTextureOrNull($"{filename}@2x", extension);
 
-        if (result != null)
+            if (result != null)
+                return true;
+
+            result = GetTextureOrNull(filename, extension);
+
+            if (result != null)
+                return false;
+
+            result = GetDefaultTexture($"{filename}@2x.{extension}");
             return true;
-
-        result = GetTextureOrNull(filename, extension);
-
-        if (result != null)
-            return false;
-
-        result = GetDefaultTexture($"{filename}@2x.{extension}");
-        return true;
+        }
     }
 
     public bool TryGetTexture(string filename, out Texture2D result, string extension = "png")
     {
-        result = GetTextureOrNull(filename, extension);
+        lock (_lock)
+        {
+            result = GetTextureOrNull(filename, extension);
 
-        if (result != null)
-            return true;
+            if (result != null)
+                return true;
 
-        result = GetDefaultTexture($"{filename}.{extension}");
-        return false;
+            result = GetDefaultTexture($"{filename}.{extension}");
+            return false;
+        }
     }
 
     private Texture2D GetTextureOrNull(string filename, string extension)
