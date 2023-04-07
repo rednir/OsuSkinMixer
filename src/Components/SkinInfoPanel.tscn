@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://blii18dv1joyh"]
+[gd_scene load_steps=19 format=3 uid="uid://blii18dv1joyh"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_08l8f"]
 [ext_resource type="Script" path="res://src/Components/SkinInfoPanel.cs" id="2_dwrdw"]
@@ -8,28 +8,67 @@
 [ext_resource type="Texture2D" uid="uid://ciei67qdyomec" path="res://assets/materialicons/undo.png" id="5_iy2mq"]
 [ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="5_iyi87"]
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="6_7bjey"]
+[ext_resource type="Texture2D" uid="uid://bmgwj72vb4hvh" path="res://assets/materialicons/edit.png" id="10_ilvp1"]
+[ext_resource type="Texture2D" uid="uid://msx778bigq5g" path="res://assets/materialicons/folder_open.png" id="12_mlqrs"]
 [ext_resource type="PackedScene" uid="uid://ysal13cqaoit" path="res://src/Components/Osu/SkinPreview.tscn" id="12_u3tvk"]
 [ext_resource type="PackedScene" uid="uid://ce6pfh8ys6arg" path="res://src/Components/Popup/ManageSkinPopup.tscn" id="13_kxp8t"]
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="13_t4web"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="14_isl58"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f5sf1"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.164706, 0.137255, 0.160784, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.137255)
+shadow_size = 5
+shadow_offset = Vector2(2.08165e-12, 2)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xa3s1"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oo7jk"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 0.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g0do8"]
+content_margin_left = 16.0
+content_margin_top = 0.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
 [node name="SkinInfoPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 2.08165e-12)
 size_flags_horizontal = 4
 theme = ExtResource("1_08l8f")
+theme_override_styles/panel = SubResource("StyleBoxFlat_f5sf1")
 script = ExtResource("2_dwrdw")
 
-[node name="DeletedContainer" type="VBoxContainer" parent="."]
+[node name="DeletedContainer" type="PanelContainer" parent="."]
 unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_xa3s1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DeletedContainer"]
 visible = false
 layout_mode = 2
 
-[node name="Text" type="Label" parent="DeletedContainer"]
+[node name="Text" type="Label" parent="DeletedContainer/VBoxContainer"]
 layout_mode = 2
 text = "The skin was deleted."
 label_settings = ExtResource("3_25seh")
 
-[node name="UndoDeleteButton" parent="DeletedContainer" instance=ExtResource("13_t4web")]
+[node name="UndoDeleteButton" parent="DeletedContainer/VBoxContainer" instance=ExtResource("13_t4web")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
@@ -42,27 +81,31 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="HeaderContainer" type="HBoxContainer" parent="MainContentContainer"]
+[node name="TopPadding" type="PanelContainer" parent="MainContentContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_oo7jk")
+
+[node name="HeaderContainer" type="HBoxContainer" parent="MainContentContainer/TopPadding"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="HitcircleIcon" parent="MainContentContainer/HeaderContainer" instance=ExtResource("3_n2mwj")]
+[node name="HitcircleIcon" parent="MainContentContainer/TopPadding/HeaderContainer" instance=ExtResource("3_n2mwj")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="NameAndAuthorContainer" type="VBoxContainer" parent="MainContentContainer/HeaderContainer"]
+[node name="NameAndAuthorContainer" type="VBoxContainer" parent="MainContentContainer/TopPadding/HeaderContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 2
 
-[node name="SkinName" type="Label" parent="MainContentContainer/HeaderContainer/NameAndAuthorContainer"]
+[node name="SkinName" type="Label" parent="MainContentContainer/TopPadding/HeaderContainer/NameAndAuthorContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "this is a very very very long placeholder skin name"
 label_settings = ExtResource("4_uie4s")
 text_overrun_behavior = 3
 
-[node name="SkinAuthor" type="Label" parent="MainContentContainer/HeaderContainer/NameAndAuthorContainer"]
+[node name="SkinAuthor" type="Label" parent="MainContentContainer/TopPadding/HeaderContainer/NameAndAuthorContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.901961, 0.882353, 0.898039, 1)
@@ -71,19 +114,18 @@ text = "Unknown author"
 label_settings = ExtResource("5_iyi87")
 text_overrun_behavior = 3
 
-[node name="IconButtonsContainer" type="HBoxContainer" parent="MainContentContainer/HeaderContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="MoreButton" parent="MainContentContainer/HeaderContainer/IconButtonsContainer" instance=ExtResource("6_7bjey")]
-unique_name_in_owner = true
-layout_mode = 2
-
 [node name="SkinPreview" parent="MainContentContainer" instance=ExtResource("12_u3tvk")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Details" type="Label" parent="MainContentContainer"]
+[node name="BottomPadding" type="PanelContainer" parent="MainContentContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_g0do8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContentContainer/BottomPadding"]
+layout_mode = 2
+
+[node name="Details" type="Label" parent="MainContentContainer/BottomPadding/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.792157, 0.768627, 0.815686, 1)
@@ -91,20 +133,35 @@ theme_override_font_sizes/font_size = 14
 text = "Last modified: 1st January 2023"
 text_overrun_behavior = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainContentContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContentContainer/BottomPadding/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
-alignment = 2
 
-[node name="OpenFolderButton" parent="MainContentContainer/HBoxContainer" instance=ExtResource("13_t4web")]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Open folder"
-
-[node name="OpenInOsuButton" parent="MainContentContainer/HBoxContainer" instance=ExtResource("14_isl58")]
+[node name="OpenInOsuButton" parent="MainContentContainer/BottomPadding/VBoxContainer/HBoxContainer" instance=ExtResource("14_isl58")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Open in osu!"
+
+[node name="IconButtonsContainer" type="HBoxContainer" parent="MainContentContainer/BottomPadding/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/separation = 2
+
+[node name="ModifyButton" parent="MainContentContainer/BottomPadding/VBoxContainer/HBoxContainer/IconButtonsContainer" instance=ExtResource("6_7bjey")]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Modify skin"
+icon = ExtResource("10_ilvp1")
+
+[node name="OpenFolderButton" parent="MainContentContainer/BottomPadding/VBoxContainer/HBoxContainer/IconButtonsContainer" instance=ExtResource("6_7bjey")]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Open folder"
+icon = ExtResource("12_mlqrs")
+
+[node name="MoreButton" parent="MainContentContainer/BottomPadding/VBoxContainer/HBoxContainer/IconButtonsContainer" instance=ExtResource("6_7bjey")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="ManageSkinPopup" parent="." instance=ExtResource("13_kxp8t")]
 unique_name_in_owner = true

@@ -10,7 +10,7 @@ public partial class SkinInfoPanel : PanelContainer
 {
     public OsuSkin Skin { get; set; }
 
-    private VBoxContainer DeletedContainer;
+    private PanelContainer DeletedContainer;
     private Button UndoDeleteButton;
     private VBoxContainer MainContentContainer;
     private SkinPreview SkinPreview;
@@ -27,7 +27,7 @@ public partial class SkinInfoPanel : PanelContainer
 
     public override void _Ready()
     {
-        DeletedContainer = GetNode<VBoxContainer>("%DeletedContainer");
+        DeletedContainer = GetNode<PanelContainer>("%DeletedContainer");
         UndoDeleteButton = GetNode<Button>("%UndoDeleteButton");
         MainContentContainer = GetNode<VBoxContainer>("%MainContentContainer");
         SkinPreview = GetNode<SkinPreview>("%SkinPreview");
