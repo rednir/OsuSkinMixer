@@ -18,6 +18,7 @@ public partial class Menu : StackScene
     private Button SkinManagerButton;
     private Button GetMoreSkinsButton;
     private Button LuckyButton;
+    private TextureButton IconButton;
     private GetMoreSkinsPopup GetMoreSkinsPopup;
 
     private readonly Random _random = new();
@@ -32,6 +33,7 @@ public partial class Menu : StackScene
         SkinModifierButton = GetNode<Button>("%SkinModifierButton");
         SkinManagerButton = GetNode<Button>("%SkinManagerButton");
         GetMoreSkinsButton = GetNode<Button>("%GetMoreSkinsButton");
+        IconButton = GetNode<TextureButton>("%IconButton");
         GetMoreSkinsPopup = GetNode<GetMoreSkinsPopup>("%GetMoreSkinsPopup");
         LuckyButton = GetNode<Button>("%LuckyButton");
 
@@ -40,6 +42,7 @@ public partial class Menu : StackScene
         SkinManagerButton.Pressed += () => EmitSignal(SignalName.ScenePushed, SkinManagerScene.Instantiate<StackScene>());
         GetMoreSkinsButton.Pressed += GetMoreSkinsPopup.In;
         LuckyButton.Pressed += OnLuckyButtonPressed;
+        IconButton.Pressed += () => OS.ShellOpen($"https://github.com/{Settings.GITHUB_REPO_PATH}");
     }
 
     private void OnLuckyButtonPressed()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bp1nnp8wqogy1"]
+[gd_scene load_steps=8 format=3 uid="uid://bp1nnp8wqogy1"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_1eu76"]
 [ext_resource type="Script" path="res://src/StackScenes/Menu.cs" id="1_bkc8q"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="4_ncxws"]
 [ext_resource type="Texture2D" uid="uid://d3c0n4oyhnm8e" path="res://assets/materialicons/library_add.png" id="5_53k1b"]
 [ext_resource type="PackedScene" uid="uid://dsgg2xjv4sebx" path="res://src/Components/Popup/GetMoreSkinsPopup.tscn" id="6_ukxmq"]
+[ext_resource type="Texture2D" uid="uid://bwwbpgod763s" path="res://icon.png" id="7_58gv3"]
 
 [node name="Menu" type="VBoxContainer"]
 offset_right = 750.0
@@ -68,6 +69,17 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "I'm feeling lucky"
+
+[node name="IconButton" type="TextureButton" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("7_58gv3")
+texture_pressed = ExtResource("7_58gv3")
+texture_hover = ExtResource("7_58gv3")
+stretch_mode = 3
 
 [node name="GetMoreSkinsPopup" parent="." instance=ExtResource("6_ukxmq")]
 unique_name_in_owner = true
