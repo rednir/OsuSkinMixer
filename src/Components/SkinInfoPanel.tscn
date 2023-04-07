@@ -145,7 +145,7 @@ text = "Open in osu!"
 [node name="IconButtonsContainer" type="HBoxContainer" parent="MainContentContainer/BottomPadding/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
-theme_override_constants/separation = 2
+theme_override_constants/separation = 4
 
 [node name="ModifyButton" parent="MainContentContainer/BottomPadding/VBoxContainer/HBoxContainer/IconButtonsContainer" instance=ExtResource("6_7bjey")]
 unique_name_in_owner = true
