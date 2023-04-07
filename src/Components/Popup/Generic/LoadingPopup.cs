@@ -35,14 +35,10 @@ public partial class LoadingPopup : Popup
         }
     }
 
-    public string ProgressStatusText
+    public string Status
     {
         get => ProgressStatus.Text;
-        set
-        {
-            ProgressStatus.Text = value;
-            StatusAnimationPlayer.Play("new");
-        }
+        set => _pendingStatus = value;
     }
 
     private AnimationPlayer LoadingAnimationPlayer;
@@ -50,6 +46,8 @@ public partial class LoadingPopup : Popup
     private ProgressBar ProgressBar;
     private Label ProgressStatus;
     private Button CancelButton;
+
+    private string _pendingStatus;
 
     public override void _Ready()
     {
@@ -63,9 +61,21 @@ public partial class LoadingPopup : Popup
         CancelButton.Pressed += OnCancelButtonPressed;
     }
 
+    public override void _Process(double delta)
+    {
+        if (_pendingStatus != null)
+        {
+            StatusAnimationPlayer.Stop();
+            StatusAnimationPlayer.Play("new");
+            ProgressStatus.Text = _pendingStatus;
+            _pendingStatus = null;
+        }
+    }
+
     public override void In()
     {
         Progress = 0;
+        ProgressStatus.Text = "";
         base.In();
     }
 

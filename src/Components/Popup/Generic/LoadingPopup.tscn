@@ -107,7 +107,7 @@ tracks/0/path = NodePath("Popup/CanvasLayer/ScrollContainer/VBoxContainer/Conten
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1),
+"times": PackedFloat32Array(0, 0.4, 0.9),
 "transitions": PackedFloat32Array(1, 0.25, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -159,9 +159,6 @@ libraries = {
 
 [node name="Popup" parent="." instance=ExtResource("2_8v2a0")]
 layout_mode = 1
-
-[node name="CanvasLayer" parent="Popup" index="1"]
-visible = true
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
 offset_bottom = -0.000244141

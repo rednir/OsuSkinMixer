@@ -61,6 +61,7 @@ public partial class SkinMixer : StackScene
         {
             SkinOptions = SkinOptionsSelector.SkinOptions,
             ProgressChanged = v => LoadingPopup.Progress = v,
+            StatusChanged = v => LoadingPopup.Status = v,
         };
 
         machine.SetNewSkin(skinName);

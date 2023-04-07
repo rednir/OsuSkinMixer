@@ -294,7 +294,6 @@ texture = SubResource("GradientTexture2D_hi6gm")
 
 [node name="SetupPopup" parent="." instance=ExtResource("3_ow7ee")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 
 [node name="ExceptionPopup" parent="." instance=ExtResource("4_05fhe")]

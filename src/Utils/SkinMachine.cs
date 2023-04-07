@@ -51,6 +51,8 @@ public abstract class SkinMachine : IDisposable
 
     public Action<double> ProgressChanged { get; set; }
 
+    public Action<string> StatusChanged { get; set; }
+
     protected virtual bool CacheOriginalElements => false;
 
     protected Dictionary<string, MemoryStream> OriginalElementsCache { get; } = new();
@@ -115,6 +117,7 @@ public abstract class SkinMachine : IDisposable
 
     private void RunAllTasks()
     {
+        StatusChanged?.Invoke("Writing changes...");
         double progressInterval = (100.0 - Progress.Value) / _tasks.Count;
         foreach (Action task in _tasks)
         {
@@ -127,6 +130,7 @@ public abstract class SkinMachine : IDisposable
 
     protected void CopyOption(OsuSkin workingSkin, SkinOption option)
     {
+        StatusChanged?.Invoke($"Copying: {option.Name}");
         switch (option)
         {
             case SkinIniPropertyOption iniPropertyOption:
