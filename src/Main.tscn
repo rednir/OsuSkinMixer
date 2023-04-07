@@ -434,12 +434,6 @@ grow_vertical = 2
 theme = ExtResource("1_3ca2l")
 script = ExtResource("2_ajhyw")
 
-[node name="SetupPopup" parent="." instance=ExtResource("4_gusp5")]
-layout_mode = 1
-
-[node name="SettingsPopup" parent="." instance=ExtResource("4_8gcgf")]
-layout_mode = 1
-
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -20
 
@@ -617,6 +611,12 @@ layout_mode = 1
 layout_mode = 1
 
 [node name="ChangeLogPopup" parent="." instance=ExtResource("12_v1kfe")]
+layout_mode = 1
+
+[node name="SettingsPopup" parent="." instance=ExtResource("4_8gcgf")]
+layout_mode = 1
+
+[node name="SetupPopup" parent="." instance=ExtResource("4_gusp5")]
 layout_mode = 1
 
 [node name="ExitBlockedPopup" parent="." instance=ExtResource("13_sdxu4")]

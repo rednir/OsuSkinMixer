@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cvpikgocffedt" path="res://assets/materialicons/done.png" id="12_oveo6"]
 
 [node name="SetupPopup" type="Control"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
