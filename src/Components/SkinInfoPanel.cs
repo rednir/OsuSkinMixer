@@ -19,6 +19,7 @@ public partial class SkinInfoPanel : PanelContainer
     private Label SkinAuthorLabel;
     private Button MoreButton;
     private Label DetailsLabel;
+    private Button ModifyButton;
     private Button OpenFolderButton;
     private Button OpenInOsuButton;
     private ManageSkinPopup ManageSkinPopup;
@@ -36,12 +37,14 @@ public partial class SkinInfoPanel : PanelContainer
         SkinAuthorLabel = GetNode<Label>("%SkinAuthor");
         MoreButton = GetNode<Button>("%MoreButton");
         DetailsLabel = GetNode<Label>("%Details");
+        ModifyButton = GetNode<Button>("%ModifyButton");
         OpenFolderButton = GetNode<Button>("%OpenFolderButton");
         OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
         ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
         UndoDeleteButton.Pressed += OnUndoDeleteButtonPressed;
         MoreButton.Pressed += OnMoreButtonPressed;
+        ModifyButton.Pressed += OnModifyButtonPressed;
         OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
         OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
         ManageSkinPopup.Options = ManageSkinOptions.All & ~ManageSkinOptions.OpenInOsu & ~ManageSkinOptions.OpenFolder;
@@ -134,5 +137,10 @@ public partial class SkinInfoPanel : PanelContainer
     private void OnMoreButtonPressed()
     {
         ManageSkinPopup.In();
+    }
+
+    private void OnModifyButtonPressed()
+    {
+        OsuData.RequestSkinModify(new OsuSkin[] { Skin });
     }
 }
