@@ -22,6 +22,8 @@ public class SkinModifierMachine : SkinMachine
 
     public bool Instafade { get; set; }
 
+    public bool DisableInterfaceAnimations { get; set; }
+
     protected override bool CacheOriginalElements => true;
 
     protected override void PopulateTasks()
@@ -122,6 +124,11 @@ public class SkinModifierMachine : SkinMachine
                 MakeCirclesInstafade(workingSkin);
                 MakeCirclesInstafade(workingSkin, "@2x");
             });
+        }
+
+        if (DisableInterfaceAnimations)
+        {
+            AddTask(() => MakeInterfaceAnimationsDisabled(workingSkin));
         }
 
         string skinIniDestination = $"{workingSkin.Directory.FullName}/skin.ini";
@@ -272,6 +279,30 @@ public class SkinModifierMachine : SkinMachine
 
             coloursSection.TryGetValue("Combo2", out string combo2);
             coloursSection["Combo1"] = combo2 ?? "0, 192, 0";
+        }
+    }
+
+    private void MakeInterfaceAnimationsDisabled(OsuSkin workingSkin)
+    {
+        Log($"Disabling interface animations for skin '{workingSkin.Name}'");
+
+        ParentSkinOption interfaceOption = (ParentSkinOption)SkinOption.Default[0];
+        IEnumerable<SkinFileOption> animatableInterfaceSkinOptions = SkinOption.Flatten(
+            interfaceOption.Children).OfType<SkinFileOption>().Where(o => o.IsAnimatable);
+
+        foreach (var option in animatableInterfaceSkinOptions)
+        {
+            Log($"Disabling animation for '{option.IncludeFileName}'");
+        }
+
+        foreach (FileInfo file in workingSkin.Directory.EnumerateFiles())
+        {
+            if (animatableInterfaceSkinOptions.Any(o => file.Name.StartsWith(o.IncludeFileName + '-')))
+            {
+                Log($"Deleting frame '{file.Name}'");
+                AddFileToOriginalElementsCache(file.FullName);
+                file.Delete();
+            }
         }
     }
 

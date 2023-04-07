@@ -26,6 +26,7 @@ public partial class SkinModifierModificationSelect : StackScene
     private Button ApplyChangesButton;
     private CheckButton SmoothTrailButton;
     private CheckButton InstafadeButton;
+    private CheckButton DisableAnimationsButton;
     private LoadingPopup LoadingPopup;
 
     public override void _Ready()
@@ -38,6 +39,7 @@ public partial class SkinModifierModificationSelect : StackScene
         ApplyChangesButton = GetNode<Button>("%ApplyChangesButton");
         SmoothTrailButton = GetNode<CheckButton>("%SmoothTrailButton");
         InstafadeButton = GetNode<CheckButton>("%InstafadeButton");
+        DisableAnimationsButton = GetNode<CheckButton>("%DisableAnimationsButton");
         LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
 
         SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.Unchanged));
@@ -81,6 +83,7 @@ public partial class SkinModifierModificationSelect : StackScene
             SkinsToModify = SkinsToModify,
             SmoothTrail = SmoothTrailButton.ButtonPressed,
             Instafade = InstafadeButton.ButtonPressed,
+            DisableInterfaceAnimations = DisableAnimationsButton.ButtonPressed,
         };
 
         Task.Run(() => machine.Run(CancellationTokenSource.Token))
@@ -101,6 +104,7 @@ public partial class SkinModifierModificationSelect : StackScene
                 SkinOptionsSelector.Reset();
                 InstafadeButton.ButtonPressed = false;
                 SmoothTrailButton.ButtonPressed = false;
+                DisableAnimationsButton.ButtonPressed = false;
 
                 var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
                 skinInfoInstance.Skins = SkinsToModify;

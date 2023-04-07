@@ -35,13 +35,13 @@ public abstract class SkinOption
 
     /// <summary>Flattens a skin option hierarchy into a single list ready for iteration.</summary>
     /// <returns>A single list of skin options.</returns>
-    public static IEnumerable<SkinOption> Flatten(SkinOption[] skinOptions)
+    public static IEnumerable<SkinOption> Flatten(IEnumerable<SkinOption> skinOptions)
     {
         var result = new List<SkinOption>();
         helper(skinOptions);
         return result;
 
-        void helper(SkinOption[] children)
+        void helper(IEnumerable<SkinOption> children)
         {
             if (children == null)
                 return;

@@ -22,9 +22,6 @@ script = ExtResource("2_je2sr")
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="SkinOptionsContainer" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer" index="0"]
-visible = true
-
 [node name="DefaultSkinComponent" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer" index="0" instance=ExtResource("4_fdpti")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -96,6 +93,11 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Smooth cursor trail"
 
+[node name="DisableAnimationsButton" type="CheckButton" parent="ExtraOptionsContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Disable interface animations"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 alignment = 1
@@ -124,6 +126,10 @@ visible = true
 [editable path="SkinOptionsSelector"]
 [editable path="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup"]
 [editable path="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup"]
+[editable path="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent"]
+[editable path="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon"]
+[editable path="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent"]
+[editable path="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon"]
 [editable path="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent"]
 [editable path="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon"]
 [editable path="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent"]
