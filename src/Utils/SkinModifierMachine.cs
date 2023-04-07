@@ -8,6 +8,9 @@ using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
+using Godot;
+using Image = SixLabors.ImageSharp.Image;
+using Color = SixLabors.ImageSharp.Color;
 
 namespace OsuSkinMixer.Utils;
 
@@ -290,15 +293,41 @@ public class SkinModifierMachine : SkinMachine
         IEnumerable<SkinFileOption> animatableInterfaceSkinOptions = SkinOption.Flatten(
             interfaceOption.Children).OfType<SkinFileOption>().Where(o => o.IsAnimatable);
 
-        foreach (var option in animatableInterfaceSkinOptions)
-        {
-            Log($"Disabling animation for '{option.IncludeFileName}'");
-        }
+        Dictionary<SkinFileOption, Dictionary<FileInfo, int>> animationFrames = new();
 
         foreach (FileInfo file in workingSkin.Directory.EnumerateFiles())
         {
-            if (animatableInterfaceSkinOptions.Any(o => file.Name.StartsWith(o.IncludeFileName + '-')))
+            SkinFileOption fileOption = animatableInterfaceSkinOptions.FirstOrDefault(
+                o => file.Name.StartsWith(o.IncludeFileName + '-', StringComparison.OrdinalIgnoreCase));
+
+            if (fileOption == null)
+                continue;
+
+            string frameIndexString = file.Name[(file.Name.LastIndexOf('-') + 1)..file.Name.LastIndexOf('.')].TrimSuffix("@2x");
+            if (!int.TryParse(frameIndexString, out int frameIndex))
+                continue;
+
+            animationFrames.TryAdd(fileOption, new());
+            animationFrames[fileOption].Add(file, frameIndex);
+        }
+
+        foreach (var pair in animationFrames)
+        {
+            // We need to choose one frame to keep, so we'll choose the middle frame. Divide by 4 to account for @2x frames.
+            int keepFrame = pair.Value.Count / 4;
+
+            foreach (var framePair in pair.Value)
             {
+                FileInfo file = framePair.Key;
+                int frameIndex = framePair.Value;
+
+                if (frameIndex == keepFrame)
+                {
+                    Log($"Keeping frame '{file.Name}'");
+                    file.MoveTo(Path.Combine(file.DirectoryName, file.Name.Replace($"-{frameIndex}", "")), true);
+                    continue;
+                }
+
                 Log($"Deleting frame '{file.Name}'");
                 AddFileToOriginalElementsCache(file.FullName);
                 file.Delete();
