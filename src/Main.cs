@@ -55,7 +55,7 @@ public partial class Main : Control
         SettingsPopup = GetNode<SettingsPopup>("SettingsPopup");
         ExitBlockedPopup = GetNode<LoadingPopup>("%ExitBlockedPopup");
         OkPopup = GetNode<OkPopup>("%OkPopup");
-        Toast = GetNode<Toast>("Toast");
+        Toast = GetNode<Toast>("%Toast");
         VersionLabel = GetNode<Label>("%VersionLabel");
 
         VersionLabel.Text = Settings.VERSION;

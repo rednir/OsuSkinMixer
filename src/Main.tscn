@@ -482,7 +482,6 @@ layout_mode = 2
 icon = ExtResource("8_1aqc5")
 
 [node name="Title" type="Label" parent="TopBar/HBoxContainer"]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
@@ -570,14 +569,11 @@ libraries = {
 }
 
 [node name="Scenes" type="Control" parent="."]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
 offset_top = 50.0
-offset_right = -40.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -590,17 +586,15 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_ca2ql")
 follow_focus = true
 
 [node name="Toast" parent="." instance=ExtResource("10_hysk3")]
+unique_name_in_owner = true
+z_as_relative = false
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.503
-anchor_top = 1.0
-anchor_right = 0.503
-anchor_bottom = 1.0
-offset_left = -172.25
-offset_top = -68.0
-offset_right = 171.75
-offset_bottom = -15.0
-grow_horizontal = 1
+anchors_preset = 1
+offset_left = -326.0
+offset_top = 64.0
+offset_right = -13.0
+offset_bottom = 109.0
+grow_horizontal = 0
 grow_vertical = 1
 
 [node name="HistoryPopup" parent="." instance=ExtResource("12_n1u7x")]

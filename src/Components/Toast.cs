@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OsuSkinMixer.Components;
 
-public partial class Toast : PanelContainer
+public partial class Toast : Control
 {
     const double NEW_TOAST_IF_PROGRESS_AFTER = 0.5;
 
