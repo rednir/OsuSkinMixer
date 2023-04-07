@@ -56,11 +56,11 @@ script = ExtResource("2_dwrdw")
 
 [node name="DeletedContainer" type="PanelContainer" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_xa3s1")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="DeletedContainer"]
-visible = false
 layout_mode = 2
 
 [node name="Text" type="Label" parent="DeletedContainer/VBoxContainer"]
