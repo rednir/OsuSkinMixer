@@ -63,50 +63,68 @@ public static class OsuData
 
     public static void AddSkin(OsuSkin skin)
     {
-        if (_skins.ContainsKey(skin))
-            return;
+        lock (_skins)
+        {
+            if (_skins.ContainsKey(skin))
+                return;
 
-        _skins.Add(skin, skin.Directory.LastWriteTime);
-        Settings.Log($"Added skin to memory: {skin.Name}");
-        SkinAdded?.Invoke(skin);
+            _skins.Add(skin, skin.Directory.LastWriteTime);
+            Settings.Log($"Added skin to memory: {skin.Name}");
+            SkinAdded?.Invoke(skin);
+        }
     }
 
     public static void InvokeSkinModified(OsuSkin skin)
     {
-        Settings.Log($"Skin modified: {skin.Name}");
-        skin.ClearCache();
-        SkinModified?.Invoke(skin);
+        lock (_skins)
+        {
+            Settings.Log($"Skin modified: {skin.Name}");
+            skin.ClearCache();
+            SkinModified?.Invoke(skin);
+        }
     }
 
     public static void RemoveSkin(OsuSkin skin)
     {
-        if (!_skins.Remove(skin))
-            return;
+        lock (_skins)
+        {
+            if (!_skins.Remove(skin))
+                return;
 
-        Settings.Log($"Removed skin from memory: {skin.Name}");
-        SkinRemoved?.Invoke(skin);
+            Settings.Log($"Removed skin from memory: {skin.Name}");
+            SkinRemoved?.Invoke(skin);
+        }
     }
 
     public static void RequestSkinInfo(IEnumerable<OsuSkin> skins)
     {
-        Settings.Log($"Requested skin info for {skins.Count()} skins.");
-        SkinInfoRequested?.Invoke(skins);
+        lock (_skins)
+        {
+            Settings.Log($"Requested skin info for {skins.Count()} skins.");
+            SkinInfoRequested?.Invoke(skins);
+        }
     }
 
     public static void RequestSkinModify(IEnumerable<OsuSkin> skins)
     {
-        Settings.Log($"Requested skin modify for {skins.Count()} skins.");
-        SkinModifyRequested?.Invoke(skins);
+        lock (_skins)
+        {
+            Settings.Log($"Requested skin modify for {skins.Count()} skins.");
+            SkinModifyRequested?.Invoke(skins);
+        }
     }
 
     private static void LoadSkinsFromDirectory(DirectoryInfo directoryInfo, bool hidden)
     {
-        foreach (var dir in directoryInfo.EnumerateDirectories())
+        lock (_skins)
         {
-            if (!_skins.Any(s => s.Key.Name == directoryInfo.Name) && _skins.TryAdd(new OsuSkin(dir, hidden), dir.LastWriteTime))
-                Settings.Log($"Loaded skin into memory: {dir.Name} {(hidden ? "(hidden)" : string.Empty)}");
-            else
-                Settings.Log($"Did not load skin into memory as it already exists: {dir.Name} {(hidden ? "(hidden)" : string.Empty)}");
+            foreach (var dir in directoryInfo.EnumerateDirectories())
+            {
+                if (!_skins.Any(s => s.Key.Name == directoryInfo.Name) && _skins.TryAdd(new OsuSkin(dir, hidden), dir.LastWriteTime))
+                    Settings.Log($"Loaded skin into memory: {dir.Name} {(hidden ? "(hidden)" : string.Empty)}");
+                else
+                    Settings.Log($"Did not load skin into memory as it already exists: {dir.Name} {(hidden ? "(hidden)" : string.Empty)}");
+            }
         }
     }
 
@@ -119,8 +137,11 @@ public static class OsuData
             {
                 if (!SweepPaused)
                 {
-                    SweepSkins(false);
-                    SweepSkins(true);
+                    lock (_skins)
+                    {
+                        SweepSkins(false);
+                        SweepSkins(true);
+                    }
                 }
 
                 Task.Delay(SWEEP_INTERVAL_MSEC).Wait();
