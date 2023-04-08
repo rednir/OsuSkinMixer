@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://n54x7oanqib1"]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="PackedScene" uid="uid://fl107kh3okl5" path="res://src/Components/MenuButton.tscn" id="1_4juhm"]
-[ext_resource type="Texture2D" uid="uid://bwwbpgod763s" path="res://icon.png" id="2_c0akb"]
+[ext_resource type="Texture2D" uid="uid://bwwbpgod763s" path="res://assets/icon.png" id="2_c0akb"]
+
 
 [node name="MenuButtonExternal" instance=ExtResource("1_4juhm")]
 custom_minimum_size = Vector2(264, 160)

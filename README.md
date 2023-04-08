@@ -1,4 +1,4 @@
-<p align="left"><img src="icon-text.png" alt="osu! skin mixer"></p>
+<p align="left"><img src="assets/icon-text.png" alt="osu! skin mixer"></p>
 
 [![Latest](https://img.shields.io/github/v/release/rednir/OsuSkinMixer)](https://github.com/rednir/OsuSkinMixer/releases/latest/)
 [![Downloads](https://img.shields.io/github/downloads/rednir/OsuSkinMixer/total)](https://github.com/rednir/OsuSkinMixer/releases/latest/)

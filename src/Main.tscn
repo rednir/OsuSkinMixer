@@ -626,7 +626,7 @@ text = "We're making some final touches.
 Once we're done, we'll close osu! skin mixer for you.
 "
 
-[node name="CancelButton" parent="ExitBlockedPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3"]
+[node name="CancelButton" parent="ExitBlockedPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="4"]
 visible = true
 text = "Close anyway"
 
