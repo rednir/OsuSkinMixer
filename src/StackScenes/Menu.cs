@@ -47,6 +47,12 @@ public partial class Menu : StackScene
 
     private void OnLuckyButtonPressed()
     {
+        if (OsuData.Skins.Length == 0)
+        {
+            EmitSignal(SignalName.ToastPushed, "You're out of luck!");
+            return;
+        }
+
         int randomIndex = _random.Next(0, OsuData.Skins.Length);
         OsuData.RequestSkinInfo(new[] { OsuData.Skins[randomIndex] });
     }
