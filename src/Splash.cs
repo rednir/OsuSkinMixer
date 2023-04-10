@@ -74,7 +74,13 @@ public partial class Splash : Control
 
     private void AutoUpdate()
     {
-        if (!Settings.Content.AutoUpdate || Settings.Content.LastVersion != Settings.VERSION)
+        if (!Settings.Content.AutoUpdate)
+        {
+            LoadSkins();
+            return;
+        }
+
+        if (Settings.Content.LastVersion != Settings.VERSION)
         {
             // Update was successful, so clean up the installer.
             File.Delete(Settings.AutoUpdateInstallerPath);
