@@ -65,16 +65,30 @@ public partial class Splash : Control
 
         if (File.Exists(Settings.AutoUpdateInstallerPath))
         {
-            if (Settings.Content.LastVersion == Settings.VERSION && Settings.Content.AutoUpdate)
+            if (Settings.Content.AutoUpdate && Settings.Content.LastVersion == Settings.VERSION)
             {
-                // Try run installer, if it succeeds execution should stop here.
-                UpdatingLabel.Visible = true;
-                TryRunInstaller();
-                UpdatingLabel.Visible = false;
-                return;
+                if (Settings.Content.UpdatePending)
+                {
+                    // Peform the update and close the program.
+                    Settings.Content.UpdatePending = false;
+                    Settings.Save();
+
+                    UpdatingLabel.Visible = true;
+                    TryRunInstaller();
+                    UpdatingLabel.Visible = false;
+
+                    return;
+                }
+                else
+                {
+                    // Installer was cancelled last time, so don't try again.
+                    File.Delete(Settings.AutoUpdateInstallerPath);
+                    UpdateCanceledPopup.In();
+                    return;
+                }
             }
 
-            // Update finished, clean up installer.
+            // Update was successful, so clean up the installer.
             File.Delete(Settings.AutoUpdateInstallerPath);
         }
 
@@ -88,7 +102,7 @@ public partial class Splash : Control
         try
         {
             Process installer = Process.Start(Settings.AutoUpdateInstallerPath, "/silent");
-            installer.WaitForExit();
+            GetTree().Quit();
         }
         catch (Exception e)
         {

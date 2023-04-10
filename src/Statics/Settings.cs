@@ -156,6 +156,9 @@ public static partial class Settings
         using FileStream fileStream = new(installerPath, FileMode.CreateNew);
         await downloadStream.CopyToAsync(fileStream);
 
+        Content.UpdatePending = true;
+        Save();
+
         Log($"Finished downloading installer to {installerPath}");
     }
 

@@ -11,6 +11,9 @@ public static partial class Settings
         [JsonPropertyName("last_version")]
         public string LastVersion { get; set; }
 
+        [JsonPropertyName("update_pending")]
+        public bool UpdatePending { get; set; }
+
         [JsonPropertyName("osu_folder")]
         public string OsuFolder { get; set; }
 
