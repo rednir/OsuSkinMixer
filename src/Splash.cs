@@ -66,6 +66,7 @@ public partial class Splash : Control
         if (File.Exists(Settings.AutoUpdateInstallerPath))
         {
             AutoUpdate();
+            File.Delete(Settings.AutoUpdateInstallerPath);
             return;
         }
 
@@ -74,23 +75,14 @@ public partial class Splash : Control
 
     private void AutoUpdate()
     {
-        if (!Settings.Content.AutoUpdate)
+        if (!Settings.Content.AutoUpdate || Settings.Content.LastVersion != Settings.VERSION)
         {
-            LoadSkins();
-            return;
-        }
-
-        if (Settings.Content.LastVersion != Settings.VERSION)
-        {
-            // Update was successful, so clean up the installer.
-            File.Delete(Settings.AutoUpdateInstallerPath);
             LoadSkins();
             return;
         }
 
         if (Settings.Content.UpdatePending)
         {
-            // Peform the update and close the program.
             Settings.Content.UpdatePending = false;
             Settings.Save();
 
@@ -100,8 +92,6 @@ public partial class Splash : Control
         }
         else
         {
-            // Installer was cancelled last time, so don't try again.
-            File.Delete(Settings.AutoUpdateInstallerPath);
             UpdateCanceledPopup.In();
         }
     }
