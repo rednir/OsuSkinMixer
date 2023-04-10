@@ -1,6 +1,7 @@
 using Godot;
 using OsuSkinMixer.Models;
 using System;
+using System.IO;
 
 namespace OsuSkinMixer.Components;
 
@@ -13,7 +14,12 @@ public partial class ComboContainer : HBoxContainer
         {
             _skin = value;
 
-            _comboPrefix = value.SkinIni.TryGetPropertyValue("Fonts", "ComboPrefix") ?? "score";
+            string comboPrefix = value.SkinIni.TryGetPropertyValue("Fonts", "ComboPrefix") ?? "score";
+
+            bool comboPrefixExists = File.Exists(Path.Combine(value.Directory.FullName, $"{comboPrefix}-x.png"))
+                || File.Exists(Path.Combine(value.Directory.FullName, $"{comboPrefix}-x@2x.png"));
+
+            _comboPrefix = comboPrefixExists ? comboPrefix : "score";
 
             if (ScoreX != null)
                 ScoreX.Texture = value.Get2XTexture($"{_comboPrefix}-x");
