@@ -65,34 +65,39 @@ public partial class Splash : Control
 
         if (File.Exists(Settings.AutoUpdateInstallerPath))
         {
-            if (Settings.Content.AutoUpdate && Settings.Content.LastVersion == Settings.VERSION)
-            {
-                if (Settings.Content.UpdatePending)
-                {
-                    // Peform the update and close the program.
-                    Settings.Content.UpdatePending = false;
-                    Settings.Save();
-
-                    UpdatingLabel.Visible = true;
-                    TryRunInstaller();
-                    UpdatingLabel.Visible = false;
-
-                    return;
-                }
-                else
-                {
-                    // Installer was cancelled last time, so don't try again.
-                    File.Delete(Settings.AutoUpdateInstallerPath);
-                    UpdateCanceledPopup.In();
-                    return;
-                }
-            }
-
-            // Update was successful, so clean up the installer.
-            File.Delete(Settings.AutoUpdateInstallerPath);
+            AutoUpdate();
+            return;
         }
 
         LoadSkins();
+    }
+
+    private void AutoUpdate()
+    {
+        if (!Settings.Content.AutoUpdate || Settings.Content.LastVersion != Settings.VERSION)
+        {
+            // Update was successful, so clean up the installer.
+            File.Delete(Settings.AutoUpdateInstallerPath);
+            LoadSkins();
+            return;
+        }
+
+        if (Settings.Content.UpdatePending)
+        {
+            // Peform the update and close the program.
+            Settings.Content.UpdatePending = false;
+            Settings.Save();
+
+            UpdatingLabel.Visible = true;
+            TryRunInstaller();
+            UpdatingLabel.Visible = false;
+        }
+        else
+        {
+            // Installer was cancelled last time, so don't try again.
+            File.Delete(Settings.AutoUpdateInstallerPath);
+            UpdateCanceledPopup.In();
+        }
     }
 
     private void TryRunInstaller()
