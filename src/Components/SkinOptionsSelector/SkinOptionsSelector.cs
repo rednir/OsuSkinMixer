@@ -111,6 +111,9 @@ public partial class SkinOptionsSelector : PanelContainer
     {
         Settings.Log("Randomising all skin options");
 
+        if (OsuData.Skins.Length == 0)
+            return;
+
         foreach (var component in SkinOptionComponents.Where(c => c.SkinOption is not ParentSkinOption))
         {
             SkinOptionComponentInSelection = component;
