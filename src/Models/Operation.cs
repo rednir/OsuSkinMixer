@@ -12,7 +12,7 @@ public class Operation
 {
     private const int MAX_OPERATION_COUNT = 100;
 
-    public static void AddOperationToMemory(Operation operation)
+    private static void AddOperationToMemory(Operation operation)
     {
         if (Settings.Content.Operations.Count > MAX_OPERATION_COUNT)
             Settings.Content.Operations.RemoveRange(0, Settings.Content.Operations.Count - MAX_OPERATION_COUNT);
