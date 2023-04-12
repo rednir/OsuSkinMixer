@@ -58,7 +58,6 @@ public partial class SkinSelectorPopup : Popup
             SetCompactFlag();
         }
 
-        SearchLineEdit.Clear();
         SearchLineEdit.GrabFocus();
     }
 

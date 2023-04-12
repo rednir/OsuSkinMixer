@@ -84,7 +84,9 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_l345a")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_apwiq")
 placeholder_text = "Search for a skin"
 max_length = 128
+clear_button_enabled = true
 flat = true
+select_all_on_focus = true
 
 [node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
