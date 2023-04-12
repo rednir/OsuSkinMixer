@@ -183,8 +183,8 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_br3p2"]
 resource_name = "pop_in"
-length = 0.25
-step = 0.05
+length = 0.32
+step = 0.02
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -192,10 +192,10 @@ tracks/0/path = NodePath("Scenes:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(0.3, 1),
 "update": 0,
-"values": [Vector2(-40, 50), Vector2(0, 50)]
+"values": [Vector2(-45, 50), Vector2(0, 50)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -204,7 +204,7 @@ tracks/1/path = NodePath("Scenes:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.25),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(0.3, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -216,7 +216,7 @@ tracks/2/path = NodePath("TopBar/HBoxContainer/Title:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.25),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(0.5, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -224,8 +224,8 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_g0nj4"]
 resource_name = "pop_out"
-length = 0.1
-step = 0.05
+length = 0.14
+step = 0.02
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -233,10 +233,10 @@ tracks/0/path = NodePath("Scenes:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.12),
 "transitions": PackedFloat32Array(3, 1),
 "update": 0,
-"values": [Vector2(0, 50), Vector2(40, 50)]
+"values": [Vector2(0, 50), Vector2(45, 50)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -245,7 +245,7 @@ tracks/1/path = NodePath("Scenes:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.12),
 "transitions": PackedFloat32Array(2, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -257,7 +257,7 @@ tracks/2/path = NodePath("TopBar/HBoxContainer/Title:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.12),
 "transitions": PackedFloat32Array(2, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -265,8 +265,8 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_ym7nh"]
 resource_name = "push_in"
-length = 0.275
-step = 0.025
+length = 0.32
+step = 0.02
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -274,10 +274,10 @@ tracks/0/path = NodePath("Scenes:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.025, 0.275),
+"times": PackedFloat32Array(0.02, 0.32),
 "transitions": PackedFloat32Array(0.3, 1),
 "update": 0,
-"values": [Vector2(40, 50), Vector2(0, 50)]
+"values": [Vector2(45, 50), Vector2(0, 50)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -286,7 +286,7 @@ tracks/1/path = NodePath("Scenes:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.025, 0.275),
+"times": PackedFloat32Array(0.02, 0.32),
 "transitions": PackedFloat32Array(0.3, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -298,7 +298,7 @@ tracks/2/path = NodePath("TopBar/HBoxContainer/Title:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.025, 0.275),
+"times": PackedFloat32Array(0.02, 0.32),
 "transitions": PackedFloat32Array(0.5, 0.3),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -306,8 +306,8 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_62jqq"]
 resource_name = "push_out"
-length = 0.125
-step = 0.025
+length = 0.14
+step = 0.02
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -315,10 +315,10 @@ tracks/0/path = NodePath("Scenes:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.12),
 "transitions": PackedFloat32Array(3, 1),
 "update": 0,
-"values": [Vector2(0, 50), Vector2(-40, 50)]
+"values": [Vector2(0, 50), Vector2(-45, 50)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -327,7 +327,7 @@ tracks/1/path = NodePath("Scenes:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.12),
 "transitions": PackedFloat32Array(2, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -339,7 +339,7 @@ tracks/2/path = NodePath("TopBar/HBoxContainer/Title:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.12),
 "transitions": PackedFloat32Array(2, 2),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -482,6 +482,7 @@ layout_mode = 2
 icon = ExtResource("8_1aqc5")
 
 [node name="Title" type="Label" parent="TopBar/HBoxContainer"]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
@@ -562,18 +563,20 @@ initial_velocity_max = 50.0
 color_ramp = SubResource("Gradient_6ovip")
 
 [node name="ScenesAnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "RESET"
 reset_on_save = false
 libraries = {
 "": SubResource("AnimationLibrary_08qeu")
 }
 
 [node name="Scenes" type="Control" parent="."]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -40.0
 offset_top = 50.0
+offset_right = -40.0
 grow_horizontal = 2
 grow_vertical = 2
 
