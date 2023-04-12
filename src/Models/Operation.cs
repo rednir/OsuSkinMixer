@@ -12,6 +12,8 @@ public class Operation
 {
     private const int MAX_OPERATION_COUNT = 100;
 
+    private static readonly object _lock = new();
+
     private static void AddOperationToMemory(Operation operation)
     {
         if (Settings.Content.Operations.Count > MAX_OPERATION_COUNT)
@@ -84,46 +86,55 @@ public class Operation
         Settings.Log($"Running operation: {Description}");
         AddOperationToMemory(this);
 
-        _task = Task.Run(() => Action())
-            .ContinueWith(t =>
+        _task = Task.Run(() =>
+        {
+            lock (_lock)
             {
-                if (pauseSweep)
-                    OsuData.SweepPaused = false;
+                Action();
+            }
+        })
+        .ContinueWith(t =>
+        {
+            if (pauseSweep)
+                OsuData.SweepPaused = false;
 
-                if (t.IsFaulted)
+            if (t.IsFaulted)
+            {
+                if (t.Exception.InnerException is OperationCanceledException)
                 {
-                    if (t.Exception.InnerException is OperationCanceledException)
-                    {
-                        Settings.Log($"Operation canceled: {Description}");
-                        return;
-                    }
-
-                    Settings.PushException(t.Exception);
+                    Settings.Log($"Operation canceled: {Description}");
                     return;
                 }
 
-                Settings.Log($"Operation completed: {Description}");
-            });
+                Settings.PushException(t.Exception);
+                return;
+            }
+
+            Settings.Log($"Operation completed: {Description}");
+        });
 
         return _task;
     }
 
     public void UndoOperation()
     {
-        if (_task?.IsCompleted != true || !CanUndo)
-            return;
-
-        Settings.Log($"Undoing operation: {Description}");
-
-        try
+        lock (_lock)
         {
-            UndoAction();
-            UndoAction = null;
-            Settings.Content.Operations.Remove(this);
-        }
-        catch (Exception e)
-        {
-            Settings.PushException(e);
+            if (_task?.IsCompleted != true || !CanUndo)
+                return;
+
+            Settings.Log($"Undoing operation: {Description}");
+
+            try
+            {
+                UndoAction();
+                UndoAction = null;
+                Settings.Content.Operations.Remove(this);
+            }
+            catch (Exception e)
+            {
+                Settings.PushException(e);
+            }
         }
     }
 }
