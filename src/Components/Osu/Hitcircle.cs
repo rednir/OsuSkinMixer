@@ -129,9 +129,11 @@ public partial class Hitcircle : Node2D
             CircleAnimationPlayer.Play("hit");
         }
 
-        HitJudgementSprite.Play($"hit{score}");
-        HitJudgementAnimationPlayer.Play("show");
+        // Only play the falling effect is there is not a miss animation in the skin.
+        HitJudgementAnimationPlayer.Play(
+            score == "0" && HitJudgementSprite.SpriteFrames.GetFrameCount($"hit{score}") <= 1 ? "show_miss" : "show");
 
+        HitJudgementSprite.Play($"hit{score}");
         EmitSignal(SignalName.CircleHit, score);
     }
 
