@@ -1,5 +1,3 @@
-using Godot;
-
 namespace OsuSkinMixer.Components;
 
 public partial class GetMoreSkinsContainer : PanelContainer

@@ -1,4 +1,3 @@
-using Godot;
 using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Components;

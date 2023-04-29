@@ -1,7 +1,5 @@
-using System;
 using System.Diagnostics;
 using System.IO;
-using Godot;
 using OsuSkinMixer.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;

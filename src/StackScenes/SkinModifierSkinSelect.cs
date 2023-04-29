@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using Godot;
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;

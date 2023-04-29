@@ -1,6 +1,4 @@
-using Godot;
 using OsuSkinMixer.Statics;
-using System.Linq;
 
 namespace OsuSkinMixer.Components;
 

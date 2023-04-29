@@ -1,5 +1,3 @@
-using Godot;
-using System.Threading;
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Utils;

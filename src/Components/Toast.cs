@@ -1,6 +1,3 @@
-using Godot;
-using System.Collections.Generic;
-
 namespace OsuSkinMixer.Components;
 
 public partial class Toast : Control

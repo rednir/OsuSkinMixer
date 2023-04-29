@@ -1,6 +1,3 @@
-using Godot;
-using System;
-
 namespace OsuSkinMixer.Components;
 
 public partial class LoadingPopup : Popup
