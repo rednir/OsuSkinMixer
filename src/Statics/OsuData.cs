@@ -1,7 +1,7 @@
+namespace OsuSkinMixer.Statics;
+
 using System.IO;
 using OsuSkinMixer.Models;
-
-namespace OsuSkinMixer.Statics;
 
 /// <summary>
 /// A static class that provides other objects with the user's osu! data, such as their list of skins.

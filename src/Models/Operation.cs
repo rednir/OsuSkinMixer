@@ -1,7 +1,7 @@
+namespace OsuSkinMixer.Models;
+
 using System.Text.Json.Serialization;
 using OsuSkinMixer.Statics;
-
-namespace OsuSkinMixer.Models;
 
 /// <summary>
 /// A class that represents an operation to be peformed to a single skin.

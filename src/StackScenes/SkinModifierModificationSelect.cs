@@ -1,9 +1,9 @@
+namespace OsuSkinMixer.StackScenes;
+
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Utils;
 using OsuSkinMixer.Statics;
-
-namespace OsuSkinMixer.StackScenes;
 
 public partial class SkinModifierModificationSelect : StackScene
 {

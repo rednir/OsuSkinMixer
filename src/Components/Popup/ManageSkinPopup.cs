@@ -1,9 +1,9 @@
+namespace OsuSkinMixer.Components;
+
 using System.IO;
 using System.IO.Compression;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
-
-namespace OsuSkinMixer.Components;
 
 public partial class ManageSkinPopup : Popup
 {

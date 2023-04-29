@@ -1,7 +1,7 @@
+namespace OsuSkinMixer.StackScenes;
+
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
-
-namespace OsuSkinMixer.StackScenes;
 
 public partial class SkinInfo : StackScene
 {

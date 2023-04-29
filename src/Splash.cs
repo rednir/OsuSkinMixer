@@ -1,9 +1,9 @@
+namespace OsuSkinMixer;
+
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Statics;
 using System.Diagnostics;
 using System.IO;
-
-namespace OsuSkinMixer;
 
 public partial class Splash : Control
 {

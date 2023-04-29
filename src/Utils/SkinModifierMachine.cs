@@ -1,3 +1,5 @@
+namespace OsuSkinMixer.Utils;
+
 using System.IO;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
@@ -6,8 +8,6 @@ using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
 using Image = SixLabors.ImageSharp.Image;
 using Color = SixLabors.ImageSharp.Color;
-
-namespace OsuSkinMixer.Utils;
 
 /// <summary>Provides methods to modify one or more skins based on a list of <see cref="SkinOption"/> and extra flags.</summary>
 public class SkinModifierMachine : SkinMachine

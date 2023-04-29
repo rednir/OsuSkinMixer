@@ -1,7 +1,7 @@
+namespace OsuSkinMixer.StackScenes;
+
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Statics;
-
-namespace OsuSkinMixer.StackScenes;
 
 public partial class Menu : StackScene
 {

@@ -1,7 +1,7 @@
+namespace OsuSkinMixer.Components;
+
 using System.IO;
 using OsuSkinMixer.Statics;
-
-namespace OsuSkinMixer.Components;
 
 public partial class ResolveSkinConflictPopup : Popup
 {

@@ -1,9 +1,9 @@
+namespace OsuSkinMixer.Components;
+
 using Environment = System.Environment;
 using OsuSkinMixer.Statics;
 using System.Threading.Tasks;
 using System.IO;
-
-namespace OsuSkinMixer.Components;
 
 public partial class SetupPopup : Popup
 {

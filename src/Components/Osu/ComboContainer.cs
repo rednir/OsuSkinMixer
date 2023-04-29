@@ -1,7 +1,7 @@
+namespace OsuSkinMixer.Components;
+
 using OsuSkinMixer.Models;
 using System.IO;
-
-namespace OsuSkinMixer.Components;
 
 public partial class ComboContainer : HBoxContainer
 {

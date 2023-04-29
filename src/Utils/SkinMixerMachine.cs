@@ -1,8 +1,8 @@
+namespace OsuSkinMixer.Utils;
+
 using System.IO;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
-
-namespace OsuSkinMixer.Utils;
 
 /// <summary>Provides methods to create and import a new skin from a list of <see cref="SkinOption"/>.</summary>
 public class SkinMixerMachine : SkinMachine

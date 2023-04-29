@@ -1,11 +1,11 @@
+namespace OsuSkinMixer.Statics;
+
 using System.Diagnostics;
 using System.IO;
 using OsuSkinMixer.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using File = System.IO.File;
-
-namespace OsuSkinMixer.Statics;
 
 public static class Tools
 {

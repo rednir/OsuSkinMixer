@@ -6,13 +6,13 @@ global using System.Threading.Tasks;
 global using System.Collections.Generic;
 global using System.Collections.Concurrent;
 
+namespace OsuSkinMixer;
+
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Statics;
 using OsuSkinMixer.StackScenes;
 using OsuSkinMixer.Models;
 using System.IO;
-
-namespace OsuSkinMixer;
 
 public partial class Main : Control
 {

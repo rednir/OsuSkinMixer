@@ -1,3 +1,5 @@
+namespace OsuSkinMixer.Statics;
+
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
@@ -5,8 +7,6 @@ using File = System.IO.File;
 using Directory = System.IO.Directory;
 using HttpClient = System.Net.Http.HttpClient;
 using OsuSkinMixer.Models;
-
-namespace OsuSkinMixer.Statics;
 
 public static partial class Settings
 {

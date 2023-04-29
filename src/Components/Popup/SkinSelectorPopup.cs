@@ -1,7 +1,7 @@
+namespace OsuSkinMixer.Components;
+
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
-
-namespace OsuSkinMixer.Components;
 
 public partial class SkinSelectorPopup : Popup
 {
