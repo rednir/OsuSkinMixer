@@ -25,6 +25,9 @@ layout_mode = 2
 [node name="Label" parent="SkinOptionsSelector/VBoxContainer" index="0"]
 text = "Choose what to change"
 
+[node name="SkinOptionsContainer" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer" index="0"]
+visible = true
+
 [node name="DefaultSkinComponent" parent="SkinOptionsSelector/VBoxContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer" index="0" instance=ExtResource("4_fdpti")]
 unique_name_in_owner = true
 layout_mode = 2
