@@ -94,7 +94,9 @@ public partial class SkinComponentsContainer : PanelContainer
 
         foreach (var component in VBoxContainer.GetChildren().Cast<SkinComponent>())
         {
-            bool filterMatch = filterWords.All(w => component.Name.ToString().Contains(w, StringComparison.OrdinalIgnoreCase));
+            bool filterMatch = filterWords.All(w =>
+                component.Name.ToString().Contains(w, StringComparison.OrdinalIgnoreCase)
+                || component.Skin.SkinIni.TryGetPropertyValue("General", "Author")?.Contains(w, StringComparison.OrdinalIgnoreCase) == true);
             bool visible = filterMatch && !_disabledSkinComponents.Contains(component);
 
             component.Visible = visible;
