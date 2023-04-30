@@ -5,7 +5,6 @@ using System.IO;
 using OsuSkinMixer.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using File = System.IO.File;
 
 public static class Tools
 {
