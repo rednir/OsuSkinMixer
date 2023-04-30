@@ -1,7 +1,6 @@
-using System;
-using System.IO;
-
 namespace OsuSkinMixer.Statics;
+
+using System.IO;
 
 public static class ExtensionMethods
 {

@@ -1,14 +1,9 @@
-using Godot;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+namespace OsuSkinMixer.StackScenes;
+
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Utils;
 using OsuSkinMixer.Statics;
-
-namespace OsuSkinMixer.StackScenes;
 
 public partial class SkinModifierModificationSelect : StackScene
 {

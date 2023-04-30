@@ -1,10 +1,7 @@
-using Godot;
-using System;
+namespace OsuSkinMixer.Components;
+
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
-using System.Collections.Generic;
-
-namespace OsuSkinMixer.Components;
 
 public partial class SkinSelectorPopup : Popup
 {

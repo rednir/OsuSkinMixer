@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using System.Text;
-
 namespace OsuSkinMixer.Models;
+
+using System.Text;
 
 /// <summary>Represents a section in a osu! skin's skin.ini file, such as "[General]", with its values represented as key-value pairs.</summary>
 public class OsuSkinIniSection : Dictionary<string, string>

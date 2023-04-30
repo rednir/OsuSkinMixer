@@ -1,7 +1,6 @@
-using Godot;
-using OsuSkinMixer.Models;
-
 namespace OsuSkinMixer.Components;
+
+using OsuSkinMixer.Models;
 
 public partial class SkinOptionComponent : HBoxContainer
 {

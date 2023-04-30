@@ -1,6 +1,6 @@
-using System.Text.Json.Serialization;
-
 namespace OsuSkinMixer.Models;
+
+using System.Text.Json.Serialization;
 
 public class GithubRelease
 {

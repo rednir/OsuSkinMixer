@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+namespace OsuSkinMixer.Models;
+
 using System.IO;
-using Godot;
 using OsuSkinMixer.Statics;
 using File = System.IO.File;
-
-namespace OsuSkinMixer.Models;
 
 /// <summary>Represents an osu! skin and provides methods to fetch its elements.</summary>
 public class OsuSkin

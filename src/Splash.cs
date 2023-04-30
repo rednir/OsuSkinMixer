@@ -1,12 +1,9 @@
-using Godot;
+namespace OsuSkinMixer;
+
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Statics;
-using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
-
-namespace OsuSkinMixer;
 
 public partial class Splash : Control
 {

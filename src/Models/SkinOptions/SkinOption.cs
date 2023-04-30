@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace OsuSkinMixer.Models;
 
 /// <summary>Base class for all skin options.</summary>

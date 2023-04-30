@@ -1,5 +1,3 @@
-using Godot;
-
 namespace OsuSkinMixer.StackScenes;
 
 public abstract partial class StackScene : Container

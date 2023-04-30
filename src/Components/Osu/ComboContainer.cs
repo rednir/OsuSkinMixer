@@ -1,9 +1,7 @@
-using Godot;
-using OsuSkinMixer.Models;
-using System;
-using System.IO;
-
 namespace OsuSkinMixer.Components;
+
+using OsuSkinMixer.Models;
+using System.IO;
 
 public partial class ComboContainer : HBoxContainer
 {

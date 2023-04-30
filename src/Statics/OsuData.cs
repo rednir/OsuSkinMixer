@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Godot;
-using OsuSkinMixer.Models;
-
 namespace OsuSkinMixer.Statics;
+
+using System.IO;
+using OsuSkinMixer.Models;
 
 /// <summary>
 /// A static class that provides other objects with the user's osu! data, such as their list of skins.

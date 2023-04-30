@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
+namespace OsuSkinMixer.Utils;
+
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using Godot;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
-
-namespace OsuSkinMixer.Utils;
 
 /// <summary>Base for classes that peform tasks based on a list of <see cref="SkinOption"/>. Provides abstract methods for populating tasks to be peformed on the relevant skin folders.</summary>
 public abstract class SkinMachine : IDisposable

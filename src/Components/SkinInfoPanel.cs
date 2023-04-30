@@ -1,10 +1,7 @@
-using System;
-using System.Linq;
-using Godot;
+namespace OsuSkinMixer.Components;
+
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
-
-namespace OsuSkinMixer.Components;
 
 public partial class SkinInfoPanel : PanelContainer
 {

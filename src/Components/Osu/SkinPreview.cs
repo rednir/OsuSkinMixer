@@ -1,10 +1,9 @@
-using Godot;
+namespace OsuSkinMixer.Components;
+
 using OsuSkinMixer.Models;
 using System.IO;
 using OsuSkinMixer.Statics;
 using SixLabors.ImageSharp;
-
-namespace OsuSkinMixer.Components;
 
 public partial class SkinPreview : PanelContainer
 {

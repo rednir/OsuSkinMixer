@@ -1,9 +1,8 @@
+namespace OsuSkinMixer.Components;
+
 using System.IO;
 using System.Diagnostics;
-using Godot;
 using OsuSkinMixer.Statics;
-
-namespace OsuSkinMixer.Components;
 
 public partial class SettingsPopup : Popup
 {

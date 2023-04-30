@@ -1,11 +1,8 @@
-using System.Linq;
-using System.Collections.Generic;
-using Godot;
+namespace OsuSkinMixer.StackScenes;
+
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
-
-namespace OsuSkinMixer.StackScenes;
 
 public partial class SkinManager : StackScene
 {

@@ -1,8 +1,6 @@
-using Godot;
-using OsuSkinMixer.Statics;
-using System.Linq;
-
 namespace OsuSkinMixer.Components;
+
+using OsuSkinMixer.Statics;
 
 public partial class HistoryPopup : Popup
 {

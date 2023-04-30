@@ -1,6 +1,3 @@
-using System;
-using Godot;
-
 namespace OsuSkinMixer.Components;
 
 public abstract partial class Popup : Control

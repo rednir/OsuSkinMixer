@@ -1,7 +1,6 @@
-using Godot;
-using OsuSkinMixer.Statics;
-
 namespace OsuSkinMixer.Components;
+
+using OsuSkinMixer.Statics;
 
 public partial class ChangelogPopup : Popup
 {

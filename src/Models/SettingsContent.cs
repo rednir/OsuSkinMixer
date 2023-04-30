@@ -1,8 +1,7 @@
-using System.Collections.Generic;
+namespace OsuSkinMixer.Statics;
+
 using System.Text.Json.Serialization;
 using OsuSkinMixer.Models;
-
-namespace OsuSkinMixer.Statics;
 
 public static partial class Settings
 {

@@ -1,9 +1,6 @@
-using System;
-using System.Linq;
-using Godot;
-using OsuSkinMixer.Models;
-
 namespace OsuSkinMixer;
+
+using OsuSkinMixer.Models;
 
 public partial class SkinSortChipsContainer : HBoxContainer
 {

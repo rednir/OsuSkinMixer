@@ -1,9 +1,6 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using OsuSkinMixer.Statics;
-
 namespace OsuSkinMixer.Models;
+
+using OsuSkinMixer.Statics;
 
 /// <summary>Represents a osu! skin's skin.ini file.</summary>
 public class OsuSkinIni
