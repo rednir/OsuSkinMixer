@@ -36,6 +36,7 @@ public partial class Splash : Control
 
         Task.Run(async () =>
         {
+            GodotThread.SetThreadSafetyChecksEnabled(false);
             while (!Settings.TryCreateLockFile())
             {
                 LockFileLabel.Visible = true;

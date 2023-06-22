@@ -127,6 +127,7 @@ public static class OsuData
     {
         Task.Run(() =>
         {
+            GodotThread.SetThreadSafetyChecksEnabled(false);
             Task.Delay(SWEEP_INTERVAL_MSEC).Wait();
             while (true)
             {

@@ -86,6 +86,7 @@ public class Operation
 
         _task = Task.Run(() =>
         {
+            GodotThread.SetThreadSafetyChecksEnabled(false);
             lock (_lock)
             {
                 Action();
