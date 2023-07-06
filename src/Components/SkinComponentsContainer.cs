@@ -126,7 +126,7 @@ public partial class SkinComponentsContainer : PanelContainer
 
         SkinComponent[] sortedArray = children.ToArray();
         foreach (var child in children)
-            VBoxContainer.MoveChild(child, Array.IndexOf(sortedArray, child));
+            VBoxContainer.CallDeferred(MethodName.MoveChild, child, Array.IndexOf(sortedArray, child));
     }
 
     public void DisableSkinComponent(OsuSkin skin)
@@ -187,7 +187,7 @@ public partial class SkinComponentsContainer : PanelContainer
             return;
 
         var skinComponent = CreateSkinComponentFrom(skin);
-        VBoxContainer.AddChild(skinComponent);
+        VBoxContainer.CallDeferred(MethodName.AddChild, skinComponent);
         SortSkins(_sort);
     }
 
