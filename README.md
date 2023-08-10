@@ -1,7 +1,7 @@
 [![osu! skin mixer](assets/icon-text.png)](https://github.com/rednir/OsuSkinMixer/releases/latest/)
 
 [![Latest](https://img.shields.io/github/v/release/rednir/OsuSkinMixer)](https://github.com/rednir/OsuSkinMixer/releases/latest/)
-![GitHub all releases](https://img.shields.io/github/downloads/rednir/OsuSkinMixer/total?color=%23ff6e3a)
+[![GitHub all releases](https://img.shields.io/github/downloads/rednir/OsuSkinMixer/total?color=%23ff6e3a)](https://github.com/rednir/OsuSkinMixer/releases/latest/)
 [![CodeFactor](https://www.codefactor.io/repository/github/rednir/osuskinmixer/badge)](https://www.codefactor.io/repository/github/rednir/osuskinmixer)
 
 ---
