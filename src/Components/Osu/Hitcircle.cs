@@ -53,6 +53,8 @@ public partial class Hitcircle : Node2D
     {
         _skin = skin;
 
+        HitSoundPlayer.Stream = skin.GetAudioStream("normal-hitnormal");
+
         HitJudgementSprite.SpriteFrames = skin.GetSpriteFrames("hit0", "hit50", "hit100", "hit300");
 
         // Scale textures based on whether they are @2x or not.

@@ -210,6 +210,22 @@ public class OsuSkin
         return spriteFrames;
     }
 
+    public AudioStream GetAudioStream(string filename)
+    {
+        string pathPrefix = $"{Directory.FullName}/{filename}";
+
+        if (File.Exists(pathPrefix + ".wav"))
+        {
+            throw new NotImplementedException();
+        }
+        else if (File.Exists(pathPrefix + ".ogg"))
+        {
+            return AudioStreamOggVorbis.LoadFromFile(pathPrefix + ".ogg");
+        }
+
+        return null;
+    }
+
     public void ClearCache()
     {
         _textureCache.Clear();
