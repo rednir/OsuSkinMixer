@@ -2,6 +2,7 @@ namespace OsuSkinMixer.Statics;
 
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using OsuSkinMixer.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -74,5 +75,50 @@ public static class Tools
         {
             return Rectangle.Empty;
         }
+    }
+
+    public static AudioStreamWav GetAudioStreamWav(byte[] bytes)
+    {
+        AudioStreamWav stream = new();
+
+        int bitsPerSample = 0;
+
+        for (int i = 0; i < 100; i++)
+        {
+            // Next 4 bytes are either RIFF, WAVE, or fmt.
+            string next = Encoding.ASCII.GetString(bytes, i, 4);
+
+            if (next == "fmt ")
+            {
+                // Get format subchunk index.
+                int fsc0 = i + 8;
+
+                int formatCode = bytes[fsc0] + (bytes[fsc0 + 1] << 8);
+                stream.Format = (AudioStreamWav.FormatEnum)formatCode;
+
+                int channelNum = bytes[fsc0 + 2] + (bytes[fsc0 + 3] << 8);
+                stream.Stereo = channelNum == 2;
+
+                int sampleRate = bytes[fsc0 + 4] + (bytes[fsc0 + 5] << 8) + (bytes[fsc0 + 6] << 16) + (bytes[fsc0 + 7] << 24);
+                stream.MixRate = sampleRate;
+
+                bitsPerSample = bytes[fsc0 + 14] + (bytes[fsc0 + 15] << 8);
+            }
+            else if (next == "data")
+            {
+                if (bitsPerSample == 0)
+                    throw new InvalidDataException("Format chunk missing.");
+
+                int audioDataSize = bytes[i + 4] + (bytes[i + 5] << 8) + (bytes[i + 6] << 16) + (bytes[i + 7] << 24);
+                int dataStartIndex = i + 8;
+                
+                stream.Data = bytes.Skip(dataStartIndex).Take(audioDataSize).ToArray();
+
+                if (bitsPerSample == 24 || bitsPerSample == 32)
+                    throw new NotImplementedException();
+            }
+        }
+
+        return stream;
     }
 }
