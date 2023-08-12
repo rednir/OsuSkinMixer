@@ -114,11 +114,30 @@ public static class Tools
                 
                 stream.Data = bytes.Skip(dataStartIndex).Take(audioDataSize).ToArray();
 
-                if (bitsPerSample == 24 || bitsPerSample == 32)
-                    throw new NotImplementedException();
+                if (bitsPerSample == 24)
+                {
+                    stream.Data = ConvertFrom24To16Bit(stream.Data);
+                }
+                else if (bitsPerSample == 32)
+                {
+                    throw new NotImplementedException("32-bit audio.");
+                }
             }
         }
 
         return stream;
+    }
+
+    private static byte[] ConvertFrom24To16Bit(byte[] bytes)
+    {
+        int j = 0;
+        for (int i = 0; i < bytes.Length; i += 3)
+        {
+            bytes[j] = bytes[i + 1];
+            bytes[j + 1] = bytes[i + 2];
+            j += 2;
+        }
+
+        return bytes;
     }
 }
