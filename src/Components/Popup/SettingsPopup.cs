@@ -32,6 +32,11 @@ public partial class SettingsPopup : Popup
         SetupPopup = GetNode<SetupPopup>("%SetupPopup");
         UpdateLoadingPopup = GetNode<LoadingPopup>("%UpdateLoadingPopup");
 
+        AutoUpdateButton.Disabled = OS.GetName() != "Windows";
+        AutoUpdateButton.ButtonPressed = Settings.Content.AutoUpdate;
+        UseCompactSkinSelectorButton.ButtonPressed = Settings.Content.UseCompactSkinSelector;
+        VolumeSlider.Value = Settings.Content.Volume;
+
         UpdateButton.Pressed += UpdateButtonPressed;
         AutoUpdateButton.Pressed += AutoUpdateButtonPressed;
         VolumeSlider.ValueChanged += VolumeSliderValueChanged;
@@ -40,11 +45,6 @@ public partial class SettingsPopup : Popup
         ChangeSkinsFolderButton.Pressed += SetupPopup.In;
         ReportIssueButton.Pressed += () => OS.ShellOpen($"https://github.com/{Settings.GITHUB_REPO_PATH}/blob/master/FEEDBACK.md");
         OpenLogsButton.Pressed += () => Tools.ShellOpenFile(ProjectSettings.GlobalizePath("user://logs"));
-
-        AutoUpdateButton.Disabled = OS.GetName() != "Windows";
-        AutoUpdateButton.ButtonPressed = Settings.Content.AutoUpdate;
-        UseCompactSkinSelectorButton.ButtonPressed = Settings.Content.UseCompactSkinSelector;
-        VolumeSlider.Value = Settings.Content.Volume;
     }
 
     public void ShowUpdateButton()
