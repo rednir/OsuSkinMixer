@@ -10,6 +10,7 @@ public partial class SettingsPopup : Popup
     private CheckButton AutoUpdateButton;
     private CheckButton UseCompactSkinSelectorButton;
     private HSlider VolumeSlider;
+    private AudioStreamPlayer VolumeTickSoundPlayer;
     private Button ChangeSkinsFolderButton;
     private Button ReportIssueButton;
     private Button OpenLogsButton;
@@ -24,6 +25,7 @@ public partial class SettingsPopup : Popup
         AutoUpdateButton = GetNode<CheckButton>("%AutoUpdateButton");
         UseCompactSkinSelectorButton = GetNode<CheckButton>("%UseCompactSkinSelectorButton");
         VolumeSlider = GetNode<HSlider>("%VolumeSlider");
+        VolumeTickSoundPlayer = GetNode<AudioStreamPlayer>("%VolumeTickSoundPlayer");
         ChangeSkinsFolderButton = GetNode<Button>("%ChangeSkinsFolderButton");
         ReportIssueButton = GetNode<Button>("%ReportIssueButton");
         OpenLogsButton = GetNode<Button>("%OpenLogsButton");
@@ -66,6 +68,7 @@ public partial class SettingsPopup : Popup
     {
         Settings.Content.Volume = value;
         AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), (float)value);
+        VolumeTickSoundPlayer.Play();
     }
 
     private void VolumeSliderDragEnded(bool valueChanged)
