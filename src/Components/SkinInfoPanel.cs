@@ -19,6 +19,7 @@ public partial class SkinInfoPanel : PanelContainer
     private Button ModifyButton;
     private Button OpenFolderButton;
     private Button OpenInOsuButton;
+    private AudioStreamPlayer MenuHitPlayer;
     private ManageSkinPopup ManageSkinPopup;
 
     private Action _undoAction;
@@ -37,6 +38,7 @@ public partial class SkinInfoPanel : PanelContainer
         ModifyButton = GetNode<Button>("%ModifyButton");
         OpenFolderButton = GetNode<Button>("%OpenFolderButton");
         OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
+        MenuHitPlayer = GetNode<AudioStreamPlayer>("%MenuHitPlayer");
         ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
         UndoDeleteButton.Pressed += OnUndoDeleteButtonPressed;
@@ -68,6 +70,7 @@ public partial class SkinInfoPanel : PanelContainer
         SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
         DetailsLabel.Text = $"Last modified: {(DateTime.Now - Skin.Directory.LastWriteTime).Humanise()}";
         OpenInOsuButton.Disabled = Skin.Hidden;
+        MenuHitPlayer.Stream = Skin.GetAudioStream("menuhit");
         ManageSkinPopup.SetSkin(Skin);
     }
 
@@ -120,7 +123,9 @@ public partial class SkinInfoPanel : PanelContainer
     }
 
     private void OnOpenInOsuButtonPressed()
-    {
+    {        
+        MenuHitPlayer.Play();
+
         try
         {
             Tools.TriggerOskImport(Skin);

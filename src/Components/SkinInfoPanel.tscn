@@ -142,6 +142,9 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Open in osu!"
 
+[node name="MenuHitPlayer" type="AudioStreamPlayer" parent="MainContentContainer/BottomPadding/VBoxContainer/HBoxContainer/OpenInOsuButton"]
+unique_name_in_owner = true
+
 [node name="IconButtonsContainer" type="HBoxContainer" parent="MainContentContainer/BottomPadding/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 10

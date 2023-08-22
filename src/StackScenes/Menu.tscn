@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=8 format=3 uid="uid://2ilvd4gjmgvt"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_1eu76"]
 [ext_resource type="Script" path="res://src/StackScenes/Menu.cs" id="1_bkc8q"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://d3c0n4oyhnm8e" path="res://assets/materialicons/library_add.png" id="5_53k1b"]
 [ext_resource type="PackedScene" uid="uid://dsgg2xjv4sebx" path="res://src/Components/Popup/GetMoreSkinsPopup.tscn" id="6_ukxmq"]
 [ext_resource type="Texture2D" uid="uid://bwwbpgod763s" path="res://assets/icon.png" id="7_58gv3"]
-
 
 [node name="Menu" type="VBoxContainer"]
 offset_right = 750.0
