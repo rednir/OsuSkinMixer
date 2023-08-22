@@ -67,7 +67,10 @@ public partial class SettingsPopup : Popup
     private void VolumeSliderValueChanged(double value)
     {
         Settings.Content.Volume = value;
+        Settings.Content.VolumeMute = value <= VolumeSlider.MinValue;
         AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), (float)value);
+        AudioServer.SetBusMute(AudioServer.GetBusIndex("Master"), Settings.Content.VolumeMute);
+
         VolumeTickSoundPlayer.Play();
     }
 

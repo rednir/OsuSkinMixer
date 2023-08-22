@@ -23,7 +23,10 @@ public static partial class Settings
         public bool UseCompactSkinSelector { get; set; }
 
         [JsonPropertyName("volume")]
-        public double Volume { get; set; }
+        public double Volume { get; set; } = -8;
+
+        [JsonPropertyName("volume_mute")]
+        public bool VolumeMute { get; set; }
 
         [JsonPropertyName("arrow_button_pressed")]
         public bool ArrowButtonPressed { get; set; }
