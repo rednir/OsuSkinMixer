@@ -63,6 +63,9 @@ text = "Volume"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 6
+min_value = -35.0
+max_value = 2.08165e-12
+step = 0.1
 
 [node name="ChangeSkinsFolderButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("6_nnavm")]
 unique_name_in_owner = true
