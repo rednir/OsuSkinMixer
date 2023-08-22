@@ -50,7 +50,7 @@ Alternative downloads are available on the releases page.
 
 Feature requests and bug reports are more than welcome. If you are reporting a bug, attaching debug logs is optional but can be very useful for replication purposes. Steps to upload debug logs are shown on the issue template. To open an issue, [go to the issue tracker](https://github.com/rednir/OsuSkinMixer/issues).
 
-If you wish to contribute in the form of pull requests, that is also welcomed. You can build from source using the .NET version of [Godot Engine 4](https://godotengine.org/).
+If you wish to contribute in the form of pull requests, that is also welcomed. You can build from source using the .NET version of [Godot 4](https://godotengine.org/).
 
 
 ## Other links
