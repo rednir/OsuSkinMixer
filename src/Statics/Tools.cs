@@ -120,6 +120,7 @@ public static class Tools
                 }
                 else if (bitsPerSample == 32)
                 {
+                    // TODO
                     throw new NotImplementedException("32-bit audio.");
                 }
             }
