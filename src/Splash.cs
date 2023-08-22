@@ -13,6 +13,7 @@ public partial class Splash : Control
     private QuestionPopup ExceptionPopup;
     private TextEdit ExceptionTextEdit;
     private OkPopup UpdateCanceledPopup;
+    private QuestionPopup AutoUpdatePopup;
     private AnimationPlayer AnimationPlayer;
 
     public override void _Ready()
@@ -28,9 +29,13 @@ public partial class Splash : Control
         ExceptionPopup = GetNode<QuestionPopup>("%ExceptionPopup");
         ExceptionTextEdit = GetNode<TextEdit>("%ExceptionTextEdit");
         UpdateCanceledPopup = GetNode<OkPopup>("%UpdateCanceledPopup");
+        AutoUpdatePopup = GetNode<QuestionPopup>("%AutoUpdatePopup");
         AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
+
         AnimationPlayer.AnimationFinished += OnAnimationFinished;
         UpdateCanceledPopup.PopupOut += LoadSkins;
+        AutoUpdatePopup.ConfirmAction += () => OnAutoUpdatePopupOut(true);
+        AutoUpdatePopup.CancelAction += () => OnAutoUpdatePopupOut(false);
 
         AnimationPlayer.Play("loading");
 
@@ -61,15 +66,21 @@ public partial class Splash : Control
     {
         Settings.InitialiseSettingsFile();
 
+        AudioServer.SetBusMute(AudioServer.GetBusIndex("Master"), Settings.Content.VolumeMute);
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), (float)Settings.Content.Volume);
+        
+        if (!Settings.Content.AutoUpdatePrompted && OS.GetName() == "Windows")
+        {
+            AutoUpdatePopup.In();
+            return;
+        }
+
         if (File.Exists(Settings.AutoUpdateInstallerPath))
         {
             AutoUpdate();
             File.Delete(Settings.AutoUpdateInstallerPath);
             return;
         }
-
-        AudioServer.SetBusMute(AudioServer.GetBusIndex("Master"), Settings.Content.VolumeMute);
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), (float)Settings.Content.Volume);
 
         LoadSkins();
     }
@@ -124,6 +135,14 @@ public partial class Splash : Control
         }
 
         AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "out");
+    }
+
+    private void OnAutoUpdatePopupOut(bool confirm)
+    {
+        Settings.Content.AutoUpdate = confirm;
+        Settings.Content.AutoUpdatePrompted = true;
+        Settings.Save();
+        LoadSkins();
     }
 
     private void OnAnimationFinished(StringName animationName)

@@ -359,6 +359,26 @@ text = "If you want to disable auto-updating, you can do so in the settings menu
 
 Or if the update failed due to an error, please report the issue."
 
+[node name="AutoUpdatePopup" parent="." instance=ExtResource("4_05fhe")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="Title" parent="AutoUpdatePopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
+text = "Auto-update"
+
+[node name="Text" parent="AutoUpdatePopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+text = "osu! skin mixer will connect to the internet in order to automatically download and install the latest updates, ensuring you recieve the latest features and bug fixes.
+
+"
+autowrap_mode = 3
+
+[node name="NoButton" parent="AutoUpdatePopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" index="0"]
+text = "Disable auto-update"
+flat = true
+
+[node name="YesButton" parent="AutoUpdatePopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" index="1"]
+text = "Confirm"
+
 [node name="ProgressBar" type="ProgressBar" parent="."]
 layout_mode = 1
 anchors_preset = 10
@@ -372,3 +392,5 @@ show_percentage = false
 [editable path="ExceptionPopup/Popup"]
 [editable path="UpdateCanceledPopup"]
 [editable path="UpdateCanceledPopup/Popup"]
+[editable path="AutoUpdatePopup"]
+[editable path="AutoUpdatePopup/Popup"]
