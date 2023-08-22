@@ -68,6 +68,7 @@ public partial class Splash : Control
             return;
         }
 
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), (float)Settings.Content.Volume);
         LoadSkins();
     }
 
