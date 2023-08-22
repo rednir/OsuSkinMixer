@@ -428,13 +428,11 @@ script = ExtResource("1_0sbfk")
 [node name="HitSoundPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("2_vmy48")
-volume_db = -15.0
 max_polyphony = 2
 
 [node name="ComboBreakPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_a40xk")
-volume_db = -10.0
 max_polyphony = 2
 
 [node name="HitJudgementSprite" type="AnimatedSprite2D" parent="."]
