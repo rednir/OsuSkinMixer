@@ -1,6 +1,7 @@
 namespace OsuSkinMixer.Models;
 
 using System.IO;
+using System.Reflection.Metadata.Ecma335;
 using OsuSkinMixer.Statics;
 
 /// <summary>Represents an osu! skin and provides methods to fetch its elements.</summary>
@@ -125,7 +126,7 @@ public class OsuSkin
             if (result != null)
                 return false;
 
-            result = GetDefaultTexture($"{filename}@2x.{extension}");
+            result = GetDefaultElement<Texture2D>($"{filename}@2x.{extension}");
             return true;
         }
     }
@@ -139,7 +140,7 @@ public class OsuSkin
             if (result != null)
                 return true;
 
-            result = GetDefaultTexture($"{filename}.{extension}");
+            result = GetDefaultElement<Texture2D>($"{filename}.{extension}");
             return false;
         }
     }
@@ -223,7 +224,7 @@ public class OsuSkin
             return AudioStreamOggVorbis.LoadFromFile(pathPrefix + ".ogg");
         }
 
-        return null;
+        return GetDefaultElement<AudioStream>($"{filename}.wav");
     }
 
     public void ClearCache()
@@ -254,6 +255,6 @@ public class OsuSkin
 
     private readonly ConcurrentDictionary<string, Texture2D> _textureCache = new();
 
-    private static Texture2D GetDefaultTexture(string filenameWithExtension)
-        => GD.Load<Texture2D>($"res://assets/defaultskin/{filenameWithExtension}");
+    private static T GetDefaultElement<T>(string filenameWithExtension) where T : Resource
+        => GD.Load<T>($"res://assets/defaultskin/{filenameWithExtension}");
 }
