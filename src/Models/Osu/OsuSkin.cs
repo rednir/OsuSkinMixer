@@ -215,13 +215,20 @@ public class OsuSkin
     {
         string pathPrefix = $"{Directory.FullName}/{filename}";
 
-        if (File.Exists(pathPrefix + ".wav"))
+        try
         {
-            return Tools.GetAudioStreamWav(File.ReadAllBytes(pathPrefix + ".wav"));
+            if (File.Exists(pathPrefix + ".wav"))
+            {
+                return Tools.GetAudioStreamWav(File.ReadAllBytes(pathPrefix + ".wav"));
+            }
+            else if (File.Exists(pathPrefix + ".ogg"))
+            {
+                return AudioStreamOggVorbis.LoadFromFile(pathPrefix + ".ogg");
+            }
         }
-        else if (File.Exists(pathPrefix + ".ogg"))
+        catch
         {
-            return AudioStreamOggVorbis.LoadFromFile(pathPrefix + ".ogg");
+            return null;
         }
 
         return GetDefaultElement<AudioStream>($"{filename}.wav");
