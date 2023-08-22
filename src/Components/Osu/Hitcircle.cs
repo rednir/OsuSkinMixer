@@ -54,6 +54,7 @@ public partial class Hitcircle : Node2D
         _skin = skin;
 
         HitSoundPlayer.Stream = skin.GetAudioStream("normal-hitnormal");
+        ComboBreakPlayer.Stream = skin.GetAudioStream("combobreak");
 
         HitJudgementSprite.SpriteFrames = skin.GetSpriteFrames("hit0", "hit50", "hit100", "hit300");
 
