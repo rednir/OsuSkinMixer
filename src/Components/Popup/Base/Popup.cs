@@ -26,7 +26,7 @@ public abstract partial class Popup : Control
 
     private void OnGuiInputOutsideContent(InputEvent inputEvent)
     {
-        if ((inputEvent as InputEventMouseButton)?.ButtonIndex == MouseButton.Left && !IsImportant)
+        if (inputEvent is InputEventMouseButton { ButtonIndex: MouseButton.Left } && !IsImportant)
             Out();
     }
 
