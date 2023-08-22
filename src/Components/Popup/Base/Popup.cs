@@ -32,13 +32,13 @@ public abstract partial class Popup : Control
 
     public virtual void In()
     {
-        AnimationPlayer.Play("in");
+        AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "in");
         PopupIn?.Invoke();
     }
 
     public virtual void Out()
     {
-        AnimationPlayer.Play("out");
+        AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "out");
         PopupOut?.Invoke();
     }
 }

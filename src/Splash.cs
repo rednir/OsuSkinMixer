@@ -119,11 +119,11 @@ public partial class Splash : Control
         if (!OsuData.TryLoadSkins())
         {
             SetupPopup.In();
-            SetupPopup.PopupOut += () => AnimationPlayer.Play("out");
+            SetupPopup.PopupOut += () => AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "out");
             return;
         }
 
-        AnimationPlayer.Play("out");
+        AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "out");
     }
 
     private void OnAnimationFinished(StringName animationName)

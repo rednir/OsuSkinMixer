@@ -38,11 +38,11 @@ public partial class SetupPopup : Popup
 
     private void DoneButtonPressed()
     {
-        DoneButton.Disabled = true;
+        DoneButton.SetDeferred(Button.PropertyName.Disabled, true);
 
         if (!Settings.TrySetOsuFolder(LineEdit.Text, out string error))
         {
-            DoneButton.Disabled = false;
+            DoneButton.SetDeferred(Button.PropertyName.Disabled, false);
             OkPopup.SetValues(error, "That doesn't seem right...");
             OkPopup.In();
             return;
@@ -51,7 +51,7 @@ public partial class SetupPopup : Popup
         Settings.Save();
         Out();
 
-        DoneButton.Disabled = false;
+        DoneButton.SetDeferred(Button.PropertyName.Disabled, true);
     }
 
     private void FolderPickerButtonPressed()
