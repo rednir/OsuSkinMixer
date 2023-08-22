@@ -120,8 +120,8 @@ public static class Tools
                 }
                 else if (bitsPerSample == 32)
                 {
-                    // TODO
-                    throw new NotImplementedException("32-bit audio.");
+                    stream.Data = ConvertFrom32To16Bit(stream.Data);
+                    stream.Format = AudioStreamWav.FormatEnum.Format16Bits;
                 }
             }
         }
@@ -140,5 +140,25 @@ public static class Tools
         }
 
         return bytes;
+    }
+
+    private static byte[] ConvertFrom32To16Bit(byte[] bytes)
+    {
+        byte[] result = new byte[bytes.Length / 2];
+
+        using MemoryStream stream = new(bytes);
+        using BinaryReader reader = new(stream);
+
+        for (int i = 0; i < bytes.Length; i += 4)
+        {
+            // Convert from float to 16-bit signed integer, and clamp to avoid distortion.
+            int value = (int)(32768 * reader.ReadSingle());
+            int clamped = Math.Clamp(value, short.MinValue, short.MaxValue);
+
+            result[i/2] = (byte)clamped;
+            result[i/2 + 1] = (byte)(clamped >> 8);
+        }
+
+        return result;
     }
 }
