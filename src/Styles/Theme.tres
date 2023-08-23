@@ -74,6 +74,10 @@ corner_radius_bottom_right = 99
 corner_radius_bottom_left = 99
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h3anj"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
 bg_color = Color(1, 0.737255, 0.988235, 0.0862745)
 corner_radius_top_left = 99
 corner_radius_top_right = 99
@@ -81,6 +85,10 @@ corner_radius_bottom_right = 99
 corner_radius_bottom_left = 99
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vq6kk"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
 bg_color = Color(1, 0.737255, 0.988235, 0.0862745)
 corner_radius_top_left = 99
 corner_radius_top_right = 99
@@ -88,6 +96,10 @@ corner_radius_bottom_right = 99
 corner_radius_bottom_left = 99
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_85yrh"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
 bg_color = Color(0.254902, 0.243137, 0.27451, 0.0784314)
 corner_radius_top_left = 99
 corner_radius_top_right = 99
