@@ -19,9 +19,9 @@ public partial class SkinModifierModificationSelect : StackScene
     private SkinComponent DefaultSkinComponent;
     private SkinComponent BlankComponent;
     private Button ApplyChangesButton;
-    private CheckButton SmoothTrailButton;
-    private CheckButton InstafadeButton;
-    private CheckButton DisableAnimationsButton;
+    private CheckBox SmoothTrailCheckBox;
+    private CheckBox InstafadeCheckBox;
+    private CheckBox DisableAnimationsCheckBox;
     private LoadingPopup LoadingPopup;
 
     public override void _Ready()
@@ -32,9 +32,9 @@ public partial class SkinModifierModificationSelect : StackScene
         DefaultSkinComponent = GetNode<SkinComponent>("%DefaultSkinComponent");
         BlankComponent = GetNode<SkinComponent>("%BlankComponent");
         ApplyChangesButton = GetNode<Button>("%ApplyChangesButton");
-        SmoothTrailButton = GetNode<CheckButton>("%SmoothTrailButton");
-        InstafadeButton = GetNode<CheckButton>("%InstafadeButton");
-        DisableAnimationsButton = GetNode<CheckButton>("%DisableAnimationsButton");
+        SmoothTrailCheckBox = GetNode<CheckBox>("%SmoothTrailCheckBox");
+        InstafadeCheckBox = GetNode<CheckBox>("%InstafadeCheckBox");
+        DisableAnimationsCheckBox = GetNode<CheckBox>("%DisableAnimationsCheckBox");
         LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
 
         SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.Unchanged));
@@ -77,9 +77,9 @@ public partial class SkinModifierModificationSelect : StackScene
             ProgressChanged = v => LoadingPopup.Progress = v,
             StatusChanged = s => LoadingPopup.Status = s,
             SkinsToModify = SkinsToModify,
-            SmoothTrail = SmoothTrailButton.ButtonPressed,
-            Instafade = InstafadeButton.ButtonPressed,
-            DisableInterfaceAnimations = DisableAnimationsButton.ButtonPressed,
+            SmoothTrail = SmoothTrailCheckBox.ButtonPressed,
+            Instafade = InstafadeCheckBox.ButtonPressed,
+            DisableInterfaceAnimations = DisableAnimationsCheckBox.ButtonPressed,
         };
 
         Task.Run(() => machine.Run(CancellationTokenSource.Token))
@@ -98,9 +98,9 @@ public partial class SkinModifierModificationSelect : StackScene
                 }
 
                 SkinOptionsSelector.Reset();
-                InstafadeButton.ButtonPressed = false;
-                SmoothTrailButton.ButtonPressed = false;
-                DisableAnimationsButton.ButtonPressed = false;
+                InstafadeCheckBox.ButtonPressed = false;
+                SmoothTrailCheckBox.ButtonPressed = false;
+                DisableAnimationsCheckBox.ButtonPressed = false;
 
                 var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
                 skinInfoInstance.Skins = SkinsToModify;
