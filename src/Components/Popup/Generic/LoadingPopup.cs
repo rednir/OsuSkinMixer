@@ -28,7 +28,7 @@ public partial class LoadingPopup : Popup
                 LoadingAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Stop);
             }
 
-            ProgressBar.CallDeferred(ProgressBar.PropertyName.Value, value);
+            ProgressBar.SetDeferred(ProgressBar.PropertyName.Value, value);
         }
     }
 
