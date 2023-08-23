@@ -13,22 +13,22 @@ public partial class LoadingPopup : Popup
         get => ProgressBar.Value;
         set
         {
-            CancelButton.Disabled = value >= DisableCancelAt;
+            CancelButton.SetDeferred(Button.PropertyName.Disabled, value >= DisableCancelAt);
 
             if (value <= 0 || value >= 100)
             {
                 if (value >= 100 && !LoadingAnimationPlayer.IsPlaying())
-                    LoadingAnimationPlayer.Play("finish");
+                    LoadingAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "finish");
 
-                LoadingAnimationPlayer.Queue("unknown");
+                LoadingAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Queue, "unknown");
                 return;
             }
             else if (LoadingAnimationPlayer.PlaybackActive)
             {
-                LoadingAnimationPlayer.Stop();
+                LoadingAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Stop);
             }
 
-            ProgressBar.Value = value;
+            ProgressBar.CallDeferred(ProgressBar.PropertyName.Value, value);
         }
     }
 
