@@ -131,15 +131,17 @@ public static class Tools
 
     private static byte[] ConvertFrom24To16Bit(byte[] bytes)
     {
+        byte[] result = new byte[bytes.Length / 3 * 2];
+
         int j = 0;
         for (int i = 0; i < bytes.Length; i += 3)
         {
-            bytes[j] = bytes[i + 1];
-            bytes[j + 1] = bytes[i + 2];
+            result[j] = bytes[i + 1];
+            result[j + 1] = bytes[i + 2];
             j += 2;
         }
 
-        return bytes;
+        return result;
     }
 
     private static byte[] ConvertFrom32To16Bit(byte[] bytes)
