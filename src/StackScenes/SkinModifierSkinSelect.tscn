@@ -47,11 +47,11 @@ layout_mode = 2
 size_flags_horizontal = 4
 icon = ExtResource("4_jexl6")
 
-[node name="MakeCopyButton" type="CheckButton" parent="."]
+[node name="MakeCopyCheckBox" type="CheckBox" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Make a copy of the skins first      "
+text = "Make a copy of the skins first"
 
 [node name="ContinueButton" parent="." instance=ExtResource("8_fpowc")]
 unique_name_in_owner = true

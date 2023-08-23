@@ -15,7 +15,7 @@ public partial class SkinModifierSkinSelect : StackScene
 
     private VBoxContainer SkinsToModifyContainer;
     private Button AddSkinToModifyButton;
-    private CheckButton MakeCopyButton;
+    private CheckBox MakeCopyCheckBox;
     private Button ContinueButton;
     private ManageSkinPopup ManageSkinPopup;
     private SkinSelectorPopup SkinSelectorPopup;
@@ -27,7 +27,7 @@ public partial class SkinModifierSkinSelect : StackScene
 
         SkinsToModifyContainer = GetNode<VBoxContainer>("%SkinsToModifyContainer");
         AddSkinToModifyButton = GetNode<Button>("%AddSkinToModifyButton");
-        MakeCopyButton = GetNode<CheckButton>("%MakeCopyButton");
+        MakeCopyCheckBox = GetNode<CheckBox>("%MakeCopyCheckBox");
         ContinueButton = GetNode<Button>("%ContinueButton");
         SkinSelectorPopup = GetNode<SkinSelectorPopup>("%SkinSelectorPopup");
         ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
@@ -107,7 +107,7 @@ public partial class SkinModifierSkinSelect : StackScene
 
     private void OnContinueButtonPressed()
     {
-        if (!MakeCopyButton.ButtonPressed)
+        if (!MakeCopyCheckBox.ButtonPressed)
         {
             PushNextScene();
             return;
@@ -125,7 +125,7 @@ public partial class SkinModifierSkinSelect : StackScene
         foreach (var skin in skins)
             AddSkinComponent(skin);
 
-        MakeCopyButton.ButtonPressed = false;
+        MakeCopyCheckBox.ButtonPressed = false;
         PushNextScene();
     }
 
