@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://4a2d561f0p72"]
+[gd_scene load_steps=12 format=3 uid="uid://4a2d561f0p72"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_7mxwm"]
 [ext_resource type="Script" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.cs" id="1_g5aud"]
@@ -6,7 +6,127 @@
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="2_k4g60"]
 [ext_resource type="PackedScene" uid="uid://md4n10t0o7i4" path="res://src/Components/Popup/SkinSelectorPopup.tscn" id="2_pokuf"]
 
+[sub_resource type="Animation" id="Animation_8gl1d"]
+resource_name = "hint"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ExpandHint:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 0.3, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ExpandHint:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ExpandHint/TextureRect/PointLight2D:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.7, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 3.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ExpandHint/TextureRect:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.7),
+"transitions": PackedFloat32Array(1, 0.2, -1.86607),
+"update": 0,
+"values": [0.174533, 0.349066, 3.48787e-16]
+}
+
+[sub_resource type="Animation" id="Animation_mfpl4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ExpandHint:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ExpandHint:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ExpandHint/TextureRect/PointLight2D:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ExpandHint/TextureRect:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.174533]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nngi8"]
+_data = {
+"RESET": SubResource("Animation_mfpl4"),
+"hint": SubResource("Animation_8gl1d")
+}
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_evjpp"]
+
+[sub_resource type="Gradient" id="Gradient_13bvo"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jbkjm"]
+gradient = SubResource("Gradient_13bvo")
+width = 100
+height = 100
+fill = 1
+fill_from = Vector2(0.517094, 0.510684)
+fill_to = Vector2(0.950855, 0.662393)
 
 [node name="SkinOptionsSelector" type="PanelContainer"]
 custom_minimum_size = Vector2(460, 2.08165e-12)
@@ -17,8 +137,15 @@ size_flags_horizontal = 4
 theme = ExtResource("1_7mxwm")
 script = ExtResource("1_g5aud")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_nngi8")
+}
+
 [node name="ExpandHint" type="Panel" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_evjpp")
 
@@ -28,8 +155,15 @@ offset_left = -163.0
 offset_top = 52.0
 offset_right = 13.0
 offset_bottom = 122.0
+rotation = 0.174533
+pivot_offset = Vector2(182, 62)
 texture = ExtResource("2_4hlh4")
 stretch_mode = 3
+
+[node name="PointLight2D" type="PointLight2D" parent="ExpandHint/TextureRect"]
+position = Vector2(103, 27)
+energy = 0.0
+texture = SubResource("GradientTexture2D_jbkjm")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2

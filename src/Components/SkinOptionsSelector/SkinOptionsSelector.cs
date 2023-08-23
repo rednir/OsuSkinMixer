@@ -10,6 +10,7 @@ public partial class SkinOptionsSelector : PanelContainer
     private PackedScene SkinOptionComponentScene;
 
     private VBoxContainer OptionsContainer;
+    private AnimationPlayer AnimationPlayer;
     private Panel ExpandHint;
     private SkinSelectorPopup SkinSelectorPopup;
 
@@ -24,10 +25,10 @@ public partial class SkinOptionsSelector : PanelContainer
         SkinOptionComponentScene = GD.Load<PackedScene>("res://src/Components/SkinOptionsSelector/SkinOptionComponent.tscn");
 
         OptionsContainer = GetNode<VBoxContainer>("%OptionsContainer");
+        AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
         ExpandHint = GetNode<Panel>("%ExpandHint");
         SkinSelectorPopup = GetNode<SkinSelectorPopup>("%SkinSelectorPopup");
 
-        ExpandHint.Visible = !Settings.Content.ArrowButtonPressed;
         SkinSelectorPopup.OnSelected = s =>
         {
             Settings.Log($"Skin option '{SkinOptionComponentInSelection.SkinOption.Name}' set to: {s}");
@@ -35,6 +36,9 @@ public partial class SkinOptionsSelector : PanelContainer
         };
 
         OsuData.SkinRemoved += OnSkinRemoved;
+
+        if (!Settings.Content.ArrowButtonPressed)
+            AnimationPlayer.Play("hint");
     }
 
     public override void _ExitTree()
