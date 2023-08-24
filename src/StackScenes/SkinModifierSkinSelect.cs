@@ -39,6 +39,8 @@ public partial class SkinModifierSkinSelect : StackScene
         SkinSelectorPopup.OnSelected = OnSkinSelected;
 
         OsuData.SkinRemoved += OnSkinRemoved;
+
+        SkinSelectorPopup.In();
     }
 
     public override void _ExitTree()
