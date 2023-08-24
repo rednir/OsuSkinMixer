@@ -182,8 +182,8 @@ public partial class Main : Control
         while (SceneStack.Count > 2)
             SceneStack.Pop().QueueFree();
 
-        SceneStack.Peek().Visible = true;
-        ScenesAnimationPlayer.Play("pop_out");
+        SceneStack.Peek().SetDeferred(PropertyName.Visible, true);
+        ScenesAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "pop_out");
     }
 
     private void ClearTrash()
