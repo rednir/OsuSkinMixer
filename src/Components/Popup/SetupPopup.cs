@@ -51,7 +51,7 @@ public partial class SetupPopup : Popup
         Settings.Save();
         Out();
 
-        DoneButton.SetDeferred(Button.PropertyName.Disabled, true);
+        DoneButton.SetDeferred(Button.PropertyName.Disabled, false);
     }
 
     private void FolderPickerButtonPressed()
