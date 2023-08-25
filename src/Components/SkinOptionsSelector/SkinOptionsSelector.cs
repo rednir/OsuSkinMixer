@@ -149,7 +149,7 @@ public partial class SkinOptionsSelector : PanelContainer
 
         SetValueOfAllChildrenOfOption(SkinOptionComponentInSelection.SkinOption, valueSelected);
         SkinSelectorPopup.Out();
-        SkinOptionComponentInSelection.Button.GrabFocus();
+        SkinOptionComponentInSelection.Button.CallDeferred(Button.MethodName.GrabFocus);
     }
 
     private void SetValueOfAllChildrenOfOption(SkinOption option, SkinOptionValue value)

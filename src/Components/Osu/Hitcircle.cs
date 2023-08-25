@@ -53,27 +53,27 @@ public partial class Hitcircle : Node2D
     {
         _skin = skin;
 
-        HitSoundPlayer.Stream = skin.GetAudioStream("normal-hitnormal");
-        ComboBreakPlayer.Stream = skin.GetAudioStream("combobreak");
+        HitSoundPlayer.SetDeferred(AudioStreamPlayer.PropertyName.Stream, skin.GetAudioStream("normal-hitnormal"));
+        ComboBreakPlayer.SetDeferred(AudioStreamPlayer.PropertyName.Stream, skin.GetAudioStream("combobreak"));
 
-        HitJudgementSprite.SpriteFrames = skin.GetSpriteFrames("hit0", "hit50", "hit100", "hit300");
+        HitJudgementSprite.SetDeferred(AnimatedSprite2D.PropertyName.SpriteFrames, skin.GetSpriteFrames("hit0", "hit50", "hit100", "hit300"));
 
         // Scale textures based on whether they are @2x or not.
         if (skin.TryGet2XTexture("approachcircle", out var approachcircle) &&
             skin.TryGet2XTexture("hitcircle", out var hitcircle) &&
             skin.TryGet2XTexture("hitcircleoverlay", out var hitcircleoverlay))
         {
-            Scale = new Vector2(0.5f, 0.5f);
-            ApproachcircleSprite.Texture = approachcircle;
-            HitcircleSprite.Texture = hitcircle;
-            HitcircleoverlaySprite.Texture = hitcircleoverlay;
+            SetDeferred(Sprite2D.PropertyName.Scale, new Vector2(0.5f, 0.5f));
+            ApproachcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, approachcircle);
+            HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, hitcircle);
+            HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, hitcircleoverlay);
         }
         else
         {
-            Scale = new Vector2(1, 1);
-            ApproachcircleSprite.Texture = skin.GetTexture("approachcircle");
-            HitcircleSprite.Texture = skin.GetTexture("hitcircle");
-            HitcircleoverlaySprite.Texture = skin.GetTexture("hitcircleoverlay");
+            SetDeferred(Sprite2D.PropertyName.Scale, new Vector2(1, 1));
+            ApproachcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, skin.GetTexture("approachcircle"));
+            HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, skin.GetTexture("hitcircle"));
+            HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, skin.GetTexture("hitcircleoverlay"));
         }
 
         _comboColors = skin.ComboColors;
@@ -104,12 +104,12 @@ public partial class Hitcircle : Node2D
     {
         _currentComboIndex = (_currentComboIndex + 1) % _comboColors.Length;
 
-        HitcircleSprite.Modulate = _comboColors[_currentComboIndex];
-        ApproachcircleSprite.SelfModulate = _comboColors[_currentComboIndex];
+        HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Modulate, _comboColors[_currentComboIndex]);
+        ApproachcircleSprite.SetDeferred(Sprite2D.PropertyName.SelfModulate, _comboColors[_currentComboIndex]);
 
         // Hitcircle scale is set previously based on whether the textures are @2x or not.
         string filename = $"{_hitcirclePrefix}-{(_currentComboIndex == 0 ? _comboColors.Length : _currentComboIndex)}";
-        DefaultSprite.Texture = Scale == new Vector2(0.5f, 0.5f) ? _skin.Get2XTexture(filename) : _skin.GetTexture(filename);
+        DefaultSprite.SetDeferred(Sprite2D.PropertyName.Texture, Scale == new Vector2(0.5f, 0.5f) ? _skin.Get2XTexture(filename) : _skin.GetTexture(filename));
     }
 
     private void Hit(string score)

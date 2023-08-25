@@ -85,6 +85,7 @@ public partial class SkinModifierModificationSelect : StackScene
         Task.Run(() => machine.Run(CancellationTokenSource.Token))
             .ContinueWith(t =>
             {
+                GodotThread.SetThreadSafetyChecksEnabled(false);
                 LoadingPopup.Out();
 
                 var ex = t.Exception;

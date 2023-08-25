@@ -52,30 +52,30 @@ public partial class SkinOptionComponent : HBoxContainer
     public void SetValue(SkinOptionValue value)
     {
         SkinOption.Value = value;
-        Button.TooltipText = null;
-        Button.Text = string.Empty;
+        Button.SetDeferred(Button.PropertyName.TooltipText, string.Empty);
+        Button.SetDeferred(Button.PropertyName.Text, string.Empty);
 
         switch (value.Type)
         {
             case SkinOptionValueType.Various:
-                SpecialTextLabel.Text = "<<VARIOUS>>";
+                SpecialTextLabel.SetDeferred(Label.PropertyName.Text, "<<VARIOUS>>");
                 break;
             case SkinOptionValueType.Unchanged:
-                SpecialTextLabel.Text = "<<UNCHANGED>>";
+                SpecialTextLabel.SetDeferred(Label.PropertyName.Text, "<<UNCHANGED>>");
                 break;
             case SkinOptionValueType.DefaultSkin:
-                SpecialTextLabel.Text = "<<DEFAULT SKIN>>";
+                SpecialTextLabel.SetDeferred(Label.PropertyName.Text, "<<DEFAULT SKIN>>");
                 break;
             case SkinOptionValueType.Blank:
-                SpecialTextLabel.Text = "<<BLANK>>";
+                SpecialTextLabel.SetDeferred(Label.PropertyName.Text, "<<BLANK>>");
                 break;
             case SkinOptionValueType.CustomSkin:
-                SpecialTextLabel.Text = string.Empty;
-                Button.Text = value.CustomSkin.Name;
-                Button.TooltipText = value.CustomSkin.Name;
+                SpecialTextLabel.SetDeferred(Label.PropertyName.Text, string.Empty);
+                Button.SetDeferred(Button.PropertyName.TooltipText, value.CustomSkin.Name);
+                Button.SetDeferred(Button.PropertyName.Text, value.CustomSkin.Name);
                 break;
         }
 
-        ResetButton.Visible = value != DefaultValue;
+        ResetButton.SetDeferred(Button.PropertyName.Visible, value != DefaultValue);
     }
 }

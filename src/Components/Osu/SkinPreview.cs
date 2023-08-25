@@ -72,19 +72,21 @@ public partial class SkinPreview : PanelContainer
         _skin.TryGetTexture("menu-background", out var menuBackground, "jpg");
 
         // Scale textures based on whether they are @2x or not.
-        Cursor.Scale = _skin.TryGet2XTexture("cursor", out var cursor) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1);
-        Cursormiddle.Scale = _skin.TryGet2XTexture("cursormiddle", out var cursormiddle) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1);
-        Cursortrail.ScaleAmountMax = Cursortrail.ScaleAmountMin = _skin.TryGet2XTexture("cursortrail", out var cursortrail) ? 0.5f : 1;
+        float cursorTrailScale = _skin.TryGet2XTexture("cursortrail", out var cursortrail) ? 0.5f : 1;
+        Cursor.SetDeferred(Sprite2D.PropertyName.Scale, _skin.TryGet2XTexture("cursor", out var cursor) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+        Cursormiddle.SetDeferred(Sprite2D.PropertyName.Scale, _skin.TryGet2XTexture("cursormiddle", out var cursormiddle) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+        Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMax, cursorTrailScale);
+        Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMin, cursorTrailScale);
 
-        MenuBackground.Texture = menuBackground;
-        Cursor.Texture = cursor;
-        Cursormiddle.Texture = cursormiddle;
-        Cursortrail.Texture = cursortrail;
+        MenuBackground.SetDeferred(TextureRect.PropertyName.Texture, menuBackground);
+        Cursor.SetDeferred(TextureRect.PropertyName.Texture, cursor);
+        Cursormiddle.SetDeferred(TextureRect.PropertyName.Texture, cursormiddle);
+        Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Texture, cursortrail);
 
         if (_skin.SkinIni?.TryGetPropertyValue("General", "CursorRotate") is "1" or null)
-            CursorRotateAnimationPlayer.Play("rotate");
+            CursorRotateAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "rotate");
         else
-            CursorRotateAnimationPlayer.Stop();
+            CursorRotateAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Stop);
 
         bool hasCursorMiddle = File.Exists($"{_skin.Directory.FullName}/cursormiddle.png");
         bool transparentCursor = File.Exists($"{_skin.Directory.FullName}/cursor.png")
@@ -93,17 +95,17 @@ public partial class SkinPreview : PanelContainer
         // TODO: this is very arbitrary, make this more accurate to osu!
         if (hasCursorMiddle && transparentCursor)
         {
-            Cursortrail.Lifetime = 0.5f;
-            Cursortrail.Amount = 800;
+            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Lifetime, 0.5f);
+            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Amount, 800);
         }
         else
         {
-            Cursortrail.Lifetime = 0.15f;
-            Cursortrail.Amount = 5;
+            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Lifetime, 0.15f);
+            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Amount, 5);
         }
 
         // This seems to be how it works in osu! but idk really.
-        Cursormiddle.Visible = hasCursorMiddle || !File.Exists($"{_skin.Directory.FullName}/cursor.png");
+        Cursormiddle.SetDeferred(Sprite2D.PropertyName.Visible, hasCursorMiddle || !File.Exists($"{_skin.Directory.FullName}/cursor.png"));
 
         Hitcircle.SetSkin(_skin);
         ComboContainer.Skin = _skin;
