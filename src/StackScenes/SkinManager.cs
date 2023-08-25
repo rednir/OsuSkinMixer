@@ -52,7 +52,7 @@ public partial class SkinManager : StackScene
 
     private void UpdateSelectAllButtons()
     {
-        SelectAllButton.Disabled = _checkedSkins.Count == SkinComponentsContainer.VisibleComponents.Count();
+        SelectAllButton.Disabled = _checkedSkins.Count == SkinComponentsContainer.SkinComponents.Where(c => c.Visible).Count();
         DeselectAllButton.Disabled = _checkedSkins.Count == 0;
     }
 

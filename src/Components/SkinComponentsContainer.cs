@@ -23,9 +23,9 @@ public partial class SkinComponentsContainer : PanelContainer
 
     public bool CheckableComponents { get; set; }
 
-    public SkinComponent BestMatch => VBoxContainer.GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Visible);
+    public List<SkinComponent> SkinComponents = new();
 
-    public IEnumerable<SkinComponent> VisibleComponents => VBoxContainer.GetChildren().Cast<SkinComponent>().Where(c => c.Visible);
+    public SkinComponent BestMatch => VBoxContainer.GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Visible);
 
     private readonly List<SkinComponent> _disabledSkinComponents = new();
 
@@ -81,14 +81,14 @@ public partial class SkinComponentsContainer : PanelContainer
             child.QueueFree();
 
         foreach (OsuSkin skin in OsuData.Skins)
-            VBoxContainer.AddChild(CreateSkinComponentFrom(skin));
+            AddSkinComponent(skin);
     }
 
     public void FilterSkins(string filter)
     {
         string[] filterWords = filter.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-        foreach (var component in VBoxContainer.GetChildren().Cast<SkinComponent>())
+        foreach (var component in SkinComponents)
         {
             bool filterMatch = filterWords.All(w =>
                 component.Name.ToString().Contains(w, StringComparison.OrdinalIgnoreCase)
@@ -106,7 +106,7 @@ public partial class SkinComponentsContainer : PanelContainer
     {
         _sort = sort;
 
-        IEnumerable<SkinComponent> children = VBoxContainer.GetChildren().Cast<SkinComponent>().OrderBy(c => c.Name.ToString());
+        IEnumerable<SkinComponent> children = SkinComponents.OrderBy(c => c.Name.ToString());
 
         switch (sort)
         {
@@ -153,9 +153,24 @@ public partial class SkinComponentsContainer : PanelContainer
         _disabledSkinComponents.Remove(skinComponent);
     }
 
+    private void AddSkinComponent(OsuSkin skin)
+    {
+        var skinComponent = CreateSkinComponentFrom(skin);
+        VBoxContainer.CallDeferred(MethodName.AddChild, skinComponent);
+        SkinComponents.Add(skinComponent);
+    }
+
+    private void RemoveSkinComponent(OsuSkin skin)
+    {
+        var skinComponent = GetExistingComponentFromSkin(skin);
+        skinComponent.IsChecked = false;
+        skinComponent.QueueFree();
+        SkinComponents.Remove(skinComponent);
+    }
+
     public void SelectAll(bool select)
     {
-        foreach (var component in VBoxContainer.GetChildren().Cast<SkinComponent>().Where(c => c.Visible))
+        foreach (var component in SkinComponents.Where(c => c.Visible))
             component.IsChecked = select;
     }
 
@@ -178,7 +193,7 @@ public partial class SkinComponentsContainer : PanelContainer
 
     private SkinComponent GetExistingComponentFromSkin(OsuSkin skin)
     {
-        return VBoxContainer.GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Skin.Name == skin.Name);
+        return SkinComponents.FirstOrDefault(c => c.Skin.Name == skin.Name);
     }
 
     private void OnSkinAdded(OsuSkin skin)
@@ -186,8 +201,7 @@ public partial class SkinComponentsContainer : PanelContainer
         if (!_skinComponentsInitialised)
             return;
 
-        var skinComponent = CreateSkinComponentFrom(skin);
-        VBoxContainer.CallDeferred(MethodName.AddChild, skinComponent);
+        AddSkinComponent(skin);
         SortSkins(_sort);
     }
 
@@ -209,8 +223,6 @@ public partial class SkinComponentsContainer : PanelContainer
         if (!_skinComponentsInitialised)
             return;
 
-        var skinComponent = GetExistingComponentFromSkin(skin);
-        skinComponent.IsChecked = false;
-        skinComponent.QueueFree();
+        RemoveSkinComponent(skin);
     }
 }
