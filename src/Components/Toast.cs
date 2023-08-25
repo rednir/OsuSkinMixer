@@ -47,8 +47,8 @@ public partial class Toast : Control
         }
 
         _queue.Clear();
-        ToastTextLabel.Text = text;
-        ToastAnimationPlayer.Play("in");
+        ToastTextLabel.SetDeferred(Label.PropertyName.Text, text);
+        ToastAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "in");
     }
 
     private void NextText()
@@ -56,7 +56,7 @@ public partial class Toast : Control
         if (_queue.Count == 0 || TextAnimationPlayer.CurrentAnimation == "in")
             return;
 
-        ToastTextLabel.Text = _queue.Dequeue();
-        TextAnimationPlayer.Play("in");
+        ToastTextLabel.SetDeferred(Label.PropertyName.Text, _queue.Dequeue());
+        ToastAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "in");
     }
 }
