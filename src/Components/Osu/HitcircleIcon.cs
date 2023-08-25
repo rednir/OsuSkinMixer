@@ -30,7 +30,7 @@ public partial class HitcircleIcon : CenterContainer
         _skin = skin;
         _isTexturesLoaded = false;
 
-        HiddenIcon.Visible = skin.Hidden;
+        HiddenIcon.SetDeferred(PropertyName.Visible, skin.Hidden);
 
         string[] iniColorRgb = skin
             .SkinIni?
@@ -43,11 +43,11 @@ public partial class HitcircleIcon : CenterContainer
             && float.TryParse(iniColorRgb[1], out float g)
             && float.TryParse(iniColorRgb[2], out float b))
         {
-            HitcircleTexture.Modulate = new Color(r / 255, g / 255, b / 255);
+            HitcircleTexture.SetDeferred(PropertyName.Modulate, new Color(r / 255, g / 255, b / 255));
         }
         else
         {
-            HitcircleTexture.Modulate = new Color(0, 202, 0);
+            HitcircleTexture.SetDeferred(PropertyName.Modulate, new Color(0, 202, 0));
         }
     }
 

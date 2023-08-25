@@ -64,20 +64,21 @@ public partial class SkinComponent : HBoxContainer
 
     public void SetValues()
     {
-        NameLabel.Text = Skin.Name;
-        Button.TooltipText = $"{Skin.Name}\nRight click for options...";
-        CheckBox.Visible = CheckBoxVisible;
+        NameLabel.SetDeferred(Label.PropertyName.Text, Skin.Name);
+        Button.SetDeferred(Button.PropertyName.TooltipText, $"{Skin.Name}\nRight click for options...");
+        CheckBox.SetDeferred(CheckBox.PropertyName.Visible, CheckBoxVisible);
 
         // Compact components don't have these nodes.
         if (AuthorLabel != null && HitcircleIcon != null)
         {
             AuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
             HitcircleIcon.SetSkin(Skin);
+
+            AuthorLabel.SetDeferred(Label.PropertyName.Text, Skin.SkinIni?.TryGetPropertyValue("General", "Author"));
         }
 
         // Only compact components have this node, otherwise it is found in HitcircleIcon.
-        if (HiddenIcon != null)
-            HiddenIcon.Visible = Skin.Hidden;
+        HiddenIcon?.SetDeferred(TextureRect.PropertyName.Visible, Skin.Hidden);
     }
 
     private void OnButtonPressed()
