@@ -23,7 +23,11 @@ theme = ExtResource("1_dq35g")
 script = ExtResource("1_0q4fj")
 
 [node name="Popup" parent="." instance=ExtResource("2_i87ke")]
+visible = true
 layout_mode = 1
+
+[node name="CanvasLayer" parent="Popup" index="1"]
+visible = true
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
 offset_bottom = 0.0
@@ -45,7 +49,7 @@ text = "Install latest update"
 [node name="AutoUpdateButton" type="CheckButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Automatically install updates"
+text = "Automatically download updates"
 
 [node name="UseCompactSkinSelectorButton" type="CheckButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 unique_name_in_owner = true
