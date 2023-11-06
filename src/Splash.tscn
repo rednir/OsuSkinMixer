@@ -261,7 +261,6 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_fxoyt")
 
 [node name="Icon" type="TextureRect" parent="Overlay"]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 anchor_left = 0.5
 anchor_top = 0.5
@@ -360,18 +359,35 @@ text = "If you want to disable auto-updating, you can do so in the settings menu
 
 Or if the update failed due to an error, please report the issue."
 
+[node name="UpdateQuestionPopup" parent="." instance=ExtResource("4_05fhe")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="Title" parent="UpdateQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
+text = "Updates available"
+
+[node name="Text" parent="UpdateQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+text = "To ensure you have the latest fixes and features, install the latest osu! skin mixer."
+autowrap_mode = 2
+
+[node name="NoButton" parent="UpdateQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" index="0"]
+text = "Remind me later"
+
+[node name="YesButton" parent="UpdateQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" index="1"]
+text = "Install"
+
 [node name="ProgressBar" type="ProgressBar" parent="."]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_right = 1.0
 offset_bottom = 4.0
 grow_horizontal = 2
-value = 100.0
 show_percentage = false
 
 [editable path="ExceptionPopup"]
 [editable path="ExceptionPopup/Popup"]
 [editable path="UpdateCanceledPopup"]
 [editable path="UpdateCanceledPopup/Popup"]
+[editable path="UpdateQuestionPopup"]
+[editable path="UpdateQuestionPopup/Popup"]

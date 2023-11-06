@@ -13,6 +13,7 @@ public partial class Splash : Control
     private QuestionPopup ExceptionPopup;
     private TextEdit ExceptionTextEdit;
     private OkPopup UpdateCanceledPopup;
+    private QuestionPopup UpdateQuestionPopup;
     private AnimationPlayer AnimationPlayer;
 
     public override void _Ready()
@@ -28,9 +29,13 @@ public partial class Splash : Control
         ExceptionPopup = GetNode<QuestionPopup>("%ExceptionPopup");
         ExceptionTextEdit = GetNode<TextEdit>("%ExceptionTextEdit");
         UpdateCanceledPopup = GetNode<OkPopup>("%UpdateCanceledPopup");
+        UpdateQuestionPopup = GetNode<QuestionPopup>("%UpdateQuestionPopup");
         AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
+
         AnimationPlayer.AnimationFinished += OnAnimationFinished;
         UpdateCanceledPopup.PopupOut += LoadSkins;
+        UpdateQuestionPopup.CancelAction += LoadSkins;
+        UpdateQuestionPopup.ConfirmAction += TryRunInstaller;
 
         AnimationPlayer.Play("loading");
 
@@ -84,12 +89,7 @@ public partial class Splash : Control
 
         if (Settings.Content.UpdatePending)
         {
-            Settings.Content.UpdatePending = false;
-            Settings.Save();
-
-            UpdatingLabel.Visible = true;
-            TryRunInstaller();
-            UpdatingLabel.Visible = false;
+            UpdateQuestionPopup.In();
         }
         else
         {
@@ -99,6 +99,9 @@ public partial class Splash : Control
 
     private void TryRunInstaller()
     {
+        UpdatingLabel.Visible = true;
+        Settings.Content.UpdatePending = false;
+        Settings.Save();
         Settings.Log($"Running installer from {Settings.AutoUpdateInstallerPath}");
 
         try
@@ -112,6 +115,7 @@ public partial class Splash : Control
         }
 
         UpdateCanceledPopup.In();
+        UpdatingLabel.Visible = false;
     }
 
     private void LoadSkins()
