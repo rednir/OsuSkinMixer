@@ -19,9 +19,6 @@ public static partial class Settings
         [JsonPropertyName("auto-update")]
         public bool AutoUpdate { get; set; }
 
-        [JsonPropertyName("auto-update-prompted")]
-        public bool AutoUpdatePrompted { get; set; }
-
         [JsonPropertyName("use_compact_skin_selector")]
         public bool UseCompactSkinSelector { get; set; }
 
