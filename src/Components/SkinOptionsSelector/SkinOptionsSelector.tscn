@@ -171,7 +171,7 @@ texture = SubResource("GradientTexture2D_jbkjm")
 [node name="ExpandablePanelContainer" parent="." instance=ExtResource("2_b6jfh")]
 layout_mode = 2
 
-[node name="Title" parent="ExpandablePanelContainer/VBoxContainer/HBoxContainer" index="1"]
+[node name="Title" parent="ExpandablePanelContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
 text = "Choose skin elements"
 
 [node name="ContentContainer" parent="ExpandablePanelContainer/VBoxContainer" index="1"]

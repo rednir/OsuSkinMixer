@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://r28lp1qj0ucs" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="3_dgftf"]
 [ext_resource type="PackedScene" uid="uid://l5lkphprcihd" path="res://src/Components/SkinComponentSkinManager.tscn" id="4_fdpti"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="4_qbo2l"]
-[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="5_2dvbx"]
+[ext_resource type="PackedScene" uid="uid://c2ngbwdc3cup8" path="res://src/Components/ExpandablePanelContainer.tscn" id="5_fkmng"]
 [ext_resource type="Texture2D" uid="uid://cvpikgocffedt" path="res://assets/materialicons/done.png" id="7_mb77d"]
 
 [node name="SkinModifierModificationSelect" type="VBoxContainer"]
@@ -64,37 +64,30 @@ visible = false
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="ExtraOptionsContainer" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(460, 2.08165e-12)
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ExtraOptionsContainer"]
+[node name="ExtraOptionsContainer" parent="." instance=ExtResource("5_fkmng")]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ExtraOptionsContainer/VBoxContainer"]
-layout_mode = 2
-text = "Experimental options - your mileage may vary!"
-label_settings = ExtResource("5_2dvbx")
+[node name="Title" parent="ExtraOptionsContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+text = "Experimental options"
 
-[node name="HSeparator" type="HSeparator" parent="ExtraOptionsContainer/VBoxContainer"]
-layout_mode = 2
+[node name="Subtitle" parent="ExtraOptionsContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
+visible = true
+text = "Your mileage may vary!"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ExtraOptionsContainer/VBoxContainer"]
-layout_mode = 2
+[node name="ContentContainer" parent="ExtraOptionsContainer/VBoxContainer" index="1"]
 theme_override_constants/separation = 0
 
-[node name="InstafadeCheckBox" type="CheckBox" parent="ExtraOptionsContainer/VBoxContainer/VBoxContainer"]
+[node name="InstafadeCheckBox" type="CheckBox" parent="ExtraOptionsContainer/VBoxContainer/ContentContainer" index="1"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Instafade hitcircles"
 
-[node name="SmoothTrailCheckBox" type="CheckBox" parent="ExtraOptionsContainer/VBoxContainer/VBoxContainer"]
+[node name="SmoothTrailCheckBox" type="CheckBox" parent="ExtraOptionsContainer/VBoxContainer/ContentContainer" index="2"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Smooth cursor trail"
 
-[node name="DisableAnimationsCheckBox" type="CheckBox" parent="ExtraOptionsContainer/VBoxContainer/VBoxContainer"]
+[node name="DisableAnimationsCheckBox" type="CheckBox" parent="ExtraOptionsContainer/VBoxContainer/ContentContainer" index="3"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Remove interface animations"
@@ -132,5 +125,6 @@ visible = true
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon"]
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent"]
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon"]
+[editable path="ExtraOptionsContainer"]
 [editable path="LoadingPopup"]
 [editable path="LoadingPopup/Popup"]
