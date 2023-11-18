@@ -7,36 +7,88 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h23lo"]
 
-[sub_resource type="Animation" id="Animation_mfpl4"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_rri2o"]
+resource_name = "hint"
+length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../ExpandHint:modulate")
+tracks/0/path = NodePath("ExpandHint:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
+"update": 1,
+"values": [true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../ExpandHint:visible")
+tracks/1/path = NodePath("ExpandHint:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ExpandHint/TextureRect/PointLight2D:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 3),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [0.0, 3.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ExpandHint/TextureRect:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6, 3),
+"transitions": PackedFloat32Array(1, 0.5, 1, 1),
+"update": 0,
+"values": [3.48787e-16, 3.48787e-16, 0.174533, 0.174533]
+}
+
+[sub_resource type="Animation" id="Animation_1hlla"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ExpandHint:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ExpandHint:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../ExpandHint/TextureRect/PointLight2D:energy")
+tracks/2/path = NodePath("ExpandHint/TextureRect/PointLight2D:energy")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -48,7 +100,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../ExpandHint/TextureRect:rotation")
+tracks/3/path = NodePath("ExpandHint/TextureRect:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -58,62 +110,10 @@ tracks/3/keys = {
 "values": [0.174533]
 }
 
-[sub_resource type="Animation" id="Animation_8gl1d"]
-resource_name = "hint"
-length = 2.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../ExpandHint:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 0.3, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../ExpandHint:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../ExpandHint/TextureRect/PointLight2D:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.7, 2),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [0.0, 0.0, 3.0, 0.0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../ExpandHint/TextureRect:rotation")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.7),
-"transitions": PackedFloat32Array(1, 0.2, -1.86607),
-"update": 0,
-"values": [0.174533, 0.349066, 3.48787e-16]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_nngi8"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bppob"]
 _data = {
-"RESET": SubResource("Animation_mfpl4"),
-"hint": SubResource("Animation_8gl1d")
+"RESET": SubResource("Animation_1hlla"),
+"hint": SubResource("Animation_rri2o")
 }
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_evjpp"]
@@ -139,9 +139,8 @@ script = ExtResource("1_g5aud")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
-root_node = NodePath("")
 libraries = {
-"": SubResource("AnimationLibrary_nngi8")
+"": SubResource("AnimationLibrary_bppob")
 }
 
 [node name="ExpandablePanelContainer" parent="." instance=ExtResource("2_b6jfh")]
@@ -165,6 +164,8 @@ layout_mode = 2
 
 [node name="ExpandHint" type="Panel" parent="."]
 unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_evjpp")
 
