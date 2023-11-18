@@ -274,7 +274,7 @@ tracks/0/path = NodePath("Scenes:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.02, 0.32),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(0.3, 1),
 "update": 0,
 "values": [Vector2(45, 50), Vector2(0, 50)]
@@ -286,7 +286,7 @@ tracks/1/path = NodePath("Scenes:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.02, 0.32),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(0.3, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -298,7 +298,7 @@ tracks/2/path = NodePath("TopBar/HBoxContainer/Title:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.02, 0.32),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(0.5, 0.3),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -400,10 +400,10 @@ tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.3),
-"transitions": PackedFloat32Array(0.25, 0.25, 1),
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(0.25, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -412,7 +412,7 @@ tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -482,6 +482,7 @@ layout_mode = 2
 icon = ExtResource("8_1aqc5")
 
 [node name="Title" type="Label" parent="TopBar/HBoxContainer"]
+modulate = Color(1, 1, 1, 0.972222)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
@@ -568,11 +569,14 @@ libraries = {
 }
 
 [node name="Scenes" type="Control" parent="."]
+modulate = Color(1, 1, 1, 0.972222)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -0.208333
 offset_top = 50.0
+offset_right = -0.208313
 grow_horizontal = 2
 grow_vertical = 2
 
