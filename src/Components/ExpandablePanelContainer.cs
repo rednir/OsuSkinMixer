@@ -15,6 +15,7 @@ public partial class ExpandablePanelContainer : PanelContainer
 
 		MoreIconTexture = GD.Load<Texture2D>("res://assets/materialicons/expand_more.png");
 		LessIconTexture = GD.Load<Texture2D>("res://assets/materialicons/expand_less.png");
+		ExpandButton.Icon = ContentContainer.Visible ? LessIconTexture : MoreIconTexture;
 
 		ExpandButton.Pressed += ExpandButtonPressed;
 	}
