@@ -143,6 +143,31 @@ libraries = {
 "": SubResource("AnimationLibrary_bppob")
 }
 
+[node name="ExpandHint" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_evjpp")
+
+[node name="TextureRect" type="TextureRect" parent="ExpandHint"]
+z_index = 1
+layout_mode = 2
+offset_left = -152.0
+offset_top = 48.0
+offset_right = 24.0
+offset_bottom = 118.0
+rotation = 0.174533
+pivot_offset = Vector2(182, 62)
+texture = ExtResource("2_4hlh4")
+stretch_mode = 3
+
+[node name="PointLight2D" type="PointLight2D" parent="ExpandHint/TextureRect"]
+z_index = 1
+position = Vector2(103, 27)
+energy = 0.0
+texture = SubResource("GradientTexture2D_jbkjm")
+
 [node name="ExpandablePanelContainer" parent="." instance=ExtResource("2_b6jfh")]
 layout_mode = 2
 
@@ -161,28 +186,5 @@ theme_override_constants/separation = 8
 [node name="SkinSelectorPopup" parent="ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer" instance=ExtResource("2_pokuf")]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="ExpandHint" type="Panel" parent="."]
-unique_name_in_owner = true
-visible = false
-modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_evjpp")
-
-[node name="TextureRect" type="TextureRect" parent="ExpandHint"]
-layout_mode = 2
-offset_left = -152.0
-offset_top = 48.0
-offset_right = 24.0
-offset_bottom = 118.0
-rotation = 0.174533
-pivot_offset = Vector2(182, 62)
-texture = ExtResource("2_4hlh4")
-stretch_mode = 3
-
-[node name="PointLight2D" type="PointLight2D" parent="ExpandHint/TextureRect"]
-position = Vector2(103, 27)
-energy = 0.0
-texture = SubResource("GradientTexture2D_jbkjm")
 
 [editable path="ExpandablePanelContainer"]
