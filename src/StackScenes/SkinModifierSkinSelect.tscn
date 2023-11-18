@@ -2,8 +2,8 @@
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_2xdlb"]
 [ext_resource type="Script" path="res://src/StackScenes/SkinModifierSkinSelect.cs" id="2_gu1du"]
-[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="3_3bchx"]
 [ext_resource type="PackedScene" uid="uid://c0bqc573eb7ys" path="res://src/Components/Buttons/TonalIconButton.tscn" id="3_j0wcv"]
+[ext_resource type="PackedScene" uid="uid://c2ngbwdc3cup8" path="res://src/Components/ExpandablePanelContainer.tscn" id="3_nlg4t"]
 [ext_resource type="PackedScene" uid="uid://md4n10t0o7i4" path="res://src/Components/Popup/SkinSelectorPopup.tscn" id="3_psfnl"]
 [ext_resource type="Texture2D" uid="uid://cqwxbxy12xlnt" path="res://assets/materialicons/add.png" id="4_jexl6"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="8_fpowc"]
@@ -18,30 +18,24 @@ theme = ExtResource("1_2xdlb")
 theme_override_constants/separation = 32
 script = ExtResource("2_gu1du")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(480, 2.08165e-12)
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+[node name="ExpandablePanelContainer" parent="." instance=ExtResource("3_nlg4t")]
 layout_mode = 2
 
-[node name="HintLabel" type="Label" parent="PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(544, 2.08165e-12)
-layout_mode = 2
-text = "Select one or more skins to modify!"
-label_settings = ExtResource("3_3bchx")
-autowrap_mode = 3
+[node name="Title" parent="ExpandablePanelContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+text = "Choose one or more skins to modify"
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
-layout_mode = 2
+[node name="Subtitle" parent="ExpandablePanelContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
+text = "You can choose one skin or several skins!"
 
-[node name="SkinsToModifyContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="ContentContainer" parent="ExpandablePanelContainer/VBoxContainer" index="1"]
+visible = true
+
+[node name="SkinsToModifyContainer" type="VBoxContainer" parent="ExpandablePanelContainer/VBoxContainer/ContentContainer" index="1"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="AddSkinToModifyButton" parent="PanelContainer/VBoxContainer" instance=ExtResource("3_j0wcv")]
+[node name="AddSkinToModifyButton" parent="ExpandablePanelContainer/VBoxContainer/ContentContainer" index="2" instance=ExtResource("3_j0wcv")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -75,3 +69,5 @@ layout_mode = 2
 [node name="ManageSkinPopup" parent="." instance=ExtResource("8_sut4d")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[editable path="ExpandablePanelContainer"]
