@@ -296,6 +296,7 @@ public abstract class SkinOption
                         new SkinFileOption("arrow-warning", false, "Warning arrows"),
                         new SkinFileOption("play-unranked", false, "Unranked text"),
                         new SkinFileOption("masking-border", false, "Masking border"),
+                        new SkinFileOption("spinner-rpm", false, "Spinner RPM"),
 
                         new SkinIniPropertyOption("General", "ComboBurstRandom"),
                     },
@@ -379,7 +380,6 @@ public abstract class SkinOption
                                 new SkinFileOption("spinner-middle", false),
                                 new SkinFileOption("spinner-middle2", false),
                                 new SkinFileOption("spinner-osu", false),
-                                new SkinFileOption("spinner-rpm", false),
                                 new SkinFileOption("spinner-spin", false),
                                 new SkinFileOption("spinner-top", false),
 
