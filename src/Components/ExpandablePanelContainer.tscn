@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://c2ngbwdc3cup8"]
+
+[ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_4s7r7"]
+[ext_resource type="Script" path="res://src/Components/ExpandablePanelContainer.cs" id="2_k2q5s"]
+[ext_resource type="LabelSettings" uid="uid://cunaagboquiic" path="res://src/Styles/LabelSettings/MenuButtonTitle.tres" id="2_n6b0r"]
+[ext_resource type="Texture2D" uid="uid://b66igvwvv334q" path="res://assets/materialicons/expand_more.png" id="4_kq1qk"]
+[ext_resource type="StyleBox" uid="uid://brb6aa48f2ww7" path="res://src/Styles/Buttons/StandardIconButton.tres" id="5_ofgev"]
+[ext_resource type="StyleBox" uid="uid://y2wn7t22jivk" path="res://src/Styles/Buttons/StandardIconButtonHover.tres" id="6_1txgb"]
+[ext_resource type="StyleBox" uid="uid://brmcwao5xcsti" path="res://src/Styles/Buttons/StandardIconButtonPressed.tres" id="7_by1s8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lsl0u"]
+
+[node name="ExpandablePanelContainer" type="PanelContainer"]
+custom_minimum_size = Vector2(460, 2.08165e-12)
+offset_right = 460.0
+offset_bottom = 73.0
+theme = ExtResource("1_4s7r7")
+script = ExtResource("2_k2q5s")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 40)
+layout_mode = 2
+
+[node name="Padding" type="Panel" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(4, 2.08165e-12)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_lsl0u")
+
+[node name="Title" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "ExpandablePanelContainer"
+label_settings = ExtResource("2_n6b0r")
+
+[node name="ContentContainer" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ContentContainer"]
+layout_mode = 2
+
+[node name="ExpandButton" type="Button" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/icon_normal_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_pressed_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_hover_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_focus_color = Color(0.819608, 0.772549, 0.811765, 1)
+theme_override_colors/icon_disabled_color = Color(0.819608, 0.772549, 0.811765, 0.505882)
+theme_override_styles/normal = ExtResource("5_ofgev")
+theme_override_styles/hover = ExtResource("6_1txgb")
+theme_override_styles/pressed = ExtResource("7_by1s8")
+theme_override_styles/disabled = ExtResource("5_ofgev")
+icon = ExtResource("4_kq1qk")
+icon_alignment = 2
