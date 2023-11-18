@@ -382,7 +382,6 @@ public abstract class SkinOption
                                 new SkinFileOption("spinner-rpm", false),
                                 new SkinFileOption("spinner-spin", false),
                                 new SkinFileOption("spinner-top", false),
-                                new SkinFileOption("spinner-warning", false),
 
                                 new SkinIniPropertyOption("General", "SpinnerFadePlayfield"),
                                 new SkinIniPropertyOption("General", "SpinnerNoBlink"),
@@ -461,6 +460,7 @@ public abstract class SkinOption
                                 new SkinFileOption("pippidonfailkiai", false),
                             },
                         },
+                        new SkinFileOption("spinner-warning", false),
                         new SkinFileOption("taiko-bar-left", false),
                         new SkinFileOption("taiko-bar-right-glow", false),
                         new SkinFileOption("taiko-bar-right", false),
