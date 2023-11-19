@@ -167,6 +167,8 @@ public partial class ComboColoursContainer : HBoxContainer
 
 			if (i == 7)
 				AddButton.Disabled = true;
+
+			return;
 		}
 	}
 }
