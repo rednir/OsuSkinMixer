@@ -22,7 +22,6 @@ public partial class ComboColoursContainer : HBoxContainer
 
 	private Texture2D HitcircleTexture;
 	private Texture2D HitcircleoverlayTexture;
-	private Texture2D DefaultTexture;
 
 	private bool _isTexturesLoaded;
 
@@ -52,11 +51,8 @@ public partial class ComboColoursContainer : HBoxContainer
 
         _isTexturesLoaded = true;
 
-        string hitcirclePrefix = Skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
-
         HitcircleTexture = Skin.Get2XTexture("hitcircle");
         HitcircleoverlayTexture = Skin.Get2XTexture("hitcircleoverlay");
-        DefaultTexture = Skin.Get2XTexture($"{hitcirclePrefix}-1");
 
 		InitialiseComboColours();
     }
@@ -88,10 +84,13 @@ public partial class ComboColoursContainer : HBoxContainer
 
 	private void AddComboColour(int index, Color color)
 	{
+		string hitcirclePrefix = Skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
+		Texture2D defaultTexture = Skin.Get2XTexture($"{hitcirclePrefix}-{index + 1}");
+
 		ComboColourIcon comboColourIcon = ComboColourIconScene.Instantiate<ComboColourIcon>();
 		ContentContainer.AddChild(comboColourIcon);
 		comboColourIcon.Pressed += () => OnComboColourIconPressed(index);
-		comboColourIcon.SetValues(HitcircleTexture, HitcircleoverlayTexture, DefaultTexture, color);
+		comboColourIcon.SetValues(HitcircleTexture, HitcircleoverlayTexture, defaultTexture, color);
 	
 		ComboColourIcons[index] = comboColourIcon;
 	}
