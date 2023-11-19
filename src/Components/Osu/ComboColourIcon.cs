@@ -12,16 +12,21 @@ public partial class ComboColourIcon : CenterContainer
         set => Hitcircle.Modulate = value;
     }
 
+	public Texture2D DefaultTexture
+	{
+		set => DefaultTextureRect.Texture = value;
+	}
+
     private TextureRect Hitcircle;
 	private TextureRect Hitcircleoverlay;
-	private TextureRect DefaultTexture;
+	private TextureRect DefaultTextureRect;
 	private Button Button;
 
     public override void _Ready()
     {
 		Hitcircle = GetNode<TextureRect>("HitcircleTexture");
 		Hitcircleoverlay = GetNode<TextureRect>("HitcircleoverlayTexture");
-		DefaultTexture = GetNode<TextureRect>("DefaultTexture");
+		DefaultTextureRect = GetNode<TextureRect>("DefaultTexture");
 		Button = GetNode<Button>("Button");
 
 		Button.Pressed += OnButtonPressed;
@@ -32,7 +37,7 @@ public partial class ComboColourIcon : CenterContainer
 		Hitcircle.Modulate = color;
 		Hitcircle.Texture = hitcircle;
 		Hitcircleoverlay.Texture = hitcircleoverlay;
-		DefaultTexture.Texture = defaultTexture;
+		DefaultTextureRect.Texture = defaultTexture;
 
 		InitialColor = color;
 	}

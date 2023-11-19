@@ -84,22 +84,25 @@ public partial class ComboColoursContainer : HBoxContainer
 
 	private void AddComboColour(int index, Color color)
 	{
-		string hitcirclePrefix = Skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
-		Texture2D defaultTexture = Skin.Get2XTexture($"{hitcirclePrefix}-{index + 1}");
-
 		ComboColourIcon comboColourIcon = ComboColourIconScene.Instantiate<ComboColourIcon>();
 		ContentContainer.AddChild(comboColourIcon);
-		comboColourIcon.Pressed += () => OnComboColourIconPressed(index);
-		comboColourIcon.SetValues(HitcircleTexture, HitcircleoverlayTexture, defaultTexture, color);
+		comboColourIcon.Pressed += () => OnComboColourIconPressed(comboColourIcon);
+		comboColourIcon.SetValues(HitcircleTexture, HitcircleoverlayTexture, GetDefaultTexture(index), color);
 	
 		ComboColourIcons[index] = comboColourIcon;
 	}
 
-	private void OnComboColourIconPressed(int index)
+	private Texture2D GetDefaultTexture(int comboNumber)
 	{
-		SelectedComboIndex = index;
+		string hitcirclePrefix = Skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
+		return Skin.Get2XTexture($"{hitcirclePrefix}-{comboNumber}");
+	}
 
-		ColorPicker.Color = ComboColourIcons[index].Color;
+	private void OnComboColourIconPressed(ComboColourIcon comboColourIcon)
+	{
+		SelectedComboIndex = Array.IndexOf(ComboColourIcons, comboColourIcon);
+
+		ColorPicker.Color = ComboColourIcons[SelectedComboIndex].Color;
 		ChangeColorPopup.In();
 	}
 	
@@ -111,17 +114,36 @@ public partial class ComboColoursContainer : HBoxContainer
 	private void OnRemoveColourButtonPressed()
 	{
 		ComboColourIcons[SelectedComboIndex]?.QueueFree();
-
-		// Move down all combo colours that follow the removed one.
-		for (int i = SelectedComboIndex; i < 7; i++)
-		{
-			ComboColourIcons[i] = ComboColourIcons[i + 1];
-			ComboColourIcons[i + 1] = null;
-		}
+		ComboColourIcons[SelectedComboIndex] = null;
+		CompactComboColorArray();
 
 		AddButton.Disabled = false;
 		ChangeColorPopup.Out();
 	}
+
+	private void CompactComboColorArray()
+	{
+		for (int i = 0; i < 8; i++)
+        {
+            if (ComboColourIcons[i] != null)
+                continue;
+
+			if (i == 7)
+			{
+				ComboColourIcons[i] = null;
+				continue;
+			}
+
+            for (int j = i; j < 7; j++)
+				ComboColourIcons[j] = ComboColourIcons[j + 1];
+        }
+
+		for (int i = 0; i < 8; i++)
+		{
+			if (ComboColourIcons[i] != null)
+				ComboColourIcons[i].DefaultTexture = GetDefaultTexture(i);
+		}
+    }
 
 	private void OnResetButtonPressed()
 	{
@@ -145,8 +167,6 @@ public partial class ComboColoursContainer : HBoxContainer
 
 			if (i == 7)
 				AddButton.Disabled = true;
-
-			return;
 		}
 	}
 }
