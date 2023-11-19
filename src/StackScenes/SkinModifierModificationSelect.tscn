@@ -65,20 +65,20 @@ visible = false
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="ExpandablePanelContainer" parent="." instance=ExtResource("5_fkmng")]
+[node name="ComboColourContainer" parent="." instance=ExtResource("5_fkmng")]
 layout_mode = 2
 
-[node name="Title" parent="ExpandablePanelContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+[node name="Title" parent="ComboColourContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
 text = "Combo colour override"
 
-[node name="Subtitle" parent="ExpandablePanelContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
+[node name="Subtitle" parent="ComboColourContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
 visible = true
 text = "Pick combo colours using a colour picker"
 
-[node name="ContentContainer" parent="ExpandablePanelContainer/VBoxContainer" index="1"]
+[node name="ContentContainer" parent="ComboColourContainer/VBoxContainer" index="1"]
 visible = true
 
-[node name="ComboColoursContainer" parent="ExpandablePanelContainer/VBoxContainer/ContentContainer" index="1" instance=ExtResource("6_xyg5o")]
+[node name="ComboColoursContainer" parent="ComboColourContainer/VBoxContainer/ContentContainer" index="1" instance=ExtResource("6_xyg5o")]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -143,7 +143,7 @@ visible = true
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon"]
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent"]
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon"]
-[editable path="ExpandablePanelContainer"]
+[editable path="ComboColourContainer"]
 [editable path="ExtraOptionsContainer"]
 [editable path="LoadingPopup"]
 [editable path="LoadingPopup/Popup"]
