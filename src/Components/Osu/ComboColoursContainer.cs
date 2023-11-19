@@ -6,10 +6,14 @@ public partial class ComboColoursContainer : HBoxContainer
 {
 	public OsuSkin Skin { get; set; }
 
-	public Color[] ComboColours { get; } = new Color[8];
+	public ComboColourIcon[] ComboColourIcons { get; } = new ComboColourIcon[8];
+
+	private int SelectedCombo = -1;
 
 	private PackedScene ComboColourIconScene;
 
+	private OkPopup ChangeColorPopup;
+	private ColorPicker ColorPicker;
 	private HBoxContainer ContentContainer;
 	private VisibleOnScreenNotifier2D VisibleOnScreenNotifier2D;
 
@@ -23,8 +27,12 @@ public partial class ComboColoursContainer : HBoxContainer
 	{
 		ComboColourIconScene = GD.Load<PackedScene>("res://src/Components/Osu/ComboColourIcon.tscn");
 
+		ChangeColorPopup = GetNode<OkPopup>("%ChangeColorPopup");
+		ColorPicker = GetNode<ColorPicker>("%ColorPicker");
 		ContentContainer = GetNode<HBoxContainer>("%ContentContainer");
 		VisibleOnScreenNotifier2D = GetNode<VisibleOnScreenNotifier2D>("%VisibleOnScreenNotifier2D");
+
+		ColorPicker.ColorChanged += OnColorPickerColorChanged;
 		VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
 	}
 
@@ -67,11 +75,24 @@ public partial class ComboColoursContainer : HBoxContainer
 
 	private void AddComboColour(int combo, Color color)
 	{
-		ComboColours[combo] = color;
-
 		ComboColourIcon comboColourIcon = ComboColourIconScene.Instantiate<ComboColourIcon>();
-		comboColourIcon.Index = combo;
 		ContentContainer.AddChild(comboColourIcon);
+		comboColourIcon.Pressed += () => OnComboColourIconPressed(combo);
 		comboColourIcon.SetValues(HitcircleTexture, HitcircleoverlayTexture, DefaultTexture, color);
+	
+		ComboColourIcons[combo] = comboColourIcon;
+	}
+
+	private void OnComboColourIconPressed(int combo)
+	{
+		SelectedCombo = combo;
+
+		ColorPicker.Color = ComboColourIcons[combo].Color;
+		ChangeColorPopup.In();
+	}
+	
+	private void OnColorPickerColorChanged(Color color)
+	{
+		ComboColourIcons[SelectedCombo].Color = color;
 	}
 }
