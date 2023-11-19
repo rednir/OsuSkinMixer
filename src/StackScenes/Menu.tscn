@@ -84,6 +84,7 @@ theme_override_constants/separation = 3
 
 [node name="SkinMixerButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
+self_modulate = Color(1, 0.901961, 1, 1)
 custom_minimum_size = Vector2(350, 125)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -105,13 +106,13 @@ theme_override_constants/separation = 6
 
 [node name="Title" type="Label" parent="VBoxContainer/SkinMixerButton/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-text = "Create a skin mix"
+text = "Create a skin mix!"
 label_settings = ExtResource("3_08a4k")
 
 [node name="Description" type="Label" parent="VBoxContainer/SkinMixerButton/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-text = "Use elements from existing skins to
-make a new skin"
+text = "Use elements from existing skins to make
+a new skin"
 label_settings = ExtResource("4_7a57c")
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/SkinMixerButton/HBoxContainer"]
@@ -123,6 +124,7 @@ stretch_mode = 5
 
 [node name="SkinModifierButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
+self_modulate = Color(1, 0.952941, 1, 1)
 custom_minimum_size = Vector2(350, 125)
 layout_mode = 2
 size_flags_horizontal = 4
