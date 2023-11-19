@@ -1,6 +1,6 @@
-using System.Dynamic;
-using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
+
+namespace OsuSkinMixer.Components;
 
 public partial class ComboColoursContainer : HBoxContainer
 {
