@@ -14,6 +14,7 @@ public partial class ComboColoursContainer : HBoxContainer
 
 	private OkPopup ChangeColorPopup;
 	private ColorPicker ColorPicker;
+	private Button RemoveColourButton;
 	private HBoxContainer ContentContainer;
 	private Button ResetButton;
 	private Button AddButton;
@@ -31,12 +32,14 @@ public partial class ComboColoursContainer : HBoxContainer
 
 		ChangeColorPopup = GetNode<OkPopup>("%ChangeColorPopup");
 		ColorPicker = GetNode<ColorPicker>("%ColorPicker");
+		RemoveColourButton = GetNode<Button>("%RemoveColourButton");
 		ContentContainer = GetNode<HBoxContainer>("%ContentContainer");
 		ResetButton = GetNode<Button>("%ResetButton");
 		AddButton = GetNode<Button>("%AddButton");
 		VisibleOnScreenNotifier2D = GetNode<VisibleOnScreenNotifier2D>("%VisibleOnScreenNotifier2D");
 
 		ColorPicker.ColorChanged += OnColorPickerColorChanged;
+		RemoveColourButton.Pressed += OnRemoveColourButtonPressed;
 		ResetButton.Pressed += OnResetButtonPressed;
 		AddButton.Pressed += OnAddButtonPressed;
 		VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
@@ -104,6 +107,21 @@ public partial class ComboColoursContainer : HBoxContainer
 	private void OnColorPickerColorChanged(Color color)
 	{
 		ComboColourIcons[SelectedComboIndex].Color = color;
+	}
+
+	private void OnRemoveColourButtonPressed()
+	{
+		ComboColourIcons[SelectedComboIndex]?.QueueFree();
+
+		// Move down all combo colours that follow the removed one.
+		for (int i = SelectedComboIndex; i < 7; i++)
+		{
+			ComboColourIcons[i] = ComboColourIcons[i + 1];
+			ComboColourIcons[i + 1] = null;
+		}
+
+		AddButton.Disabled = false;
+		ChangeColorPopup.Out();
 	}
 
 	private void OnResetButtonPressed()
