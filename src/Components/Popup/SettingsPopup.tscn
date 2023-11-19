@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bimdldtywn6nm"]
+[gd_scene load_steps=10 format=3 uid="uid://bimdldtywn6nm"]
 
 [ext_resource type="Script" path="res://src/Components/Popup/SettingsPopup.cs" id="1_0q4fj"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_dq35g"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="5_8w4ka"]
 [ext_resource type="AudioStream" uid="uid://b4p8a188l28ag" path="res://assets/notch-tick.wav" id="6_cuknw"]
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="6_nnavm"]
-[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="7_ry6mh"]
 [ext_resource type="PackedScene" uid="uid://r28lp1qj0ucs" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="7_x536e"]
 
 [node name="SettingsPopup" type="Control"]
@@ -87,12 +86,6 @@ text = "Report issue or suggest feature"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Open debug logs"
-
-[node name="Footer" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
-layout_mode = 2
-text = "Developed by rednir"
-label_settings = ExtResource("7_ry6mh")
-horizontal_alignment = 2
 
 [node name="SetupPopup" parent="." instance=ExtResource("5_4lsaw")]
 unique_name_in_owner = true
