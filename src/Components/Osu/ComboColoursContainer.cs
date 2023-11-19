@@ -6,9 +6,9 @@ public partial class ComboColoursContainer : HBoxContainer
 {
 	public OsuSkin Skin { get; set; }
 
-	public ComboColourIcon[] ComboColourIcons { get; } = new ComboColourIcon[8];
+	public List<ComboColourIcon> ComboColourIcons { get; } = new();
 
-	private int SelectedComboIndex = -1;
+	private ComboColourIcon SelectedComboColourIcon;
 
 	private PackedScene ComboColourIconScene;
 
@@ -45,20 +45,25 @@ public partial class ComboColoursContainer : HBoxContainer
 	}
 
 	private void OnScreenEntered()
-    {
-        if (Skin == null || _isTexturesLoaded)
-            return;
+	{
+		if (Skin == null || _isTexturesLoaded)
+			return;
 
-        _isTexturesLoaded = true;
+		_isTexturesLoaded = true;
 
-        HitcircleTexture = Skin.Get2XTexture("hitcircle");
-        HitcircleoverlayTexture = Skin.Get2XTexture("hitcircleoverlay");
+		HitcircleTexture = Skin.Get2XTexture("hitcircle");
+		HitcircleoverlayTexture = Skin.Get2XTexture("hitcircleoverlay");
 
 		InitialiseComboColours();
-    }
+	}
 
 	private void InitialiseComboColours()
 	{
+		ComboColourIcons.Clear();
+
+		foreach (Node node in ContentContainer.GetChildren())
+			node.QueueFree();
+
 		for (int i = 0; i < 8; i++)
 		{
 			string[] iniColorRgb = Skin
@@ -67,29 +72,41 @@ public partial class ComboColoursContainer : HBoxContainer
 				.Replace(" ", string.Empty)
 				.Split(',');
 
+			if (iniColorRgb == null)
+			{
+				// Assume we reached the end of the combo colour list.
+				AddButton.Disabled = false;
+				return;
+			}
+
 			if (iniColorRgb != null
 				&& float.TryParse(iniColorRgb[0], out float r)
 				&& float.TryParse(iniColorRgb[1], out float g)
 				&& float.TryParse(iniColorRgb[2], out float b))
 			{
-				Color color = new (r / 255, g / 255, b / 255);
-				AddComboColour(i, color);
-
-				// If all 8 combo colours are used, don't allow adding more.
-				if (i == 7)
-					AddButton.Disabled = true;
+				Color color = new(r / 255, g / 255, b / 255);
+				AddComboColour(color);
 			}
 		}
+
+		// If all 8 combo colours are used, don't allow adding more.
+		AddButton.Disabled = true;
 	}
 
-	private void AddComboColour(int index, Color color)
+	private void AddComboColour(Color color)
 	{
 		ComboColourIcon comboColourIcon = ComboColourIconScene.Instantiate<ComboColourIcon>();
 		ContentContainer.AddChild(comboColourIcon);
 		comboColourIcon.Pressed += () => OnComboColourIconPressed(comboColourIcon);
-		comboColourIcon.SetValues(HitcircleTexture, HitcircleoverlayTexture, GetDefaultTexture(index), color);
-	
-		ComboColourIcons[index] = comboColourIcon;
+		comboColourIcon.SetValues(HitcircleTexture, HitcircleoverlayTexture, GetDefaultTexture(ComboColourIcons.Count), color);
+
+		ComboColourIcons.Add(comboColourIcon);
+	}
+
+	private void UpdateDefaultTextures()
+	{
+		for (int i = 0; i < ComboColourIcons.Count; i++)
+			ComboColourIcons[i].DefaultTexture = GetDefaultTexture(i);
 	}
 
 	private Texture2D GetDefaultTexture(int comboNumber)
@@ -100,75 +117,39 @@ public partial class ComboColoursContainer : HBoxContainer
 
 	private void OnComboColourIconPressed(ComboColourIcon comboColourIcon)
 	{
-		SelectedComboIndex = Array.IndexOf(ComboColourIcons, comboColourIcon);
-
-		ColorPicker.Color = ComboColourIcons[SelectedComboIndex].Color;
+		SelectedComboColourIcon = comboColourIcon;
+		ColorPicker.Color = comboColourIcon.Color;
 		ChangeColorPopup.In();
 	}
-	
+
 	private void OnColorPickerColorChanged(Color color)
 	{
-		ComboColourIcons[SelectedComboIndex].Color = color;
+		SelectedComboColourIcon.Color = color;
 	}
 
 	private void OnRemoveColourButtonPressed()
 	{
-		ComboColourIcons[SelectedComboIndex]?.QueueFree();
-		ComboColourIcons[SelectedComboIndex] = null;
-		CompactComboColorArray();
+		SelectedComboColourIcon.QueueFree();
+		ComboColourIcons.Remove(SelectedComboColourIcon);
 
 		AddButton.Disabled = false;
+		UpdateDefaultTextures();
 		ChangeColorPopup.Out();
 	}
 
-	private void CompactComboColorArray()
-	{
-		for (int i = 0; i < 8; i++)
-        {
-            if (ComboColourIcons[i] != null)
-                continue;
-
-			if (i == 7)
-			{
-				ComboColourIcons[i] = null;
-				continue;
-			}
-
-            for (int j = i; j < 7; j++)
-				ComboColourIcons[j] = ComboColourIcons[j + 1];
-        }
-
-		for (int i = 0; i < 8; i++)
-		{
-			if (ComboColourIcons[i] != null)
-				ComboColourIcons[i].DefaultTexture = GetDefaultTexture(i);
-		}
-    }
-
 	private void OnResetButtonPressed()
 	{
-		for (int i = 0; i < 8; i++)
-		{
-			ComboColourIcons[i]?.QueueFree();
-			ComboColourIcons[i] = null;
-		}
+		foreach (ComboColourIcon icon in ComboColourIcons)
+			icon.QueueFree();
 
 		InitialiseComboColours();
 	}
 
 	private void OnAddButtonPressed()
 	{
-		for (int i = 0; i < 8; i++)
-		{
-			if (ComboColourIcons[i] != null)
-				continue;
+		AddComboColour(new Color(0.75f, 0.75f, 0.75f));
 
-			AddComboColour(i, new Color(0.75f, 0.75f, 0.75f));
-
-			if (i == 7)
-				AddButton.Disabled = true;
-
-			return;
-		}
+		if (ComboColourIcons.Count == 8)
+			AddButton.Disabled = true;
 	}
 }
