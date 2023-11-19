@@ -64,34 +64,7 @@ public partial class Main : Control
 
         VersionLabel.Text = Settings.VERSION;
 
-        ScenesAnimationPlayer.AnimationFinished += (animationName) =>
-        {
-            if (animationName == "pop_out")
-            {
-                SceneStack.Pop().QueueFree();
-                SceneStack.Peek().Visible = true;
-
-                ScenesAnimationPlayer.Play("pop_in");
-            }
-            else if (animationName == "push_out")
-            {
-                if (SceneStack.TryPeek(out StackScene currentlyActiveScene))
-                    currentlyActiveScene.Visible = false;
-
-                PendingScene.ScenePushed += PushScene;
-                PendingScene.ScenePopped += PopScene;
-                PendingScene.ToastPushed += Toast.Push;
-                PendingScene.Visible = true;
-                SceneStack.Push(PendingScene);
-                ScenesContainer.AddChild(PendingScene);
-
-                PendingScene = null;
-                ScenesAnimationPlayer.Play("push_in");
-            }
-
-            BackButton.Disabled = SceneStack.Count <= 1;
-            TitleLabel.Text = SceneStack.Peek()?.Title ?? "osu! skin mixer";
-        };
+        ScenesAnimationPlayer.AnimationFinished += OnAnimationPlayerFinished;
 
         BackButton.Pressed += PopScene;
         SettingsButton.Pressed += SettingsPopup.In;
@@ -120,7 +93,9 @@ public partial class Main : Control
             PushScene(scene);
         };
 
-        PushScene(MenuScene.Instantiate<StackScene>());
+        PendingScene = MenuScene.Instantiate<StackScene>();
+        OnAnimationPlayerFinished("push_out");
+        
         CheckForUpdates();
     }
 
@@ -184,6 +159,35 @@ public partial class Main : Control
 
         SceneStack.Peek().SetDeferred(PropertyName.Visible, true);
         ScenesAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "pop_out");
+    }
+
+    private void OnAnimationPlayerFinished(StringName animationName)
+    {
+        if (animationName == "pop_out")
+        {
+            SceneStack.Pop().QueueFree();
+            SceneStack.Peek().Visible = true;
+
+            ScenesAnimationPlayer.Play("pop_in");
+        }
+        else if (animationName == "push_out")
+        {
+            if (SceneStack.TryPeek(out StackScene currentlyActiveScene))
+                currentlyActiveScene.Visible = false;
+
+            PendingScene.ScenePushed += PushScene;
+            PendingScene.ScenePopped += PopScene;
+            PendingScene.ToastPushed += Toast.Push;
+            PendingScene.Visible = true;
+            SceneStack.Push(PendingScene);
+            ScenesContainer.AddChild(PendingScene);
+
+            PendingScene = null;
+            ScenesAnimationPlayer.Play("push_in");
+        }
+
+        BackButton.Disabled = SceneStack.Count <= 1;
+        TitleLabel.Text = SceneStack.Peek()?.Title ?? "osu! skin mixer";
     }
 
     private void ClearTrash()
