@@ -260,6 +260,7 @@ corner_radius_bottom_left = 4
 [node name="Toast" type="Control"]
 visible = false
 layout_mode = 3
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -325.0

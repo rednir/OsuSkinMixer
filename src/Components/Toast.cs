@@ -57,6 +57,6 @@ public partial class Toast : Control
             return;
 
         ToastTextLabel.SetDeferred(Label.PropertyName.Text, _queue.Dequeue());
-        ToastAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "in");
+        TextAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "in");
     }
 }
