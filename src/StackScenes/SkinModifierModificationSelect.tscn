@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cypqcp2bs5ci8"]
+[gd_scene load_steps=10 format=3 uid="uid://cypqcp2bs5ci8"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_jskw1"]
 [ext_resource type="Script" path="res://src/StackScenes/SkinModifierModificationSelect.cs" id="2_je2sr"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://l5lkphprcihd" path="res://src/Components/SkinComponentSkinManager.tscn" id="4_fdpti"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="4_qbo2l"]
 [ext_resource type="PackedScene" uid="uid://c2ngbwdc3cup8" path="res://src/Components/ExpandablePanelContainer.tscn" id="5_fkmng"]
+[ext_resource type="PackedScene" uid="uid://c4ad7fu1uxu65" path="res://src/Components/Osu/ComboColoursContainer.tscn" id="6_xyg5o"]
 [ext_resource type="Texture2D" uid="uid://cvpikgocffedt" path="res://assets/materialicons/done.png" id="7_mb77d"]
 
 [node name="SkinModifierModificationSelect" type="VBoxContainer"]
@@ -63,6 +64,23 @@ visible = false
 [node name="HSeparator" type="HSeparator" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer" index="2"]
 layout_mode = 2
 theme_override_constants/separation = 16
+
+[node name="ExpandablePanelContainer" parent="." instance=ExtResource("5_fkmng")]
+layout_mode = 2
+
+[node name="Title" parent="ExpandablePanelContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+text = "Combo colour override"
+
+[node name="Subtitle" parent="ExpandablePanelContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
+visible = true
+text = "Pick combo colours using a colour picker"
+
+[node name="ContentContainer" parent="ExpandablePanelContainer/VBoxContainer" index="1"]
+visible = true
+
+[node name="ComboColoursContainer" parent="ExpandablePanelContainer/VBoxContainer/ContentContainer" index="1" instance=ExtResource("6_xyg5o")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="ExtraOptionsContainer" parent="." instance=ExtResource("5_fkmng")]
 layout_mode = 2
@@ -125,6 +143,7 @@ visible = true
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon"]
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent"]
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon"]
+[editable path="ExpandablePanelContainer"]
 [editable path="ExtraOptionsContainer"]
 [editable path="LoadingPopup"]
 [editable path="LoadingPopup/Popup"]

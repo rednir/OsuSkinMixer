@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://1edyn11ij37f"]
+
+[ext_resource type="Script" path="res://src/Components/Osu/ComboColourIcon.cs" id="1_teaxq"]
+[ext_resource type="Texture2D" uid="uid://fhdeit7as0yi" path="res://assets/defaultskin/hitcircleoverlay.png" id="2_a5o8s"]
+[ext_resource type="Texture2D" uid="uid://d2i4vkrwdm57x" path="res://assets/defaultskin/hitcircle.png" id="3_kpopl"]
+[ext_resource type="Texture2D" uid="uid://dcn0qk3g4475p" path="res://assets/defaultskin/default-1.png" id="4_ix6hr"]
+[ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="5_uf0c2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5lnd6"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 1, 1, 0.27451)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[node name="ComboColourIcon" type="CenterContainer"]
+offset_top = -1.0
+offset_right = 52.0
+offset_bottom = 51.0
+script = ExtResource("1_teaxq")
+
+[node name="HitcircleoverlayTexture" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+texture = ExtResource("2_a5o8s")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HitcircleTexture" type="TextureRect" parent="."]
+modulate = Color(0.505882, 0.694118, 0.592157, 1)
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+texture = ExtResource("3_kpopl")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DefaultTexture" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("4_ix6hr")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Button" parent="." instance=ExtResource("5_uf0c2")]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_5lnd6")
+icon = null

@@ -19,6 +19,7 @@ public partial class SkinModifierModificationSelect : StackScene
     private SkinComponent DefaultSkinComponent;
     private SkinComponent BlankComponent;
     private Button ApplyChangesButton;
+    private ComboColoursContainer ComboColoursContainer;
     private CheckBox SmoothTrailCheckBox;
     private CheckBox InstafadeCheckBox;
     private CheckBox DisableAnimationsCheckBox;
@@ -32,6 +33,7 @@ public partial class SkinModifierModificationSelect : StackScene
         DefaultSkinComponent = GetNode<SkinComponent>("%DefaultSkinComponent");
         BlankComponent = GetNode<SkinComponent>("%BlankComponent");
         ApplyChangesButton = GetNode<Button>("%ApplyChangesButton");
+        ComboColoursContainer = GetNode<ComboColoursContainer>("%ComboColoursContainer");
         SmoothTrailCheckBox = GetNode<CheckBox>("%SmoothTrailCheckBox");
         InstafadeCheckBox = GetNode<CheckBox>("%InstafadeCheckBox");
         DisableAnimationsCheckBox = GetNode<CheckBox>("%DisableAnimationsCheckBox");
@@ -41,6 +43,7 @@ public partial class SkinModifierModificationSelect : StackScene
         DefaultSkinComponent.LeftClicked += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.DefaultSkin));
         BlankComponent.LeftClicked += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.Blank));
         ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
+        ComboColoursContainer.Skin = SkinsToModify[0];
         LoadingPopup.CancelAction = OnCancelButtonPressed;
         LoadingPopup.DisableCancelAt = SkinModifierMachine.UNCANCELLABLE_AFTER;
 

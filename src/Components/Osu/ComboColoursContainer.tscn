@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4ad7fu1uxu65"]
+
+[ext_resource type="Script" path="res://src/Components/Osu/ComboColoursContainer.cs" id="1_035c4"]
+[ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="1_md6pn"]
+[ext_resource type="Texture2D" uid="uid://cqwxbxy12xlnt" path="res://assets/materialicons/add.png" id="2_fkfe1"]
+
+[node name="ComboColoursContainer" type="HBoxContainer"]
+offset_right = 278.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+alignment = 1
+script = ExtResource("1_035c4")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(144, 20)
+
+[node name="ContentContainer" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="StandardIconButton" parent="." instance=ExtResource("1_md6pn")]
+layout_mode = 2
+icon = ExtResource("2_fkfe1")
