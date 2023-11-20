@@ -72,7 +72,6 @@ public partial class Splash : Control
         if (File.Exists(Settings.AutoUpdateInstallerPath))
         {
             AutoUpdate();
-            File.Delete(Settings.AutoUpdateInstallerPath);
             return;
         }
 
@@ -83,6 +82,9 @@ public partial class Splash : Control
     {
         if (!Settings.Content.AutoUpdate || Settings.Content.LastVersion != Settings.VERSION)
         {
+            if (File.Exists(Settings.AutoUpdateInstallerPath))
+                File.Delete(Settings.AutoUpdateInstallerPath);
+
             LoadSkins();
             return;
         }

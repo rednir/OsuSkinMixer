@@ -95,6 +95,7 @@ visible = true
 text = "Your mileage may vary!"
 
 [node name="ContentContainer" parent="ExtraOptionsContainer/VBoxContainer" index="1"]
+visible = true
 theme_override_constants/separation = 0
 
 [node name="InstafadeCheckBox" type="CheckBox" parent="ExtraOptionsContainer/VBoxContainer/ContentContainer" index="1"]
