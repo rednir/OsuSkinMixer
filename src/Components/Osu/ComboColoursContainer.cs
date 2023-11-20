@@ -9,66 +9,71 @@ public partial class ComboColoursContainer : HBoxContainer
 	public IEnumerable<ComboColourIcon> ComboColourIcons => ContentContainer.GetChildren()
 		.Where(c => !c.IsQueuedForDeletion()).Cast<ComboColourIcon>();
 
-	public bool IsModified { get; set; }
+	public bool OverrideEnabled { get; private set; }
 
 	private ComboColourIcon SelectedComboColourIcon;
 
 	private PackedScene ComboColourIconScene;
 
+	private HBoxContainer OverridingOnContainer;
+	private HBoxContainer OverridingOffContainer;
+	private Label EnableOverrideLabel;
+	private Button EnableOverrideButton;
 	private OkPopup ChangeColorPopup;
 	private ColorPicker ColorPicker;
 	private Button RemoveColourButton;
 	private HBoxContainer ContentContainer;
 	private Button ResetButton;
 	private Button AddButton;
-	private VisibleOnScreenNotifier2D VisibleOnScreenNotifier2D;
 
 	private Texture2D HitcircleTexture;
 	private Texture2D HitcircleoverlayTexture;
-
-	private bool _isTexturesLoaded;
 
 	public override void _Ready()
 	{
 		ComboColourIconScene = GD.Load<PackedScene>("res://src/Components/Osu/ComboColourIcon.tscn");
 
+		OverridingOnContainer = GetNode<HBoxContainer>("%OverridingOnContainer");
+		OverridingOffContainer = GetNode<HBoxContainer>("%OverridingOffContainer");
+		EnableOverrideLabel = GetNode<Label>("%EnableOverrideLabel");
+		EnableOverrideButton = GetNode<Button>("%EnableOverrideButton");
 		ChangeColorPopup = GetNode<OkPopup>("%ChangeColorPopup");
 		ColorPicker = GetNode<ColorPicker>("%ColorPicker");
 		RemoveColourButton = GetNode<Button>("%RemoveColourButton");
 		ContentContainer = GetNode<HBoxContainer>("%ContentContainer");
 		ResetButton = GetNode<Button>("%ResetButton");
 		AddButton = GetNode<Button>("%AddButton");
-		VisibleOnScreenNotifier2D = GetNode<VisibleOnScreenNotifier2D>("%VisibleOnScreenNotifier2D");
 
+		EnableOverrideButton.Pressed += OnEnableOverrideButtonPressed;
 		ColorPicker.ColorChanged += OnColorPickerColorChanged;
 		RemoveColourButton.Pressed += OnRemoveColourButtonPressed;
 		ResetButton.Pressed += OnResetButtonPressed;
 		AddButton.Pressed += OnAddButtonPressed;
-		VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
+
+		EnableOverrideLabel.Text = $"Override colours for \"{Skin.Name}\"";
 	}
 
 	public void Reset()
+		=> OnResetButtonPressed();
+
+	private void OnEnableOverrideButtonPressed()
 	{
-		_isTexturesLoaded = false;
-		OnScreenEntered();
-	}
-
-	private void OnScreenEntered()
-	{
-		if (Skin == null || _isTexturesLoaded)
-			return;
-
-		_isTexturesLoaded = true;
-
-		HitcircleTexture = Skin.Get2XTexture("hitcircle");
-		HitcircleoverlayTexture = Skin.Get2XTexture("hitcircleoverlay");
+		OverrideEnabled = true;
+		OverridingOnContainer.Visible = true;
+		OverridingOffContainer.Visible = false;
 
 		InitialiseComboColours();
 	}
 
+	private void LoadTextures()
+	{
+		HitcircleTexture = Skin.Get2XTexture("hitcircle");
+		HitcircleoverlayTexture = Skin.Get2XTexture("hitcircleoverlay");
+	}
+
 	private void InitialiseComboColours()
 	{
-		IsModified = false;
+		LoadTextures();
 
 		foreach (Node node in ComboColourIcons)
 			node.QueueFree();
@@ -145,14 +150,11 @@ public partial class ComboColoursContainer : HBoxContainer
 
 	private void OnColorPickerColorChanged(Color color)
 	{
-		IsModified = true;
 		SelectedComboColourIcon.Color = color;
 	}
 
 	private void OnRemoveColourButtonPressed()
 	{
-		IsModified = true;
-
 		SelectedComboColourIcon.QueueFree();
 
 		AddButton.Disabled = false;
@@ -165,12 +167,13 @@ public partial class ComboColoursContainer : HBoxContainer
 		foreach (ComboColourIcon icon in ComboColourIcons)
 			icon.QueueFree();
 
-		InitialiseComboColours();
+		OverrideEnabled = false;
+		OverridingOnContainer.Visible = false;
+		OverridingOffContainer.Visible = true;
 	}
 
 	private void OnAddButtonPressed()
 	{
-		IsModified = true;
 		AddComboColour(new Color(0.75f, 0.75f, 0.75f));
 
 		if (ComboColourIcons.Count() == 8)

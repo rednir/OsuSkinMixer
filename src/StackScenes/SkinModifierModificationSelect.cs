@@ -93,7 +93,7 @@ public partial class SkinModifierModificationSelect : StackScene
     {
         LoadingPopup.In();
 
-        var overrides = ComboColoursContainers.Where(c => c.IsModified)
+        var overrides = ComboColoursContainers.Where(c => c.OverrideEnabled)
             .ToDictionary(c => c.Skin.Name, c => c.ComboColourIcons.Select(i => i.Color).ToArray());
 
         CancellationTokenSource = new CancellationTokenSource();
