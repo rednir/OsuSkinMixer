@@ -111,10 +111,11 @@ text = "Create a skin mix!"
 label_settings = ExtResource("3_08a4k")
 
 [node name="Description" type="Label" parent="VBoxContainer/SkinMixerButton/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
-text = "Use elements from existing skins to make
-a new skin"
+text = "Use elements from existing skins to make a new skin"
 label_settings = ExtResource("4_7a57c")
+autowrap_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/SkinMixerButton/HBoxContainer"]
 modulate = Color(1, 1, 1, 0.698039)
@@ -194,8 +195,7 @@ label_settings = ExtResource("3_08a4k")
 layout_mode = 2
 text = "•  View and manage your installed skins
 •  Hide skins from osu!
-•  Duplicate, delete and export skins
-"
+•  Duplicate, delete and export skins"
 label_settings = ExtResource("4_7a57c")
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/SkinManagerButton/HBoxContainer"]
