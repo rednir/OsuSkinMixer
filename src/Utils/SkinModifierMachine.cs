@@ -131,6 +131,11 @@ public class SkinModifierMachine : SkinMachine
 
         string skinIniDestination = $"{workingSkin.Directory.FullName}/skin.ini";
         AddFileToOriginalElementsCache(skinIniDestination);
+
+        // Hotfix for case-sensitive file systems.
+        if (File.Exists($"{workingSkin.Directory.FullName}/Skin.ini"))
+            File.Delete($"{workingSkin.Directory.FullName}/Skin.ini");
+
         AddTask(() =>
         {
             Log($"Writing to {skinIniDestination}");

@@ -254,6 +254,18 @@ public class OsuSkin
                 Settings.PushException(new InvalidOperationException($"Failed to load {Directory.FullName}/skin.ini", ex));
             }
         }
+        else if (File.Exists($"{Directory.FullName}/Skin.ini"))
+        {
+            // Hotfix for case-sensitive file systems.
+            try
+            {
+                SkinIni = new OsuSkinIni(File.ReadAllText($"{Directory.FullName}/Skin.ini"));
+            }
+            catch (Exception ex)
+            {
+                Settings.PushException(new InvalidOperationException($"Failed to load {Directory.FullName}/Skin.ini", ex));
+            }
+        }
         else
         {
             SkinIni = new OsuSkinIni(Name, "unknown");
