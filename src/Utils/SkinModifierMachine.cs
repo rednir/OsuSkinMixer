@@ -6,13 +6,17 @@ using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
+using OsuSkinMixer.Components;
+using System.Runtime.Serialization;
 
 /// <summary>Provides methods to modify one or more skins based on a list of <see cref="SkinOption"/> and extra flags.</summary>
 public class SkinModifierMachine : SkinMachine
 {
     public const double UNCANCELLABLE_AFTER = 80.0;
 
-    public IEnumerable<OsuSkin> SkinsToModify { get; set; }
+    public OsuSkin[] SkinsToModify { get; set; }
+
+    public ComboColoursContainer[] ComboColoursContainers { get; set; }
 
     public bool SmoothTrail { get; set; }
 
@@ -106,6 +110,8 @@ public class SkinModifierMachine : SkinMachine
             CancellationToken.ThrowIfCancellationRequested();
         }
 
+        AddTask(() => OverrideComboColour(workingSkin));
+
         if (SmoothTrail)
         {
             AddTask(() =>
@@ -143,6 +149,31 @@ public class SkinModifierMachine : SkinMachine
         });
 
         Log($"Skin modification for '{workingSkin.Name}' has completed.");
+    }
+
+    private void OverrideComboColour(OsuSkin workingSkin)
+    {
+        List<ComboColourIcon> comboColourIcons = ComboColoursContainers
+            .FirstOrDefault(c => c.IsModified && c.Skin.Name == workingSkin.Name)?.ComboColourIcons;
+
+        if (comboColourIcons == null)
+            return;
+        
+        Log($"Overriding combo colours for skin '{workingSkin.Name}'");
+        
+        OsuSkinIniSection coloursSection = workingSkin.SkinIni?.Sections.Find(s => s.Name == "Colours");
+        for (int i = 0; i < 8; i++)
+        {
+            if (i >= comboColourIcons.Count)
+            {
+                // Remove any existing combo colours that we don't want anymore.
+                coloursSection.Remove($"Combo{i + 1}");
+                continue;
+            }
+
+            var color = comboColourIcons[i].Color;
+            coloursSection[$"Combo{i + 1}"] = $"{(int)(color.R * 255)},{(int)(color.G * 255)},{(int)(color.B * 255)}";
+        }
     }
 
     private void MakeCursorTrailSmooth(OsuSkin workingSkin, string suffix = null)
