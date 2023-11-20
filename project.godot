@@ -23,6 +23,7 @@ config/icon="res://assets/icon.png"
 
 [debug]
 
+file_logging/enable_file_logging.pc=false
 file_logging/max_log_files=3
 
 [display]

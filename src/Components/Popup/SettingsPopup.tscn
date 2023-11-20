@@ -25,7 +25,7 @@ script = ExtResource("1_0q4fj")
 layout_mode = 1
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
-offset_bottom = 0.0
+offset_bottom = -6.10352e-05
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
 layout_mode = 2
@@ -84,6 +84,7 @@ text = "Report issue or suggest feature"
 
 [node name="OpenLogsButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("6_nnavm")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "Open debug logs"
 
