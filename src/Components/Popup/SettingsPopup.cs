@@ -49,7 +49,7 @@ public partial class SettingsPopup : Popup
 
     public void ShowUpdateButton()
     {
-        UpdateButton.Visible = true;
+        UpdateButton.SetDeferred("visible", true);
     }
 
     private void UseCompactSkinSelectorButtonPressed()
