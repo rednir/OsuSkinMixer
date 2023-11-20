@@ -588,7 +588,6 @@ follow_focus = true
 unique_name_in_owner = true
 z_as_relative = false
 layout_mode = 1
-anchors_preset = 1
 offset_left = -326.0
 offset_top = 64.0
 offset_right = -13.0

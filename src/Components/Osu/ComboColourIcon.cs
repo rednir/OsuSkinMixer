@@ -4,8 +4,6 @@ public partial class ComboColourIcon : CenterContainer
 {
 	public Action Pressed;
 
-	public Color InitialColor { get; private set; }
-
 	public Color Color
     {
         get => Hitcircle.Modulate;
@@ -38,8 +36,6 @@ public partial class ComboColourIcon : CenterContainer
 		Hitcircle.Texture = hitcircle;
 		Hitcircleoverlay.Texture = hitcircleoverlay;
 		DefaultTextureRect.Texture = defaultTexture;
-
-		InitialColor = color;
 	}
 
 	private void OnButtonPressed()
