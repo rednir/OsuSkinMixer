@@ -166,15 +166,26 @@ public class SkinModifierMachine : SkinMachine
         {
             if (i >= comboColourIcons.Count)
             {
+                if (i == 1 && comboColourIcons.Count == 1)
+                {
+                    // If only Combo1 is defined, set Combo2 to the same colour.
+                    var lastColor = comboColourIcons[0].Color;
+                    coloursSection["Combo2"] = GodotColorToRgbString(lastColor);
+                    continue;
+                }
+
                 // Remove any existing combo colours that we don't want anymore.
                 coloursSection.Remove($"Combo{i + 1}");
                 continue;
             }
 
             var color = comboColourIcons[i].Color;
-            coloursSection[$"Combo{i + 1}"] = $"{(int)(color.R * 255)},{(int)(color.G * 255)},{(int)(color.B * 255)}";
+            coloursSection[$"Combo{i + 1}"] = GodotColorToRgbString(color);
         }
     }
+
+    private string GodotColorToRgbString(Godot.Color color)
+        => $"{(int)(color.R * 255)},{(int)(color.G * 255)},{(int)(color.B * 255)}";
 
     private void MakeCursorTrailSmooth(OsuSkin workingSkin, string suffix = null)
     {
