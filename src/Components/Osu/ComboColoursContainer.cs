@@ -46,6 +46,12 @@ public partial class ComboColoursContainer : HBoxContainer
 		VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
 	}
 
+	public void Reset()
+	{
+		_isTexturesLoaded = false;
+		OnScreenEntered();
+	}
+
 	private void OnScreenEntered()
 	{
 		if (Skin == null || _isTexturesLoaded)

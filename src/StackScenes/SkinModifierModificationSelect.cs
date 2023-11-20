@@ -126,6 +126,9 @@ public partial class SkinModifierModificationSelect : StackScene
                 InstafadeCheckBox.ButtonPressed = false;
                 SmoothTrailCheckBox.ButtonPressed = false;
                 DisableAnimationsCheckBox.ButtonPressed = false;
+                
+                foreach (var container in ComboColoursContainers)
+                    container.CallDeferred(nameof(container.Reset));
 
                 var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
                 skinInfoInstance.Skins = SkinsToModify;
