@@ -8,6 +8,8 @@ public partial class ComboColoursContainer : HBoxContainer
 
 	public List<ComboColourIcon> ComboColourIcons { get; } = new();
 
+	public bool IsModified { get; set; }
+
 	private ComboColourIcon SelectedComboColourIcon;
 
 	private PackedScene ComboColourIconScene;
@@ -60,6 +62,7 @@ public partial class ComboColoursContainer : HBoxContainer
 	private void InitialiseComboColours()
 	{
 		ComboColourIcons.Clear();
+		IsModified = false;
 
 		foreach (Node node in ContentContainer.GetChildren())
 			node.QueueFree();
@@ -99,7 +102,6 @@ public partial class ComboColoursContainer : HBoxContainer
 		ContentContainer.AddChild(comboColourIcon);
 		comboColourIcon.Pressed += () => OnComboColourIconPressed(comboColourIcon);
 		comboColourIcon.SetValues(HitcircleTexture, HitcircleoverlayTexture, GetDefaultTexture(ComboColourIcons.Count), color);
-
 		ComboColourIcons.Add(comboColourIcon);
 	}
 
@@ -124,11 +126,14 @@ public partial class ComboColoursContainer : HBoxContainer
 
 	private void OnColorPickerColorChanged(Color color)
 	{
+		IsModified = true;
 		SelectedComboColourIcon.Color = color;
 	}
 
 	private void OnRemoveColourButtonPressed()
 	{
+		IsModified = true;
+
 		SelectedComboColourIcon.QueueFree();
 		ComboColourIcons.Remove(SelectedComboColourIcon);
 
@@ -147,6 +152,7 @@ public partial class ComboColoursContainer : HBoxContainer
 
 	private void OnAddButtonPressed()
 	{
+		IsModified = true;
 		AddComboColour(new Color(0.75f, 0.75f, 0.75f));
 
 		if (ComboColourIcons.Count == 8)
