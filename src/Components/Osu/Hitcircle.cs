@@ -78,7 +78,9 @@ public partial class Hitcircle : Node2D
 
         _comboColors = skin.ComboColors;
         _hitcirclePrefix = skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
-        NextCombo();
+
+        // Prevent scale being read before it is set.
+        CallDeferred(nameof(NextCombo));
     }
 
     public void Pause()
