@@ -20,6 +20,7 @@ public partial class Main : Control
     private PackedScene SkinModiferModificationSelectScene;
     private PackedScene SkinInfoScene;
 
+    private AnimationPlayer UpdateAnimationPlayer;
     private CanvasLayer Background;
     private AnimationPlayer ScenesAnimationPlayer;
     private Control ScenesContainer;
@@ -47,7 +48,8 @@ public partial class Main : Control
         MenuScene = GD.Load<PackedScene>("res://src/StackScenes/Menu.tscn");
         SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
         SkinModiferModificationSelectScene = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierModificationSelect.tscn");
-
+        
+        UpdateAnimationPlayer = GetNode<AnimationPlayer>("%UpdateAnimationPlayer");
         Background = GetNode<CanvasLayer>("Background");
         ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
         ScenesContainer = GetNode<Control>("Scenes/ScrollContainer");
@@ -227,6 +229,7 @@ public partial class Main : Control
                 return;
             }
 
+            Toast.Push($"An update is being downloaded.");
             Task task = Settings.DownloadInstallerAsync(release).ContinueWith(t =>
             {
                 if (t.IsFaulted)
@@ -244,8 +247,8 @@ public partial class Main : Control
 
     private void UpdateAvailable(GithubRelease release)
     {
-        GetNode<AnimationPlayer>("%UpdateAnimationPlayer").Play("available");
-        SettingsButton.Text = $"Update to {release.TagName}";
+        UpdateAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "available");
+        SettingsButton.SetDeferred(Button.PropertyName.Text, $"Update to {release.TagName}");
         SettingsPopup.ShowUpdateButton();
     }
 }
