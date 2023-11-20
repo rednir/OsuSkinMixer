@@ -16,7 +16,7 @@ public class SkinModifierMachine : SkinMachine
 
     public OsuSkin[] SkinsToModify { get; set; }
 
-    public ComboColoursContainer[] ComboColoursContainers { get; set; }
+    public Dictionary<string, Godot.Color[]> SkinComboColourOverrides { get; set; }
 
     public bool SmoothTrail { get; set; }
 
@@ -153,10 +153,9 @@ public class SkinModifierMachine : SkinMachine
 
     private void OverrideComboColour(OsuSkin workingSkin)
     {
-        ComboColourIcon[] comboColourIcons = ComboColoursContainers
-            .FirstOrDefault(c => c.IsModified && c.Skin.Name == workingSkin.Name)?.ComboColourIcons.ToArray();
+        SkinComboColourOverrides.TryGetValue(workingSkin.Name, out Godot.Color[] comboColours);
 
-        if (comboColourIcons == null)
+        if (comboColours == null)
             return;
         
         Log($"Overriding combo colours for skin '{workingSkin.Name}'");
@@ -165,31 +164,29 @@ public class SkinModifierMachine : SkinMachine
 
         for (int i = 0; i < 7; i++)
         {
-            if (i == comboColourIcons.Length - 1)
+            if (i == comboColours.Length - 1)
             {
-                string lastColor = GodotColorToRgbString(comboColourIcons[i].Color);
+                string lastColor = GodotColorToRgbString(comboColours[i]);
 
                 // Set Combo1 to the last color.
                 coloursSection["Combo1"] = lastColor;
 
                 // If there's only one color, set Combo2 to the last color as well.
-                if (comboColourIcons.Length == 1)
+                if (comboColours.Length == 1)
                     coloursSection["Combo2"] = lastColor;
                     
                 continue;
             }
 
-            if (i >= comboColourIcons.Length)
+            if (i >= comboColours.Length)
             {
                 // Remove any existing combo colours that we don't want anymore.
                 coloursSection.Remove($"Combo{i + 1}");
                 continue;
             }
 
-            coloursSection[$"Combo{i + 2}"] = GodotColorToRgbString(comboColourIcons[i].Color);
+            coloursSection[$"Combo{i + 2}"] = GodotColorToRgbString(comboColours[i]);
         }
-
-        
     }
 
     private string GodotColorToRgbString(Godot.Color color)

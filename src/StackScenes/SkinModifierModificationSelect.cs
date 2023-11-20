@@ -93,6 +93,9 @@ public partial class SkinModifierModificationSelect : StackScene
     {
         LoadingPopup.In();
 
+        var overrides = ComboColoursContainers.Where(c => c.IsModified)
+            .ToDictionary(c => c.Skin.Name, c => c.ComboColourIcons.Select(i => i.Color).ToArray());
+
         CancellationTokenSource = new CancellationTokenSource();
         SkinModifierMachine machine = new()
         {
@@ -100,7 +103,7 @@ public partial class SkinModifierModificationSelect : StackScene
             ProgressChanged = v => LoadingPopup.Progress = v,
             StatusChanged = s => LoadingPopup.Status = s,
             SkinsToModify = SkinsToModify.ToArray(),
-            ComboColoursContainers = ComboColoursContainers,
+            SkinComboColourOverrides = overrides,
             SmoothTrail = SmoothTrailCheckBox.ButtonPressed,
             Instafade = InstafadeCheckBox.ButtonPressed,
             DisableInterfaceAnimations = DisableAnimationsCheckBox.ButtonPressed,
