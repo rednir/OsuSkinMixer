@@ -1,5 +1,7 @@
 <p align="center">
-  <img alt="Download for Windows" src="assets/icon-text.png">
+  <a href="#">
+    <img alt="Download for Windows" src="assets/icon-text.png">
+  </a>
 </p>
 <p align="center">
   <a href="FEEDBACK.md">
