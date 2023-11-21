@@ -3,10 +3,10 @@
 </p>
 <p align="center">
   <a href="FEEDBACK.md">
-    <img alt="Send feedback" src="https://img.shields.io/badge/Send%20feedback-FFC7D2?style=for-the-badge">
+    <img alt="Send feedback" src="https://img.shields.io/badge/Send%20feedback-FF80A3?style=for-the-badge">
   </a>
   <a href="https://github.com/rednir/OsuSkinMixer/releases/latest/download/osu-skin-mixer-setup.exe">
-    <img alt="Download for Windows" src="https://img.shields.io/github/downloads/rednir/osuskinmixer/total?style=for-the-badge&logo=windows&logoColor=f3f3f3&label=Download%20for%20Windows&labelColor=0178d8&color=f0f0f0">
+    <img alt="Download for Windows" src="https://img.shields.io/github/downloads/rednir/osuskinmixer/total?style=for-the-badge&logo=windows&logoColor=f3f3f3&label=Download%20for%20Windows&labelColor=0178d8&color=34abfb">
   </a>
 </p>
 <p align="center">
