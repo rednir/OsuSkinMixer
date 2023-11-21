@@ -1,37 +1,32 @@
-[![osu! skin mixer](assets/icon-text.png)](https://github.com/rednir/OsuSkinMixer/releases/latest/)
-
-[![Latest](https://img.shields.io/github/v/release/rednir/OsuSkinMixer)](https://github.com/rednir/OsuSkinMixer/releases/latest/)
-[![GitHub all releases](https://img.shields.io/github/downloads/rednir/OsuSkinMixer/total?color=%23ff6e3a)](https://github.com/rednir/OsuSkinMixer/releases/latest/)
-[![CodeFactor](https://www.codefactor.io/repository/github/rednir/osuskinmixer/badge)](https://www.codefactor.io/repository/github/rednir/osuskinmixer)
-
----
-
-*Mix and manage your osu! skins with ease!*
-
-This is a tool that aims to get rid the days of opening your skins folder, editing .png images and watching tutorials.
-
-It makes tinkering and editing skins a walk in the park, providing an easy to use interface that requires no prior knowledge of skinning.
-
+<p align="center">
+  <img alt="Download for Windows" src="assets/icon-text.png">
+</p>
+<p align="center">
+  <a href="FEEDBACK.md">
+    <img alt="Send feedback" src="https://img.shields.io/badge/Send%20feedback-FFC7D2?style=for-the-badge">
+  </a>
+  <a href="https://github.com/rednir/OsuSkinMixer/releases/latest/download/osu-skin-mixer-setup.exe">
+    <img alt="Download for Windows" src="https://img.shields.io/github/downloads/rednir/osuskinmixer/total?style=for-the-badge&logo=windows&logoColor=f3f3f3&label=Download%20for%20Windows&labelColor=0178d8&color=f0f0f0">
+  </a>
+</p>
+<p align="center">
+  Create a skin mix in a couple clicks.
+</p>
 
 https://user-images.githubusercontent.com/10225220/224090214-206b6459-4612-40ca-832f-ce72f3f2e60a.mp4
 
-
-## Downloads
-**[Download for Windows](https://github.com/rednir/OsuSkinMixer/releases/latest/download/osu-skin-mixer-setup.exe)**
-
-Alternative downloads are available on the releases page.
+> [!NOTE]
+> Go to the [releases page](https://github.com/rednir/OsuSkinMixer/releases/latest/) to find downloads for other platforms.
 
 ## Features
 
-### Skin mixer:
-
-- Create a skin mix in seconds.
+### Create a skin mix in seconds
  
 - Choose what hitcircles to use, what sounds you want etc.. and it's done! - no need to scour through your skins folder in file explorer.
 
 - Expand an option by clicking its arrow button to explore a myriad of sub-options; you can even choose a specific .png file!
 
-### Skin modifier:
+### Modify your existing skins
 
 - Want to quickly change the cursor of a skin, or multiple skins at once?
 
@@ -39,7 +34,7 @@ Alternative downloads are available on the releases page.
 
 - A couple clicks and your modified skin is ready to go!
 
-### Skin manager
+### Manage your skins folder
 
 - A place to view a preview of your skin, duplicate or delete it from your system. Search for a skin and open it directly in osu!
 
