@@ -56,8 +56,8 @@ If you wish to contribute in the form of pull requests, that is also welcomed. Y
 
 ## Other links
 
-- [Go to osu! forums post](https://osu.ppy.sh/community/forums/topics/1458320?n=1)
-- [Donate to support development](https://github.com/rednir/rednir/blob/master/DONATE.md)
+[![Go to osu! forums post](https://img.shields.io/badge/osu!%20forums-FF66AA?style=for-the-badge&logo=osu&logoColor=f3f3f3)](https://osu.ppy.sh/community/forums/topics/1458320?n=1)
+[![Donate](https://img.shields.io/badge/Donate-4CAF50?style=for-the-badge)](https://github.com/rednir/rednir/blob/master/DONATE.md)
 
 This project uses some assets from the [osu-resources](https://github.com/ppy/osu-resources) repository.
 
