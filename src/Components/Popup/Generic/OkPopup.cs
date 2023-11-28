@@ -18,7 +18,7 @@ public partial class OkPopup : Popup
 
     public void SetValues(string text, string title)
     {
-        Title.SetDeferred(PropertyName.Text, title);
-        Text.SetDeferred(PropertyName.Text, text);
+        Title.SetDeferred(Label.PropertyName.Text, title);
+        Text.SetDeferred(Label.PropertyName.Text, text);
     }
 }
