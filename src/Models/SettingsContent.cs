@@ -28,6 +28,9 @@ public static partial class Settings
         [JsonPropertyName("volume_mute")]
         public bool VolumeMute { get; set; }
 
+        [JsonPropertyName("disable_effects")]
+        public bool DisableEffects { get; set; }
+
         [JsonPropertyName("arrow_button_pressed")]
         public bool ArrowButtonPressed { get; set; }
 

@@ -21,7 +21,7 @@ public partial class Main : Control
     private PackedScene SkinInfoScene;
 
     private AnimationPlayer UpdateAnimationPlayer;
-    private CanvasLayer Background;
+    private Background Background;
     private AnimationPlayer ScenesAnimationPlayer;
     private Control ScenesContainer;
     private Button BackButton;
@@ -50,7 +50,7 @@ public partial class Main : Control
         SkinModiferModificationSelectScene = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierModificationSelect.tscn");
         
         UpdateAnimationPlayer = GetNode<AnimationPlayer>("%UpdateAnimationPlayer");
-        Background = GetNode<CanvasLayer>("Background");
+        Background = GetNode<Background>("Background");
         ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
         ScenesContainer = GetNode<Control>("Scenes/ScrollContainer");
         BackButton = GetNode<Button>("TopBar/HBoxContainer/BackButton");
@@ -139,8 +139,12 @@ public partial class Main : Control
 
     private void PushScene(StackScene scene)
     {
+        if (PendingScene != null)
+            return;
+
         Settings.Log($"Pushing scene {scene.Title}");
         PendingScene = scene;
+        Background.HideSnow();
         ScenesAnimationPlayer.Play("push_out");
     }
 
@@ -170,6 +174,7 @@ public partial class Main : Control
             SceneStack.Pop().QueueFree();
             SceneStack.Peek().Visible = true;
 
+            Background.ShowSnow();
             ScenesAnimationPlayer.Play("pop_in");
         }
         else if (animationName == "push_out")

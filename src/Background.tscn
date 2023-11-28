@@ -1,0 +1,270 @@
+[gd_scene load_steps=10 format=3 uid="uid://jyjvf2hxmuvy"]
+
+[ext_resource type="Script" path="res://src/Background.cs" id="1_bndj1"]
+[ext_resource type="Texture2D" uid="uid://b8d0jwme466fo" path="res://assets/triangle.svg" id="1_d804o"]
+[ext_resource type="Texture2D" uid="uid://ckyb3w6s6aw3v" path="res://assets/defaultskin/score-dot.png" id="2_k8asv"]
+[ext_resource type="Texture2D" uid="uid://05l1bgbm243m" path="res://assets/defaultskin/menu-background.jpg" id="3_4rynk"]
+
+[sub_resource type="Animation" id="Animation_h0rrm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SnowParticles:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SnowParticles:speed_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SnowParticles:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Particles:speed_scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Particles:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_lxfmd"]
+resource_name = "snow_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SnowParticles:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SnowParticles:speed_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SnowParticles:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.3, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Particles:speed_scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Particles:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_tlvs5"]
+resource_name = "snow_out"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SnowParticles:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SnowParticles:speed_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SnowParticles:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(0.3, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Particles:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Particles:speed_scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_43ckp"]
+_data = {
+"RESET": SubResource("Animation_h0rrm"),
+"snow_in": SubResource("Animation_lxfmd"),
+"snow_out": SubResource("Animation_tlvs5")
+}
+
+[sub_resource type="Gradient" id="Gradient_gqud0"]
+offsets = PackedFloat32Array(0.961612, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.929412, 1, 0)
+
+[node name="Background" type="CanvasLayer"]
+process_mode = 1
+layer = -20
+script = ExtResource("1_bndj1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_43ckp")
+}
+
+[node name="Particles" type="CPUParticles2D" parent="."]
+position = Vector2(2.08165e-12, 502)
+amount = 40
+lifetime = 40.0
+preprocess = 30.0
+fixed_fps = 24
+texture = ExtResource("1_d804o")
+emission_shape = 3
+emission_rect_extents = Vector2(400, 1)
+direction = Vector2(2.08165e-12, -1)
+spread = 0.0
+gravity = Vector2(2.08165e-12, 2.08165e-12)
+initial_velocity_min = 10.0
+initial_velocity_max = 30.0
+scale_amount_min = 0.05
+color = Color(0.0980392, 0.0941176, 0.109804, 1)
+color_ramp = SubResource("Gradient_gqud0")
+
+[node name="SnowParticles" type="CPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 0.913725, 1, 0.843137)
+position = Vector2(0, -11)
+emitting = false
+amount = 250
+lifetime = 10.0
+preprocess = 30.0
+speed_scale = 0.0
+fixed_fps = 24
+texture = ExtResource("2_k8asv")
+emission_shape = 3
+emission_rect_extents = Vector2(400, 1)
+direction = Vector2(2.08165e-12, 1)
+spread = 15.0
+gravity = Vector2(2.08165e-12, 2.08165e-12)
+initial_velocity_min = 60.0
+initial_velocity_max = 80.0
+orbit_velocity_min = 0.01
+orbit_velocity_max = 0.01
+scale_amount_min = 0.1
+scale_amount_max = 0.7
+color_ramp = SubResource("Gradient_gqud0")
+
+[node name="TextureRect" type="TextureRect" parent="SnowParticles"]
+modulate = Color(1, 0.27451, 1, 0.156863)
+offset_left = -644.0
+offset_top = -100.0
+offset_right = 644.0
+offset_bottom = 620.0
+texture = ExtResource("3_4rynk")
+expand_mode = 1
+stretch_mode = 4
