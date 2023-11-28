@@ -19,6 +19,7 @@ theme_override_constants/separation = 32
 script = ExtResource("2_gu1du")
 
 [node name="ExpandablePanelContainer" parent="." instance=ExtResource("3_nlg4t")]
+custom_minimum_size = Vector2(576, 2.08165e-12)
 layout_mode = 2
 
 [node name="Title" parent="ExpandablePanelContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
@@ -57,10 +58,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 disabled = true
 text = "Continue"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 2
-alignment = 1
 
 [node name="SkinSelectorPopup" parent="." instance=ExtResource("3_psfnl")]
 unique_name_in_owner = true
