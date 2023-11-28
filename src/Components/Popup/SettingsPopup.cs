@@ -44,7 +44,7 @@ public partial class SettingsPopup : Popup
         UseCompactSkinSelectorButton.Pressed += UseCompactSkinSelectorButtonPressed;
         ChangeSkinsFolderButton.Pressed += SetupPopup.In;
         ReportIssueButton.Pressed += () => OS.ShellOpen($"https://github.com/{Settings.GITHUB_REPO_PATH}/blob/master/FEEDBACK.md");
-        OpenLogsButton.Pressed += () => Tools.ShellOpenFile(ProjectSettings.GlobalizePath("user://logs"));
+        OpenLogsButton.Pressed += () => Tools.ShellOpenFile(ProjectSettings.GlobalizePath("user://"));
     }
 
     public void ShowUpdateButton()

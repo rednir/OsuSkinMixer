@@ -84,9 +84,8 @@ text = "Report issue or suggest feature"
 
 [node name="OpenLogsButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("6_nnavm")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
-text = "Open debug logs"
+text = "Open user data folder"
 
 [node name="SetupPopup" parent="." instance=ExtResource("5_4lsaw")]
 unique_name_in_owner = true
