@@ -103,7 +103,17 @@ public partial class Main : Control
 
     public override void _Notification(int what)
     {
-        if (what == NotificationWMCloseRequest)
+		if (what == NotificationApplicationFocusIn)
+		{
+			GetTree().Paused = false;
+            Engine.MaxFps = 0;
+		}
+		else if (what == NotificationApplicationFocusOut)
+		{
+			GetTree().Paused = true;
+            Engine.MaxFps = 20;
+		}
+        else if (what == NotificationWMCloseRequest)
         {
             GetTree().AutoAcceptQuit = false;
             Settings.Save();

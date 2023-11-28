@@ -34,16 +34,4 @@ public partial class Background : CanvasLayer
 
 		AnimationPlayer.Play("snow_in");
 	}
-
-	public override void _Notification(int what)
-	{
-		if (what == NotificationApplicationFocusIn)
-		{
-			GetTree().Paused = false;
-		}
-		else if (what == NotificationApplicationFocusOut)
-		{
-			GetTree().Paused = true;
-		}
-	}
 }
