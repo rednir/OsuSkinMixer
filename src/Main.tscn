@@ -397,7 +397,7 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(0.25, 1),
+"transitions": PackedFloat32Array(4, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
@@ -615,7 +615,7 @@ layout_mode = 1
 visible = false
 layout_mode = 0
 offset_right = 750.0
-offset_bottom = 450.0
+offset_bottom = 500.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_r3rsy")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Splash"]
