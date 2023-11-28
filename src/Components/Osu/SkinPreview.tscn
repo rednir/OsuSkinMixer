@@ -107,6 +107,7 @@ _data = {
 }
 
 [node name="SkinPreview" type="PanelContainer"]
+process_mode = 1
 clip_contents = true
 custom_minimum_size = Vector2(448, 228)
 offset_right = 480.0
