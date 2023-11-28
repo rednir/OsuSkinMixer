@@ -1,5 +1,7 @@
 namespace OsuSkinMixer;
 
+using OsuSkinMixer.Statics;
+
 public partial class Background : CanvasLayer
 {
 	public AnimationPlayer AnimationPlayer;
@@ -12,6 +14,9 @@ public partial class Background : CanvasLayer
 
 		if (_snowing)
 			AnimationPlayer.Play("snow_in");
+
+		if (Settings.Content.DisableEffects)
+			AnimationPlayer.Play("disable");
 	}
 
 	public void HideSnow()
