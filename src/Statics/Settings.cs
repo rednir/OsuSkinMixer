@@ -197,6 +197,12 @@ public static partial class Settings
             CheckForAutoUpdateFlag();
             Save();
         }
+
+        // Migration from before v2.8.1
+        if (lastVersionObject < new Version(2, 8, 1) && Directory.Exists(Path.Combine(AppdataFolderPath, "logs")))
+        {
+            Directory.Delete(Path.Combine(AppdataFolderPath, "logs"), true);
+        }
     }
 
     private static void CheckForAutoUpdateFlag()
