@@ -19,8 +19,7 @@ public partial class ComboContainer : HBoxContainer
 
             _comboPrefix = comboPrefixExists ? comboPrefix : "score";
 
-            if (ScoreX != null)
-                ScoreX.Texture = value.Get2XTexture($"{_comboPrefix}-x");
+            ScoreX?.SetDeferred(TextureRect.PropertyName.Texture, value.Get2XTexture($"{_comboPrefix}-x"));
         }
     }
 
