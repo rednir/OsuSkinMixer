@@ -20,7 +20,7 @@ script = ExtResource("1_vgs64")
 layout_mode = 1
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
-offset_bottom = -0.000305176
+offset_bottom = -0.000213623
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
 layout_mode = 2
@@ -33,6 +33,7 @@ label_settings = ExtResource("3_4071q")
 
 [node name="Text" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(380, 2.08165e-12)
 layout_mode = 2
 text = "Click OK to fix all your problems"
 label_settings = ExtResource("4_5t6qo")
