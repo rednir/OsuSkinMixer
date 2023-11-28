@@ -6,7 +6,7 @@ using OsuSkinMixer.Statics;
 
 public partial class SkinModifierSkinSelect : StackScene
 {
-    public override string Title => "Skin Modifier";
+    public override string Title => "Skin modifier";
 
     public List<SkinComponent> SkinsToModifyComponents { get; set; } = new();
 

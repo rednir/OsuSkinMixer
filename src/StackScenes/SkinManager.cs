@@ -6,7 +6,7 @@ using OsuSkinMixer.Statics;
 
 public partial class SkinManager : StackScene
 {
-    public override string Title => "Skin Manager";
+    public override string Title => "Skin manager";
 
     private PackedScene SkinInfoScene;
 

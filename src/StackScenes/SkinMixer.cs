@@ -8,7 +8,7 @@ using System.IO;
 
 public partial class SkinMixer : StackScene
 {
-    public override string Title => "Skin Mixer";
+    public override string Title => "Skin mixer";
 
     private CancellationTokenSource CancellationTokenSource;
 
