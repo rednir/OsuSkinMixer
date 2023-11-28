@@ -147,6 +147,23 @@ public partial class Main : Control
         Background.Offset = new Vector2(GetViewportRect().Size.X / 2, 0);
     }
 
+    public override void _UnhandledInput(InputEvent inputEvent)
+    {
+        if (inputEvent.IsActionPressed("debug"))
+        {   
+            if (Settings.IsLoggingToFile)
+            {
+                Settings.StopLoggingToFile();
+                Toast.Push("Logs were saved. Opening folder...");
+            }
+            else
+            {
+                Settings.StartLoggingToFile();
+                Toast.Push("Debug logging enabled.\nPress Ctrl+Shift+L again to save logs.");
+            }
+        }
+    }
+
     private void PushScene(StackScene scene)
     {
         if (PendingScene != null)

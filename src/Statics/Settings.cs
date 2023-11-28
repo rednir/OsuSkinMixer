@@ -30,9 +30,15 @@ public static partial class Settings
 
     public static string AutoUpdateInstallerPath => Path.Combine(TempFolderPath, "osu-skin-mixer-setup.exe");
 
+    public static string LogFilePath => Path.Combine(TempFolderPath, "very_helpful_logs.txt");
+
     public static SettingsContent Content { get; set; }
 
     public static FileStream LockFile { get; set; }
+
+    public static bool IsLoggingToFile => LogFile != null;
+
+    private static StreamWriter LogFile;
 
     private static readonly HttpClient _httpClient = new();
 
@@ -55,6 +61,10 @@ public static partial class Settings
     public static void InitialiseSettingsFile()
     {
         Directory.CreateDirectory(TempFolderPath);
+
+        foreach (string file in Directory.EnumerateFiles(TempFolderPath))
+            File.Delete(file);
+
         _httpClient.DefaultRequestHeaders.Add("User-Agent", "osu! skin mixer");
         _httpClient.Timeout = TimeSpan.FromSeconds(300);
 
@@ -157,9 +167,33 @@ public static partial class Settings
         Log($"Finished downloading installer to {installerPath}");
     }
 
+    public static void StartLoggingToFile()
+    {
+        if (LogFile != null)
+            return;
+
+        LogFile = new StreamWriter(LogFilePath, false);
+        LogFile.WriteLine($"osu! skin mixer {VERSION} partial logs starting {DateTime.Now}");
+    }
+
+    public static void StopLoggingToFile()
+    {
+        if (LogFile == null)
+            return;
+
+        LogFile.WriteLine($"Partial logs ending {DateTime.Now}");
+        LogFile.Dispose();
+        LogFile = null;
+
+        Tools.ShellOpenFile(TempFolderPath);
+    }
+
     public static void Log(string message)
     {
-        GD.Print($"[{DateTime.Now.ToLongTimeString()}] {message}");
+        string text = $"[{DateTime.Now.ToLongTimeString()}] {message}";
+
+        GD.Print(text);
+        LogFile?.WriteLine(text);
     }
 
     public static void PushException(Exception ex)
