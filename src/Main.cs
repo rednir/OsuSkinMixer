@@ -174,7 +174,9 @@ public partial class Main : Control
             SceneStack.Pop().QueueFree();
             SceneStack.Peek().Visible = true;
 
-            Background.ShowSnow();
+            if (SceneStack.Count == 1)
+                Background.ShowSnow();
+
             ScenesAnimationPlayer.Play("pop_in");
         }
         else if (animationName == "push_out")
