@@ -56,7 +56,7 @@ public partial class Splash : Control
             if (t.IsFaulted)
             {
                 GD.PushError(t.Exception);
-                ExceptionTextEdit.Text = t.Exception.ToString();
+                ExceptionTextEdit.SetDeferred(TextEdit.PropertyName.Text, t.Exception.ToString());
                 ExceptionPopup.In();
             }
         });
