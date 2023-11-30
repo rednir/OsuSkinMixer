@@ -82,8 +82,8 @@ public partial class Splash : Control
     {
         if (!Settings.Content.AutoUpdate || Settings.Content.LastVersion != Settings.VERSION)
         {
-            if (File.Exists(Settings.AutoUpdateInstallerPath))
-                File.Delete(Settings.AutoUpdateInstallerPath);
+            foreach (string file in Directory.EnumerateFiles(Settings.TempFolderPath))
+                File.Delete(file);
 
             LoadSkins();
             return;

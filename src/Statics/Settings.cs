@@ -62,9 +62,6 @@ public static partial class Settings
     {
         Directory.CreateDirectory(TempFolderPath);
 
-        foreach (string file in Directory.EnumerateFiles(TempFolderPath))
-            File.Delete(file);
-
         _httpClient.DefaultRequestHeaders.Add("User-Agent", "osu! skin mixer");
         _httpClient.Timeout = TimeSpan.FromSeconds(300);
 
