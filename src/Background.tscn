@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://jyjvf2hxmuvy"]
+[gd_scene load_steps=12 format=3 uid="uid://cmaar4yayttia"]
 
 [ext_resource type="Script" path="res://src/Background.cs" id="1_bndj1"]
 [ext_resource type="Texture2D" uid="uid://b8d0jwme466fo" path="res://assets/triangle.svg" id="1_d804o"]
@@ -251,7 +251,7 @@ tracks/4/path = NodePath("Particles:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.5),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(0.3, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -299,7 +299,7 @@ tracks/8/path = NodePath("SnowGroup:modulate")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0, 0.5),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(0.3, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -427,7 +427,7 @@ _data = {
 }
 
 [sub_resource type="Gradient" id="Gradient_gqud0"]
-offsets = PackedFloat32Array(0.961612, 1)
+offsets = PackedFloat32Array(0.0874525, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 0.929412, 1, 0)
 
 [node name="Background" type="CanvasLayer"]
@@ -442,19 +442,21 @@ libraries = {
 
 [node name="Particles" type="CPUParticles2D" parent="."]
 position = Vector2(2.08165e-12, 502)
-amount = 40
-lifetime = 40.0
-preprocess = 30.0
-fixed_fps = 24
+amount = 80
+lifetime = 18.0
+preprocess = 18.0
+randomness = 0.3
+fixed_fps = 30
 texture = ExtResource("1_d804o")
 emission_shape = 3
 emission_rect_extents = Vector2(400, 1)
 direction = Vector2(2.08165e-12, -1)
 spread = 0.0
 gravity = Vector2(2.08165e-12, 2.08165e-12)
-initial_velocity_min = 10.0
-initial_velocity_max = 30.0
-scale_amount_min = 0.05
+initial_velocity_min = 8.0
+initial_velocity_max = 15.0
+scale_amount_min = 0.2
+scale_amount_max = 0.7
 color = Color(0.0980392, 0.0941176, 0.109804, 1)
 color_ramp = SubResource("Gradient_gqud0")
 
@@ -466,18 +468,18 @@ modulate = Color(1, 1, 1, 0)
 self_modulate = Color(1, 0.882353, 1, 0.898039)
 position = Vector2(0, -11)
 emitting = false
-amount = 300
+amount = 250
 lifetime = 9.0
 preprocess = 9.0
 speed_scale = 0.0
-fixed_fps = 24
+fixed_fps = 30
 texture = ExtResource("3_mvj5o")
 emission_shape = 3
 emission_rect_extents = Vector2(400, 1)
 direction = Vector2(2.08165e-12, 1)
 spread = 10.0
 gravity = Vector2(2.08165e-12, 2.08165e-12)
-initial_velocity_min = 70.0
+initial_velocity_min = 50.0
 initial_velocity_max = 100.0
 angular_velocity_min = -50.0
 angular_velocity_max = 50.0
@@ -494,7 +496,7 @@ amount = 10
 lifetime = 6.0
 preprocess = 9.0
 randomness = 0.3
-fixed_fps = 24
+fixed_fps = 30
 texture = ExtResource("4_xs6ao")
 emission_shape = 3
 emission_rect_extents = Vector2(400, 1)
@@ -512,7 +514,7 @@ scale_amount_max = 0.7
 color_ramp = SubResource("Gradient_gqud0")
 
 [node name="TextureRect" type="TextureRect" parent="SnowGroup"]
-modulate = Color(0.913725, 0, 0.937255, 0.27451)
+modulate = Color(0.913725, 0, 0.937255, 0.196078)
 show_behind_parent = true
 offset_left = -644.0
 offset_top = -111.0
