@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_3ca2l"]
 [ext_resource type="Script" path="res://src/Main.cs" id="2_ajhyw"]
 [ext_resource type="StyleBox" uid="uid://dj6itwk88er6q" path="res://src/Styles/Containers/TopBar.tres" id="3_5ka6c"]
-[ext_resource type="PackedScene" uid="uid://jyjvf2hxmuvy" path="res://src/Background.tscn" id="3_42h7d"]
+[ext_resource type="PackedScene" uid="uid://cmaar4yayttia" path="res://src/Background.tscn" id="3_42h7d"]
 [ext_resource type="PackedScene" uid="uid://bimdldtywn6nm" path="res://src/Components/Popup/SettingsPopup.tscn" id="4_8gcgf"]
 [ext_resource type="PackedScene" uid="uid://sni5bqyyrgfj" path="res://src/Components/Popup/SetupPopup.tscn" id="4_gusp5"]
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="7_shsih"]
@@ -470,6 +470,7 @@ text_overrun_behavior = 3
 
 [node name="VersionLabel" type="Label" parent="TopBar/HBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(2.08165e-12, 38)
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_colors/font_color = Color(0.505882, 0.427451, 0.470588, 1)
@@ -547,6 +548,7 @@ libraries = {
 }
 
 [node name="Scenes" type="Control" parent="."]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
