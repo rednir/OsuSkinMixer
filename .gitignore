@@ -11,6 +11,9 @@ export_presets.cfg
 data_*/
 .vs/
 
+# Visual Studio Code
+.vscode/
+
 .godot/
 
 .DS_Store
