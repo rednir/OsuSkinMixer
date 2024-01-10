@@ -60,8 +60,11 @@ public partial class HitcircleIcon : CenterContainer
 
         string hitcirclePrefix = _skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
 
-        HitcircleTexture.Texture = _skin.Get2XTexture("hitcircle");
-        HitcircleoverlayTexture.Texture = _skin.Get2XTexture("hitcircleoverlay");
-        Default1Texture.Texture = _skin.Get2XTexture($"{hitcirclePrefix}-1");
+        Task.Run(() => 
+        {
+            HitcircleTexture.SetDeferred(TextureRect.PropertyName.Texture, _skin.Get2XTexture("hitcircle"));
+            HitcircleoverlayTexture.SetDeferred(TextureRect.PropertyName.Texture, _skin.Get2XTexture("hitcircleoverlay"));
+            Default1Texture.SetDeferred(TextureRect.PropertyName.Texture, _skin.Get2XTexture($"{hitcirclePrefix}-1"));
+        });
     }
 }

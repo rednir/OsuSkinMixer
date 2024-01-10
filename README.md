@@ -14,8 +14,11 @@
 <p align="center">
   Create a skin mix in a couple clicks.
 </p>
-
-https://user-images.githubusercontent.com/10225220/224090214-206b6459-4612-40ca-832f-ce72f3f2e60a.mp4
+<p align="center">
+  <a href="https://github.com/rednir/OsuSkinMixer/releases/latest/" height="10px">
+    <img alt="Preview" src="assets/preview.png">
+  </a>
+</a>
 
 This is a tool that aims to get rid the days of opening your skins folder, editing .png images and watching tutorials.
 
