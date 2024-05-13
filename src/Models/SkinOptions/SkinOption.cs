@@ -152,6 +152,8 @@ public abstract class SkinOption
                         new SkinFileOption("options-offset-tick", false, "Offset wizard tick"),
                         new SkinFileOption("selection-tab", false, "Tab"),
                         new SkinFileOption("star", false, "Difficulty star"),
+                        new SkinFileOption("songselect-bottom", false),
+                        new SkinFileOption("songselect-top", false),
 
                         new SkinIniPropertyOption("Colours", "SongSelectActiveText"),
                         new SkinIniPropertyOption("Colours", "SongSelectInactiveText"),
