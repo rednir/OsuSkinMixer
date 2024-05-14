@@ -8,7 +8,7 @@ using OsuSkinMixer.Models;
 
 public static partial class Settings
 {
-    public const string VERSION = "v2.8.1";
+    public const string VERSION = "v2.8.2";
 
     public const string GITHUB_REPO_PATH = "rednir/OsuSkinMixer";
 
