@@ -80,7 +80,10 @@ text = "Change osu! folder location"
 [node name="ReportIssueButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("6_nnavm")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Report issue or suggest feature"
+text = "Donate or send feedback"
+
+[node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+layout_mode = 2
 
 [node name="OpenLogsButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("6_nnavm")]
 unique_name_in_owner = true
