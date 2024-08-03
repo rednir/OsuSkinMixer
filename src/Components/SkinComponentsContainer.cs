@@ -137,7 +137,7 @@ public partial class SkinComponentsContainer : PanelContainer
         if (skinComponent == null)
             return;
 
-        skinComponent.Visible = false;
+        skinComponent.SetDeferred(PropertyName.Visible, false);
         _disabledSkinComponents.Add(skinComponent);
     }
 
