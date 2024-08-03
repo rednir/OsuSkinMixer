@@ -58,16 +58,16 @@ public partial class SkinOptionComponent : HBoxContainer
         switch (value.Type)
         {
             case SkinOptionValueType.Various:
-                SpecialTextLabel.SetDeferred(Label.PropertyName.Text, "<<VARIOUS>>");
+                SpecialTextLabel.SetDeferred(Label.PropertyName.Text, "Various skins");
                 break;
             case SkinOptionValueType.Unchanged:
-                SpecialTextLabel.SetDeferred(Label.PropertyName.Text, "<<UNCHANGED>>");
+                SpecialTextLabel.SetDeferred(Label.PropertyName.Text, "Unchanged");
                 break;
             case SkinOptionValueType.DefaultSkin:
-                SpecialTextLabel.SetDeferred(Label.PropertyName.Text, "<<DEFAULT SKIN>>");
+                SpecialTextLabel.SetDeferred(Label.PropertyName.Text, "Default skin");
                 break;
             case SkinOptionValueType.Blank:
-                SpecialTextLabel.SetDeferred(Label.PropertyName.Text, "<<BLANK>>");
+                SpecialTextLabel.SetDeferred(Label.PropertyName.Text, "Blank file");
                 break;
             case SkinOptionValueType.CustomSkin:
                 SpecialTextLabel.SetDeferred(Label.PropertyName.Text, string.Empty);
