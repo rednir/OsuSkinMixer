@@ -12,6 +12,5 @@ public partial class GetMoreSkinsPopup : Popup
         GetNode<Button>("%OsuckButton").Pressed += () => OS.ShellOpen("https://skins.osuck.net/index.php");
         GetNode<Button>("%CirclePeopleButton").Pressed += () => OS.ShellOpen("https://circle-people.com/skins/");
         GetNode<Button>("%CompendiumButton").Pressed += () => OS.ShellOpen("https://compendium.skinship.xyz/");
-        GetNode<Button>("%OsuskinsNetButton").Pressed += () => OS.ShellOpen("https://osuskins.net/");
     }
 }

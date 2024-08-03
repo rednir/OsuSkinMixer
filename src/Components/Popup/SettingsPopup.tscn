@@ -83,7 +83,9 @@ layout_mode = 2
 text = "Donate or send feedback"
 
 [node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(60, 25)
 layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="OpenLogsButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("6_nnavm")]
 unique_name_in_owner = true

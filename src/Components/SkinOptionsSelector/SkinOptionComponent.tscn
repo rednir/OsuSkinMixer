@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://5u7dsqm0wgoq"]
+[gd_scene load_steps=12 format=3 uid="uid://5u7dsqm0wgoq"]
 
 [ext_resource type="Texture2D" uid="uid://m5hodpxqnenb" path="res://assets/arrow.png" id="1_a4tmr"]
 [ext_resource type="Script" path="res://src/Components/SkinOptionsSelector/SkinOptionComponent.cs" id="1_ft0rc"]
@@ -10,6 +10,7 @@
 [ext_resource type="StyleBox" uid="uid://bcbdqcnl2e61r" path="res://src/Styles/Buttons/ChipHover.tres" id="6_xqnwr"]
 [ext_resource type="StyleBox" uid="uid://bqphu8xbk8c28" path="res://src/Styles/Buttons/ChipPressed.tres" id="7_pm80f"]
 [ext_resource type="Texture2D" uid="uid://d35i1tw6xkwef" path="res://assets/materialicons/close.png" id="9_hab4j"]
+[ext_resource type="FontFile" uid="uid://di7yil3n05sxm" path="res://assets/Aller_Italic.ttf" id="10_pxrb3"]
 
 [node name="SkinOptionComponent" type="HBoxContainer"]
 custom_minimum_size = Vector2(420, 32)
@@ -59,6 +60,7 @@ layout_mode = 2
 offset_left = 5.0
 offset_right = 215.0
 offset_bottom = 32.0
+theme_override_fonts/font = ExtResource("10_pxrb3")
 theme_override_font_sizes/font_size = 14
 text = "Default skin"
 horizontal_alignment = 1

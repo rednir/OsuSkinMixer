@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dsgg2xjv4sebx"]
+[gd_scene load_steps=13 format=3 uid="uid://dsgg2xjv4sebx"]
 
 [ext_resource type="Script" path="res://src/Components/Popup/GetMoreSkinsPopup.cs" id="1_wao56"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_4rfqf"]
@@ -12,7 +12,6 @@
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="6_n6whc"]
 [ext_resource type="Texture2D" uid="uid://colbm2v6db7qd" path="res://assets/external/circlepeople.png" id="7_ajbm4"]
 [ext_resource type="Texture2D" uid="uid://37q6go7i02l2" path="res://assets/external/skinship.png" id="8_8ckvd"]
-[ext_resource type="Texture2D" uid="uid://ml4xbs8gfu2w" path="res://assets/external/osuskinsnet.png" id="9_3w4ch"]
 
 [node name="GetMoreSkinsPopup" type="Control"]
 visible = false
@@ -128,23 +127,9 @@ text = "Skinship's compendium"
 [node name="Description" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/CompendiumButton/VBoxContainer" index="2"]
 text = "An elegant way to browse completed skins"
 
-[node name="OsuskinsNetButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer" instance=ExtResource("3_qkanq")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Icon" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuskinsNetButton/VBoxContainer" index="0"]
-texture = ExtResource("9_3w4ch")
-
-[node name="Title" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuskinsNetButton/VBoxContainer" index="1"]
-text = "osuskins.net"
-
-[node name="Description" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuskinsNetButton/VBoxContainer" index="2"]
-text = "A simple website to filter and search skins"
-
 [editable path="Popup"]
 [editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuForumsButton"]
 [editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/RedditButton"]
 [editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuckButton"]
 [editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/CirclePeopleButton"]
 [editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/CompendiumButton"]
-[editable path="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/GridContainer/OsuskinsNetButton"]
