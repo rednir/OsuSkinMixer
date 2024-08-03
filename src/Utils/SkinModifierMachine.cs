@@ -281,17 +281,29 @@ public class SkinModifierMachine : SkinMachine
                 ? Image.Load<Rgba32>(defaultXPath)
                 : Image.Load<Rgba32>(GetDefaultElementBytes($"default-{i}{suffix}.png"));
 
-            using Image<Rgba32> newDefaultX = hitcircle.Clone();
+            Image<Rgba32> newDefaultX;
+            if (hitcircleoverlay.Width > hitcircle.Width || hitcircleoverlay.Height > hitcircle.Height)
+            {
+                newDefaultX = new Image<Rgba32>(hitcircleoverlay.Width, hitcircleoverlay.Height);
+            }
+            else
+            {
+                newDefaultX = new Image<Rgba32>(hitcircle.Width, hitcircle.Height);
+            }
 
             newDefaultX.Mutate(img =>
             {
+                img.DrawImage(hitcircle, new Point(
+                    x: (int)((newDefaultX.Width * 0.5) - (hitcircle.Width * 0.5)),
+                    y: (int)((newDefaultX.Height * 0.5) - (hitcircle.Height * 0.5))
+                ), 1);
                 img.DrawImage(hitcircleoverlay, new Point(
-                    x: (int)((hitcircle.Width * 0.5) - (hitcircleoverlay.Width * 0.5)),
-                    y: (int)((hitcircle.Height * 0.5) - (hitcircleoverlay.Height * 0.5))
+                    x: (int)((newDefaultX.Width * 0.5) - (hitcircleoverlay.Width * 0.5)),
+                    y: (int)((newDefaultX.Height * 0.5) - (hitcircleoverlay.Height * 0.5))
                 ), 1);
                 img.DrawImage(defaultX, new Point(
-                    x: (int)((hitcircle.Width * 0.5) - (defaultX.Width * 0.5)),
-                    y: (int)((hitcircle.Height * 0.5) - (defaultX.Height * 0.5))
+                    x: (int)((newDefaultX.Width * 0.5) - (defaultX.Width * 0.5)),
+                    y: (int)((newDefaultX.Height * 0.5) - (defaultX.Height * 0.5))
                 ), 1);
             });
 
@@ -300,6 +312,7 @@ public class SkinModifierMachine : SkinMachine
 
             AddFileToOriginalElementsCache(defaultXPath);
             newDefaultX.Save(defaultXPath);
+            newDefaultX.Dispose();
         }
 
         hitcircle.Mutate(i => i.Opacity(0));
