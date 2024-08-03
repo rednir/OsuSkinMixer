@@ -7,6 +7,8 @@ using OsuSkinMixer.Statics;
 /// <summary>Represents an osu! skin and provides methods to fetch its elements.</summary>
 public class OsuSkin
 {
+    public const string DEFAULT_AUTHOR = "osu! skin mixer by rednir";
+
     private readonly object _lock = new();
 
     public static Color[] DefaultComboColors
@@ -22,7 +24,7 @@ public class OsuSkin
     {
         Name = name;
         Directory = dir;
-        SkinIni = new OsuSkinIni(name, "osu! skin mixer by rednir");
+        SkinIni = new OsuSkinIni(name, DEFAULT_AUTHOR);
         Hidden = hidden;
     }
 

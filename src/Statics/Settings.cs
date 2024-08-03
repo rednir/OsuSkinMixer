@@ -234,6 +234,23 @@ public static partial class Settings
         {
             Directory.Delete(Path.Combine(AppdataFolderPath, "logs"), true);
         }
+
+        // Migration from before v2.8.3
+        if (lastVersionObject < new Version(2, 8, 3))
+        {
+            try
+            {
+                if (!OsuData.TryLoadSkins())
+                    throw new Exception("Failed to load skins for settings data migration.");
+
+                // Estimate the number of skins made by osu! skin mixer.
+                Content.SkinsMadeCount = OsuData.Skins.Count(s => s.SkinIni?.TryGetPropertyValue("General", "Author") == OsuSkin.DEFAULT_AUTHOR);
+            }
+            catch (Exception ex)
+            {
+                GD.PushError(ex);
+            }
+        }
     }
 
     private static void CheckForAutoUpdateFlag()
