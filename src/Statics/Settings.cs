@@ -170,7 +170,7 @@ public static partial class Settings
             return;
 
         LogFile = new StreamWriter(LogFilePath, false);
-        LogFile.WriteLine($"osu! skin mixer {VERSION} partial logs starting {DateTime.Now}");
+        LogFile.WriteLine($"****\nNOTE TO USER: File paths in this log file may contain your home folder name.\n****\n\nosu! skin mixer {VERSION} partial logs starting {DateTime.Now}");
     }
 
     public static void StopLoggingToFile()
