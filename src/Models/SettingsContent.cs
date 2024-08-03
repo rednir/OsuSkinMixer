@@ -34,6 +34,15 @@ public static partial class Settings
         [JsonPropertyName("arrow_button_pressed")]
         public bool ArrowButtonPressed { get; set; }
 
+        [JsonPropertyName("skins_made_count")]
+        public int SkinsMadeCount { get; set; }
+
+        [JsonPropertyName("launch_count")]
+        public int LaunchCount { get; set; }
+
+        [JsonPropertyName("donation_message_dismissed")]
+        public bool DonationMessageDismissed { get; set; }
+
         [JsonPropertyName("operations")]
         [JsonIgnore]
         public List<Operation> Operations { get; set; } = new();

@@ -97,6 +97,8 @@ public partial class Main : Control
 
         PendingScene = MenuScene.Instantiate<StackScene>();
         OnAnimationPlayerFinished("push_out");
+
+        Settings.Content.LaunchCount++;
         
         CheckForUpdates();
     }

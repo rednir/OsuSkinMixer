@@ -90,6 +90,7 @@ public abstract class SkinMachine : IDisposable
 
             PostRun();
 
+            Settings.Content.SkinsMadeCount++;
             _stopwatch.Stop();
             Settings.Log($"Finished skin machine in {_stopwatch.Elapsed.TotalSeconds}s");
         }
