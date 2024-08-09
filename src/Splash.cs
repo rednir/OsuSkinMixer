@@ -14,6 +14,7 @@ public partial class Splash : Control
     private TextEdit ExceptionTextEdit;
     private OkPopup UpdateCanceledPopup;
     private QuestionPopup UpdateQuestionPopup;
+    private Toast Toast;
     private AnimationPlayer AnimationPlayer;
 
     public override void _Ready()
@@ -30,6 +31,7 @@ public partial class Splash : Control
         ExceptionTextEdit = GetNode<TextEdit>("%ExceptionTextEdit");
         UpdateCanceledPopup = GetNode<OkPopup>("%UpdateCanceledPopup");
         UpdateQuestionPopup = GetNode<QuestionPopup>("%UpdateQuestionPopup");
+        Toast = GetNode<Toast>("%Toast");
         AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
 
         AnimationPlayer.AnimationFinished += OnAnimationFinished;
@@ -82,8 +84,17 @@ public partial class Splash : Control
     {
         if (!Settings.Content.AutoUpdate || Settings.Content.LastVersion != Settings.VERSION)
         {
-            foreach (string file in Directory.EnumerateFiles(Settings.TempFolderPath))
-                File.Delete(file);
+            try
+            {
+                foreach (string file in Directory.EnumerateFiles(Settings.TempFolderPath))
+                    File.Delete(file);
+            }
+            catch (Exception e)
+            {
+                GD.PrintErr(e);
+                Toast.Push($"Failed to clean up temporary files: {e.Message}");
+                Task.Delay(3000).Wait();
+            }
 
             LoadSkins();
             return;
