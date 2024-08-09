@@ -62,6 +62,7 @@ renderer/rendering_method="gl_compatibility"
 driver/threads/thread_model=0
 limits/global_shader_variables/buffer_size=16384
 environment/defaults/default_clear_color=Color(0.109804, 0.105882, 0.121569, 1)
+anti_aliasing/quality/screen_space_aa=1
 quality/driver/driver_name="GLES2"
 quality/intended_usage/framebuffer_allocation=1
 quality/intended_usage/framebuffer_allocation.mobile=1

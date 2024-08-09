@@ -5,9 +5,10 @@ using OsuSkinMixer.Models;
 public partial class HitcircleIcon : CenterContainer
 {
     private VisibleOnScreenNotifier2D VisibleOnScreenNotifier2D;
-    private TextureRect HitcircleTexture;
-    private TextureRect HitcircleoverlayTexture;
-    private TextureRect Default1Texture;
+    private CanvasGroup HitcircleGroup;
+    private Sprite2D HitcircleSprite;
+    private Sprite2D HitcircleoverlaySprite;
+    private Sprite2D Default1Sprite;
     private TextureRect HiddenIcon;
 
     private OsuSkin _skin;
@@ -17,9 +18,10 @@ public partial class HitcircleIcon : CenterContainer
     public override void _Ready()
     {
         VisibleOnScreenNotifier2D = GetNode<VisibleOnScreenNotifier2D>("VisibleOnScreenNotifier2D");
-        HitcircleTexture = GetNode<TextureRect>("HitcircleTexture");
-        HitcircleoverlayTexture = GetNode<TextureRect>("HitcircleoverlayTexture");
-        Default1Texture = GetNode<TextureRect>("Default1Texture");
+        HitcircleGroup = GetNode<CanvasGroup>("%HitcircleGroup");
+        HitcircleSprite = GetNode<Sprite2D>("%HitcircleSprite");
+        HitcircleoverlaySprite = GetNode<Sprite2D>("%HitcircleoverlaySprite");
+        Default1Sprite = GetNode<Sprite2D>("%Default1Sprite");
         HiddenIcon = GetNode<TextureRect>("%HiddenIcon");
 
         VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
@@ -43,11 +45,11 @@ public partial class HitcircleIcon : CenterContainer
             && float.TryParse(iniColorRgb[1], out float g)
             && float.TryParse(iniColorRgb[2], out float b))
         {
-            HitcircleTexture.SetDeferred(PropertyName.Modulate, new Color(r / 255, g / 255, b / 255));
+            HitcircleSprite.SetDeferred(PropertyName.Modulate, new Color(r / 255, g / 255, b / 255));
         }
         else
         {
-            HitcircleTexture.SetDeferred(PropertyName.Modulate, new Color(0, 202, 0));
+            HitcircleSprite.SetDeferred(PropertyName.Modulate, new Color(0, 202, 0));
         }
     }
 
@@ -62,9 +64,22 @@ public partial class HitcircleIcon : CenterContainer
 
         Task.Run(() => 
         {
-            HitcircleTexture.SetDeferred(TextureRect.PropertyName.Texture, _skin.Get2XTexture("hitcircle"));
-            HitcircleoverlayTexture.SetDeferred(TextureRect.PropertyName.Texture, _skin.Get2XTexture("hitcircleoverlay"));
-            Default1Texture.SetDeferred(TextureRect.PropertyName.Texture, _skin.Get2XTexture($"{hitcirclePrefix}-1"));
+            // Scale textures based on whether they are @2x or not.
+            if (_skin.TryGet2XTexture($"{hitcirclePrefix}-1", out var default1) &&
+                _skin.TryGet2XTexture("hitcircle", out var hitcircle) &&
+                _skin.TryGet2XTexture("hitcircleoverlay", out var hitcircleoverlay))
+            {
+                HitcircleGroup.SetDeferred(CanvasGroup.PropertyName.Scale, new Vector2(0.5f, 0.5f));
+                Default1Sprite.SetDeferred(Sprite2D.PropertyName.Texture, default1);
+                HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, hitcircle);
+                HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, hitcircleoverlay);
+            }
+            else
+            {
+                Default1Sprite.SetDeferred(Sprite2D.PropertyName.Texture, _skin.GetTexture($"{hitcirclePrefix}-1"));
+                HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, _skin.GetTexture("hitcircle"));
+                HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, _skin.GetTexture("hitcircleoverlay"));
+            }
         });
     }
 }
