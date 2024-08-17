@@ -244,11 +244,33 @@ public class SkinModifierMachine : SkinMachine
 
         hitcirclePrefix = hitcirclePrefix != null ? $"{skinDirectory}/{hitcirclePrefix}" : $"{skinDirectory}/default";
 
-        using Image<Rgba32> hitcircle = File.Exists(hitcirclePath)
+        bool hitcircleExists = File.Exists(hitcirclePath);
+        bool hitcircleoverlayExists = File.Exists(hitcircleoverlayPath);
+
+        // If the skin has custom hitcircles but not of this resolution, don't make instafade hitcircles using the default skin elements.
+        if (!hitcircleExists && !hitcircleoverlayExists)
+        {
+            Log($"Hitcircle elements with suffix '{suffix}' not found, skipping instafade process.");
+            
+            for (int i = 0; i <= 9; i++)
+            {
+                // The original skin didn't have hitcircles of this resolution so get rid of the hitcircle numbers of this resolution.
+                string defaultXPath = $"{hitcirclePrefix}-{i}{suffix}.png";
+                if (File.Exists(defaultXPath))
+                {
+                    AddFileToOriginalElementsCache(defaultXPath);
+                    File.Delete(defaultXPath);
+                }
+            }
+
+            return;
+        }
+
+        using Image<Rgba32> hitcircle = hitcircleExists
             ? Image.Load<Rgba32>(hitcirclePath)
             : Image.Load<Rgba32>(GetDefaultElementBytes($"hitcircle{suffix}.png"));
 
-        using Image<Rgba32> hitcircleoverlay = File.Exists(hitcircleoverlayPath)
+        using Image<Rgba32> hitcircleoverlay = hitcircleoverlayExists
             ? Image.Load<Rgba32>(hitcircleoverlayPath)
             : Image.Load<Rgba32>(GetDefaultElementBytes($"hitcircleoverlay{suffix}.png"));
 
