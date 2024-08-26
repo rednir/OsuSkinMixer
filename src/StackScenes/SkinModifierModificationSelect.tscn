@@ -30,7 +30,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HitcircleSprite" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon/PanelContainer/HitcircleGroup" index="1"]
-modulate = Color(0.0416215, 0.633183, 1.15514e-06, 1)
+modulate = Color(0.0799648, 0.906286, 1.34244e-06, 1)
 
 [node name="HiddenIcon" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon/Control" index="0"]
 visible = false
