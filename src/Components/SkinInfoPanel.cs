@@ -81,7 +81,7 @@ public partial class SkinInfoPanel : PanelContainer
 
         MainContentContainer.Visible = true;
         DeletedContainer.Visible = false;
-        SetValues();
+        CallDeferred(MethodName.SetValues);
     }
 
     private void OnSkinModified(OsuSkin skin)
@@ -89,7 +89,7 @@ public partial class SkinInfoPanel : PanelContainer
         if (skin != Skin)
             return;
 
-        SetValues();
+        CallDeferred(MethodName.SetValues);
     }
 
     private void OnSkinRemoved(OsuSkin skin)
