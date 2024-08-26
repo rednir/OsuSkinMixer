@@ -290,6 +290,8 @@ public class SkinModifierMachine : SkinMachine
             }
         }
 
+        int newDefaultXSize = 0;
+
         for (int i = 0; i <= 9; i++)
         {
             string defaultXPath = $"{hitcirclePrefix}-{i}{suffix}.png";
@@ -318,6 +320,7 @@ public class SkinModifierMachine : SkinMachine
                 newDefaultX = new Image<Rgba32>(hitcircle.Width, hitcircle.Height);
             }
 
+            newDefaultXSize = newDefaultX.Width;
             newDefaultX.Mutate(img =>
             {
                 img.DrawImage(hitcircle, new Point(
@@ -355,7 +358,7 @@ public class SkinModifierMachine : SkinMachine
             // Prevents hitcircles from appearing incorrectly when the combo is greater than 10.
             // Only do this for the @1x elements, the @2x elements are scaled up by osu!.
             fontsSection.Remove("HitCircleOverlap");
-            fontsSection.Add("HitCircleOverlap", hitcircle.Width.ToString());
+            fontsSection.Add("HitCircleOverlap", newDefaultXSize.ToString());
         }
 
         if (coloursSection != null)
