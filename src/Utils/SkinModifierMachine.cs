@@ -125,8 +125,8 @@ public class SkinModifierMachine : SkinMachine
         {
             AddTask(() =>
             {
-                MakeCirclesInstafade(workingSkin);
                 MakeCirclesInstafade(workingSkin, "@2x");
+                MakeCirclesInstafade(workingSkin);
             });
         }
 
@@ -247,18 +247,20 @@ public class SkinModifierMachine : SkinMachine
         int hitcirclePostScale = 1;
         int hitcircleoverlayPostScale = 1;
 
-        // Fallback to default resolution if @2x resolution not found.
+        // Cretae @2x resolution if not found.
         if (!File.Exists(hitcirclePath) && File.Exists($"{skinDirectory}/hitcircle.png"))
-        {
-            hitcirclePath = $"{skinDirectory}/hitcircle.png";
+        {  
+            File.Copy($"{skinDirectory}/hitcircle.png", hitcirclePath);
             hitcirclePostScale = 2;
+            OS.Alert($"Copying from {skinDirectory}/hitcircle.png to {hitcirclePath}");
         }
 
-        // Fallback to default resolution if @2x resolution not found.
+        // Cretae @2x resolution if not found.
         if (!File.Exists(hitcircleoverlayPath) && File.Exists($"{skinDirectory}/hitcircleoverlay.png"))
         {
-            hitcircleoverlayPath = $"{skinDirectory}/hitcircleoverlay.png";
+            File.Copy($"{skinDirectory}/hitcircleoverlay.png", hitcircleoverlayPath);
             hitcircleoverlayPostScale = 2;
+            OS.Alert($"Copying from {skinDirectory}/hitcircleoverlay.png to {hitcircleoverlayPath}");
         }
 
         using Image<Rgba32> hitcircle = File.Exists(hitcirclePath)
@@ -297,10 +299,10 @@ public class SkinModifierMachine : SkinMachine
             string defaultXPath = $"{hitcirclePrefix}-{i}{suffix}.png";
             int defaultPostScale = 1;
 
-            // Fallback to default resolution if @2x resolution not found.
+            // Cretae @2x resolution if not found.
             if (!File.Exists(defaultXPath) && File.Exists($"{hitcirclePrefix}-{i}.png"))
             {
-                defaultXPath = $"{hitcirclePrefix}-{i}.png";
+                File.Copy($"{hitcirclePrefix}-{i}.png", defaultXPath);
                 defaultPostScale = 2;
             }
 
