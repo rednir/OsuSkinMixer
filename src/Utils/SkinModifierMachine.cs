@@ -252,7 +252,6 @@ public class SkinModifierMachine : SkinMachine
         {  
             File.Copy($"{skinDirectory}/hitcircle.png", hitcirclePath);
             hitcirclePostScale = 2;
-            OS.Alert($"Copying from {skinDirectory}/hitcircle.png to {hitcirclePath}");
         }
 
         // Cretae @2x resolution if not found.
@@ -260,7 +259,6 @@ public class SkinModifierMachine : SkinMachine
         {
             File.Copy($"{skinDirectory}/hitcircleoverlay.png", hitcircleoverlayPath);
             hitcircleoverlayPostScale = 2;
-            OS.Alert($"Copying from {skinDirectory}/hitcircleoverlay.png to {hitcircleoverlayPath}");
         }
 
         using Image<Rgba32> hitcircle = File.Exists(hitcirclePath)
