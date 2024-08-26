@@ -63,8 +63,14 @@ public class OsuSkinIni
             {
                 int start = lines[i].IndexOf("[") + 1;
                 int length = lines[i].IndexOf("]") - start;
-                Sections.Add(new OsuSkinIniSection(lines[i].Substring(start, length)));
-                continue;
+                int colonIndex = lines[i].IndexOf(":");
+
+                // Square brackets may appear in the value of a key, in which case they do not declare a new section.
+                if (colonIndex == -1 || start < colonIndex)
+                {
+                    Sections.Add(new OsuSkinIniSection(lines[i].Substring(start, length)));
+                    continue;
+                }
             }
 
             // Can't add a key/value when a section name is not yet declared.
