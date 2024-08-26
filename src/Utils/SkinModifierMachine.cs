@@ -248,7 +248,7 @@ public class SkinModifierMachine : SkinMachine
         bool hitcircleoverlayExists = File.Exists(hitcircleoverlayPath);
 
         // If the skin has custom hitcircles but not of this resolution, don't make instafade hitcircles using the default skin elements.
-        if (!hitcircleExists && !hitcircleoverlayExists)
+        if (!hitcircleExists || !hitcircleoverlayExists)
         {
             Log($"Hitcircle elements with suffix '{suffix}' not found, skipping instafade process.");
             
