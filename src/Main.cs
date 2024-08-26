@@ -41,6 +41,10 @@ public partial class Main : Control
 
     private List<Task> ExitBlockingTasks { get; } = new();
 
+    private IEnumerable<OsuSkin> SkinInfoRequestedSkins { get; set; }
+
+    private IEnumerable<OsuSkin> SkinModifyRequestedSkins { get; set; }
+
     private int _closeRequestCount;
 
     public override void _Ready()
@@ -82,18 +86,8 @@ public partial class Main : Control
         OsuData.SkinAdded += s => Toast.Push($"Skin was created:\n{s.Name}");
         OsuData.SkinModified += s => Toast.Push($"Skin was modified:\n{s.Name}");
         OsuData.SkinRemoved += s => Toast.Push($"Skin was deleted:\n{s.Name}");
-        OsuData.SkinInfoRequested += s =>
-        {
-            var instance = SkinInfoScene.Instantiate<SkinInfo>();
-            instance.Skins = s;
-            CallDeferred(MethodName.PushScene, instance);
-        };
-        OsuData.SkinModifyRequested += s =>
-        {
-            var scene = SkinModiferModificationSelectScene.Instantiate<SkinModifierModificationSelect>();
-            scene.SkinsToModify = s.ToList();
-            CallDeferred(MethodName.PushScene, scene);
-        };
+        OsuData.SkinInfoRequested += s => SkinInfoRequestedSkins = s;
+        OsuData.SkinModifyRequested += s => SkinModifyRequestedSkins = s;
 
         PendingScene = MenuScene.Instantiate<StackScene>();
         OnAnimationPlayerFinished("push_out");
@@ -147,6 +141,24 @@ public partial class Main : Control
         float value = GetViewportRect().Size.Y / 450;
         Background.Scale = new Vector2(value, value);
         Background.Offset = new Vector2(GetViewportRect().Size.X / 2, 0);
+
+        // These events are handled on the main thread to avoid crashes.
+        if (SkinInfoRequestedSkins != null)
+        {
+            var instance = SkinInfoScene.Instantiate<SkinInfo>();
+            instance.Skins = SkinInfoRequestedSkins.ToList();
+            PushScene(instance);
+
+            SkinInfoRequestedSkins = null;
+        }
+        if (SkinModifyRequestedSkins != null)
+        {
+            var scene = SkinModiferModificationSelectScene.Instantiate<SkinModifierModificationSelect>();
+            scene.SkinsToModify = SkinModifyRequestedSkins.ToList();
+            PushScene(scene);
+
+            SkinModifyRequestedSkins = null;
+        }
     }
 
     public override void _UnhandledInput(InputEvent inputEvent)
