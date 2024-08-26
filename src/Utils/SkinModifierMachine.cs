@@ -244,38 +244,33 @@ public class SkinModifierMachine : SkinMachine
 
         hitcirclePrefix = hitcirclePrefix != null ? $"{skinDirectory}/{hitcirclePrefix}" : $"{skinDirectory}/default";
 
-        bool hitcircleExists = File.Exists(hitcirclePath);
-        bool hitcircleoverlayExists = File.Exists(hitcircleoverlayPath);
+        int hitcirclePostScale = 1;
+        int hitcircleoverlayPostScale = 1;
 
-        // If the skin has custom hitcircles but not of this resolution, don't make instafade hitcircles using the default skin elements.
-        if (!hitcircleExists || !hitcircleoverlayExists)
+        // Fallback to default resolution if @2x resolution not found.
+        if (!File.Exists(hitcirclePath) && File.Exists($"{skinDirectory}/hitcircle.png"))
         {
-            Log($"Hitcircle elements with suffix '{suffix}' not found, skipping instafade process.");
-            
-            for (int i = 0; i <= 9; i++)
-            {
-                // The original skin didn't have hitcircles of this resolution so get rid of the hitcircle numbers of this resolution.
-                string defaultXPath = $"{hitcirclePrefix}-{i}{suffix}.png";
-                if (File.Exists(defaultXPath))
-                {
-                    AddFileToOriginalElementsCache(defaultXPath);
-                    File.Delete(defaultXPath);
-                }
-            }
-
-            return;
+            hitcirclePath = $"{skinDirectory}/hitcircle.png";
+            hitcirclePostScale = 2;
         }
 
-        using Image<Rgba32> hitcircle = hitcircleExists
+        // Fallback to default resolution if @2x resolution not found.
+        if (!File.Exists(hitcircleoverlayPath) && File.Exists($"{skinDirectory}/hitcircleoverlay.png"))
+        {
+            hitcircleoverlayPath = $"{skinDirectory}/hitcircleoverlay.png";
+            hitcircleoverlayPostScale = 2;
+        }
+
+        using Image<Rgba32> hitcircle = File.Exists(hitcirclePath)
             ? Image.Load<Rgba32>(hitcirclePath)
             : Image.Load<Rgba32>(GetDefaultElementBytes($"hitcircle{suffix}.png"));
 
-        using Image<Rgba32> hitcircleoverlay = hitcircleoverlayExists
+        using Image<Rgba32> hitcircleoverlay = File.Exists(hitcircleoverlayPath)
             ? Image.Load<Rgba32>(hitcircleoverlayPath)
             : Image.Load<Rgba32>(GetDefaultElementBytes($"hitcircleoverlay{suffix}.png"));
 
-        hitcircleoverlay.Mutate(i => i.Resize((int)(hitcircleoverlay.Width * 1.25), (int)(hitcircleoverlay.Height * 1.25)));
-        hitcircle.Mutate(i => i.Resize((int)(hitcircle.Width * 1.25), (int)(hitcircle.Height * 1.25)));
+        hitcircleoverlay.Mutate(i => i.Resize((int)(hitcircleoverlay.Width * hitcircleoverlayPostScale * 1.25), (int)(hitcircleoverlay.Height * hitcircleoverlayPostScale * 1.25)));
+        hitcircle.Mutate(i => i.Resize((int)(hitcircle.Width * hitcirclePostScale * 1.25), (int)(hitcircle.Height * hitcirclePostScale * 1.25)));
 
         Godot.Color[] comboColors = workingSkin.ComboColors;
 
@@ -298,10 +293,20 @@ public class SkinModifierMachine : SkinMachine
         for (int i = 0; i <= 9; i++)
         {
             string defaultXPath = $"{hitcirclePrefix}-{i}{suffix}.png";
+            int defaultPostScale = 1;
+
+            // Fallback to default resolution if @2x resolution not found.
+            if (!File.Exists(defaultXPath) && File.Exists($"{hitcirclePrefix}-{i}.png"))
+            {
+                defaultXPath = $"{hitcirclePrefix}-{i}.png";
+                defaultPostScale = 2;
+            }
 
             using Image<Rgba32> defaultX = File.Exists(defaultXPath)
                 ? Image.Load<Rgba32>(defaultXPath)
                 : Image.Load<Rgba32>(GetDefaultElementBytes($"default-{i}{suffix}.png"));
+            
+            defaultX.Mutate(i => i.Resize(defaultX.Width * defaultPostScale, defaultX.Height * defaultPostScale));
 
             Image<Rgba32> newDefaultX;
             if (hitcircleoverlay.Width > hitcircle.Width || hitcircleoverlay.Height > hitcircle.Height)
@@ -333,7 +338,7 @@ public class SkinModifierMachine : SkinMachine
                 newDefaultX.Mutate(i => i.Opacity(0));
 
             AddFileToOriginalElementsCache(defaultXPath);
-            newDefaultX.Save(defaultXPath);
+            newDefaultX.Save($"{hitcirclePrefix}-{i}{suffix}.png");
             newDefaultX.Dispose();
         }
 
