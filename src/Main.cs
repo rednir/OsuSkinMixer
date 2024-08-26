@@ -86,13 +86,13 @@ public partial class Main : Control
         {
             var instance = SkinInfoScene.Instantiate<SkinInfo>();
             instance.Skins = s;
-            PushScene(instance);
+            CallDeferred(MethodName.PushScene, instance);
         };
         OsuData.SkinModifyRequested += s =>
         {
             var scene = SkinModiferModificationSelectScene.Instantiate<SkinModifierModificationSelect>();
             scene.SkinsToModify = s.ToList();
-            PushScene(scene);
+            CallDeferred(MethodName.PushScene, scene);
         };
 
         PendingScene = MenuScene.Instantiate<StackScene>();
