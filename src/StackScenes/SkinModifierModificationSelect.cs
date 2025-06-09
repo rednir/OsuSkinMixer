@@ -11,18 +11,21 @@ public partial class SkinModifierModificationSelect : StackScene
 
     private PackedScene SkinInfoScene;
     private PackedScene ComboColourContainerScene;
+    private PackedScene CursorColourContainerScene;
 
     private CancellationTokenSource CancellationTokenSource;
 
     public List<OsuSkin> SkinsToModify { get; set; }
 
     private ComboColoursContainer[] ComboColoursContainers;
+    private CursorColourContainer[] CursorColourContainers;
 
     private SkinOptionsSelector SkinOptionsSelector;
     private SkinComponent DefaultSkinComponent;
     private SkinComponent BlankComponent;
     private Button ApplyChangesButton;
     private VBoxContainer ComboColoursContainerCollection;
+    private VBoxContainer CursorColourContainerCollection;
     private CheckBox SmoothTrailCheckBox;
     private CheckBox InstafadeCheckBox;
     private CheckBox DisableAnimationsCheckBox;
@@ -32,12 +35,14 @@ public partial class SkinModifierModificationSelect : StackScene
     {
         SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
         ComboColourContainerScene = GD.Load<PackedScene>("res://src/Components/Osu/ComboColoursContainer.tscn");
+        CursorColourContainerScene = GD.Load<PackedScene>("res://src/Components/Osu/CursorColourContainer.tscn");
 
         SkinOptionsSelector = GetNode<SkinOptionsSelector>("%SkinOptionsSelector");
         DefaultSkinComponent = GetNode<SkinComponent>("%DefaultSkinComponent");
         BlankComponent = GetNode<SkinComponent>("%BlankComponent");
         ApplyChangesButton = GetNode<Button>("%ApplyChangesButton");
         ComboColoursContainerCollection = GetNode<VBoxContainer>("%ComboColoursContainerCollection");
+        CursorColourContainerCollection = GetNode<VBoxContainer>("%CursorColourContainerCollection");
         SmoothTrailCheckBox = GetNode<CheckBox>("%SmoothTrailCheckBox");
         InstafadeCheckBox = GetNode<CheckBox>("%InstafadeCheckBox");
         DisableAnimationsCheckBox = GetNode<CheckBox>("%DisableAnimationsCheckBox");
@@ -52,7 +57,7 @@ public partial class SkinModifierModificationSelect : StackScene
 
         OsuData.SkinRemoved += OnSkinRemoved;
 
-        InitialiseComboColourContainers();
+        InitialiseColourOverrideContainers();
     }
 
     public override void _ExitTree()
@@ -60,19 +65,26 @@ public partial class SkinModifierModificationSelect : StackScene
         OsuData.SkinRemoved -= OnSkinRemoved;
     }
 
-    private void InitialiseComboColourContainers()
+    private void InitialiseColourOverrideContainers()
     {
-        List<ComboColoursContainer> containers = new();
+        List<ComboColoursContainer> comboColourContainers = new();
+        List<CursorColourContainer> cursorColourContainers = new();
 
         foreach (var skin in SkinsToModify)
         {
-            var container = ComboColourContainerScene.Instantiate<ComboColoursContainer>();
-            container.Skin = skin;
-            ComboColoursContainerCollection.AddChild(container);
-            containers.Add(container);
+            var comboColoursContainer = ComboColourContainerScene.Instantiate<ComboColoursContainer>();
+            comboColoursContainer.Skin = skin;
+            ComboColoursContainerCollection.AddChild(comboColoursContainer);
+            comboColourContainers.Add(comboColoursContainer);
+
+            var cursorColourContainer = CursorColourContainerScene.Instantiate<CursorColourContainer>();
+            cursorColourContainer.Skin = skin;
+            CursorColourContainerCollection.AddChild(cursorColourContainer);
+            cursorColourContainers.Add(cursorColourContainer);
         }
 
-        ComboColoursContainers = containers.ToArray();
+        ComboColoursContainers = comboColourContainers.ToArray();
+        CursorColourContainers = cursorColourContainers.ToArray();
     }
 
     private void OnSkinRemoved(OsuSkin skin)

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bskruf5kshofa"]
+
+[ext_resource type="Texture2D" uid="uid://dmtvgydyh3asw" path="res://assets/defaultskin/cursor.png" id="1_uejma"]
+[ext_resource type="Texture2D" uid="uid://d1cwqoepjg34a" path="res://assets/defaultskin/cursormiddle.png" id="2_38uif"]
+
+[node name="CenterContainer" type="CenterContainer"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_uejma")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_38uif")

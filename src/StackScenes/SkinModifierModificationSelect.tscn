@@ -90,6 +90,23 @@ visible = true
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="CursorColourContainer" parent="." instance=ExtResource("5_fkmng")]
+layout_mode = 2
+
+[node name="Title" parent="CursorColourContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+text = "Cursor colour override"
+
+[node name="Subtitle" parent="CursorColourContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
+visible = true
+text = "Change the colour of your cursor"
+
+[node name="ContentContainer" parent="CursorColourContainer/VBoxContainer" index="1"]
+visible = true
+
+[node name="CursorColourContainerCollection" type="VBoxContainer" parent="CursorColourContainer/VBoxContainer/ContentContainer" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="ExtraOptionsContainer" parent="." instance=ExtResource("5_fkmng")]
 layout_mode = 2
 
@@ -153,6 +170,7 @@ visible = true
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent"]
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon"]
 [editable path="ComboColourContainer"]
+[editable path="CursorColourContainer"]
 [editable path="ExtraOptionsContainer"]
 [editable path="LoadingPopup"]
 [editable path="LoadingPopup/Popup"]
