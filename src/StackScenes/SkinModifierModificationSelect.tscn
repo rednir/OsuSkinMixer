@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cypqcp2bs5ci8"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_jskw1"]
-[ext_resource type="Script" path="res://src/StackScenes/SkinModifierModificationSelect.cs" id="2_je2sr"]
+[ext_resource type="Script" uid="uid://cgo4gw1pwq6ty" path="res://src/StackScenes/SkinModifierModificationSelect.cs" id="2_je2sr"]
 [ext_resource type="PackedScene" uid="uid://4a2d561f0p72" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.tscn" id="3_4hx6p"]
 [ext_resource type="PackedScene" uid="uid://r28lp1qj0ucs" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="3_dgftf"]
 [ext_resource type="PackedScene" uid="uid://l5lkphprcihd" path="res://src/Components/SkinComponentSkinManager.tscn" id="4_fdpti"]

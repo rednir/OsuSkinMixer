@@ -1,7 +1,7 @@
 [gd_scene load_steps=37 format=3 uid="uid://cxcudjntoc6uv"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_3ca2l"]
-[ext_resource type="Script" path="res://src/Main.cs" id="2_ajhyw"]
+[ext_resource type="Script" uid="uid://cjvctcfx3ypxl" path="res://src/Main.cs" id="2_ajhyw"]
 [ext_resource type="StyleBox" uid="uid://dj6itwk88er6q" path="res://src/Styles/Containers/TopBar.tres" id="3_5ka6c"]
 [ext_resource type="PackedScene" uid="uid://cmaar4yayttia" path="res://src/Background.tscn" id="3_42h7d"]
 [ext_resource type="PackedScene" uid="uid://bimdldtywn6nm" path="res://src/Components/Popup/SettingsPopup.tscn" id="4_8gcgf"]
@@ -75,8 +75,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oombq"]
 _data = {
-"RESET": SubResource("Animation_ciq82"),
-"available": SubResource("Animation_1vq04")
+&"RESET": SubResource("Animation_ciq82"),
+&"available": SubResource("Animation_1vq04")
 }
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_esylg"]
@@ -343,11 +343,11 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_08qeu"]
 _data = {
-"RESET": SubResource("Animation_tg23o"),
-"pop_in": SubResource("Animation_br3p2"),
-"pop_out": SubResource("Animation_g0nj4"),
-"push_in": SubResource("Animation_ym7nh"),
-"push_out": SubResource("Animation_62jqq")
+&"RESET": SubResource("Animation_tg23o"),
+&"pop_in": SubResource("Animation_br3p2"),
+&"pop_out": SubResource("Animation_g0nj4"),
+&"push_in": SubResource("Animation_ym7nh"),
+&"push_out": SubResource("Animation_62jqq")
 }
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ca2ql"]
@@ -416,8 +416,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_e104j"]
 _data = {
-"RESET": SubResource("Animation_cy1an"),
-"fade_out": SubResource("Animation_pl4k0")
+&"RESET": SubResource("Animation_cy1an"),
+&"fade_out": SubResource("Animation_pl4k0")
 }
 
 [node name="Main" type="Control"]

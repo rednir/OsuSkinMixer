@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://8wf60277okh8"]
 
 [ext_resource type="PackedScene" uid="uid://biyslssc1eaxx" path="res://src/Components/Buttons/ToggleChip.tscn" id="1_cysn1"]
-[ext_resource type="Script" path="res://src/Components/SkinSortChipsContainer.cs" id="1_ih85k"]
+[ext_resource type="Script" uid="uid://1mqonoq7p8s2" path="res://src/Components/SkinSortChipsContainer.cs" id="1_ih85k"]
 
 [node name="SkinSortChipsContainer" type="HBoxContainer"]
 size_flags_vertical = 0

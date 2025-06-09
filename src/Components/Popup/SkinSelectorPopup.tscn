@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://md4n10t0o7i4"]
 
-[ext_resource type="Script" path="res://src/Components/Popup/SkinSelectorPopup.cs" id="1_5b4pt"]
+[ext_resource type="Script" uid="uid://bjw7q13s683x4" path="res://src/Components/Popup/SkinSelectorPopup.cs" id="1_5b4pt"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="1_jm6w5"]
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="3_rw0cv"]
 [ext_resource type="Texture2D" uid="uid://crgnranuin71j" path="res://assets/materialicons/arrow_back.png" id="4_oc0m3"]

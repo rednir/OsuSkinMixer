@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=3 uid="uid://ysal13cqaoit"]
 
 [ext_resource type="Texture2D" uid="uid://05l1bgbm243m" path="res://assets/defaultskin/menu-background.jpg" id="1_8ery0"]
-[ext_resource type="Script" path="res://src/Components/Osu/SkinPreview.cs" id="1_o7mmq"]
+[ext_resource type="Script" uid="uid://c4tfa3a33ghr1" path="res://src/Components/Osu/SkinPreview.cs" id="1_o7mmq"]
 [ext_resource type="PackedScene" uid="uid://dg5gq6ty35cmr" path="res://src/Components/Osu/Hitcircle.tscn" id="2_cyhy6"]
 [ext_resource type="PackedScene" uid="uid://dgiijo0aonvwu" path="res://src/Components/Osu/ComboContainer.tscn" id="3_hdhpe"]
 [ext_resource type="Texture2D" uid="uid://cmcfwdprh6ie0" path="res://assets/defaultskin/cursor@2x.png" id="4_rkbhf"]
@@ -96,9 +96,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_snb7s"]
 _data = {
-"RESET": SubResource("Animation_v2l1n"),
-"enter": SubResource("Animation_wlomc"),
-"exit": SubResource("Animation_ase2e")
+&"RESET": SubResource("Animation_v2l1n"),
+&"enter": SubResource("Animation_wlomc"),
+&"exit": SubResource("Animation_ase2e")
 }
 
 [sub_resource type="Gradient" id="Gradient_pof87"]
@@ -151,8 +151,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ku4pg"]
 _data = {
-"RESET": SubResource("Animation_5jun1"),
-"rotate": SubResource("Animation_jsbfs")
+&"RESET": SubResource("Animation_5jun1"),
+&"rotate": SubResource("Animation_jsbfs")
 }
 
 [node name="SkinPreview" type="PanelContainer"]

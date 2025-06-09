@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://da2vul0iiwek5"]
 
-[ext_resource type="Script" path="res://src/Components/Popup/ChangelogPopup.cs" id="1_xx64c"]
+[ext_resource type="Script" uid="uid://dcde2ow76r0q7" path="res://src/Components/Popup/ChangelogPopup.cs" id="1_xx64c"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_pw4e0"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_7o7bx"]
 [ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="4_vcpkl"]

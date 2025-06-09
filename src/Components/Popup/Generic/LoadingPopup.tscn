@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://r28lp1qj0ucs"]
 
-[ext_resource type="Script" path="res://src/Components/Popup/Generic/LoadingPopup.cs" id="1_l6kji"]
+[ext_resource type="Script" uid="uid://cejmayu7cqgc0" path="res://src/Components/Popup/Generic/LoadingPopup.cs" id="1_l6kji"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_8v2a0"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_tc6gj"]
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="4_t0pjf"]
@@ -93,24 +93,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hhb2o"]
 _data = {
-"RESET": SubResource("Animation_vym23"),
-"finish": SubResource("Animation_o8a67"),
-"unknown": SubResource("Animation_fwykw")
-}
-
-[sub_resource type="Animation" id="Animation_utejt"]
-resource_name = "new"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/ProgressStatus:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.9),
-"transitions": PackedFloat32Array(1, 0.25, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+&"RESET": SubResource("Animation_vym23"),
+&"finish": SubResource("Animation_o8a67"),
+&"unknown": SubResource("Animation_fwykw")
 }
 
 [sub_resource type="Animation" id="Animation_tcweh"]
@@ -128,10 +113,25 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_utejt"]
+resource_name = "new"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/ProgressStatus:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.9),
+"transitions": PackedFloat32Array(1, 0.25, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_j8iai"]
 _data = {
-"RESET": SubResource("Animation_tcweh"),
-"new": SubResource("Animation_utejt")
+&"RESET": SubResource("Animation_tcweh"),
+&"new": SubResource("Animation_utejt")
 }
 
 [node name="LoadingPopup" type="Control"]

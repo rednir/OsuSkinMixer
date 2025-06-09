@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://cmaar4yayttia"]
 
-[ext_resource type="Script" path="res://src/Background.cs" id="1_bndj1"]
+[ext_resource type="Script" uid="uid://dkkrsw0uv48ca" path="res://src/Background.cs" id="1_bndj1"]
 [ext_resource type="Texture2D" uid="uid://b8d0jwme466fo" path="res://assets/triangle.svg" id="1_d804o"]
 [ext_resource type="Texture2D" uid="uid://05l1bgbm243m" path="res://assets/defaultskin/menu-background.jpg" id="3_4rynk"]
 [ext_resource type="Texture2D" uid="uid://cybpti0a61a2d" path="res://assets/menu-snow-1.png" id="3_mvj5o"]
@@ -420,10 +420,10 @@ tracks/8/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_43ckp"]
 _data = {
-"RESET": SubResource("Animation_h0rrm"),
-"disable": SubResource("Animation_56w2v"),
-"snow_in": SubResource("Animation_lxfmd"),
-"snow_out": SubResource("Animation_tlvs5")
+&"RESET": SubResource("Animation_h0rrm"),
+&"disable": SubResource("Animation_56w2v"),
+&"snow_in": SubResource("Animation_lxfmd"),
+&"snow_out": SubResource("Animation_tlvs5")
 }
 
 [sub_resource type="Gradient" id="Gradient_gqud0"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://feflo812i8ns"]
 
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="1_daqam"]
-[ext_resource type="Script" path="res://src/Components/Toast.cs" id="1_u1844"]
+[ext_resource type="Script" uid="uid://cyi7fvfm7o33u" path="res://src/Components/Toast.cs" id="1_u1844"]
 [ext_resource type="Texture2D" uid="uid://d35i1tw6xkwef" path="res://assets/materialicons/close.png" id="2_vpdgi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rifil"]
@@ -203,10 +203,10 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7tqpr"]
 _data = {
-"RESET": SubResource("Animation_0d8ut"),
-"in": SubResource("Animation_ev868"),
-"out": SubResource("Animation_obpof"),
-"progress": SubResource("Animation_xhaoa")
+&"RESET": SubResource("Animation_0d8ut"),
+&"in": SubResource("Animation_ev868"),
+&"out": SubResource("Animation_obpof"),
+&"progress": SubResource("Animation_xhaoa")
 }
 
 [sub_resource type="Animation" id="Animation_5jtw6"]
@@ -242,8 +242,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wpltx"]
 _data = {
-"RESET": SubResource("Animation_5jtw6"),
-"in": SubResource("Animation_anyk2")
+&"RESET": SubResource("Animation_5jtw6"),
+&"in": SubResource("Animation_anyk2")
 }
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o1sp6"]

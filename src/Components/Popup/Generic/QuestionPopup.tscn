@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://7805vr243ofu"]
 
-[ext_resource type="Script" path="res://src/Components/Popup/Generic/QuestionPopup.cs" id="1_hxb01"]
+[ext_resource type="Script" uid="uid://ch0husgf1qy0x" path="res://src/Components/Popup/Generic/QuestionPopup.cs" id="1_hxb01"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_asll6"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="3_rngg4"]
 [ext_resource type="LabelSettings" uid="uid://dary16s1twb46" path="res://src/Styles/LabelSettings/MenuButtonDescription.tres" id="4_7gg87"]

@@ -196,9 +196,9 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vkal4"]
 _data = {
-"RESET": SubResource("Animation_7hfvd"),
-"in": SubResource("Animation_btikw"),
-"out": SubResource("Animation_rg5hx")
+&"RESET": SubResource("Animation_7hfvd"),
+&"in": SubResource("Animation_btikw"),
+&"out": SubResource("Animation_rg5hx")
 }
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0s675"]

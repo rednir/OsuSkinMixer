@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://dg5gq6ty35cmr"]
 
-[ext_resource type="Script" path="res://src/Components/Osu/Hitcircle.cs" id="1_0sbfk"]
+[ext_resource type="Script" uid="uid://b2ci4ry3pvy27" path="res://src/Components/Osu/Hitcircle.cs" id="1_0sbfk"]
 [ext_resource type="Texture2D" uid="uid://cwjwgh7bqjf2l" path="res://assets/defaultskin/hitcircleoverlay@2x.png" id="2_p4d0r"]
 [ext_resource type="AudioStream" uid="uid://c6oalj4lpqcv1" path="res://assets/defaultskin/normal-hitnormal.wav" id="2_vmy48"]
 [ext_resource type="AudioStream" uid="uid://bvkkg15kvjvdl" path="res://assets/defaultskin/combobreak.wav" id="3_a40xk"]
@@ -166,9 +166,9 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_osjpk"]
 _data = {
-"RESET": SubResource("Animation_w4d65"),
-"show": SubResource("Animation_b0x8y"),
-"show_miss": SubResource("Animation_xyuuh")
+&"RESET": SubResource("Animation_w4d65"),
+&"show": SubResource("Animation_b0x8y"),
+&"show_miss": SubResource("Animation_xyuuh")
 }
 
 [sub_resource type="Animation" id="Animation_ob3db"]
@@ -416,10 +416,10 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_o6j6o"]
 _data = {
-"RESET": SubResource("Animation_ob3db"),
-"fade_in": SubResource("Animation_i2so4"),
-"hit": SubResource("Animation_0lg0p"),
-"miss": SubResource("Animation_3qtoc")
+&"RESET": SubResource("Animation_ob3db"),
+&"fade_in": SubResource("Animation_i2so4"),
+&"hit": SubResource("Animation_0lg0p"),
+&"miss": SubResource("Animation_3qtoc")
 }
 
 [node name="Hitcircle" type="Node2D"]

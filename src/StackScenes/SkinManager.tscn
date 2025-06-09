@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://cmq51eqle0u61"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_dl5xc"]
-[ext_resource type="Script" path="res://src/StackScenes/SkinManager.cs" id="2_jflee"]
+[ext_resource type="Script" uid="uid://4hwnso76lsvo" path="res://src/StackScenes/SkinManager.cs" id="2_jflee"]
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="3_25b43"]
 [ext_resource type="Texture2D" uid="uid://cckyjajbewoii" path="res://assets/materialicons/select_all.png" id="4_e17jv"]
 [ext_resource type="Texture2D" uid="uid://dvi2878o80rby" path="res://assets/materialicons/deselect.png" id="5_e7oge"]
