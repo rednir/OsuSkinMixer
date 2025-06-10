@@ -67,8 +67,8 @@ public partial class SkinModifierModificationSelect : StackScene
 
     private void InitialiseColourOverrideContainers()
     {
-        List<ComboColoursContainer> comboColourContainers = new();
-        List<CursorColourContainer> cursorColourContainers = new();
+        List<ComboColoursContainer> comboColourContainers = [];
+        List<CursorColourContainer> cursorColourContainers = [];
 
         foreach (var skin in SkinsToModify)
         {
@@ -83,8 +83,8 @@ public partial class SkinModifierModificationSelect : StackScene
             cursorColourContainers.Add(cursorColourContainer);
         }
 
-        ComboColoursContainers = comboColourContainers.ToArray();
-        CursorColourContainers = cursorColourContainers.ToArray();
+        ComboColoursContainers = [.. comboColourContainers];
+        CursorColourContainers = [.. cursorColourContainers];
     }
 
     private void OnSkinRemoved(OsuSkin skin)

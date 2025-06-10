@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://batfsworj3fbf"]
+[gd_scene load_steps=8 format=3 uid="uid://batfsworj3fbf"]
 
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="1_q1r7x"]
 [ext_resource type="Script" uid="uid://j6c0r5vdhi0n" path="res://src/Components/Osu/CursorColourContainer.cs" id="1_svrv1"]
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="2_svrv1"]
 [ext_resource type="Texture2D" uid="uid://cqwxbxy12xlnt" path="res://assets/materialicons/add.png" id="3_evq26"]
+[ext_resource type="PackedScene" uid="uid://bskruf5kshofa" path="res://src/Components/Osu/CursorColourIcon.tscn" id="3_fbfcu"]
+[ext_resource type="Texture2D" uid="uid://bp1ndcvygrvgw" path="res://assets/materialicons/history.png" id="6_fbfcu"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fbfcu"]
 
@@ -27,7 +29,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Override colours for SKIN NAME GOES HERE"
+text = "Override colour for SKIN NAME GOES HERE"
 label_settings = ExtResource("1_q1r7x")
 vertical_alignment = 1
 text_overrun_behavior = 3
@@ -38,3 +40,20 @@ layout_mode = 2
 size_flags_horizontal = 8
 icon = ExtResource("3_evq26")
 icon_alignment = 0
+
+[node name="OverridingOnContainer" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="ResetButton" parent="OverridingOnContainer" instance=ExtResource("2_svrv1")]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Reset override"
+icon = ExtResource("6_fbfcu")
+
+[node name="CursorColourIcon" parent="OverridingOnContainer" instance=ExtResource("3_fbfcu")]
+unique_name_in_owner = true
+layout_mode = 2
