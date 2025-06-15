@@ -1866,7 +1866,9 @@ theme = SubResource("Theme_qwtf7")
 color = Color(0.392157, 0.392157, 1, 1)
 edit_alpha = false
 deferred_mode = true
+can_add_swatches = false
 color_modes_visible = false
+presets_visible = false
 
 [node name="RemoveColourButton" parent="ChangeColorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3" instance=ExtResource("3_16rg5")]
 unique_name_in_owner = true

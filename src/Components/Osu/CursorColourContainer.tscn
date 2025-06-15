@@ -1864,7 +1864,9 @@ theme = SubResource("Theme_v67te")
 color = Color(0.392157, 0.392157, 1, 1)
 edit_alpha = false
 deferred_mode = true
+can_add_swatches = false
 color_modes_visible = false
+presets_visible = false
 
 [node name="OkButton" parent="ChangeColourPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3"]
 text = "Done"
