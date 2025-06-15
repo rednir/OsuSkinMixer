@@ -10,6 +10,10 @@ public abstract partial class Popup : Control
 
     protected AnimationPlayer AnimationPlayer { get; private set; }
 
+    private readonly Object _lock = new();
+
+    private bool _isCurrentlyIn;
+
     public override void _Ready()
     {
         AnimationPlayer = GetNode<AnimationPlayer>("Popup/AnimationPlayer");
@@ -32,12 +36,21 @@ public abstract partial class Popup : Control
 
     public virtual void In()
     {
+        _isCurrentlyIn = true;
         AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "in");
         PopupIn?.Invoke();
     }
 
     public virtual void Out()
     {
+        lock (_lock)
+        {
+            if (!_isCurrentlyIn)
+                return;
+
+            _isCurrentlyIn = false;
+        }
+
         AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "out");
         PopupOut?.Invoke();
     }
