@@ -39,6 +39,9 @@ public partial class CursorColourContainer : HBoxContainer
 		EnableOverrideButton.Pressed += OnEnableOverrideButtonPressed;
 		Icon.Pressed += OnIconPressed;
 		ChangeColourPopup.PopupOut += OnChangeColourPopupOut;
+
+		// TEMP
+		OS.ShellOpen(Settings.TempFolderPath);
 	}
 
 	private void OnEnableOverrideButtonPressed()
@@ -71,14 +74,28 @@ public partial class CursorColourContainer : HBoxContainer
 
 	private void OnChangeColourPopupOut()
 	{
+		string tempCursorPath = $"{Settings.TempFolderPath}/cursor_recolour.png";
+
 		Rgba32 rgba = new(ColorPicker.Color.R, ColorPicker.Color.G, ColorPicker.Color.B, 255);
-		RecolourCursor(rgba);
+		RecolourCursor(tempCursorPath, rgba);
+
+		Godot.Image newCursorImage = new();
+		var err = newCursorImage.Load(tempCursorPath);
+
+		if (err != Error.Ok)
+		{
+			// TODO: idk
+			throw new Exception();
+		}
+		//"why is it not changing the color in preview" ----
+		// TODO: not null cursormiddle, change the colour of this too.
+		// TODO: and also cursor trail?
+		Icon.SetValues(ImageTexture.CreateFromImage(newCursorImage), null);
 	}
 
-	private void RecolourCursor(Rgba32 target, float satThreshold = 0.1f, float satMultiplier = 1.0f)
+	private void RecolourCursor(string output, Rgba32 target, float satThreshold = 0.1f)
 	{
 		Hsv targetHsv = ColorSpaceConverter.ToHsv(target);
-		float targetHue = targetHsv.H;
 
 		using var img = Image.Load<Rgba32>($"{Skin.Directory.FullName}/cursor.png");
 
@@ -98,7 +115,7 @@ public partial class CursorColourContainer : HBoxContainer
 					if (hsv.S <= satThreshold)
 						continue;
 
-					Hsv newHsv = new(targetHue, MathF.Min(1f, hsv.S * satMultiplier), hsv.V);
+					Hsv newHsv = new(targetHsv.H, targetHsv.S, targetHsv.V);
 
 					var rgb = ColorSpaceConverter.ToRgb(newHsv);
 					p = new Rgba32(
@@ -110,9 +127,7 @@ public partial class CursorColourContainer : HBoxContainer
 				}
 			}
 		});
-		
-		// TODO: unique name.
-		img.SaveAsPng($"{Settings.TempFolderPath}/cursor_recolour.png");
-		OS.ShellOpen($"file://{Settings.TempFolderPath}/cursor_recolour.png");
+
+		img.SaveAsPng(output);
 	}
 }
