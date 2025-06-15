@@ -29,6 +29,9 @@ public partial class CursorColourContainer : HBoxContainer
 	private ColorPicker ColorPicker;
 	private Button ResetButton;
 	private Button OptionsButton;
+	private Button IgnoreCursortrailButton;
+	private Button IgnoreCursormiddleButton;
+	private SpinBox SatThresholdSpinBox;
 
 	public override void _Ready()
 	{
@@ -42,15 +45,19 @@ public partial class CursorColourContainer : HBoxContainer
 		ColorPicker = GetNode<ColorPicker>("%ColorPicker");
 		ResetButton = GetNode<Button>("%ResetButton");
 		OptionsButton = GetNode<Button>("%OptionsButton");
+		IgnoreCursortrailButton = GetNode<Button>("%IgnoreCursortrailButton");
+		IgnoreCursormiddleButton = GetNode<Button>("%IgnoreCursormiddleButton");
+		SatThresholdSpinBox = GetNode<SpinBox>("%SatThresholdSpinBox");
 
 		EnableOverrideLabel.Text = $"Override colour for \"{Skin.Name}\"";
 		EnableOverrideButton.Pressed += OnEnableOverrideButtonPressed;
 		Icon.Pressed += OnIconPressed;
 		ChangeColourPopup.PopupOut += OnChangeColourPopupOut;
+		OptionsPopup.PopupOut += OnOptionsPopupOut;
 		ResetButton.Pressed += OnResetButtonPressed;
 		OptionsButton.Pressed += OnOptionsButtonPressed;
 
-		// TEMP
+		// TODO: TEMP
 		OS.ShellOpen(Settings.TempFolderPath);
 	}
 
@@ -96,6 +103,16 @@ public partial class CursorColourContainer : HBoxContainer
 	}
 
 	private void OnChangeColourPopupOut()
+		=> UpdateIconColour();
+
+	private void OnOptionsPopupOut()
+	{
+		// If the user hasn't chosen a colour yet there's no point updating anything.
+		if (ColourChosen)
+			UpdateIconColour();
+	}
+
+	private void UpdateIconColour()
 	{
 		string tempCursorPath = $"{Settings.TempFolderPath}/cursor_recolour.png";
 
@@ -115,6 +132,7 @@ public partial class CursorColourContainer : HBoxContainer
 		// TODO: and also cursor trail?
 		Icon.SetValues(ImageTexture.CreateFromImage(newCursorImage), null);
 
+		// When the user presses the override button, the icon will appear unchanged until a colour is chosen.
 		ColourChosen = true;
 	}
 
