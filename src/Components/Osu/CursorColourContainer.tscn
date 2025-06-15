@@ -1,8 +1,9 @@
-[gd_scene load_steps=51 format=4 uid="uid://batfsworj3fbf"]
+[gd_scene load_steps=53 format=4 uid="uid://batfsworj3fbf"]
 
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="1_q1r7x"]
 [ext_resource type="Script" uid="uid://j6c0r5vdhi0n" path="res://src/Components/Osu/CursorColourContainer.cs" id="1_svrv1"]
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="2_svrv1"]
+[ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="3_b1jcv"]
 [ext_resource type="Texture2D" uid="uid://cqwxbxy12xlnt" path="res://assets/materialicons/add.png" id="3_evq26"]
 [ext_resource type="PackedScene" uid="uid://bskruf5kshofa" path="res://src/Components/Osu/CursorColourIcon.tscn" id="3_fbfcu"]
 [ext_resource type="Texture2D" uid="uid://bp1ndcvygrvgw" path="res://assets/materialicons/history.png" id="6_fbfcu"]
@@ -1841,6 +1842,12 @@ LineEdit/styles/focus = SubResource("StyleBoxFlat_6cw8b")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_r26ol")
 LineEdit/styles/read_only = SubResource("StyleBoxFlat_f5gim")
 
+[sub_resource type="LabelSettings" id="LabelSettings_o5m6u"]
+line_spacing = 0.0
+font = ExtResource("3_b1jcv")
+font_size = 12
+font_color = Color(0.87451, 0.854902, 0.870588, 0.843137)
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fbfcu"]
 
 [node name="CursorColourContainer" type="HBoxContainer"]
@@ -1871,6 +1878,61 @@ presets_visible = false
 
 [node name="OkButton" parent="ChangeColourPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3"]
 text = "Done"
+
+[node name="OptionsPopup" parent="." instance=ExtResource("7_bknk4")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Title" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
+visible = false
+
+[node name="Text" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="1"]
+text = "Advanced options"
+
+[node name="HSeparator" type="HSeparator" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="2"]
+layout_mode = 2
+
+[node name="OkButton" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3"]
+visible = false
+
+[node name="IgnoreCursortrailButton" type="CheckButton" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="4"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Don't modify cursortrail.png"
+
+[node name="IgnoreCursormiddleButton" type="CheckButton" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="5"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Don't modify cursormiddle.png"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="6"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="SatThresholdTitle" type="Label" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Saturation threshold"
+
+[node name="SatThresholdDescription" type="Label" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Use a higher value if coloured parts of the cursor are not being recoloured"
+label_settings = SubResource("LabelSettings_o5m6u")
+autowrap_mode = 2
+
+[node name="SatThresholdSpinBox" type="SpinBox" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
+value = 0.1
+alignment = 1
+update_on_text_changed = true
 
 [node name="OverridingOffContainer" type="HBoxContainer" parent="."]
 unique_name_in_owner = true
@@ -1924,3 +1986,5 @@ icon = ExtResource("8_np1x5")
 
 [editable path="ChangeColourPopup"]
 [editable path="ChangeColourPopup/Popup"]
+[editable path="OptionsPopup"]
+[editable path="OptionsPopup/Popup"]

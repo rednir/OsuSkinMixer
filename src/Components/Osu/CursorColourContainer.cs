@@ -25,6 +25,7 @@ public partial class CursorColourContainer : HBoxContainer
 	private HBoxContainer OverridingOffContainer;
 	private CursorColourIcon Icon;
 	private OkPopup ChangeColourPopup;
+	private OkPopup OptionsPopup;
 	private ColorPicker ColorPicker;
 	private Button ResetButton;
 	private Button OptionsButton;
@@ -37,6 +38,7 @@ public partial class CursorColourContainer : HBoxContainer
 		OverridingOffContainer = GetNode<HBoxContainer>("%OverridingOffContainer");
 		Icon = GetNode<CursorColourIcon>("%CursorColourIcon");
 		ChangeColourPopup = GetNode<OkPopup>("%ChangeColourPopup");
+		OptionsPopup = GetNode<OkPopup>("%OptionsPopup");
 		ColorPicker = GetNode<ColorPicker>("%ColorPicker");
 		ResetButton = GetNode<Button>("%ResetButton");
 		OptionsButton = GetNode<Button>("%OptionsButton");
@@ -90,6 +92,7 @@ public partial class CursorColourContainer : HBoxContainer
 
 	private void OnOptionsButtonPressed()
 	{
+		OptionsPopup.In();
 	}
 
 	private void OnChangeColourPopupOut()
