@@ -17,6 +17,8 @@ public partial class CursorColourContainer : HBoxContainer
 
 	public bool OverrideEnabled { get; private set; }
 
+	private bool ColourChosen;
+
 	private Label EnableOverrideLabel;
 	private Button EnableOverrideButton;
 	private HBoxContainer OverridingOnContainer;
@@ -24,6 +26,8 @@ public partial class CursorColourContainer : HBoxContainer
 	private CursorColourIcon Icon;
 	private OkPopup ChangeColourPopup;
 	private ColorPicker ColorPicker;
+	private Button ResetButton;
+	private Button OptionsButton;
 
 	public override void _Ready()
 	{
@@ -34,11 +38,15 @@ public partial class CursorColourContainer : HBoxContainer
 		Icon = GetNode<CursorColourIcon>("%CursorColourIcon");
 		ChangeColourPopup = GetNode<OkPopup>("%ChangeColourPopup");
 		ColorPicker = GetNode<ColorPicker>("%ColorPicker");
+		ResetButton = GetNode<Button>("%ResetButton");
+		OptionsButton = GetNode<Button>("%OptionsButton");
 
 		EnableOverrideLabel.Text = $"Override colour for \"{Skin.Name}\"";
 		EnableOverrideButton.Pressed += OnEnableOverrideButtonPressed;
 		Icon.Pressed += OnIconPressed;
 		ChangeColourPopup.PopupOut += OnChangeColourPopupOut;
+		ResetButton.Pressed += OnResetButtonPressed;
+		OptionsButton.Pressed += OnOptionsButtonPressed;
 
 		// TEMP
 		OS.ShellOpen(Settings.TempFolderPath);
@@ -72,6 +80,18 @@ public partial class CursorColourContainer : HBoxContainer
 		ChangeColourPopup.In();
 	}
 
+	private void OnResetButtonPressed()
+	{
+		OverrideEnabled = false;
+		OverridingOnContainer.Visible = false;
+		OverridingOffContainer.Visible = true;
+		ColourChosen = false;
+	}
+
+	private void OnOptionsButtonPressed()
+	{
+	}
+
 	private void OnChangeColourPopupOut()
 	{
 		string tempCursorPath = $"{Settings.TempFolderPath}/cursor_recolour.png";
@@ -91,6 +111,8 @@ public partial class CursorColourContainer : HBoxContainer
 		// TODO: not null cursormiddle, change the colour of this too.
 		// TODO: and also cursor trail?
 		Icon.SetValues(ImageTexture.CreateFromImage(newCursorImage), null);
+
+		ColourChosen = true;
 	}
 
 	private void RecolourCursor(string output, Rgba32 target, float satThreshold = 0.1f)

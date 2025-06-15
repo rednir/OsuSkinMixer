@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=4 uid="uid://batfsworj3fbf"]
+[gd_scene load_steps=51 format=4 uid="uid://batfsworj3fbf"]
 
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="1_q1r7x"]
 [ext_resource type="Script" uid="uid://j6c0r5vdhi0n" path="res://src/Components/Osu/CursorColourContainer.cs" id="1_svrv1"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bskruf5kshofa" path="res://src/Components/Osu/CursorColourIcon.tscn" id="3_fbfcu"]
 [ext_resource type="Texture2D" uid="uid://bp1ndcvygrvgw" path="res://assets/materialicons/history.png" id="6_fbfcu"]
 [ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="7_bknk4"]
+[ext_resource type="Texture2D" uid="uid://b7pcj2bm25odo" path="res://assets/materialicons/settings.png" id="8_np1x5"]
 
 [sub_resource type="Image" id="Image_np1x5"]
 data = {
@@ -1914,6 +1915,12 @@ icon = ExtResource("6_fbfcu")
 [node name="CursorColourIcon" parent="OverridingOnContainer" instance=ExtResource("3_fbfcu")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="OptionsButton" parent="OverridingOnContainer" instance=ExtResource("2_svrv1")]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Reset override"
+icon = ExtResource("8_np1x5")
 
 [editable path="ChangeColourPopup"]
 [editable path="ChangeColourPopup/Popup"]
