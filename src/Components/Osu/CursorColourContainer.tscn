@@ -1919,7 +1919,7 @@ text = "Saturation threshold"
 
 [node name="SatThresholdDescription" type="Label" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-text = "Use a higher value if coloured parts of the cursor are not being recoloured (default 0.1)"
+text = "Use a lower value if the cursor is not being recoloured (default 0.1)"
 label_settings = SubResource("LabelSettings_o5m6u")
 autowrap_mode = 2
 
