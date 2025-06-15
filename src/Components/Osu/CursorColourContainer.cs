@@ -136,11 +136,13 @@ public partial class CursorColourContainer : HBoxContainer
 		ColourChosen = true;
 	}
 
-	private void RecolourCursor(string output, Rgba32 target, float satThreshold)
+	private void RecolourCursor(string output, Rgba32 target, float satThreshold, float nonBlackThreshold = 0.06f)
 	{
 		Hsv targetHsv = ColorSpaceConverter.ToHsv(target);
 
 		using var img = Image.Load<Rgba32>($"{Skin.Directory.FullName}/cursor.png");
+
+		bool isCursorGreyscale = CheckGreyscaleCursor(img);
 
 		img.ProcessPixelRows(accessor =>
 		{
@@ -154,9 +156,19 @@ public partial class CursorColourContainer : HBoxContainer
 
 					var hsv = ColorSpaceConverter.ToHsv(p);
 
-					// If pixel is too unsaturated, skip it.
-					if (hsv.S < satThreshold)
-						continue;
+					// TODO Magic value
+					if (isCursorGreyscale)
+					{
+						// Ignore very dark pixels for greyscale cursors, as they are likely to be shadows or outlines.
+						if (hsv.V < nonBlackThreshold)
+							continue;
+					}
+					else
+					{
+						// Ignore unsaturated pixels for cursors with saturated colours.
+						if (hsv.S < satThreshold)
+							continue;
+					}
 
 					Hsv newHsv = new(targetHsv.H, targetHsv.S, targetHsv.V);
 
@@ -172,5 +184,34 @@ public partial class CursorColourContainer : HBoxContainer
 		});
 
 		img.SaveAsPng(output);
+	}
+
+	private static bool CheckGreyscaleCursor(Image<Rgba32> img, float threshold = 0.03f)
+	{
+		long saturationSum = 0;
+		long pixelCount = 0;
+
+		img.ProcessPixelRows(accessor =>
+		{
+			for (int y = 0; y < accessor.Height; y++)
+			{
+				var row = accessor.GetRowSpan(y);
+
+				for (int x = 0; x < row.Length; x++)
+				{
+					var p = row[x];
+					if (p.A == 0)
+						continue;
+
+					saturationSum += (long)(ColorSpaceConverter.ToHsv(p).S * 1000);
+					pixelCount++;
+				}
+			}
+		});
+
+		if (pixelCount == 0)
+			return false;
+		
+		return (saturationSum / (float)pixelCount) < (threshold * 1000);
 	}
 }
