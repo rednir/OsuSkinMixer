@@ -117,7 +117,7 @@ public partial class CursorColourContainer : HBoxContainer
 		string tempCursorPath = $"{Settings.TempFolderPath}/cursor_recolour.png";
 
 		Rgba32 rgba = new(ColorPicker.Color.R, ColorPicker.Color.G, ColorPicker.Color.B, 255);
-		RecolourCursor(tempCursorPath, rgba);
+		RecolourCursor(tempCursorPath, rgba, (float)SatThresholdSpinBox.Value);
 
 		Godot.Image newCursorImage = new();
 		var err = newCursorImage.Load(tempCursorPath);
@@ -136,7 +136,7 @@ public partial class CursorColourContainer : HBoxContainer
 		ColourChosen = true;
 	}
 
-	private void RecolourCursor(string output, Rgba32 target, float satThreshold = 0.1f)
+	private void RecolourCursor(string output, Rgba32 target, float satThreshold)
 	{
 		Hsv targetHsv = ColorSpaceConverter.ToHsv(target);
 
@@ -155,7 +155,7 @@ public partial class CursorColourContainer : HBoxContainer
 					var hsv = ColorSpaceConverter.ToHsv(p);
 
 					// If pixel is too unsaturated, skip it.
-					if (hsv.S <= satThreshold)
+					if (hsv.S < satThreshold)
 						continue;
 
 					Hsv newHsv = new(targetHsv.H, targetHsv.S, targetHsv.V);
