@@ -156,7 +156,6 @@ public partial class CursorColourContainer : HBoxContainer
 
 					var hsv = ColorSpaceConverter.ToHsv(p);
 
-					// TODO Magic value
 					if (isCursorGreyscale)
 					{
 						// Ignore very dark pixels for greyscale cursors, as they are likely to be shadows or outlines.
