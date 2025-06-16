@@ -1883,6 +1883,12 @@ text = "Done"
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Popup" parent="OptionsPopup" index="0"]
+visible = true
+
+[node name="CanvasLayer" parent="OptionsPopup/Popup" index="1"]
+visible = true
+
 [node name="Title" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
 visible = false
 
@@ -1918,6 +1924,7 @@ layout_mode = 2
 text = "Saturation threshold"
 
 [node name="SatThresholdDescription" type="Label" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Use a lower value if the cursor is not being recoloured (default 0.1)"
 label_settings = SubResource("LabelSettings_o5m6u")
