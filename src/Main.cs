@@ -214,6 +214,7 @@ public partial class Main : Control
 
         SceneStack.Peek().SetDeferred(PropertyName.Visible, true);
         ScenesAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "pop_out");
+        HomeButtonAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "hide");
     }
 
     private void OnScenesAnimationPlayerFinished(StringName animationName)
