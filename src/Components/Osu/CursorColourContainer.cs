@@ -59,9 +59,6 @@ public partial class CursorColourContainer : HBoxContainer
 		OptionsPopup.PopupOut += OnOptionsPopupOut;
 		ResetButton.Pressed += OnResetButtonPressed;
 		OptionsButton.Pressed += OnOptionsButtonPressed;
-
-		// TODO: TEMP
-		OS.ShellOpen(Settings.TempFolderPath);
 	}
 
 	private void OnEnableOverrideButtonPressed()
@@ -126,7 +123,6 @@ public partial class CursorColourContainer : HBoxContainer
 	{
 		Rgba32 rgba = new(ColorPicker.Color.R, ColorPicker.Color.G, ColorPicker.Color.B, 255);
 
-		// TODO: skip cursormiddle and cursortrail if the user has chosen to ignore them.
 		string[] filesToRecolour =
         [
             "cursor",
@@ -134,15 +130,12 @@ public partial class CursorColourContainer : HBoxContainer
 			IgnoreCursortrailButton.ButtonPressed ? null : "cursortrail"
 		];
 
+		// The user may have chosen to ignore the cursormiddle or cursortrail, so clean up files just in this case.
 		foreach (string file in Directory.EnumerateFiles(GeneratedImagesDirPath))
-		{
-			// The user may have chosen to ignore the cursormiddle or cursortrail, so clean up files just in this case.
 			File.Delete(file);
-		}
 
 		foreach (string file in filesToRecolour)
 		{
-			OS.Alert($"Recolouring {file} for {Skin.Name} skin.", "Recolouring cursor");
 			if (file is null)
 				continue;
 
