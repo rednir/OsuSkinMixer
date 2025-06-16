@@ -1883,12 +1883,6 @@ text = "Done"
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Popup" parent="OptionsPopup" index="0"]
-visible = true
-
-[node name="CanvasLayer" parent="OptionsPopup/Popup" index="1"]
-visible = true
-
 [node name="Title" parent="OptionsPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
 visible = false
 
