@@ -93,7 +93,7 @@ tracks/6/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 0.862745)]
 }
 
 [sub_resource type="Animation" id="Animation_hmhb3"]
@@ -175,7 +175,7 @@ tracks/5/keys = {
 
 [sub_resource type="Animation" id="Animation_h17hn"]
 resource_name = "out"
-length = 0.1
+length = 0.117
 step = 0.05
 capture_included = true
 tracks/0/type = "value"
@@ -188,7 +188,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -237,6 +237,18 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 2,
 "values": [0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Overlay/Rednir:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ndr8t"]
@@ -288,12 +300,12 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_fxoyt")
 
 [node name="Rednir" type="TextureRect" parent="Overlay"]
-modulate = Color(1, 1, 1, 0)
+modulate = Color(1, 1, 1, 0.862745)
 layout_mode = 0
-offset_left = 325.0
-offset_top = 432.0
-offset_right = 581.0
-offset_bottom = 562.0
+offset_left = 324.0
+offset_top = 431.0
+offset_right = 580.0
+offset_bottom = 561.0
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("3_8qbet")
 
