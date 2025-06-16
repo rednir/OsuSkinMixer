@@ -17,9 +17,10 @@ public partial class CursorColourContainer : HBoxContainer
 
 	public bool OverrideEnabled { get; private set; }
 
-	private string GeneratedImagesDirPath => $"{Settings.DeleteOnExitFolderPath}/cc_{Skin.Directory.Name}";
+	public bool IsColourChosen { get; private set; }
 
-	private bool ColourChosen;
+	// When modifying starts, the skin machine will copy everything in this directory to the target skin's directory.
+	public string GeneratedImagesDirPath => $"{Settings.DeleteOnExitFolderPath}/cc_{Skin.Directory.Name}";
 
 	private Label EnableOverrideLabel;
 	private Button EnableOverrideButton;
@@ -103,7 +104,7 @@ public partial class CursorColourContainer : HBoxContainer
 		OverrideEnabled = false;
 		OverridingOnContainer.Visible = false;
 		OverridingOffContainer.Visible = true;
-		ColourChosen = false;
+		IsColourChosen = false;
 	}
 
 	private void OnOptionsButtonPressed()
@@ -117,7 +118,7 @@ public partial class CursorColourContainer : HBoxContainer
 	private void OnOptionsPopupOut()
 	{
 		// If the user hasn't chosen a colour yet there's no point updating anything.
-		if (ColourChosen)
+		if (IsColourChosen)
 			UpdateIconColour();
 	}
 
@@ -155,10 +156,12 @@ public partial class CursorColourContainer : HBoxContainer
             cursormiddleImage.Load($"{GeneratedImagesDirPath}/cursormiddle.png");
         }
 
-        Icon.SetValues(ImageTexture.CreateFromImage(cursorImage), ImageTexture.CreateFromImage(cursormiddleImage));
+        Icon.SetValues(
+			cursorImage is not null ? ImageTexture.CreateFromImage(cursorImage) : null,
+			cursormiddleImage is not null ? ImageTexture.CreateFromImage(cursormiddleImage) : null);
 
 		// When the user presses the override button, the icon will appear unchanged until a colour is chosen.
-		ColourChosen = true;
+		IsColourChosen = true;
 	}
 
 	private static void RecolourImage(string input, string output, Rgba32 target, float satThreshold, float nonBlackThreshold = 0.06f)

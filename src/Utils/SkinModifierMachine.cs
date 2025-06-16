@@ -18,6 +18,8 @@ public class SkinModifierMachine : SkinMachine
 
     public Dictionary<string, Godot.Color[]> SkinComboColourOverrides { get; set; }
 
+    public Dictionary<string, string> SkinCursorColourOverrideImageDirs { get; set; }
+
     public bool SmoothTrail { get; set; }
 
     public bool Instafade { get; set; }
@@ -111,6 +113,7 @@ public class SkinModifierMachine : SkinMachine
         }
 
         AddTask(() => OverrideComboColour(workingSkin));
+        AddTask(() => OverrideCursorColour(workingSkin));
 
         if (SmoothTrail)
         {
@@ -186,6 +189,22 @@ public class SkinModifierMachine : SkinMachine
             }
 
             coloursSection[$"Combo{i + 2}"] = GodotColorToRgbString(comboColours[i]);
+        }
+    }
+
+    private void OverrideCursorColour(OsuSkin workingSkin)
+    {
+        if (!SkinCursorColourOverrideImageDirs.TryGetValue(workingSkin.Name, out string cursorImageDir))
+            return;
+
+        Log($"Overriding cursor colour for skin '{workingSkin.Name}' with directory '{cursorImageDir}'");
+
+        foreach (string file in Directory.EnumerateFiles(cursorImageDir))
+        {
+            string dest = Path.Combine(workingSkin.Directory.FullName, Path.GetFileName(file));
+            Log($"Cursor file '{file}' -> '{dest}'");
+            File.Move(file, dest, true);
+            AddFileToOriginalElementsCache(dest);
         }
     }
 
