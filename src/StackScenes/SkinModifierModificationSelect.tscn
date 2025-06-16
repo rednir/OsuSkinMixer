@@ -22,6 +22,9 @@ script = ExtResource("2_je2sr")
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Title" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+text = "Modify skin elements"
+
 [node name="SkinOptionsContainer" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer" index="0"]
 visible = true
 
@@ -77,10 +80,9 @@ theme_override_constants/separation = 16
 layout_mode = 2
 
 [node name="Title" parent="ComboColourContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
-text = "Combo colour override"
+text = "Modify combo colours"
 
 [node name="Subtitle" parent="ComboColourContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
-visible = true
 text = "Pick combo colours using a colour picker"
 
 [node name="ComboColoursContainerCollection" type="VBoxContainer" parent="ComboColourContainer/VBoxContainer/ContentContainer" index="1"]
@@ -91,10 +93,9 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Title" parent="CursorColourContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
-text = "Cursor colour override"
+text = "Modify cursor colour"
 
 [node name="Subtitle" parent="CursorColourContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
-visible = true
 text = "Change the colour of your cursor"
 
 [node name="CursorColourContainerCollection" type="VBoxContainer" parent="CursorColourContainer/VBoxContainer/ContentContainer" index="1"]
@@ -105,10 +106,9 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Title" parent="ExtraOptionsContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
-text = "Experimental options"
+text = "Experimental modifications"
 
 [node name="Subtitle" parent="ExtraOptionsContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
-visible = true
 text = "Your mileage may vary!"
 
 [node name="ContentContainer" parent="ExtraOptionsContainer/VBoxContainer" index="1"]
