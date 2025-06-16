@@ -6,7 +6,7 @@
 [ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="3_b1jcv"]
 [ext_resource type="Texture2D" uid="uid://cqwxbxy12xlnt" path="res://assets/materialicons/add.png" id="3_evq26"]
 [ext_resource type="PackedScene" uid="uid://bskruf5kshofa" path="res://src/Components/Osu/CursorColourIcon.tscn" id="3_fbfcu"]
-[ext_resource type="Texture2D" uid="uid://bp1ndcvygrvgw" path="res://assets/materialicons/history.png" id="6_fbfcu"]
+[ext_resource type="Texture2D" uid="uid://ciei67qdyomec" path="res://assets/materialicons/undo.png" id="7_b1jcv"]
 [ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="7_bknk4"]
 [ext_resource type="Texture2D" uid="uid://b7pcj2bm25odo" path="res://assets/materialicons/settings.png" id="8_np1x5"]
 
@@ -1972,7 +1972,7 @@ alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Reset override"
-icon = ExtResource("6_fbfcu")
+icon = ExtResource("7_b1jcv")
 
 [node name="CursorColourIcon" parent="OverridingOnContainer" instance=ExtResource("3_fbfcu")]
 unique_name_in_owner = true
