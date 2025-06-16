@@ -130,12 +130,22 @@ public partial class CursorColourContainer : HBoxContainer
 		string[] filesToRecolour =
         [
             "cursor",
-			"cursormiddle",
-			"cursortrail"
+			IgnoreCursormiddleButton.ButtonPressed ? null : "cursormiddle",
+			IgnoreCursortrailButton.ButtonPressed ? null : "cursortrail"
 		];
+
+		foreach (string file in Directory.EnumerateFiles(GeneratedImagesDirPath))
+		{
+			// The user may have chosen to ignore the cursormiddle or cursortrail, so clean up files just in this case.
+			File.Delete(file);
+		}
 
 		foreach (string file in filesToRecolour)
 		{
+			OS.Alert($"Recolouring {file} for {Skin.Name} skin.", "Recolouring cursor");
+			if (file is null)
+				continue;
+
 			RecolourImage($"{Skin.Directory}/{file}.png", $"{GeneratedImagesDirPath}/{file}.png", rgba, (float)SatThresholdSpinBox.Value);
 			RecolourImage($"{Skin.Directory}/{file}@2x.png", $"{GeneratedImagesDirPath}/{file}@2x.png", rgba, (float)SatThresholdSpinBox.Value);
 		}

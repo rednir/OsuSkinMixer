@@ -203,8 +203,8 @@ public class SkinModifierMachine : SkinMachine
         {
             string dest = Path.Combine(workingSkin.Directory.FullName, Path.GetFileName(file));
             Log($"Cursor file '{file}' -> '{dest}'");
-            File.Move(file, dest, true);
             AddFileToOriginalElementsCache(dest);
+            File.Move(file, dest, true);
         }
     }
 
