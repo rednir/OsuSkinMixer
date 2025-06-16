@@ -242,10 +242,15 @@ public partial class Main : Control
 
     private void ClearTrash()
     {
-        if (!Directory.Exists(Settings.TrashFolderPath))
-            return;
+        Task task = Task.Run(() =>
+        {
+            // TODO: Could just move the trash folder to the delete on exit folder.
+            if (Directory.Exists(Settings.TrashFolderPath))
+                Directory.Delete(Settings.TrashFolderPath, true);
 
-        Task task = Task.Run(() => Directory.Delete(Settings.TrashFolderPath, true))
+            if (Directory.Exists(Settings.DeleteOnExitFolderPath))
+                Directory.Delete(Settings.DeleteOnExitFolderPath, true);
+        })
         .ContinueWith(t =>
         {
             if (t.IsFaulted)

@@ -17,6 +17,8 @@ public partial class CursorColourContainer : HBoxContainer
 
 	public bool OverrideEnabled { get; private set; }
 
+	private string GeneratedImagesDirPath => $"{Settings.DeleteOnExitFolderPath}/cc_{Skin.Directory.Name}";
+
 	private bool ColourChosen;
 
 	private Label EnableOverrideLabel;
@@ -63,11 +65,19 @@ public partial class CursorColourContainer : HBoxContainer
 
 	private void OnEnableOverrideButtonPressed()
 	{
+		try
+		{
+			// We're doing a little I/O, so just being safe with the try-catch.
+			InitialiseIcon();
+		}
+		catch (Exception e)
+		{
+			Settings.PushException(e);
+		}
+
 		OverrideEnabled = true;
 		OverridingOnContainer.Visible = true;
 		OverridingOffContainer.Visible = false;
-
-		InitialiseIcon();
 	}
 
 	private void InitialiseIcon()
@@ -79,6 +89,8 @@ public partial class CursorColourContainer : HBoxContainer
 		bool showCursorMiddle = File.Exists($"{Skin.Directory.FullName}/cursormiddle.png") || !File.Exists($"{Skin.Directory.FullName}/cursor.png");
 
 		Icon.SetValues(cursorTexture, showCursorMiddle ? cursorMiddleTexture : null);
+
+		Directory.CreateDirectory(GeneratedImagesDirPath);
 	}
 
 	private void OnIconPressed()
@@ -112,35 +124,47 @@ public partial class CursorColourContainer : HBoxContainer
 //"CHANGE CURSORTRAIL CURSORMIDDLE AND 2X"
 	private void UpdateIconColour()
 	{
-		string tempCursorPath = $"{Settings.TempFolderPath}/cursor_recolour.png";
-
 		Rgba32 rgba = new(ColorPicker.Color.R, ColorPicker.Color.G, ColorPicker.Color.B, 255);
-		RecolourCursor(tempCursorPath, rgba, (float)SatThresholdSpinBox.Value);
 
-		Godot.Image newCursorImage = new();
-		var err = newCursorImage.Load(tempCursorPath);
+		// TODO: skip cursormiddle and cursortrail if the user has chosen to ignore them.
+		string[] filesToRecolour =
+        [
+            "cursor",
+			"cursormiddle",
+			"cursortrail"
+		];
 
-		if (err != Error.Ok)
+		foreach (string file in filesToRecolour)
 		{
-			// TODO: idk
-			throw new Exception();
+			RecolourImage($"{Skin.Directory}/{file}.png", $"{GeneratedImagesDirPath}/{file}.png", rgba, (float)SatThresholdSpinBox.Value);
+			RecolourImage($"{Skin.Directory}/{file}@2x.png", $"{GeneratedImagesDirPath}/{file}@2x.png", rgba, (float)SatThresholdSpinBox.Value);
 		}
-		//"why is it not changing the color in preview" ----
-		// TODO: not null cursormiddle, change the colour of this too.
-		// TODO: and also cursor trail?
-		Icon.SetValues(ImageTexture.CreateFromImage(newCursorImage), null);
+
+		Godot.Image cursorImage = new();
+		Godot.Image cursormiddleImage = new();
+
+		if (File.Exists($"{GeneratedImagesDirPath}/cursor.png"))
+			cursorImage.Load($"{GeneratedImagesDirPath}/cursor.png");
+
+		if (File.Exists($"{GeneratedImagesDirPath}/cursormiddle.png"))
+			cursormiddleImage.Load($"{GeneratedImagesDirPath}/cursormiddle.png");
+
+		Icon.SetValues(ImageTexture.CreateFromImage(cursorImage), ImageTexture.CreateFromImage(cursormiddleImage));
 
 		// When the user presses the override button, the icon will appear unchanged until a colour is chosen.
 		ColourChosen = true;
 	}
 
-	private void RecolourCursor(string output, Rgba32 target, float satThreshold, float nonBlackThreshold = 0.06f)
+	private static void RecolourImage(string input, string output, Rgba32 target, float satThreshold, float nonBlackThreshold = 0.06f)
 	{
+		// Silently return if the input file doesn't exist. Some skins don't skin some of these elements.
+		if (input is null || !File.Exists(input))
+			return;
+
+		using var img = Image.Load<Rgba32>(input);
+
 		Hsv targetHsv = ColorSpaceConverter.ToHsv(target);
-
-		using var img = Image.Load<Rgba32>($"{Skin.Directory.FullName}/cursor.png");
-
-		bool isCursorGreyscale = CheckGreyscaleCursor(img);
+		bool isCursorGreyscale = CheckImageIsMostlyGreyscale(img);
 
 		img.ProcessPixelRows(accessor =>
 		{
@@ -183,7 +207,7 @@ public partial class CursorColourContainer : HBoxContainer
 		img.SaveAsPng(output);
 	}
 
-	private static bool CheckGreyscaleCursor(Image<Rgba32> img, float threshold = 0.03f)
+	private static bool CheckImageIsMostlyGreyscale(Image<Rgba32> img, float threshold = 0.03f)
 	{
 		long saturationSum = 0;
 		long pixelCount = 0;

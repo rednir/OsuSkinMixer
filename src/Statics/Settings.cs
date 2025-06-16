@@ -30,6 +30,8 @@ public static partial class Settings
 
     public static string AutoUpdateInstallerPath => Path.Combine(TempFolderPath, "osu-skin-mixer-setup.exe");
 
+    public static string DeleteOnExitFolderPath => Path.Combine(TempFolderPath, "delete_on_exit");
+
     public static string LogFilePath => Path.Combine(TempFolderPath, "very_helpful_logs.txt");
 
     public static SettingsContent Content { get; set; }
@@ -61,6 +63,7 @@ public static partial class Settings
     public static void InitialiseSettingsFile()
     {
         Directory.CreateDirectory(TempFolderPath);
+        Directory.CreateDirectory(DeleteOnExitFolderPath);
 
         _httpClient.DefaultRequestHeaders.Add("User-Agent", "osu! skin mixer");
         _httpClient.Timeout = TimeSpan.FromSeconds(300);
