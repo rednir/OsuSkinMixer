@@ -72,16 +72,13 @@ public partial class CursorColourContainer : HBoxContainer
 
 	private void InitialiseIcon()
 	{
-		bool isCursor2X = Skin.TryGet2XTexture("cursor", out var cursorTexture);
-		bool isCursorMiddle2X = Skin.TryGet2XTexture("cursormiddle", out var cursorMiddleTexture);
+		Texture2D cursorTexture = Skin.Get2XTexture("cursor");
+		Texture2D cursorMiddleTexture = Skin.Get2XTexture("cursormiddle");
 
 		// Avoid showing the default cursormiddle if there's no custom one in the skin.
 		bool showCursorMiddle = File.Exists($"{Skin.Directory.FullName}/cursormiddle.png") || !File.Exists($"{Skin.Directory.FullName}/cursor.png");
 
 		Icon.SetValues(cursorTexture, showCursorMiddle ? cursorMiddleTexture : null);
-
-		// TODO: this isnt working rn.
-		Icon.Scale = (isCursor2X || isCursorMiddle2X) ? new Vector2(0.5f, 0.5f) : Vector2.One;
 	}
 
 	private void OnIconPressed()
@@ -112,6 +109,7 @@ public partial class CursorColourContainer : HBoxContainer
 			UpdateIconColour();
 	}
 
+//"CHANGE CURSORTRAIL CURSORMIDDLE AND 2X"
 	private void UpdateIconColour()
 	{
 		string tempCursorPath = $"{Settings.TempFolderPath}/cursor_recolour.png";

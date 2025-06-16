@@ -17,18 +17,23 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
 [node name="CursorColourIcon" type="CenterContainer"]
+clip_contents = true
 script = ExtResource("1_38uif")
 
 [node name="CursorTexture" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 texture = ExtResource("1_uejma")
+expand_mode = 1
 
 [node name="CursorMiddleTexture" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 texture = ExtResource("2_38uif")
+expand_mode = 1
 
 [node name="Button" parent="." instance=ExtResource("4_m63o0")]
-custom_minimum_size = Vector2(52, 52)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 theme_override_styles/hover = SubResource("StyleBoxFlat_pv3h0")
 icon = null
