@@ -121,7 +121,6 @@ public partial class CursorColourContainer : HBoxContainer
 			UpdateIconColour();
 	}
 
-//"CHANGE CURSORTRAIL CURSORMIDDLE AND 2X"
 	private void UpdateIconColour()
 	{
 		Rgba32 rgba = new(ColorPicker.Color.R, ColorPicker.Color.G, ColorPicker.Color.B, 255);
