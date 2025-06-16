@@ -83,9 +83,6 @@ text = "Combo colour override"
 visible = true
 text = "Pick combo colours using a colour picker"
 
-[node name="ContentContainer" parent="ComboColourContainer/VBoxContainer" index="1"]
-visible = true
-
 [node name="ComboColoursContainerCollection" type="VBoxContainer" parent="ComboColourContainer/VBoxContainer/ContentContainer" index="1"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -99,9 +96,6 @@ text = "Cursor colour override"
 [node name="Subtitle" parent="CursorColourContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
 visible = true
 text = "Change the colour of your cursor"
-
-[node name="ContentContainer" parent="CursorColourContainer/VBoxContainer" index="1"]
-visible = true
 
 [node name="CursorColourContainerCollection" type="VBoxContainer" parent="CursorColourContainer/VBoxContainer/ContentContainer" index="1"]
 unique_name_in_owner = true
@@ -118,7 +112,6 @@ visible = true
 text = "Your mileage may vary!"
 
 [node name="ContentContainer" parent="ExtraOptionsContainer/VBoxContainer" index="1"]
-visible = true
 theme_override_constants/separation = 0
 
 [node name="InstafadeCheckBox" type="CheckBox" parent="ExtraOptionsContainer/VBoxContainer/ContentContainer" index="1"]
