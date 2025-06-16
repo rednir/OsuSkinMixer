@@ -140,16 +140,23 @@ public partial class CursorColourContainer : HBoxContainer
 			RecolourImage($"{Skin.Directory}/{file}@2x.png", $"{GeneratedImagesDirPath}/{file}@2x.png", rgba, (float)SatThresholdSpinBox.Value);
 		}
 
-		Godot.Image cursorImage = new();
-		Godot.Image cursormiddleImage = new();
+		Godot.Image cursorImage = null;
+		Godot.Image cursormiddleImage = null;
 
 		if (File.Exists($"{GeneratedImagesDirPath}/cursor.png"))
+		{
+			cursorImage = new Godot.Image();
 			cursorImage.Load($"{GeneratedImagesDirPath}/cursor.png");
+		}
+			
 
 		if (File.Exists($"{GeneratedImagesDirPath}/cursormiddle.png"))
-			cursormiddleImage.Load($"{GeneratedImagesDirPath}/cursormiddle.png");
+        {
+			cursormiddleImage = new Godot.Image();
+            cursormiddleImage.Load($"{GeneratedImagesDirPath}/cursormiddle.png");
+        }
 
-		Icon.SetValues(ImageTexture.CreateFromImage(cursorImage), ImageTexture.CreateFromImage(cursormiddleImage));
+        Icon.SetValues(ImageTexture.CreateFromImage(cursorImage), ImageTexture.CreateFromImage(cursormiddleImage));
 
 		// When the user presses the override button, the icon will appear unchanged until a colour is chosen.
 		ColourChosen = true;
