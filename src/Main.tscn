@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://cxcudjntoc6uv"]
+[gd_scene load_steps=43 format=3 uid="uid://cxcudjntoc6uv"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_3ca2l"]
 [ext_resource type="Script" uid="uid://cjvctcfx3ypxl" path="res://src/Main.cs" id="2_ajhyw"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cmaar4yayttia" path="res://src/Background.tscn" id="3_42h7d"]
 [ext_resource type="PackedScene" uid="uid://bimdldtywn6nm" path="res://src/Components/Popup/SettingsPopup.tscn" id="4_8gcgf"]
 [ext_resource type="PackedScene" uid="uid://sni5bqyyrgfj" path="res://src/Components/Popup/SetupPopup.tscn" id="4_gusp5"]
+[ext_resource type="Texture2D" uid="uid://kyaxdq84o4jd" path="res://assets/materialicons/home.png" id="7_e7jk0"]
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="7_shsih"]
 [ext_resource type="Texture2D" uid="uid://crgnranuin71j" path="res://assets/materialicons/arrow_back.png" id="8_1aqc5"]
 [ext_resource type="Texture2D" uid="uid://bp1ndcvygrvgw" path="res://assets/materialicons/history.png" id="9_ottjh"]
@@ -79,6 +80,100 @@ _data = {
 &"available": SubResource("Animation_1vq04")
 }
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e7jk0"]
+content_margin_left = 0.0
+content_margin_right = 4.0
+
+[sub_resource type="Animation" id="Animation_e7jk0"]
+resource_name = "show"
+length = 0.32
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_r7o8t"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_7lugs"]
+resource_name = "hide"
+length = 0.12
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.12),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.12),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7lugs"]
+_data = {
+&"RESET": SubResource("Animation_r7o8t"),
+&"hide": SubResource("Animation_7lugs"),
+&"show": SubResource("Animation_e7jk0")
+}
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_esylg"]
 content_margin_left = 12.0
 content_margin_top = 7.0
@@ -90,12 +185,12 @@ corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m8k4v"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6m58q"]
 content_margin_left = 6.0
 content_margin_top = 6.0
 content_margin_right = 6.0
 content_margin_bottom = 6.0
-bg_color = Color(0.388235, 0.231373, 0.282353, 1)
+bg_color = Color(0.254902, 0.227451, 0.247059, 1)
 corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
@@ -123,12 +218,12 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6m58q"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m8k4v"]
 content_margin_left = 6.0
 content_margin_top = 6.0
 content_margin_right = 6.0
 content_margin_bottom = 6.0
-bg_color = Color(0.254902, 0.227451, 0.247059, 1)
+bg_color = Color(0.388235, 0.231373, 0.282353, 1)
 corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
@@ -444,7 +539,7 @@ theme_override_styles/panel = ExtResource("3_5ka6c")
 [node name="UpdateAnimationPlayer" type="AnimationPlayer" parent="TopBar"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_oombq")
+&"": SubResource("AnimationLibrary_oombq")
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TopBar"]
@@ -456,11 +551,33 @@ offset_right = -9.0
 offset_bottom = 50.0
 grow_horizontal = 2
 
-[node name="BackButton" parent="TopBar/HBoxContainer" instance=ExtResource("7_shsih")]
+[node name="PanelContainer" type="PanelContainer" parent="TopBar/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_e7jk0")
+
+[node name="PageControlsContainer" type="HBoxContainer" parent="TopBar/HBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="BackButton" parent="TopBar/HBoxContainer/PanelContainer/PageControlsContainer" instance=ExtResource("7_shsih")]
+unique_name_in_owner = true
 layout_mode = 2
 icon = ExtResource("8_1aqc5")
 
+[node name="HomeButton" parent="TopBar/HBoxContainer/PanelContainer/PageControlsContainer" instance=ExtResource("7_shsih")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+icon = ExtResource("7_e7jk0")
+
+[node name="HomeButtonAnimationPlayer" type="AnimationPlayer" parent="TopBar/HBoxContainer/PanelContainer/PageControlsContainer/HomeButton"]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_7lugs")
+}
+
 [node name="Title" type="Label" parent="TopBar/HBoxContainer"]
+modulate = Color(1, 1, 1, 0.252676)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
@@ -485,21 +602,21 @@ clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
-theme_override_colors/font_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/font_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/font_focus_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_normal_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/icon_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_pressed_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/icon_focus_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_normal_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_focus_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_font_sizes/font_size = 14
-theme_override_styles/normal = SubResource("StyleBoxFlat_m8k4v")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_6m58q")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vcrbn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ssp4a")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_6m58q")
+theme_override_styles/normal = SubResource("StyleBoxFlat_m8k4v")
 icon = ExtResource("9_ottjh")
 icon_alignment = 2
 
@@ -509,21 +626,21 @@ clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
-theme_override_colors/font_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/font_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/font_focus_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_normal_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/icon_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_pressed_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/icon_focus_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_normal_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_focus_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_font_sizes/font_size = 14
-theme_override_styles/normal = SubResource("StyleBoxFlat_m8k4v")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_6m58q")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vcrbn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ssp4a")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_6m58q")
+theme_override_styles/normal = SubResource("StyleBoxFlat_m8k4v")
 icon = ExtResource("10_8n7kr")
 icon_alignment = 2
 
@@ -544,16 +661,18 @@ color_ramp = SubResource("Gradient_6ovip")
 [node name="ScenesAnimationPlayer" type="AnimationPlayer" parent="."]
 reset_on_save = false
 libraries = {
-"": SubResource("AnimationLibrary_08qeu")
+&"": SubResource("AnimationLibrary_08qeu")
 }
 
 [node name="Scenes" type="Control" parent="."]
-modulate = Color(1, 1, 1, 0)
+modulate = Color(1, 1, 1, 0.384565)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 27.6946
 offset_top = 50.0
+offset_right = 27.6946
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -622,7 +741,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_r3rsy")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Splash"]
 libraries = {
-"": SubResource("AnimationLibrary_e104j")
+&"": SubResource("AnimationLibrary_e104j")
 }
 autoplay = "fade_out"
 

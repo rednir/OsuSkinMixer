@@ -20,11 +20,13 @@ public partial class Main : Control
     private PackedScene SkinModiferModificationSelectScene;
     private PackedScene SkinInfoScene;
 
-    private AnimationPlayer UpdateAnimationPlayer;
-    private Background Background;
     private AnimationPlayer ScenesAnimationPlayer;
+    private AnimationPlayer UpdateAnimationPlayer;
+    private AnimationPlayer HomeButtonAnimationPlayer;
+    private Background Background;
     private Control ScenesContainer;
     private Button BackButton;
+    private Button HomeButton;
     private Label TitleLabel;
     private Button SettingsButton;
     private SettingsPopup SettingsPopup;
@@ -54,10 +56,12 @@ public partial class Main : Control
         SkinModiferModificationSelectScene = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierModificationSelect.tscn");
         
         UpdateAnimationPlayer = GetNode<AnimationPlayer>("%UpdateAnimationPlayer");
-        Background = GetNode<Background>("Background");
         ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
+        HomeButtonAnimationPlayer = GetNode<AnimationPlayer>("%HomeButtonAnimationPlayer");
+        Background = GetNode<Background>("Background");
         ScenesContainer = GetNode<Control>("Scenes/ScrollContainer");
-        BackButton = GetNode<Button>("TopBar/HBoxContainer/BackButton");
+        BackButton = GetNode<Button>("%BackButton");
+        HomeButton = GetNode<Button>("%HomeButton");
         TitleLabel = GetNode<Label>("TopBar/HBoxContainer/Title");
         HistoryButton = GetNode<Button>("%HistoryButton");
         HistoryPopup = GetNode<HistoryPopup>("%HistoryPopup");
@@ -70,9 +74,10 @@ public partial class Main : Control
 
         VersionLabel.Text = Settings.VERSION;
 
-        ScenesAnimationPlayer.AnimationFinished += OnAnimationPlayerFinished;
+        ScenesAnimationPlayer.AnimationFinished += OnScenesAnimationPlayerFinished;
 
         BackButton.Pressed += PopScene;
+        HomeButton.Pressed += PopAllScenes;
         SettingsButton.Pressed += SettingsPopup.In;
         HistoryButton.Pressed += HistoryPopup.In;
 
@@ -90,7 +95,7 @@ public partial class Main : Control
         OsuData.SkinModifyRequested += s => SkinModifyRequestedSkins = s;
 
         PendingScene = MenuScene.Instantiate<StackScene>();
-        OnAnimationPlayerFinished("push_out");
+        OnScenesAnimationPlayerFinished("push_out");
 
         Settings.Content.LaunchCount++;
         
@@ -193,6 +198,9 @@ public partial class Main : Control
     {
         Settings.Log("Popping scene");
         ScenesAnimationPlayer.Play("pop_out");
+
+        if (HomeButton.Visible && SceneStack.Count <= 3)
+            HomeButtonAnimationPlayer.Play("hide");
     }
 
     private void PopAllScenes()
@@ -208,7 +216,7 @@ public partial class Main : Control
         ScenesAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "pop_out");
     }
 
-    private void OnAnimationPlayerFinished(StringName animationName)
+    private void OnScenesAnimationPlayerFinished(StringName animationName)
     {
         if (animationName == "pop_out")
         {
@@ -234,6 +242,9 @@ public partial class Main : Control
 
             PendingScene = null;
             ScenesAnimationPlayer.Play("push_in");
+
+            if (!HomeButton.Visible && SceneStack.Count >= 3)
+                HomeButtonAnimationPlayer.Play("show");
         }
 
         BackButton.Disabled = SceneStack.Count <= 1;
