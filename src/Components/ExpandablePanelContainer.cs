@@ -20,6 +20,8 @@ public partial class ExpandablePanelContainer : PanelContainer
 		ExpandButton.Icon = ContentContainer.Visible ? LessIconTexture : MoreIconTexture;
 
 		ExpandButton.Pressed += ExpandButtonPressed;
+
+		VisibilityChanged += () => CallDeferred(MethodName.OnVisiblilityChanged);
 	}
 
 	public void Activate()
@@ -38,6 +40,21 @@ public partial class ExpandablePanelContainer : PanelContainer
 
 		Active = false;
 		AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "deactivated");
+	}
+
+	private void OnVisiblilityChanged()  
+	{
+		if (Active)
+		{
+			if (IsVisibleInTree()  )
+			{
+				AnimationPlayer.Play("activated");
+			}
+			else
+			{
+				AnimationPlayer.Play("deactivated");
+			}
+		}
 	}
 
 	private void ExpandButtonPressed()
