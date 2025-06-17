@@ -21,6 +21,9 @@ public partial class SkinModifierModificationSelect : StackScene
     private CursorColourContainer[] CursorColourContainers;
 
     private SkinOptionsSelector SkinOptionsSelector;
+    private ExpandablePanelContainer ComboColourContainer;
+    private ExpandablePanelContainer CursorColourContainer;
+    private ExpandablePanelContainer ExtraOptionsContainer;
     private SkinComponent DefaultSkinComponent;
     private SkinComponent BlankComponent;
     private Button ApplyChangesButton;
@@ -38,6 +41,9 @@ public partial class SkinModifierModificationSelect : StackScene
         CursorColourContainerScene = GD.Load<PackedScene>("res://src/Components/Osu/CursorColourContainer.tscn");
 
         SkinOptionsSelector = GetNode<SkinOptionsSelector>("%SkinOptionsSelector");
+        ComboColourContainer = GetNode<ExpandablePanelContainer>("%ComboColourContainer");
+        CursorColourContainer = GetNode<ExpandablePanelContainer>("%CursorColourContainer");
+        ExtraOptionsContainer = GetNode<ExpandablePanelContainer>("%ExtraOptionsContainer");
         DefaultSkinComponent = GetNode<SkinComponent>("%DefaultSkinComponent");
         BlankComponent = GetNode<SkinComponent>("%BlankComponent");
         ApplyChangesButton = GetNode<Button>("%ApplyChangesButton");
@@ -54,6 +60,9 @@ public partial class SkinModifierModificationSelect : StackScene
         ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
         LoadingPopup.CancelAction = OnCancelButtonPressed;
         LoadingPopup.DisableCancelAt = SkinModifierMachine.UNCANCELLABLE_AFTER;
+        SmoothTrailCheckBox.Pressed += OnExperimentalOptionsStateChanged;
+        InstafadeCheckBox.Pressed += OnExperimentalOptionsStateChanged;
+        DisableAnimationsCheckBox.Pressed += OnExperimentalOptionsStateChanged;
 
         OsuData.SkinRemoved += OnSkinRemoved;
 
@@ -76,15 +85,53 @@ public partial class SkinModifierModificationSelect : StackScene
             comboColoursContainer.Skin = skin;
             ComboColoursContainerCollection.AddChild(comboColoursContainer);
             comboColourContainers.Add(comboColoursContainer);
+            comboColoursContainer.OverrideStateChanged += OnComboColourOverrideStateChanged;
 
             var cursorColourContainer = CursorColourContainerScene.Instantiate<CursorColourContainer>();
             cursorColourContainer.Skin = skin;
             CursorColourContainerCollection.AddChild(cursorColourContainer);
             cursorColourContainers.Add(cursorColourContainer);
+            cursorColourContainer.OverrideStateChanged += OnCursorColourOverrideStateChanged;
         }
 
         ComboColoursContainers = [.. comboColourContainers];
         CursorColourContainers = [.. cursorColourContainers];
+    }
+
+    private void OnComboColourOverrideStateChanged()
+    {
+        if (ComboColoursContainers.Any(c => c.OverrideEnabled))
+        {
+            ComboColourContainer.Activate();
+        }
+        else
+        {
+            ComboColourContainer.Deactivate();
+        }
+    }
+    
+    private void OnCursorColourOverrideStateChanged()
+    {
+        if (CursorColourContainers.Any(c => c.OverrideEnabled))
+        {
+            CursorColourContainer.Activate();
+        }
+        else
+        {
+            CursorColourContainer.Deactivate();
+        }
+    }
+
+    private void OnExperimentalOptionsStateChanged()
+    {
+        if (SmoothTrailCheckBox.ButtonPressed || InstafadeCheckBox.ButtonPressed || DisableAnimationsCheckBox.ButtonPressed)
+        {
+            ExtraOptionsContainer.Activate();
+        }
+        else
+        {
+            ExtraOptionsContainer.Deactivate();
+        }
     }
 
     private void OnSkinRemoved(OsuSkin skin)

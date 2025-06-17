@@ -1,22 +1,144 @@
-[gd_scene load_steps=9 format=3 uid="uid://c2ngbwdc3cup8"]
+[gd_scene load_steps=15 format=3 uid="uid://c2ngbwdc3cup8"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_4s7r7"]
 [ext_resource type="Script" uid="uid://ww2v85wahj5b" path="res://src/Components/ExpandablePanelContainer.cs" id="2_k2q5s"]
+[ext_resource type="Texture2D" uid="uid://bt0mw5xtcyc4u" path="res://assets/gradient-bar.png" id="3_4huxt"]
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="3_176bv"]
 [ext_resource type="Texture2D" uid="uid://b66igvwvv334q" path="res://assets/materialicons/expand_more.png" id="4_kq1qk"]
 [ext_resource type="StyleBox" uid="uid://brb6aa48f2ww7" path="res://src/Styles/Buttons/StandardIconButton.tres" id="5_ofgev"]
 [ext_resource type="StyleBox" uid="uid://y2wn7t22jivk" path="res://src/Styles/Buttons/StandardIconButtonHover.tres" id="6_1txgb"]
 [ext_resource type="StyleBox" uid="uid://brmcwao5xcsti" path="res://src/Styles/Buttons/StandardIconButtonPressed.tres" id="7_by1s8"]
 
+[sub_resource type="Gradient" id="Gradient_k26ea"]
+offsets = PackedFloat32Array(0, 0.0648649, 0.102703, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Animation" id="Animation_4wv05"]
+resource_name = "activated"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CPUParticles2D:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_4huxt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CPUParticles2D:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_k26ea"]
+resource_name = "deactivated"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CPUParticles2D:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k26ea"]
+_data = {
+&"RESET": SubResource("Animation_4huxt"),
+&"activated": SubResource("Animation_4wv05"),
+&"deactivated": SubResource("Animation_k26ea")
+}
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lsl0u"]
 
 [node name="ExpandablePanelContainer" type="PanelContainer"]
+clip_contents = true
 custom_minimum_size = Vector2(460, 2.08165e-12)
 offset_right = 460.0
 offset_bottom = 73.0
 size_flags_horizontal = 4
 theme = ExtResource("1_4s7r7")
 script = ExtResource("2_k2q5s")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+modulate = Color(1, 0.847059, 0.894118, 0.0392157)
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(48, 38)
+emitting = false
+amount = 22
+texture = ExtResource("3_4huxt")
+lifetime = 4.5
+preprocess = 3.0
+local_coords = true
+emission_shape = 3
+emission_rect_extents = Vector2(0, 32)
+spread = 0.0
+gravity = Vector2(2.08165e-12, 2.08165e-12)
+initial_velocity_min = 30.0
+initial_velocity_max = 60.0
+angular_velocity_min = 10.0
+angular_velocity_max = 10.0
+scale_amount_min = 0.4
+color_ramp = SubResource("Gradient_k26ea")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_k26ea")
+}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2

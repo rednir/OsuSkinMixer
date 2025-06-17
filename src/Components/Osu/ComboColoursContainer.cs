@@ -11,6 +11,8 @@ public partial class ComboColoursContainer : HBoxContainer
 
 	public bool OverrideEnabled { get; private set; }
 
+	public event Action OverrideStateChanged;
+
 	private ComboColourIcon SelectedComboColourIcon;
 
 	private PackedScene ComboColourIconScene;
@@ -59,6 +61,7 @@ public partial class ComboColoursContainer : HBoxContainer
 	private void OnEnableOverrideButtonPressed()
 	{
 		OverrideEnabled = true;
+		OverrideStateChanged?.Invoke();
 		OverridingOnContainer.Visible = true;
 		OverridingOffContainer.Visible = false;
 
@@ -168,6 +171,7 @@ public partial class ComboColoursContainer : HBoxContainer
 			icon.QueueFree();
 
 		OverrideEnabled = false;
+		OverrideStateChanged?.Invoke();
 		OverridingOnContainer.Visible = false;
 		OverridingOffContainer.Visible = true;
 	}

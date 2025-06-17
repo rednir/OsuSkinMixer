@@ -77,6 +77,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="ComboColourContainer" parent="." instance=ExtResource("5_fkmng")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Title" parent="ComboColourContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
@@ -90,6 +91,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="CursorColourContainer" parent="." instance=ExtResource("5_fkmng")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Title" parent="CursorColourContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
@@ -103,6 +105,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="ExtraOptionsContainer" parent="." instance=ExtResource("5_fkmng")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Title" parent="ExtraOptionsContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]

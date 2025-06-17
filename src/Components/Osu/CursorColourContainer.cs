@@ -11,6 +11,7 @@ using Image = SixLabors.ImageSharp.Image;
 
 namespace OsuSkinMixer.Components;
 
+// TODO: reuse code from combo colours container
 public partial class CursorColourContainer : HBoxContainer
 {
 	public OsuSkin Skin { get; set; }
@@ -18,6 +19,8 @@ public partial class CursorColourContainer : HBoxContainer
 	public bool OverrideEnabled { get; private set; }
 
 	public bool IsColourChosen { get; private set; }
+
+	public event Action OverrideStateChanged;
 
 	// When modifying starts, the skin machine will copy everything in this directory to the target skin's directory.
 	public string GeneratedImagesDirPath => $"{Settings.DeleteOnExitFolderPath}/cc_{Skin.Directory.Name}";
@@ -74,6 +77,7 @@ public partial class CursorColourContainer : HBoxContainer
 		}
 
 		OverrideEnabled = true;
+		OverrideStateChanged?.Invoke();
 		OverridingOnContainer.Visible = true;
 		OverridingOffContainer.Visible = false;
 	}
@@ -99,6 +103,7 @@ public partial class CursorColourContainer : HBoxContainer
 	private void OnResetButtonPressed()
 	{
 		OverrideEnabled = false;
+		OverrideStateChanged?.Invoke();
 		OverridingOnContainer.Visible = false;
 		OverridingOffContainer.Visible = true;
 		IsColourChosen = false;
@@ -124,8 +129,8 @@ public partial class CursorColourContainer : HBoxContainer
 		Rgba32 rgba = new(ColorPicker.Color.R, ColorPicker.Color.G, ColorPicker.Color.B, 255);
 
 		string[] filesToRecolour =
-        [
-            "cursor",
+		[
+			"cursor",
 			IgnoreCursormiddleButton.ButtonPressed ? null : "cursormiddle",
 			IgnoreCursortrailButton.ButtonPressed ? null : "cursortrail"
 		];
@@ -151,15 +156,15 @@ public partial class CursorColourContainer : HBoxContainer
 			cursorImage = new Godot.Image();
 			cursorImage.Load($"{GeneratedImagesDirPath}/cursor.png");
 		}
-			
+
 
 		if (File.Exists($"{GeneratedImagesDirPath}/cursormiddle.png"))
-        {
+		{
 			cursormiddleImage = new Godot.Image();
-            cursormiddleImage.Load($"{GeneratedImagesDirPath}/cursormiddle.png");
-        }
+			cursormiddleImage.Load($"{GeneratedImagesDirPath}/cursormiddle.png");
+		}
 
-        Icon.SetValues(
+		Icon.SetValues(
 			cursorImage is not null ? ImageTexture.CreateFromImage(cursorImage) : null,
 			cursormiddleImage is not null ? ImageTexture.CreateFromImage(cursormiddleImage) : null);
 
@@ -244,7 +249,7 @@ public partial class CursorColourContainer : HBoxContainer
 
 		if (pixelCount == 0)
 			return false;
-		
+
 		return (saturationSum / (float)pixelCount) < (threshold * 1000);
 	}
 }
