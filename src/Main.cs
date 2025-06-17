@@ -256,10 +256,6 @@ public partial class Main : Control
     {
         Task task = Task.Run(() =>
         {
-            // TODO: Could just move the trash folder to the delete on exit folder.
-            if (Directory.Exists(Settings.TrashFolderPath))
-                Directory.Delete(Settings.TrashFolderPath, true);
-
             if (Directory.Exists(Settings.DeleteOnExitFolderPath))
                 Directory.Delete(Settings.DeleteOnExitFolderPath, true);
         })

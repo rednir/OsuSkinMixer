@@ -24,7 +24,7 @@ public static partial class Settings
 
     public static string HiddenSkinsFolderPath => Path.Combine(Content.OsuFolder, "HiddenSkins");
 
-    public static string TrashFolderPath => Path.Combine(Content.OsuFolder, ".osu-skin-mixer-trash");
+    public static string TrashFolderPath => Path.Combine(DeleteOnExitFolderPath, ".osu-skin-mixer-trash");
 
     public static string TempFolderPath => Path.Combine(Path.GetTempPath(), "osu-skin-mixer");
 
@@ -46,6 +46,7 @@ public static partial class Settings
 
     public static bool TryCreateLockFile()
     {
+        OS.ShellOpen(DeleteOnExitFolderPath);
         if (!File.Exists(LockFilePath))
             File.Create(LockFilePath).Dispose();
 
