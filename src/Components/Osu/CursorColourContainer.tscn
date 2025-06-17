@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=4 uid="uid://batfsworj3fbf"]
+[gd_scene load_steps=54 format=4 uid="uid://batfsworj3fbf"]
 
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="1_q1r7x"]
 [ext_resource type="Script" uid="uid://j6c0r5vdhi0n" path="res://src/Components/Osu/CursorColourContainer.cs" id="1_svrv1"]
@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="3_b1jcv"]
 [ext_resource type="Texture2D" uid="uid://cqwxbxy12xlnt" path="res://assets/materialicons/add.png" id="3_evq26"]
 [ext_resource type="PackedScene" uid="uid://bskruf5kshofa" path="res://src/Components/Osu/CursorColourIcon.tscn" id="3_fbfcu"]
+[ext_resource type="PackedScene" uid="uid://c0bqc573eb7ys" path="res://src/Components/Buttons/TonalIconButton.tscn" id="5_b1jcv"]
 [ext_resource type="Texture2D" uid="uid://ciei67qdyomec" path="res://assets/materialicons/undo.png" id="7_b1jcv"]
 [ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="7_bknk4"]
 [ext_resource type="Texture2D" uid="uid://b7pcj2bm25odo" path="res://assets/materialicons/settings.png" id="8_np1x5"]
@@ -1955,12 +1956,11 @@ label_settings = ExtResource("1_q1r7x")
 vertical_alignment = 1
 text_overrun_behavior = 3
 
-[node name="EnableOverrideButton" parent="OverridingOffContainer" instance=ExtResource("2_svrv1")]
+[node name="EnableOverrideButton" parent="OverridingOffContainer" instance=ExtResource("5_b1jcv")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 icon = ExtResource("3_evq26")
-icon_alignment = 0
 
 [node name="OverridingOnContainer" type="HBoxContainer" parent="."]
 unique_name_in_owner = true

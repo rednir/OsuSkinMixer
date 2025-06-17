@@ -19,7 +19,7 @@ corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
 [sub_resource type="Gradient" id="Gradient_hrcqa"]
-offsets = PackedFloat32Array(0, 0.172745, 0.992322)
+offsets = PackedFloat32Array(0, 0.543243, 0.992322)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_kyvy6"]
@@ -44,20 +44,22 @@ size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_tprdo")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="DonateContainer"]
-position = Vector2(201, 91)
-amount = 60
-lifetime = 2.5
-explosiveness = 0.84
+position = Vector2(289, 182)
+amount = 30
 texture = ExtResource("3_81i4d")
+lifetime = 4.0
+preprocess = 2.0
+local_coords = true
 emission_shape = 3
-emission_rect_extents = Vector2(35, 1)
-spread = 180.0
+emission_rect_extents = Vector2(230, 1)
+direction = Vector2(0, -1)
+spread = 0.0
 gravity = Vector2(2.08165e-12, 2.08165e-12)
-initial_velocity_min = 50.0
-initial_velocity_max = 100.0
-angular_velocity_min = -100.0
-angular_velocity_max = 100.0
-scale_amount_min = 0.3
+initial_velocity_min = 45.0
+initial_velocity_max = 70.0
+angular_velocity_min = -40.0
+angular_velocity_max = 40.0
+scale_amount_max = 2.0
 color = Color(0.878838, 0.53211, 0.640502, 1)
 color_ramp = SubResource("Gradient_hrcqa")
 
