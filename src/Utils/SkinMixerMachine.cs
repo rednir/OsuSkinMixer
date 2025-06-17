@@ -81,6 +81,15 @@ public class SkinMixerMachine : SkinMachine
             NewSkin.Directory = copiedDir;
         }
 
+        try
+        {
+            GenerateCreditsFile(NewSkin);
+        }
+        catch (Exception e)
+        {
+            Settings.PushException(new InvalidOperationException($"Failed to generate credits file for {NewSkin.Name}.", e));
+        }
+
         OsuData.AddSkin(NewSkin);
     }
 
