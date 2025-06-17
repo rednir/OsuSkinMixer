@@ -17,7 +17,7 @@ public partial class SkinPreview : PanelContainer
     private CpuParticles2D Cursortrail;
     private Hitcircle Hitcircle;
 
-    private bool _paused;
+    private bool _paused = true;
 
     private OsuSkin _skin;
 
@@ -38,6 +38,9 @@ public partial class SkinPreview : PanelContainer
         VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
         VisibleOnScreenNotifier2D.ScreenExited += OnMouseExited;
         Hitcircle.CircleHit += OnCircleHit;
+
+        // Just in case?
+        TreeExited += () => Input.MouseMode = Input.MouseModeEnum.Visible;
     }
 
     public override void _Process(double delta)
@@ -45,7 +48,10 @@ public partial class SkinPreview : PanelContainer
         Vector2 mousePosition = GetGlobalMousePosition();
 
         // The MouseEntered and MouseExited control node don't work as the hitcircle handles mouse input.
-        if (GetGlobalRect().HasPoint(mousePosition))
+        Rect2 windowBounds = GetViewport().GetVisibleRect();
+        bool isMouseInWindow = windowBounds.HasPoint(mousePosition);
+
+        if (GetGlobalRect().HasPoint(mousePosition) && isMouseInWindow)
             OnMouseEntered();
         else
             OnMouseExited();
@@ -129,6 +135,8 @@ public partial class SkinPreview : PanelContainer
         Cursortrail.Emitting = true;
         AnimationPlayer.Play("enter");
         Hitcircle.Resume();
+
+        Input.MouseMode = Input.MouseModeEnum.Hidden;
     }
 
     private void OnMouseExited()
@@ -141,6 +149,8 @@ public partial class SkinPreview : PanelContainer
         Cursortrail.Emitting = false;
         AnimationPlayer.Play("exit");
         Hitcircle.Pause();
+
+        Input.MouseMode = Input.MouseModeEnum.Visible;
     }
 
     private void OnCircleHit(string score)
