@@ -3,6 +3,7 @@ namespace OsuSkinMixer.Components;
 public partial class ExpandablePanelContainer : PanelContainer
 {
 	private AnimationPlayer AnimationPlayer;
+	private CpuParticles2D CpuParticles2D;
 	private Button ExpandButton;
 	private VBoxContainer ContentContainer;
 	private Texture2D MoreIconTexture;
@@ -13,6 +14,7 @@ public partial class ExpandablePanelContainer : PanelContainer
 	public override void _Ready()
 	{
 		AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+		CpuParticles2D = GetNode<CpuParticles2D>("%CPUParticles2D");
 		ExpandButton = GetNode<Button>("%ExpandButton");
 		ContentContainer = GetNode<VBoxContainer>("%ContentContainer");
 		MoreIconTexture = GD.Load<Texture2D>("res://assets/materialicons/expand_more.png");
@@ -46,13 +48,13 @@ public partial class ExpandablePanelContainer : PanelContainer
 	{
 		if (Active)
 		{
-			if (IsVisibleInTree()  )
+			if (IsVisibleInTree())
 			{
-				AnimationPlayer.Play("activated");
+				CpuParticles2D.Emitting = true;
 			}
 			else
 			{
-				AnimationPlayer.Play("deactivated");
+				CpuParticles2D.Emitting = false;
 			}
 		}
 	}
