@@ -9,6 +9,7 @@ public partial class SkinOptionsSelector : PanelContainer
 
     private PackedScene SkinOptionComponentScene;
 
+    private ExpandablePanelContainer ExpandablePanelContainer;
     private VBoxContainer OptionsContainer;
     private AnimationPlayer AnimationPlayer;
     private Panel ExpandHint;
@@ -24,6 +25,7 @@ public partial class SkinOptionsSelector : PanelContainer
     {
         SkinOptionComponentScene = GD.Load<PackedScene>("res://src/Components/SkinOptionsSelector/SkinOptionComponent.tscn");
 
+        ExpandablePanelContainer = GetNode<ExpandablePanelContainer>("%ExpandablePanelContainer");
         OptionsContainer = GetNode<VBoxContainer>("%OptionsContainer");
         AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
         ExpandHint = GetNode<Panel>("%ExpandHint");
@@ -150,6 +152,15 @@ public partial class SkinOptionsSelector : PanelContainer
         SetValueOfAllChildrenOfOption(SkinOptionComponentInSelection.SkinOption, valueSelected);
         SkinSelectorPopup.Out();
         SkinOptionComponentInSelection.Button.CallDeferred(Button.MethodName.GrabFocus);
+
+        if (valueSelected != SkinOptionComponentInSelection.DefaultValue)
+        {
+            ExpandablePanelContainer.Activate();
+        }
+        else if (!SkinOptionComponents.Any(c => c.SkinOption.Value != c.DefaultValue))
+        {
+            ExpandablePanelContainer.Deactivate();
+        }
     }
 
     private void SetValueOfAllChildrenOfOption(SkinOption option, SkinOptionValue value)

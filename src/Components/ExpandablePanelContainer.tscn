@@ -13,6 +13,33 @@
 offsets = PackedFloat32Array(0, 0.0648649, 0.102703, 1)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 
+[sub_resource type="Animation" id="Animation_4huxt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CPUParticles2D:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_4wv05"]
 resource_name = "activated"
 length = 0.1
@@ -39,33 +66,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_4huxt"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CPUParticles2D:emitting")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CPUParticles2D:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_k26ea"]
@@ -115,21 +115,21 @@ theme = ExtResource("1_4s7r7")
 script = ExtResource("2_k2q5s")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-modulate = Color(1, 0.847059, 0.894118, 0.0392157)
+modulate = Color(1, 0.847059, 0.894118, 0.0313726)
 self_modulate = Color(1, 1, 1, 0)
 position = Vector2(48, 38)
 emitting = false
-amount = 22
+amount = 20
 texture = ExtResource("3_4huxt")
-lifetime = 4.5
+lifetime = 8.5
 preprocess = 3.0
 local_coords = true
 emission_shape = 3
 emission_rect_extents = Vector2(0, 32)
 spread = 0.0
 gravity = Vector2(2.08165e-12, 2.08165e-12)
-initial_velocity_min = 30.0
-initial_velocity_max = 60.0
+initial_velocity_min = 20.0
+initial_velocity_max = 35.0
 angular_velocity_min = 10.0
 angular_velocity_max = 10.0
 scale_amount_min = 0.4

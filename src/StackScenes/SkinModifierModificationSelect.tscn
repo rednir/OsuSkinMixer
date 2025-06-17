@@ -22,6 +22,9 @@ script = ExtResource("2_je2sr")
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="CPUParticles2D" parent="SkinOptionsSelector/ExpandablePanelContainer" index="0"]
+modulate = Color(1, 0.847059, 0.894118, 0.0313726)
+
 [node name="Title" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
 text = "Modify skin elements"
 
@@ -80,6 +83,9 @@ theme_override_constants/separation = 16
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="CPUParticles2D" parent="ComboColourContainer" index="0"]
+modulate = Color(1, 0.847059, 0.894118, 0.0313726)
+
 [node name="Title" parent="ComboColourContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
 text = "Modify combo colours"
 
@@ -94,6 +100,9 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="CPUParticles2D" parent="CursorColourContainer" index="0"]
+modulate = Color(1, 0.847059, 0.894118, 0.0313726)
+
 [node name="Title" parent="CursorColourContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
 text = "Modify cursor colour"
 
@@ -107,6 +116,9 @@ layout_mode = 2
 [node name="ExtraOptionsContainer" parent="." instance=ExtResource("5_fkmng")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="CPUParticles2D" parent="ExtraOptionsContainer" index="0"]
+modulate = Color(1, 0.847059, 0.894118, 0.0313726)
 
 [node name="Title" parent="ExtraOptionsContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
 text = "Experimental modifications"

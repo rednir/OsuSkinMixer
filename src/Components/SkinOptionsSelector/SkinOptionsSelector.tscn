@@ -140,7 +140,7 @@ script = ExtResource("1_g5aud")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_bppob")
+&"": SubResource("AnimationLibrary_bppob")
 }
 
 [node name="ExpandHint" type="Panel" parent="."]
@@ -169,7 +169,11 @@ energy = 0.0
 texture = SubResource("GradientTexture2D_jbkjm")
 
 [node name="ExpandablePanelContainer" parent="." instance=ExtResource("2_b6jfh")]
+unique_name_in_owner = true
 layout_mode = 2
+
+[node name="CPUParticles2D" parent="ExpandablePanelContainer" index="0"]
+modulate = Color(1, 0.847059, 0.894118, 0.0313726)
 
 [node name="Title" parent="ExpandablePanelContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
 text = "Choose skin elements"
