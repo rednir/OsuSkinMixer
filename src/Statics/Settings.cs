@@ -46,7 +46,6 @@ public static partial class Settings
 
     public static bool TryCreateLockFile()
     {
-        OS.ShellOpen(DeleteOnExitFolderPath);
         if (!File.Exists(LockFilePath))
             File.Create(LockFilePath).Dispose();
 
