@@ -17,7 +17,7 @@ public partial class SkinPreview : PanelContainer
     private CpuParticles2D Cursortrail;
     private Hitcircle Hitcircle;
 
-    private bool _paused = true;
+    private bool _paused;
 
     private OsuSkin _skin;
 
@@ -46,12 +46,10 @@ public partial class SkinPreview : PanelContainer
     public override void _Process(double delta)
     {
         Vector2 mousePosition = GetGlobalMousePosition();
+        Control hoveredControl = GetViewport().GuiGetHoveredControl();
 
         // The MouseEntered and MouseExited control node don't work as the hitcircle handles mouse input.
-        Rect2 windowBounds = GetViewport().GetVisibleRect();
-        bool isMouseInWindow = windowBounds.HasPoint(mousePosition);
-
-        if (GetGlobalRect().HasPoint(mousePosition) && isMouseInWindow)
+        if (GetGlobalRect().HasPoint(mousePosition) && hoveredControl is not null && IsAncestorOf(hoveredControl))
             OnMouseEntered();
         else
             OnMouseExited();
@@ -128,7 +126,13 @@ public partial class SkinPreview : PanelContainer
     private void OnMouseEntered()
     {
         if (!_paused || !VisibleOnScreenNotifier2D.IsOnScreen())
+        {
+            // Hotfix for when the mouse is already in the preview window when the skin preview is created.
+            if (!_paused && Input.MouseMode != Input.MouseModeEnum.Hidden)
+                Input.MouseMode = Input.MouseModeEnum.Hidden;
+
             return;
+        }
 
         _paused = false;
         Cursortrail.SpeedScale = 1;

@@ -173,7 +173,7 @@ rect = Rect2(0, -10, 20, 20)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_snb7s")
+&"": SubResource("AnimationLibrary_snb7s")
 }
 
 [node name="MenuBackground" type="TextureRect" parent="."]
@@ -229,8 +229,8 @@ unique_name_in_owner = true
 show_behind_parent = true
 scale = Vector2(0.5, 0.5)
 amount = 12
-lifetime = 0.15
 texture = ExtResource("5_wirir")
+lifetime = 0.15
 gravity = Vector2(2.08165e-12, 2.08165e-12)
 scale_amount_min = 0.5
 scale_amount_max = 0.5
@@ -239,7 +239,7 @@ color_ramp = SubResource("Gradient_28nnj")
 [node name="CursorRotateAnimationPlayer" type="AnimationPlayer" parent="Cursor"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_ku4pg")
+&"": SubResource("AnimationLibrary_ku4pg")
 }
 
 [node name="Cursormiddle" type="Sprite2D" parent="."]
