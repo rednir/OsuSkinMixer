@@ -124,40 +124,40 @@ public abstract class SkinMachine : IDisposable
 
     protected abstract void PostRun();
 
-    protected void GenerateCreditsFile(OsuSkin workingSkin)
-    {
-        string creditsFilePath = $"{workingSkin.Directory.FullName}/credits.ini";
+    // protected void GenerateCreditsFile(OsuSkin workingSkin)
+    // {
+    //     string creditsFilePath = $"{workingSkin.Directory.FullName}/credits.ini";
 
-        if (workingSkin.Credits is not null)
-        {
-            // TODO: skin modifier needs to read credits file and modify on top of it
-            return;
-        }
+    //     if (workingSkin.Credits is not null)
+    //     {
+    //         // TODO: skin modifier needs to read credits file and modify on top of it
+    //         return;
+    //     }
 
-        workingSkin.Credits = new OsuSkinCredits();
+    //     workingSkin.Credits = new OsuSkinCredits();
 
-        foreach (SkinOption option in FlattenedBottomLevelOptions)
-        {
-            OsuSkin optionSkin = option.Value?.CustomSkin;
+    //     foreach (SkinOption option in FlattenedBottomLevelOptions)
+    //     {
+    //         OsuSkin optionSkin = option.Value?.CustomSkin;
 
-            if (optionSkin is null || option is not SkinFileOption skinFileOption || skinFileOption.Value.Type != SkinOptionValueType.CustomSkin)
-                continue;
+    //         if (optionSkin is null || option is not SkinFileOption skinFileOption || skinFileOption.Value.Type != SkinOptionValueType.CustomSkin)
+    //             continue;
 
-            string optionName = skinFileOption.IncludeFileName + (skinFileOption.IsAudio ? ".wav" : ".png");
+    //         string optionName = skinFileOption.IncludeFileName + (skinFileOption.IsAudio ? ".wav" : ".png");
 
-            // TODO: use skin credits
-            if (workingSkin.Credits.TryGetValue(optionSkin.Name, out List<string> value))
-            {
-                value.Add(optionName);
-            }
-            else
-            {
-                workingSkin.Credits.Add(optionSkin.Name, [optionName]);
-            }
-        }
+    //         // TODO: use skin credits
+    //         if (workingSkin.Credits.TryGetValue(optionSkin.Name, out List<string> value))
+    //         {
+    //             value.Add(optionName);
+    //         }
+    //         else
+    //         {
+    //             workingSkin.Credits.Add(optionSkin.Name, [optionName]);
+    //         }
+    //     }
 
-        File.WriteAllText(creditsFilePath, workingSkin.Credits.ToString());
-    }
+    //     File.WriteAllText(creditsFilePath, workingSkin.Credits.ToString());
+    // }
 
     protected void CopyOption(OsuSkin workingSkin, SkinOption option)
     {

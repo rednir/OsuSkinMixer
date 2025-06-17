@@ -83,7 +83,7 @@ public class SkinMixerMachine : SkinMachine
 
         try
         {
-            GenerateCreditsFile(NewSkin);
+            //GenerateCreditsFile(NewSkin);
         }
         catch (Exception e)
         {
