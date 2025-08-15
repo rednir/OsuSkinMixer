@@ -43,7 +43,7 @@ public class OsuSkin
 
     public OsuSkinIni SkinIni { get; set; }
 
-    //public OsuSkinCredits Credits { get; set; }
+    public OsuSkinCredits Credits { get; set; }
 
     public bool Hidden { get; set; }
 

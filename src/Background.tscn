@@ -437,17 +437,17 @@ script = ExtResource("1_bndj1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_43ckp")
+&"": SubResource("AnimationLibrary_43ckp")
 }
 
 [node name="Particles" type="CPUParticles2D" parent="."]
 position = Vector2(2.08165e-12, 502)
 amount = 80
+texture = ExtResource("1_d804o")
 lifetime = 18.0
 preprocess = 18.0
 randomness = 0.3
 fixed_fps = 30
-texture = ExtResource("1_d804o")
 emission_shape = 3
 emission_rect_extents = Vector2(400, 1)
 direction = Vector2(2.08165e-12, -1)
@@ -469,11 +469,11 @@ self_modulate = Color(1, 0.882353, 1, 0.898039)
 position = Vector2(0, -11)
 emitting = false
 amount = 250
+texture = ExtResource("3_mvj5o")
 lifetime = 9.0
 preprocess = 9.0
 speed_scale = 0.0
 fixed_fps = 30
-texture = ExtResource("3_mvj5o")
 emission_shape = 3
 emission_rect_extents = Vector2(400, 1)
 direction = Vector2(2.08165e-12, 1)
@@ -493,11 +493,11 @@ color_ramp = SubResource("Gradient_gqud0")
 self_modulate = Color(1, 0.882353, 1, 0.898039)
 position = Vector2(0, -22)
 amount = 10
+texture = ExtResource("4_xs6ao")
 lifetime = 6.0
 preprocess = 9.0
 randomness = 0.3
 fixed_fps = 30
-texture = ExtResource("4_xs6ao")
 emission_shape = 3
 emission_rect_extents = Vector2(400, 1)
 direction = Vector2(2.08165e-12, 1)

@@ -13,10 +13,29 @@ public class OsuSkinCredits : Dictionary<string, List<string>>
         : base()
     {
         string[] lines = fileContent.Split('\n');
+        string currentSkinName = null;
 
-        foreach (string line in lines)
+        for (int i = 0; i < lines.Length; i++)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(lines[i]))
+                continue;
+
+            string line = lines[i].Trim();
+
+            // This is stricter detection than skin.ini, where the square brackets can have characters preceeding or following them.
+            if (line.StartsWith('[') && line.EndsWith(']'))
+            {
+                string[] sectionNameSplit = line[1..^1].Split("\" by \"", StringSplitOptions.RemoveEmptyEntries);
+
+                currentSkinName = sectionNameSplit[0].TrimStart('\"');
+                // TODO: author too!
+
+                continue;
+            }
+
+            if (currentSkinName != null)
+            {
+            }
         }
     }
 
@@ -31,7 +50,7 @@ public class OsuSkinCredits : Dictionary<string, List<string>>
 
             foreach (var item in pair.Value)
             {
-                sb.Append(item).Append(", ");
+                sb.Append("CHECKSUMGOESHERE").Append(" - ").AppendLine(item);
             }
 
             // Remove the last comma and space.
