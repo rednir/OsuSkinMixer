@@ -45,7 +45,18 @@ public class OsuSkin
 
     public OsuSkinIni SkinIni { get; set; }
 
-    public OsuSkinCredits Credits { get; set; }
+    private OsuSkinCredits _credits;
+
+    public OsuSkinCredits Credits 
+    { 
+        get 
+        { 
+            if (_credits == null)
+                LoadCreditsFile();
+
+            return _credits; 
+        } 
+    }
 
     public bool Hidden { get; set; }
 
@@ -287,17 +298,17 @@ public class OsuSkin
 
             if (File.Exists(creditsPath))
             {
-                Credits = new OsuSkinCredits(File.ReadAllText(creditsPath));
+                _credits = new OsuSkinCredits(File.ReadAllText(creditsPath));
             }
             else
             {
-                Credits = new OsuSkinCredits();
+                _credits = new OsuSkinCredits();
             }
         }
         catch (Exception ex)
         {
             Settings.PushException(new InvalidOperationException($"Credits file is in the incorrect format: {Directory.FullName}/{OsuSkinCredits.FILE_NAME}", ex));
-            Credits = new OsuSkinCredits();
+            _credits = new OsuSkinCredits();
         }
     }
 

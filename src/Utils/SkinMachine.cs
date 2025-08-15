@@ -138,14 +138,12 @@ public abstract class SkinMachine : IDisposable
             return;
         }
 
-        workingSkin.Credits = new OsuSkinCredits();
-
         foreach (var pair in Md5Cache)
         {
             SkinFileOption option = pair.Key;
             OsuSkin skin = option.Value.CustomSkin;
 
-            workingSkin.Credits.Add(
+            workingSkin.Credits.AddElement(
                 skinName: skin.Name,
                 skinAuthor: skin.SkinIni?.TryGetPropertyValue("General", "Author"),
                 checksum: pair.Value,

@@ -6,7 +6,7 @@ public class OsuSkinCredits
 {
     public const string FILE_NAME = "credits.ini";
 
-    private readonly Dictionary<OsuSkinCreditsKey, List<OsuSkinCreditsValue>> _credits = [];
+    private readonly Dictionary<OsuSkinCreditsSkin, List<OsuSkinCreditsElement>> _credits = [];
 
     public OsuSkinCredits()
         : base()
@@ -44,19 +44,19 @@ public class OsuSkinCredits
         }
     }
 
-    public void Add(string skinName, string skinAuthor, string checksum, string filename)
+    public void AddElement(string skinName, string skinAuthor, string checksum, string filename)
     {
-        if (!_credits.TryGetValue(new OsuSkinCreditsKey(skinName, skinAuthor), out List<OsuSkinCreditsValue> values))
+        if (!_credits.TryGetValue(new OsuSkinCreditsSkin(skinName, skinAuthor), out List<OsuSkinCreditsElement> values))
         {
             values = [];
-            _credits[new OsuSkinCreditsKey(skinName, skinAuthor)] = values;
+            _credits[new OsuSkinCreditsSkin(skinName, skinAuthor)] = values;
         }
 
-        values.Add(new OsuSkinCreditsValue(checksum, filename));
+        values.Add(new OsuSkinCreditsElement(checksum, filename));
     }
 
-    public bool TryGetValue(string skinName, string skinAuthor, out List<OsuSkinCreditsValue> value)
-        => _credits.TryGetValue(new OsuSkinCreditsKey(skinName, skinAuthor), out value);
+    public bool TryGetElements(string skinName, string skinAuthor, out List<OsuSkinCreditsElement> value)
+        => _credits.TryGetValue(new OsuSkinCreditsSkin(skinName, skinAuthor), out value);
 
     public override string ToString()
     {
