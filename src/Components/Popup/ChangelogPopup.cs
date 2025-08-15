@@ -18,6 +18,8 @@ public partial class ChangelogPopup : Popup
                 In();
 
             Settings.Content.LastVersion = Settings.VERSION;
+            Settings.Content.DonationMessageDismissed = false;
+            Settings.Content.DonateLaunchCountThreshold = Settings.Content.LaunchCount + 3;
             Settings.Save();
         }
     }
