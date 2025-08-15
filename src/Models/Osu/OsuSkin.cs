@@ -51,7 +51,7 @@ public class OsuSkin
     { 
         get 
         { 
-            if (_credits == null)
+            if (_credits is null)
                 LoadCreditsFile();
 
             return _credits; 
@@ -299,10 +299,12 @@ public class OsuSkin
             if (File.Exists(creditsPath))
             {
                 _credits = new OsuSkinCredits(File.ReadAllText(creditsPath));
+                Settings.PushException(new Exception($"Loaded {creditsPath}"));
             }
             else
             {
                 _credits = new OsuSkinCredits();
+                Settings.PushException(new Exception($"Loaded no credits for {creditsPath}"));
             }
         }
         catch (Exception ex)
