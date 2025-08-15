@@ -18,7 +18,7 @@ public class OsuSkinCredits
         : base()
     {
         string[] lines = fileContent.Split('\n');
-        string currentSkinName = null;
+        OsuSkinCreditsSkin currentSkin = null;
 
         for (int i = 0; i < lines.Length; i++)
         {
@@ -31,17 +31,26 @@ public class OsuSkinCredits
             if (line.StartsWith('[') && line.EndsWith(']'))
             {
                 string[] sectionNameSplit = line[1..^1].Split("\" by \"", StringSplitOptions.RemoveEmptyEntries);
+                currentSkin = new OsuSkinCreditsSkin(
+                    SkinName: sectionNameSplit[0].TrimStart('\"'),
+                    SkinAuthor: sectionNameSplit[1].TrimEnd('\"'));
 
-                currentSkinName = sectionNameSplit[0].TrimStart('\"');
-                // TODO: author too!
+                // Failsafe in case there are duplicate section names, although this should never happen.
+                if (!_credits.ContainsKey(currentSkin))
+                    _credits[currentSkin] = [];
 
                 continue;
             }
 
-            if (currentSkinName != null)
-            {
+            if (currentSkin is null)
+                continue;
 
-            }
+            // Parse the element line.
+            string[] elementParts = line.Split(" - ", 2, StringSplitOptions.RemoveEmptyEntries);
+
+            _credits[currentSkin].Add(new OsuSkinCreditsElement(
+                Checksum: elementParts[0].Trim(),
+                Filename: elementParts[1].Trim()));
         }
     }
 
@@ -63,7 +72,7 @@ public class OsuSkinCredits
     {
         foreach (var pair in _credits)
         {
-            if (pair.Value.Any(element => element.FileName == filename))
+            if (pair.Value.Any(element => element.Filename == filename))
             {
                 skin = pair.Key;
                 return true;
@@ -84,7 +93,7 @@ public class OsuSkinCredits
 
             foreach (var item in pair.Value)
             {
-                sb.Append(item.Checksum).Append(" - ").AppendLine(item.FileName);
+                sb.Append(item.Checksum).Append(" - ").AppendLine(item.Filename);
             }
 
             // Remove the last comma and space.
