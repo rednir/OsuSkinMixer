@@ -132,12 +132,6 @@ public abstract class SkinMachine : IDisposable
     {
         string creditsFilePath = $"{workingSkin.Directory.FullName}/credits.ini";
 
-        if (workingSkin.Credits is not null)
-        {
-            // TODO: skin modifier needs to read credits file and modify on top of it
-            return;
-        }
-
         foreach (var pair in Md5Cache)
         {
             SkinFileOption option = pair.Key;

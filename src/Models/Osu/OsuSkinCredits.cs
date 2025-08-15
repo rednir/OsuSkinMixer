@@ -1,4 +1,5 @@
 using OsuSkinMixer.src.Models.Osu;
+using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Models;
 
@@ -57,6 +58,21 @@ public class OsuSkinCredits
 
     public bool TryGetElements(string skinName, string skinAuthor, out List<OsuSkinCreditsElement> value)
         => _credits.TryGetValue(new OsuSkinCreditsSkin(skinName, skinAuthor), out value);
+
+    public bool TryGetSkinFromElementFilename(string filename, out OsuSkinCreditsSkin skin)
+    {
+        foreach (var pair in _credits)
+        {
+            if (pair.Value.Any(element => element.FileName == filename))
+            {
+                skin = pair.Key;
+                return true;
+            }
+        }
+
+        skin = null;
+        return false;
+    }
 
     public override string ToString()
     {
