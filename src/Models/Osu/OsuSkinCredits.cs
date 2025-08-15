@@ -1,8 +1,12 @@
+using OsuSkinMixer.src.Models.Osu;
+
 namespace OsuSkinMixer.Models;
 
-public class OsuSkinCredits : Dictionary<string, List<string>>
+public class OsuSkinCredits
 {
-    public const string FILE_NAME = "credits.txt";
+    public const string FILE_NAME = "credits.ini";
+
+    private readonly Dictionary<OsuSkinCreditsKey, List<OsuSkinCreditsValue>> _credits = [];
 
     public OsuSkinCredits()
         : base()
@@ -35,22 +39,36 @@ public class OsuSkinCredits : Dictionary<string, List<string>>
 
             if (currentSkinName != null)
             {
+
             }
         }
     }
+
+    public void Add(string skinName, string skinAuthor, string checksum, string filename)
+    {
+        if (!_credits.TryGetValue(new OsuSkinCreditsKey(skinName, skinAuthor), out List<OsuSkinCreditsValue> values))
+        {
+            values = [];
+            _credits[new OsuSkinCreditsKey(skinName, skinAuthor)] = values;
+        }
+
+        values.Add(new OsuSkinCreditsValue(checksum, filename));
+    }
+
+    public bool TryGetValue(string skinName, string skinAuthor, out List<OsuSkinCreditsValue> value)
+        => _credits.TryGetValue(new OsuSkinCreditsKey(skinName, skinAuthor), out value);
 
     public override string ToString()
     {
         var sb = new System.Text.StringBuilder();
 
-        foreach (var pair in this)
+        foreach (var pair in _credits)
         {
-            // TODO: author?
-            sb.AppendLine($"[{pair.Key}]");
+            sb.AppendLine($"[\"{pair.Key.SkinName}\" by \"{pair.Key.SkinAuthor}\"]");
 
             foreach (var item in pair.Value)
             {
-                sb.Append("CHECKSUMGOESHERE").Append(" - ").AppendLine(item);
+                sb.Append(item.Checksum).Append(" - ").AppendLine(item.FileName);
             }
 
             // Remove the last comma and space.

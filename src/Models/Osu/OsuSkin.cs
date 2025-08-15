@@ -2,6 +2,8 @@ namespace OsuSkinMixer.Models;
 
 using System.IO;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography;
+using System.Text;
 using OsuSkinMixer.Statics;
 
 /// <summary>Represents an osu! skin and provides methods to fetch its elements.</summary>

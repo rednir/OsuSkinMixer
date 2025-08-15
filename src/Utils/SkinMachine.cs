@@ -2,8 +2,10 @@ namespace OsuSkinMixer.Utils;
 
 using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.src.Models.Osu;
 using OsuSkinMixer.Statics;
 
 /// <summary>Base for classes that peform tasks based on a list of <see cref="SkinOption"/>. Provides abstract methods for populating tasks to be peformed on the relevant skin folders.</summary>
@@ -51,6 +53,8 @@ public abstract class SkinMachine : IDisposable
     protected virtual bool CacheOriginalElements => false;
 
     protected Dictionary<string, MemoryStream> OriginalElementsCache { get; } = new();
+
+    protected Dictionary<SkinFileOption, string> Md5Cache { get; } = new();
 
     protected CancellationToken CancellationToken { get; set; }
 
@@ -136,24 +140,33 @@ public abstract class SkinMachine : IDisposable
 
         workingSkin.Credits = new OsuSkinCredits();
 
-        foreach (SkinOption option in FlattenedBottomLevelOptions)
+        foreach (var pair in Md5Cache)
         {
-            OsuSkin optionSkin = option.Value?.CustomSkin;
+            SkinFileOption option = pair.Key;
+            OsuSkin skin = option.Value.CustomSkin;
 
-            if (optionSkin is null || option is not SkinFileOption skinFileOption || skinFileOption.Value.Type != SkinOptionValueType.CustomSkin)
-                continue;
-
-            if (workingSkin.Credits.TryGetValue(optionSkin.Name, out List<string> value))
-            {
-                value.Add(skinFileOption.IncludeFileName);
-            }
-            else
-            {
-                workingSkin.Credits.Add(optionSkin.Name, [skinFileOption.IncludeFileName]);
-            }
+            workingSkin.Credits.Add(
+                skinName: skin.Name,
+                skinAuthor: skin.SkinIni?.TryGetPropertyValue("General", "Author"),
+                checksum: pair.Value,
+                filename: option.IncludeFileName);
         }
 
         File.WriteAllText(creditsFilePath, workingSkin.Credits.ToString());
+    }
+
+    private static string GetMd5Hash(string filePath)
+    {
+        using MD5 md5 = MD5.Create();
+        using FileStream stream = File.OpenRead(filePath);
+
+        byte[] hashBytes = md5.ComputeHash(stream);
+
+        StringBuilder sb = new();
+        foreach (byte b in hashBytes)
+            sb.Append(b.ToString("x2"));
+
+        return sb.ToString();
     }
 
     protected void CopyOption(OsuSkin workingSkin, SkinOption option)
@@ -267,7 +280,10 @@ public abstract class SkinMachine : IDisposable
         foreach (var file in fileOption.Value.CustomSkin.Directory.EnumerateFiles())
         {
             if (CheckIfFileAndOptionMatch(file, fileOption))
+            {
                 AddCopyFileTask(file, workingSkin.Directory, "due to filename match");
+                Md5Cache[fileOption] = GetMd5Hash(file.FullName);
+            }
         }
     }
 
