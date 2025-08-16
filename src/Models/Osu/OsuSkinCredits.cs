@@ -7,6 +7,10 @@ public class OsuSkinCredits
 {
     public const string FILE_NAME = "credits.ini";
 
+    public const string FILE_VERSION = "0.1";
+
+    public const string FILE_GENERATED_BY = "osu! skin mixer";
+
     private readonly Dictionary<OsuSkinCreditsSkin, List<OsuSkinCreditsElement>> _credits = [];
 
     public OsuSkinCredits()
@@ -99,6 +103,11 @@ public class OsuSkinCredits
     {
         var sb = new System.Text.StringBuilder();
 
+        sb.AppendLine($"version: {FILE_VERSION}")
+          .AppendLine($"generated_by: {FILE_GENERATED_BY}")
+          .AppendLine()
+          .AppendLine();
+
         foreach (var pair in _credits)
         {
             sb.AppendLine($"[\"{pair.Key.SkinName}\" by \"{pair.Key.SkinAuthor}\"]");
@@ -108,7 +117,8 @@ public class OsuSkinCredits
                 sb.Append(item.Checksum).Append(" - ").AppendLine(item.Filename);
             }
 
-            sb.AppendLine().AppendLine();
+            sb.AppendLine()
+              .AppendLine();
         }
 
         return sb.ToString();
