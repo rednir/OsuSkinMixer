@@ -166,6 +166,7 @@ public abstract class SkinMachine : IDisposable
                 filename: elementFilename);
         }
 
+        AddFileToOriginalElementsCache(creditsFilePath);
         File.WriteAllText(creditsFilePath, workingSkin.Credits.ToString());
     }
 
