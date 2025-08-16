@@ -2,8 +2,10 @@ namespace OsuSkinMixer.Utils;
 
 using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.src.Models.Osu;
 using OsuSkinMixer.Statics;
 
 /// <summary>Base for classes that peform tasks based on a list of <see cref="SkinOption"/>. Provides abstract methods for populating tasks to be peformed on the relevant skin folders.</summary>
@@ -51,6 +53,8 @@ public abstract class SkinMachine : IDisposable
     protected virtual bool CacheOriginalElements => false;
 
     protected Dictionary<string, MemoryStream> OriginalElementsCache { get; } = new();
+
+    protected Dictionary<(OsuSkin skin, string filename), string> Md5Map { get; } = new();
 
     protected CancellationToken CancellationToken { get; set; }
 
@@ -124,40 +128,65 @@ public abstract class SkinMachine : IDisposable
 
     protected abstract void PostRun();
 
-    // protected void GenerateCreditsFile(OsuSkin workingSkin)
-    // {
-    //     string creditsFilePath = $"{workingSkin.Directory.FullName}/credits.ini";
+    protected void GenerateCreditsFile(OsuSkin workingSkin)
+    {
+        string creditsFilePath = $"{workingSkin.Directory.FullName}/credits.ini";
 
-    //     if (workingSkin.Credits is not null)
-    //     {
-    //         // TODO: skin modifier needs to read credits file and modify on top of it
-    //         return;
-    //     }
+        foreach (var pair in Md5Map)
+        {
+            OsuSkin skin = pair.Key.skin;
+            string elementFilename = pair.Key.filename;
 
-    //     workingSkin.Credits = new OsuSkinCredits();
+            // Avoid duplicate filenames in the credits file, for when we are modifying a skin.
+            RemoveCreditIfExists(workingSkin, elementFilename);
 
-    //     foreach (SkinOption option in FlattenedBottomLevelOptions)
-    //     {
-    //         OsuSkin optionSkin = option.Value?.CustomSkin;
+            // Check if this element originally came from another skin, and if so, credit that skin instead.
+            // if (skin.Credits.TryGetSkinFromElementFilename(elementFilename, out OsuSkinCreditsSkin skinToCredit))
+            // {
+            //     workingSkin.Credits.AddElement(
+            //         skinName: skinToCredit.SkinName,
+            //         skinAuthor: skinToCredit.SkinAuthor,
+            //         checksum: pair.Value,
+            //         filename: elementFilename);
 
-    //         if (optionSkin is null || option is not SkinFileOption skinFileOption || skinFileOption.Value.Type != SkinOptionValueType.CustomSkin)
-    //             continue;
+            //     continue;
+            // }
 
-    //         string optionName = skinFileOption.IncludeFileName + (skinFileOption.IsAudio ? ".wav" : ".png");
+            workingSkin.Credits.AddElement(
+                skinName: skin.Name,
+                skinAuthor: skin.SkinIni?.TryGetPropertyValue("General", "Author"),
+                checksum: pair.Value,
+                filename: elementFilename);
+        }
 
-    //         // TODO: use skin credits
-    //         if (workingSkin.Credits.TryGetValue(optionSkin.Name, out List<string> value))
-    //         {
-    //             value.Add(optionName);
-    //         }
-    //         else
-    //         {
-    //             workingSkin.Credits.Add(optionSkin.Name, [optionName]);
-    //         }
-    //     }
+        AddFileToOriginalElementsCache(creditsFilePath);
+        File.WriteAllText(creditsFilePath, workingSkin.Credits.ToString());
+    }
 
-    //     File.WriteAllText(creditsFilePath, workingSkin.Credits.ToString());
-    // }
+    protected static void RemoveCreditIfExists(OsuSkin workingSkin, string elementFilename)
+    {
+        if (workingSkin.Credits.TryGetSkinFromElementFilename(elementFilename, out OsuSkinCreditsSkin existingCreditedSkin))
+        {
+            workingSkin.Credits.RemoveElement(
+                skinName: existingCreditedSkin.SkinName,
+                skinAuthor: existingCreditedSkin.SkinAuthor,
+                filename: elementFilename);
+        }
+    }
+
+    private static string GetMd5Hash(string filePath)
+    {
+        using MD5 md5 = MD5.Create();
+        using FileStream stream = File.OpenRead(filePath);
+
+        byte[] hashBytes = md5.ComputeHash(stream);
+
+        StringBuilder sb = new();
+        foreach (byte b in hashBytes)
+            sb.Append(b.ToString("x2"));
+
+        return sb.ToString();
+    }
 
     protected void CopyOption(OsuSkin workingSkin, SkinOption option)
     {
@@ -252,7 +281,10 @@ public abstract class SkinMachine : IDisposable
         foreach (var file in files)
         {
             if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
+            {
+                Md5Map[(skinToCopy, file.Name)] = GetMd5Hash(file.FullName);
                 AddCopyFileTask(file, fileDestDir, "due to skin.ini");
+            }
         }
     }
 
@@ -263,14 +295,17 @@ public abstract class SkinMachine : IDisposable
 
         if (fileOption.Value.Type == SkinOptionValueType.Blank)
         {
-            AddCopyBlankFileTask(fileOption, workingSkin.Directory);
+            AddCopyBlankFileTask(fileOption, workingSkin);
             return;
         }
 
         foreach (var file in fileOption.Value.CustomSkin.Directory.EnumerateFiles())
         {
             if (CheckIfFileAndOptionMatch(file, fileOption))
+            {
                 AddCopyFileTask(file, workingSkin.Directory, "due to filename match");
+                Md5Map[(fileOption.Value.CustomSkin, file.Name)] = GetMd5Hash(file.FullName);
+            }
         }
     }
 
@@ -303,7 +338,7 @@ public abstract class SkinMachine : IDisposable
         });
     }
 
-    protected void AddCopyBlankFileTask(SkinFileOption fileOption, DirectoryInfo fileDestDir)
+    protected void AddCopyBlankFileTask(SkinFileOption fileOption, OsuSkin workingSkin)
     {
         if (fileOption.IncludeFileName.EndsWith("*"))
         {
@@ -325,7 +360,7 @@ public abstract class SkinMachine : IDisposable
 
         void add(string filename)
         {
-            string destPathWithoutExtension = Path.Combine(fileDestDir.FullName, filename);
+            string destPathWithoutExtension = Path.Combine(workingSkin.Directory.FullName, filename);
 
             if (fileOption.IsAudio)
             {
@@ -344,6 +379,10 @@ public abstract class SkinMachine : IDisposable
 
                 AddFileToOriginalElementsCache(pngDestPath);
                 AddFileToOriginalElementsCache(pngDestPath2x);
+
+                Settings.Log($"dbg: {pngDestPath}");
+                RemoveCreditIfExists(workingSkin, Path.GetFileName(pngDestPath));
+                RemoveCreditIfExists(workingSkin, Path.GetFileName(pngDestPath2x));
 
                 _tasks.Add(() =>
                 {

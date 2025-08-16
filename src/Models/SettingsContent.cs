@@ -40,6 +40,9 @@ public static partial class Settings
         [JsonPropertyName("launch_count")]
         public int LaunchCount { get; set; }
 
+        [JsonPropertyName("donate_launch_count_threshold")]
+        public int DonateLaunchCountThreshold { get; set; }
+
         [JsonPropertyName("donation_message_dismissed")]
         public bool DonationMessageDismissed { get; set; }
 

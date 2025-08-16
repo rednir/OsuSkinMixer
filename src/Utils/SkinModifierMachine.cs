@@ -88,7 +88,18 @@ public class SkinModifierMachine : SkinMachine
     protected override void PostRun()
     {
         foreach (OsuSkin skin in SkinsToModify)
+        {
+            try
+            {
+                GenerateCreditsFile(skin);
+            }
+            catch (Exception e)
+            {
+                Settings.PushException(new InvalidOperationException($"Failed to generate at least one credits file. The skins was still created successfully, don't worry.", e));
+            }
+
             OsuData.InvokeSkinModified(skin);
+        }
 
         OsuData.SweepPaused = false;
     }
@@ -487,6 +498,7 @@ public class SkinModifierMachine : SkinMachine
             foreach (FileInfo file in workingSkin.Directory.GetFiles().Where(f => CheckIfFileAndOptionMatch(f, fileOption)).ToArray())
             {
                 Log($"Removing file '{file.FullName}' to avoid remnants");
+                RemoveCreditIfExists(workingSkin, file.Name);
                 AddFileToOriginalElementsCache(file.FullName);
                 file.Delete();
             }

@@ -83,11 +83,11 @@ public class SkinMixerMachine : SkinMachine
 
         try
         {
-            //GenerateCreditsFile(NewSkin);
+            GenerateCreditsFile(NewSkin);
         }
         catch (Exception e)
         {
-            Settings.PushException(new InvalidOperationException($"Failed to generate credits file for {NewSkin.Name}.", e));
+            Settings.PushException(new InvalidOperationException($"Failed to generate credits file for {NewSkin.Name}. The skin was still created successfully, don't worry.", e));
         }
 
         OsuData.AddSkin(NewSkin);

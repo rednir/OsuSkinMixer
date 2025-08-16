@@ -2,6 +2,8 @@ namespace OsuSkinMixer.Models;
 
 using System.IO;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography;
+using System.Text;
 using OsuSkinMixer.Statics;
 
 /// <summary>Represents an osu! skin and provides methods to fetch its elements.</summary>
@@ -43,7 +45,18 @@ public class OsuSkin
 
     public OsuSkinIni SkinIni { get; set; }
 
-    //public OsuSkinCredits Credits { get; set; }
+    private OsuSkinCredits _credits;
+
+    public OsuSkinCredits Credits 
+    { 
+        get 
+        { 
+            if (_credits is null)
+                LoadCreditsFile();
+
+            return _credits; 
+        } 
+    }
 
     public bool Hidden { get; set; }
 
@@ -277,27 +290,27 @@ public class OsuSkin
         }
     }
 
-    // private void LoadCreditsFile()
-    // {
-    //     try
-    //     {
-    //         string creditsPath = $"{Directory.FullName}/{OsuSkinCredits.FILE_NAME}";
+    private void LoadCreditsFile()
+    {
+        try
+        {
+            string creditsPath = $"{Directory.FullName}/{OsuSkinCredits.FILE_NAME}";
 
-    //         if (File.Exists(creditsPath))
-    //         {
-    //             Credits = new OsuSkinCredits(File.ReadAllText(creditsPath));
-    //         }
-    //         else
-    //         {
-    //             Credits = new OsuSkinCredits();
-    //         }
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Settings.PushException(new InvalidOperationException($"Credits file is in the incorrect format: {Directory.FullName}/{OsuSkinCredits.FILE_NAME}", ex));
-    //         Credits = new OsuSkinCredits();
-    //     }
-    // }
+            if (File.Exists(creditsPath))
+            {
+                _credits = new OsuSkinCredits(File.ReadAllText(creditsPath));
+            }
+            else
+            {
+                _credits = new OsuSkinCredits();
+            }
+        }
+        catch (Exception ex)
+        {
+            Settings.PushException(new InvalidOperationException($"Couldn't load incorrectly formatted skin credits file: {Directory.FullName}/{OsuSkinCredits.FILE_NAME}", ex));
+            _credits = new OsuSkinCredits();
+        }
+    }
 
     private readonly ConcurrentDictionary<string, Texture2D> _textureCache = new();
 

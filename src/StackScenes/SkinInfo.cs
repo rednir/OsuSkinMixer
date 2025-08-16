@@ -26,7 +26,12 @@ public partial class SkinInfo : StackScene
         DonateButton.Pressed += OnDonateButtonPressed;
         DismissButton.Pressed += OnDismissButtonPressed;
 
-        DonateContainer.Visible = !Settings.Content.DonationMessageDismissed && Settings.Content.SkinsMadeCount >= 6 && Settings.Content.LaunchCount >= 3;
+        if (Settings.Content.DonateLaunchCountThreshold == 0)
+            Settings.Content.DonateLaunchCountThreshold = 3;
+
+        DonateContainer.Visible = !Settings.Content.DonationMessageDismissed
+            && Settings.Content.SkinsMadeCount >= 6
+            && Settings.Content.LaunchCount >= Settings.Content.DonateLaunchCountThreshold;
 
         foreach (var skin in Skins)
         {
