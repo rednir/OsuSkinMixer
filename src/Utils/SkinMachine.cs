@@ -137,6 +137,17 @@ public abstract class SkinMachine : IDisposable
             OsuSkin skin = pair.Key.skin;
             string elementFilename = pair.Key.filename;
 
+            // Avoid duplicate filenames in the credits file, for when we are modifying a skin.
+            if (workingSkin.Credits.TryGetSkinFromElementFilename(elementFilename, out OsuSkinCreditsSkin existingCreditedSkin))
+            {
+                workingSkin.Credits.RemoveElement(
+                    skinName: existingCreditedSkin.SkinName,
+                    skinAuthor: existingCreditedSkin.SkinAuthor,
+                    filename: elementFilename);
+            }
+
+            // Check if this element originally came from another skin, and if so, credit that skin instead.
+            // TODO: do this recursively? is there a need?
             if (skin.Credits.TryGetSkinFromElementFilename(elementFilename, out OsuSkinCreditsSkin skinToCredit))
             {
                 workingSkin.Credits.AddElement(

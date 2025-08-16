@@ -65,6 +65,18 @@ public class OsuSkinCredits
         values.Add(new OsuSkinCreditsElement(checksum, filename));
     }
 
+    public void RemoveElement(string skinName, string skinAuthor, string filename)
+    {
+        if (_credits.TryGetValue(new OsuSkinCreditsSkin(skinName, skinAuthor), out List<OsuSkinCreditsElement> values))
+        {
+            values.RemoveAll(element => element.Filename == filename);
+
+            // If there's nothing left to credit to this skin, remove it.
+            if (values.Count <= 0)
+                _credits.Remove(new OsuSkinCreditsSkin(skinName, skinAuthor));
+        }
+    }
+
     public bool TryGetElements(string skinName, string skinAuthor, out List<OsuSkinCreditsElement> value)
         => _credits.TryGetValue(new OsuSkinCreditsSkin(skinName, skinAuthor), out value);
 
