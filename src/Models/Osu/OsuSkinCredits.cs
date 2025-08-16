@@ -31,6 +31,17 @@ public class OsuSkinCredits
 
             string line = lines[i].Trim();
 
+            if (line.StartsWith("version:") && currentSkin is null)
+            {
+                // Ignore any newer versions, we don't know what the future holds.
+                string version = line.Split(':', 2)[1].Trim();
+                if (version != FILE_VERSION)
+                {
+                    Settings.Log($"Not parsing an incompatible credits file version: {version}");
+                    return;
+                }
+            }
+
             // This is stricter detection than skin.ini, where the square brackets can have characters preceeding or following them.
             if (line.StartsWith('[') && line.EndsWith(']'))
             {
