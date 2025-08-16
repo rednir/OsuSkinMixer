@@ -54,7 +54,7 @@ public abstract class SkinMachine : IDisposable
 
     protected Dictionary<string, MemoryStream> OriginalElementsCache { get; } = new();
 
-    protected Dictionary<SkinFileOption, (string filename, string checksum)> Md5Map { get; } = new();
+    protected Dictionary<(OsuSkin skin, string filename), string> Md5Map { get; } = new();
 
     protected CancellationToken CancellationToken { get; set; }
 
@@ -134,17 +134,15 @@ public abstract class SkinMachine : IDisposable
 
         foreach (var pair in Md5Map)
         {
-            OsuSkin skin = pair.Key.Value.CustomSkin;
-
-            // We use this instead of SkinFileOption.IncludeFileName because these can have wildcards (e.g. default-*) representing more than one file.
-            string elementFilename = pair.Value.filename;
+            OsuSkin skin = pair.Key.skin;
+            string elementFilename = pair.Key.filename;
 
             if (skin.Credits.TryGetSkinFromElementFilename(elementFilename, out OsuSkinCreditsSkin skinToCredit))
             {
                 workingSkin.Credits.AddElement(
                     skinName: skinToCredit.SkinName,
                     skinAuthor: skinToCredit.SkinAuthor,
-                    checksum: pair.Value.checksum,
+                    checksum: pair.Value,
                     filename: elementFilename);
 
                 continue;
@@ -153,7 +151,7 @@ public abstract class SkinMachine : IDisposable
             workingSkin.Credits.AddElement(
                 skinName: skin.Name,
                 skinAuthor: skin.SkinIni?.TryGetPropertyValue("General", "Author"),
-                checksum: pair.Value.checksum,
+                checksum: pair.Value,
                 filename: elementFilename);
         }
 
@@ -267,7 +265,10 @@ public abstract class SkinMachine : IDisposable
         foreach (var file in files)
         {
             if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
+            {
+                Md5Map[(skinToCopy, Path.GetFileNameWithoutExtension(file.Name))] = GetMd5Hash(file.FullName);
                 AddCopyFileTask(file, fileDestDir, "due to skin.ini");
+            }
         }
     }
 
@@ -287,7 +288,7 @@ public abstract class SkinMachine : IDisposable
             if (CheckIfFileAndOptionMatch(file, fileOption))
             {
                 AddCopyFileTask(file, workingSkin.Directory, "due to filename match");
-                Md5Map[fileOption] = (Path.GetFileNameWithoutExtension(file.Name), GetMd5Hash(file.FullName));
+                Md5Map[(fileOption.Value.CustomSkin, Path.GetFileNameWithoutExtension(file.Name))] = GetMd5Hash(file.FullName);
             }
         }
     }
