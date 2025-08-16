@@ -498,6 +498,7 @@ public class SkinModifierMachine : SkinMachine
             foreach (FileInfo file in workingSkin.Directory.GetFiles().Where(f => CheckIfFileAndOptionMatch(f, fileOption)).ToArray())
             {
                 Log($"Removing file '{file.FullName}' to avoid remnants");
+                RemoveCreditIfExists(workingSkin, file.Name);
                 AddFileToOriginalElementsCache(file.FullName);
                 file.Delete();
             }
