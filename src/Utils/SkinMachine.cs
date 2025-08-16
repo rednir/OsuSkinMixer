@@ -54,7 +54,7 @@ public abstract class SkinMachine : IDisposable
 
     protected Dictionary<string, MemoryStream> OriginalElementsCache { get; } = new();
 
-    protected Dictionary<SkinFileOption, string> Md5Cache { get; } = new();
+    protected Dictionary<SkinFileOption, (string filename, string checksum)> Md5Map { get; } = new();
 
     protected CancellationToken CancellationToken { get; set; }
 
@@ -132,16 +132,29 @@ public abstract class SkinMachine : IDisposable
     {
         string creditsFilePath = $"{workingSkin.Directory.FullName}/credits.ini";
 
-        foreach (var pair in Md5Cache)
+        foreach (var pair in Md5Map)
         {
-            SkinFileOption option = pair.Key;
-            OsuSkin skin = option.Value.CustomSkin;
+            OsuSkin skin = pair.Key.Value.CustomSkin;
+
+            // We use this instead of SkinFileOption.IncludeFileName because these can have wildcards (e.g. default-*) representing more than one file.
+            string elementFilename = pair.Value.filename;
+
+            if (skin.Credits.TryGetSkinFromElementFilename(elementFilename, out OsuSkinCreditsSkin skinToCredit))
+            {
+                workingSkin.Credits.AddElement(
+                    skinName: skinToCredit.SkinName,
+                    skinAuthor: skinToCredit.SkinAuthor,
+                    checksum: pair.Value.checksum,
+                    filename: elementFilename);
+
+                continue;
+            }
 
             workingSkin.Credits.AddElement(
                 skinName: skin.Name,
                 skinAuthor: skin.SkinIni?.TryGetPropertyValue("General", "Author"),
-                checksum: pair.Value,
-                filename: option.IncludeFileName);
+                checksum: pair.Value.checksum,
+                filename: elementFilename);
         }
 
         File.WriteAllText(creditsFilePath, workingSkin.Credits.ToString());
@@ -274,7 +287,7 @@ public abstract class SkinMachine : IDisposable
             if (CheckIfFileAndOptionMatch(file, fileOption))
             {
                 AddCopyFileTask(file, workingSkin.Directory, "due to filename match");
-                Md5Cache[fileOption] = GetMd5Hash(file.FullName);
+                Md5Map[fileOption] = (Path.GetFileNameWithoutExtension(file.Name), GetMd5Hash(file.FullName));
             }
         }
     }
