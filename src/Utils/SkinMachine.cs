@@ -141,17 +141,16 @@ public abstract class SkinMachine : IDisposable
             RemoveCreditIfExists(workingSkin, elementFilename);
 
             // Check if this element originally came from another skin, and if so, credit that skin instead.
-            // TODO: do this recursively? is there a need?
-            if (skin.Credits.TryGetSkinFromElementFilename(elementFilename, out OsuSkinCreditsSkin skinToCredit))
-            {
-                workingSkin.Credits.AddElement(
-                    skinName: skinToCredit.SkinName,
-                    skinAuthor: skinToCredit.SkinAuthor,
-                    checksum: pair.Value,
-                    filename: elementFilename);
+            // if (skin.Credits.TryGetSkinFromElementFilename(elementFilename, out OsuSkinCreditsSkin skinToCredit))
+            // {
+            //     workingSkin.Credits.AddElement(
+            //         skinName: skinToCredit.SkinName,
+            //         skinAuthor: skinToCredit.SkinAuthor,
+            //         checksum: pair.Value,
+            //         filename: elementFilename);
 
-                continue;
-            }
+            //     continue;
+            // }
 
             workingSkin.Credits.AddElement(
                 skinName: skin.Name,
