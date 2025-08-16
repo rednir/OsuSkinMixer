@@ -283,7 +283,7 @@ public abstract class SkinMachine : IDisposable
         {
             if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
             {
-                Md5Map[(skinToCopy, Path.GetFileNameWithoutExtension(file.Name))] = GetMd5Hash(file.FullName);
+                Md5Map[(skinToCopy, file.Name)] = GetMd5Hash(file.FullName);
                 AddCopyFileTask(file, fileDestDir, "due to skin.ini");
             }
         }
@@ -305,7 +305,7 @@ public abstract class SkinMachine : IDisposable
             if (CheckIfFileAndOptionMatch(file, fileOption))
             {
                 AddCopyFileTask(file, workingSkin.Directory, "due to filename match");
-                Md5Map[(fileOption.Value.CustomSkin, Path.GetFileNameWithoutExtension(file.Name))] = GetMd5Hash(file.FullName);
+                Md5Map[(fileOption.Value.CustomSkin, file.Name)] = GetMd5Hash(file.FullName);
             }
         }
     }
@@ -382,8 +382,8 @@ public abstract class SkinMachine : IDisposable
                 AddFileToOriginalElementsCache(pngDestPath2x);
 
                 Settings.Log($"dbg: {pngDestPath}");
-                RemoveCreditIfExists(workingSkin, filename);
-                RemoveCreditIfExists(workingSkin, $"{filename}@2x");
+                RemoveCreditIfExists(workingSkin, Path.GetFileName(pngDestPath));
+                RemoveCreditIfExists(workingSkin, Path.GetFileName(pngDestPath2x));
 
                 _tasks.Add(() =>
                 {
