@@ -299,17 +299,15 @@ public class OsuSkin
             if (File.Exists(creditsPath))
             {
                 _credits = new OsuSkinCredits(File.ReadAllText(creditsPath));
-                Settings.PushException(new Exception($"Loaded {creditsPath}"));
             }
             else
             {
                 _credits = new OsuSkinCredits();
-                Settings.PushException(new Exception($"Loaded no credits for {creditsPath}"));
             }
         }
         catch (Exception ex)
         {
-            Settings.PushException(new InvalidOperationException($"Credits file is in the incorrect format: {Directory.FullName}/{OsuSkinCredits.FILE_NAME}", ex));
+            Settings.PushException(new InvalidOperationException($"Couldn't load incorrectly formatted skin credits file: {Directory.FullName}/{OsuSkinCredits.FILE_NAME}", ex));
             _credits = new OsuSkinCredits();
         }
     }
