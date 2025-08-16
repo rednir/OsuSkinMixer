@@ -283,7 +283,7 @@ public partial class Main : Control
             if (release == null)
                 return;
 
-            if (OS.GetName() != "Windows" || !Settings.Content.AutoUpdate)
+            if (OS.GetName() != "Windows" || !Settings.Content.AutoUpdate || Settings.VERSION.StartsWith('('))
             {
                 // Do not auto-update.
                 UpdateAvailable(release);
