@@ -108,8 +108,6 @@ public class OsuSkinCredits
                 sb.Append(item.Checksum).Append(" - ").AppendLine(item.Filename);
             }
 
-            // Remove the last comma and space.
-            sb.Length -= 2;
             sb.AppendLine().AppendLine();
         }
 
