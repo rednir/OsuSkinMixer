@@ -296,7 +296,7 @@ public abstract class SkinMachine : IDisposable
 
         if (fileOption.Value.Type == SkinOptionValueType.Blank)
         {
-            AddCopyBlankFileTask(fileOption, workingSkin.Directory);
+            AddCopyBlankFileTask(fileOption, workingSkin);
             return;
         }
 
@@ -339,7 +339,7 @@ public abstract class SkinMachine : IDisposable
         });
     }
 
-    protected void AddCopyBlankFileTask(SkinFileOption fileOption, DirectoryInfo fileDestDir)
+    protected void AddCopyBlankFileTask(SkinFileOption fileOption, OsuSkin workingSkin)
     {
         if (fileOption.IncludeFileName.EndsWith("*"))
         {
@@ -361,7 +361,7 @@ public abstract class SkinMachine : IDisposable
 
         void add(string filename)
         {
-            string destPathWithoutExtension = Path.Combine(fileDestDir.FullName, filename);
+            string destPathWithoutExtension = Path.Combine(workingSkin.Directory.FullName, filename);
 
             if (fileOption.IsAudio)
             {
@@ -380,6 +380,10 @@ public abstract class SkinMachine : IDisposable
 
                 AddFileToOriginalElementsCache(pngDestPath);
                 AddFileToOriginalElementsCache(pngDestPath2x);
+
+                Settings.Log($"dbg: {pngDestPath}");
+                RemoveCreditIfExists(workingSkin, filename);
+                RemoveCreditIfExists(workingSkin, $"{filename}@2x");
 
                 _tasks.Add(() =>
                 {
