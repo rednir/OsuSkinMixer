@@ -23,16 +23,17 @@ public partial class ComboContainer : HBoxContainer
         }
     }
 
+    public int Combo { get; private set; }
+
     private OsuSkin _skin;
 
     private string _comboPrefix;
-
-    private int _combo;
 
     private TextureRect Tens;
     private TextureRect Ones;
     private TextureRect ScoreX;
     private AnimationPlayer AnimationPlayer;
+    private OkPopup OkPopup;
 
     public override void _Ready()
     {
@@ -40,14 +41,15 @@ public partial class ComboContainer : HBoxContainer
         Ones = GetNode<TextureRect>("%Ones");
         ScoreX = GetNode<TextureRect>("%ScoreX");
         AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
+        OkPopup = GetNode<OkPopup>("%OkPopup");
     }
 
     public void Increment()
     {
-        _combo++;
+        Combo++;
 
-        int tens = _combo / 10;
-        int ones = _combo % 10;
+        int tens = Combo / 10;
+        int ones = Combo % 10;
 
         if (tens > 0)
         {
@@ -57,14 +59,15 @@ public partial class ComboContainer : HBoxContainer
 
         Ones.Texture = Skin.Get2XTexture($"{_comboPrefix}-{ones}");
         AnimationPlayer.Play("increment");
+
+        if (Combo == 100)
+            OkPopup.In();
     }
 
     public void Break()
     {
-        if (_combo == 0)
+        if (Combo == 0)
             return;
-
-        _combo = 0;
 
         Tens.Visible = false;
         Ones.Texture = Skin.Get2XTexture($"{_comboPrefix}-0");
