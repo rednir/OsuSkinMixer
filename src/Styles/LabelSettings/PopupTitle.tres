@@ -1,5 +1,8 @@
-[gd_resource type="LabelSettings" format=3 uid="uid://0rwgintf2ky0"]
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://0rwgintf2ky0"]
+
+[ext_resource type="FontFile" uid="uid://c8osm4s3bama7" path="res://assets/Aller_Bold.ttf" id="1_ad3wj"]
 
 [resource]
+font = ExtResource("1_ad3wj")
 font_size = 24
 font_color = Color(0.901961, 0.882353, 0.898039, 1)
