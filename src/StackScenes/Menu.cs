@@ -10,10 +10,12 @@ public partial class Menu : StackScene
     private PackedScene SkinMixerScene;
     private PackedScene SkinModifierSkinSelectScene;
     private PackedScene SkinManagerScene;
+    private PackedScene BeatmapSkinsScene;
 
     private Button SkinMixerButton;
     private Button SkinModifierButton;
     private Button SkinManagerButton;
+    private Button BeatmapSkinsButton;
     private Button GetMoreSkinsButton;
     private Button LuckyButton;
     private TextureButton IconButton;
@@ -26,10 +28,12 @@ public partial class Menu : StackScene
         SkinMixerScene = GD.Load<PackedScene>("res://src/StackScenes/SkinMixer.tscn");
         SkinModifierSkinSelectScene = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierSkinSelect.tscn");
         SkinManagerScene = GD.Load<PackedScene>("res://src/StackScenes/SkinManager.tscn");
+        BeatmapSkinsScene = GD.Load<PackedScene>("res://src/StackScenes/BeatmapSkinManager.tscn");
 
         SkinMixerButton = GetNode<Button>("%SkinMixerButton");
         SkinModifierButton = GetNode<Button>("%SkinModifierButton");
         SkinManagerButton = GetNode<Button>("%SkinManagerButton");
+        BeatmapSkinsButton = GetNode<Button>("%BeatmapSkinsButton");
         GetMoreSkinsButton = GetNode<Button>("%GetMoreSkinsButton");
         IconButton = GetNode<TextureButton>("%IconButton");
         GetMoreSkinsPopup = GetNode<GetMoreSkinsPopup>("%GetMoreSkinsPopup");
@@ -38,6 +42,7 @@ public partial class Menu : StackScene
         SkinMixerButton.Pressed += () => EmitSignal(SignalName.ScenePushed, SkinMixerScene.Instantiate<StackScene>());
         SkinModifierButton.Pressed += () => EmitSignal(SignalName.ScenePushed, SkinModifierSkinSelectScene.Instantiate<StackScene>());
         SkinManagerButton.Pressed += () => EmitSignal(SignalName.ScenePushed, SkinManagerScene.Instantiate<StackScene>());
+        BeatmapSkinsButton.Pressed += () => EmitSignal(SignalName.ScenePushed, BeatmapSkinsScene.Instantiate<StackScene>());
         GetMoreSkinsButton.Pressed += GetMoreSkinsPopup.In;
         LuckyButton.Pressed += OnLuckyButtonPressed;
         IconButton.Pressed += () => OS.ShellOpen($"https://github.com/{Settings.GITHUB_REPO_PATH}");

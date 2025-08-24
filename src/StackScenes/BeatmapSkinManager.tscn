@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=3 uid="uid://cwyn304nwxrg7"]
+
+[ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_ellqa"]
+[ext_resource type="Script" uid="uid://ckxx7gajuihi0" path="res://src/StackScenes/BeatmapSkinManager.cs" id="2_7jg1p"]
+[ext_resource type="PackedScene" uid="uid://bcv0yhlt68htu" path="res://src/Components/SkinComponentsContainer.tscn" id="7_hflqf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rcagl"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.219608, 0.176471, 0.207843, 1)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+
+[node name="SkinManager" type="VBoxContainer"]
+offset_right = 750.0
+offset_bottom = 450.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_ellqa")
+theme_override_constants/separation = 32
+script = ExtResource("2_7jg1p")
+
+[node name="TopPanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(300, 2.08165e-12)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_rcagl")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopPanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SearchLineEdit" type="LineEdit" parent="TopPanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 2.08165e-12)
+layout_mode = 2
+placeholder_text = "Filter skins"
+flat = true
+
+[node name="BeatmapsPanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BeatmapsPanelContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="BeatmapsPanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(552, 2.08165e-12)
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BeatmapsPanelContainer/VBoxContainer/ScrollContainer"]
+custom_minimum_size = Vector2(544, 2.08165e-12)
+layout_mode = 2
+
+[node name="BeatmapComponentsContainer" parent="BeatmapsPanelContainer/VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("7_hflqf")]
+unique_name_in_owner = true
+layout_mode = 2
