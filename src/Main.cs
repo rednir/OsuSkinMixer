@@ -87,6 +87,11 @@ public partial class Main : Control
             OkPopup.In();
         };
 
+        Settings.ToastPushed += message =>
+        {
+            Toast.Push(message);
+        };
+
         OsuData.AllSkinsLoaded += PopAllScenes;
         OsuData.SkinAdded += s => Toast.Push($"Skin was created:\n{s.Name}");
         OsuData.SkinModified += s => Toast.Push($"Skin was modified:\n{s.Name}");

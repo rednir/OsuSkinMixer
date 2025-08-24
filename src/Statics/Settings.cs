@@ -14,6 +14,8 @@ public static partial class Settings
 
     public static event Action<Exception> ExceptionPushed;
 
+    public static event Action<string> ToastPushed;
+
     public static string AppdataFolderPath => ProjectSettings.GlobalizePath("user://");
 
     public static string SettingsFilePath => Path.Combine(AppdataFolderPath, "settings.json");
@@ -202,6 +204,11 @@ public static partial class Settings
     {
         GD.PushError(ex);
         ExceptionPushed?.Invoke(ex);
+    }
+
+    public static void PushToast(string message)
+    {
+        ToastPushed?.Invoke(message);
     }
 
     private static void MigrateSettings()

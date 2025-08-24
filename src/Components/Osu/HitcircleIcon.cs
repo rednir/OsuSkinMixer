@@ -55,8 +55,14 @@ public partial class HitcircleIcon : CenterContainer
 
     private void OnScreenEntered()
     {
-        if (_skin == null || _isTexturesLoaded)
+        if (_skin is null || _isTexturesLoaded)
             return;
+
+        if (_skin?.Directory is null)
+        {
+            Modulate = new Color(1, 1, 1, 0.25f);
+            return;
+        }
 
         _isTexturesLoaded = true;
 

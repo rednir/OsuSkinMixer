@@ -57,7 +57,6 @@ public partial class SkinInfoPanel : PanelContainer
         OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
         OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
         ViewMoreButton.Pressed += OnViewMoreButtonPressed;
-        ManageSkinPopup.Options = ManageSkinOptions.All & ~ManageSkinOptions.OpenInOsu & ~ManageSkinOptions.OpenFolder;
 
         OsuData.SkinAdded += OnSkinAdded;
         OsuData.SkinModified += OnSkinModified;
@@ -82,7 +81,6 @@ public partial class SkinInfoPanel : PanelContainer
         LastModifiedLabel.Text = $"Last modified: {(DateTime.Now - Skin.Directory.LastWriteTime).Humanise()}";
         OpenInOsuButton.Disabled = Skin.Hidden;
         MenuHitPlayer.Stream = Skin.GetAudioStream("menuhit");
-        ManageSkinPopup.SetSkin(Skin);
     }
 
     private void OnSkinAdded(OsuSkin skin)
@@ -149,6 +147,7 @@ public partial class SkinInfoPanel : PanelContainer
 
     private void OnMoreButtonPressed()
     {
+        ManageSkinPopup.SetSkin(Skin);
         ManageSkinPopup.In();
     }
 
@@ -161,7 +160,9 @@ public partial class SkinInfoPanel : PanelContainer
             foreach (var credit in Skin.Credits.GetKeyValuePairs())
             {
                 SkinComponent creditComponent = SkinComponentSkinCreditsScene.Instantiate<SkinComponent>();
-                creditComponent.Skin = new OsuSkin(credit.Key.SkinName, credit.Key.SkinAuthor);
+                creditComponent.RightClicked += () => OnCreditRightClicked(creditComponent);
+                creditComponent.Skin = OsuData.Skins.FirstOrDefault(s => s.Name == credit.Key.SkinName)
+                    ?? new OsuSkin(credit.Key.SkinName, credit.Key.SkinAuthor);
                 SkinCreditsContainer.AddChild(creditComponent);
             }
 
@@ -169,8 +170,18 @@ public partial class SkinInfoPanel : PanelContainer
         }
     }
 
+    private void OnCreditRightClicked(SkinComponent creditComponent)
+    {
+        ManageSkinPopup.SetSkin(creditComponent.Skin);
+        // Haven't configured the skin credit to update on skin deleted, so be just disable deleting from here I guess. Although jank can still happen potentially.
+        ManageSkinPopup.Options = ManageSkinOptions.All & ~ManageSkinOptions.Delete;
+        ManageSkinPopup.In();
+    }
+
     private void OnModifyButtonPressed()
     {
+        ManageSkinPopup.SetSkin(Skin);
+        ManageSkinPopup.Options |= ManageSkinOptions.All & ~ManageSkinOptions.OpenInOsu & ~ManageSkinOptions.OpenFolder;
         OsuData.RequestSkinModify(new OsuSkin[] { Skin });
     }
 }

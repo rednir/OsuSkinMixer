@@ -85,6 +85,12 @@ public partial class SkinComponent : HBoxContainer
     {
         if (LeftClicked == null)
         {
+            if (Skin?.Directory is null)
+            {
+                Settings.PushToast("You don't seem to have that skin downloaded.");
+                return;
+            }
+
             OsuData.RequestSkinInfo(new OsuSkin[] { Skin });
             return;
         }
@@ -98,6 +104,12 @@ public partial class SkinComponent : HBoxContainer
             && mouseButton.ButtonIndex == MouseButton.Right
             && mouseButton.Pressed)
         {
+            if (Skin?.Directory is null)
+            {
+                Settings.PushToast("You don't seem to have that skin downloaded.");
+                return;
+            }
+
             RightClicked?.Invoke();
         }
     }
