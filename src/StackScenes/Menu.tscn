@@ -239,9 +239,9 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_hbgq3")
 [node name="HBoxContainer" type="HBoxContainer" parent="BeatmapSkinsButton"]
 layout_mode = 0
 offset_left = 28.0
-offset_top = 27.0
+offset_top = 29.0
 offset_right = 320.0
-offset_bottom = 92.0
+offset_bottom = 94.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BeatmapSkinsButton/HBoxContainer"]
 layout_mode = 2
