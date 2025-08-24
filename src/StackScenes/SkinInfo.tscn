@@ -13,10 +13,10 @@ content_margin_right = 16.0
 content_margin_bottom = 16.0
 bg_color = Color(0.895266, 0.574084, 0.675613, 1)
 border_color = Color(0.945635, 0.757639, 0.809203, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
 
 [sub_resource type="Gradient" id="Gradient_hrcqa"]
 offsets = PackedFloat32Array(0, 0.543243, 0.992322)

@@ -17,16 +17,14 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f5sf1"]
 content_margin_left = 0.0
-content_margin_top = 0.0
+content_margin_top = 4.0
 content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.164706, 0.137255, 0.160784, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-shadow_color = Color(0, 0, 0, 0.137255)
-shadow_size = 5
+content_margin_bottom = 4.0
+bg_color = Color(0.19, 0.1482, 0.18373, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
 shadow_offset = Vector2(2.08165e-12, 2)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xa3s1"]
@@ -38,8 +36,8 @@ content_margin_bottom = 16.0
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oo7jk"]
 content_margin_left = 16.0
 content_margin_top = 16.0
-content_margin_right = 16.0
-content_margin_bottom = 0.0
+content_margin_right = 30.0
+content_margin_bottom = 8.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g0do8"]
 content_margin_left = 16.0
@@ -97,6 +95,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 2
+alignment = 1
 
 [node name="SkinName" type="Label" parent="MainContentContainer/TopPadding/HeaderContainer/NameAndAuthorContainer"]
 unique_name_in_owner = true
