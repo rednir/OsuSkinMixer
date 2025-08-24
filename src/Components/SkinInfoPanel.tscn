@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://blii18dv1joyh"]
+[gd_scene load_steps=26 format=3 uid="uid://blii18dv1joyh"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_08l8f"]
 [ext_resource type="Script" uid="uid://d0w173rs67i6p" path="res://src/Components/SkinInfoPanel.cs" id="2_dwrdw"]
@@ -14,12 +14,13 @@
 [ext_resource type="PackedScene" uid="uid://ce6pfh8ys6arg" path="res://src/Components/Popup/ManageSkinPopup.tscn" id="13_kxp8t"]
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="13_t4web"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="14_isl58"]
+[ext_resource type="FontFile" uid="uid://c8osm4s3bama7" path="res://assets/Aller_Bold.ttf" id="14_k5r4o"]
+[ext_resource type="Texture2D" uid="uid://b66igvwvv334q" path="res://assets/materialicons/expand_more.png" id="14_owtx3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f5sf1"]
 content_margin_left = 0.0
 content_margin_top = 4.0
 content_margin_right = 0.0
-content_margin_bottom = 4.0
 bg_color = Color(0.19, 0.1482, 0.18373, 1)
 corner_radius_top_left = 24
 corner_radius_top_right = 24
@@ -43,7 +44,38 @@ content_margin_bottom = 8.0
 content_margin_left = 16.0
 content_margin_top = 0.0
 content_margin_right = 16.0
-content_margin_bottom = 16.0
+content_margin_bottom = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mfgp0"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0.142558, 0.110545, 0.139362, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+shadow_offset = Vector2(2.08165e-12, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_owtx3"]
+font = ExtResource("14_k5r4o")
+font_color = Color(0.840734, 0.658171, 0.766872, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_owtx3"]
+bg_color = Color(0.84, 0.7896, 0.83412, 0.0941176)
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k5r4o"]
+bg_color = Color(0.84, 0.7896, 0.83412, 0.109804)
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dpv7h"]
+bg_color = Color(0.84, 0.7896, 0.83412, 0.0588235)
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
 
 [node name="SkinInfoPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 2.08165e-12)
@@ -124,14 +156,6 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_g0do8")
 [node name="VBoxContainer" type="VBoxContainer" parent="MainContentContainer/BottomPadding"]
 layout_mode = 2
 
-[node name="Details" type="Label" parent="MainContentContainer/BottomPadding/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.792157, 0.768627, 0.815686, 1)
-theme_override_font_sizes/font_size = 14
-text = "Last modified: 1st January 2023"
-text_overrun_behavior = 3
-
 [node name="HBoxContainer" type="HBoxContainer" parent="MainContentContainer/BottomPadding/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
@@ -164,6 +188,54 @@ icon = ExtResource("12_mlqrs")
 [node name="MoreButton" parent="MainContentContainer/BottomPadding/VBoxContainer/HBoxContainer/IconButtonsContainer" instance=ExtResource("6_7bjey")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="ViewMorePadding" type="PanelContainer" parent="MainContentContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_g0do8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContentContainer/ViewMorePadding"]
+layout_mode = 2
+
+[node name="LastModifiedLabel" type="Label" parent="MainContentContainer/ViewMorePadding/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.792157, 0.768627, 0.815686, 1)
+theme_override_font_sizes/font_size = 14
+text = "Last modified: 1st January 2023"
+text_overrun_behavior = 3
+
+[node name="CreditsContainer" type="PanelContainer" parent="MainContentContainer/ViewMorePadding/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mfgp0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContentContainer/ViewMorePadding/VBoxContainer/CreditsContainer"]
+layout_mode = 2
+
+[node name="SkinsCreditedLabel" type="Label" parent="MainContentContainer/ViewMorePadding/VBoxContainer/CreditsContainer/VBoxContainer"]
+layout_mode = 2
+text = "Skins credited:"
+label_settings = SubResource("LabelSettings_owtx3")
+
+[node name="SkinCreditsContainer" type="VBoxContainer" parent="MainContentContainer/ViewMorePadding/VBoxContainer/CreditsContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ViewMoreButton" type="Button" parent="MainContentContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_colors/icon_hover_pressed_color = Color(0.968627, 0.862745, 0.890196, 0.705882)
+theme_override_colors/icon_hover_color = Color(0.968627, 0.862745, 0.890196, 0.705882)
+theme_override_colors/icon_pressed_color = Color(0.968627, 0.862745, 0.890196, 0.705882)
+theme_override_colors/icon_focus_color = Color(0.968627, 0.862745, 0.890196, 0.705882)
+theme_override_colors/icon_normal_color = Color(0.97, 0.8633, 0.891753, 0.705882)
+theme_override_styles/hover = SubResource("StyleBoxFlat_owtx3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_k5r4o")
+theme_override_styles/normal = SubResource("StyleBoxFlat_dpv7h")
+icon = ExtResource("14_owtx3")
+icon_alignment = 1
 
 [node name="ManageSkinPopup" parent="." instance=ExtResource("13_kxp8t")]
 unique_name_in_owner = true

@@ -110,6 +110,9 @@ public class OsuSkinCredits
         return false;
     }
 
+    public IEnumerable<KeyValuePair<OsuSkinCreditsSkin, List<OsuSkinCreditsElement>>> GetKeyValuePairs()
+        => _credits;
+
     public override string ToString()
     {
         var sb = new System.Text.StringBuilder();

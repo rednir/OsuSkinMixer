@@ -15,14 +15,21 @@ public partial class SkinInfoPanel : PanelContainer
     private Label SkinNameLabel;
     private Label SkinAuthorLabel;
     private Button MoreButton;
-    private Label DetailsLabel;
+    private Label LastModifiedLabel;
     private Button ModifyButton;
     private Button OpenFolderButton;
     private Button OpenInOsuButton;
+    private Button ViewMoreButton;
+    private PanelContainer ViewMorePadding;
+    private VBoxContainer SkinCreditsContainer;
     private AudioStreamPlayer MenuHitPlayer;
     private ManageSkinPopup ManageSkinPopup;
 
     private Action _undoAction;
+
+    private bool _isSkinCreditsInitialised;
+
+    private PackedScene SkinComponentSkinCreditsScene = GD.Load<PackedScene>("res://src/Components/SkinComponentSkinCredits.tscn");
 
     public override void _Ready()
     {
@@ -34,10 +41,13 @@ public partial class SkinInfoPanel : PanelContainer
         SkinNameLabel = GetNode<Label>("%SkinName");
         SkinAuthorLabel = GetNode<Label>("%SkinAuthor");
         MoreButton = GetNode<Button>("%MoreButton");
-        DetailsLabel = GetNode<Label>("%Details");
+        LastModifiedLabel = GetNode<Label>("%LastModifiedLabel");
         ModifyButton = GetNode<Button>("%ModifyButton");
         OpenFolderButton = GetNode<Button>("%OpenFolderButton");
         OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
+        ViewMoreButton = GetNode<Button>("%ViewMoreButton");
+        ViewMorePadding = GetNode<PanelContainer>("%ViewMorePadding");
+        SkinCreditsContainer = GetNode<VBoxContainer>("%SkinCreditsContainer");
         MenuHitPlayer = GetNode<AudioStreamPlayer>("%MenuHitPlayer");
         ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
@@ -46,6 +56,7 @@ public partial class SkinInfoPanel : PanelContainer
         ModifyButton.Pressed += OnModifyButtonPressed;
         OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
         OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
+        ViewMoreButton.Pressed += OnViewMoreButtonPressed;
         ManageSkinPopup.Options = ManageSkinOptions.All & ~ManageSkinOptions.OpenInOsu & ~ManageSkinOptions.OpenFolder;
 
         OsuData.SkinAdded += OnSkinAdded;
@@ -68,7 +79,7 @@ public partial class SkinInfoPanel : PanelContainer
         HitcircleIcon.SetSkin(Skin);
         SkinNameLabel.Text = Skin.Name;
         SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
-        DetailsLabel.Text = $"Last modified: {(DateTime.Now - Skin.Directory.LastWriteTime).Humanise()}";
+        LastModifiedLabel.Text = $"Last modified: {(DateTime.Now - Skin.Directory.LastWriteTime).Humanise()}";
         OpenInOsuButton.Disabled = Skin.Hidden;
         MenuHitPlayer.Stream = Skin.GetAudioStream("menuhit");
         ManageSkinPopup.SetSkin(Skin);
@@ -139,6 +150,23 @@ public partial class SkinInfoPanel : PanelContainer
     private void OnMoreButtonPressed()
     {
         ManageSkinPopup.In();
+    }
+
+    private void OnViewMoreButtonPressed()
+    {
+        ViewMorePadding.Visible = !ViewMorePadding.Visible;
+
+        if (!_isSkinCreditsInitialised)
+        {
+            foreach (var credit in Skin.Credits.GetKeyValuePairs())
+            {
+                SkinComponent creditComponent = SkinComponentSkinCreditsScene.Instantiate<SkinComponent>();
+                creditComponent.Skin = new OsuSkin(credit.Key.SkinName, credit.Key.SkinAuthor);
+                SkinCreditsContainer.AddChild(creditComponent);
+            }
+
+            _isSkinCreditsInitialised = true;
+        }
     }
 
     private void OnModifyButtonPressed()

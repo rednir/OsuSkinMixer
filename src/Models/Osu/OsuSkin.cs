@@ -36,7 +36,13 @@ public class OsuSkin
         Directory = dir;
         Hidden = hidden;
         LoadSkinIni();
+    }
 
+    // Constructor for creating a dummy skin (hacky solution for creating skin credits entries).
+    public OsuSkin(string name, string author)
+    {
+        Name = name;
+        SkinIni = new OsuSkinIni(name, author);
     }
 
     public string Name { get; set; }
