@@ -69,6 +69,8 @@ public partial class ComboContainer : HBoxContainer
         if (Combo == 0)
             return;
 
+        Combo = 0;
+
         Tens.Visible = false;
         Ones.Texture = Skin.Get2XTexture($"{_comboPrefix}-0");
         AnimationPlayer.Play("break");
