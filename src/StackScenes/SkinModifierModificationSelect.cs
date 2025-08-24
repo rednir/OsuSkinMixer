@@ -32,6 +32,8 @@ public partial class SkinModifierModificationSelect : StackScene
     private CheckBox SmoothTrailCheckBox;
     private CheckBox InstafadeCheckBox;
     private CheckBox DisableAnimationsCheckBox;
+    private VBoxContainer WarningLabelContainer;
+    private Label WarningLabelInstafadeColours;
     private LoadingPopup LoadingPopup;
 
     public override void _Ready()
@@ -52,6 +54,8 @@ public partial class SkinModifierModificationSelect : StackScene
         SmoothTrailCheckBox = GetNode<CheckBox>("%SmoothTrailCheckBox");
         InstafadeCheckBox = GetNode<CheckBox>("%InstafadeCheckBox");
         DisableAnimationsCheckBox = GetNode<CheckBox>("%DisableAnimationsCheckBox");
+        WarningLabelContainer = GetNode<VBoxContainer>("%WarningLabelContainer");
+        WarningLabelInstafadeColours = GetNode<Label>("%WarningLabelInstafadeColours");
         LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
 
         SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.Unchanged));
@@ -132,6 +136,10 @@ public partial class SkinModifierModificationSelect : StackScene
         {
             ExtraOptionsContainer.Deactivate();
         }
+
+        // TODO: when more warning labels are added treat these seperately.
+        WarningLabelContainer.Visible = InstafadeCheckBox.ButtonPressed;
+        WarningLabelInstafadeColours.Visible = InstafadeCheckBox.ButtonPressed;
     }
 
     private void OnSkinRemoved(OsuSkin skin)
