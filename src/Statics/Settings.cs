@@ -22,6 +22,8 @@ public static partial class Settings
 
     public static string SkinsFolderPath => Path.Combine(Content.OsuFolder, "Skins");
 
+    public static string SongsFolderPath => Path.Combine(Content.OsuFolder, "Songs");
+
     public static string HiddenSkinsFolderPath => Path.Combine(Content.OsuFolder, "HiddenSkins");
 
     public static string TrashFolderPath => Path.Combine(DeleteOnExitFolderPath, ".osu-skin-mixer-trash");

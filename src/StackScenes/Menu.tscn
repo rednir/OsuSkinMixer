@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://2ilvd4gjmgvt"]
+[gd_scene load_steps=23 format=3 uid="uid://2ilvd4gjmgvt"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_1eu76"]
 [ext_resource type="Script" uid="uid://ciyhhu6w5xufb" path="res://src/StackScenes/Menu.cs" id="1_bkc8q"]
@@ -11,27 +11,20 @@
 [ext_resource type="Texture2D" uid="uid://bwwbpgod763s" path="res://assets/icon.png" id="7_58gv3"]
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="9_1kiko"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q18dh"]
-bg_color = Color(0.196078, 0.156863, 0.184314, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5hvhl"]
 bg_color = Color(0.215686, 0.172549, 0.203922, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
+corner_radius_top_left = 32
+corner_radius_top_right = 32
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uhnb5"]
 bg_color = Color(0.25098, 0.2, 0.239216, 1)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
+corner_radius_top_left = 32
+corner_radius_top_right = 32
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mkxqr"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q18dh"]
 bg_color = Color(0.196078, 0.156863, 0.184314, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
+corner_radius_top_left = 32
+corner_radius_top_right = 32
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
@@ -49,26 +42,54 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t6eks"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mkxqr"]
 bg_color = Color(0.196078, 0.156863, 0.184314, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
-corner_radius_bottom_right = 24
-corner_radius_bottom_left = 24
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pnb3k"]
 bg_color = Color(0.215686, 0.172549, 0.203922, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
-corner_radius_bottom_right = 24
-corner_radius_bottom_left = 24
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l2v3f"]
 bg_color = Color(0.25098, 0.2, 0.239216, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
-corner_radius_bottom_right = 24
-corner_radius_bottom_left = 24
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t6eks"]
+bg_color = Color(0.196078, 0.156863, 0.184314, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w4qk4"]
+bg_color = Color(0.190057, 0.164014, 0.216094, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0wpn5"]
+bg_color = Color(0.219677, 0.191967, 0.247406, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hbgq3"]
+bg_color = Color(0.1768, 0.152, 0.2, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
 
 [node name="Menu" type="VBoxContainer"]
 offset_right = 750.0
@@ -90,16 +111,16 @@ custom_minimum_size = Vector2(350, 125)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_q18dh")
 theme_override_styles/hover = SubResource("StyleBoxFlat_5hvhl")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_uhnb5")
+theme_override_styles/normal = SubResource("StyleBoxFlat_q18dh")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SkinMixerButton"]
 layout_mode = 0
-offset_left = 19.0
-offset_top = 18.0
-offset_right = 329.0
-offset_bottom = 107.0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 320.0
+offset_bottom = 95.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SkinMixerButton/HBoxContainer"]
 layout_mode = 2
@@ -131,16 +152,16 @@ custom_minimum_size = Vector2(350, 125)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_mkxqr")
 theme_override_styles/hover = SubResource("StyleBoxFlat_eakda")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_g8k5c")
+theme_override_styles/normal = SubResource("StyleBoxFlat_mkxqr")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SkinModifierButton"]
 layout_mode = 0
-offset_left = 19.0
-offset_top = 18.0
-offset_right = 329.0
-offset_bottom = 109.0
+offset_left = 28.0
+offset_top = 21.0
+offset_right = 320.0
+offset_bottom = 106.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SkinModifierButton/HBoxContainer"]
 layout_mode = 2
@@ -171,16 +192,16 @@ custom_minimum_size = Vector2(350, 125)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_t6eks")
 theme_override_styles/hover = SubResource("StyleBoxFlat_pnb3k")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_l2v3f")
+theme_override_styles/normal = SubResource("StyleBoxFlat_t6eks")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SkinManagerButton"]
 layout_mode = 0
-offset_left = 19.0
+offset_left = 28.0
 offset_top = 18.0
-offset_right = 329.0
-offset_bottom = 101.0
+offset_right = 320.0
+offset_bottom = 103.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SkinManagerButton/HBoxContainer"]
 layout_mode = 2
@@ -193,12 +214,51 @@ label_settings = ExtResource("3_08a4k")
 
 [node name="Description" type="Label" parent="VBoxContainer/SkinManagerButton/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-text = "•  View and manage your installed skins
+text = "•  See your installed skins
 •  Hide skins from osu!
 •  Duplicate, delete and export skins"
 label_settings = ExtResource("4_7a57c")
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/SkinManagerButton/HBoxContainer"]
+modulate = Color(1, 1, 1, 0.698039)
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("5_5jhvh")
+stretch_mode = 5
+
+[node name="BeatmapSkinsButton" type="Button" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(350, 125)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/hover = SubResource("StyleBoxFlat_w4qk4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0wpn5")
+theme_override_styles/normal = SubResource("StyleBoxFlat_hbgq3")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BeatmapSkinsButton"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 27.0
+offset_right = 320.0
+offset_bottom = 92.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BeatmapSkinsButton/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="BeatmapSkinsButton/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "View beatmap skins"
+label_settings = ExtResource("3_08a4k")
+
+[node name="Description" type="Label" parent="BeatmapSkinsButton/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Export hitsounds and other skin elements
+from your beatmaps"
+label_settings = ExtResource("4_7a57c")
+
+[node name="TextureRect" type="TextureRect" parent="BeatmapSkinsButton/HBoxContainer"]
 modulate = Color(1, 1, 1, 0.698039)
 layout_mode = 2
 size_flags_horizontal = 10

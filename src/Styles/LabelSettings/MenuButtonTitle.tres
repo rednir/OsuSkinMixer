@@ -1,8 +1,8 @@
 [gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://cunaagboquiic"]
 
-[ext_resource type="FontFile" uid="uid://3l483cto1kln" path="res://assets/Aller_Regular.ttf" id="1_0kad5"]
+[ext_resource type="FontFile" uid="uid://c8osm4s3bama7" path="res://assets/Aller_Bold.ttf" id="1_dvhim"]
 
 [resource]
-font = ExtResource("1_0kad5")
+font = ExtResource("1_dvhim")
 font_size = 18
-font_color = Color(1, 1, 1, 0.843137)
+font_color = Color(1, 1, 1, 0.729412)
