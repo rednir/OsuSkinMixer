@@ -11,6 +11,8 @@ public partial class ExpandablePanelContainer : PanelContainer
 
 	private bool Active;
 
+	public Action<bool> ExpandChanged;
+
 	public override void _Ready()
 	{
 		AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
@@ -20,8 +22,7 @@ public partial class ExpandablePanelContainer : PanelContainer
 		MoreIconTexture = GD.Load<Texture2D>("res://assets/materialicons/expand_more.png");
 		LessIconTexture = GD.Load<Texture2D>("res://assets/materialicons/expand_less.png");
 		ExpandButton.Icon = ContentContainer.Visible ? LessIconTexture : MoreIconTexture;
-
-		ExpandButton.Pressed += ExpandButtonPressed;
+		ExpandButton.Pressed += OnExpandButtonPressed;
 
 		VisibilityChanged += () => CallDeferred(MethodName.OnVisiblilityChanged);
 	}
@@ -59,9 +60,10 @@ public partial class ExpandablePanelContainer : PanelContainer
 		}
 	}
 
-	private void ExpandButtonPressed()
+	private void OnExpandButtonPressed()
 	{
 		ContentContainer.Visible = !ContentContainer.Visible;
 		ExpandButton.Icon = ContentContainer.Visible ? LessIconTexture : MoreIconTexture;
+		ExpandChanged?.Invoke(ContentContainer.Visible);
 	}
 }

@@ -9,16 +9,13 @@ public partial class SkinModifierModificationSelect : StackScene
 {
     public override string Title => SkinsToModify.Count == 1 ? $"Modifying: {SkinsToModify[0].Name}" : $"Modifying {SkinsToModify.Count} skins";
 
-    private PackedScene SkinInfoScene;
-    private PackedScene ComboColourContainerScene;
-    private PackedScene CursorColourContainerScene;
 
     private CancellationTokenSource CancellationTokenSource;
 
     public List<OsuSkin> SkinsToModify { get; set; }
 
-    private ComboColoursContainer[] ComboColoursContainers;
-    private CursorColourContainer[] CursorColourContainers;
+    private ComboColoursContainer[] ComboColoursContainers = [];
+    private CursorColourContainer[] CursorColourContainers = [];
 
     private SkinOptionsSelector SkinOptionsSelector;
     private ExpandablePanelContainer ComboColourContainer;
@@ -38,10 +35,6 @@ public partial class SkinModifierModificationSelect : StackScene
 
     public override void _Ready()
     {
-        SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
-        ComboColourContainerScene = GD.Load<PackedScene>("res://src/Components/Osu/ComboColoursContainer.tscn");
-        CursorColourContainerScene = GD.Load<PackedScene>("res://src/Components/Osu/CursorColourContainer.tscn");
-
         SkinOptionsSelector = GetNode<SkinOptionsSelector>("%SkinOptionsSelector");
         ComboColourContainer = GetNode<ExpandablePanelContainer>("%ComboColourContainer");
         CursorColourContainer = GetNode<ExpandablePanelContainer>("%CursorColourContainer");
@@ -59,6 +52,8 @@ public partial class SkinModifierModificationSelect : StackScene
         LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
 
         SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.Unchanged));
+        ComboColourContainer.ExpandChanged += _ => InitialiseComboColourContainers();
+        CursorColourContainer.ExpandChanged += _ => InitialiseCursorColourContainers();
         DefaultSkinComponent.LeftClicked += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.DefaultSkin));
         BlankComponent.LeftClicked += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.Blank));
         ApplyChangesButton.Pressed += OnApplyChangesButtonPressed;
@@ -69,8 +64,6 @@ public partial class SkinModifierModificationSelect : StackScene
         DisableAnimationsCheckBox.Pressed += OnExperimentalOptionsStateChanged;
 
         OsuData.SkinRemoved += OnSkinRemoved;
-
-        InitialiseColourOverrideContainers();
     }
 
     public override void _ExitTree()
@@ -78,27 +71,41 @@ public partial class SkinModifierModificationSelect : StackScene
         OsuData.SkinRemoved -= OnSkinRemoved;
     }
 
-    private void InitialiseColourOverrideContainers()
+    private void InitialiseComboColourContainers()
     {
+        if (ComboColoursContainers.Length > 0)
+            return;
+
         List<ComboColoursContainer> comboColourContainers = [];
-        List<CursorColourContainer> cursorColourContainers = [];
 
         foreach (var skin in SkinsToModify)
         {
-            var comboColoursContainer = ComboColourContainerScene.Instantiate<ComboColoursContainer>();
+            var comboColoursContainer = GD.Load<PackedScene>("res://src/Components/Osu/ComboColoursContainer.tscn").Instantiate<ComboColoursContainer>();
             comboColoursContainer.Skin = skin;
             ComboColoursContainerCollection.AddChild(comboColoursContainer);
             comboColourContainers.Add(comboColoursContainer);
             comboColoursContainer.OverrideStateChanged += OnComboColourOverrideStateChanged;
+        }
 
-            var cursorColourContainer = CursorColourContainerScene.Instantiate<CursorColourContainer>();
+        ComboColoursContainers = [.. comboColourContainers];
+    }
+
+    private void InitialiseCursorColourContainers()
+    {
+        if (CursorColourContainers.Length > 0)
+            return;
+
+        List<CursorColourContainer> cursorColourContainers = [];
+
+        foreach (var skin in SkinsToModify)
+        {
+            var cursorColourContainer = GD.Load<PackedScene>("res://src/Components/Osu/CursorColourContainer.tscn").Instantiate<CursorColourContainer>();
             cursorColourContainer.Skin = skin;
             CursorColourContainerCollection.AddChild(cursorColourContainer);
             cursorColourContainers.Add(cursorColourContainer);
             cursorColourContainer.OverrideStateChanged += OnCursorColourOverrideStateChanged;
         }
 
-        ComboColoursContainers = [.. comboColourContainers];
         CursorColourContainers = [.. cursorColourContainers];
     }
 
@@ -203,7 +210,7 @@ public partial class SkinModifierModificationSelect : StackScene
                 foreach (var container in ComboColoursContainers)
                     container.CallDeferred(nameof(container.Reset));
 
-                var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
+                var skinInfoInstance = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn").Instantiate<SkinInfo>();
                 skinInfoInstance.Skins = SkinsToModify;
                 EmitSignal(SignalName.ScenePushed, skinInfoInstance);
                 
