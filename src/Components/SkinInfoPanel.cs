@@ -1,6 +1,7 @@
 namespace OsuSkinMixer.Components;
 
 using System.IO;
+using System.Text;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
 
@@ -179,8 +180,10 @@ public partial class SkinInfoPanel : PanelContainer
             float creditPercentage = (float)credit.Value.Count / Skin.ElementCount * 100;
 
             SkinComponent creditComponent = SkinComponentSkinCreditsScene.Instantiate<SkinComponent>();
+            creditComponent.CreditsElements = credit.Value.ToArray();
             creditComponent.CreditPercentage = (int)creditPercentage;
             creditComponent.RightClicked += () => OnCreditRightClicked(creditComponent);
+            creditComponent.LeftClicked += () => OnCreditLeftClicked(creditComponent);
             creditComponent.Skin = OsuData.Skins.FirstOrDefault(s => s.Name == credit.Key.SkinName)
                 ?? new OsuSkin(credit.Key.SkinName, credit.Key.SkinAuthor);
 
@@ -207,6 +210,16 @@ public partial class SkinInfoPanel : PanelContainer
         // Haven't configured the skin credit to update on skin deleted, so be just disable deleting from here I guess. Although jank can still happen potentially.
         ManageSkinPopup.Options = ManageSkinOptions.All & ~ManageSkinOptions.Delete;
         ManageSkinPopup.In();
+    }
+
+    private void OnCreditLeftClicked(SkinComponent creditComponent)
+    {
+        StringBuilder sb = new();
+        foreach (var element in creditComponent.CreditsElements)
+            sb.AppendLine($"• {element.Filename}");
+
+        GetNode<OkPopup>("%SkinCreditsPopup").In();
+        GetNode<Label>("%CreditedElementsLabel").Text = sb.ToString();
     }
 
     private void OnModifyButtonPressed()

@@ -1,6 +1,7 @@
 namespace OsuSkinMixer.Components;
 
 using OsuSkinMixer.Models;
+using OsuSkinMixer.src.Models.Osu;
 using OsuSkinMixer.Statics;
 
 public partial class SkinComponent : HBoxContainer
@@ -43,6 +44,9 @@ public partial class SkinComponent : HBoxContainer
             SetCreditPercentageLabelText();
         }
     }
+
+    // TODO: move this to a subclass (and all the other credits stuff)    
+    public OsuSkinCreditsElement[] CreditsElements { get; set; }
 
     private int _creditPercentage;
 
