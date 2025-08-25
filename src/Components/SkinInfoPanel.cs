@@ -1,5 +1,6 @@
 namespace OsuSkinMixer.Components;
 
+using System.IO;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
 
@@ -132,7 +133,7 @@ public partial class SkinInfoPanel : PanelContainer
     }
 
     private void OnOpenInOsuButtonPressed()
-    {        
+    {
         MenuHitPlayer.Play();
 
         try
@@ -156,18 +157,26 @@ public partial class SkinInfoPanel : PanelContainer
         ViewMorePadding.Visible = !ViewMorePadding.Visible;
 
         if (!_isSkinCreditsInitialised)
-        {
-            foreach (var credit in Skin.Credits.GetKeyValuePairs())
-            {
-                SkinComponent creditComponent = SkinComponentSkinCreditsScene.Instantiate<SkinComponent>();
-                creditComponent.RightClicked += () => OnCreditRightClicked(creditComponent);
-                creditComponent.Skin = OsuData.Skins.FirstOrDefault(s => s.Name == credit.Key.SkinName)
-                    ?? new OsuSkin(credit.Key.SkinName, credit.Key.SkinAuthor);
-                SkinCreditsContainer.AddChild(creditComponent);
-            }
+            InitialiseCreditsContainer();
+    }
 
-            _isSkinCreditsInitialised = true;
+    private void InitialiseCreditsContainer()
+    {
+        foreach (var credit in Skin.Credits.GetKeyValuePairs())
+        {
+            // TODO: get element count from skin machine.
+            float creditPercentage = (float)credit.Value.Count / Skin.Directory.GetFiles("*.png", SearchOption.AllDirectories).Length * 100;
+
+            SkinComponent creditComponent = SkinComponentSkinCreditsScene.Instantiate<SkinComponent>();
+            creditComponent.RightClicked += () => OnCreditRightClicked(creditComponent);
+            creditComponent.Skin = OsuData.Skins.FirstOrDefault(s => s.Name == credit.Key.SkinName)
+                ?? new OsuSkin(credit.Key.SkinName, credit.Key.SkinAuthor);
+
+            SkinCreditsContainer.AddChild(creditComponent);
+            creditComponent.CreditPercentage = (int)creditPercentage;
         }
+
+        _isSkinCreditsInitialised = true;
     }
 
     private void OnCreditRightClicked(SkinComponent creditComponent)

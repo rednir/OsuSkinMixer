@@ -18,7 +18,7 @@ public partial class SkinComponent : HBoxContainer
         get => CheckBox?.ButtonPressed ?? false;
         set
         {
-            if (CheckBox != null)
+            if (CheckBox is not null)
                 CheckBox.ButtonPressed = value;
         }
     }
@@ -29,8 +29,17 @@ public partial class SkinComponent : HBoxContainer
         set
         {
             visibleCheckBox = value;
-            if (CheckBox != null)
+            if (CheckBox is not null)
                 CheckBox.Visible = value;
+        }
+    }
+
+    public int CreditPercentage
+    {
+        set
+        {
+            if (CreditPercentageLabel is not null)
+                CreditPercentageLabel.Text = value < 1 ? "<1%" : $"{value}%";
         }
     }
 
@@ -42,6 +51,7 @@ public partial class SkinComponent : HBoxContainer
     private HitcircleIcon HitcircleIcon;
     private CheckBox CheckBox;
     private TextureRect HiddenIcon;
+    private Label CreditPercentageLabel;
 
     public override void _Ready()
     {
@@ -51,6 +61,7 @@ public partial class SkinComponent : HBoxContainer
         HitcircleIcon = GetNodeOrNull<HitcircleIcon>("%HitcircleIcon");
         CheckBox = GetNodeOrNull<CheckBox>("%CheckBox");
         HiddenIcon = GetNodeOrNull<TextureRect>("%HiddenIcon");
+        CreditPercentageLabel = GetNodeOrNull<Label>("%CreditPercentage");
 
         Button.Pressed += OnButtonPressed;
         Button.GuiInput += OnGuiInput;
