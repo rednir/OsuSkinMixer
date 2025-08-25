@@ -90,11 +90,12 @@ public partial class SkinInfoPanel : PanelContainer
         LastModifiedLabel.Text = $"Last modified: {(DateTime.Now - Skin.Directory.LastWriteTime).Humanise()}";
         OpenInOsuButton.Disabled = Skin.Hidden;
         MenuHitPlayer.Stream = Skin.GetAudioStream("menuhit");
+        InitialiseCreditsContainer();
     }
 
     private void OnSkinAdded(OsuSkin skin)
     {
-        if (skin != Skin)
+        if (skin != Skin && skin.Credits.GetKeyValuePairs().Any(c => c.Key.SkinName == Skin.Name))
             return;
 
         MainContentContainer.Visible = true;
@@ -104,7 +105,7 @@ public partial class SkinInfoPanel : PanelContainer
 
     private void OnSkinModified(OsuSkin skin)
     {
-        if (skin != Skin)
+        if (skin != Skin && skin.Credits.GetKeyValuePairs().Any(c => c.Key.SkinName == Skin.Name))
             return;
 
         CallDeferred(MethodName.SetValues);
@@ -112,7 +113,7 @@ public partial class SkinInfoPanel : PanelContainer
 
     private void OnSkinRemoved(OsuSkin skin)
     {
-        if (skin != Skin)
+        if (skin != Skin && skin.Credits.GetKeyValuePairs().Any(c => c.Key.SkinName == Skin.Name))
             return;
 
         MainContentContainer.Visible = false;
@@ -171,6 +172,12 @@ public partial class SkinInfoPanel : PanelContainer
 
     private void InitialiseCreditsContainer()
     {
+        if (!ViewMorePadding.Visible)
+            return;
+
+        foreach (Node child in SkinCreditsContainer.GetChildren())
+            child.QueueFree();
+
         List<SkinComponent> creditComponents = [];
 
         bool hasCredits = false;
@@ -207,8 +214,7 @@ public partial class SkinInfoPanel : PanelContainer
     private void OnCreditRightClicked(SkinComponent creditComponent)
     {
         ManageSkinPopup.SetSkin(creditComponent.Skin);
-        // Haven't configured the skin credit to update on skin deleted, so be just disable deleting from here I guess. Although jank can still happen potentially.
-        ManageSkinPopup.Options = ManageSkinOptions.All & ~ManageSkinOptions.Delete;
+        ManageSkinPopup.Options = ManageSkinOptions.All;
         ManageSkinPopup.In();
     }
 
