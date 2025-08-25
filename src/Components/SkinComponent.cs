@@ -36,12 +36,15 @@ public partial class SkinComponent : HBoxContainer
 
     public int CreditPercentage
     {
+        get => _creditPercentage;
         set
         {
-            if (CreditPercentageLabel is not null)
-                CreditPercentageLabel.Text = value < 1 ? "<1%" : $"{value}%";
+            _creditPercentage = value;
+            SetCreditPercentageLabelText();
         }
     }
+
+    private int _creditPercentage;
 
     private bool visibleCheckBox;
 
@@ -78,6 +81,7 @@ public partial class SkinComponent : HBoxContainer
         NameLabel.SetDeferred(Label.PropertyName.Text, Skin.Name);
         Button.SetDeferred(Button.PropertyName.TooltipText, $"{Skin.Name}\nRight click for options...");
         CheckBox.SetDeferred(CheckBox.PropertyName.Visible, CheckBoxVisible);
+        SetCreditPercentageLabelText();
 
         // Compact components don't have these nodes.
         if (AuthorLabel != null && HitcircleIcon != null)
@@ -128,5 +132,11 @@ public partial class SkinComponent : HBoxContainer
     private void OnCheckBoxToggled(bool value)
     {
         Checked?.Invoke(value);
+    }
+
+    private void SetCreditPercentageLabelText()
+    {
+        if (CreditPercentageLabel is not null)
+            CreditPercentageLabel.SetDeferred(Label.PropertyName.Text, CreditPercentage < 1 ? "<1%" : $"{CreditPercentage}%");
     }
 }

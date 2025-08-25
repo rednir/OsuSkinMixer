@@ -162,18 +162,23 @@ public partial class SkinInfoPanel : PanelContainer
 
     private void InitialiseCreditsContainer()
     {
+        List<SkinComponent> creditComponents = [];
+
         foreach (var credit in Skin.Credits.GetKeyValuePairs())
         {
             float creditPercentage = (float)credit.Value.Count / Skin.ElementCount * 100;
 
             SkinComponent creditComponent = SkinComponentSkinCreditsScene.Instantiate<SkinComponent>();
+            creditComponent.CreditPercentage = (int)creditPercentage;
             creditComponent.RightClicked += () => OnCreditRightClicked(creditComponent);
             creditComponent.Skin = OsuData.Skins.FirstOrDefault(s => s.Name == credit.Key.SkinName)
                 ?? new OsuSkin(credit.Key.SkinName, credit.Key.SkinAuthor);
 
-            SkinCreditsContainer.AddChild(creditComponent);
-            creditComponent.CreditPercentage = (int)creditPercentage;
+            creditComponents.Add(creditComponent);
         }
+
+        foreach (SkinComponent component in creditComponents.OrderByDescending(c => c.CreditPercentage).ThenBy(c => c.Skin.Name))
+            SkinCreditsContainer.AddChild(component);
 
         _isSkinCreditsInitialised = true;
     }

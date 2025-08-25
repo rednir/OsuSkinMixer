@@ -262,6 +262,8 @@ public partial class ManageSkinPopup : Popup
     private static OsuSkin DuplicateSingleSkin(OsuSkin skin, string newSkinName)
     {
         OsuSkin newSkin = new(skin.Directory.CopyDirectory(Path.Combine(Settings.SkinsFolderPath, newSkinName), true));
+
+
         OsuData.AddSkin(newSkin);
         return newSkin;
     }
