@@ -86,10 +86,13 @@ public partial class SkinMixer : StackScene
             }
         )
         .RunOperation()
-        .ContinueWith(_ =>
+        .ContinueWith(async _ =>
         {
-            LoadingPopup.Out();
             SkinNamePopup.Out();
+
+            // Wait an arbitrary-ish amount of time to close the loading popup, to hide stutters from loading the next scene.
+            await Task.Delay(250);
+            LoadingPopup.Out();
         });
     }
 

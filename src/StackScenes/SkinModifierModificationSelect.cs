@@ -181,10 +181,9 @@ public partial class SkinModifierModificationSelect : StackScene
         };
 
         Task.Run(() => machine.Run(CancellationTokenSource.Token))
-            .ContinueWith(t =>
+            .ContinueWith(async t =>
             {
                 GodotThread.SetThreadSafetyChecksEnabled(false);
-                LoadingPopup.Out();
 
                 var ex = t.Exception;
                 if (ex != null)
@@ -200,13 +199,17 @@ public partial class SkinModifierModificationSelect : StackScene
                 InstafadeCheckBox.ButtonPressed = false;
                 SmoothTrailCheckBox.ButtonPressed = false;
                 DisableAnimationsCheckBox.ButtonPressed = false;
-                
+
                 foreach (var container in ComboColoursContainers)
                     container.CallDeferred(nameof(container.Reset));
 
                 var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
                 skinInfoInstance.Skins = SkinsToModify;
                 EmitSignal(SignalName.ScenePushed, skinInfoInstance);
+                
+                // Wait an arbitrary-ish amount of time to close the loading popup, to hide stutters from loading the next scene.
+                await Task.Delay(250);
+                LoadingPopup.Out();
             });
     }
 

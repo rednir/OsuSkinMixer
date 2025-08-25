@@ -8,14 +8,14 @@ public partial class LoadingPopup : Popup
 
     public double DisableCancelAt { get; set; } = 100;
 
-    public double Progress
+    public double? Progress
     {
         get => ProgressBar.Value;
         set
         {
-            CancelButton.SetDeferred(Button.PropertyName.Disabled, value >= DisableCancelAt);
+            CancelButton.SetDeferred(Button.PropertyName.Disabled, value is null || value >= DisableCancelAt);
 
-            if (value <= 0 || value >= 100)
+            if (value is null || value <= 0 || value >= 100)
             {
                 if (value >= 100 && !LoadingAnimationPlayer.IsPlaying())
                     LoadingAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "finish");
@@ -28,7 +28,7 @@ public partial class LoadingPopup : Popup
                 LoadingAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Stop);
             }
 
-            ProgressBar.SetDeferred(ProgressBar.PropertyName.Value, value);
+            ProgressBar.SetDeferred(ProgressBar.PropertyName.Value, value.Value);
         }
     }
 

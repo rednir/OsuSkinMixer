@@ -42,11 +42,11 @@ public abstract class SkinMachine : IDisposable
             else
                 _progress = value;
 
-            ProgressChanged?.Invoke(_progress ?? 0);
+            ProgressChanged?.Invoke(_progress);
         }
     }
 
-    public Action<double> ProgressChanged { get; set; }
+    public Action<double?> ProgressChanged { get; set; }
 
     public Action<string> StatusChanged { get; set; }
 
