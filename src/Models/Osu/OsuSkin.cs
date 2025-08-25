@@ -53,15 +53,28 @@ public class OsuSkin
 
     private OsuSkinCredits _credits;
 
-    public OsuSkinCredits Credits 
-    { 
-        get 
-        { 
+    public OsuSkinCredits Credits
+    {
+        get
+        {
             if (_credits is null)
                 LoadCreditsFile();
 
-            return _credits; 
-        } 
+            return _credits;
+        }
+    }
+
+    public int ElementCount
+    {
+        get
+        {
+            if (Directory is null)
+                return 0;
+
+            string[] extensions = [".png", ".jpg", ".wav", ".ogg"];
+            return Directory.EnumerateFiles("*", SearchOption.AllDirectories)
+                .Count(f => extensions.Any(ext => f.Extension.Equals(ext, StringComparison.OrdinalIgnoreCase)));
+        }
     }
 
     public bool Hidden { get; set; }
@@ -209,7 +222,7 @@ public class OsuSkin
 
             spriteFrames.AddAnimation(filename);
 
-            for (int i = 0;; i++)
+            for (int i = 0; ; i++)
             {
                 if (File.Exists($"{pathPrefix}-{i}@2x.png") || File.Exists($"{pathPrefix}-{i}.png"))
                 {

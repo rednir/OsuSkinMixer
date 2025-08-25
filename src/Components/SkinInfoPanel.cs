@@ -164,8 +164,7 @@ public partial class SkinInfoPanel : PanelContainer
     {
         foreach (var credit in Skin.Credits.GetKeyValuePairs())
         {
-            // TODO: get element count from skin machine.
-            float creditPercentage = (float)credit.Value.Count / Skin.Directory.GetFiles("*.png", SearchOption.AllDirectories).Length * 100;
+            float creditPercentage = (float)credit.Value.Count / Skin.ElementCount * 100;
 
             SkinComponent creditComponent = SkinComponentSkinCreditsScene.Instantiate<SkinComponent>();
             creditComponent.RightClicked += () => OnCreditRightClicked(creditComponent);
