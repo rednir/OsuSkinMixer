@@ -56,7 +56,8 @@ public partial class Hitcircle : Node2D
         HitSoundPlayer.SetDeferred(AudioStreamPlayer.PropertyName.Stream, skin.GetAudioStream("normal-hitnormal"));
         ComboBreakPlayer.SetDeferred(AudioStreamPlayer.PropertyName.Stream, skin.GetAudioStream("combobreak"));
 
-        HitJudgementSprite.SetDeferred(AnimatedSprite2D.PropertyName.SpriteFrames, skin.GetSpriteFrames("hit0", "hit50", "hit100", "hit300"));
+        // We'll add animations as we need them.
+        HitJudgementSprite.SpriteFrames = new SpriteFrames();
 
         // Scale textures based on whether they are @2x or not.
         if (skin.TryGet2XTexture("approachcircle", out var approachcircle) &&
@@ -132,11 +133,16 @@ public partial class Hitcircle : Node2D
             CircleAnimationPlayer.Play("hit");
         }
 
+        string hitJudgementAnimationName = $"hit{score}";
+
+        if (!HitJudgementSprite.SpriteFrames.HasAnimation(hitJudgementAnimationName))
+            _skin.AddSpriteFramesAnimation(HitJudgementSprite.SpriteFrames, hitJudgementAnimationName);
+
         // Only play the falling effect is there is not a miss animation in the skin.
         HitJudgementAnimationPlayer.Play(
-            score == "0" && HitJudgementSprite.SpriteFrames.GetFrameCount($"hit{score}") <= 1 ? "show_miss" : "show");
+            score == "0" && HitJudgementSprite.SpriteFrames.GetFrameCount(hitJudgementAnimationName) <= 1 ? "show_miss" : "show");
 
-        HitJudgementSprite.Play($"hit{score}");
+        HitJudgementSprite.Play(hitJudgementAnimationName);
         EmitSignal(SignalName.CircleHit, score);
     }
 

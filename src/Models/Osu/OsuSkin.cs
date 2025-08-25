@@ -209,43 +209,36 @@ public class OsuSkin
         return texture;
     }
 
-    public SpriteFrames GetSpriteFrames(params string[] filenames)
+    public void AddSpriteFramesAnimation(SpriteFrames spriteFrames, string filename)
     {
-        SpriteFrames spriteFrames = new();
-
         if (!int.TryParse(SkinIni?.TryGetPropertyValue("General", "AnimationFramerate"), out int fps))
             fps = -1;
 
-        foreach (string filename in filenames)
+        string pathPrefix = $"{Directory.FullName}/{filename}";
+
+        spriteFrames.AddAnimation(filename);
+
+        for (int i = 0; ; i++)
         {
-            string pathPrefix = $"{Directory.FullName}/{filename}";
-
-            spriteFrames.AddAnimation(filename);
-
-            for (int i = 0; ; i++)
+            if (File.Exists($"{pathPrefix}-{i}@2x.png") || File.Exists($"{pathPrefix}-{i}.png"))
             {
-                if (File.Exists($"{pathPrefix}-{i}@2x.png") || File.Exists($"{pathPrefix}-{i}.png"))
-                {
-                    TryGet2XTexture($"{filename}-{i}", out var texture);
-                    spriteFrames.AddFrame(filename, texture);
-                    continue;
-                }
-
-                break;
-            }
-
-            // AnimationFramerate of the default value -1 makes osu! play all the frames in 1 second.
-            spriteFrames.SetAnimationSpeed(filename, fps != -1 ? fps : spriteFrames.GetFrameCount(filename));
-            spriteFrames.SetAnimationLoop(filename, false);
-
-            if (spriteFrames.GetFrameCount(filename) == 0)
-            {
-                TryGet2XTexture(filename, out var texture);
+                TryGet2XTexture($"{filename}-{i}", out var texture);
                 spriteFrames.AddFrame(filename, texture);
+                continue;
             }
+
+            break;
         }
 
-        return spriteFrames;
+        // AnimationFramerate of the default value -1 makes osu! play all the frames in 1 second.
+        spriteFrames.SetAnimationSpeed(filename, fps != -1 ? fps : spriteFrames.GetFrameCount(filename));
+        spriteFrames.SetAnimationLoop(filename, false);
+
+        if (spriteFrames.GetFrameCount(filename) == 0)
+        {
+            TryGet2XTexture(filename, out var texture);
+            spriteFrames.AddFrame(filename, texture);
+        }
     }
 
     public AudioStream GetAudioStream(string filename)
