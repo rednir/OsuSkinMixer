@@ -98,8 +98,12 @@ public partial class SkinInfoPanel : PanelContainer
         if (skin != Skin && skin.Credits.GetKeyValuePairs().Any(c => c.Key.SkinName == Skin.Name))
             return;
 
-        MainContentContainer.Visible = true;
-        DeletedContainer.Visible = false;
+        if (skin == Skin)
+        {
+            MainContentContainer.Visible = true;
+            DeletedContainer.Visible = false;
+        }
+
         CallDeferred(MethodName.SetValues);
     }
 
@@ -113,8 +117,13 @@ public partial class SkinInfoPanel : PanelContainer
 
     private void OnSkinRemoved(OsuSkin skin)
     {
-        if (skin != Skin && skin.Credits.GetKeyValuePairs().Any(c => c.Key.SkinName == Skin.Name))
+        if (skin != Skin)
+        {
+            if (Skin.Credits.GetKeyValuePairs().Any(c => c.Key.SkinName == skin.Name))
+                CallDeferred(MethodName.SetValues);
+
             return;
+        }
 
         MainContentContainer.Visible = false;
         DeletedContainer.Visible = true;
