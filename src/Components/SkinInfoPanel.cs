@@ -27,10 +27,12 @@ public partial class SkinInfoPanel : PanelContainer
     private ManageSkinPopup ManageSkinPopup;
 
     private Action _undoAction;
-
     private bool _isSkinCreditsInitialised;
 
     private PackedScene SkinComponentSkinCreditsScene = GD.Load<PackedScene>("res://src/Components/SkinComponentSkinCredits.tscn");
+
+    private Texture2D ExpandMoreIcon;
+    private Texture2D ExpandLessIcon;
 
     public override void _Ready()
     {
@@ -51,6 +53,9 @@ public partial class SkinInfoPanel : PanelContainer
         SkinCreditsContainer = GetNode<VBoxContainer>("%SkinCreditsContainer");
         MenuHitPlayer = GetNode<AudioStreamPlayer>("%MenuHitPlayer");
         ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
+
+        ExpandMoreIcon = GD.Load<Texture2D>("res://assets/materialicons/expand_more.png");
+        ExpandLessIcon = GD.Load<Texture2D>("res://assets/materialicons/expand_less.png");
 
         UndoDeleteButton.Pressed += OnUndoDeleteButtonPressed;
         MoreButton.Pressed += OnMoreButtonPressed;
@@ -155,6 +160,7 @@ public partial class SkinInfoPanel : PanelContainer
     private void OnViewMoreButtonPressed()
     {
         ViewMorePadding.Visible = !ViewMorePadding.Visible;
+        ViewMoreButton.Icon = ViewMorePadding.Visible ? ExpandLessIcon : ExpandMoreIcon;
 
         if (!_isSkinCreditsInitialised)
             InitialiseCreditsContainer();
