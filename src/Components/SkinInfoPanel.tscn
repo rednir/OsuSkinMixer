@@ -198,14 +198,6 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_g0do8")
 [node name="VBoxContainer" type="VBoxContainer" parent="MainContentContainer/ViewMorePadding"]
 layout_mode = 2
 
-[node name="LastModifiedLabel" type="Label" parent="MainContentContainer/ViewMorePadding/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.792157, 0.768627, 0.815686, 1)
-theme_override_font_sizes/font_size = 14
-text = "Last modified: 1st January 2023"
-text_overrun_behavior = 3
-
 [node name="CreditsContainer" type="PanelContainer" parent="MainContentContainer/ViewMorePadding/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mfgp0")
@@ -213,7 +205,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_mfgp0")
 [node name="VBoxContainer" type="VBoxContainer" parent="MainContentContainer/ViewMorePadding/VBoxContainer/CreditsContainer"]
 layout_mode = 2
 
-[node name="SkinsCreditedLabel" type="Label" parent="MainContentContainer/ViewMorePadding/VBoxContainer/CreditsContainer/VBoxContainer"]
+[node name="SkinCreditsLabel" type="Label" parent="MainContentContainer/ViewMorePadding/VBoxContainer/CreditsContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Skins credited:"
 label_settings = SubResource("LabelSettings_owtx3")
@@ -222,6 +215,14 @@ label_settings = SubResource("LabelSettings_owtx3")
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
+
+[node name="LastModifiedLabel" type="Label" parent="MainContentContainer/ViewMorePadding/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.792157, 0.768627, 0.815686, 1)
+theme_override_font_sizes/font_size = 14
+text = "Last modified: 1st January 2023"
+text_overrun_behavior = 3
 
 [node name="ViewMoreButton" type="Button" parent="MainContentContainer"]
 unique_name_in_owner = true

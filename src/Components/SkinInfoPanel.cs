@@ -22,6 +22,7 @@ public partial class SkinInfoPanel : PanelContainer
     private Button OpenInOsuButton;
     private Button ViewMoreButton;
     private PanelContainer ViewMorePadding;
+    private Label SkinCreditsLabel;
     private VBoxContainer SkinCreditsContainer;
     private AudioStreamPlayer MenuHitPlayer;
     private ManageSkinPopup ManageSkinPopup;
@@ -50,6 +51,7 @@ public partial class SkinInfoPanel : PanelContainer
         OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
         ViewMoreButton = GetNode<Button>("%ViewMoreButton");
         ViewMorePadding = GetNode<PanelContainer>("%ViewMorePadding");
+        SkinCreditsLabel = GetNode<Label>("%SkinCreditsLabel");
         SkinCreditsContainer = GetNode<VBoxContainer>("%SkinCreditsContainer");
         MenuHitPlayer = GetNode<AudioStreamPlayer>("%MenuHitPlayer");
         ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
@@ -170,6 +172,8 @@ public partial class SkinInfoPanel : PanelContainer
     {
         List<SkinComponent> creditComponents = [];
 
+        bool hasCredits = false;
+
         foreach (var credit in Skin.Credits.GetKeyValuePairs())
         {
             float creditPercentage = (float)credit.Value.Count / Skin.ElementCount * 100;
@@ -181,6 +185,14 @@ public partial class SkinInfoPanel : PanelContainer
                 ?? new OsuSkin(credit.Key.SkinName, credit.Key.SkinAuthor);
 
             creditComponents.Add(creditComponent);
+            hasCredits = true;
+        }
+
+        if (!hasCredits)
+        {
+            SkinCreditsLabel.Text = "No credited skins.";
+            SkinCreditsContainer.Visible = false;
+            return;
         }
 
         foreach (SkinComponent component in creditComponents.OrderByDescending(c => c.CreditPercentage).ThenBy(c => c.Skin.Name))
