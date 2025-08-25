@@ -123,7 +123,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_oo7jk")
 
 [node name="HeaderContainer" type="HBoxContainer" parent="MainContentContainer/TopPadding"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 10
 
 [node name="HitcircleIcon" parent="MainContentContainer/TopPadding/HeaderContainer" instance=ExtResource("3_n2mwj")]
 unique_name_in_owner = true
