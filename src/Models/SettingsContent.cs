@@ -22,6 +22,9 @@ public static partial class Settings
         [JsonPropertyName("use_compact_skin_selector")]
         public bool UseCompactSkinSelector { get; set; }
 
+        [JsonPropertyName("notify_on_skin_folder_change")]
+        public bool NotifyOnSkinFolderChange { get; set; }
+
         [JsonPropertyName("volume")]
         public double Volume { get; set; } = -8;
 

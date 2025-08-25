@@ -93,9 +93,9 @@ public partial class Main : Control
         };
 
         OsuData.AllSkinsLoaded += PopAllScenes;
-        OsuData.SkinAdded += s => Toast.Push($"Skin was created:\n{s.Name}");
-        OsuData.SkinModified += s => Toast.Push($"Skin was modified:\n{s.Name}");
-        OsuData.SkinRemoved += s => Toast.Push($"Skin was deleted:\n{s.Name}");
+        OsuData.SkinAdded += s => PushSkinFolderChangeToast($"Skin was created:\n{s.Name}");
+        OsuData.SkinModified += s => PushSkinFolderChangeToast($"Skin was modified:\n{s.Name}");
+        OsuData.SkinRemoved += s => PushSkinFolderChangeToast($"Skin was deleted:\n{s.Name}");
         OsuData.SkinInfoRequested += s => SkinInfoRequestedSkins = s;
         OsuData.SkinModifyRequested += s => SkinModifyRequestedSkins = s;
 
@@ -255,6 +255,14 @@ public partial class Main : Control
 
         BackButton.Disabled = SceneStack.Count <= 1;
         TitleLabel.Text = SceneStack.Peek()?.Title ?? "osu! skin mixer";
+    }
+
+    private void PushSkinFolderChangeToast(string message)
+    {
+        if (!Settings.Content.NotifyOnSkinFolderChange)
+            return;
+
+        Toast.Push(message);
     }
 
     private void ClearTrash()
