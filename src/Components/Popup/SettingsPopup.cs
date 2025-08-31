@@ -43,7 +43,7 @@ public partial class SettingsPopup : Popup
         AutoUpdateButton.ButtonPressed = Settings.Content.AutoUpdate;
         UseCompactSkinSelectorButton.ButtonPressed = Settings.Content.UseCompactSkinSelector;
         NotifyOnSkinFolderChangeButton.ButtonPressed = Settings.Content.NotifyOnSkinFolderChange;
-        DisableHiDpiScalingButton.ButtonPressed = !(bool)engineOverrides.GetValue("display", "window/dpi/allow_hidpi");;
+        DisableHiDpiScalingButton.ButtonPressed = !(bool)engineOverrides.GetValue("display", "window/dpi/allow_hidpi", true);
         VolumeSlider.Value = Settings.Content.Volume;
 
         UpdateButton.Pressed += UpdateButtonPressed;

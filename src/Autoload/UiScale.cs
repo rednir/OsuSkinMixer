@@ -14,6 +14,24 @@ public partial class UiScale : Node
 
     private int? _lastScreen = null;
 
+    public override void _Ready()
+    {
+        ConfigFile config = new();
+        config.Load(Settings.EngineOverridesFilePath);
+
+        bool allowHiDpi = (bool)config.GetValue("display", "window/dpi/allow_hidpi", true);
+
+        if (!allowHiDpi)
+        {
+            Window window = GetWindow();
+
+            SetProcess(false);
+            window.Size = BaseWindowSize;
+            window.MoveToCenter();
+            SaveWindowSizeOverride(BaseWindowSize);
+        }
+    }
+
     public override void _Process(double delta)
     {
         int currentScreen = DisplayServer.WindowGetCurrentScreen();
