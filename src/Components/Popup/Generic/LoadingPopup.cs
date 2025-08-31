@@ -23,7 +23,7 @@ public partial class LoadingPopup : Popup
                 LoadingAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Queue, "unknown");
                 return;
             }
-            else if (LoadingAnimationPlayer.PlaybackActive)
+            else if (LoadingAnimationPlayer.IsPlaying())
             {
                 LoadingAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Stop);
             }
