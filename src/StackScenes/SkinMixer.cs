@@ -36,7 +36,7 @@ public partial class SkinMixer : StackScene
 
         SkinNamePopup.ConfirmAction = RunSkinCreator;
 
-        SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.DefaultSkin));
+        SkinOptionsSelector.CreateOptionComponents(SkinOptionValueType.DefaultSkin);
     }
 
     private void OnCreateSkinButtonPressed()

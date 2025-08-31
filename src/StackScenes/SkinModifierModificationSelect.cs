@@ -51,7 +51,7 @@ public partial class SkinModifierModificationSelect : StackScene
         WarningLabelInstafadeColours = GetNode<Label>("%WarningLabelInstafadeColours");
         LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
 
-        SkinOptionsSelector.CreateOptionComponents(new SkinOptionValue(SkinOptionValueType.Unchanged));
+        SkinOptionsSelector.CreateOptionComponents(SkinOptionValueType.Unchanged);
         ComboColourContainer.ExpandChanged += _ => InitialiseComboColourContainers();
         CursorColourContainer.ExpandChanged += _ => InitialiseCursorColourContainers();
         DefaultSkinComponent.LeftClicked += () => SkinOptionsSelector.OptionComponentSelected(new SkinOptionValue(SkinOptionValueType.DefaultSkin));

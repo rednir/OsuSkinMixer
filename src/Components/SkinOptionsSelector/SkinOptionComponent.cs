@@ -4,54 +4,107 @@ using OsuSkinMixer.Models;
 
 public partial class SkinOptionComponent : HBoxContainer
 {
-    public TextureButton ArrowButton { get; private set; }
+    public event Action OnButtonPressed;
 
-    public TextureButton ResetButton { get; private set; }
+    public event Action OnResetButtonPressed;
 
-    public Button Button { get; private set; }
+    public event Action<bool> OnArrowButtonToggled;
 
     public SkinOptionValue DefaultValue { get; private set; }
 
     public SkinOption SkinOption { get; private set; }
 
+    public VBoxContainer ParentContainer { get; set; }
+
+    public VBoxContainer ChildrenContainer { get; set; }
+
+    private int _indentLayer;
+
     private Label Label;
     private Label SpecialTextLabel;
+    private Button Button;
+    private TextureButton ArrowButton;
+    private TextureButton ResetButton;
 
     public override void _Ready()
     {
-        ArrowButton = GetNode<TextureButton>("ArrowButton");
-        Label = GetNode<Label>("Label");
         Button = GetNode<Button>("Button");
         ResetButton = GetNode<TextureButton>("Button/ResetButton");
+        ArrowButton = GetNode<TextureButton>("ArrowButton");
+        Label = GetNode<Label>("Label");
         SpecialTextLabel = GetNode<Label>("Button/SpecialText");
-    }
 
-    public void SetSkinOption(SkinOption option, SkinOptionValue defaultValue, int indentLayer)
-    {
-        SkinOption = option;
-        ArrowButton.TooltipText = option.ToString();
-        Name = option.Name;
-        Label.Text = option.Name;
-        DefaultValue = defaultValue;
-        SetValue(defaultValue);
+        Button.Pressed += () => OnButtonPressed?.Invoke();
+        ResetButton.Pressed += () => OnResetButtonPressed?.Invoke();
+        ArrowButton.Toggled += p => OnArrowButtonToggled?.Invoke(p);
+        ArrowButton.TooltipText = SkinOption.ToString();
+        Label.Text = SkinOption.Name;
 
         // Disable button to expand option if the option has no children;
-        if (option is not ParentSkinOption)
+        if (SkinOption is not ParentSkinOption)
             ArrowButton.Disabled = true;
 
-        var indent = new Panel()
+        Panel indent = new()
         {
-            CustomMinimumSize = new Vector2(indentLayer * 30, 1),
+            CustomMinimumSize = new Vector2(_indentLayer * 30, 1),
             Modulate = new Color(0, 0, 0, 0),
         };
 
         AddChild(indent);
         MoveChild(indent, 0);
+
+        UpdateNodeValuesToOptionValue();
     }
 
-    public void SetValue(SkinOptionValue value)
+    public void SetSkinOption(SkinOption option, SkinOptionValue defaultValue, int indentLayer)
+    {
+        SkinOption = option;
+        DefaultValue = defaultValue;
+        _indentLayer = indentLayer;
+
+        Name = option.Name;
+
+        SetOptionValue(defaultValue);
+    }
+
+    public bool CreateChildrenContainer()
+    {
+        if (ChildrenContainer is null)
+        {
+            ChildrenContainer = new VBoxContainer()
+            {
+                CustomMinimumSize = new Vector2(10, 0),
+                Visible = false,
+            };
+            ChildrenContainer.AddThemeConstantOverride("separation", 8);
+            ParentContainer.AddChild(ChildrenContainer);
+            ParentContainer.MoveChild(ChildrenContainer, GetIndex() + 1);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public void FocusButton()
+    {
+        Button?.GrabFocus();
+    }
+
+    public void SetOptionValue(SkinOptionValue value)
     {
         SkinOption.Value = value;
+        UpdateNodeValuesToOptionValue();
+    }
+
+    private void UpdateNodeValuesToOptionValue()
+    {
+        SkinOptionValue value = SkinOption.Value;
+
+        // Return if we aren't in the scene tree yet (due to lazy init).
+        if (Button is null)
+            return;
+
         Button.SetDeferred(Button.PropertyName.TooltipText, string.Empty);
         Button.SetDeferred(Button.PropertyName.Text, string.Empty);
 

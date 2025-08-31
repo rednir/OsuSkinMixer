@@ -48,64 +48,129 @@ public partial class SkinOptionsSelector : PanelContainer
         OsuData.SkinRemoved -= OnSkinRemoved;
     }
 
-    public void CreateOptionComponents(SkinOptionValue defaultValue)
-    {
-        foreach (Node child in GetChildren())
-            (child as SkinOptionComponent)?.QueueFree();
+    // public void CreateOptionComponents(SkinOptionValue defaultValue)
+    // {
+    //     foreach (Node child in GetChildren())
+    //         (child as SkinOptionComponent)?.QueueFree();
 
+    //     SkinOptionComponents = new List<SkinOptionComponent>();
+
+    //     foreach (var option in SkinOptions)
+    //         addOptionComponent(option, OptionsContainer, 0);
+
+    //     void addOptionComponent(SkinOption option, VBoxContainer vbox, int layer)
+    //     {
+    //         SkinOptionComponent component = SkinOptionComponentScene.Instantiate<SkinOptionComponent>();
+    //         vbox.AddChild(component);
+
+    //         component.ResetButton.Pressed += () =>
+    //         {
+    //             Settings.Log($"Skin option '{option.Name}' reset to default: {component.DefaultValue}");
+    //             SkinOptionComponentInSelection = component;
+    //             OptionComponentSelected(defaultValue);
+    //         };
+    //         component.Button.Pressed += () =>
+    //         {
+    //             SkinOptionComponentInSelection = component;
+    //             SkinSelectorPopup.In();
+    //         };
+
+    //         component.SetSkinOption(option, defaultValue, layer);
+
+    //         if (option is ParentSkinOption parentOption)
+    //         {
+    //             var newVbox = new VBoxContainer()
+    //             {
+    //                 CustomMinimumSize = new Vector2(10, 0),
+    //                 Visible = false,
+    //             };
+    //             newVbox.AddThemeConstantOverride("separation", 8);
+
+    //             vbox.AddChild(newVbox);
+    //             vbox.MoveChild(newVbox, component.GetIndex() + 1);
+
+    //             component.ArrowButton.Toggled += p =>
+    //             {
+    //                 newVbox.Visible = p;
+
+    //                 if (!Settings.Content.ArrowButtonPressed)
+    //                 {
+    //                     ExpandHint.Visible = false;
+    //                     Settings.Content.ArrowButtonPressed = true;
+    //                     Settings.Save();
+    //                 }
+    //             };
+
+    //             foreach (var child in parentOption.Children)
+    //                 addOptionComponent(child, newVbox, layer + 1);
+    //         }
+
+    //         SkinOptionComponents.Add(component);
+    //     }
+    // }
+
+    public void CreateOptionComponents(SkinOptionValueType defaultValueType)
+    {
         SkinOptionComponents = new List<SkinOptionComponent>();
 
-        foreach (var option in SkinOptions)
-            addOptionComponent(option, OptionsContainer, 0);
+        InitialiseOptionComponents(SkinOptions, defaultValueType, 0);
+    }
 
-        void addOptionComponent(SkinOption option, VBoxContainer vbox, int layer)
+    private void InitialiseOptionComponents(IEnumerable<SkinOption> children, SkinOptionValueType defaultValueType, int layer)
+    {
+        foreach (SkinOption skinOption in children)
         {
-            SkinOptionComponent component = SkinOptionComponentScene.Instantiate<SkinOptionComponent>();
-            vbox.AddChild(component);
+            var instance = SkinOptionComponentScene.Instantiate<SkinOptionComponent>();
+            instance.SetSkinOption(skinOption, new SkinOptionValue(defaultValueType), layer);
 
-            component.ResetButton.Pressed += () =>
+            instance.OnResetButtonPressed += () =>
             {
-                Settings.Log($"Skin option '{option.Name}' reset to default: {component.DefaultValue}");
-                SkinOptionComponentInSelection = component;
-                OptionComponentSelected(defaultValue);
+                Settings.Log($"Skin option '{skinOption.Name}' reset to default: {instance.DefaultValue}");
+                SkinOptionComponentInSelection = instance;
+                OptionComponentSelected(instance.DefaultValue);
             };
-            component.Button.Pressed += () =>
+            instance.OnButtonPressed += () =>
             {
-                SkinOptionComponentInSelection = component;
+                SkinOptionComponentInSelection = instance;
                 SkinSelectorPopup.In();
             };
 
-            component.SetSkinOption(option, defaultValue, layer);
+            SkinOptionComponents.Add(instance);
 
-            if (option is ParentSkinOption parentOption)
+            if (skinOption is not ParentSkinOption parent)
+                continue;
+
+            InitialiseOptionComponents(parent.Children, defaultValueType, layer + 1);
+            instance.OnArrowButtonToggled += p =>
             {
-                var newVbox = new VBoxContainer()
+                if (instance.CreateChildrenContainer())
                 {
-                    CustomMinimumSize = new Vector2(10, 0),
-                    Visible = false,
-                };
-                newVbox.AddThemeConstantOverride("separation", 8);
-
-                vbox.AddChild(newVbox);
-                vbox.MoveChild(newVbox, component.GetIndex() + 1);
-
-                component.ArrowButton.Toggled += p =>
-                {
-                    newVbox.Visible = p;
-
-                    if (!Settings.Content.ArrowButtonPressed)
+                    foreach (SkinOption child in parent.Children)
                     {
-                        ExpandHint.Visible = false;
-                        Settings.Content.ArrowButtonPressed = true;
-                        Settings.Save();
+                        SkinOptionComponent matchingComponent = SkinOptionComponents.Find(c => c.SkinOption == child);
+                        if (matchingComponent is not null)
+                        {
+                            matchingComponent.ParentContainer = instance.ChildrenContainer;
+                            matchingComponent.ParentContainer.AddChild(matchingComponent);
+                        }
                     }
-                };
+                }
 
-                foreach (var child in parentOption.Children)
-                    addOptionComponent(child, newVbox, layer + 1);
+                instance.ChildrenContainer.Visible = p;
+
+                if (!Settings.Content.ArrowButtonPressed)
+                {
+                    ExpandHint.Visible = false;
+                    Settings.Content.ArrowButtonPressed = true;
+                }
+            };
+
+            // The top level options are the only options that are shown initially.
+            if (layer == 0)
+            {
+                instance.ParentContainer = OptionsContainer;
+                OptionsContainer.AddChild(instance);
             }
-
-            SkinOptionComponents.Add(component);
         }
     }
 
@@ -138,20 +203,20 @@ public partial class SkinOptionsSelector : PanelContainer
     {
         // TODO: This method can be optimized further by recursively looping through the components and their
         // children (in their respective VBoxContainers) instead of looping through the ParentSkinOption's children.
-        SkinOptionComponentInSelection.SetValue(valueSelected);
+        SkinOptionComponentInSelection.SetOptionValue(valueSelected);
 
         foreach (var parent in SkinOption.GetParents(SkinOptionComponentInSelection.SkinOption, SkinOptions))
         {
             SkinOptionComponent parentOptionComponent = SkinOptionComponents.Find(c => c.SkinOption == parent);
             if (parent.Children.All(o => o.Value == valueSelected))
-                parentOptionComponent.SetValue(valueSelected);
+                parentOptionComponent.SetOptionValue(valueSelected);
             else
-                parentOptionComponent.SetValue(new SkinOptionValue(SkinOptionValueType.Various));
+                parentOptionComponent.SetOptionValue(new SkinOptionValue(SkinOptionValueType.Various));
         }
 
         SetValueOfAllChildrenOfOption(SkinOptionComponentInSelection.SkinOption, valueSelected);
         SkinSelectorPopup.Out();
-        SkinOptionComponentInSelection.Button.CallDeferred(Button.MethodName.GrabFocus);
+        SkinOptionComponentInSelection.CallDeferred(SkinOptionComponent.MethodName.FocusButton);
 
         if (valueSelected != SkinOptionComponentInSelection.DefaultValue)
         {
@@ -171,7 +236,7 @@ public partial class SkinOptionsSelector : PanelContainer
                 SetValueOfAllChildrenOfOption(child, value);
         }
 
-        SkinOptionComponents.Find(c => c.SkinOption == option).SetValue(value);
+        SkinOptionComponents.Find(c => c.SkinOption == option).SetOptionValue(value);
     }
 
     private void OnSkinRemoved(OsuSkin skin)
