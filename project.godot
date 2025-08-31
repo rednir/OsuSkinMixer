@@ -15,6 +15,7 @@ config/version="2.9.0"
 run/main_scene="res://src/Splash.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="osu-skin-mixer"
+config/project_settings_override="user://engine_overrides.cfg"
 config/features=PackedStringArray("4.4", "C#")
 run/low_processor_mode=true
 run/low_processor_mode_sleep_usec=12000

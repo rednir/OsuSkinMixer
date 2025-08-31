@@ -22,6 +22,8 @@ public static partial class Settings
 
     public static string LockFilePath => Path.Combine(AppdataFolderPath, "lock");
 
+    public static string EngineOverridesFilePath => (string)ProjectSettings.GetSetting("application/config/project_settings_override");
+
     public static string SkinsFolderPath => Path.Combine(Content.OsuFolder, "Skins");
 
     public static string SongsFolderPath => Path.Combine(Content.OsuFolder, "Songs");
