@@ -64,12 +64,12 @@ public partial class UiScale : Node
         if (dpi <= 0 || dpi > 10000)
         {
             // Fallback: heuristic by resolution.
-            Vector2I s = DisplayServer.ScreenGetSize(screen);
+            Vector2I screenSize = DisplayServer.ScreenGetSize(screen);
 
-            if (s.X >= 3840 && s.Y >= 2160)
+            if (screenSize.X >= 3840 && screenSize.Y >= 2160)
                 return 1.5f;
 
-            if (s.X >= 2560 && s.Y >= 1440)
+            if (screenSize.X >= 2560 && screenSize.Y >= 1440)
                 return 1.25f;
 
             return 1.0f;
