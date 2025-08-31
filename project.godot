@@ -23,6 +23,10 @@ boot_splash/fullsize=false
 boot_splash/image="uid://dsec0vdrqp22r"
 config/icon="res://assets/icon.png"
 
+[autoload]
+
+UiScale="*res://src/Autoload/UiScale.cs"
+
 [debug]
 
 file_logging/enable_file_logging.pc=false
@@ -34,7 +38,6 @@ window/size/viewport_width=750
 window/size/viewport_height=500
 window/energy_saving/keep_screen_on=false
 window/subwindows/embed_subwindows=false
-window/dpi/allow_hidpi=false
 
 [dotnet]
 
