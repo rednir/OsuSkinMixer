@@ -17,3 +17,5 @@ data_*/
 .godot/
 
 .DS_Store
+
+nuget.config

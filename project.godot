@@ -20,7 +20,6 @@ config/features=PackedStringArray("4.4", "C#")
 run/low_processor_mode=true
 run/low_processor_mode_sleep_usec=12000
 boot_splash/bg_color=Color(0.109804, 0.105882, 0.121569, 1)
-boot_splash/fullsize=false
 boot_splash/image="uid://dsec0vdrqp22r"
 config/icon="res://assets/icon.png"
 
