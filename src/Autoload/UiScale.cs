@@ -79,5 +79,17 @@ public partial class UiScale : Node
         target.Y = Mathf.Min(target.Y, usable.Size.Y);
 
         window.Size = target;
+        SaveWindowSizeOverride(target);
+    }
+
+    private static void SaveWindowSizeOverride(Vector2I size)
+    {
+        string path = Settings.EngineOverridesFilePath;
+        ConfigFile config = new();
+
+        config.Load(path);
+        config.SetValue("display", "window/size/window_width_override", size.X);
+        config.SetValue("display", "window/size/window_height_override", size.Y);
+        config.Save(path);
     }
 }
