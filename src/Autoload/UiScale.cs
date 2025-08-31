@@ -67,10 +67,10 @@ public partial class UiScale : Node
             Vector2I screenSize = DisplayServer.ScreenGetSize(screen);
 
             if (screenSize.X >= 3840 && screenSize.Y >= 2160)
-                return 1.5f;
+                return 2f;
 
             if (screenSize.X >= 2560 && screenSize.Y >= 1440)
-                return 1.25f;
+                return 1.5f;
 
             return 1.0f;
         }
@@ -80,7 +80,7 @@ public partial class UiScale : Node
 
         // Round to nice steps to avoid awkward fractions.
         float rounded = Mathf.Clamp(Mathf.Round(raw * 4f) / 4f, 0.75f, 3.0f);
-        return rounded;
+        return raw;
     }
 
     private void ApplyWindowSize()
