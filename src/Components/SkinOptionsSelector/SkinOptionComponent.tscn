@@ -1,11 +1,11 @@
 [gd_scene load_steps=12 format=3 uid="uid://5u7dsqm0wgoq"]
 
-[ext_resource type="Texture2D" uid="uid://m5hodpxqnenb" path="res://assets/arrow.png" id="1_a4tmr"]
 [ext_resource type="Script" uid="uid://q4rlyugfde5j" path="res://src/Components/SkinOptionsSelector/SkinOptionComponent.cs" id="1_ft0rc"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_usaoi"]
-[ext_resource type="Texture2D" uid="uid://dcdbkf8ucvk1q" path="res://assets/arrow-pressed.png" id="2_sir7b"]
 [ext_resource type="StyleBox" uid="uid://cy2ikxf8c0ve" path="res://src/Styles/Buttons/Chip.tres" id="3_w4p0r"]
-[ext_resource type="Texture2D" uid="uid://pkn7gyf1kum8" path="res://assets/arrow-hover.png" id="5_o3cll"]
+[ext_resource type="Texture2D" uid="uid://co436rghtt8uu" path="res://assets/arrow.svg" id="3_xa57j"]
+[ext_resource type="Texture2D" uid="uid://dkrnxsg6w17ua" path="res://assets/arrow-pressed.svg" id="4_gdenc"]
+[ext_resource type="Texture2D" uid="uid://b8pr4dxpkjeat" path="res://assets/arrow-hover.svg" id="5_5f25g"]
 [ext_resource type="Texture2D" uid="uid://lguqtk6t3ppw" path="res://assets/arrow-disabled.png" id="6_j7g6j"]
 [ext_resource type="StyleBox" uid="uid://bcbdqcnl2e61r" path="res://src/Styles/Buttons/ChipHover.tres" id="6_xqnwr"]
 [ext_resource type="StyleBox" uid="uid://bqphu8xbk8c28" path="res://src/Styles/Buttons/ChipPressed.tres" id="7_pm80f"]
@@ -23,9 +23,9 @@ script = ExtResource("1_ft0rc")
 [node name="ArrowButton" type="TextureButton" parent="."]
 layout_mode = 2
 toggle_mode = true
-texture_normal = ExtResource("1_a4tmr")
-texture_pressed = ExtResource("2_sir7b")
-texture_hover = ExtResource("5_o3cll")
+texture_normal = ExtResource("3_xa57j")
+texture_pressed = ExtResource("4_gdenc")
+texture_hover = ExtResource("5_5f25g")
 texture_disabled = ExtResource("6_j7g6j")
 stretch_mode = 3
 
@@ -40,23 +40,23 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(220, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 10
-theme_override_colors/font_disabled_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/font_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_focus_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_disabled_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_font_sizes/font_size = 14
-theme_override_styles/focus = ExtResource("6_xqnwr")
-theme_override_styles/hover = ExtResource("6_xqnwr")
-theme_override_styles/pressed = ExtResource("7_pm80f")
 theme_override_styles/normal = ExtResource("3_w4p0r")
+theme_override_styles/pressed = ExtResource("7_pm80f")
+theme_override_styles/hover = ExtResource("6_xqnwr")
+theme_override_styles/focus = ExtResource("6_xqnwr")
 text_overrun_behavior = 3
 clip_text = true
 
 [node name="SpecialText" type="Label" parent="Button"]
 modulate = Color(1, 0.886275, 0.921569, 0.709804)
-layout_mode = 2
+layout_mode = 0
 offset_left = 5.0
 offset_right = 215.0
 offset_bottom = 32.0
