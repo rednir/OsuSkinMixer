@@ -66,17 +66,17 @@ public partial class HitcircleIcon : CenterContainer
             return;
 
         if (filepath == _skin.GetElementFilepathWithoutExtension("hitcircle"))
-            {
-                HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
-            }
-            else if (filepath == _skin.GetElementFilepathWithoutExtension("hitcircleoverlay"))
-            {
-                HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
-            }
-            else if (filepath == _skin.GetElementFilepathWithoutExtension($"{_hitcirclePrefix}-1"))
-            {
-                Default1Sprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
-            }
+        {
+            HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+        }
+        else if (filepath == _skin.GetElementFilepathWithoutExtension("hitcircleoverlay"))
+        {
+            HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+        }
+        else if (filepath == _skin.GetElementFilepathWithoutExtension($"{_hitcirclePrefix}-1"))
+        {
+            Default1Sprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+        }
     }
 
     private void OnScreenEntered()
@@ -98,7 +98,7 @@ public partial class HitcircleIcon : CenterContainer
             && File.Exists($"{_skin.Directory}/hitcircleoverlay@2x.png");
 
         if (_use2x)
-            HitcircleGroup.SetDeferred(CanvasGroup.PropertyName.Scale, new Vector2(0.5f, 0.5f)); 
+            HitcircleGroup.SetDeferred(CanvasGroup.PropertyName.Scale, new Vector2(0.5f, 0.5f));
 
         _hitcirclePrefix = _skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
 
