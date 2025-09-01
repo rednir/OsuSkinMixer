@@ -132,6 +132,13 @@ public class OsuSkin
     public override int GetHashCode()
         => Name.GetHashCode();
 
+    public string WriteCreditsFile()
+    {
+        string destination = $"{Directory.FullName}/credits.ini";
+        File.WriteAllText(destination, Credits.ToString());
+        return destination;
+    }
+
     public Texture2D Get2XTexture(string filename, string extension = "png")
     {
         lock (_lock)

@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
+using OsuSkinMixer.Utils;
 
 public partial class ManageSkinPopup : Popup
 {
@@ -263,6 +264,15 @@ public partial class ManageSkinPopup : Popup
     {
         OsuSkin newSkin = new(skin.Directory.CopyDirectory(Path.Combine(Settings.SkinsFolderPath, newSkinName), true));
 
+        foreach (FileInfo file in skin.Directory.EnumerateFiles("*", SearchOption.AllDirectories))
+        {
+            newSkin.Credits.AddElement(
+                skinName: skin.Name,
+                skinAuthor: skin.SkinIni?.TryGetPropertyValue("General", "Author"),
+                checksum: SkinMachine.GetMd5Hash(file.FullName),
+                filename: file.FullName
+            );
+        }
 
         OsuData.AddSkin(newSkin);
         return newSkin;
