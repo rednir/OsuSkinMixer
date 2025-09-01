@@ -86,17 +86,20 @@ public partial class TextureLoadingService : Node
 
         TaskCompletionSource<Texture2D> tcs = new();
 
-        // GPU work has to be done on the main thread.
-        CallOnMainThread(() =>
+        lock (_textureCache)
         {
-            var texture = ImageTexture.CreateFromImage(image);
-            _textureCache.TryUpdate(filepath, texture, null);
-            tcs.SetResult(texture);
+            // GPU work has to be done on the main thread.
+            CallOnMainThread(() =>
+            {
+                var texture = ImageTexture.CreateFromImage(image);
+                _textureCache.TryUpdate(filepath, texture, null);
+                tcs.SetResult(texture);
 
-            image.Dispose();
-        });
+                image.Dispose();
+            });
+        }
 
-        return await tcs.Task;
+        return tcs.Task.Result;
     }
 
     private static void CallOnMainThread(Action action)
