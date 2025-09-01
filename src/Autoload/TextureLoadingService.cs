@@ -2,6 +2,7 @@ using Godot;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
 using System;
+using System.IO;
 
 namespace OsuSkinMixer.Autoload;
 
@@ -11,13 +12,25 @@ public partial class TextureLoadingService : Node
 
     private readonly ConcurrentDictionary<string, Texture2D> _textureCache = new();
 
-    public void FetchTextureOrDefault(string filepath, int maxSize = 2048)
+    public void FetchTextureOrDefault(string filepathNoExtension, string extension, bool prefer2x = true, int maxSize = 2048)
     {
-        Task.Run(() => GetTexture(filepath, maxSize)).ContinueWith(t =>
-            CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepath, t.Result)));
+        string filepath = $"{filepathNoExtension}{(prefer2x ? "@2x" : string.Empty)}.{extension}";
+        GD.Print($"Fetching texture: {filepath}");
+
+        Task.Run(() => GetTextureAsync(filepath, maxSize).ContinueWith(async t =>
+        {
+            if (prefer2x && t.Result is null)
+            {
+                Texture2D fallbackResult = await GetTextureAsync($"{filepathNoExtension}.{extension}", maxSize);
+                CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, fallbackResult));
+                return;
+            }
+
+            CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, t.Result));
+        }));
     }
 
-    private async Task<Texture2D> GetTexture(string filepath, int maxSize)
+    private async Task<Texture2D> GetTextureAsync(string filepath, int maxSize)
     {
         if (_textureCache.TryGetValue(filepath, out Texture2D cachedTexture))
         {
@@ -26,6 +39,9 @@ public partial class TextureLoadingService : Node
         }
 
         _textureCache.TryAdd(filepath, null);
+
+        if (!File.Exists(filepath))
+            return null;
 
         Image image = new();
         Error err = image.Load(filepath);

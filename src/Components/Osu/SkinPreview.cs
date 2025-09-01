@@ -79,7 +79,7 @@ public partial class SkinPreview : PanelContainer
         if (!IsInstanceValid(this))
             return;
 
-        if (filepath == _skin.GetElementFilepath("menu-background", "jpg"))
+        if (filepath == _skin.GetElementFilepathWithoutExtension("menu-background"))
         {
             MenuBackground.SetDeferred(TextureRect.PropertyName.Texture, texture);
         }
@@ -89,7 +89,7 @@ public partial class SkinPreview : PanelContainer
     {
         _isTexturesLoaded = true;
 
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepath("menu-background", "jpg"), 960);
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("menu-background"), "jpg", true, 960);
 
         // Scale textures based on whether they are @2x or not.
         float cursorTrailScale = _skin.TryGet2XTexture("cursortrail", out var cursortrail) ? 0.5f : 1;
