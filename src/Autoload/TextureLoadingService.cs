@@ -8,7 +8,7 @@ namespace OsuSkinMixer.Autoload;
 
 public partial class TextureLoadingService : Node
 {
-    [Signal] public delegate void TextureReadyEventHandler(string filePath, Texture2D texture);
+    [Signal] public delegate void TextureReadyEventHandler(string filePath, Texture2D texture, bool is2x);
 
     private readonly ConcurrentDictionary<string, Texture2D> _textureCache = new();
 
@@ -22,21 +22,26 @@ public partial class TextureLoadingService : Node
             if (prefer2x && t.Result is null)
             {
                 Texture2D fallbackResult = await GetTextureAsync($"{filepathNoExtension}.{extension}", maxSize);
-                CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, fallbackResult));
+                if (fallbackResult is null)
+                {
+                    // Fallback to loading the default skin texture from internal assets.
+                    string filename = Path.GetFileName($"{filepathNoExtension}.{extension}");
+                    CallOnMainThread(() => GD.Load<Texture2D>($"res://assets/defaultskin/{filename}"));
+                    return;
+                }
+
+                CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, fallbackResult, false));
                 return;
             }
 
-            CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, t.Result));
+            CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, t.Result, true));
         }));
     }
 
     private async Task<Texture2D> GetTextureAsync(string filepath, int maxSize)
     {
         if (_textureCache.TryGetValue(filepath, out Texture2D cachedTexture))
-        {
-            EmitSignal(SignalName.TextureReady, filepath, cachedTexture);
             return cachedTexture;
-        }
 
         _textureCache.TryAdd(filepath, null);
 

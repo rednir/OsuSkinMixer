@@ -74,7 +74,7 @@ public partial class SkinPreview : PanelContainer
             LoadTextures();
     }
 
-    private void OnTextureReady(string filepath, Texture2D texture)
+    private void OnTextureReady(string filepath, Texture2D texture, bool is2x)
     {
         if (!IsInstanceValid(this))
             return;
@@ -83,6 +83,21 @@ public partial class SkinPreview : PanelContainer
         {
             MenuBackground.SetDeferred(TextureRect.PropertyName.Texture, texture);
         }
+        else if (filepath == _skin.GetElementFilepathWithoutExtension("cursor"))
+        {
+            Cursor.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+            Cursor.SetDeferred(Sprite2D.PropertyName.Scale, is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+        }
+        else if (filepath == _skin.GetElementFilepathWithoutExtension("cursormiddle"))
+        {
+            Cursormiddle.SetDeferred(TextureRect.PropertyName.Texture, texture);
+            Cursormiddle.SetDeferred(TextureRect.PropertyName.Scale, is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+        }
+        else if (filepath == _skin.GetElementFilepathWithoutExtension("cursortrail"))
+        {
+            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Texture, texture);
+            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Scale, is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+        }
     }
 
     private void LoadTextures()
@@ -90,17 +105,20 @@ public partial class SkinPreview : PanelContainer
         _isTexturesLoaded = true;
 
         TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("menu-background"), "jpg", true, 960);
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursor"), "png");
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursormiddle"), "png");
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursortrail"), "png");
 
         // Scale textures based on whether they are @2x or not.
-        float cursorTrailScale = _skin.TryGet2XTexture("cursortrail", out var cursortrail) ? 0.5f : 1;
-        Cursor.SetDeferred(Sprite2D.PropertyName.Scale, _skin.TryGet2XTexture("cursor", out var cursor) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
-        Cursormiddle.SetDeferred(Sprite2D.PropertyName.Scale, _skin.TryGet2XTexture("cursormiddle", out var cursormiddle) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
-        Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMax, cursorTrailScale);
-        Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMin, cursorTrailScale);
+        // float cursorTrailScale = _skin.TryGet2XTexture("cursortrail", out var cursortrail) ? 0.5f : 1;
+        // Cursor.SetDeferred(Sprite2D.PropertyName.Scale, _skin.TryGet2XTexture("cursor", out var cursor) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+        // Cursormiddle.SetDeferred(Sprite2D.PropertyName.Scale, _skin.TryGet2XTexture("cursormiddle", out var cursormiddle) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+        // Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMax, cursorTrailScale);
+        // Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMin, cursorTrailScale);
 
-        Cursor.SetDeferred(TextureRect.PropertyName.Texture, cursor);
-        Cursormiddle.SetDeferred(TextureRect.PropertyName.Texture, cursormiddle);
-        Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Texture, cursortrail);
+        // Cursor.SetDeferred(TextureRect.PropertyName.Texture, cursor);
+        // Cursormiddle.SetDeferred(TextureRect.PropertyName.Texture, cursormiddle);
+        // Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Texture, cursortrail);
 
         if (_skin.SkinIni?.TryGetPropertyValue("General", "CursorRotate") is "1" or null)
             CursorRotateAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "rotate");
