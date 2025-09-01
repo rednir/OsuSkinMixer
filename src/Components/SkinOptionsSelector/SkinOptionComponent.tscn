@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://co436rghtt8uu" path="res://assets/arrow.svg" id="3_xa57j"]
 [ext_resource type="Texture2D" uid="uid://dkrnxsg6w17ua" path="res://assets/arrow-pressed.svg" id="4_gdenc"]
 [ext_resource type="Texture2D" uid="uid://b8pr4dxpkjeat" path="res://assets/arrow-hover.svg" id="5_5f25g"]
-[ext_resource type="Texture2D" uid="uid://lguqtk6t3ppw" path="res://assets/arrow-disabled.png" id="6_j7g6j"]
+[ext_resource type="Texture2D" uid="uid://8spqcmle5c2y" path="res://assets/arrow-disabled.svg" id="6_xa57j"]
 [ext_resource type="StyleBox" uid="uid://bcbdqcnl2e61r" path="res://src/Styles/Buttons/ChipHover.tres" id="6_xqnwr"]
 [ext_resource type="StyleBox" uid="uid://bqphu8xbk8c28" path="res://src/Styles/Buttons/ChipPressed.tres" id="7_pm80f"]
 [ext_resource type="Texture2D" uid="uid://7qem7s4x0eoq" path="res://assets/materialicons/close.svg" id="9_hab4j"]
@@ -26,7 +26,7 @@ toggle_mode = true
 texture_normal = ExtResource("3_xa57j")
 texture_pressed = ExtResource("4_gdenc")
 texture_hover = ExtResource("5_5f25g")
-texture_disabled = ExtResource("6_j7g6j")
+texture_disabled = ExtResource("6_xa57j")
 stretch_mode = 3
 
 [node name="Label" type="Label" parent="."]
