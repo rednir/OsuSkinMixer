@@ -104,21 +104,12 @@ public partial class SkinPreview : PanelContainer
     {
         _isTexturesLoaded = true;
 
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("menu-background"), "jpg", true, 960);
+        bool menuBgIsPng = File.Exists($"{_skin.Directory.FullName}/menu-background.png") || File.Exists($"{_skin.Directory.FullName}/menu-background@2x.png");
+
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("menu-background"), menuBgIsPng ? "png" : "jpg", true, 960);
         TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursor"), "png");
         TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursormiddle"), "png");
         TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursortrail"), "png");
-
-        // Scale textures based on whether they are @2x or not.
-        // float cursorTrailScale = _skin.TryGet2XTexture("cursortrail", out var cursortrail) ? 0.5f : 1;
-        // Cursor.SetDeferred(Sprite2D.PropertyName.Scale, _skin.TryGet2XTexture("cursor", out var cursor) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
-        // Cursormiddle.SetDeferred(Sprite2D.PropertyName.Scale, _skin.TryGet2XTexture("cursormiddle", out var cursormiddle) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
-        // Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMax, cursorTrailScale);
-        // Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMin, cursorTrailScale);
-
-        // Cursor.SetDeferred(TextureRect.PropertyName.Texture, cursor);
-        // Cursormiddle.SetDeferred(TextureRect.PropertyName.Texture, cursormiddle);
-        // Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Texture, cursortrail);
 
         if (_skin.SkinIni?.TryGetPropertyValue("General", "CursorRotate") is "1" or null)
             CursorRotateAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "rotate");
