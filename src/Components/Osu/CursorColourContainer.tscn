@@ -1872,6 +1872,7 @@ layout_mode = 2
 theme = SubResource("Theme_v67te")
 color = Color(0.392157, 0.392157, 1, 1)
 edit_alpha = false
+edit_intensity = false
 deferred_mode = true
 can_add_swatches = false
 color_modes_visible = false
