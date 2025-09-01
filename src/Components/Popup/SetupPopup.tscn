@@ -35,6 +35,7 @@ dialog_hide_on_ok = true
 file_mode = 2
 access = 2
 show_hidden_files = true
+use_native_dialog = true
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="2"]
 offset_bottom = -0.000366211
@@ -87,7 +88,7 @@ icon = ExtResource("12_oveo6")
 
 [node name="OkPopup" parent="." instance=ExtResource("11_yvhcf")]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
 anchors_preset = 0
 
 [editable path="Popup"]
