@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
 using System.Text;
+using OsuSkinMixer.Autoload;
 using OsuSkinMixer.Statics;
 
 /// <summary>Represents an osu! skin and provides methods to fetch its elements.</summary>
@@ -181,6 +182,9 @@ public class OsuSkin
             return false;
         }
     }
+
+    public string GetElementFilepath(string filename, string extension)
+        => $"{Directory.FullName}/{filename}.{extension}";
 
     private Texture2D GetTextureOrNull(string filename, string extension)
     {

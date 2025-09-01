@@ -4,9 +4,11 @@ using OsuSkinMixer.Models;
 using System.IO;
 using OsuSkinMixer.Statics;
 using SixLabors.ImageSharp;
+using OsuSkinMixer.Autoload;
 
 public partial class SkinPreview : PanelContainer
 {
+    private TextureLoadingService TextureLoadingService;
     private VisibleOnScreenNotifier2D VisibleOnScreenNotifier2D;
     private AnimationPlayer AnimationPlayer;
     private TextureRect MenuBackground;
@@ -25,6 +27,7 @@ public partial class SkinPreview : PanelContainer
 
     public override void _Ready()
     {
+        TextureLoadingService = GetNode<TextureLoadingService>("/root/TextureLoadingService");
         VisibleOnScreenNotifier2D = GetNode<VisibleOnScreenNotifier2D>("%VisibleOnScreenNotifier2D");
         AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
         MenuBackground = GetNode<TextureRect>("%MenuBackground");
@@ -65,15 +68,28 @@ public partial class SkinPreview : PanelContainer
     {
         _skin = skin;
 
+        TextureLoadingService.TextureReady += OnTextureReady;
+
         if (_isTexturesLoaded)
             LoadTextures();
+    }
+
+    private void OnTextureReady(string filepath, Texture2D texture)
+    {
+        if (!IsInstanceValid(this))
+            return;
+
+        if (filepath == _skin.GetElementFilepath("menu-background", "jpg"))
+        {
+            MenuBackground.SetDeferred(TextureRect.PropertyName.Texture, texture);
+        }
     }
 
     private void LoadTextures()
     {
         _isTexturesLoaded = true;
 
-        _skin.TryGetTexture("menu-background", out var menuBackground, "jpg");
+        TextureLoadingService.GetTextureInBackground(_skin.GetElementFilepath("menu-background", "jpg"), 960);
 
         // Scale textures based on whether they are @2x or not.
         float cursorTrailScale = _skin.TryGet2XTexture("cursortrail", out var cursortrail) ? 0.5f : 1;
@@ -82,7 +98,6 @@ public partial class SkinPreview : PanelContainer
         Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMax, cursorTrailScale);
         Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMin, cursorTrailScale);
 
-        MenuBackground.SetDeferred(TextureRect.PropertyName.Texture, menuBackground);
         Cursor.SetDeferred(TextureRect.PropertyName.Texture, cursor);
         Cursormiddle.SetDeferred(TextureRect.PropertyName.Texture, cursormiddle);
         Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Texture, cursortrail);

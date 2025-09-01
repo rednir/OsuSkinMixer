@@ -26,6 +26,7 @@ config/icon="res://assets/icon.png"
 [autoload]
 
 UiScale="*res://src/Autoload/UiScale.cs"
+TextureLoadingService="*res://src/Autoload/TextureLoadingService.cs"
 
 [debug]
 
