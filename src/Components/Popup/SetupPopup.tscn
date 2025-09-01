@@ -38,12 +38,12 @@ show_hidden_files = true
 use_native_dialog = true
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="2"]
-offset_bottom = -0.000366211
+offset_bottom = -0.00036621094
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ContentPanelContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer" index="1"]
-custom_minimum_size = Vector2(540, 200)
+custom_minimum_size = Vector2(600, 200)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
 layout_mode = 2
@@ -58,7 +58,8 @@ autowrap_mode = 3
 
 [node name="Subtext" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Please set the path to your osu! folder. If the below already looks correct, you're good to go!"
+text = "Please set the path to your osu! folder.
+If the below already looks correct, you're good to go!"
 label_settings = ExtResource("3_8g2co")
 vertical_alignment = 1
 autowrap_mode = 3
@@ -76,6 +77,7 @@ placeholder_text = "Click the folder to browse"
 [node name="FolderPickerButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_onwsb")]
 unique_name_in_owner = true
 layout_mode = 2
+text = "  Browse"
 icon = ExtResource("7_88cey")
 
 [node name="DoneButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("11_kv18r")]
@@ -90,5 +92,9 @@ icon = ExtResource("12_oveo6")
 unique_name_in_owner = true
 layout_mode = 0
 anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [editable path="Popup"]
