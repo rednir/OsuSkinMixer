@@ -18,23 +18,45 @@ public partial class TextureLoadingService : Node
 
         Task.Run(() => GetTextureAsync(filepath, maxSize).ContinueWith(async t =>
         {
-            if (prefer2x && t.Result is null)
+            if (t.Result is null)
             {
-                Texture2D fallbackResult = await GetTextureAsync($"{filepathNoExtension}.{extension}", maxSize);
-                if (fallbackResult is null)
+                if (prefer2x)
                 {
-                    // Fallback to loading the default skin texture from internal assets.
-                    string filename = Path.GetFileName($"{filepathNoExtension}.{extension}");
-                    CallOnMainThread(() => GD.Load<Texture2D>($"res://assets/defaultskin/{filename}"));
-                    return;
+                    Texture2D fallbackResult = await GetTextureAsync($"{filepathNoExtension}.{extension}", maxSize);
+                    if (fallbackResult is not null)
+                    {
+                        CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, fallbackResult, false));
+                        return;
+                    }
                 }
 
-                CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, fallbackResult, false));
+                // Fallback to loading the default skin texture from internal assets.
+                string filename = Path.GetFileName(filepath);
+                CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, GD.Load<Texture2D>($"res://assets/defaultskin/{filename}"), prefer2x));
                 return;
             }
 
             CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, t.Result, true));
         }));
+    }
+
+
+    public void InvalidateSkinCache(OsuSkin skin)
+    {
+        string normalizedSkinPath = skin.Directory.FullName.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+        foreach (string key in _textureCache.Keys)
+        {
+            try
+            {
+                string normalizedKeyPath = Path.GetFullPath(key);
+                if (normalizedKeyPath.StartsWith(normalizedSkinPath + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+                    _textureCache.TryRemove(key, out _);
+            }
+            catch
+            {
+            }
+        }
     }
 
     private async Task<Texture2D> GetTextureAsync(string filepath, int maxSize)

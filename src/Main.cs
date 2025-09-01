@@ -13,6 +13,7 @@ using OsuSkinMixer.Statics;
 using OsuSkinMixer.StackScenes;
 using OsuSkinMixer.Models;
 using System.IO;
+using OsuSkinMixer.Autoload;
 
 public partial class Main : Control
 {
@@ -20,6 +21,7 @@ public partial class Main : Control
     private PackedScene SkinModiferModificationSelectScene;
     private PackedScene SkinInfoScene;
 
+    private TextureLoadingService TextureLoadingService;
     private AnimationPlayer ScenesAnimationPlayer;
     private AnimationPlayer UpdateAnimationPlayer;
     private AnimationPlayer HomeButtonAnimationPlayer;
@@ -54,7 +56,8 @@ public partial class Main : Control
         MenuScene = GD.Load<PackedScene>("res://src/StackScenes/Menu.tscn");
         SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
         SkinModiferModificationSelectScene = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierModificationSelect.tscn");
-        
+
+        TextureLoadingService = GetNode<TextureLoadingService>("/root/TextureLoadingService");
         UpdateAnimationPlayer = GetNode<AnimationPlayer>("%UpdateAnimationPlayer");
         ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
         HomeButtonAnimationPlayer = GetNode<AnimationPlayer>("%HomeButtonAnimationPlayer");
@@ -93,9 +96,9 @@ public partial class Main : Control
         };
 
         OsuData.AllSkinsLoaded += PopAllScenes;
-        OsuData.SkinAdded += s => PushSkinFolderChangeToast($"Skin was created:\n{s.Name}");
-        OsuData.SkinModified += s => PushSkinFolderChangeToast($"Skin was modified:\n{s.Name}");
-        OsuData.SkinRemoved += s => PushSkinFolderChangeToast($"Skin was deleted:\n{s.Name}");
+        OsuData.SkinAdded += s => OnSkinFolderContentsChange($"Skin was created:", s);
+        OsuData.SkinModified += s => OnSkinFolderContentsChange($"Skin was modified:", s);
+        OsuData.SkinRemoved += s => OnSkinFolderContentsChange($"Skin was deleted:", s);
         OsuData.SkinInfoRequested += s => SkinInfoRequestedSkins = s;
         OsuData.SkinModifyRequested += s => SkinModifyRequestedSkins = s;
 
@@ -257,12 +260,14 @@ public partial class Main : Control
         TitleLabel.Text = SceneStack.Peek()?.Title ?? "osu! skin mixer";
     }
 
-    private void PushSkinFolderChangeToast(string message)
+    private void OnSkinFolderContentsChange(string message, OsuSkin skin)
     {
+        TextureLoadingService.InvalidateSkinCache(skin);
+
         if (!Settings.Content.NotifyOnSkinFolderChange)
             return;
 
-        Toast.Push(message);
+        Toast.Push($"{message}\n{skin.Name}");
     }
 
     private void ClearTrash()

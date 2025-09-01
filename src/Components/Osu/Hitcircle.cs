@@ -1,5 +1,7 @@
 namespace OsuSkinMixer.Components;
 
+using System.IO;
+using OsuSkinMixer.Autoload;
 using OsuSkinMixer.Models;
 
 public partial class Hitcircle : Node2D
@@ -11,6 +13,7 @@ public partial class Hitcircle : Node2D
     [Signal]
     public delegate void CircleHitEventHandler(string score);
 
+    private TextureLoadingService TextureLoadingService;
     private AudioStreamPlayer HitSoundPlayer;
     private AudioStreamPlayer ComboBreakPlayer;
     private AnimationPlayer CircleAnimationPlayer;
@@ -32,8 +35,11 @@ public partial class Hitcircle : Node2D
 
     private int _combo;
 
+    private bool _use2x;
+
     public override void _Ready()
     {
+        TextureLoadingService = GetNode<TextureLoadingService>("/root/TextureLoadingService");
         HitSoundPlayer = GetNode<AudioStreamPlayer>("%HitSoundPlayer");
         ComboBreakPlayer = GetNode<AudioStreamPlayer>("%ComboBreakPlayer");
         CircleAnimationPlayer = GetNode<AnimationPlayer>("%CircleAnimationPlayer");
@@ -45,6 +51,7 @@ public partial class Hitcircle : Node2D
         DefaultSprite = GetNode<Sprite2D>("%DefaultSprite");
         Control = GetNode<Control>("%Control");
 
+        TextureLoadingService.TextureReady += OnTextureReady;
         CircleAnimationPlayer.AnimationFinished += OnAnimationFinished;
         Control.GuiInput += OnInputEvent;
     }
@@ -59,29 +66,44 @@ public partial class Hitcircle : Node2D
         // We'll add animations as we need them.
         HitJudgementSprite.SpriteFrames = new SpriteFrames();
 
-        // Scale textures based on whether they are @2x or not.
-        if (skin.TryGet2XTexture("approachcircle", out var approachcircle) &&
-            skin.TryGet2XTexture("hitcircle", out var hitcircle) &&
-            skin.TryGet2XTexture("hitcircleoverlay", out var hitcircleoverlay))
-        {
-            SetDeferred(Sprite2D.PropertyName.Scale, new Vector2(0.5f, 0.5f));
-            ApproachcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, approachcircle);
-            HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, hitcircle);
-            HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, hitcircleoverlay);
-        }
-        else
-        {
-            SetDeferred(Sprite2D.PropertyName.Scale, new Vector2(1, 1));
-            ApproachcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, skin.GetTexture("approachcircle"));
-            HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, skin.GetTexture("hitcircle"));
-            HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, skin.GetTexture("hitcircleoverlay"));
-        }
+        _use2x = File.Exists($"{_skin.Directory}/approachcircle@2x.png")
+            && File.Exists($"{_skin.Directory}/hitcircle@2x.png")
+            && File.Exists($"{_skin.Directory}/hitcircleoverlay@2x.png");
+
+        TextureLoadingService.FetchTextureOrDefault(skin.GetElementFilepathWithoutExtension("approachcircle"), "png", _use2x);
+        TextureLoadingService.FetchTextureOrDefault(skin.GetElementFilepathWithoutExtension("hitcircle"), "png", _use2x);
+        TextureLoadingService.FetchTextureOrDefault(skin.GetElementFilepathWithoutExtension("hitcircleoverlay"), "png", _use2x);
+
+        SetDeferred(Node2D.PropertyName.Scale, _use2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
 
         _comboColors = skin.ComboColors;
         _hitcirclePrefix = skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
 
         // Prevent scale being read before it is set.
         CallDeferred(nameof(NextCombo));
+    }
+
+    private void OnTextureReady(string filepath, Texture2D texture, bool is2x)
+    {
+        if (!IsInstanceValid(this))
+            return;
+
+        if (filepath == _skin.GetElementFilepathWithoutExtension("approachcircle"))
+        {
+            ApproachcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+        }
+        else if (filepath == _skin.GetElementFilepathWithoutExtension("hitcircle"))
+        {
+            HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+        }
+        else if (filepath == _skin.GetElementFilepathWithoutExtension("hitcircleoverlay"))
+        {
+            HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+        }
+        else if (filepath.StartsWith(_skin.GetElementFilepathWithoutExtension(_hitcirclePrefix) + "-"))
+        {
+            DefaultSprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+        }
     }
 
     public void Pause()
@@ -112,7 +134,7 @@ public partial class Hitcircle : Node2D
 
         // Hitcircle scale is set previously based on whether the textures are @2x or not.
         string filename = $"{_hitcirclePrefix}-{(_currentComboIndex == 0 ? _comboColors.Length : _currentComboIndex)}";
-        DefaultSprite.SetDeferred(Sprite2D.PropertyName.Texture, Scale == new Vector2(0.5f, 0.5f) ? _skin.Get2XTexture(filename) : _skin.GetTexture(filename));
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension(filename), "png", _use2x);
     }
 
     private void Hit(string score)
@@ -136,7 +158,7 @@ public partial class Hitcircle : Node2D
         string hitJudgementAnimationName = $"hit{score}";
 
         if (!HitJudgementSprite.SpriteFrames.HasAnimation(hitJudgementAnimationName))
-            _skin.AddSpriteFramesAnimation(HitJudgementSprite.SpriteFrames, hitJudgementAnimationName);
+            _skin.AddSpriteFramesAnimation(HitJudgementSprite.SpriteFrames, hitJudgementAnimationName, _use2x);
 
         // Only play the falling effect is there is not a miss animation in the skin.
         HitJudgementAnimationPlayer.Play(

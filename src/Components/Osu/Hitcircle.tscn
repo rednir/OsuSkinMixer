@@ -443,7 +443,7 @@ autoplay = "default"
 [node name="HitJudgementAnimationPlayer" type="AnimationPlayer" parent="HitJudgementSprite"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_osjpk")
+&"": SubResource("AnimationLibrary_osjpk")
 }
 
 [node name="Circle" type="CanvasGroup" parent="."]
@@ -451,10 +451,10 @@ libraries = {
 [node name="CircleAnimationPlayer" type="AnimationPlayer" parent="Circle"]
 unique_name_in_owner = true
 root_node = NodePath("../..")
-autoplay = "fade_in"
 libraries = {
-"": SubResource("AnimationLibrary_o6j6o")
+&"": SubResource("AnimationLibrary_o6j6o")
 }
+autoplay = "fade_in"
 
 [node name="HitcircleoverlaySprite" type="Sprite2D" parent="Circle"]
 unique_name_in_owner = true
