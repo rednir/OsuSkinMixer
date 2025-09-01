@@ -6,11 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://cmaar4yayttia" path="res://src/Background.tscn" id="3_42h7d"]
 [ext_resource type="PackedScene" uid="uid://bimdldtywn6nm" path="res://src/Components/Popup/SettingsPopup.tscn" id="4_8gcgf"]
 [ext_resource type="PackedScene" uid="uid://sni5bqyyrgfj" path="res://src/Components/Popup/SetupPopup.tscn" id="4_gusp5"]
-[ext_resource type="Texture2D" uid="uid://kyaxdq84o4jd" path="res://assets/materialicons/home.png" id="7_e7jk0"]
+[ext_resource type="Texture2D" uid="uid://oxbuqmhjfy52" path="res://assets/materialicons/arrow_back.svg" id="6_e7jk0"]
+[ext_resource type="Texture2D" uid="uid://vsqa834d3vtx" path="res://assets/materialicons/home.svg" id="7_e7jk0"]
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="7_shsih"]
-[ext_resource type="Texture2D" uid="uid://crgnranuin71j" path="res://assets/materialicons/arrow_back.png" id="8_1aqc5"]
-[ext_resource type="Texture2D" uid="uid://bp1ndcvygrvgw" path="res://assets/materialicons/history.png" id="9_ottjh"]
-[ext_resource type="Texture2D" uid="uid://b7pcj2bm25odo" path="res://assets/materialicons/settings.png" id="10_8n7kr"]
+[ext_resource type="Texture2D" uid="uid://tdfmgdpvut58" path="res://assets/materialicons/history.svg" id="9_ottjh"]
+[ext_resource type="Texture2D" uid="uid://5h7ymq48451d" path="res://assets/materialicons/settings.svg" id="10_8n7kr"]
 [ext_resource type="PackedScene" uid="uid://feflo812i8ns" path="res://src/Components/Toast.tscn" id="10_hysk3"]
 [ext_resource type="PackedScene" uid="uid://hfjvkcilxe1d" path="res://src/Components/Popup/ResolveSkinConflictPopup.tscn" id="11_e8ymy"]
 [ext_resource type="PackedScene" uid="uid://cuo6ytxuc1kjh" path="res://src/Components/Popup/HistoryPopup.tscn" id="12_n1u7x"]
@@ -202,23 +202,12 @@ corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6m58q"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m8k4v"]
 content_margin_left = 6.0
 content_margin_top = 6.0
 content_margin_right = 6.0
 content_margin_bottom = 6.0
-bg_color = Color(0.254902, 0.227451, 0.247059, 1)
-corner_radius_top_left = 100
-corner_radius_top_right = 100
-corner_radius_bottom_right = 100
-corner_radius_bottom_left = 100
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vcrbn"]
-content_margin_left = 6.0
-content_margin_top = 6.0
-content_margin_right = 6.0
-content_margin_bottom = 6.0
-bg_color = Color(0.431373, 0.282353, 0.337255, 1)
+bg_color = Color(0.388235, 0.231373, 0.282353, 1)
 corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
@@ -235,12 +224,23 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m8k4v"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vcrbn"]
 content_margin_left = 6.0
 content_margin_top = 6.0
 content_margin_right = 6.0
 content_margin_bottom = 6.0
-bg_color = Color(0.388235, 0.231373, 0.282353, 1)
+bg_color = Color(0.431373, 0.282353, 0.337255, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6m58q"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.254902, 0.227451, 0.247059, 1)
 corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
@@ -619,8 +619,7 @@ theme_override_constants/separation = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 42)
 layout_mode = 2
-icon = ExtResource("8_1aqc5")
-vertical_icon_alignment = 2
+icon = ExtResource("6_e7jk0")
 
 [node name="HomeButton" parent="TopBar/HBoxContainer/PanelContainer/PageControlsContainer" instance=ExtResource("7_shsih")]
 unique_name_in_owner = true
@@ -661,21 +660,21 @@ clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
-theme_override_colors/font_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_hover_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_focus_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_normal_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_focus_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_normal_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_focus_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_font_sizes/font_size = 14
-theme_override_styles/disabled = SubResource("StyleBoxFlat_6m58q")
-theme_override_styles/hover = SubResource("StyleBoxFlat_vcrbn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_ssp4a")
 theme_override_styles/normal = SubResource("StyleBoxFlat_m8k4v")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ssp4a")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vcrbn")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_6m58q")
 icon = ExtResource("9_ottjh")
 icon_alignment = 2
 
@@ -685,21 +684,21 @@ clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
-theme_override_colors/font_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_hover_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_pressed_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_focus_color = Color(1, 0.847059, 0.894118, 1)
-theme_override_colors/icon_normal_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_focus_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_normal_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_focus_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_pressed_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_hover_color = Color(1, 0.847059, 0.894118, 1)
+theme_override_colors/icon_hover_pressed_color = Color(1, 0.847059, 0.894118, 1)
 theme_override_font_sizes/font_size = 14
-theme_override_styles/disabled = SubResource("StyleBoxFlat_6m58q")
-theme_override_styles/hover = SubResource("StyleBoxFlat_vcrbn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_ssp4a")
 theme_override_styles/normal = SubResource("StyleBoxFlat_m8k4v")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ssp4a")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vcrbn")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_6m58q")
 icon = ExtResource("10_8n7kr")
 icon_alignment = 2
 

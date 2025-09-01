@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://lguqtk6t3ppw" path="res://assets/arrow-disabled.png" id="6_j7g6j"]
 [ext_resource type="StyleBox" uid="uid://bcbdqcnl2e61r" path="res://src/Styles/Buttons/ChipHover.tres" id="6_xqnwr"]
 [ext_resource type="StyleBox" uid="uid://bqphu8xbk8c28" path="res://src/Styles/Buttons/ChipPressed.tres" id="7_pm80f"]
-[ext_resource type="Texture2D" uid="uid://d35i1tw6xkwef" path="res://assets/materialicons/close.png" id="9_hab4j"]
+[ext_resource type="Texture2D" uid="uid://7qem7s4x0eoq" path="res://assets/materialicons/close.svg" id="9_hab4j"]
 [ext_resource type="FontFile" uid="uid://di7yil3n05sxm" path="res://assets/Aller_Italic.ttf" id="10_pxrb3"]
 
 [node name="SkinOptionComponent" type="HBoxContainer"]

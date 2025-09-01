@@ -6,10 +6,10 @@
 [ext_resource type="Script" uid="uid://bx65xljosi282" path="res://src/Components/Popup/SetupPopup.cs" id="2_bnnvj"]
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="3_8g2co"]
 [ext_resource type="PackedScene" uid="uid://c0bqc573eb7ys" path="res://src/Components/Buttons/TonalIconButton.tscn" id="6_onwsb"]
-[ext_resource type="Texture2D" uid="uid://msx778bigq5g" path="res://assets/materialicons/folder_open.png" id="7_88cey"]
+[ext_resource type="Texture2D" uid="uid://dux8l1u1ckci7" path="res://assets/materialicons/folder_open.svg" id="7_88cey"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="11_kv18r"]
 [ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="11_yvhcf"]
-[ext_resource type="Texture2D" uid="uid://cvpikgocffedt" path="res://assets/materialicons/done.png" id="12_oveo6"]
+[ext_resource type="Texture2D" uid="uid://b14tfma61q3tw" path="res://assets/materialicons/done.svg" id="12_oveo6"]
 
 [node name="SetupPopup" type="Control"]
 visible = false

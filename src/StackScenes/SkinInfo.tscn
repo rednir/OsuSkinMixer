@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_sak7t"]
 [ext_resource type="Texture2D" uid="uid://dbp3660gasfq5" path="res://assets/heart.png" id="3_81i4d"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="3_i4x0p"]
-[ext_resource type="Texture2D" uid="uid://ciuf640lbhw10" path="res://assets/materialicons/open_in_browser.png" id="4_kumxa"]
+[ext_resource type="Texture2D" uid="uid://g77jirgawid" path="res://assets/materialicons/open_in_browser.svg" id="4_kumxa"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tprdo"]
 content_margin_left = 16.0

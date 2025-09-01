@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="1_daqam"]
 [ext_resource type="Script" uid="uid://cyi7fvfm7o33u" path="res://src/Components/Toast.cs" id="1_u1844"]
-[ext_resource type="Texture2D" uid="uid://d35i1tw6xkwef" path="res://assets/materialicons/close.png" id="2_vpdgi"]
+[ext_resource type="Texture2D" uid="uid://7qem7s4x0eoq" path="res://assets/materialicons/close.svg" id="2_vpdgi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rifil"]
 content_margin_left = 12.0

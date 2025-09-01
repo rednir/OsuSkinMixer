@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://4a2d561f0p72" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.tscn" id="2_r5240"]
 [ext_resource type="PackedScene" uid="uid://c3t32td5tieq" path="res://src/Components/Popup/SkinNamePopup.tscn" id="3_8uvqg"]
 [ext_resource type="PackedScene" uid="uid://c0bqc573eb7ys" path="res://src/Components/Buttons/TonalIconButton.tscn" id="4_kcgsn"]
-[ext_resource type="Texture2D" uid="uid://ck202ada7a3j4" path="res://assets/materialicons/shuffle.png" id="5_qe3m8"]
+[ext_resource type="Texture2D" uid="uid://bcpjgbxfmtpps" path="res://assets/materialicons/shuffle.svg" id="5_qe3m8"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="9_g6sw2"]
 [ext_resource type="PackedScene" uid="uid://r28lp1qj0ucs" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="10_csqru"]
 

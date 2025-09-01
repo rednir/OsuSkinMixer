@@ -4,7 +4,7 @@
 [ext_resource type="StyleBox" uid="uid://bjdmqh67w4bku" path="res://src/Styles/Buttons/IconButtonHover.tres" id="2_ie8bq"]
 [ext_resource type="StyleBox" uid="uid://dxqdk1ixl2ys" path="res://src/Styles/Buttons/IconButtonPressed.tres" id="3_l4d0r"]
 [ext_resource type="StyleBox" uid="uid://bqwmwc0s8kyx" path="res://src/Styles/Buttons/IconButtonDisabled.tres" id="4_c7xwc"]
-[ext_resource type="Texture2D" uid="uid://bmps2565xtlyd" path="res://assets/materialicons/more_vert.png" id="5_ha7lo"]
+[ext_resource type="Texture2D" uid="uid://cmv2rec6v51fs" path="res://assets/materialicons/more_vert.svg" id="5_ha7lo"]
 
 [node name="TonalIconButton" type="Button"]
 size_flags_vertical = 4

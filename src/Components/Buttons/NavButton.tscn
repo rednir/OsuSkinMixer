@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://busp308wwxdtn"]
 
-[ext_resource type="Texture2D" uid="uid://bo3g8fwecbbbx" path="res://assets/materialicons/delete.png" id="1_qfh88"]
+[ext_resource type="Texture2D" uid="uid://cwlf604dab5rt" path="res://assets/materialicons/delete.svg" id="1_qfh88"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gi5p1"]
 content_margin_left = 16.0
@@ -13,23 +13,23 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wq04q"]
-content_margin_left = 16.0
-content_margin_top = 12.0
-content_margin_right = 16.0
-content_margin_bottom = 12.0
-bg_color = Color(0.901961, 0.882353, 0.898039, 0.0784314)
-corner_radius_top_left = 100
-corner_radius_top_right = 100
-corner_radius_bottom_right = 100
-corner_radius_bottom_left = 100
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7sgje"]
 content_margin_left = 16.0
 content_margin_top = 12.0
 content_margin_right = 16.0
 content_margin_bottom = 12.0
 bg_color = Color(0.901961, 0.882353, 0.898039, 0.117647)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wq04q"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.901961, 0.882353, 0.898039, 0.0784314)
 corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
@@ -48,18 +48,18 @@ corner_radius_bottom_left = 100
 
 [node name="NavButton" type="Button"]
 theme_override_colors/font_color = Color(0.792157, 0.768627, 0.815686, 1)
+theme_override_colors/font_focus_color = Color(0.792157, 0.768627, 0.815686, 1)
 theme_override_colors/font_pressed_color = Color(0.792157, 0.768627, 0.815686, 1)
 theme_override_colors/font_hover_color = Color(0.792157, 0.768627, 0.815686, 1)
-theme_override_colors/font_focus_color = Color(0.792157, 0.768627, 0.815686, 1)
 theme_override_colors/font_hover_pressed_color = Color(0.792157, 0.768627, 0.815686, 1)
 theme_override_colors/icon_normal_color = Color(0.792157, 0.768627, 0.815686, 1)
+theme_override_colors/icon_focus_color = Color(0.792157, 0.768627, 0.815686, 1)
 theme_override_colors/icon_pressed_color = Color(0.792157, 0.768627, 0.815686, 1)
 theme_override_colors/icon_hover_color = Color(0.792157, 0.768627, 0.815686, 1)
 theme_override_colors/icon_hover_pressed_color = Color(0.792157, 0.768627, 0.815686, 1)
-theme_override_colors/icon_focus_color = Color(0.792157, 0.768627, 0.815686, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_gi5p1")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wq04q")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_7sgje")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wq04q")
 theme_override_styles/focus = SubResource("StyleBoxFlat_ovcwr")
 text = "    Delete skin"
 icon = ExtResource("1_qfh88")
