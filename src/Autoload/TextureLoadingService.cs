@@ -12,7 +12,7 @@ public partial class TextureLoadingService : Node
 
     private readonly ConcurrentDictionary<string, Texture2D> _textureCache = new();
 
-    public void FetchTextureOrDefault(string filepathNoExtension, string extension, bool prefer2x = true, int maxSize = 2048)
+    public void FetchTextureOrDefault(string filepathNoExtension, string extension = "png", bool prefer2x = true, int maxSize = 2048)
     {
         string filepath = $"{filepathNoExtension}{(prefer2x ? "@2x" : string.Empty)}.{extension}";
 

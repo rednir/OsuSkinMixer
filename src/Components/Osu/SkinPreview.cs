@@ -107,9 +107,9 @@ public partial class SkinPreview : PanelContainer
         bool menuBgIsPng = File.Exists($"{_skin.Directory.FullName}/menu-background.png") || File.Exists($"{_skin.Directory.FullName}/menu-background@2x.png");
 
         TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("menu-background"), menuBgIsPng ? "png" : "jpg", true, 960);
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursor"), "png");
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursormiddle"), "png");
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursortrail"), "png");
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursor"));
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursormiddle"));
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursortrail"));
 
         if (_skin.SkinIni?.TryGetPropertyValue("General", "CursorRotate") is "1" or null)
             CursorRotateAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "rotate");
