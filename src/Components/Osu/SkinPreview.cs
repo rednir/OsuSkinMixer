@@ -42,6 +42,8 @@ public partial class SkinPreview : PanelContainer
         VisibleOnScreenNotifier2D.ScreenExited += OnMouseExited;
         Hitcircle.CircleHit += OnCircleHit;
 
+        TextureLoadingService.TextureReady += OnTextureReady;
+
         // Just in case?
         TreeExited += () => Input.MouseMode = Input.MouseModeEnum.Visible;
     }
@@ -67,8 +69,6 @@ public partial class SkinPreview : PanelContainer
     public void SetSkin(OsuSkin skin)
     {
         _skin = skin;
-
-        TextureLoadingService.TextureReady += OnTextureReady;
 
         if (_isTexturesLoaded)
             LoadTextures();
