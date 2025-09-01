@@ -105,25 +105,5 @@ public partial class HitcircleIcon : CenterContainer
         TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension($"{_hitcirclePrefix}-1"), "png", _use2x);
         TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("hitcircle"), "png", _use2x);
         TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("hitcircleoverlay"), "png", _use2x);
-
-        // Task.Run(() =>
-        // {
-        //     // Scale textures based on whether they are @2x or not.
-        //     if (_skin.TryGet2XTexture($"{hitcirclePrefix}-1", out var default1) &&
-        //         _skin.TryGet2XTexture("hitcircle", out var hitcircle) &&
-        //         _skin.TryGet2XTexture("hitcircleoverlay", out var hitcircleoverlay))
-        //     {
-        //         HitcircleGroup.SetDeferred(CanvasGroup.PropertyName.Scale, new Vector2(0.5f, 0.5f));
-        //         Default1Sprite.SetDeferred(Sprite2D.PropertyName.Texture, default1);
-        //         HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, hitcircle);
-        //         HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, hitcircleoverlay);
-        //     }
-        //     else
-        //     {
-        //         Default1Sprite.SetDeferred(Sprite2D.PropertyName.Texture, _skin.GetTexture($"{hitcirclePrefix}-1"));
-        //         HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, _skin.GetTexture("hitcircle"));
-        //         HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, _skin.GetTexture("hitcircleoverlay"));
-        //     }
-        // });
     }
 }
