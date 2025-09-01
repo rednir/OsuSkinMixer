@@ -15,7 +15,6 @@ public partial class TextureLoadingService : Node
     public void FetchTextureOrDefault(string filepathNoExtension, string extension, bool prefer2x = true, int maxSize = 2048)
     {
         string filepath = $"{filepathNoExtension}{(prefer2x ? "@2x" : string.Empty)}.{extension}";
-        GD.Print($"Fetching texture: {filepath}");
 
         Task.Run(() => GetTextureAsync(filepath, maxSize).ContinueWith(async t =>
         {
