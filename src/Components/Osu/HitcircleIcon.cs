@@ -6,6 +6,8 @@ using OsuSkinMixer.Models;
 
 public partial class HitcircleIcon : CenterContainer
 {
+    private readonly Vector2 _baseScale = new(0.34f, 0.34f);
+
     private TextureLoadingService TextureLoadingService;
     private VisibleOnScreenNotifier2D VisibleOnScreenNotifier2D;
     private CanvasGroup HitcircleGroup;
@@ -73,17 +75,23 @@ public partial class HitcircleIcon : CenterContainer
         if (!IsInstanceValid(this) || _skin is null)
             return;
 
+        Vector2 scale = is2x ? _baseScale / 2 : _baseScale;
+
         if (filepath == _skin.GetElementFilepathWithoutExtension("hitcircle"))
         {
             HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+            HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Scale, scale);
         }
         else if (filepath == _skin.GetElementFilepathWithoutExtension($"{_hitcirclePrefix}-1"))
         {
             Default1Sprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+            Default1Sprite.SetDeferred(Sprite2D.PropertyName.Scale, scale);
         }
         else if (filepath == _skin.GetElementFilepathWithoutExtension("hitcircleoverlay"))
         {
             HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+            HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Scale, scale);
+
             LoadingAnimationPlayer.Play("out");
         }
     }
@@ -101,18 +109,10 @@ public partial class HitcircleIcon : CenterContainer
 
         _isTexturesLoaded = true;
 
-        // TODO: this is duplicated from the hitcircle class.
-        bool _use2x = File.Exists($"{_skin.Directory}/approachcircle@2x.png")
-            && File.Exists($"{_skin.Directory}/hitcircle@2x.png")
-            && File.Exists($"{_skin.Directory}/hitcircleoverlay@2x.png");
-
-        if (_use2x)
-            HitcircleGroup.SetDeferred(CanvasGroup.PropertyName.Scale, new Vector2(0.5f, 0.5f));
-
         _hitcirclePrefix = _skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
 
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("hitcircle"), "png", _use2x);
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension($"{_hitcirclePrefix}-1"), "png", _use2x);
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("hitcircleoverlay"), "png", _use2x);
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("hitcircle"), "png");
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension($"{_hitcirclePrefix}-1"), "png");
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("hitcircleoverlay"), "png");
     }
 }

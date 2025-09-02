@@ -19,6 +19,7 @@ public partial class Hitcircle : Node2D
     private AnimationPlayer CircleAnimationPlayer;
     private AnimationPlayer HitJudgementAnimationPlayer;
     private AnimatedSprite2D HitJudgementSprite;
+    private Node2D ApproachcircleSpriteContainer;
     private Sprite2D ApproachcircleSprite;
     private Sprite2D HitcircleSprite;
     private Sprite2D HitcircleoverlaySprite;
@@ -35,8 +36,6 @@ public partial class Hitcircle : Node2D
 
     private int _combo;
 
-    private bool _use2x;
-
     public override void _Ready()
     {
         TextureLoadingService = GetNode<TextureLoadingService>("/root/TextureLoadingService");
@@ -45,6 +44,7 @@ public partial class Hitcircle : Node2D
         CircleAnimationPlayer = GetNode<AnimationPlayer>("%CircleAnimationPlayer");
         HitJudgementAnimationPlayer = GetNode<AnimationPlayer>("%HitJudgementAnimationPlayer");
         HitJudgementSprite = GetNode<AnimatedSprite2D>("%HitJudgementSprite");
+        ApproachcircleSpriteContainer = GetNode<Node2D>("%ApproachcircleSpriteContainer");
         ApproachcircleSprite = GetNode<Sprite2D>("%ApproachcircleSprite");
         HitcircleSprite = GetNode<Sprite2D>("%HitcircleSprite");
         HitcircleoverlaySprite = GetNode<Sprite2D>("%HitcircleoverlaySprite");
@@ -66,15 +66,9 @@ public partial class Hitcircle : Node2D
         // We'll add animations as we need them.
         HitJudgementSprite.SpriteFrames = new SpriteFrames();
 
-        _use2x = File.Exists($"{_skin.Directory}/approachcircle@2x.png")
-            && File.Exists($"{_skin.Directory}/hitcircle@2x.png")
-            && File.Exists($"{_skin.Directory}/hitcircleoverlay@2x.png");
-
-        TextureLoadingService.FetchTextureOrDefault(skin.GetElementFilepathWithoutExtension("approachcircle"), "png", _use2x);
-        TextureLoadingService.FetchTextureOrDefault(skin.GetElementFilepathWithoutExtension("hitcircle"), "png", _use2x);
-        TextureLoadingService.FetchTextureOrDefault(skin.GetElementFilepathWithoutExtension("hitcircleoverlay"), "png", _use2x);
-
-        SetDeferred(Node2D.PropertyName.Scale, _use2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+        TextureLoadingService.FetchTextureOrDefault(skin.GetElementFilepathWithoutExtension("approachcircle"), "png");
+        TextureLoadingService.FetchTextureOrDefault(skin.GetElementFilepathWithoutExtension("hitcircle"), "png");
+        TextureLoadingService.FetchTextureOrDefault(skin.GetElementFilepathWithoutExtension("hitcircleoverlay"), "png");
 
         _comboColors = skin.ComboColors;
         _hitcirclePrefix = skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
@@ -88,21 +82,29 @@ public partial class Hitcircle : Node2D
         if (!IsInstanceValid(this) || _skin is null)
             return;
 
+        Vector2 scale = is2x ? new Vector2(1.0f, 1.0f) : new Vector2(2.0f, 2.0f);
+
         if (filepath == _skin.GetElementFilepathWithoutExtension("approachcircle"))
         {
+            // We set the scale of the container of the approach circle instead of the sprite itself
+            // because the approach circle animation sets the scale of the sprite directly.
             ApproachcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+            ApproachcircleSpriteContainer.SetDeferred(Node2D.PropertyName.Scale, scale);
         }
         else if (filepath == _skin.GetElementFilepathWithoutExtension("hitcircle"))
         {
             HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+            HitcircleSprite.SetDeferred(Node2D.PropertyName.Scale, scale);
         }
         else if (filepath == _skin.GetElementFilepathWithoutExtension("hitcircleoverlay"))
         {
             HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+            HitcircleoverlaySprite.SetDeferred(Node2D.PropertyName.Scale, scale);
         }
         else if (filepath.StartsWith(_skin.GetElementFilepathWithoutExtension(_hitcirclePrefix) + "-"))
         {
             DefaultSprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+            DefaultSprite.SetDeferred(Node2D.PropertyName.Scale, scale);
         }
     }
 
@@ -134,7 +136,7 @@ public partial class Hitcircle : Node2D
 
         // Hitcircle scale is set previously based on whether the textures are @2x or not.
         string filename = $"{_hitcirclePrefix}-{(_currentComboIndex == 0 ? _comboColors.Length : _currentComboIndex)}";
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension(filename), "png", _use2x);
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension(filename), "png");
     }
 
     private void Hit(string score)
@@ -158,7 +160,7 @@ public partial class Hitcircle : Node2D
         string hitJudgementAnimationName = $"hit{score}";
 
         if (!HitJudgementSprite.SpriteFrames.HasAnimation(hitJudgementAnimationName))
-            _skin.AddSpriteFramesAnimation(HitJudgementSprite.SpriteFrames, hitJudgementAnimationName, _use2x);
+            _skin.AddSpriteFramesAnimation(HitJudgementSprite.SpriteFrames, hitJudgementAnimationName, true);
 
         // Only play the falling effect is there is not a miss animation in the skin.
         HitJudgementAnimationPlayer.Play(
