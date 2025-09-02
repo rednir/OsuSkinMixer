@@ -25,10 +25,10 @@ layout_mode = 2
 
 [node name="TextureRect" parent="SkinOptionsSelector/ExpandHint" index="0"]
 layout_mode = 0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 176.0
-offset_bottom = 70.0
+offset_left = -150.00002
+offset_top = 51.000015
+offset_right = 25.999985
+offset_bottom = 121.000015
 
 [node name="Title" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
 text = "Modify skin elements"
