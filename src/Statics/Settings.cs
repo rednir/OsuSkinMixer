@@ -175,8 +175,9 @@ public static partial class Settings
         GD.Print($"Downloading from {githubAsset.BrowserDownloadUrl}");
         await using Stream downloadStream = await _httpClient.GetStreamAsync(githubAsset.BrowserDownloadUrl);
 
-        using FileStream fileStream = new(installerPath, FileMode.CreateNew);
+        FileStream fileStream = new(installerPath, FileMode.CreateNew);
         await downloadStream.CopyToAsync(fileStream);
+        fileStream.Close();
 
         string checksum = ComputeSHA256OfFile(installerPath);
         if (checksum != githubAsset?.Digest)
