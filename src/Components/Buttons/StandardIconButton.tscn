@@ -3,7 +3,7 @@
 [ext_resource type="StyleBox" uid="uid://brb6aa48f2ww7" path="res://src/Styles/Buttons/StandardIconButton.tres" id="1_i5n03"]
 [ext_resource type="StyleBox" uid="uid://y2wn7t22jivk" path="res://src/Styles/Buttons/StandardIconButtonHover.tres" id="2_8w6x6"]
 [ext_resource type="StyleBox" uid="uid://brmcwao5xcsti" path="res://src/Styles/Buttons/StandardIconButtonPressed.tres" id="3_do76i"]
-[ext_resource type="Texture2D" uid="uid://bmps2565xtlyd" path="res://assets/materialicons/more_vert.png" id="4_ir445"]
+[ext_resource type="Texture2D" uid="uid://cmv2rec6v51fs" path="res://assets/materialicons/more_vert.svg" id="4_ir445"]
 
 [node name="StandardIconButton" type="Button"]
 custom_minimum_size = Vector2(40, 40)

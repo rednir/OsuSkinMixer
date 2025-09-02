@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="4_qbo2l"]
 [ext_resource type="PackedScene" uid="uid://c2ngbwdc3cup8" path="res://src/Components/ExpandablePanelContainer.tscn" id="5_fkmng"]
 [ext_resource type="LabelSettings" uid="uid://cc23qpkl2afag" path="res://src/Styles/LabelSettings/WarningText.tres" id="6_xuqi2"]
-[ext_resource type="Texture2D" uid="uid://cvpikgocffedt" path="res://assets/materialicons/done.png" id="7_mb77d"]
+[ext_resource type="Texture2D" uid="uid://b14tfma61q3tw" path="res://assets/materialicons/done.svg" id="7_mb77d"]
 
 [node name="SkinModifierModificationSelect" type="VBoxContainer"]
 offset_right = 750.0

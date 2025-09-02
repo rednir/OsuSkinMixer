@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c0bqc573eb7ys" path="res://src/Components/Buttons/TonalIconButton.tscn" id="3_j0wcv"]
 [ext_resource type="PackedScene" uid="uid://c2ngbwdc3cup8" path="res://src/Components/ExpandablePanelContainer.tscn" id="3_nlg4t"]
 [ext_resource type="PackedScene" uid="uid://md4n10t0o7i4" path="res://src/Components/Popup/SkinSelectorPopup.tscn" id="3_psfnl"]
-[ext_resource type="Texture2D" uid="uid://cqwxbxy12xlnt" path="res://assets/materialicons/add.png" id="4_jexl6"]
+[ext_resource type="Texture2D" uid="uid://ckwr3aefydtbt" path="res://assets/materialicons/add.svg" id="5_7hd1d"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="8_fpowc"]
 [ext_resource type="PackedScene" uid="uid://ce6pfh8ys6arg" path="res://src/Components/Popup/ManageSkinPopup.tscn" id="8_sut4d"]
 
@@ -42,7 +42,7 @@ theme_override_constants/separation = 8
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-icon = ExtResource("4_jexl6")
+icon = ExtResource("5_7hd1d")
 
 [node name="Panel" type="Panel" parent="ExpandablePanelContainer/VBoxContainer/ContentContainer" index="3"]
 layout_mode = 2

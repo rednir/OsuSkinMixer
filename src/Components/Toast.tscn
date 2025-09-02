@@ -1,21 +1,19 @@
-[gd_scene load_steps=15 format=3 uid="uid://feflo812i8ns"]
+[gd_scene load_steps=16 format=3 uid="uid://feflo812i8ns"]
 
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="1_daqam"]
 [ext_resource type="Script" uid="uid://cyi7fvfm7o33u" path="res://src/Components/Toast.cs" id="1_u1844"]
-[ext_resource type="Texture2D" uid="uid://d35i1tw6xkwef" path="res://assets/materialicons/close.png" id="2_vpdgi"]
+[ext_resource type="Texture2D" uid="uid://7qem7s4x0eoq" path="res://assets/materialicons/close.svg" id="2_vpdgi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rifil"]
-content_margin_left = 12.0
-content_margin_top = 2.0
-content_margin_right = 0.0
-content_margin_bottom = 2.0
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+content_margin_top = 14.0
+content_margin_right = 4.0
+content_margin_bottom = 14.0
+bg_color = Color(0.9715726, 0.86929834, 0.8967159, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
 shadow_color = Color(0, 0, 0, 0.278431)
-shadow_size = 5
 shadow_offset = Vector2(2.08165e-12, 1)
 
 [sub_resource type="Animation" id="Animation_0d8ut"]
@@ -80,6 +78,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(2.08165e-12, 2.08165e-12)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(324, 508)]
+}
 
 [sub_resource type="Animation" id="Animation_ev868"]
 resource_name = "in"
@@ -142,7 +152,19 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0.1, 0.3, 0.5),
 "transitions": PackedFloat32Array(0.5, -1.51572, 1),
 "update": 0,
-"values": [Vector2(2.08165e-12, -50), Vector2(2.08165e-12, 5), Vector2(2.08165e-12, 2.08165e-12)]
+"values": [Vector2(-9, -50), Vector2(-9, 5), Vector2(-9, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(324, 30)]
 }
 
 [sub_resource type="Animation" id="Animation_obpof"]
@@ -246,6 +268,8 @@ _data = {
 &"in": SubResource("Animation_anyk2")
 }
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7166e"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o1sp6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ppss"]
@@ -270,57 +294,89 @@ offset_bottom = 58.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+mouse_behavior_recursive = 1
 script = ExtResource("1_u1844")
 
 [node name="Panel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
 visible = false
-self_modulate = Color(1, 1, 1, 0.862745)
+self_modulate = Color(1, 1, 1, 0.94509804)
 custom_minimum_size = Vector2(300, 30)
 layout_mode = 1
-offset_right = 312.0
-offset_bottom = 44.0
+anchors_preset = -1
+anchor_left = -0.042000003
+anchor_right = -0.042000003
+offset_left = 13.146001
+offset_right = 337.146
+offset_bottom = 508.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_rifil")
+
+[node name="CloseControl" type="Control" parent="Panel"]
+layout_mode = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
+
+[node name="ToastClose" parent="Panel/CloseControl" instance=ExtResource("1_daqam")]
+unique_name_in_owner = true
+modulate = Color(0.266667, 0.266667, 0.266667, 1)
+layout_mode = 0
+offset_left = 278.0
+offset_top = -10.0
+offset_right = 318.0
+offset_bottom = 30.0
+mouse_behavior_recursive = 2
+icon = ExtResource("2_vpdgi")
 
 [node name="ToastAnimationPlayer" type="AnimationPlayer" parent="Panel"]
 unique_name_in_owner = true
 reset_on_save = false
 libraries = {
-"": SubResource("AnimationLibrary_7tqpr")
+&"": SubResource("AnimationLibrary_7tqpr")
 }
 
 [node name="TextAnimationPlayer" type="AnimationPlayer" parent="Panel"]
 unique_name_in_owner = true
+reset_on_save = false
 libraries = {
-"": SubResource("AnimationLibrary_wpltx")
+&"": SubResource("AnimationLibrary_wpltx")
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 2
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
 theme_override_constants/separation = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
-custom_minimum_size = Vector2(300, 30)
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 8
+size_flags_vertical = 4
+mouse_filter = 2
+mouse_behavior_recursive = 1
 
 [node name="ToastText" type="Label" parent="Panel/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.192157, 0.188235, 0.2, 1)
 theme_override_constants/line_spacing = 0
 theme_override_font_sizes/font_size = 14
 text = "Bread is in the toaster"
 vertical_alignment = 1
 autowrap_mode = 3
-text_overrun_behavior = 3
 
-[node name="ToastClose" parent="Panel/VBoxContainer/HBoxContainer" instance=ExtResource("1_daqam")]
-unique_name_in_owner = true
-modulate = Color(0.266667, 0.266667, 0.266667, 1)
+[node name="Padding" type="Panel" parent="Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
-icon = ExtResource("2_vpdgi")
+mouse_filter = 2
+mouse_behavior_recursive = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7166e")
 
 [node name="ProgressBar" type="ProgressBar" parent="Panel/VBoxContainer"]
 visible = false

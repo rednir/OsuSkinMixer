@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://daiw0l2mqhlme" path="res://src/Components/GetMoreSkinsContainer.cs" id="1_tmuiu"]
 [ext_resource type="PackedScene" uid="uid://dsgg2xjv4sebx" path="res://src/Components/Popup/GetMoreSkinsPopup.tscn" id="2_0m8mb"]
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="2_j0igh"]
-[ext_resource type="Texture2D" uid="uid://d3c0n4oyhnm8e" path="res://assets/materialicons/library_add.png" id="3_m4gyx"]
+[ext_resource type="Texture2D" uid="uid://blxje1476y62e" path="res://assets/materialicons/library_add.svg" id="3_m4gyx"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d1niq"]
 content_margin_top = 32.0

@@ -4,6 +4,7 @@ public partial class Toast : Control
 {
     const double NEW_TOAST_IF_PROGRESS_AFTER = 0.5;
 
+    private PanelContainer Panel;
     private AnimationPlayer ToastAnimationPlayer;
     private AnimationPlayer TextAnimationPlayer;
     private Label ToastTextLabel;
@@ -13,15 +14,26 @@ public partial class Toast : Control
 
     public override void _Ready()
     {
+        Panel = GetNode<PanelContainer>("%Panel");
         ToastAnimationPlayer = GetNode<AnimationPlayer>("%ToastAnimationPlayer");
         TextAnimationPlayer = GetNode<AnimationPlayer>("%TextAnimationPlayer");
         ToastTextLabel = GetNode<Label>("%ToastText");
         ToastCloseButton = GetNode<Button>("%ToastClose");
 
+        ToastAnimationPlayer.AnimationStarted += (animationName) =>
+        {
+            // Because jank.
+            Panel.Size = new Vector2(Panel.Size.X, 30);
+        };
+
         ToastAnimationPlayer.AnimationFinished += (animationName) =>
         {
             if (animationName == "in")
+            {
                 ToastAnimationPlayer.Play("progress");
+            }
+
+            ToastAnimationPlayer.SpeedScale = 1.0f;
 
             if (animationName == "progress")
                 ToastAnimationPlayer.Play("out");
@@ -29,6 +41,8 @@ public partial class Toast : Control
 
         TextAnimationPlayer.AnimationFinished += (animationName) =>
         {
+            ToastAnimationPlayer.SpeedScale = ToastTextLabel.Text.Length > 80 ? 0.5f : 1.0f;
+
             if (animationName == "in")
                 NextText();
         };
@@ -58,5 +72,7 @@ public partial class Toast : Control
 
         ToastTextLabel.SetDeferred(Label.PropertyName.Text, _queue.Dequeue());
         TextAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "in");
+
+        ToastAnimationPlayer.SpeedScale = 1.0f;
     }
 }

@@ -4,9 +4,11 @@ using OsuSkinMixer.Models;
 using System.IO;
 using OsuSkinMixer.Statics;
 using SixLabors.ImageSharp;
+using OsuSkinMixer.Autoload;
 
 public partial class SkinPreview : PanelContainer
 {
+    private TextureLoadingService TextureLoadingService;
     private VisibleOnScreenNotifier2D VisibleOnScreenNotifier2D;
     private AnimationPlayer AnimationPlayer;
     private TextureRect MenuBackground;
@@ -16,15 +18,19 @@ public partial class SkinPreview : PanelContainer
     private Sprite2D Cursormiddle;
     private CpuParticles2D Cursortrail;
     private Hitcircle Hitcircle;
+    private AnimationPlayer LoadingPanelAnimationPlayer;
 
     private bool _paused;
 
     private OsuSkin _skin;
 
-    private bool _isTexturesLoaded;
+    private bool _isLoadTexturesCalled;
+
+    private bool _isLoadFinished;
 
     public override void _Ready()
     {
+        TextureLoadingService = GetNode<TextureLoadingService>("/root/TextureLoadingService");
         VisibleOnScreenNotifier2D = GetNode<VisibleOnScreenNotifier2D>("%VisibleOnScreenNotifier2D");
         AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
         MenuBackground = GetNode<TextureRect>("%MenuBackground");
@@ -34,10 +40,13 @@ public partial class SkinPreview : PanelContainer
         Cursormiddle = GetNode<Sprite2D>("%Cursormiddle");
         Cursortrail = GetNode<CpuParticles2D>("%Cursortrail");
         Hitcircle = GetNode<Hitcircle>("%Hitcircle");
+        LoadingPanelAnimationPlayer = GetNode<AnimationPlayer>("%LoadingPanelAnimationPlayer");
 
         VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
         VisibleOnScreenNotifier2D.ScreenExited += OnMouseExited;
         Hitcircle.CircleHit += OnCircleHit;
+
+        TextureLoadingService.TextureReady += OnTextureReady;
 
         // Just in case?
         TreeExited += () => Input.MouseMode = Input.MouseModeEnum.Visible;
@@ -45,6 +54,9 @@ public partial class SkinPreview : PanelContainer
 
     public override void _Process(double delta)
     {
+        if (!_isLoadFinished)
+            return;
+
         Vector2 mousePosition = GetGlobalMousePosition();
         Control hoveredControl = GetViewport().GuiGetHoveredControl();
 
@@ -65,27 +77,55 @@ public partial class SkinPreview : PanelContainer
     {
         _skin = skin;
 
-        if (_isTexturesLoaded)
+        if (_isLoadTexturesCalled)
             LoadTextures();
+    }
+
+    private void OnTextureReady(string filepath, Texture2D texture, bool is2x)
+    {
+        if (!IsInstanceValid(this))
+            return;
+
+        if (filepath == _skin.GetElementFilepathWithoutExtension("menu-background"))
+        {
+            MenuBackground.SetDeferred(TextureRect.PropertyName.Texture, texture);
+
+            // This is the last thing we called the load method for, and since all the textures 
+            // we load for SkinPreview are from the same skin, they'll arrive in order.
+            LoadingPanelAnimationPlayer.Play("out");
+            _isLoadFinished = true;
+        }
+        else if (filepath == _skin.GetElementFilepathWithoutExtension("cursor"))
+        {
+            Cursor.SetDeferred(Sprite2D.PropertyName.Texture, texture);
+            Cursor.SetDeferred(Sprite2D.PropertyName.Scale, is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+        }
+        else if (filepath == _skin.GetElementFilepathWithoutExtension("cursormiddle"))
+        {
+            Cursormiddle.SetDeferred(TextureRect.PropertyName.Texture, texture);
+            Cursormiddle.SetDeferred(TextureRect.PropertyName.Scale, is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+        }
+        else if (filepath == _skin.GetElementFilepathWithoutExtension("cursortrail"))
+        {
+            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Texture, texture);
+            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Scale, is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+        }
     }
 
     private void LoadTextures()
     {
-        _isTexturesLoaded = true;
+        _isLoadTexturesCalled = true;
+        LoadingPanelAnimationPlayer.Play("load");
 
-        _skin.TryGetTexture("menu-background", out var menuBackground, "jpg");
+        Hitcircle.SetSkin(_skin);
+        ComboContainer.Skin = _skin;
 
-        // Scale textures based on whether they are @2x or not.
-        float cursorTrailScale = _skin.TryGet2XTexture("cursortrail", out var cursortrail) ? 0.5f : 1;
-        Cursor.SetDeferred(Sprite2D.PropertyName.Scale, _skin.TryGet2XTexture("cursor", out var cursor) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
-        Cursormiddle.SetDeferred(Sprite2D.PropertyName.Scale, _skin.TryGet2XTexture("cursormiddle", out var cursormiddle) ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
-        Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMax, cursorTrailScale);
-        Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMin, cursorTrailScale);
+        bool menuBgIsPng = File.Exists($"{_skin.Directory.FullName}/menu-background.png") || File.Exists($"{_skin.Directory.FullName}/menu-background@2x.png");
 
-        MenuBackground.SetDeferred(TextureRect.PropertyName.Texture, menuBackground);
-        Cursor.SetDeferred(TextureRect.PropertyName.Texture, cursor);
-        Cursormiddle.SetDeferred(TextureRect.PropertyName.Texture, cursormiddle);
-        Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Texture, cursortrail);
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("menu-background"), menuBgIsPng ? "png" : "jpg", true, 960);
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursor"));
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursormiddle"));
+        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursortrail"));
 
         if (_skin.SkinIni?.TryGetPropertyValue("General", "CursorRotate") is "1" or null)
             CursorRotateAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "rotate");
@@ -110,14 +150,11 @@ public partial class SkinPreview : PanelContainer
 
         // This seems to be how it works in osu! but idk really.
         Cursormiddle.SetDeferred(Sprite2D.PropertyName.Visible, hasCursorMiddle || !File.Exists($"{_skin.Directory.FullName}/cursor.png"));
-
-        Hitcircle.SetSkin(_skin);
-        ComboContainer.Skin = _skin;
     }
 
     private void OnScreenEntered()
     {
-        if (_skin == null || _isTexturesLoaded)
+        if (_skin is null || _isLoadTexturesCalled)
             return;
 
         LoadTextures();

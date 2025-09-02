@@ -5,10 +5,12 @@ using System.Reflection;
 using System.Text.Json;
 using System.Net.Http;
 using OsuSkinMixer.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 public static partial class Settings
 {
-    public const string VERSION = "v2.9.1";
+    public const string VERSION = "v3.0";
 
     public const string GITHUB_REPO_PATH = "rednir/OsuSkinMixer";
 
@@ -162,15 +164,44 @@ public static partial class Settings
 
         Log($"Downloading installer for {release.TagName}");
 
-        await using Stream downloadStream = await _httpClient.GetStreamAsync($"https://github.com/{GITHUB_REPO_PATH}/releases/latest/download/osu-skin-mixer-setup.exe");
+        GithubAsset githubAsset = release.Assets.Find(a => a.Name == "osu-skin-mixer-setup.exe");
+
+        if (githubAsset == null)
+        {
+            PushException(new FileNotFoundException($"Failed to find setup for {release.TagName}"));
+            return;
+        }
+
+        GD.Print($"Downloading from {githubAsset.BrowserDownloadUrl}");
+        await using Stream downloadStream = await _httpClient.GetStreamAsync(githubAsset.BrowserDownloadUrl);
 
         using FileStream fileStream = new(installerPath, FileMode.CreateNew);
         await downloadStream.CopyToAsync(fileStream);
+
+        string checksum = ComputeSHA256OfFile(installerPath);
+        if (checksum != githubAsset?.Digest)
+        {
+            PushToast("We tried to update osu! skin mixer, but what we downloaded seems corrupted.\n\nYou might have to download the update manually. Sorry!");
+            File.Delete(installerPath);
+            return;
+        }
 
         Content.UpdatePending = true;
         Save();
 
         Log($"Finished downloading installer to {installerPath}");
+    }
+
+    private static string ComputeSHA256OfFile(string filePath)
+    {
+        using FileStream fileStream = new(filePath, FileMode.Open, FileAccess.Read);
+        using SHA256 sha256 = SHA256.Create();
+        byte[] hash = sha256.ComputeHash(fileStream);
+        StringBuilder sb = new("sha256:");
+        foreach (byte b in hash)
+            sb.Append(b.ToString("x2"));
+
+        return sb.ToString();
     }
 
     public static void StartLoggingToFile()

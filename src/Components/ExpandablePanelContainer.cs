@@ -6,8 +6,8 @@ public partial class ExpandablePanelContainer : PanelContainer
 	private CpuParticles2D CpuParticles2D;
 	private Button ExpandButton;
 	private VBoxContainer ContentContainer;
-	private Texture2D MoreIconTexture;
-	private Texture2D LessIconTexture;
+	private DpiTexture MoreIconTexture;
+	private DpiTexture LessIconTexture;
 
 	private bool Active;
 
@@ -19,8 +19,8 @@ public partial class ExpandablePanelContainer : PanelContainer
 		CpuParticles2D = GetNode<CpuParticles2D>("%CPUParticles2D");
 		ExpandButton = GetNode<Button>("%ExpandButton");
 		ContentContainer = GetNode<VBoxContainer>("%ContentContainer");
-		MoreIconTexture = GD.Load<Texture2D>("res://assets/materialicons/expand_more.png");
-		LessIconTexture = GD.Load<Texture2D>("res://assets/materialicons/expand_less.png");
+		MoreIconTexture = GD.Load<DpiTexture>("res://assets/materialicons/expand_more.svg");
+		LessIconTexture = GD.Load<DpiTexture>("res://assets/materialicons/expand_less.svg");
 		ExpandButton.Icon = ContentContainer.Visible ? LessIconTexture : MoreIconTexture;
 		ExpandButton.Pressed += OnExpandButtonPressed;
 

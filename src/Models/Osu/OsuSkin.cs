@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
 using System.Text;
+using OsuSkinMixer.Autoload;
 using OsuSkinMixer.Statics;
 
 /// <summary>Represents an osu! skin and provides methods to fetch its elements.</summary>
@@ -131,6 +132,13 @@ public class OsuSkin
     public override int GetHashCode()
         => Name.GetHashCode();
 
+    public string WriteCreditsFile()
+    {
+        string destination = $"{Directory.FullName}/credits.ini";
+        File.WriteAllText(destination, Credits.ToString());
+        return destination;
+    }
+
     public Texture2D Get2XTexture(string filename, string extension = "png")
     {
         lock (_lock)
@@ -182,6 +190,9 @@ public class OsuSkin
         }
     }
 
+    public string GetElementFilepathWithoutExtension(string filename)
+        => $"{Directory?.FullName}/{filename}";
+
     private Texture2D GetTextureOrNull(string filename, string extension)
     {
         if (_textureCache.TryGetValue(filename, out Texture2D value))
@@ -209,7 +220,7 @@ public class OsuSkin
         return texture;
     }
 
-    public void AddSpriteFramesAnimation(SpriteFrames spriteFrames, string filename)
+    public void AddSpriteFramesAnimation(SpriteFrames spriteFrames, string filename, bool use2x)
     {
         if (!int.TryParse(SkinIni?.TryGetPropertyValue("General", "AnimationFramerate"), out int fps))
             fps = -1;
@@ -222,8 +233,16 @@ public class OsuSkin
         {
             if (File.Exists($"{pathPrefix}-{i}@2x.png") || File.Exists($"{pathPrefix}-{i}.png"))
             {
-                TryGet2XTexture($"{filename}-{i}", out var texture);
-                spriteFrames.AddFrame(filename, texture);
+                if (use2x)
+                {
+                    TryGet2XTexture($"{filename}-{i}", out var texture);
+                    spriteFrames.AddFrame(filename, texture);
+                }
+                else
+                {
+                    TryGetTexture($"{filename}-{i}", out var texture);
+                    spriteFrames.AddFrame(filename, texture);
+                }
                 continue;
             }
 
@@ -236,8 +255,16 @@ public class OsuSkin
 
         if (spriteFrames.GetFrameCount(filename) == 0)
         {
-            TryGet2XTexture(filename, out var texture);
-            spriteFrames.AddFrame(filename, texture);
+            if (use2x)
+            {
+                TryGet2XTexture(filename, out var texture);
+                spriteFrames.AddFrame(filename, texture);
+            }
+            else
+            {
+                TryGetTexture(filename, out var texture);
+                spriteFrames.AddFrame(filename, texture);
+            }
         }
     }
 

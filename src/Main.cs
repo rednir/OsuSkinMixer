@@ -13,6 +13,7 @@ using OsuSkinMixer.Statics;
 using OsuSkinMixer.StackScenes;
 using OsuSkinMixer.Models;
 using System.IO;
+using OsuSkinMixer.Autoload;
 
 public partial class Main : Control
 {
@@ -20,11 +21,12 @@ public partial class Main : Control
     private PackedScene SkinModiferModificationSelectScene;
     private PackedScene SkinInfoScene;
 
+    private TextureLoadingService TextureLoadingService;
     private AnimationPlayer ScenesAnimationPlayer;
     private AnimationPlayer UpdateAnimationPlayer;
     private AnimationPlayer HomeButtonAnimationPlayer;
     private Background Background;
-    private Control ScenesContainer;
+    private ScrollContainer ScenesContainer;
     private Button BackButton;
     private Button HomeButton;
     private Label TitleLabel;
@@ -54,12 +56,13 @@ public partial class Main : Control
         MenuScene = GD.Load<PackedScene>("res://src/StackScenes/Menu.tscn");
         SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
         SkinModiferModificationSelectScene = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierModificationSelect.tscn");
-        
+
+        TextureLoadingService = GetNode<TextureLoadingService>("/root/TextureLoadingService");
         UpdateAnimationPlayer = GetNode<AnimationPlayer>("%UpdateAnimationPlayer");
         ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
         HomeButtonAnimationPlayer = GetNode<AnimationPlayer>("%HomeButtonAnimationPlayer");
         Background = GetNode<Background>("Background");
-        ScenesContainer = GetNode<Control>("Scenes/ScrollContainer");
+        ScenesContainer = GetNode<ScrollContainer>("Scenes/ScrollContainer");
         BackButton = GetNode<Button>("%BackButton");
         HomeButton = GetNode<Button>("%HomeButton");
         TitleLabel = GetNode<Label>("TopBar/HBoxContainer/Title");
@@ -93,9 +96,9 @@ public partial class Main : Control
         };
 
         OsuData.AllSkinsLoaded += PopAllScenes;
-        OsuData.SkinAdded += s => PushSkinFolderChangeToast($"Skin was created:\n{s.Name}");
-        OsuData.SkinModified += s => PushSkinFolderChangeToast($"Skin was modified:\n{s.Name}");
-        OsuData.SkinRemoved += s => PushSkinFolderChangeToast($"Skin was deleted:\n{s.Name}");
+        OsuData.SkinAdded += s => OnSkinFolderContentsChange($"Skin was created:", s);
+        OsuData.SkinModified += s => OnSkinFolderContentsChange($"Skin was modified:", s);
+        OsuData.SkinRemoved += s => OnSkinFolderContentsChange($"Skin was deleted:", s);
         OsuData.SkinInfoRequested += s => SkinInfoRequestedSkins = s;
         OsuData.SkinModifyRequested += s => SkinModifyRequestedSkins = s;
 
@@ -245,8 +248,10 @@ public partial class Main : Control
             PendingScene.Visible = true;
             SceneStack.Push(PendingScene);
             ScenesContainer.AddChild(PendingScene);
+            ScenesContainer.ScrollVertical = 0;
 
             PendingScene = null;
+
             ScenesAnimationPlayer.Play("push_in");
 
             if (!HomeButton.Visible && SceneStack.Count >= 3)
@@ -257,12 +262,14 @@ public partial class Main : Control
         TitleLabel.Text = SceneStack.Peek()?.Title ?? "osu! skin mixer";
     }
 
-    private void PushSkinFolderChangeToast(string message)
+    private void OnSkinFolderContentsChange(string message, OsuSkin skin)
     {
+        TextureLoadingService.InvalidateSkinCache(skin);
+
         if (!Settings.Content.NotifyOnSkinFolderChange)
             return;
 
-        Toast.Push(message);
+        Toast.Push($"{message}\n{skin.Name}");
     }
 
     private void ClearTrash()

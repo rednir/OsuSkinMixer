@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://ww2v85wahj5b" path="res://src/Components/ExpandablePanelContainer.cs" id="2_k2q5s"]
 [ext_resource type="Texture2D" uid="uid://bt0mw5xtcyc4u" path="res://assets/gradient-bar.png" id="3_4huxt"]
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="3_176bv"]
-[ext_resource type="Texture2D" uid="uid://b66igvwvv334q" path="res://assets/materialicons/expand_more.png" id="4_kq1qk"]
+[ext_resource type="Texture2D" uid="uid://qrdrk4xrsdjq" path="res://assets/materialicons/expand_more.svg" id="4_kq1qk"]
 [ext_resource type="StyleBox" uid="uid://brb6aa48f2ww7" path="res://src/Styles/Buttons/StandardIconButton.tres" id="5_ofgev"]
 [ext_resource type="StyleBox" uid="uid://y2wn7t22jivk" path="res://src/Styles/Buttons/StandardIconButtonHover.tres" id="6_1txgb"]
 [ext_resource type="StyleBox" uid="uid://brmcwao5xcsti" path="res://src/Styles/Buttons/StandardIconButtonPressed.tres" id="7_by1s8"]

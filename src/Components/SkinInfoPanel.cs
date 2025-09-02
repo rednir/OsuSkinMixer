@@ -33,8 +33,8 @@ public partial class SkinInfoPanel : PanelContainer
 
     private PackedScene SkinComponentSkinCreditsScene = GD.Load<PackedScene>("res://src/Components/SkinComponentSkinCredits.tscn");
 
-    private Texture2D ExpandMoreIcon;
-    private Texture2D ExpandLessIcon;
+    private DpiTexture ExpandMoreIcon;
+    private DpiTexture ExpandLessIcon;
 
     public override void _Ready()
     {
@@ -57,8 +57,8 @@ public partial class SkinInfoPanel : PanelContainer
         MenuHitPlayer = GetNode<AudioStreamPlayer>("%MenuHitPlayer");
         ManageSkinPopup = GetNode<ManageSkinPopup>("%ManageSkinPopup");
 
-        ExpandMoreIcon = GD.Load<Texture2D>("res://assets/materialicons/expand_more.png");
-        ExpandLessIcon = GD.Load<Texture2D>("res://assets/materialicons/expand_less.png");
+        ExpandMoreIcon = GD.Load<DpiTexture>("res://assets/materialicons/expand_more.svg");
+        ExpandLessIcon = GD.Load<DpiTexture>("res://assets/materialicons/expand_less.svg");
 
         UndoDeleteButton.Pressed += OnUndoDeleteButtonPressed;
         MoreButton.Pressed += OnMoreButtonPressed;

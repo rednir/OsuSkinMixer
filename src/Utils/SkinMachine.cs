@@ -130,8 +130,6 @@ public abstract class SkinMachine : IDisposable
 
     protected void GenerateCreditsFile(OsuSkin workingSkin)
     {
-        string creditsFilePath = $"{workingSkin.Directory.FullName}/credits.ini";
-
         foreach (var pair in Md5Map)
         {
             OsuSkin skin = pair.Key.skin;
@@ -159,8 +157,8 @@ public abstract class SkinMachine : IDisposable
                 filename: elementFilename);
         }
 
+        string creditsFilePath = workingSkin.WriteCreditsFile();
         AddFileToOriginalElementsCache(creditsFilePath);
-        File.WriteAllText(creditsFilePath, workingSkin.Credits.ToString());
     }
 
     protected static void RemoveCreditIfExists(OsuSkin workingSkin, string elementFilename)
@@ -174,7 +172,7 @@ public abstract class SkinMachine : IDisposable
         }
     }
 
-    private static string GetMd5Hash(string filePath)
+    public static string GetMd5Hash(string filePath)
     {
         using MD5 md5 = MD5.Create();
         using FileStream stream = File.OpenRead(filePath);

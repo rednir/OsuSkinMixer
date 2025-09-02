@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dyarkbs87kwmf"]
+[gd_scene load_steps=12 format=3 uid="uid://dyarkbs87kwmf"]
 
 [ext_resource type="Script" uid="uid://clj852gjvfkv" path="res://src/Components/Osu/HitcircleIcon.cs" id="1_tsma2"]
 [ext_resource type="Texture2D" uid="uid://fhdeit7as0yi" path="res://assets/defaultskin/hitcircleoverlay.png" id="2_566bw"]
@@ -6,7 +6,104 @@
 [ext_resource type="Texture2D" uid="uid://dcn0qk3g4475p" path="res://assets/defaultskin/default-1.png" id="4_in1i4"]
 [ext_resource type="Texture2D" uid="uid://b3s5c5wnenggq" path="res://assets/hidden-icon.png" id="5_m3nqk"]
 
+[sub_resource type="Animation" id="Animation_xidh5"]
+resource_name = "out"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoadingPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_d3dii"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoadingPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_lcqw2"]
+resource_name = "load"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoadingPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d3dii"]
+_data = {
+&"RESET": SubResource("Animation_d3dii"),
+&"load": SubResource("Animation_lcqw2"),
+&"out": SubResource("Animation_xidh5")
+}
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_legyu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xidh5"]
+bg_color = Color(0.1542874, 0.1217595, 0.14706087, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
 
 [node name="HitcircleIcon" type="CenterContainer"]
 offset_left = -1.0
@@ -15,6 +112,12 @@ offset_right = 49.0
 offset_bottom = 49.0
 pivot_offset = Vector2(21, 21)
 script = ExtResource("1_tsma2")
+
+[node name="LoadingAnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_d3dii")
+}
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 clip_contents = true
@@ -54,9 +157,15 @@ mouse_filter = 1
 [node name="HiddenIcon" type="TextureRect" parent="Control"]
 unique_name_in_owner = true
 modulate = Color(0.972549, 0.882353, 1, 1)
-layout_mode = 2
+layout_mode = 0
 offset_right = 24.0
 offset_bottom = 24.0
 tooltip_text = "This skin is hidden"
 texture = ExtResource("5_m3nqk")
 stretch_mode = 3
+
+[node name="LoadingPanel" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xidh5")

@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://dkvjm4nex6vk2"]
 
-[ext_resource type="Texture2D" uid="uid://b3lafw2qvbqjh" path="res://assets/materialicons/task_alt.png" id="1_c5iah"]
+[ext_resource type="Texture2D" uid="uid://dno3rlemp2cqj" path="res://assets/materialicons/task_alt.svg" id="1_c5iah"]
 [ext_resource type="Script" uid="uid://yk5wprhnvem4" path="res://src/Components/OperationComponent.cs" id="1_n652j"]
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="2_q4a2b"]
 [ext_resource type="PackedScene" uid="uid://d14i1rg6d8m7w" path="res://src/Components/Buttons/StandardIconButton.tscn" id="3_3fens"]
-[ext_resource type="Texture2D" uid="uid://ciei67qdyomec" path="res://assets/materialicons/undo.png" id="4_8yhbx"]
+[ext_resource type="Texture2D" uid="uid://b2eg1xeiv2xgo" path="res://assets/materialicons/undo.svg" id="4_8yhbx"]
 
 [node name="OperationComponent" type="HBoxContainer"]
 offset_right = 348.0
