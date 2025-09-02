@@ -45,26 +45,29 @@ public partial class HitcircleIcon : CenterContainer
         HiddenIcon.SetDeferred(PropertyName.Visible, skin.Hidden);
         LoadingAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "load");
 
-        string iniColorRgb = skin.SkinIni?.TryGetPropertyValue("Colours", "Combo2") ?? skin.SkinIni?.TryGetPropertyValue("Colours", "Combo1");
-        string[] iniColorRgbSplit = iniColorRgb.Replace(" ", string.Empty).Split(',');
-
-        if (iniColorRgbSplit.Length == 3
-            && float.TryParse(iniColorRgbSplit[0], out float r)
-            && float.TryParse(iniColorRgbSplit[1], out float g)
-            && float.TryParse(iniColorRgbSplit[2], out float b))
-        {
-            HitcircleSprite.SetDeferred(PropertyName.Modulate, new Color(r / 255, g / 255, b / 255));
-        }
-        else
-        {
-            HitcircleSprite.SetDeferred(PropertyName.Modulate, new Color(0, 202, 0));
-        }
-
         if (_isTexturesLoaded)
         {
             _isTexturesLoaded = false;
             OnScreenEntered();
         }
+
+        string iniColorRgb = skin.SkinIni?.TryGetPropertyValue("Colours", "Combo2") ?? skin.SkinIni?.TryGetPropertyValue("Colours", "Combo1");
+
+        if (iniColorRgb is not null)
+        {
+            string[] iniColorRgbSplit = iniColorRgb?.Replace(" ", string.Empty).Split(',');
+
+            if (iniColorRgbSplit.Length == 3
+                && float.TryParse(iniColorRgbSplit[0], out float r)
+                && float.TryParse(iniColorRgbSplit[1], out float g)
+                && float.TryParse(iniColorRgbSplit[2], out float b))
+            {
+                HitcircleSprite.SetDeferred(PropertyName.Modulate, new Color(r / 255, g / 255, b / 255));
+                return;
+            }
+        }
+
+        HitcircleSprite.SetDeferred(PropertyName.Modulate, new Color(0, 202, 0));
     }
 
     private void OnTextureReady(string filepath, Texture2D texture, bool is2x)
