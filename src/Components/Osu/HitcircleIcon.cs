@@ -39,7 +39,6 @@ public partial class HitcircleIcon : CenterContainer
     public void SetSkin(OsuSkin skin)
     {
         _skin = skin;
-        _isTexturesLoaded = false;
 
         HiddenIcon.SetDeferred(PropertyName.Visible, skin.Hidden);
         LoadingAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "load");
@@ -60,6 +59,12 @@ public partial class HitcircleIcon : CenterContainer
         else
         {
             HitcircleSprite.SetDeferred(PropertyName.Modulate, new Color(0, 202, 0));
+        }
+
+        if (_isTexturesLoaded)
+        {
+            _isTexturesLoaded = false;
+            OnScreenEntered();
         }
     }
 
