@@ -191,7 +191,7 @@ public class OsuSkin
     }
 
     public string GetElementFilepathWithoutExtension(string filename)
-        => $"{Directory.FullName}/{filename}";
+        => $"{Directory?.FullName}/{filename}";
 
     private Texture2D GetTextureOrNull(string filename, string extension)
     {
