@@ -42,6 +42,7 @@ public partial class HitcircleIcon : CenterContainer
         _isTexturesLoaded = false;
 
         HiddenIcon.SetDeferred(PropertyName.Visible, skin.Hidden);
+        LoadingAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "load");
 
         string[] iniColorRgb = skin
             .SkinIni?

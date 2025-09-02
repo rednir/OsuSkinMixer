@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dyarkbs87kwmf"]
+[gd_scene load_steps=12 format=3 uid="uid://dyarkbs87kwmf"]
 
 [ext_resource type="Script" uid="uid://clj852gjvfkv" path="res://src/Components/Osu/HitcircleIcon.cs" id="1_tsma2"]
 [ext_resource type="Texture2D" uid="uid://fhdeit7as0yi" path="res://assets/defaultskin/hitcircleoverlay.png" id="2_566bw"]
@@ -46,6 +46,34 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_lcqw2"]
+resource_name = "load"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoadingPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
 tracks/1/type = "value"
@@ -64,6 +92,7 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_d3dii"]
 _data = {
 &"RESET": SubResource("Animation_d3dii"),
+&"load": SubResource("Animation_lcqw2"),
 &"out": SubResource("Animation_xidh5")
 }
 
@@ -91,7 +120,6 @@ libraries = {
 }
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-modulate = Color(1, 1, 1, 0)
 clip_contents = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -137,6 +165,7 @@ texture = ExtResource("5_m3nqk")
 stretch_mode = 3
 
 [node name="LoadingPanel" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(42, 42)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xidh5")
