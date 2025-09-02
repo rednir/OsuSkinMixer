@@ -23,6 +23,13 @@ script = ExtResource("2_je2sr")
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="TextureRect" parent="SkinOptionsSelector/ExpandHint" index="0"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 176.0
+offset_bottom = 70.0
+
 [node name="Title" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
 text = "Modify skin elements"
 
@@ -33,17 +40,34 @@ visible = true
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="HitcircleIcon" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="0"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 9.0
+offset_right = 67.0
+offset_bottom = 59.0
+
 [node name="HitcircleSprite" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon/PanelContainer/HitcircleGroup" index="1"]
-modulate = Color(0.0799648, 0.906286, 1.34244e-06, 1)
+modulate = Color(0.26666668, 0.8235294, 0.2, 1)
 
 [node name="HiddenIcon" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon/Control" index="0"]
 visible = false
 
 [node name="Name" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="1"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 14.0
+offset_right = 441.0
+offset_bottom = 37.0
 text = "Default skin"
 
 [node name="Author" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="2"]
-text = "Use the default for this element."
+layout_mode = 0
+offset_left = 75.0
+offset_top = 36.0
+offset_right = 460.0
+offset_bottom = 59.0
+text = "Use the default skin for this element"
 
 [node name="CheckBox" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button" index="3"]
 visible = false
@@ -52,23 +76,29 @@ visible = false
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HitcircleoverlaySprite" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon/PanelContainer/HitcircleGroup" index="0"]
-modulate = Color(1, 1, 1, 0)
-
-[node name="HitcircleSprite" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon/PanelContainer/HitcircleGroup" index="1"]
-modulate = Color(0.482353, 0.482353, 0.482353, 0)
-
-[node name="Default1Sprite" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon/PanelContainer/HitcircleGroup" index="2"]
-modulate = Color(1, 1, 1, 0)
-
-[node name="HiddenIcon" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon/Control" index="0"]
+[node name="HitcircleIcon" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="0"]
 visible = false
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 50.0
+offset_bottom = 50.0
 
 [node name="Name" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="1"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 14.0
+offset_right = 441.0
+offset_bottom = 37.0
 text = "Blank"
 
 [node name="Author" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="2"]
-text = "Use a blank image for this element if possible."
+layout_mode = 0
+offset_left = 76.0
+offset_top = 35.0
+offset_right = 461.0
+offset_bottom = 58.0
+text = "Use a blank image for this element if possible"
 
 [node name="CheckBox" parent="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button" index="3"]
 visible = false
@@ -178,7 +208,6 @@ visible = true
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent"]
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/DefaultSkinComponent/Button/HitcircleIcon"]
 [editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent"]
-[editable path="SkinOptionsSelector/ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer/SkinSelectorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/BottomPanelContainer/VBoxContainer/SkinOptionsContainer/BlankComponent/Button/HitcircleIcon"]
 [editable path="ComboColourContainer"]
 [editable path="CursorColourContainer"]
 [editable path="ExtraOptionsContainer"]
