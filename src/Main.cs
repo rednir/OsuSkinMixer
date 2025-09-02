@@ -26,7 +26,7 @@ public partial class Main : Control
     private AnimationPlayer UpdateAnimationPlayer;
     private AnimationPlayer HomeButtonAnimationPlayer;
     private Background Background;
-    private Control ScenesContainer;
+    private ScrollContainer ScenesContainer;
     private Button BackButton;
     private Button HomeButton;
     private Label TitleLabel;
@@ -62,7 +62,7 @@ public partial class Main : Control
         ScenesAnimationPlayer = GetNode<AnimationPlayer>("ScenesAnimationPlayer");
         HomeButtonAnimationPlayer = GetNode<AnimationPlayer>("%HomeButtonAnimationPlayer");
         Background = GetNode<Background>("Background");
-        ScenesContainer = GetNode<Control>("Scenes/ScrollContainer");
+        ScenesContainer = GetNode<ScrollContainer>("Scenes/ScrollContainer");
         BackButton = GetNode<Button>("%BackButton");
         HomeButton = GetNode<Button>("%HomeButton");
         TitleLabel = GetNode<Label>("TopBar/HBoxContainer/Title");
@@ -248,8 +248,10 @@ public partial class Main : Control
             PendingScene.Visible = true;
             SceneStack.Push(PendingScene);
             ScenesContainer.AddChild(PendingScene);
+            ScenesContainer.ScrollVertical = 0;
 
             PendingScene = null;
+
             ScenesAnimationPlayer.Play("push_in");
 
             if (!HomeButton.Visible && SceneStack.Count >= 3)
