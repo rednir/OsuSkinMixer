@@ -10,7 +10,7 @@ using System.Text;
 
 public static partial class Settings
 {
-    public const string VERSION = "v2.9.2";
+    public const string VERSION = "v3.0";
 
     public const string GITHUB_REPO_PATH = "rednir/OsuSkinMixer";
 
