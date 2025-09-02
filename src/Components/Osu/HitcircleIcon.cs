@@ -45,16 +45,13 @@ public partial class HitcircleIcon : CenterContainer
         HiddenIcon.SetDeferred(PropertyName.Visible, skin.Hidden);
         LoadingAnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "load");
 
-        string[] iniColorRgb = skin
-            .SkinIni?
-            .TryGetPropertyValue("Colours", "Combo2")?
-            .Replace(" ", string.Empty)
-            .Split(',');
+        string iniColorRgb = skin.SkinIni?.TryGetPropertyValue("Colours", "Combo2") ?? skin.SkinIni?.TryGetPropertyValue("Colours", "Combo1");
+        string[] iniColorRgbSplit = iniColorRgb.Replace(" ", string.Empty).Split(',');
 
-        if (iniColorRgb != null
-            && float.TryParse(iniColorRgb[0], out float r)
-            && float.TryParse(iniColorRgb[1], out float g)
-            && float.TryParse(iniColorRgb[2], out float b))
+        if (iniColorRgbSplit.Length == 3
+            && float.TryParse(iniColorRgbSplit[0], out float r)
+            && float.TryParse(iniColorRgbSplit[1], out float g)
+            && float.TryParse(iniColorRgbSplit[2], out float b))
         {
             HitcircleSprite.SetDeferred(PropertyName.Modulate, new Color(r / 255, g / 255, b / 255));
         }
