@@ -78,6 +78,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(2.08165e-12, 2.08165e-12)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(324, 508)]
+}
 
 [sub_resource type="Animation" id="Animation_ev868"]
 resource_name = "in"
@@ -141,6 +153,18 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(0.5, -1.51572, 1),
 "update": 0,
 "values": [Vector2(-9, -50), Vector2(-9, 5), Vector2(-9, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(324, 30)]
 }
 
 [sub_resource type="Animation" id="Animation_obpof"]
@@ -284,7 +308,7 @@ anchor_left = -0.042000003
 anchor_right = -0.042000003
 offset_left = 13.146001
 offset_right = 337.146
-offset_bottom = 48.0
+offset_bottom = 508.0
 mouse_filter = 2
 mouse_behavior_recursive = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_rifil")
