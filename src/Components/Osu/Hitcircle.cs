@@ -6,7 +6,7 @@ using OsuSkinMixer.Models;
 
 public partial class Hitcircle : Node2D
 {
-    const int OD = 6;
+    const int OD = 4;
 
     const double HIT_300_TIME_MSEC = 1000;
 
