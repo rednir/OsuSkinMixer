@@ -41,6 +41,11 @@ public partial class TextureLoadingService : Node
             string filename = Path.GetFileName(filepath);
             CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, GD.Load<Texture2D>($"res://assets/defaultskin/{filename}"), prefer2x));
             return;
+        })
+        .ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+                Settings.Log($"Error fetching texture: {t.Exception.Message}");
         });
     }
 
@@ -112,17 +117,24 @@ public partial class TextureLoadingService : Node
 
     private static string GetSkinNameFromElementPath(string elementPath)
     {
-        string skinsFolderPath = Path.GetFullPath(Settings.SkinsFolderPath)
-            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        string fullElementPath = Path.GetFullPath(elementPath);
 
-        string relative = Path.GetRelativePath(skinsFolderPath, Path.GetFullPath(elementPath));
+        foreach (string skinFolder in new[] { Settings.SkinsFolderPath, Settings.HiddenSkinsFolderPath })
+        {
+            string skinsFolderPath = Path.GetFullPath(skinFolder)
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
-        if (relative.StartsWith(".."))
-            return null;
+            string relative = Path.GetRelativePath(skinsFolderPath, fullElementPath);
 
-        relative = relative.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-        int index = relative.IndexOfAny([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar]);
-        return index >= 0 ? relative[..index] : relative;
+            if (relative.StartsWith(".."))
+                continue;
+
+            relative = relative.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            int index = relative.IndexOfAny([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar]);
+            return index >= 0 ? relative[..index] : relative;
+        }
+
+        return string.Empty;
     }
 
     private static void CallOnMainThread(Action action)
