@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://ysal13cqaoit"]
+[gd_scene load_steps=27 format=3 uid="uid://ysal13cqaoit"]
 
 [ext_resource type="Texture2D" uid="uid://05l1bgbm243m" path="res://assets/defaultskin/menu-background.jpg" id="1_8ery0"]
 [ext_resource type="Script" uid="uid://c4tfa3a33ghr1" path="res://src/Components/Osu/SkinPreview.cs" id="1_o7mmq"]
@@ -7,6 +7,160 @@
 [ext_resource type="Texture2D" uid="uid://cmcfwdprh6ie0" path="res://assets/defaultskin/cursor@2x.png" id="4_rkbhf"]
 [ext_resource type="Texture2D" uid="uid://b1mtabrprwav4" path="res://assets/defaultskin/cursortrail.png" id="5_wirir"]
 [ext_resource type="Texture2D" uid="uid://dwx6jqhgdyanm" path="res://assets/defaultskin/cursormiddle@2x.png" id="6_t1hac"]
+[ext_resource type="Texture2D" uid="uid://bt0mw5xtcyc4u" path="res://assets/gradient-bar.png" id="8_da7nr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_da7nr"]
+
+[sub_resource type="Animation" id="Animation_5l7he"]
+resource_name = "load"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0008688271, 0.26666668, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-373, -401), Vector2(-373, -401), Vector2(483, -401)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../ContentContainer:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_n0loo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-373, -401)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../ContentContainer:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_da7nr"]
+resource_name = "out"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.19983156),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../ContentContainer:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m076k"]
+_data = {
+&"RESET": SubResource("Animation_n0loo"),
+&"load": SubResource("Animation_5l7he"),
+&"out": SubResource("Animation_da7nr")
+}
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bt0da"]
 bg_color = Color(0, 0, 0, 1)
@@ -155,28 +309,45 @@ _data = {
 &"rotate": SubResource("Animation_jsbfs")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aljdn"]
+bg_color = Color(0.10798188, 0.08367691, 0.10451082, 1)
+
 [node name="SkinPreview" type="PanelContainer"]
-process_mode = 1
-clip_contents = true
 custom_minimum_size = Vector2(448, 228)
 offset_right = 480.0
 offset_bottom = 228.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_bt0da")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_da7nr")
 script = ExtResource("1_o7mmq")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(2, 114.25)
 scale = Vector2(22.15, 11.375)
-rect = Rect2(0, -10, 20, 20)
+rect = Rect2(-0.13544017, -10, 21.67043, 20)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="LoadingPanelAnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("../LoadingPanel")
+libraries = {
+&"": SubResource("AnimationLibrary_m076k")
+}
+autoplay = "RESET"
+
+[node name="ContentContainer" type="PanelContainer" parent="."]
+process_mode = 1
+visible = false
+clip_contents = true
+custom_minimum_size = Vector2(448, 228)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bt0da")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ContentContainer"]
 unique_name_in_owner = true
 libraries = {
 &"": SubResource("AnimationLibrary_snb7s")
 }
 
-[node name="MenuBackground" type="TextureRect" parent="."]
+[node name="MenuBackground" type="TextureRect" parent="ContentContainer"]
 unique_name_in_owner = true
 modulate = Color(0.784314, 0.784314, 0.784314, 1)
 layout_mode = 2
@@ -184,15 +355,15 @@ texture = ExtResource("1_8ery0")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Gradient" type="TextureRect" parent="MenuBackground"]
-layout_mode = 2
+[node name="Gradient" type="TextureRect" parent="ContentContainer/MenuBackground"]
+layout_mode = 0
 offset_right = 480.0
 offset_bottom = 228.0
 texture = SubResource("GradientTexture2D_x8aoj")
 
-[node name="WarningLabel" type="Label" parent="MenuBackground"]
+[node name="WarningLabel" type="Label" parent="ContentContainer/MenuBackground"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
 offset_top = 201.0
 offset_right = 480.0
 offset_bottom = 224.0
@@ -200,12 +371,12 @@ text = "This preview may not accurately reflect in-game visuals."
 label_settings = SubResource("LabelSettings_1m4gv")
 horizontal_alignment = 1
 
-[node name="ComboControl" type="Control" parent="."]
+[node name="ComboControl" type="Control" parent="ContentContainer"]
 layout_mode = 2
 
-[node name="ComboContainer" parent="ComboControl" instance=ExtResource("3_hdhpe")]
+[node name="ComboContainer" parent="ContentContainer/ComboControl" instance=ExtResource("3_hdhpe")]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
 offset_left = 8.0
 offset_top = 121.0
 offset_right = 144.0
@@ -213,18 +384,18 @@ offset_bottom = 219.0
 scale = Vector2(0.5, 0.5)
 pivot_offset = Vector2(-1, 97)
 
-[node name="Hitcircle" parent="." instance=ExtResource("2_cyhy6")]
+[node name="Hitcircle" parent="ContentContainer" instance=ExtResource("2_cyhy6")]
 unique_name_in_owner = true
 position = Vector2(240, 114)
 scale = Vector2(0.5, 0.5)
 
-[node name="Cursor" type="Sprite2D" parent="."]
+[node name="Cursor" type="Sprite2D" parent="ContentContainer"]
 unique_name_in_owner = true
 position = Vector2(47, 46)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_rkbhf")
 
-[node name="Cursortrail" type="CPUParticles2D" parent="Cursor"]
+[node name="Cursortrail" type="CPUParticles2D" parent="ContentContainer/Cursor"]
 unique_name_in_owner = true
 show_behind_parent = true
 scale = Vector2(0.5, 0.5)
@@ -236,14 +407,28 @@ scale_amount_min = 0.5
 scale_amount_max = 0.5
 color_ramp = SubResource("Gradient_28nnj")
 
-[node name="CursorRotateAnimationPlayer" type="AnimationPlayer" parent="Cursor"]
+[node name="CursorRotateAnimationPlayer" type="AnimationPlayer" parent="ContentContainer/Cursor"]
 unique_name_in_owner = true
 libraries = {
 &"": SubResource("AnimationLibrary_ku4pg")
 }
 
-[node name="Cursormiddle" type="Sprite2D" parent="."]
+[node name="Cursormiddle" type="Sprite2D" parent="ContentContainer"]
 unique_name_in_owner = true
 position = Vector2(47, 46)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("6_t1hac")
+
+[node name="LoadingPanel" type="Panel" parent="."]
+clip_contents = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_aljdn")
+
+[node name="TextureRect" type="TextureRect" parent="LoadingPanel"]
+modulate = Color(1, 1, 1, 0.11764706)
+layout_mode = 0
+offset_left = -373.0
+offset_top = -401.0
+offset_right = 1.9992676
+offset_bottom = 594.0
+texture = ExtResource("8_da7nr")

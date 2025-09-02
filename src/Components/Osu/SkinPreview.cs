@@ -18,12 +18,15 @@ public partial class SkinPreview : PanelContainer
     private Sprite2D Cursormiddle;
     private CpuParticles2D Cursortrail;
     private Hitcircle Hitcircle;
+    private AnimationPlayer LoadingPanelAnimationPlayer;
 
     private bool _paused;
 
     private OsuSkin _skin;
 
-    private bool _isTexturesLoaded;
+    private bool _isLoadTexturesCalled;
+
+    private bool _isLoadFinished;
 
     public override void _Ready()
     {
@@ -37,6 +40,7 @@ public partial class SkinPreview : PanelContainer
         Cursormiddle = GetNode<Sprite2D>("%Cursormiddle");
         Cursortrail = GetNode<CpuParticles2D>("%Cursortrail");
         Hitcircle = GetNode<Hitcircle>("%Hitcircle");
+        LoadingPanelAnimationPlayer = GetNode<AnimationPlayer>("%LoadingPanelAnimationPlayer");
 
         VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
         VisibleOnScreenNotifier2D.ScreenExited += OnMouseExited;
@@ -50,6 +54,9 @@ public partial class SkinPreview : PanelContainer
 
     public override void _Process(double delta)
     {
+        if (!_isLoadFinished)
+            return;
+
         Vector2 mousePosition = GetGlobalMousePosition();
         Control hoveredControl = GetViewport().GuiGetHoveredControl();
 
@@ -70,7 +77,7 @@ public partial class SkinPreview : PanelContainer
     {
         _skin = skin;
 
-        if (_isTexturesLoaded)
+        if (_isLoadTexturesCalled)
             LoadTextures();
     }
 
@@ -82,6 +89,11 @@ public partial class SkinPreview : PanelContainer
         if (filepath == _skin.GetElementFilepathWithoutExtension("menu-background"))
         {
             MenuBackground.SetDeferred(TextureRect.PropertyName.Texture, texture);
+
+            // This is the last thing we called the load method for, and since all the textures 
+            // we load for SkinPreview are from the same skin, they'll arrive in order.
+            LoadingPanelAnimationPlayer.Play("out");
+            _isLoadFinished = true;
         }
         else if (filepath == _skin.GetElementFilepathWithoutExtension("cursor"))
         {
@@ -102,7 +114,11 @@ public partial class SkinPreview : PanelContainer
 
     private void LoadTextures()
     {
-        _isTexturesLoaded = true;
+        _isLoadTexturesCalled = true;
+        LoadingPanelAnimationPlayer.Play("load");
+
+        Hitcircle.SetSkin(_skin);
+        ComboContainer.Skin = _skin;
 
         bool menuBgIsPng = File.Exists($"{_skin.Directory.FullName}/menu-background.png") || File.Exists($"{_skin.Directory.FullName}/menu-background@2x.png");
 
@@ -134,14 +150,11 @@ public partial class SkinPreview : PanelContainer
 
         // This seems to be how it works in osu! but idk really.
         Cursormiddle.SetDeferred(Sprite2D.PropertyName.Visible, hasCursorMiddle || !File.Exists($"{_skin.Directory.FullName}/cursor.png"));
-
-        Hitcircle.SetSkin(_skin);
-        ComboContainer.Skin = _skin;
     }
 
     private void OnScreenEntered()
     {
-        if (_skin == null || _isTexturesLoaded)
+        if (_skin is null || _isLoadTexturesCalled)
             return;
 
         LoadTextures();

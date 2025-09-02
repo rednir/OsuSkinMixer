@@ -170,9 +170,12 @@ public partial class Hitcircle : Node2D
 
     private void OnInputEvent(InputEvent inputEvent)
     {
+        if (_skin is null)
+            return;
+
         if (inputEvent is InputEventMouseButton mouseButton
-            && mouseButton.Pressed
-            && mouseButton.ButtonIndex is MouseButton.Left or MouseButton.Right)
+                && mouseButton.Pressed
+                && mouseButton.ButtonIndex is MouseButton.Left or MouseButton.Right)
         {
             double animationPosition = CircleAnimationPlayer.CurrentAnimationPosition * 1000;
             switch (Math.Abs(HIT_300_TIME_MSEC - animationPosition))
@@ -195,6 +198,9 @@ public partial class Hitcircle : Node2D
 
     private void OnAnimationFinished(StringName animationName)
     {
+        if (_skin is null)
+            return;
+
         if (animationName == "hit" || animationName == "miss")
         {
             NextCombo();
