@@ -85,7 +85,7 @@ public partial class Hitcircle : Node2D
 
     private void OnTextureReady(string filepath, Texture2D texture, bool is2x)
     {
-        if (!IsInstanceValid(this))
+        if (!IsInstanceValid(this) || _skin is null)
             return;
 
         if (filepath == _skin.GetElementFilepathWithoutExtension("approachcircle"))
