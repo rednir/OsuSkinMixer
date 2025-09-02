@@ -1,7 +1,7 @@
 namespace OsuSkinMixer.Models;
 
 /// <summary>Represents the value of a skin option set by the user.</summary>
-public class SkinOptionValue
+public record SkinOptionValue
 {
     public SkinOptionValue(SkinOptionValueType type)
     {
