@@ -172,7 +172,6 @@ public static partial class Settings
             return;
         }
 
-        GD.Print($"Downloading from {githubAsset.BrowserDownloadUrl}");
         await using Stream downloadStream = await _httpClient.GetStreamAsync(githubAsset.BrowserDownloadUrl);
 
         FileStream fileStream = new(installerPath, FileMode.CreateNew);
