@@ -61,6 +61,8 @@ public partial class TextureLoadingService : Node
             {
             }
         }
+
+        _skinLock.TryRemove(skin.Directory.Name, out _);
     }
 
     private Texture2D GetTexture(string filepath, int maxSize)
