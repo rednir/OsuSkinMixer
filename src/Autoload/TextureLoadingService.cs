@@ -8,7 +8,7 @@ namespace OsuSkinMixer.Autoload;
 
 public partial class TextureLoadingService : Node
 {
-    [Signal] public delegate void TextureReadyEventHandler(string filePath, Texture2D texture, bool is2x);
+    [Signal] public delegate void TextureReadyEventHandler(string filePath, Texture2D texture, bool is2x, bool isDefault);
 
     private readonly ConcurrentDictionary<string, Texture2D> _textureCache = new();
 
@@ -23,7 +23,7 @@ public partial class TextureLoadingService : Node
             Texture2D result = GetTexture(filepath, maxSize);
             if (result is not null)
             {
-                CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, result, true));
+                CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, result, true, false));
                 return;
             }
 
@@ -32,14 +32,14 @@ public partial class TextureLoadingService : Node
                 Texture2D fallbackResult = GetTexture($"{filepathNoExtension}.{extension}", maxSize);
                 if (fallbackResult is not null)
                 {
-                    CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, fallbackResult, false));
+                    CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, fallbackResult, false, false));
                     return;
                 }
             }
 
             // Fallback to loading the default skin texture from internal assets.
             string filename = Path.GetFileName(filepath);
-            CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, GD.Load<Texture2D>($"res://assets/defaultskin/{filename}"), prefer2x));
+            CallOnMainThread(() => EmitSignal(SignalName.TextureReady, filepathNoExtension, GD.Load<Texture2D>($"res://assets/defaultskin/{filename}"), prefer2x, true));
             return;
         })
         .ContinueWith(t =>
@@ -75,6 +75,7 @@ public partial class TextureLoadingService : Node
         string skinName = GetSkinNameFromElementPath(filepath);
         _skinLock.TryAdd(skinName, new object());
 
+        // Ensure there's no more than one texture loading for each skin at a time.
         lock (_skinLock[skinName])
         {
             if (_textureCache.TryGetValue(filepath, out Texture2D cachedTexture))

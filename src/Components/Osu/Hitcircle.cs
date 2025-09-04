@@ -77,7 +77,7 @@ public partial class Hitcircle : Node2D
         CallDeferred(nameof(NextCombo));
     }
 
-    private void OnTextureReady(string filepath, Texture2D texture, bool is2x)
+    private void OnTextureReady(string filepath, Texture2D texture, bool is2x, bool isDefault)
     {
         if (!IsInstanceValid(this) || _skin is null)
             return;

@@ -70,7 +70,7 @@ public partial class HitcircleIcon : CenterContainer
         HitcircleSprite.SetDeferred(PropertyName.Modulate, new Color(0, 202, 0));
     }
 
-    private void OnTextureReady(string filepath, Texture2D texture, bool is2x)
+    private void OnTextureReady(string filepath, Texture2D texture, bool is2x, bool isDefault)
     {
         if (!IsInstanceValid(this) || _skin is null)
             return;
