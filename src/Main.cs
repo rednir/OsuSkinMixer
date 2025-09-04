@@ -310,7 +310,6 @@ public partial class Main : Control
                 return;
             }
 
-            Toast.Push($"An update is being downloaded.");
             Task task = Settings.DownloadInstallerAsync(release).ContinueWith(t =>
             {
                 if (t.IsFaulted)
