@@ -112,7 +112,6 @@ public partial class SkinPreview : PanelContainer
             Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Texture, texture);
             Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMax, scale.X);
             Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMin, scale.X);
-            OS.Alert($"Loaded cursortrail with scale {scale}");
         }
     }
 
