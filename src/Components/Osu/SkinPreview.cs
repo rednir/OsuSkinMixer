@@ -86,6 +86,8 @@ public partial class SkinPreview : PanelContainer
         if (!IsInstanceValid(this))
             return;
 
+        Vector2 scale = is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1.0f, 1.0f);
+
         if (filepath == _skin.GetElementFilepathWithoutExtension("menu-background"))
         {
             MenuBackground.SetDeferred(TextureRect.PropertyName.Texture, texture);
@@ -98,18 +100,19 @@ public partial class SkinPreview : PanelContainer
         else if (filepath == _skin.GetElementFilepathWithoutExtension("cursor"))
         {
             Cursor.SetDeferred(Sprite2D.PropertyName.Texture, texture);
-            Cursor.SetDeferred(Sprite2D.PropertyName.Scale, is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+            Cursor.SetDeferred(Sprite2D.PropertyName.Scale, scale);
         }
         else if (filepath == _skin.GetElementFilepathWithoutExtension("cursormiddle"))
         {
             Cursormiddle.SetDeferred(TextureRect.PropertyName.Texture, texture);
-            Cursormiddle.SetDeferred(TextureRect.PropertyName.Scale, is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+            Cursormiddle.SetDeferred(TextureRect.PropertyName.Scale, scale);
         }
         else if (filepath == _skin.GetElementFilepathWithoutExtension("cursortrail"))
         {
             Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Texture, texture);
-            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMin, is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
-            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMax, is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMax, scale.X);
+            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMin, scale.X);
+            OS.Alert($"Loaded cursortrail with scale {scale}");
         }
     }
 
