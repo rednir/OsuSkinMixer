@@ -21,9 +21,6 @@ public partial class Splash : Control
     {
         Settings.Log($"osu! skin mixer {Settings.VERSION} at {DateTime.Now}");
 
-        DisplayServer.WindowSetTitle("osu! skin mixer by rednir");
-        DisplayServer.WindowSetMinSize(new Vector2I(650, 300));
-
         UpdatingLabel = GetNode<Label>("%UpdatingLabel");
         LockFileLabel = GetNode<Label>("%LockFileLabel");
         SetupPopup = GetNode<SetupPopup>("%SetupPopup");
@@ -145,6 +142,9 @@ public partial class Splash : Control
 
     private void OnAnimationFinished(StringName animationName)
     {
+        DisplayServer.WindowSetTitle("osu! skin mixer");
+        DisplayServer.WindowSetMinSize(new Vector2I(650, 300));
+
         if (animationName == "out" && GetTree().ChangeSceneToFile("res://src/Main.tscn") != Error.Ok)
         {
             ExceptionTextEdit.Text = "Failed to load scene.";
