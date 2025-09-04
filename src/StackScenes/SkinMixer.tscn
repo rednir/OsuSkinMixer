@@ -15,7 +15,7 @@ offset_bottom = 450.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_5uai6")
-theme_override_constants/separation = 28
+theme_override_constants/separation = 27
 script = ExtResource("1_swu1f")
 
 [node name="SkinOptionsSelector" parent="." instance=ExtResource("2_r5240")]

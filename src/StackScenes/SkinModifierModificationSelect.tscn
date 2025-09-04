@@ -165,6 +165,7 @@ text = "Remove interface animations"
 
 [node name="WarningLabelContainer" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="WarningLabelInstafadeColours" type="Label" parent="WarningLabelContainer"]
