@@ -108,7 +108,8 @@ public partial class SkinPreview : PanelContainer
         else if (filepath == _skin.GetElementFilepathWithoutExtension("cursortrail"))
         {
             Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Texture, texture);
-            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.Scale, is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMin, is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
+            Cursortrail.SetDeferred(CpuParticles2D.PropertyName.ScaleAmountMax, is2x ? new Vector2(0.5f, 0.5f) : new Vector2(1, 1));
         }
     }
 
