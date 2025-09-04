@@ -75,6 +75,7 @@ public static class OsuData
         {
             Settings.Log($"Skin modified: {skin.Name}");
             skin.ClearCache();
+            _skins[skin] = skin.Directory.LastWriteTime;
             SkinModified?.Invoke(skin);
         }
     }
