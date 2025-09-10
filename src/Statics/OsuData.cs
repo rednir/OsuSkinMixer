@@ -2,6 +2,8 @@ namespace OsuSkinMixer.Statics;
 
 using System.IO;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.src.Models.Realm;
+using Realms;
 
 /// <summary>
 /// A static class that provides other objects with the user's osu! data, such as their list of skins.
@@ -53,6 +55,39 @@ public static class OsuData
 
         AllSkinsLoaded?.Invoke();
         SweepPaused = false;
+        return true;
+    }
+
+    public static bool TryLoadSkinsLazer()
+    {
+        Settings.Log($"About to load skins into memory from lazer directory {Settings.Content.OsuFolder}");
+
+        SweepPaused = true;
+        _skins = new Dictionary<OsuSkin, DateTime>();
+
+        string realmPath = Path.Combine(Settings.Content.OsuFolder, "client.realm");
+        try
+        {
+            RealmConfiguration config = new(realmPath)
+            {
+                IsReadOnly = true,
+                SchemaVersion = 51,
+            };
+        
+            using var realm = Realm.GetInstance(config);
+
+            foreach (var skin in realm.All<OsuSkinRealm>())
+            {
+                _skins.TryAdd(new OsuSkin(skin.Name, skin.Creator), DateTime.MinValue);
+            }
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr(ex);
+            return false;
+        }
+
+        AllSkinsLoaded?.Invoke();
         return true;
     }
 

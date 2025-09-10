@@ -125,10 +125,12 @@ public static partial class Settings
             return false;
         }
 
-        if (File.Exists($"{path}/client.realm"))
+        // TODO: this is a temporary bypass.
+        if (File.Exists(Path.Combine(path, "client.realm")))
         {
-            error = "Sorry, osu! skin mixer does not support the lazer client. Please use your osu! stable folder.\n\nIf you do not have osu! stable, you can put your skins in a folder named 'Skins', and set its containing folder as your osu! folder in osu! skin mixer. Make sure each skin is extracted to a folder, and not an .osk file. When you wish to import a skin you've created into osu! lazer, use the 'Export to .osk' button.";
-            return false;
+            Content.OsuFolder = path;
+            error = null;
+            return OsuData.TryLoadSkinsLazer();
         }
 
         if (!Directory.Exists($"{path}/Skins"))
