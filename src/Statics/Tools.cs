@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Models.Osu;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -12,7 +13,7 @@ public static class Tools
     public static void ShellOpenFile(string path)
         => OS.ShellOpen(OS.GetName() == "macOS" ? $"file://{path}" : path);
 
-    public static void TriggerOskImport(OsuSkin skin)
+    public static void TriggerOskImport(OsuSkinBase skin)
     {
         string osuPath = Path.Combine(Settings.Content.OsuFolder, "osu!.exe");
 

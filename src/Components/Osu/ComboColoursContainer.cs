@@ -1,10 +1,11 @@
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Models.Osu;
 
 namespace OsuSkinMixer.Components;
 
 public partial class ComboColoursContainer : HBoxContainer
 {
-	public OsuSkin Skin { get; set; }
+	public OsuSkinBase Skin { get; set; }
 
 	public IEnumerable<ComboColourIcon> ComboColourIcons => ContentContainer.GetChildren()
 		.Where(c => !c.IsQueuedForDeletion()).Cast<ComboColourIcon>();
@@ -70,8 +71,9 @@ public partial class ComboColoursContainer : HBoxContainer
 
 	private void LoadTextures()
 	{
-		HitcircleTexture = Skin.Get2XTexture("hitcircle");
-		HitcircleoverlayTexture = Skin.Get2XTexture("hitcircleoverlay");
+		// TODO: lazer
+		// HitcircleTexture = Skin.Get2XTexture("hitcircle");
+		// HitcircleoverlayTexture = Skin.Get2XTexture("hitcircleoverlay");
 	}
 
 	private void InitialiseComboColours()
@@ -140,8 +142,10 @@ public partial class ComboColoursContainer : HBoxContainer
 
 	private Texture2D GetDefaultTexture(int comboNumber)
 	{
-		string hitcirclePrefix = Skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
-		return Skin.Get2XTexture($"{hitcirclePrefix}-{comboNumber}");
+		// TODO: lazer
+		// string hitcirclePrefix = Skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
+		// return Skin.Get2XTexture($"{hitcirclePrefix}-{comboNumber}");
+		return null;
 	}
 
 	private void OnComboColourIconPressed(ComboColourIcon comboColourIcon)

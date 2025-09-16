@@ -3,11 +3,12 @@ namespace OsuSkinMixer.Components;
 using System.IO;
 using System.Text;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 
 public partial class SkinInfoPanel : PanelContainer
 {
-    public OsuSkin Skin { get; set; }
+    public OsuSkinBase Skin { get; set; }
 
     private PanelContainer DeletedContainer;
     private Button UndoDeleteButton;
@@ -87,13 +88,13 @@ public partial class SkinInfoPanel : PanelContainer
         HitcircleIcon.SetSkin(Skin);
         SkinNameLabel.Text = Skin.Name;
         SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
-        LastModifiedLabel.Text = $"Last modified: {(DateTime.Now - Skin.Directory.LastWriteTime).Humanise()}";
+        //LastModifiedLabel.Text = $"Last modified: {(DateTime.Now - Skin.Directory.LastWriteTime).Humanise()}"; // TODO: lazer
         OpenInOsuButton.Disabled = Skin.Hidden;
-        MenuHitPlayer.Stream = Skin.GetAudioStream("menuhit");
+        //MenuHitPlayer.Stream = Skin.GetAudioStream("menuhit"); // TODO: lazer
         InitialiseCreditsContainer();
     }
 
-    private void OnSkinAdded(OsuSkin skin)
+    private void OnSkinAdded(OsuSkinBase skin)
     {
         if (skin != Skin && skin.Credits.GetKeyValuePairs().Any(c => c.Key.SkinName == Skin.Name))
             return;
@@ -107,7 +108,7 @@ public partial class SkinInfoPanel : PanelContainer
         CallDeferred(MethodName.SetValues);
     }
 
-    private void OnSkinModified(OsuSkin skin)
+    private void OnSkinModified(OsuSkinBase skin)
     {
         if (skin != Skin && skin.Credits.GetKeyValuePairs().Any(c => c.Key.SkinName == Skin.Name))
             return;
@@ -115,7 +116,7 @@ public partial class SkinInfoPanel : PanelContainer
         CallDeferred(MethodName.SetValues);
     }
 
-    private void OnSkinRemoved(OsuSkin skin)
+    private void OnSkinRemoved(OsuSkinBase skin)
     {
         if (skin != Skin)
         {
@@ -147,7 +148,7 @@ public partial class SkinInfoPanel : PanelContainer
 
     private void OnOpenFolderButtonPressed()
     {
-        Tools.ShellOpenFile(Skin.Directory.FullName);
+        // Tools.ShellOpenFile(Skin.Directory.FullName); // TODO: lazer
     }
 
     private void OnOpenInOsuButtonPressed()
@@ -181,43 +182,44 @@ public partial class SkinInfoPanel : PanelContainer
 
     private void InitialiseCreditsContainer()
     {
-        if (!ViewMorePadding.Visible)
-            return;
+        // TODO: lazer
+        // if (!ViewMorePadding.Visible)
+        //     return;
 
-        foreach (Node child in SkinCreditsContainer.GetChildren())
-            child.QueueFree();
+        // foreach (Node child in SkinCreditsContainer.GetChildren())
+        //     child.QueueFree();
 
-        List<SkinComponent> creditComponents = [];
+        // List<SkinComponent> creditComponents = [];
 
-        bool hasCredits = false;
+        // bool hasCredits = false;
 
-        foreach (var credit in Skin.Credits.GetKeyValuePairs())
-        {
-            float creditPercentage = (float)credit.Value.Count / Skin.ElementCount * 100;
+        // foreach (var credit in Skin.Credits.GetKeyValuePairs())
+        // {
+        //     float creditPercentage = (float)credit.Value.Count / Skin.ElementCount * 100;
 
-            SkinComponent creditComponent = SkinComponentSkinCreditsScene.Instantiate<SkinComponent>();
-            creditComponent.CreditsElements = credit.Value.ToArray();
-            creditComponent.CreditPercentage = (int)creditPercentage;
-            creditComponent.RightClicked += () => OnCreditRightClicked(creditComponent);
-            creditComponent.LeftClicked += () => OnCreditLeftClicked(creditComponent);
-            creditComponent.Skin = OsuData.Skins.FirstOrDefault(s => s.Name == credit.Key.SkinName)
-                ?? new OsuSkin(credit.Key.SkinName, credit.Key.SkinAuthor);
+        //     SkinComponent creditComponent = SkinComponentSkinCreditsScene.Instantiate<SkinComponent>();
+        //     creditComponent.CreditsElements = credit.Value.ToArray();
+        //     creditComponent.CreditPercentage = (int)creditPercentage;
+        //     creditComponent.RightClicked += () => OnCreditRightClicked(creditComponent);
+        //     creditComponent.LeftClicked += () => OnCreditLeftClicked(creditComponent);
+        //     creditComponent.Skin = OsuData.Skins.FirstOrDefault(s => s.Name == credit.Key.SkinName)
+        //         ?? new OsuSkinBase(credit.Key.SkinName, credit.Key.SkinAuthor);
 
-            creditComponents.Add(creditComponent);
-            hasCredits = true;
-        }
+        //     creditComponents.Add(creditComponent);
+        //     hasCredits = true;
+        // }
 
-        if (!hasCredits)
-        {
-            SkinCreditsLabel.Text = "No credited skins.";
-            SkinCreditsContainer.Visible = false;
-            return;
-        }
+        // if (!hasCredits)
+        // {
+        //     SkinCreditsLabel.Text = "No credited skins.";
+        //     SkinCreditsContainer.Visible = false;
+        //     return;
+        // }
 
-        foreach (SkinComponent component in creditComponents.OrderByDescending(c => c.CreditPercentage).ThenBy(c => c.Skin.Name))
-            SkinCreditsContainer.AddChild(component);
+        // foreach (SkinComponent component in creditComponents.OrderByDescending(c => c.CreditPercentage).ThenBy(c => c.Skin.Name))
+        //     SkinCreditsContainer.AddChild(component);
 
-        _isSkinCreditsInitialised = true;
+        // _isSkinCreditsInitialised = true;
     }
 
     private void OnCreditRightClicked(SkinComponent creditComponent)
@@ -241,6 +243,6 @@ public partial class SkinInfoPanel : PanelContainer
     {
         ManageSkinPopup.SetSkin(Skin);
         ManageSkinPopup.Options |= ManageSkinOptions.All & ~ManageSkinOptions.OpenInOsu & ~ManageSkinOptions.OpenFolder;
-        OsuData.RequestSkinModify(new OsuSkin[] { Skin });
+        OsuData.RequestSkinModify(new OsuSkinBase[] { Skin });
     }
 }

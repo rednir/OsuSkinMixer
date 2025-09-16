@@ -2,6 +2,7 @@ namespace OsuSkinMixer.Utils;
 
 using System.IO;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 
 /// <summary>Provides methods to create and import a new skin from a list of <see cref="SkinOption"/>.</summary>
@@ -9,14 +10,14 @@ public class SkinMixerMachine : SkinMachine
 {
     private const string WORKING_DIR_NAME = ".osu-skin-mixer_working-skin";
 
-    public OsuSkin NewSkin { get; private set; }
+    public OsuSkinStable NewSkin { get; private set; }
 
     public void SetNewSkin(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new InvalidOperationException("Skin name cannot be empty.");
 
-        NewSkin = new OsuSkin(name, Directory.CreateDirectory($"{Path.GetTempPath()}/{WORKING_DIR_NAME}"));
+        NewSkin = new OsuSkinStable(name, Directory.CreateDirectory($"{Path.GetTempPath()}/{WORKING_DIR_NAME}"));
     }
 
     protected override void PopulateTasks()

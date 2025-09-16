@@ -7,6 +7,7 @@ using System.Net.Http;
 using OsuSkinMixer.Models;
 using System.Security.Cryptography;
 using System.Text;
+using OsuSkinMixer.Models.Osu;
 
 public static partial class Settings
 {
@@ -32,13 +33,15 @@ public static partial class Settings
 
     public static string HiddenSkinsFolderPath => Path.Combine(Content.OsuFolder, "HiddenSkins");
 
-    public static string TrashFolderPath => Path.Combine(DeleteOnExitFolderPath, ".osu-skin-mixer-trash");
-
     public static string TempFolderPath => Path.Combine(Path.GetTempPath(), "osu-skin-mixer");
 
     public static string AutoUpdateInstallerPath => Path.Combine(TempFolderPath, "osu-skin-mixer-setup.exe");
 
     public static string DeleteOnExitFolderPath => Path.Combine(TempFolderPath, "delete_on_exit");
+
+    public static string TrashFolderPath => Path.Combine(DeleteOnExitFolderPath, ".osu-skin-mixer-trash");
+
+    public static string LazerConvertsFolderPath => Path.Combine(DeleteOnExitFolderPath, "lazer_converts");
 
     public static string LogFilePath => Path.Combine(TempFolderPath, "very_helpful_logs.txt");
 
@@ -291,7 +294,7 @@ public static partial class Settings
                     throw new Exception("Failed to load skins for settings data migration.");
 
                 // Estimate the number of skins made by osu! skin mixer.
-                Content.SkinsMadeCount = OsuData.Skins.Count(s => s.SkinIni?.TryGetPropertyValue("General", "Author") == OsuSkin.DEFAULT_AUTHOR);
+                Content.SkinsMadeCount = OsuData.Skins.Count(s => s.SkinIni?.TryGetPropertyValue("General", "Author") == OsuSkinBase.DEFAULT_AUTHOR);
             }
             catch (Exception ex)
             {

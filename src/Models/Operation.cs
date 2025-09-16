@@ -1,6 +1,7 @@
 namespace OsuSkinMixer.Models;
 
 using System.Text.Json.Serialization;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 
 /// <summary>
@@ -38,7 +39,7 @@ public class Operation
     public DateTime? TimeStarted { get; set; }
 
     [JsonIgnore]
-    public OsuSkin TargetSkin { get; }
+    public OsuSkinBase TargetSkin { get; }
 
     [JsonIgnore]
     public string Description => $"{Type} {TargetSkinName}";
@@ -62,7 +63,7 @@ public class Operation
     {
     }
 
-    public Operation(OperationType type, OsuSkin targetSkin, Action action, Action undoAction = null)
+    public Operation(OperationType type, OsuSkinBase targetSkin, Action action, Action undoAction = null)
     {
         Type = type;
         TargetSkin = targetSkin;

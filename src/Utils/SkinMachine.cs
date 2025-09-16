@@ -5,7 +5,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using OsuSkinMixer.Models;
-using OsuSkinMixer.src.Models.Osu;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 
 /// <summary>Base for classes that peform tasks based on a list of <see cref="SkinOption"/>. Provides abstract methods for populating tasks to be peformed on the relevant skin folders.</summary>
@@ -54,11 +54,11 @@ public abstract class SkinMachine : IDisposable
 
     protected Dictionary<string, MemoryStream> OriginalElementsCache { get; } = new();
 
-    protected Dictionary<(OsuSkin skin, string filename), string> Md5Map { get; } = new();
+    protected Dictionary<(OsuSkinStable skin, string filename), string> Md5Map { get; } = new();
 
     protected CancellationToken CancellationToken { get; set; }
 
-    protected IEnumerable<SkinOption> FlattenedBottomLevelOptions => SkinOption.Flatten(SkinOptions).Where(o => o is not ParentSkinOption);
+    protected IEnumerable<SkinOption> FlattenedBottomLevelOptions { get; set; }
 
     private readonly List<StringBuilder> _logBuilders = new();
 
@@ -86,6 +86,10 @@ public abstract class SkinMachine : IDisposable
         try
         {
             Progress = 0;
+            FlattenedBottomLevelOptions = SkinOption.Flatten(SkinOptions).Where(o => o is not ParentSkinOption);
+
+            if (OsuData.IsLazer)
+                CreateStableSkinsFromLazer();
 
             PopulateTasks();
             RunAllTasks();
@@ -112,6 +116,49 @@ public abstract class SkinMachine : IDisposable
                 Settings.Log(builder.ToString());
         }
     }
+    
+    private void CreateStableSkinsFromLazer()
+    {
+        List<SkinOption> result = [];
+        Dictionary<OsuSkinLazer, OsuSkinStable> alreadyConvertedSkins = [];
+
+        foreach (SkinOption option in FlattenedBottomLevelOptions)
+        {
+            if (option.Value.Type == SkinOptionValueType.CustomSkin && option.Value.CustomSkin is OsuSkinLazer lazerSkin)
+            {
+                OsuSkinStable stableSkin;
+
+                if (!alreadyConvertedSkins.TryGetValue(lazerSkin, out stableSkin))
+                {
+                    // We've already converted this lazer skin, so just use the existing object.
+                    stableSkin = alreadyConvertedSkins[lazerSkin];
+                }
+                else
+                {
+                    stableSkin = OsuData.CreateStableSkinFromLazer(lazerSkin);
+                    alreadyConvertedSkins[lazerSkin] = stableSkin;
+                }
+
+                // Create a copy of the option. We only want to change the skin in the option to the stable convert for the skin creation.
+                SkinOption stableOption = option switch
+                {
+                    SkinIniPropertyOption iniPropertyOption => new SkinIniPropertyOption(iniPropertyOption.IncludeSkinIniProperty.section, iniPropertyOption.IncludeSkinIniProperty.property),
+                    SkinIniSectionOption iniSectionOption => new SkinIniSectionOption(iniSectionOption.SectionName, iniSectionOption.Property.Key, iniSectionOption.Property.Value),
+                    SkinFileOption fileOption => new SkinFileOption(fileOption.IncludeFileName, fileOption.IsAudio, fileOption.DisplayName, fileOption.IsAnimatable, fileOption.AllowedSuffixes),
+                    _ => throw new InvalidOperationException("Unknown skin option type."),
+                };
+
+                stableOption.Value = new SkinOptionValue(stableSkin);
+                result.Add(stableOption);
+            }
+            else
+            {
+                result.Add(option);
+            }
+        }
+
+        FlattenedBottomLevelOptions = result;
+    }
 
     protected abstract void PopulateTasks();
 
@@ -128,11 +175,11 @@ public abstract class SkinMachine : IDisposable
 
     protected abstract void PostRun();
 
-    protected void GenerateCreditsFile(OsuSkin workingSkin)
+    protected void GenerateCreditsFile(OsuSkinStable workingSkin)
     {
         foreach (var pair in Md5Map)
         {
-            OsuSkin skin = pair.Key.skin;
+            OsuSkinStable skin = pair.Key.skin;
             string elementFilename = pair.Key.filename;
 
             // Avoid duplicate filenames in the credits file, for when we are modifying a skin.
@@ -161,7 +208,7 @@ public abstract class SkinMachine : IDisposable
         AddFileToOriginalElementsCache(creditsFilePath);
     }
 
-    protected static void RemoveCreditIfExists(OsuSkin workingSkin, string elementFilename)
+    protected static void RemoveCreditIfExists(OsuSkinStable workingSkin, string elementFilename)
     {
         if (workingSkin.Credits.TryGetSkinFromElementFilename(elementFilename, out OsuSkinCreditsSkin existingCreditedSkin))
         {
@@ -186,7 +233,7 @@ public abstract class SkinMachine : IDisposable
         return sb.ToString();
     }
 
-    protected void CopyOption(OsuSkin workingSkin, SkinOption option)
+    protected void CopyOption(OsuSkinStable workingSkin, SkinOption option)
     {
         StatusChanged?.Invoke($"Copying: {(option as SkinFileOption)?.IncludeFileName ?? option.Name}");
         switch (option)
@@ -203,7 +250,7 @@ public abstract class SkinMachine : IDisposable
         }
     }
 
-    protected virtual void CopyIniPropertyOption(OsuSkin workingSkin, SkinIniPropertyOption iniPropertyOption)
+    protected virtual void CopyIniPropertyOption(OsuSkinStable workingSkin, SkinIniPropertyOption iniPropertyOption)
     {
         if (iniPropertyOption.Value.Type == SkinOptionValueType.DefaultSkin || iniPropertyOption.Value.CustomSkin?.SkinIni == null)
             return;
@@ -234,13 +281,13 @@ public abstract class SkinMachine : IDisposable
 
                     // Check if the skin.ini property value includes any skin elements.
                     // If so, include it in the new skin, (their inclusion takes priority over the elements from matching filenames)
-                    CopyFileFromSkinIniProperty(workingSkin, iniPropertyOption.Value.CustomSkin, pair);
+                    CopyFileFromSkinIniProperty(workingSkin, (OsuSkinStable)iniPropertyOption.Value.CustomSkin, pair);
                 }
             }
         }
     }
 
-    protected virtual void CopyIniSectionOption(OsuSkin workingSkin, SkinIniSectionOption iniSectionOption)
+    protected virtual void CopyIniSectionOption(OsuSkinStable workingSkin, SkinIniSectionOption iniSectionOption)
     {
         if (iniSectionOption.Value.Type == SkinOptionValueType.DefaultSkin || iniSectionOption.Value.CustomSkin?.SkinIni == null)
             return;
@@ -255,10 +302,10 @@ public abstract class SkinMachine : IDisposable
 
         workingSkin.SkinIni.Sections.Add(section);
         foreach (var property in section)
-            CopyFileFromSkinIniProperty(workingSkin, iniSectionOption.Value.CustomSkin, property);
+            CopyFileFromSkinIniProperty(workingSkin, (OsuSkinStable)iniSectionOption.Value.CustomSkin, property);
     }
 
-    protected virtual void CopyFileFromSkinIniProperty(OsuSkin workingSkin, OsuSkin skinToCopy, KeyValuePair<string, string> property)
+    protected virtual void CopyFileFromSkinIniProperty(OsuSkinStable workingSkin, OsuSkinStable skinToCopy, KeyValuePair<string, string> property)
     {
         if (!OsuSkinIni.PropertyHasFilePath(property.Key))
             return;
@@ -286,7 +333,7 @@ public abstract class SkinMachine : IDisposable
         }
     }
 
-    protected virtual void CopyFileOption(OsuSkin workingSkin, SkinFileOption fileOption)
+    protected virtual void CopyFileOption(OsuSkinStable workingSkin, SkinFileOption fileOption)
     {
         if (fileOption.Value.Type == SkinOptionValueType.DefaultSkin)
             return;
@@ -297,12 +344,15 @@ public abstract class SkinMachine : IDisposable
             return;
         }
 
-        foreach (var file in fileOption.Value.CustomSkin.Directory.EnumerateFiles())
+        // The skin will always be OsuSkinStable. We made sure of that in Run().
+        OsuSkinStable customSkin = (OsuSkinStable)fileOption.Value.CustomSkin;
+
+        foreach (var file in customSkin.Directory.EnumerateFiles())
         {
             if (CheckIfFileAndOptionMatch(file, fileOption))
             {
                 AddCopyFileTask(file, workingSkin.Directory, "due to filename match");
-                Md5Map[(fileOption.Value.CustomSkin, file.Name)] = GetMd5Hash(file.FullName);
+                Md5Map[(customSkin, file.Name)] = GetMd5Hash(file.FullName);
             }
         }
     }
@@ -336,7 +386,7 @@ public abstract class SkinMachine : IDisposable
         });
     }
 
-    protected void AddCopyBlankFileTask(SkinFileOption fileOption, OsuSkin workingSkin)
+    protected void AddCopyBlankFileTask(SkinFileOption fileOption, OsuSkinStable workingSkin)
     {
         if (fileOption.IncludeFileName.EndsWith("*"))
         {

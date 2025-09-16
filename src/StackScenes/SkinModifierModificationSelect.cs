@@ -4,6 +4,7 @@ using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Utils;
 using OsuSkinMixer.Statics;
+using OsuSkinMixer.Models.Osu;
 
 public partial class SkinModifierModificationSelect : StackScene
 {
@@ -12,7 +13,7 @@ public partial class SkinModifierModificationSelect : StackScene
 
     private CancellationTokenSource CancellationTokenSource;
 
-    public List<OsuSkin> SkinsToModify { get; set; }
+    public List<OsuSkinBase> SkinsToModify { get; set; }
 
     private ComboColoursContainer[] ComboColoursContainers = [];
     private CursorColourContainer[] CursorColourContainers = [];
@@ -149,7 +150,7 @@ public partial class SkinModifierModificationSelect : StackScene
         WarningLabelInstafadeColours.Visible = InstafadeCheckBox.ButtonPressed;
     }
 
-    private void OnSkinRemoved(OsuSkin skin)
+    private void OnSkinRemoved(OsuSkinBase skin)
     {
         if (SkinsToModify.Remove(skin) && SkinsToModify.Count == 0)
         {

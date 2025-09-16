@@ -2,13 +2,14 @@ namespace OsuSkinMixer.StackScenes;
 
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 
 public partial class SkinInfo : StackScene
 {
     public override string Title => "Skin info";
 
-    public IEnumerable<OsuSkin> Skins { get; set; }
+    public IEnumerable<OsuSkinBase> Skins { get; set; }
 
     private PackedScene SkinInfoPanelScene;
 

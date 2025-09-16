@@ -1,10 +1,10 @@
 using System;
 using Realms;
 
-namespace OsuSkinMixer.src.Models.Realm;
+namespace OsuSkinMixer.Models.Realm;
 
 [MapTo("Skin")]
-public class OsuSkinRealm : RealmObject
+public class RealmOsuSkin : RealmObject
 {
     [PrimaryKey]
     public Guid ID { get; set; }

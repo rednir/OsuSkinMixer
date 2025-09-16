@@ -3,6 +3,7 @@ namespace OsuSkinMixer.Components;
 using System.IO;
 using OsuSkinMixer.Autoload;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Models.Osu;
 
 public partial class HitcircleIcon : CenterContainer
 {
@@ -17,7 +18,7 @@ public partial class HitcircleIcon : CenterContainer
     private TextureRect HiddenIcon;
     private AnimationPlayer LoadingAnimationPlayer;
 
-    private OsuSkin _skin;
+    private OsuSkinBase _skin;
 
     private bool _isTexturesLoaded;
 
@@ -38,7 +39,7 @@ public partial class HitcircleIcon : CenterContainer
         VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
     }
 
-    public void SetSkin(OsuSkin skin)
+    public void SetSkin(OsuSkinBase skin)
     {
         _skin = skin;
 
@@ -101,18 +102,20 @@ public partial class HitcircleIcon : CenterContainer
         if (_skin is null || _isTexturesLoaded)
             return;
 
-        if (_skin?.Directory is null)
-        {
-            Modulate = new Color(1, 1, 1, 0.25f);
-            return;
-        }
+        // TODO: lazer
+        // if (_skin?.Directory is null)
+        // {
+        //     Modulate = new Color(1, 1, 1, 0.25f);
+        //     return;
+        // }
 
         _isTexturesLoaded = true;
 
-        _hitcirclePrefix = _skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
+        // TODO: lazer
+        // _hitcirclePrefix = _skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
 
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("hitcircle"), "png");
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension($"{_hitcirclePrefix}-1"), "png");
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("hitcircleoverlay"), "png");
+        // TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("hitcircle"), "png");
+        // TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension($"{_hitcirclePrefix}-1"), "png");
+        // TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("hitcircleoverlay"), "png");
     }
 }

@@ -1,5 +1,6 @@
 using Godot;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 using System;
 using System.IO;
@@ -50,24 +51,25 @@ public partial class TextureLoadingService : Node
     }
 
 
-    public void InvalidateSkinCache(OsuSkin skin)
+    public void InvalidateSkinCache(OsuSkinBase skin)
     {
-        string normalizedSkinPath = skin.Directory.FullName.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        // TODO: lazer
+        // string normalizedSkinPath = skin.Directory.FullName.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
-        foreach (string key in _textureCache.Keys)
-        {
-            try
-            {
-                string normalizedKeyPath = Path.GetFullPath(key);
-                if (normalizedKeyPath.StartsWith(normalizedSkinPath + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
-                    _textureCache.TryRemove(key, out _);
-            }
-            catch
-            {
-            }
-        }
+        // foreach (string key in _textureCache.Keys)
+        // {
+        //     try
+        //     {
+        //         string normalizedKeyPath = Path.GetFullPath(key);
+        //         if (normalizedKeyPath.StartsWith(normalizedSkinPath + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+        //             _textureCache.TryRemove(key, out _);
+        //     }
+        //     catch
+        //     {
+        //     }
+        // }
 
-        _skinLock.TryRemove(skin.Directory.Name, out _);
+        // _skinLock.TryRemove(skin.Directory.Name, out _);
     }
 
     private Texture2D GetTexture(string filepath, int maxSize)

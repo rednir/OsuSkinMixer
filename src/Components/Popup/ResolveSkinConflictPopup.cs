@@ -36,22 +36,23 @@ public partial class ResolveSkinConflictPopup : Popup
         DoneButton = GetNode<Button>("%DoneButton");
         ResolveFailedPopup = GetNode<OkPopup>("%ResolveFailedPopup");
 
-        VisibleSkinComponent.LeftClicked += () => Tools.ShellOpenFile(VisibleSkinComponent.Skin.Directory.FullName);
-        HiddenSkinComponent.LeftClicked += () => Tools.ShellOpenFile(HiddenSkinComponent.Skin.Directory.FullName);
+        // TODO: lazer
+        // VisibleSkinComponent.LeftClicked += () => Tools.ShellOpenFile(VisibleSkinComponent.Skin.Directory.FullName);
+        // HiddenSkinComponent.LeftClicked += () => Tools.ShellOpenFile(HiddenSkinComponent.Skin.Directory.FullName);
         DoneButton.Pressed += OnDoneButtonPressed;
     }
 
     private void OnDoneButtonPressed()
     {
-        if (Directory.Exists(VisibleSkinComponent.Skin.Directory.FullName) && Directory.Exists(HiddenSkinComponent.Skin.Directory.FullName))
-        {
-            ResolveFailedPopup.In();
-            return;
-        }
+        // if (Directory.Exists(VisibleSkinComponent.Skin.Directory.FullName) && Directory.Exists(HiddenSkinComponent.Skin.Directory.FullName))
+        // {
+        //     ResolveFailedPopup.In();
+        //     return;
+        // }
 
-        VisibleSkinComponent.Skin = null;
-        HiddenSkinComponent.Skin = null;
-        OsuData.SweepPaused = false;
-        Out();
+        // VisibleSkinComponent.Skin = null;
+        // HiddenSkinComponent.Skin = null;
+        // OsuData.SweepPaused = false;
+        // Out();
     }
 }

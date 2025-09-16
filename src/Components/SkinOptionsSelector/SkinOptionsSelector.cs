@@ -1,6 +1,7 @@
 namespace OsuSkinMixer.Components;
 
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 
 public partial class SkinOptionsSelector : PanelContainer
@@ -239,7 +240,7 @@ public partial class SkinOptionsSelector : PanelContainer
         SkinOptionComponents.Find(c => c.SkinOption == option).SetOptionValue(value);
     }
 
-    private void OnSkinRemoved(OsuSkin skin)
+    private void OnSkinRemoved(OsuSkinBase skin)
     {
         var invalidComponents = SkinOptionComponents.Where(c => c.SkinOption.Value.CustomSkin?.Equals(skin) == true);
 

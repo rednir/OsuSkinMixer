@@ -1,9 +1,11 @@
 using System;
 using Realms;
 
-namespace OsuSkinMixer.src.Models.Realm;
+namespace OsuSkinMixer.Models.Realm;
 
 public class RealmNamedFileUsage : EmbeddedObject
 {
     public string Filename { get; set; }
+
+    public RealmFile File { get; set; }
 }

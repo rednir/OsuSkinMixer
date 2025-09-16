@@ -1,12 +1,12 @@
 namespace OsuSkinMixer.Components;
 
 using OsuSkinMixer.Models;
-using OsuSkinMixer.src.Models.Osu;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 
 public partial class SkinComponent : HBoxContainer
 {
-    public OsuSkin Skin { get; set; }
+    public OsuSkinBase Skin { get; set; }
 
     public Action LeftClicked { get; set; }
 
@@ -104,13 +104,14 @@ public partial class SkinComponent : HBoxContainer
     {
         if (LeftClicked == null)
         {
-            if (Skin?.Directory is null)
-            {
-                Settings.PushToast("You don't seem to have that skin downloaded.");
-                return;
-            }
+            // TODO: lazer (need a better way of representing credits skins)
+            // if (Skin?.Directory is null)
+            // {
+            //     Settings.PushToast("You don't seem to have that skin downloaded.");
+            //     return;
+            // }
 
-            OsuData.RequestSkinInfo(new OsuSkin[] { Skin });
+            OsuData.RequestSkinInfo([Skin]);
             return;
         }
 
@@ -123,11 +124,12 @@ public partial class SkinComponent : HBoxContainer
             && mouseButton.ButtonIndex == MouseButton.Right
             && mouseButton.Pressed)
         {
-            if (Skin?.Directory is null)
-            {
-                Settings.PushToast("You don't seem to have that skin downloaded.");
-                return;
-            }
+            // TODO: lazer (need a better way of representing credits skins)
+            // if (Skin?.Directory is null)
+            // {
+            //     Settings.PushToast("You don't seem to have that skin downloaded.");
+            //     return;
+            // }
 
             RightClicked?.Invoke();
         }
