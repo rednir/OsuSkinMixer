@@ -79,7 +79,7 @@ public static class OsuData
         
             using Realm realm = Realm.GetInstance(config);
 
-            foreach (var realmSkin in realm.All<RealmOsuSkin>())
+            foreach (var realmSkin in realm.All<RealmOsuSkin>().Freeze())
                 _skins.TryAdd(new OsuSkinLazer(realmSkin), default);
         }
         catch (Exception ex)
@@ -103,7 +103,7 @@ public static class OsuData
 
                 if (file is null)
                 {
-                    physicalPath = Path.Combine(stableSkin.SkinFolderPath, virtualFilePath);
+                    physicalPath = Path.Combine(stableSkin.Directory.FullName, virtualFilePath);
                     string containingDir = Path.GetDirectoryName(physicalPath);
                     if (!Directory.Exists(containingDir))
                         Directory.CreateDirectory(containingDir);
@@ -158,10 +158,20 @@ public static class OsuData
             dir.Delete(true);
 
         foreach (OsuSkinFile file in lazerSkin.Files)
-            File.Copy(file.PhysicalPath, Path.Combine(stableSkin.SkinFolderPath, file.VirtualPath), true);
+        {
+            string fileDestinationPath = Path.Combine(directory.FullName, file.VirtualPath);
+
+            Settings.Log($"Copying '{file.PhysicalPath}' -> '{fileDestinationPath}'");
+
+            // Ensure the containing directory exists before copying, skins often have subfolders for extras etc.
+            Directory.CreateDirectory(Path.GetDirectoryName(fileDestinationPath));
+            File.Copy(file.PhysicalPath, fileDestinationPath, true);
+        }
 
         // TODO: move this log to skin machine logs.
         Settings.Log($"Converted lazer skin '{lazerSkin.Name}' to stable skin at '{directory.FullName}'");
+        Tools.ShellOpenFile(directory.FullName);
+        OS.Alert($"Converted lazer skin '{lazerSkin.Name}' to stable skin at '{directory.FullName}'");
 
         return stableSkin;
     }

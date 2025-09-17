@@ -132,6 +132,7 @@ public static partial class Settings
         if (File.Exists(Path.Combine(path, "client.realm")))
         {
             Content.OsuFolder = path;
+            Content.IsLazer = true;
             error = null;
             return OsuData.TryLoadSkinsLazer();
         }
@@ -143,6 +144,7 @@ public static partial class Settings
         }
 
         Content.OsuFolder = path;
+        Content.IsLazer = false;
         error = null;
         return OsuData.TryLoadSkins();
     }

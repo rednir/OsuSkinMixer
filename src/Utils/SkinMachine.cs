@@ -113,7 +113,7 @@ public abstract class SkinMachine : IDisposable
 
             _logBuilders.Add(_currentLogBuilder);
             foreach (var builder in _logBuilders)
-                Settings.Log(builder.ToString());
+                Settings.Log(builder?.ToString() ?? "[NULL LOG]");
         }
     }
     
@@ -128,7 +128,7 @@ public abstract class SkinMachine : IDisposable
             {
                 OsuSkinStable stableSkin;
 
-                if (!alreadyConvertedSkins.TryGetValue(lazerSkin, out stableSkin))
+                if (alreadyConvertedSkins.TryGetValue(lazerSkin, out stableSkin))
                 {
                     // We've already converted this lazer skin, so just use the existing object.
                     stableSkin = alreadyConvertedSkins[lazerSkin];

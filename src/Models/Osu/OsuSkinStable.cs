@@ -16,8 +16,6 @@ public class OsuSkinStable : OsuSkinBase
         }
     }
 
-    public string SkinFolderPath => Directory.FullName;
-
     public DateTime LastWriteTime => Directory.LastWriteTime;
 
     public DirectoryInfo Directory { get; set; }
