@@ -10,23 +10,22 @@ public class OsuSkinLazer : OsuSkinBase
 {
     public OsuSkinLazer(RealmOsuSkin realmSkin)
     {
-        _realmSkin = realmSkin;
+        Name = realmSkin.Name;
+        _files = realmSkin.Files.Select(f => new LazerFile(f.Filename, f.File.Hash)).ToList();
     }
-
-    public override string Name => _realmSkin.Name;
 
     public override OsuSkinCredits Credits => throw new NotImplementedException();
 
-    private RealmOsuSkin _realmSkin;
+    private IReadOnlyList<LazerFile> _files;
 
     public override OsuSkinFile TryGetFile(string virtualPath)
     {
-        RealmNamedFileUsage fileUsage = _realmSkin.Files.FirstOrDefault(f => f.Filename.Equals(virtualPath, StringComparison.OrdinalIgnoreCase));
+        LazerFile fileUsage = _files.FirstOrDefault(f => f.Filename.Equals(virtualPath, StringComparison.OrdinalIgnoreCase));
 
         if (fileUsage is null)
             return null;
 
-        string physicalPath = GetPhysicalPathFromHash(fileUsage.File.Hash);
+        string physicalPath = GetPhysicalPathFromHash(fileUsage.Hash);
 
         // TODO: should we check this?
         // if (!File.Exists(physicalPath))
@@ -37,13 +36,15 @@ public class OsuSkinLazer : OsuSkinBase
 
     protected override IEnumerable<OsuSkinFile> EnumerateFiles(SearchOption searchOption)
     {
-        foreach (var fileUsage in _realmSkin.Files)
+        foreach (var file in _files)
         {
-            string physicalPath = GetPhysicalPathFromHash(fileUsage.File.Hash);
-            yield return new OsuSkinFile(fileUsage.Filename, physicalPath);
+            string physicalPath = GetPhysicalPathFromHash(file.Hash);
+            yield return new OsuSkinFile(file.Filename, physicalPath);
         }
     }
 
     private string GetPhysicalPathFromHash(string hash)
         => Path.Combine(Settings.Content.OsuFolder, "files", hash[..1], hash[..2], hash);
+    
+    private record LazerFile(string Filename, string Hash);
 }

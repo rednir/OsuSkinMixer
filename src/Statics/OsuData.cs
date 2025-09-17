@@ -79,7 +79,7 @@ public static class OsuData
         
             using Realm realm = Realm.GetInstance(config);
 
-            foreach (var realmSkin in realm.All<RealmOsuSkin>().Freeze())
+            foreach (var realmSkin in realm.All<RealmOsuSkin>())
                 _skins.TryAdd(new OsuSkinLazer(realmSkin), default);
         }
         catch (Exception ex)

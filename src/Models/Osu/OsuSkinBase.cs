@@ -17,7 +17,7 @@ public abstract class OsuSkinBase
         new Color(0.9490f, 0.0941f, 0.2235f),
     ];
 
-    public virtual string Name { get; protected set; }
+    public string Name { get; protected set; }
 
     public OsuSkinIni SkinIni { get; protected set; }
 
