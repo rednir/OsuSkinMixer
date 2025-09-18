@@ -105,7 +105,7 @@ public static class OsuData
     public static OsuSkinStable CreateStableSkinFromLazer(OsuSkinLazer lazerSkin)
     {
         DirectoryInfo directory = Directory.CreateDirectory(Path.Combine(Settings.LazerConvertsFolderPath, lazerSkin.Name));
-        OsuSkinStable stableSkin = new(lazerSkin.Name, directory);
+        OsuSkinStable stableSkin = new(lazerSkin.Name, directory, false, lazerSkin.ID);
 
         // Ensure the skin directory is empty first.
         foreach (var file in directory.EnumerateFiles())

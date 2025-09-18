@@ -17,6 +17,10 @@ public abstract class OsuSkinBase
         new Color(0.9490f, 0.0941f, 0.2235f),
     ];
 
+    // For lazer's realm database. Although stable skins don't have an ID, we use this
+    // property if we convert a lazer skin to a stable skin, to keep track of it.
+    public Guid? ID { get; protected set; }
+
     public string Name { get; protected set; }
 
     public OsuSkinIni SkinIni { get; protected set; }
@@ -97,8 +101,9 @@ public abstract class OsuSkinBase
 
     public string WriteCreditsFile()
     {
+        // TODO: lazer
         string destination = "credits.ini";
-        OsuData.WriteFileToSkin(this, destination, Credits.ToString());
+        //OsuData.WriteFileToSkin(this, destination, Credits.ToString());
         return destination;
     }
 

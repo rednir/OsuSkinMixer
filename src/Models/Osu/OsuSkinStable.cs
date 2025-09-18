@@ -20,12 +20,13 @@ public class OsuSkinStable : OsuSkinBase
 
     public DirectoryInfo Directory { get; set; }
 
-    public OsuSkinStable(string name, DirectoryInfo dir, bool hidden = false)
+    public OsuSkinStable(string name, DirectoryInfo dir, bool hidden = false, Guid? id = null)
     {
         Name = name;
         Directory = dir;
         SkinIni = new OsuSkinIni(name, DEFAULT_AUTHOR);
         Hidden = hidden;
+        ID = id;
     }
 
     public OsuSkinStable(DirectoryInfo dir, bool hidden = false)

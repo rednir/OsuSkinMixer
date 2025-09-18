@@ -3,7 +3,9 @@ namespace OsuSkinMixer.Utils;
 using System.IO;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Models.Osu;
+using OsuSkinMixer.Models.Realm;
 using OsuSkinMixer.Statics;
+using Realms;
 
 /// <summary>Provides methods to create and import a new skin from a list of <see cref="SkinOption"/>.</summary>
 public class SkinMixerMachine : SkinMachine
@@ -96,7 +98,48 @@ public class SkinMixerMachine : SkinMachine
 
     protected override void PostRunLazer()
     {
+        using Realm realm = Realm.GetInstance(OsuData.RealmConfigWriteable);
 
+        RealmOsuSkin realmSkin = realm.Find<RealmOsuSkin>(NewSkin.ID);
+
+        realm.Write(() =>
+        {
+            if (realmSkin is null)
+            {
+                realmSkin = realm.Add(new RealmOsuSkin
+                {
+                    ID = Guid.NewGuid(),
+                    Name = NewSkin.Name,
+                    Creator = OsuSkinBase.DEFAULT_AUTHOR,
+                    InstantiationInfo = "osu.Game.Skinning.LegacySkin, osu.Game",
+                    Hash = string.Empty,
+                    Protected = false,
+                });
+            }
+            else
+            {
+                realmSkin.Name = NewSkin.Name;
+                realmSkin.Creator = OsuSkinBase.DEFAULT_AUTHOR;
+                realmSkin.InstantiationInfo = "osu.Game.Skinning.LegacySkin, osu.Game";
+                realmSkin.Hash = string.Empty;
+                realmSkin.Protected = false;
+                realmSkin.Files.Clear();
+            }
+
+            foreach (OsuSkinFile file in NewSkin.Files)
+            {
+                string hash = Tools.ComputeSHA256OfFile(file.PhysicalPath);
+
+                RealmFile realmFile = realm.Find<RealmFile>(hash)
+                    ?? realm.Add(new RealmFile { Hash = hash });
+
+                realmSkin.Files.Add(new RealmNamedFileUsage
+                {
+                    Filename = file.VirtualPath,
+                    File = realmFile,
+                });
+            }
+        });
     }
 
     private static bool IsInSkinsFolder(string path)

@@ -18,6 +18,8 @@ public class RealmOsuSkin : RealmObject
     public string Hash { get; set; } = string.Empty;
 
     public bool Protected { get; set; }
+    
+    public bool DeletePending { get; set; }
 
     public IList<RealmNamedFileUsage> Files { get; }
 }
