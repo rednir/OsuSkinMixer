@@ -101,60 +101,6 @@ public static class OsuData
         AllSkinsLoaded?.Invoke();
         return true;
     }
-
-    public static OsuSkinFile WriteFileToSkin(OsuSkinBase skin, string virtualFilePath, byte[] data)
-    {
-        lock (_skins)
-        {
-            if (skin is OsuSkinStable stableSkin)
-            {
-                OsuSkinFile file = stableSkin.TryGetFile(virtualFilePath);
-                string physicalPath;
-
-                if (file is null)
-                {
-                    physicalPath = Path.Combine(stableSkin.Directory.FullName, virtualFilePath);
-                    string containingDir = Path.GetDirectoryName(physicalPath);
-                    if (!Directory.Exists(containingDir))
-                        Directory.CreateDirectory(containingDir);
-                }
-                else
-                {
-                    physicalPath = file.PhysicalPath;
-                }
-
-                File.WriteAllBytes(physicalPath, data);
-                InvokeSkinModified(skin);
-
-                // TODO: normalisation is needed?
-                return new OsuSkinFile(virtualFilePath, physicalPath);
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-    }
-
-    public static OsuSkinFile WriteFileToSkin(OsuSkinBase skin, string virtualFilePath, string content)
-        => WriteFileToSkin(skin, virtualFilePath, System.Text.Encoding.UTF8.GetBytes(content));
-
-    public static void DeleteFileFromSkin(OsuSkinBase skin, string virtualFilePath)
-    {
-        lock (_skins)
-        {
-            if (skin is OsuSkinStable stableSkin)
-            {
-                OsuSkinFile file = stableSkin.TryGetFile(virtualFilePath);
-
-                if (file is null || !File.Exists(file.PhysicalPath))
-                    throw new IOException($"File {virtualFilePath} does not exist in skin {stableSkin.Name}.");
-
-                File.Delete(file.PhysicalPath);
-                InvokeSkinModified(skin);
-            }
-        }
-    }
     
     public static OsuSkinStable CreateStableSkinFromLazer(OsuSkinLazer lazerSkin)
     {
