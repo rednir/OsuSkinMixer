@@ -96,7 +96,7 @@ public class SkinMixerMachine : SkinMachine
 
     protected override void PostRunLazer()
     {
-        
+
     }
 
     private static bool IsInSkinsFolder(string path)

@@ -106,6 +106,11 @@ public class SkinModifierMachine : SkinMachine
         OsuData.SweepPaused = false;
     }
 
+    protected override void PostRunLazer()
+    {
+        throw new NotImplementedException();
+    }
+
     private void ModifySingleSkin(OsuSkinBase skinToModify, IEnumerable<SkinOption> flattenedOptions)
     {
         Log($"Beginning skin modification for single skin '{skinToModify.Name}'");

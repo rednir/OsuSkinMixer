@@ -60,6 +60,8 @@ public abstract class SkinMachine : IDisposable
 
     protected IEnumerable<SkinOption> FlattenedBottomLevelOptions { get; set; }
 
+    protected IEnumerable<OsuSkinStable> ConvertedLazerSkins { get; set; }
+
     private readonly List<StringBuilder> _logBuilders = new();
 
     private StringBuilder _currentLogBuilder;
@@ -98,7 +100,9 @@ public abstract class SkinMachine : IDisposable
 
             if (OsuData.IsLazer)
             {
+                StatusChanged?.Invoke("Importing skin...");
                 PostRunLazer();
+                DeleteConvertedLazerSkins();
             }
             else
             {
@@ -127,7 +131,7 @@ public abstract class SkinMachine : IDisposable
     private IEnumerable<SkinOption> CreateStableSkinsFromLazer()
     {
         List<SkinOption> result = [];
-        Dictionary<OsuSkinLazer, OsuSkinStable> alreadyConvertedSkins = [];
+        Dictionary<OsuSkinLazer, OsuSkinStable> convertedSkins = [];
 
         foreach (SkinOption option in FlattenedBottomLevelOptions)
         {
@@ -135,15 +139,15 @@ public abstract class SkinMachine : IDisposable
             {
                 OsuSkinStable stableSkin;
 
-                if (alreadyConvertedSkins.TryGetValue(lazerSkin, out stableSkin))
+                if (convertedSkins.TryGetValue(lazerSkin, out stableSkin))
                 {
                     // We've already converted this lazer skin, so just use the existing object.
-                    stableSkin = alreadyConvertedSkins[lazerSkin];
+                    stableSkin = convertedSkins[lazerSkin];
                 }
                 else
                 {
                     stableSkin = OsuData.CreateStableSkinFromLazer(lazerSkin);
-                    alreadyConvertedSkins[lazerSkin] = stableSkin;
+                    convertedSkins[lazerSkin] = stableSkin;
                 }
 
                 // Create a copy of the option. We only want to change the skin in the option to the stable convert for the skin creation.
@@ -164,7 +168,25 @@ public abstract class SkinMachine : IDisposable
             }
         }
 
+        // Keep note of the converted skins, we need to clean up after creation is finished.
+        ConvertedLazerSkins = convertedSkins.Values;
+
         return result;
+    }
+
+    private void DeleteConvertedLazerSkins()
+    {
+        foreach (OsuSkinStable convertedSkin in ConvertedLazerSkins)
+        {
+            try
+            {
+                convertedSkin.Directory.Delete(true);
+            }
+            catch (Exception ex)
+            {
+                Log($"Failed to delete converted lazer skin at '{convertedSkin.Directory.FullName}': {ex.Message}");
+            }
+        }
     }
 
     protected abstract void PopulateTasks();
