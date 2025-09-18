@@ -55,7 +55,7 @@ public class SkinMixerMachine : SkinMachine
         });
     }
 
-    protected override void PostRun()
+    protected override void PostRunStable()
     {
         string dirDestPath = $"{Settings.SkinsFolderPath}/{NewSkin.Name}";
         Log($"Copying working folder to '{dirDestPath}'");
@@ -92,6 +92,11 @@ public class SkinMixerMachine : SkinMachine
         }
 
         OsuData.AddSkin(NewSkin);
+    }
+
+    protected override void PostRunLazer()
+    {
+        
     }
 
     private static bool IsInSkinsFolder(string path)

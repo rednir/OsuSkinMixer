@@ -87,7 +87,7 @@ public class SkinModifierMachine : SkinMachine
         Progress = UNCANCELLABLE_AFTER;
     }
 
-    protected override void PostRun()
+    protected override void PostRunStable()
     {
         foreach (OsuSkinStable skin in SkinsToModify)
         {

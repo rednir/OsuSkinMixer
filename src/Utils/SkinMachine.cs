@@ -96,7 +96,14 @@ public abstract class SkinMachine : IDisposable
 
             Progress = 100;
 
-            PostRun();
+            if (OsuData.IsLazer)
+            {
+                PostRunLazer();
+            }
+            else
+            {
+                PostRunStable();
+            }
 
             Settings.Content.SkinsMadeCount++;
             _stopwatch.Stop();
@@ -173,7 +180,9 @@ public abstract class SkinMachine : IDisposable
         }
     }
 
-    protected abstract void PostRun();
+    protected abstract void PostRunStable();
+
+    protected abstract void PostRunLazer();
 
     protected void GenerateCreditsFile(OsuSkinStable workingSkin)
     {
