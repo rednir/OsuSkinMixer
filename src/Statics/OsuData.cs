@@ -32,6 +32,23 @@ public static class OsuData
 
     public static bool IsLazer => Settings.Content.IsLazer;
 
+    public static RealmConfiguration RealmConfigReadOnly
+        => new(Path.Combine(Settings.Content.OsuFolder, "client.realm"))
+        {
+            IsReadOnly = true,
+            SchemaVersion = 51,
+        };
+
+    public static RealmConfiguration RealmConfigWriteable
+    {
+        get
+        {
+            RealmConfiguration result = RealmConfigReadOnly;
+            result.IsReadOnly = false;
+            return result;
+        }
+    }
+
     public static OsuSkinBase[] Skins { get => _skins.Keys.OrderBy(s => s.Name).ToArray(); }
 
     private static Dictionary<OsuSkinBase, DateTime> _skins;
@@ -68,16 +85,9 @@ public static class OsuData
         SweepPaused = true;
         _skins = new Dictionary<OsuSkinBase, DateTime>();
 
-        string realmPath = Path.Combine(Settings.Content.OsuFolder, "client.realm");
         try
-        {
-            RealmConfiguration config = new(realmPath)
-            {
-                IsReadOnly = true,
-                SchemaVersion = 51,
-            };
-        
-            using Realm realm = Realm.GetInstance(config);
+        {        
+            using Realm realm = Realm.GetInstance(RealmConfigReadOnly);
 
             foreach (var realmSkin in realm.All<RealmOsuSkin>())
                 _skins.TryAdd(new OsuSkinLazer(realmSkin), default);
