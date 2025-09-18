@@ -89,7 +89,7 @@ public abstract class SkinMachine : IDisposable
             FlattenedBottomLevelOptions = SkinOption.Flatten(SkinOptions).Where(o => o is not ParentSkinOption);
 
             if (OsuData.IsLazer)
-                CreateStableSkinsFromLazer();
+                FlattenedBottomLevelOptions = CreateStableSkinsFromLazer();
 
             PopulateTasks();
             RunAllTasks();
@@ -117,7 +117,7 @@ public abstract class SkinMachine : IDisposable
         }
     }
     
-    private void CreateStableSkinsFromLazer()
+    private IEnumerable<SkinOption> CreateStableSkinsFromLazer()
     {
         List<SkinOption> result = [];
         Dictionary<OsuSkinLazer, OsuSkinStable> alreadyConvertedSkins = [];
@@ -157,7 +157,7 @@ public abstract class SkinMachine : IDisposable
             }
         }
 
-        FlattenedBottomLevelOptions = result;
+        return result;
     }
 
     protected abstract void PopulateTasks();
