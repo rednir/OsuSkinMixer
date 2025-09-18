@@ -171,7 +171,6 @@ public static class OsuData
         // TODO: move this log to skin machine logs.
         Settings.Log($"Converted lazer skin '{lazerSkin.Name}' to stable skin at '{directory.FullName}'");
         Tools.ShellOpenFile(directory.FullName);
-        OS.Alert($"Converted lazer skin '{lazerSkin.Name}' to stable skin at '{directory.FullName}'");
 
         return stableSkin;
     }
