@@ -2,6 +2,7 @@ namespace OsuSkinMixer.Statics;
 
 using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Models.Osu;
@@ -158,10 +159,22 @@ public static class Tools
             int value = (int)(32768 * reader.ReadSingle());
             int clamped = Math.Clamp(value, short.MinValue, short.MaxValue);
 
-            result[i/2] = (byte)clamped;
-            result[i/2 + 1] = (byte)(clamped >> 8);
+            result[i / 2] = (byte)clamped;
+            result[i / 2 + 1] = (byte)(clamped >> 8);
         }
 
         return result;
+    }
+
+    public static string ComputeSHA256OfFile(string filePath)
+    {
+        using FileStream fileStream = new(filePath, FileMode.Open, FileAccess.Read);
+        using SHA256 sha256 = SHA256.Create();
+        byte[] hash = sha256.ComputeHash(fileStream);
+        StringBuilder sb = new("sha256:");
+        foreach (byte b in hash)
+            sb.Append(b.ToString("x2"));
+
+        return sb.ToString();
     }
 }

@@ -185,7 +185,7 @@ public static partial class Settings
         await downloadStream.CopyToAsync(fileStream);
         fileStream.Close();
 
-        string checksum = ComputeSHA256OfFile(installerPath);
+        string checksum = Tools.ComputeSHA256OfFile(installerPath);
         if (checksum != githubAsset?.Digest)
         {
             PushToast("We tried to update osu! skin mixer, but what we downloaded seems corrupted.\n\nYou might have to download the update manually. Sorry!");
@@ -197,18 +197,6 @@ public static partial class Settings
         Save();
 
         Log($"Finished downloading installer to {installerPath}");
-    }
-
-    private static string ComputeSHA256OfFile(string filePath)
-    {
-        using FileStream fileStream = new(filePath, FileMode.Open, FileAccess.Read);
-        using SHA256 sha256 = SHA256.Create();
-        byte[] hash = sha256.ComputeHash(fileStream);
-        StringBuilder sb = new("sha256:");
-        foreach (byte b in hash)
-            sb.Append(b.ToString("x2"));
-
-        return sb.ToString();
     }
 
     public static void StartLoggingToFile()
