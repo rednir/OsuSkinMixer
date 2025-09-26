@@ -1,3 +1,10 @@
+> [!NOTE]
+> Hey, I’m working on a new app. The goal is to help you reach your life goals. It would be super helpful if you could [take a quick survey](https://docs.google.com/forms/d/e/1FAIpQLSe9nj0_GJSdRnONf_gN7Z_8t_cIVjf2WgejvB6Ps6AeWp_Ifw/viewform?usp=header). And if you want, you can also be one of the first to try our app!
+> 
+> As thanks, **three lucky participants will win an Amazon gift card!**
+
+---
+
 <p align="center">
   <a href="#">
     <img alt="Download for Windows" src="assets/icon-text.png">
