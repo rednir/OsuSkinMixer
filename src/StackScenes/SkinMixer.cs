@@ -5,6 +5,7 @@ using OsuSkinMixer.Models;
 using OsuSkinMixer.Utils;
 using OsuSkinMixer.Statics;
 using System.IO;
+using OsuSkinMixer.Models.Osu;
 
 public partial class SkinMixer : StackScene
 {
@@ -73,7 +74,7 @@ public partial class SkinMixer : StackScene
                 machine.Run(CancellationTokenSource.Token);
 
                 var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
-                skinInfoInstance.Skins = new OsuSkin[] { machine.NewSkin };
+                skinInfoInstance.Skins = [machine.NewSkin];
                 EmitSignal(SignalName.ScenePushed, skinInfoInstance);
             },
             undoAction: () =>

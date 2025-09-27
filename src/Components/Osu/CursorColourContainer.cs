@@ -1,4 +1,5 @@
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.ColorSpaces;
@@ -14,7 +15,7 @@ namespace OsuSkinMixer.Components;
 // TODO: reuse code from combo colours container
 public partial class CursorColourContainer : HBoxContainer
 {
-	public OsuSkin Skin { get; set; }
+	public OsuSkinBase Skin { get; set; }
 
 	public bool OverrideEnabled { get; private set; }
 
@@ -23,7 +24,7 @@ public partial class CursorColourContainer : HBoxContainer
 	public event Action OverrideStateChanged;
 
 	// When modifying starts, the skin machine will copy everything in this directory to the target skin's directory.
-	public string GeneratedImagesDirPath => $"{Settings.DeleteOnExitFolderPath}/cc_{Skin.Directory.Name}";
+	public string GeneratedImagesDirPath => $"{Settings.DeleteOnExitFolderPath}/cc_{Skin.Name}";
 
 	private Label EnableOverrideLabel;
 	private Button EnableOverrideButton;
@@ -84,15 +85,16 @@ public partial class CursorColourContainer : HBoxContainer
 
 	private void InitialiseIcon()
 	{
-		Texture2D cursorTexture = Skin.Get2XTexture("cursor");
-		Texture2D cursorMiddleTexture = Skin.Get2XTexture("cursormiddle");
+		// TODO: lazer
+		// Texture2D cursorTexture = Skin.Get2XTexture("cursor");
+		// Texture2D cursorMiddleTexture = Skin.Get2XTexture("cursormiddle");
 
-		// Avoid showing the default cursormiddle if there's no custom one in the skin.
-		bool showCursorMiddle = File.Exists($"{Skin.Directory.FullName}/cursormiddle.png") || !File.Exists($"{Skin.Directory.FullName}/cursor.png");
+		// // Avoid showing the default cursormiddle if there's no custom one in the skin.
+		// bool showCursorMiddle = File.Exists($"{Skin.Directory.FullName}/cursormiddle.png") || !File.Exists($"{Skin.Directory.FullName}/cursor.png");
 
-		Icon.SetValues(cursorTexture, showCursorMiddle ? cursorMiddleTexture : null);
+		// Icon.SetValues(cursorTexture, showCursorMiddle ? cursorMiddleTexture : null);
 
-		Directory.CreateDirectory(GeneratedImagesDirPath);
+		// Directory.CreateDirectory(GeneratedImagesDirPath);
 	}
 
 	private void OnIconPressed()
@@ -126,50 +128,50 @@ public partial class CursorColourContainer : HBoxContainer
 
 	private void UpdateIconColour()
 	{
-		Rgba32 rgba = new(ColorPicker.Color.R, ColorPicker.Color.G, ColorPicker.Color.B, 255);
+		// Rgba32 rgba = new(ColorPicker.Color.R, ColorPicker.Color.G, ColorPicker.Color.B, 255);
 
-		string[] filesToRecolour =
-		[
-			"cursor",
-			IgnoreCursormiddleButton.ButtonPressed ? null : "cursormiddle",
-			IgnoreCursortrailButton.ButtonPressed ? null : "cursortrail"
-		];
+		// string[] filesToRecolour =
+		// [
+		// 	"cursor",
+		// 	IgnoreCursormiddleButton.ButtonPressed ? null : "cursormiddle",
+		// 	IgnoreCursortrailButton.ButtonPressed ? null : "cursortrail"
+		// ];
 
-		// The user may have chosen to ignore the cursormiddle or cursortrail, so clean up files just in this case.
-		foreach (string file in Directory.EnumerateFiles(GeneratedImagesDirPath))
-			File.Delete(file);
+		// // The user may have chosen to ignore the cursormiddle or cursortrail, so clean up files just in this case.
+		// foreach (string file in Directory.EnumerateFiles(GeneratedImagesDirPath))
+		// 	File.Delete(file);
 
-		foreach (string file in filesToRecolour)
-		{
-			if (file is null)
-				continue;
+		// foreach (string file in filesToRecolour)
+		// {
+		// 	if (file is null)
+		// 		continue;
 
-			RecolourImage($"{Skin.Directory}/{file}.png", $"{GeneratedImagesDirPath}/{file}.png", rgba, (float)SatThresholdSpinBox.Value);
-			RecolourImage($"{Skin.Directory}/{file}@2x.png", $"{GeneratedImagesDirPath}/{file}@2x.png", rgba, (float)SatThresholdSpinBox.Value);
-		}
+		// 	RecolourImage($"{Skin.Directory}/{file}.png", $"{GeneratedImagesDirPath}/{file}.png", rgba, (float)SatThresholdSpinBox.Value);
+		// 	RecolourImage($"{Skin.Directory}/{file}@2x.png", $"{GeneratedImagesDirPath}/{file}@2x.png", rgba, (float)SatThresholdSpinBox.Value);
+		// }
 
-		Godot.Image cursorImage = null;
-		Godot.Image cursormiddleImage = null;
+		// Godot.Image cursorImage = null;
+		// Godot.Image cursormiddleImage = null;
 
-		if (File.Exists($"{GeneratedImagesDirPath}/cursor.png"))
-		{
-			cursorImage = new Godot.Image();
-			cursorImage.Load($"{GeneratedImagesDirPath}/cursor.png");
-		}
+		// if (File.Exists($"{GeneratedImagesDirPath}/cursor.png"))
+		// {
+		// 	cursorImage = new Godot.Image();
+		// 	cursorImage.Load($"{GeneratedImagesDirPath}/cursor.png");
+		// }
 
 
-		if (File.Exists($"{GeneratedImagesDirPath}/cursormiddle.png"))
-		{
-			cursormiddleImage = new Godot.Image();
-			cursormiddleImage.Load($"{GeneratedImagesDirPath}/cursormiddle.png");
-		}
+		// if (File.Exists($"{GeneratedImagesDirPath}/cursormiddle.png"))
+		// {
+		// 	cursormiddleImage = new Godot.Image();
+		// 	cursormiddleImage.Load($"{GeneratedImagesDirPath}/cursormiddle.png");
+		// }
 
-		Icon.SetValues(
-			cursorImage is not null ? ImageTexture.CreateFromImage(cursorImage) : null,
-			cursormiddleImage is not null ? ImageTexture.CreateFromImage(cursormiddleImage) : null);
+		// Icon.SetValues(
+		// 	cursorImage is not null ? ImageTexture.CreateFromImage(cursorImage) : null,
+		// 	cursormiddleImage is not null ? ImageTexture.CreateFromImage(cursormiddleImage) : null);
 
-		// When the user presses the override button, the icon will appear unchanged until a colour is chosen.
-		IsColourChosen = true;
+		// // When the user presses the override button, the icon will appear unchanged until a colour is chosen.
+		// IsColourChosen = true;
 	}
 
 	private static void RecolourImage(string input, string output, Rgba32 target, float satThreshold, float nonBlackThreshold = 0.06f)

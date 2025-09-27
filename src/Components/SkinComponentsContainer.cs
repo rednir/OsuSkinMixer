@@ -1,15 +1,16 @@
 namespace OsuSkinMixer.Components;
 
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 
 public partial class SkinComponentsContainer : PanelContainer
 {
-    public event Action<OsuSkin> SkinSelected;
+    public event Action<OsuSkinBase> SkinSelected;
 
-    public event Action<OsuSkin, bool> SkinChecked;
+    public event Action<OsuSkinBase, bool> SkinChecked;
 
-    public Action<IEnumerable<OsuSkin>> SkinInfoRequested
+    public Action<IEnumerable<OsuSkinBase>> SkinInfoRequested
     {
         get => ManageSkinPopup.SkinInfoRequested;
         set => ManageSkinPopup.SkinInfoRequested = value;
@@ -80,7 +81,7 @@ public partial class SkinComponentsContainer : PanelContainer
         foreach (var child in VBoxContainer.GetChildren())
             child.QueueFree();
 
-        foreach (OsuSkin skin in OsuData.Skins)
+        foreach (OsuSkinBase skin in OsuData.Skins)
             AddSkinComponent(skin);
     }
 
@@ -114,7 +115,8 @@ public partial class SkinComponentsContainer : PanelContainer
                 children = children.OrderBy(c => c.Skin.SkinIni.TryGetPropertyValue("General", "Author"));
                 break;
             case SkinSort.LastModified:
-                children = children.OrderByDescending(c => c.Skin.Directory.LastWriteTime);
+                // TODO: lazer
+                //children = children.OrderByDescending(c => c.Skin.Directory.LastWriteTime);
                 break;
             case SkinSort.Hidden:
                 children = children.OrderByDescending(c => c.Skin.Hidden);
@@ -129,7 +131,7 @@ public partial class SkinComponentsContainer : PanelContainer
             VBoxContainer.CallDeferred(MethodName.MoveChild, child, Array.IndexOf(sortedArray, child));
     }
 
-    public void DisableSkinComponent(OsuSkin skin)
+    public void DisableSkinComponent(OsuSkinBase skin)
     {
         var skinComponent = GetExistingComponentFromSkin(skin);
 
@@ -141,7 +143,7 @@ public partial class SkinComponentsContainer : PanelContainer
         _disabledSkinComponents.Add(skinComponent);
     }
 
-    public void EnableSkinComponent(OsuSkin skin)
+    public void EnableSkinComponent(OsuSkinBase skin)
     {
         var skinComponent = GetExistingComponentFromSkin(skin);
 
@@ -153,14 +155,14 @@ public partial class SkinComponentsContainer : PanelContainer
         _disabledSkinComponents.Remove(skinComponent);
     }
 
-    private void AddSkinComponent(OsuSkin skin)
+    private void AddSkinComponent(OsuSkinBase skin)
     {
         var skinComponent = CreateSkinComponentFrom(skin);
         VBoxContainer.CallDeferred(MethodName.AddChild, skinComponent);
         SkinComponents.Add(skinComponent);
     }
 
-    private void RemoveSkinComponent(OsuSkin skin)
+    private void RemoveSkinComponent(OsuSkinBase skin)
     {
         var skinComponent = GetExistingComponentFromSkin(skin);
         skinComponent.IsChecked = false;
@@ -174,7 +176,7 @@ public partial class SkinComponentsContainer : PanelContainer
             component.IsChecked = select;
     }
 
-    private SkinComponent CreateSkinComponentFrom(OsuSkin skin)
+    private SkinComponent CreateSkinComponentFrom(OsuSkinBase skin)
     {
         SkinComponent instance = SkinComponentScene.Instantiate<SkinComponent>();
         instance.Skin = skin;
@@ -191,12 +193,12 @@ public partial class SkinComponentsContainer : PanelContainer
         return instance;
     }
 
-    private SkinComponent GetExistingComponentFromSkin(OsuSkin skin)
+    private SkinComponent GetExistingComponentFromSkin(OsuSkinBase skin)
     {
         return SkinComponents.FirstOrDefault(c => c.Skin.Name == skin.Name);
     }
 
-    private void OnSkinAdded(OsuSkin skin)
+    private void OnSkinAdded(OsuSkinBase skin)
     {
         if (!_skinComponentsInitialised)
             return;
@@ -205,7 +207,7 @@ public partial class SkinComponentsContainer : PanelContainer
         SortSkins(_sort);
     }
 
-    private void OnSkinModified(OsuSkin skin)
+    private void OnSkinModified(OsuSkinBase skin)
     {
         if (!_skinComponentsInitialised)
             return;
@@ -218,7 +220,7 @@ public partial class SkinComponentsContainer : PanelContainer
             SortSkins(_sort);
     }
 
-    private void OnSkinRemoved(OsuSkin skin)
+    private void OnSkinRemoved(OsuSkinBase skin)
     {
         if (!_skinComponentsInitialised)
             return;

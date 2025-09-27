@@ -1,4 +1,4 @@
-using OsuSkinMixer.src.Models.Osu;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 
 namespace OsuSkinMixer.Models;

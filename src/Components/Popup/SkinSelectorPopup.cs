@@ -1,11 +1,12 @@
 namespace OsuSkinMixer.Components;
 
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 
 public partial class SkinSelectorPopup : Popup
 {
-    public Action<OsuSkin> OnSelected { get; set; }
+    public Action<OsuSkinBase> OnSelected { get; set; }
 
     private bool _initialised;
 
@@ -58,10 +59,10 @@ public partial class SkinSelectorPopup : Popup
         SearchLineEdit.GrabFocus();
     }
 
-    public void DisableSkinComponent(OsuSkin skin)
+    public void DisableSkinComponent(OsuSkinBase skin)
         => SkinComponentsContainer.DisableSkinComponent(skin);
 
-    public void EnableSkinComponent(OsuSkin skin)
+    public void EnableSkinComponent(OsuSkinBase skin)
         => SkinComponentsContainer.EnableSkinComponent(skin);
 
     private void SetCompactFlag()
@@ -72,12 +73,12 @@ public partial class SkinSelectorPopup : Popup
             : GD.Load<PackedScene>("res://src/Components/SkinComponentSkinManager.tscn");
     }
 
-    private void OnSkinInfoRequested(IEnumerable<OsuSkin> _)
+    private void OnSkinInfoRequested(IEnumerable<OsuSkinBase> _)
     {
         Out();
     }
 
-    private void OnSkinSelected(OsuSkin skin)
+    private void OnSkinSelected(OsuSkinBase skin)
     {
         if (skin == null)
             return;

@@ -2,6 +2,7 @@ namespace OsuSkinMixer.StackScenes;
 
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 
 public partial class SkinModifierSkinSelect : StackScene
@@ -48,7 +49,7 @@ public partial class SkinModifierSkinSelect : StackScene
         OsuData.SkinRemoved -= OnSkinRemoved;
     }
 
-    private void OnSkinRemoved(OsuSkin skin)
+    private void OnSkinRemoved(OsuSkinBase skin)
     {
         var component = SkinsToModifyComponents.Find(c => c.Skin.Equals(skin));
 
@@ -63,13 +64,13 @@ public partial class SkinModifierSkinSelect : StackScene
         SkinSelectorPopup.In();
     }
 
-    private void OnSkinSelected(OsuSkin skin)
+    private void OnSkinSelected(OsuSkinBase skin)
     {
         SkinSelectorPopup.Out();
         AddSkinComponent(skin);
     }
 
-    private void AddSkinComponent(OsuSkin skin)
+    private void AddSkinComponent(OsuSkinBase skin)
     {
         // Don't show already selected skins in the selector.
         SkinSelectorPopup.DisableSkinComponent(skin);
@@ -98,7 +99,7 @@ public partial class SkinModifierSkinSelect : StackScene
 
         component.RightClicked += () =>
         {
-            ManageSkinPopup.SetSkins(new OsuSkin[] { skin });
+            ManageSkinPopup.SetSkins(new OsuSkinBase[] { skin });
             ManageSkinPopup.In();
         };
 
@@ -119,7 +120,7 @@ public partial class SkinModifierSkinSelect : StackScene
         ManageSkinPopup.OnDuplicateButtonPressed();
     }
 
-    private void OnSkinInfoRequest(IEnumerable<OsuSkin> skins)
+    private void OnSkinInfoRequest(IEnumerable<OsuSkinBase> skins)
     {
         foreach (var component in SkinsToModifyContainer.GetChildren().Cast<SkinComponent>())
             component.Checked(false);

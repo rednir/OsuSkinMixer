@@ -1,3 +1,5 @@
+using OsuSkinMixer.Models.Osu;
+
 namespace OsuSkinMixer.Models;
 
 /// <summary>Represents the value of a skin option set by the user.</summary>
@@ -11,7 +13,7 @@ public record SkinOptionValue
         Type = type;
     }
 
-    public SkinOptionValue(OsuSkin customSkin)
+    public SkinOptionValue(OsuSkinBase customSkin)
     {
         Type = SkinOptionValueType.CustomSkin;
         CustomSkin = customSkin;
@@ -28,5 +30,5 @@ public record SkinOptionValue
 
     public SkinOptionValueType Type { get; set; }
 
-    public OsuSkin CustomSkin { get; set; }
+    public OsuSkinBase CustomSkin { get; set; }
 }

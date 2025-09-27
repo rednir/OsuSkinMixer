@@ -7,6 +7,7 @@ using System.Net.Http;
 using OsuSkinMixer.Models;
 using System.Security.Cryptography;
 using System.Text;
+using OsuSkinMixer.Models.Osu;
 
 public static partial class Settings
 {
@@ -32,13 +33,15 @@ public static partial class Settings
 
     public static string HiddenSkinsFolderPath => Path.Combine(Content.OsuFolder, "HiddenSkins");
 
-    public static string TrashFolderPath => Path.Combine(DeleteOnExitFolderPath, ".osu-skin-mixer-trash");
-
     public static string TempFolderPath => Path.Combine(Path.GetTempPath(), "osu-skin-mixer");
 
     public static string AutoUpdateInstallerPath => Path.Combine(TempFolderPath, "osu-skin-mixer-setup.exe");
 
     public static string DeleteOnExitFolderPath => Path.Combine(TempFolderPath, "delete_on_exit");
+
+    public static string TrashFolderPath => Path.Combine(DeleteOnExitFolderPath, ".osu-skin-mixer-trash");
+
+    public static string LazerConvertsFolderPath => Path.Combine(DeleteOnExitFolderPath, "lazer_converts");
 
     public static string LogFilePath => Path.Combine(TempFolderPath, "very_helpful_logs.txt");
 
@@ -125,10 +128,13 @@ public static partial class Settings
             return false;
         }
 
-        if (File.Exists($"{path}/client.realm"))
+        // TODO: this is a temporary bypass.
+        if (File.Exists(Path.Combine(path, "client.realm")))
         {
-            error = "Sorry, osu! skin mixer does not support the lazer client. Please use your osu! stable folder.\n\nIf you do not have osu! stable, you can put your skins in a folder named 'Skins', and set its containing folder as your osu! folder in osu! skin mixer. Make sure each skin is extracted to a folder, and not an .osk file. When you wish to import a skin you've created into osu! lazer, use the 'Export to .osk' button.";
-            return false;
+            Content.OsuFolder = path;
+            Content.IsLazer = true;
+            error = null;
+            return OsuData.TryLoadSkinsLazer();
         }
 
         if (!Directory.Exists($"{path}/Skins"))
@@ -138,6 +144,7 @@ public static partial class Settings
         }
 
         Content.OsuFolder = path;
+        Content.IsLazer = false;
         error = null;
         return OsuData.TryLoadSkins();
     }
@@ -178,7 +185,7 @@ public static partial class Settings
         await downloadStream.CopyToAsync(fileStream);
         fileStream.Close();
 
-        string checksum = ComputeSHA256OfFile(installerPath);
+        string checksum = Tools.ComputeSHA256OfFile(installerPath);
         if (checksum != githubAsset?.Digest)
         {
             PushToast("We tried to update osu! skin mixer, but what we downloaded seems corrupted.\n\nYou might have to download the update manually. Sorry!");
@@ -190,18 +197,6 @@ public static partial class Settings
         Save();
 
         Log($"Finished downloading installer to {installerPath}");
-    }
-
-    private static string ComputeSHA256OfFile(string filePath)
-    {
-        using FileStream fileStream = new(filePath, FileMode.Open, FileAccess.Read);
-        using SHA256 sha256 = SHA256.Create();
-        byte[] hash = sha256.ComputeHash(fileStream);
-        StringBuilder sb = new("sha256:");
-        foreach (byte b in hash)
-            sb.Append(b.ToString("x2"));
-
-        return sb.ToString();
     }
 
     public static void StartLoggingToFile()
@@ -289,7 +284,7 @@ public static partial class Settings
                     throw new Exception("Failed to load skins for settings data migration.");
 
                 // Estimate the number of skins made by osu! skin mixer.
-                Content.SkinsMadeCount = OsuData.Skins.Count(s => s.SkinIni?.TryGetPropertyValue("General", "Author") == OsuSkin.DEFAULT_AUTHOR);
+                Content.SkinsMadeCount = OsuData.Skins.Count(s => s.SkinIni?.TryGetPropertyValue("General", "Author") == OsuSkinBase.DEFAULT_AUTHOR);
             }
             catch (Exception ex)
             {

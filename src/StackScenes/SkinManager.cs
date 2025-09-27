@@ -2,6 +2,7 @@ namespace OsuSkinMixer.StackScenes;
 
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Models.Osu;
 using OsuSkinMixer.Statics;
 
 public partial class SkinManager : StackScene
@@ -18,7 +19,7 @@ public partial class SkinManager : StackScene
     private SkinComponentsContainer SkinComponentsContainer;
     private ManageSkinPopup ManageSkinPopup;
 
-    private readonly List<OsuSkin> _checkedSkins = new();
+    private readonly List<OsuSkinBase> _checkedSkins = new();
 
     public override void _Ready()
     {
@@ -56,14 +57,14 @@ public partial class SkinManager : StackScene
         DeselectAllButton.Disabled = _checkedSkins.Count == 0;
     }
 
-    private void OnSkinSelected(OsuSkin skin)
+    private void OnSkinSelected(OsuSkinBase skin)
     {
         SkinInfo instance = SkinInfoScene.Instantiate<SkinInfo>();
-        instance.Skins = new OsuSkin[] { skin };
+        instance.Skins = new OsuSkinBase[] { skin };
         EmitSignal(SignalName.ScenePushed, instance);
     }
 
-    private void OnSkinChecked(OsuSkin skin, bool isChecked)
+    private void OnSkinChecked(OsuSkinBase skin, bool isChecked)
     {
         if (isChecked)
             _checkedSkins.Add(skin);

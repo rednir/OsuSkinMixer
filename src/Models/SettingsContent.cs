@@ -16,6 +16,9 @@ public static partial class Settings
         [JsonPropertyName("osu_folder")]
         public string OsuFolder { get; set; }
 
+        [JsonPropertyName("is_lazer")]
+        public bool IsLazer { get; set; }
+
         [JsonPropertyName("auto-update")]
         public bool AutoUpdate { get; set; }
 

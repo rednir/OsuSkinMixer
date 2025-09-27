@@ -14,6 +14,7 @@ using OsuSkinMixer.StackScenes;
 using OsuSkinMixer.Models;
 using System.IO;
 using OsuSkinMixer.Autoload;
+using OsuSkinMixer.Models.Osu;
 
 public partial class Main : Control
 {
@@ -45,9 +46,9 @@ public partial class Main : Control
 
     private List<Task> ExitBlockingTasks { get; } = new();
 
-    private IEnumerable<OsuSkin> SkinInfoRequestedSkins { get; set; }
+    private IEnumerable<OsuSkinBase> SkinInfoRequestedSkins { get; set; }
 
-    private IEnumerable<OsuSkin> SkinModifyRequestedSkins { get; set; }
+    private IEnumerable<OsuSkinBase> SkinModifyRequestedSkins { get; set; }
 
     private int _closeRequestCount;
 
@@ -262,7 +263,7 @@ public partial class Main : Control
         TitleLabel.Text = SceneStack.Peek()?.Title ?? "osu! skin mixer";
     }
 
-    private void OnSkinFolderContentsChange(string message, OsuSkin skin)
+    private void OnSkinFolderContentsChange(string message, OsuSkinBase skin)
     {
         TextureLoadingService.InvalidateSkinCache(skin);
 
