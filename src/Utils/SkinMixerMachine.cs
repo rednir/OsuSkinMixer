@@ -132,7 +132,7 @@ public class SkinMixerMachine : SkinMachine
 
                 RealmFile realmFile = realm.Find<RealmFile>(hash)
                     ?? realm.Add(new RealmFile { Hash = hash });
-
+// todo: actually store the file
                 realmSkin.Files.Add(new RealmNamedFileUsage
                 {
                     Filename = file.VirtualPath,
