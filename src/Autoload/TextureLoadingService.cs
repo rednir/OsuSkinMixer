@@ -52,7 +52,7 @@ public partial class TextureLoadingService : Node
 
     public void InvalidateSkinCache(OsuSkin skin)
     {
-        string normalizedSkinPath = skin.Directory.FullName.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        string normalizedSkinPath = Path.GetDirectoryName(skin.GetElementFilepathWithoutExtension("cursor"));
 
         foreach (string key in _textureCache.Keys)
         {
@@ -67,12 +67,12 @@ public partial class TextureLoadingService : Node
             }
         }
 
-        _skinLock.TryRemove(skin.Directory.Name, out _);
+        // In-flight loads retain their lock; removing it could create a second lock for the same files.
     }
 
     private Texture2D GetTexture(string filepath, int maxSize)
     {
-        string skinName = GetSkinNameFromElementPath(filepath);
+        string skinName = Path.GetDirectoryName(Path.GetFullPath(filepath));
         _skinLock.TryAdd(skinName, new object());
 
         // Ensure there's no more than one texture loading for each skin at a time.

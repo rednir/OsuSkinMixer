@@ -28,7 +28,6 @@ public partial class SkinInfoPanel : PanelContainer
     private AudioStreamPlayer MenuHitPlayer;
     private ManageSkinPopup ManageSkinPopup;
 
-    private Action _undoAction;
     private bool _isSkinCreditsInitialised;
 
     private PackedScene SkinComponentSkinCreditsScene = GD.Load<PackedScene>("res://src/Components/SkinComponentSkinCredits.tscn");
@@ -87,8 +86,12 @@ public partial class SkinInfoPanel : PanelContainer
         HitcircleIcon.SetSkin(Skin);
         SkinNameLabel.Text = Skin.Name;
         SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
-        LastModifiedLabel.Text = $"Last modified: {(DateTime.Now - Skin.Directory.LastWriteTime).Humanise()}";
+        LastModifiedLabel.Text = Skin.Record?.Problem ?? $"Last modified: {(DateTime.Now - Skin.Modified).Humanise()}";
         OpenInOsuButton.Disabled = Skin.Hidden;
+        OpenInOsuButton.Disabled |= !Skin.CanExport;
+        OpenFolderButton.Disabled = Skin.IsLazer;
+        OpenFolderButton.TooltipText = Skin.IsLazer ? "Lazer uses shared hashed files. Export an .osk to edit externally." : "";
+        ModifyButton.Disabled = !Skin.CanEdit;
         MenuHitPlayer.Stream = Skin.GetAudioStream("menuhit");
         InitialiseCreditsContainer();
     }
@@ -128,25 +131,17 @@ public partial class SkinInfoPanel : PanelContainer
         MainContentContainer.Visible = false;
         DeletedContainer.Visible = true;
 
-        Operation deleteOperation = Settings.Content.Operations.LastOrDefault(o => o.Type == OperationType.Delete && o.TargetSkin?.Name == skin.Name);
-        if (deleteOperation?.CanUndo != true)
-        {
-            UndoDeleteButton.Disabled = true;
-            return;
-        }
-
         UndoDeleteButton.Disabled = false;
-        _undoAction = deleteOperation.UndoOperation;
     }
 
     private void OnUndoDeleteButtonPressed()
     {
-        _undoAction?.Invoke();
-        UndoDeleteButton.Disabled = true;
+        Settings.Content.Operations.LastOrDefault(o => o.Type == OperationType.Delete && o.TargetSkin?.Equals(Skin) == true)?.UndoOperation();
     }
 
     private void OnOpenFolderButtonPressed()
     {
+        if (Skin.IsLazer) { Settings.PushToast("Export an .osk to edit this lazer skin externally."); return; }
         Tools.ShellOpenFile(Skin.Directory.FullName);
     }
 

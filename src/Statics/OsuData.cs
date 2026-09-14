@@ -2,202 +2,137 @@ namespace OsuSkinMixer.Statics;
 
 using System.IO;
 using OsuSkinMixer.Models;
+using OsuSkinMixer.Storage;
 
-/// <summary>
-/// A static class that provides other objects with the user's osu! data, such as their list of skins.
-/// However, this class will never peform write operations in the user's osu! folder.
-/// </summary>
+/// <summary>Client-neutral catalogue facade. All writes go through the owning library.</summary>
 public static class OsuData
 {
-    private const int SWEEP_INTERVAL_MSEC = 1500;
-
     public static event Action AllSkinsLoaded;
-
     public static event Action<OsuSkin> SkinAdded;
-
     public static event Action<OsuSkin> SkinModified;
-
     public static event Action<OsuSkin> SkinRemoved;
-
     public static event Action<IEnumerable<OsuSkin>> SkinInfoRequested;
-
     public static event Action<IEnumerable<OsuSkin>> SkinModifyRequested;
-
     public static event Action<OsuSkin, OsuSkin> SkinConflictDetected;
-
     public static bool SweepPaused { get; set; } = true;
-
-    public static OsuSkin[] Skins { get => _skins.Keys.OrderBy(s => s.Name).ToArray(); }
-
-    private static Dictionary<OsuSkin, DateTime> _skins;
+    public static ISkinLibrary Library { get; private set; }
+    private static readonly object gate = new();
+    private static Dictionary<string, OsuSkin> skins = new();
+    private static FileSystemWatcher watcher;
+    private static DateTime lastRefresh;
+    private static volatile bool dirty = true;
+    public static OsuSkin[] Skins { get { lock (gate) return skins.Values.OrderBy(s => s.Name).ToArray(); } }
 
     static OsuData()
     {
-        StartSweepTask();
-    }
-
-    public static bool TryLoadSkins()
-    {
-        SweepPaused = true;
-        _skins = new Dictionary<OsuSkin, DateTime>();
-
-        if (Settings.Content.OsuFolder == null || !Directory.Exists(Settings.SkinsFolderPath))
-            return false;
-
-        Settings.Log($"About to load all skins into memory from {Settings.Content.OsuFolder}");
-
-        LoadSkinsFromDirectory(new DirectoryInfo(Settings.SkinsFolderPath), false);
-
-        if (Directory.Exists(Settings.HiddenSkinsFolderPath))
-            LoadSkinsFromDirectory(new DirectoryInfo(Settings.HiddenSkinsFolderPath), true);
-
-        AllSkinsLoaded?.Invoke();
-        SweepPaused = false;
-        return true;
-    }
-
-    public static void AddSkin(OsuSkin skin)
-    {
-        lock (_skins)
-        {
-            if (_skins.ContainsKey(skin))
-                return;
-
-            _skins.Add(skin, skin.Directory.LastWriteTime);
-            Settings.Log($"Added skin to memory: {skin.Name}");
-            SkinAdded?.Invoke(skin);
-        }
-    }
-
-    public static void InvokeSkinModified(OsuSkin skin)
-    {
-        lock (_skins)
-        {
-            Settings.Log($"Skin modified: {skin.Name}");
-            skin.ClearCache();
-            _skins[skin] = skin.Directory.LastWriteTime;
-            SkinModified?.Invoke(skin);
-        }
-    }
-
-    public static void RemoveSkin(OsuSkin skin)
-    {
-        lock (_skins)
-        {
-            if (!_skins.Remove(skin))
-                return;
-
-            Settings.Log($"Removed skin from memory: {skin.Name}");
-            SkinRemoved?.Invoke(skin);
-        }
-    }
-
-    public static void RequestSkinInfo(IEnumerable<OsuSkin> skins)
-    {
-        lock (_skins)
-        {
-            Settings.Log($"Requested skin info for {skins.Count()} skins.");
-            SkinInfoRequested?.Invoke(skins);
-        }
-    }
-
-    public static void RequestSkinModify(IEnumerable<OsuSkin> skins)
-    {
-        lock (_skins)
-        {
-            Settings.Log($"Requested skin modify for {skins.Count()} skins.");
-            SkinModifyRequested?.Invoke(skins);
-        }
-    }
-
-    private static void LoadSkinsFromDirectory(DirectoryInfo directoryInfo, bool hidden)
-    {
-        lock (_skins)
-        {
-            foreach (var dir in directoryInfo.EnumerateDirectories())
-            {
-                if (!_skins.Any(s => s.Key.Name == directoryInfo.Name) && _skins.TryAdd(new OsuSkin(dir, hidden), dir.LastWriteTime))
-                    Settings.Log($"Loaded skin into memory: {dir.Name} {(hidden ? "(hidden)" : string.Empty)}");
-                else
-                    Settings.Log($"Did not load skin into memory as it already exists: {dir.Name} {(hidden ? "(hidden)" : string.Empty)}");
-            }
-        }
-    }
-
-    private static void StartSweepTask()
-    {
-        Task.Run(() =>
+        _ = Task.Run(async () =>
         {
             GodotThread.SetThreadSafetyChecksEnabled(false);
-            Task.Delay(SWEEP_INTERVAL_MSEC).Wait();
             while (true)
             {
-                if (!SweepPaused)
-                {
-                    lock (_skins)
-                    {
-                        SweepSkins(false);
-                        SweepSkins(true);
-                    }
-                }
-
-                Task.Delay(SWEEP_INTERVAL_MSEC).Wait();
+                await Task.Delay(1500);
+                if (SweepPaused || Operation.IsBusy || Utils.SkinMachine.IsRunning || Library == null) continue;
+                if (!dirty && DateTime.UtcNow - lastRefresh < TimeSpan.FromSeconds(15)) continue;
+                try { Refresh(); } catch (Exception e) { Settings.Log($"Catalogue refresh deferred: {e.Message}"); }
             }
         });
     }
-
-    private static void SweepSkins(bool hidden)
+    public static bool TryLoadSkins()
     {
-        string path = hidden ? Settings.HiddenSkinsFolderPath : Settings.SkinsFolderPath;
-
-        if (!Directory.Exists(path) || path == null)
-            return;
-
-        foreach (var pair in _skins)
+        if (string.IsNullOrEmpty(Settings.Content.OsuFolder)) return false;
+        var root = Settings.Content.OsuFolder;
+        ISkinLibrary next;
+        if (File.Exists(Path.Combine(root, "client.realm")))
+            next = new LazerSkinLibrary(root, Path.Combine(Settings.AppdataFolderPath, "realm-backups")) { ConfirmWrite = LibraryActions.ConfirmWrite };
+        else if (Directory.Exists(Path.Combine(root, "Skins")))
+            next = new StableSkinLibrary(root, Path.Combine(Settings.AppdataFolderPath, "skin-recovery"));
+        else return false;
+        Connect(next);
+        return true;
+    }
+    public static void Connect(ISkinLibrary next)
+    {
+        var root = next.Root;
+        var records = next.Load();
+        var nextSkins = records.Select(r => new OsuSkin(next, r)).ToDictionary(s => s.Identity);
+        var nextWatcher = new FileSystemWatcher(root) { IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite };
+        nextWatcher.Changed += (_, _) => dirty = true;
+        nextWatcher.Created += (_, _) => dirty = true;
+        nextWatcher.Deleted += (_, _) => dirty = true;
+        nextWatcher.Renamed += (_, _) => dirty = true;
+        nextWatcher.Error += (_, _) => dirty = true;
+        try { nextWatcher.EnableRaisingEvents = true; }
+        catch { nextWatcher.Dispose(); throw; }
+        lock (gate)
         {
-            if (!Directory.Exists(pair.Key.Directory.FullName))
-                RemoveSkin(pair.Key);
+            Library = next;
+            skins = nextSkins;
+            watcher?.Dispose();
+            watcher = nextWatcher;
+            SweepPaused = false;
         }
-
-        DirectoryInfo skinsFolder = new(path);
-        foreach (var dir in skinsFolder.EnumerateDirectories())
+        AllSkinsLoaded?.Invoke();
+    }
+    public static void RequestRefresh() => dirty = true;
+    public static void Disconnect()
+    {
+        lock (gate) { SweepPaused = true; watcher?.Dispose(); watcher = null; Library = null; skins.Clear(); }
+    }
+    public static void Refresh()
+    {
+        var library = Library;
+        if (library == null) return;
+        var records = library.Load();
+        lock (gate)
         {
-            var pair = _skins.FirstOrDefault(p => p.Key.Directory.Name == dir.Name);
-
-            if (pair.Key == null)
+            if (Library != library) return;
+            var incoming = records.ToDictionary(r => SkinPaths.Identity(library.Root) + ":" + r.Id);
+            foreach (var old in skins.ToArray())
+                if (!incoming.ContainsKey(old.Key)) { skins.Remove(old.Key); SkinRemoved?.Invoke(old.Value); }
+            foreach (var item in incoming)
             {
-                // Skin was added since the last sweep.
-                AddSkin(new OsuSkin(dir, hidden));
-                continue;
-            }
-
-            if (pair.Key.Hidden != hidden)
-            {
-                string visibleSkinPath = Path.Combine(Settings.SkinsFolderPath, pair.Key.Name);
-                string hiddenSkinPath = Path.Combine(Settings.HiddenSkinsFolderPath, pair.Key.Name);
-                if (Directory.Exists(visibleSkinPath) && Directory.Exists(hiddenSkinPath))
+                if (!skins.TryGetValue(item.Key, out var skin)) AddSkin(new OsuSkin(library, item.Value));
+                else if (skin.Record.Revision != item.Value.Revision || skin.Record.Problem != item.Value.Problem)
                 {
-                    // There is a skin with the same name as the hidden skin in the visible skins folder.
-                    Settings.Log($"Skin conflict detected for skin: {pair.Key.Name}");
-                    SkinConflictDetected?.Invoke(
-                        new OsuSkin(new DirectoryInfo(visibleSkinPath), false),
-                        new OsuSkin(new DirectoryInfo(hiddenSkinPath), true));
-
-                    SweepPaused = true;
-                    return;
+                    skin.UpdateRecord(item.Value);
+                    SkinModified?.Invoke(skin);
                 }
-
-                // Skin changed hidden state since the last sweep.
-                InvokeSkinModified(pair.Key);
-                pair.Key.Hidden = hidden;
             }
-
-            if (pair.Value != dir.LastWriteTime)
+            dirty = false;
+            lastRefresh = DateTime.UtcNow;
+            if (library.Kind == OsuClientKind.Stable && SkinConflictDetected != null)
             {
-                // Skin was modified since the last sweep.
-                InvokeSkinModified(pair.Key);
-                _skins[pair.Key] = dir.LastWriteTime;
+                var conflict = skins.Values.GroupBy(s => s.Name, StringComparer.OrdinalIgnoreCase)
+                    .FirstOrDefault(g => g.Any(s => s.Hidden) && g.Any(s => !s.Hidden));
+                if (conflict != null)
+                {
+                    SweepPaused = true;
+                    SkinConflictDetected.Invoke(conflict.First(s => !s.Hidden), conflict.First(s => s.Hidden));
+                }
             }
         }
+    }
+    public static void AddSkin(OsuSkin skin)
+    {
+        lock (gate) { if (skins.TryAdd(skin.Identity, skin)) SkinAdded?.Invoke(skin); }
+    }
+    public static void InvokeSkinModified(OsuSkin skin)
+    {
+        lock (gate)
+        {
+            foreach (var old in skins.Where(p => ReferenceEquals(p.Value, skin) && p.Key != skin.Identity).ToArray()) skins.Remove(old.Key);
+            skin.ClearCache(); skins[skin.Identity] = skin; SkinModified?.Invoke(skin);
+        }
+        RequestRefresh();
+    }
+    public static void RemoveSkin(OsuSkin skin)
+    {
+        lock (gate) { if (skins.Remove(skin.Identity)) SkinRemoved?.Invoke(skin); }
+    }
+    public static void RequestSkinInfo(IEnumerable<OsuSkin> selected) => SkinInfoRequested?.Invoke(selected);
+    public static void RequestSkinModify(IEnumerable<OsuSkin> selected)
+    {
+        if (selected.Any(s => !s.CanEdit)) { Settings.PushToast("Only complete legacy skins can be modified."); return; }
+        SkinModifyRequested?.Invoke(selected);
     }
 }

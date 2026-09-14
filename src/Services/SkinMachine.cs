@@ -11,6 +11,8 @@ using OsuSkinMixer.Statics;
 /// <summary>Base for classes that peform tasks based on a list of <see cref="SkinOption"/>. Provides abstract methods for populating tasks to be peformed on the relevant skin folders.</summary>
 public abstract class SkinMachine : IDisposable
 {
+    private static int runningCount;
+    public static bool IsRunning => Volatile.Read(ref runningCount) > 0;
     private const int LOG_SPLIT_CHAR_SIZE = 100000;
 
     protected static byte[] TransparentPngFile => new byte[] {
@@ -74,6 +76,9 @@ public abstract class SkinMachine : IDisposable
 
     public void Run(CancellationToken cancellationToken)
     {
+        Interlocked.Increment(ref runningCount);
+        var sourceWorkspaces = new List<OsuSkinMixer.Storage.SkinWorkspace>();
+        var originalValues = new Dictionary<SkinOption, SkinOptionValue>();
         CancellationToken = cancellationToken;
         OriginalElementsCache.Clear();
         _tasks.Clear();
@@ -85,6 +90,25 @@ public abstract class SkinMachine : IDisposable
 
         try
         {
+            cancellationToken.ThrowIfCancellationRequested();
+            // Take one verified snapshot per source. Later filesystem/Realm changes cannot affect a running mix.
+            var sources = new Dictionary<OsuSkin, OsuSkin>();
+            foreach (var option in FlattenedBottomLevelOptions)
+            {
+                var source = option.Value.CustomSkin;
+                if (source == null) continue;
+                if (!sources.TryGetValue(source, out var view))
+                {
+                    var workspace = source.CreateWorkspace();
+                    sourceWorkspaces.Add(workspace);
+                    view = new OsuSkin(new DirectoryInfo(workspace.DirectoryPath)) { Name = source.Name };
+                    ValidateIniPaths(view);
+                    sources.Add(source, view);
+                }
+                originalValues.Add(option, option.Value);
+                option.Value = new SkinOptionValue(view);
+                cancellationToken.ThrowIfCancellationRequested();
+            }
             Progress = 0;
 
             PopulateTasks();
@@ -104,16 +128,33 @@ public abstract class SkinMachine : IDisposable
         }
         finally
         {
+            foreach (var pair in originalValues) pair.Key.Value = pair.Value;
+            try
+            {
+                foreach (var workspace in sourceWorkspaces) workspace.Dispose();
+                CleanupAfterRun();
+            }
+            finally { Interlocked.Decrement(ref runningCount); }
+            OsuData.SweepPaused = false;
             Progress = null;
             Settings.Log("Logs for skin machine follows:");
 
             _logBuilders.Add(_currentLogBuilder);
             foreach (var builder in _logBuilders)
-                Settings.Log(builder.ToString());
+                if (builder != null) Settings.Log(builder.ToString());
         }
     }
 
     protected abstract void PopulateTasks();
+    protected virtual void CleanupAfterRun() { }
+
+    protected static void ValidateIniPaths(OsuSkin skin)
+    {
+        foreach (var section in skin.SkinIni.Sections)
+            foreach (var property in section)
+                if (OsuSkinIni.PropertyHasFilePath(property.Key))
+                    OsuSkinMixer.Storage.SkinPaths.Virtual(property.Value + "__prefix");
+    }
 
     private void RunAllTasks()
     {
@@ -319,7 +360,7 @@ public abstract class SkinMachine : IDisposable
 
         // We cache the file data beforehand in case it changes or is deleted before we have the chance to copy it.
         MemoryStream memoryStream = new();
-        file.OpenRead().CopyTo(memoryStream);
+        using (var input = file.OpenRead()) input.CopyTo(memoryStream);
 
         AddFileToOriginalElementsCache(destFullPath);
 
@@ -435,7 +476,7 @@ public abstract class SkinMachine : IDisposable
     protected static bool CheckIfFileAndOptionMatch(FileInfo file, SkinFileOption fileOption)
     {
         string filename = Path.GetFileNameWithoutExtension(file.Name);
-        string extension = Path.GetExtension(file.Name);
+        string extension = Path.GetExtension(file.Name).ToLowerInvariant();
 
         // Check for file name match.
         if (

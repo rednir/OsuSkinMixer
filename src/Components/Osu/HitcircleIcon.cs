@@ -101,7 +101,7 @@ public partial class HitcircleIcon : CenterContainer
         if (_skin is null || _isTexturesLoaded)
             return;
 
-        if (_skin?.Directory is null)
+        if (_skin?.Record == null && _skin?.Directory is null)
         {
             Modulate = new Color(1, 1, 1, 0.25f);
             return;

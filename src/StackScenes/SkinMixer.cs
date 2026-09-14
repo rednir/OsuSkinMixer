@@ -51,7 +51,7 @@ public partial class SkinMixer : StackScene
         EmitSignal(SignalName.ToastPushed, "Randomized skin options");
     }
 
-    private void RunSkinCreator(string skinName)
+    private async void RunSkinCreator(string skinName)
     {
         LoadingPopup.In();
 
@@ -65,32 +65,38 @@ public partial class SkinMixer : StackScene
         machine.SetNewSkin(skinName);
         CancellationTokenSource = new CancellationTokenSource();
 
-        new Operation(
+        Operation operation = null;
+        operation = new Operation(
             type: OperationType.SkinMixer,
             targetSkin: machine.NewSkin,
             action: () =>
             {
                 machine.Run(CancellationTokenSource.Token);
+                operation.SetTarget(machine.NewSkin);
+                operation.SetUndo(machine.UndoInstallation);
 
-                var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
-                skinInfoInstance.Skins = new OsuSkin[] { machine.NewSkin };
-                EmitSignal(SignalName.ScenePushed, skinInfoInstance);
             },
             undoAction: () =>
             {
-                if (!Directory.Exists(machine.NewSkin.Directory.FullName))
-                    return;
-
-                machine.NewSkin.Directory.Delete(true);
-                OsuData.RemoveSkin(machine.NewSkin);
+                machine.UndoInstallation?.Invoke();
             }
-        )
-        .RunOperation()
-        .ContinueWith(_ =>
+        );
+        try
+        {
+            await operation.RunOperation();
+            if (!machine.Installed) return;
+            // Scene creation and navigation must happen on Godot's main thread.
+            var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();
+            skinInfoInstance.Skins = new OsuSkin[] { machine.NewSkin };
+            EmitSignal(SignalName.ScenePushed, skinInfoInstance);
+        }
+        catch (OperationCanceledException) { Settings.PushToast("Skin creation cancelled."); }
+        catch (Exception e) { Settings.PushException(e); }
+        finally
         {
             SkinNamePopup.Out();
             LoadingPopup.Out();
-        });
+        }
     }
 
     private void OnCancelButtonPressed()

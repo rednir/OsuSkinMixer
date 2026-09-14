@@ -116,7 +116,7 @@ public partial class SkinComponentsContainer : PanelContainer
                 children = children.OrderBy(c => c.Skin.SkinIni.TryGetPropertyValue("General", "Author"));
                 break;
             case SkinSort.LastModified:
-                children = children.OrderByDescending(c => c.Skin.Directory.LastWriteTime);
+                children = children.OrderByDescending(c => c.Skin.Modified);
                 break;
             case SkinSort.Hidden:
                 children = children.OrderByDescending(c => c.Skin.Hidden);
@@ -202,7 +202,7 @@ public partial class SkinComponentsContainer : PanelContainer
 
     private SkinComponent GetExistingComponentFromSkin(OsuSkin skin)
     {
-        return SkinComponents.FirstOrDefault(c => c.Skin.Name == skin.Name);
+        return SkinComponents.FirstOrDefault(c => c.Skin.Equals(skin));
     }
 
     private void OnSkinAdded(OsuSkin skin)

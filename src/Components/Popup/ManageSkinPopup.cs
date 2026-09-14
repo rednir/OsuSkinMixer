@@ -1,327 +1,149 @@
 namespace OsuSkinMixer.Components;
 
 using System.IO;
-using System.IO.Compression;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
-using OsuSkinMixer.Utils;
+using OsuSkinMixer.Storage;
 
 public partial class ManageSkinPopup : Popup
 {
     public Action<IEnumerable<OsuSkin>> SkinInfoRequested { get; set; } = OsuData.RequestSkinInfo;
-
     public ManageSkinOptions Options { get; set; } = ManageSkinOptions.All;
-
-    private OsuSkin[] _skins;
-
-    private QuestionPopup DeleteQuestionPopup;
-    private SkinNamePopup SkinNamePopup;
-    private LoadingPopup LoadingPopup;
-    private Label TitleLabel;
-    private Button OpenInOsuButton;
-    private Button OpenFolderButton;
-    private Button ModifyButton;
-    private Button HideButton;
-    private Button ExportButton;
-    private Button DuplicateButton;
-    private Button DeleteButton;
-
-    // Called when the node enters the scene tree for the first time.
+    private OsuSkin[] skins = [];
+    private QuestionPopup deleteQuestion;
+    private SkinNamePopup namePopup;
+    private LoadingPopup loading;
+    private bool renaming;
+    private Button renameButton;
     public override void _Ready()
     {
         base._Ready();
-
-        DeleteQuestionPopup = GetNode<QuestionPopup>("%DeleteQuestionPopup");
-        SkinNamePopup = GetNode<SkinNamePopup>("%SkinNamePopup");
-        LoadingPopup = GetNode<LoadingPopup>("%LoadingPopup");
-        TitleLabel = GetNode<Label>("%Title");
-        OpenInOsuButton = GetNode<Button>("%OpenInOsuButton");
-        OpenFolderButton = GetNode<Button>("%OpenFolderButton");
-        ModifyButton = GetNode<Button>("%ModifyButton");
-        HideButton = GetNode<Button>("%HideButton");
-        ExportButton = GetNode<Button>("%ExportButton");
-        DuplicateButton = GetNode<Button>("%DuplicateButton");
-        DeleteButton = GetNode<Button>("%DeleteButton");
-
-        DeleteQuestionPopup.ConfirmAction = OnDeleteConfirmed;
-        SkinNamePopup.ConfirmAction = OnDuplicateSkinNameConfirmed;
-        OpenInOsuButton.Pressed += OnOpenInOsuButtonPressed;
-        OpenFolderButton.Pressed += OnOpenFolderButtonPressed;
-        ModifyButton.Pressed += OnModifyButtonPressed;
-        HideButton.Pressed += OnHideButtonPressed;
-        ExportButton.Pressed += OnExportButtonPressed;
-        DuplicateButton.Pressed += OnDuplicateButtonPressed;
-        DeleteButton.Pressed += OnDeleteButtonPressed;
+        deleteQuestion = GetNode<QuestionPopup>("%DeleteQuestionPopup");
+        namePopup = GetNode<SkinNamePopup>("%SkinNamePopup");
+        loading = GetNode<LoadingPopup>("%LoadingPopup");
+        Button("OpenInOsu").Pressed += OnOpenInOsuButtonPressed;
+        Button("OpenFolder").Pressed += OnOpenFolderButtonPressed;
+        Button("Modify").Pressed += OnModifyButtonPressed;
+        Button("Hide").Pressed += OnHideButtonPressed;
+        Button("Export").Pressed += OnExportButtonPressed;
+        Button("Duplicate").Pressed += OnDuplicateButtonPressed;
+        Button("Delete").Pressed += OnDeleteButtonPressed;
+        renameButton = new Button { Text = "    Rename" };
+        Button("Duplicate").GetParent().AddChild(renameButton);
+        renameButton.Pressed += () => { renaming = true; ShowNamePopup(); };
+        deleteQuestion.ConfirmAction = () => RunBatch(OperationType.Delete, skin =>
+        {
+            var snapshot = skin.DeleteFromDisk();
+            OsuData.RemoveSkin(skin);
+            return () => { skin.Restore(snapshot); OsuData.AddSkin(skin); };
+        });
+        namePopup.ConfirmAction = NameConfirmed;
     }
-
+    private Button Button(string name) => GetNode<Button>("%" + name + "Button");
+    public void SetSkin(OsuSkin skin) => skins = [skin];
+    public void SetSkins(IEnumerable<OsuSkin> selected) => skins = selected.ToArray();
     public override void In()
     {
-        if (_skins.Length == 0)
-            return;
-
-        SetValues();
+        if (skins.Length == 0) return;
+        foreach (var name in new[] { "OpenInOsu", "OpenFolder", "Modify", "Hide", "Export", "Duplicate", "Delete" })
+        {
+            var option = Enum.Parse<ManageSkinOptions>(name);
+            Button(name).Visible = Options.HasFlag(option);
+            Button(name).Disabled = false;
+            Button(name).TooltipText = "";
+        }
+        Button("OpenInOsu").Visible &= skins.Length == 1;
+        Button("OpenFolder").Visible &= skins.Length <= 4;
+        var lazer = skins.Any(s => s.IsLazer);
+        foreach (var name in new[] { "OpenFolder", "Hide" })
+        {
+            Button(name).Disabled = lazer;
+            Button(name).TooltipText = lazer ? "Lazer uses shared hashed files, not editable skin folders. Export an .osk to edit externally." : "";
+        }
+        foreach (var name in new[] { "Modify", "Duplicate", "Delete" })
+        {
+            Button(name).Disabled = skins.Any(s => !s.CanEdit);
+            Button(name).TooltipText = skins.FirstOrDefault(s => !s.CanEdit)?.Record?.Problem ?? "Only legacy user skins can be changed.";
+        }
+        Button("Export").Disabled = Button("OpenInOsu").Disabled = skins.Any(s => !s.CanExport);
+        renameButton.Visible = Options == ManageSkinOptions.All && skins.Length == 1;
+        renameButton.Disabled = skins.Any(s => !s.CanEdit);
+        Button("Hide").Text = skins.Length == 1 && skins[0].Hidden ? "    Unhide from osu!" : "    Hide from osu!";
+        GetNode<Label>("%Title").Text = skins.Length == 1 ? skins[0].Name : $"{skins.Length} skins selected";
         base.In();
     }
-
-    public void SetSkin(OsuSkin skin)
-    {
-        _skins = new OsuSkin[] { skin };
-    }
-
-    public void SetSkins(IEnumerable<OsuSkin> skins)
-    {
-        _skins = skins.ToArray();
-    }
-
-    private void SetValues()
-    {
-        OpenInOsuButton.Visible = (Options & ManageSkinOptions.OpenInOsu) == ManageSkinOptions.OpenInOsu && _skins.Length == 1;
-        OpenFolderButton.Visible = (Options & ManageSkinOptions.OpenFolder) == ManageSkinOptions.OpenFolder && _skins.Length <= 4;
-        ModifyButton.Visible = (Options & ManageSkinOptions.Modify) == ManageSkinOptions.Modify;
-        HideButton.Visible = (Options & ManageSkinOptions.Hide) == ManageSkinOptions.Hide;
-        ExportButton.Visible = (Options & ManageSkinOptions.Export) == ManageSkinOptions.Export;
-        DuplicateButton.Visible = (Options & ManageSkinOptions.Duplicate) == ManageSkinOptions.Duplicate;
-        DeleteButton.Visible = (Options & ManageSkinOptions.Delete) == ManageSkinOptions.Delete;
-
-        if (_skins.Length == 1)
-        {
-            TitleLabel.Text = _skins[0].Name;
-            HideButton.Text = _skins[0].Hidden ? "    Unhide from osu!" : "    Hide from osu!";
-            return;
-        }
-
-        TitleLabel.Text = $"{_skins.Length} skins selected";
-        HideButton.Text = "    Toggle hidden state";
-    }
-
     public void OnOpenInOsuButtonPressed()
     {
-        try
-        {
-            Tools.TriggerOskImport(_skins[0]);
-        }
-        catch (Exception ex)
-        {
-            Settings.PushException(ex);
-        }
-        finally
-        {
-            Out();
-        }
+        _ = Run(async () => await Task.Run(() => Tools.TriggerOskImport(skins[0])));
     }
-
     public void OnOpenFolderButtonPressed()
     {
-        Out();
-        foreach (var skin in _skins)
-            Tools.ShellOpenFile(skin.Directory.FullName);
-    }
-
-    public void OnModifyButtonPressed()
-    {
-        OsuData.RequestSkinModify(_skins);
+        if (skins.Any(s => s.IsLazer)) return;
+        foreach (var skin in skins) Tools.ShellOpenFile(skin.Directory.FullName);
         Out();
     }
-
-    public void OnHideButtonPressed()
+    public void OnModifyButtonPressed() { OsuData.RequestSkinModify(skins); Out(); }
+    public void OnHideButtonPressed() => RunBatch(OperationType.Hide, skin =>
     {
-        Directory.CreateDirectory(Settings.HiddenSkinsFolderPath);
-
-        Task.Run(async () =>
-        {
-            foreach (var skin in _skins)
-            {
-                if (skin.Hidden)
-                {
-                    await new Operation(
-                        type: OperationType.Unhide,
-                        targetSkin: skin,
-                        action: () =>
-                        {
-                            skin.Directory.MoveTo(Path.Combine(Settings.SkinsFolderPath, skin.Name));
-                            skin.Hidden = false;
-                        })
-                        .RunOperation();
-                }
-                else
-                {
-                    await new Operation(
-                        type: OperationType.Hide,
-                        targetSkin: skin,
-                        action: () =>
-                        {
-                            skin.Directory.MoveTo(Path.Combine(Settings.HiddenSkinsFolderPath, skin.Name));
-                            skin.Hidden = true;
-                        })
-                        .RunOperation();
-                }
-
-                OsuData.InvokeSkinModified(skin);
-            }
-        })
-        .ContinueWith(_ => Out());
+        bool hidden = skin.Hidden;
+        skin.SetHidden(!hidden); OsuData.InvokeSkinModified(skin);
+        return () => { skin.SetHidden(hidden); OsuData.InvokeSkinModified(skin); };
+    });
+    public void OnExportButtonPressed() => RunBatch(OperationType.Export, skin =>
+    {
+        var path = LibraryActions.ExportPath(skin.Name);
+        skin.Export(path);
+        Tools.ShellOpenFile(Path.GetDirectoryName(path));
+        return null; // Retained exports are user files, not undoable mutations of the library.
+    });
+    public void OnDuplicateButtonPressed() { renaming = false; ShowNamePopup(); }
+    private void ShowNamePopup()
+    {
+        namePopup.OverwriteNameConflicts = !renaming && skins.All(s => !s.IsLazer);
+        namePopup.SuffixMode = skins.Length > 1;
+        namePopup.SkinNames = skins.Select(s => s.Name).ToArray();
+        namePopup.LineEditText = renaming ? skins[0].Name : skins.Length > 1 ? " (copy)" : skins[0].Name + " (copy)";
+        namePopup.In();
     }
-
-    public void OnExportButtonPressed()
+    private void NameConfirmed(string value)
     {
-        string exportFolderPath = Path.Combine(Settings.Content.OsuFolder, "Exports");
-        LoadingPopup.In();
-
-        Directory.CreateDirectory(exportFolderPath);
-
-        Task.Run(async () =>
+        var results = new List<OsuSkin>();
+        RunBatch(renaming ? OperationType.Other : OperationType.Duplicate, skin =>
         {
-            foreach (var skin in _skins)
+            if (renaming)
             {
-                await new Operation(
-                    type: OperationType.Export,
-                    targetSkin: skin,
-                    action: () =>
-                    {
-                        string destPath = Path.Combine(exportFolderPath, $"{skin.Name}.osk");
-                        if (File.Exists(destPath))
-                            File.Delete(destPath);
-
-                        ZipFile.CreateFromDirectory(skin.Directory.FullName, destPath);
-                        LoadingPopup.Progress += 100.0 / _skins.Length;
-                    },
-                    undoAction: () =>
-                    {
-                        if (File.Exists(Path.Combine(exportFolderPath, $"{skin.Name}.osk")))
-                            File.Delete(Path.Combine(exportFolderPath, $"{skin.Name}.osk"));
-                    })
-                    .RunOperation();
+                var originalName = skin.Name;
+                skin.Rename(value); OsuData.InvokeSkinModified(skin);
+                results.Add(skin);
+                return () => { skin.Rename(originalName); OsuData.InvokeSkinModified(skin); };
             }
-        })
-        .ContinueWith(_ =>
+            var result = skin.Duplicate(namePopup.SuffixMode ? skin.Name + value : value);
+            OsuData.AddSkin(result);
+            results.Add(result);
+            return () => { result.DeleteFromDisk(); OsuData.RemoveSkin(result); };
+        }, () => SkinInfoRequested?.Invoke(results));
+    }
+    public void OnDeleteButtonPressed() => deleteQuestion.In();
+    private void RunBatch(OperationType type, Func<OsuSkin, Action> action, Action completed = null)
+    {
+        _ = Run(async () =>
         {
-            LoadingPopup.Out();
-            Out();
-            Tools.ShellOpenFile(exportFolderPath);
+            foreach (var skin in skins)
+            {
+                Operation operation = null;
+                operation = new Operation(type, skin, () => operation.SetUndo(action(skin)));
+                await operation.RunOperation();
+                loading.Progress += 100.0 / skins.Length;
+            }
+            completed?.Invoke();
         });
     }
-
-    public void OnDuplicateButtonPressed()
+    private async Task Run(Func<Task> action)
     {
-        if (_skins.Length > 1)
-        {
-            SkinNamePopup.LineEditText = " (copy)";
-            SkinNamePopup.SkinNames = _skins.Select(s => s.Name).ToArray();
-            SkinNamePopup.SuffixMode = true;
-        }
-        else
-        {
-            SkinNamePopup.LineEditText = $"{_skins[0].Name} (copy)";
-            SkinNamePopup.SkinNames = new string[] { _skins[0].Name };
-            SkinNamePopup.SuffixMode = false;
-        }
-
-        SkinNamePopup.In();
-    }
-
-    private void OnDuplicateSkinNameConfirmed(string value)
-    {
-        LoadingPopup.In();
-        List<OsuSkin> newSkins = new();
-
-        Task.Run(async () =>
-        {
-            foreach (OsuSkin skin in _skins)
-            {
-                OsuSkin newSkin = null;
-
-                await new Operation(
-                    type: OperationType.Duplicate,
-                    targetSkin: skin,
-                    action: () =>
-                    {
-                        newSkin = DuplicateSingleSkin(skin, SkinNamePopup.SuffixMode ? skin.Name + value : value);
-                        newSkins.Add(newSkin);
-                        LoadingPopup.Progress += 100.0 / _skins.Length;
-                    },
-                    undoAction: () =>
-                    {
-                        if (Directory.Exists(newSkin.Directory.FullName))
-                        {
-                            newSkin.Directory.Delete(true);
-                            OsuData.RemoveSkin(newSkin);
-                        }
-                    })
-                    .RunOperation();
-            }
-
-            SkinInfoRequested?.Invoke(newSkins);
-        })
-        .ContinueWith(_ =>
-        {
-            LoadingPopup.Out();
-            SkinNamePopup.Out();
-            Out();
-        });
-    }
-
-    private static OsuSkin DuplicateSingleSkin(OsuSkin skin, string newSkinName)
-    {
-        OsuSkin newSkin = new(skin.Directory.CopyDirectory(Path.Combine(Settings.SkinsFolderPath, newSkinName), true));
-
-        foreach (FileInfo file in skin.Directory.EnumerateFiles("*", SearchOption.AllDirectories))
-        {
-            newSkin.Credits.AddElement(
-                skinName: skin.Name,
-                skinAuthor: skin.SkinIni?.TryGetPropertyValue("General", "Author"),
-                checksum: SkinMachine.GetMd5Hash(file.FullName),
-                filename: file.FullName
-            );
-        }
-
-        OsuData.AddSkin(newSkin);
-        return newSkin;
-    }
-
-    public void OnDeleteButtonPressed()
-    {
-        DeleteQuestionPopup.In();
-    }
-
-    private void OnDeleteConfirmed()
-    {
-        LoadingPopup.In();
-        Directory.CreateDirectory(Settings.TrashFolderPath);
-
-        Task.Run(async () =>
-        {
-            foreach (OsuSkin skin in _skins)
-            {
-                await new Operation(
-                    type: OperationType.Delete,
-                    targetSkin: skin,
-                    action: () =>
-                    {
-                        string trashPath = Path.Combine(Settings.TrashFolderPath, skin.Directory.Name);
-
-                        if (Directory.Exists(trashPath))
-                            Directory.Delete(trashPath, true);
-
-                        skin.Directory.MoveTo(trashPath);
-                        OsuData.RemoveSkin(skin);
-                        LoadingPopup.Progress += 100.0 / _skins.Length;
-                    },
-                    undoAction: () =>
-                    {
-                        if (!Directory.Exists(skin.Directory.FullName))
-                            return;
-
-                        string originalPath = Path.Combine(skin.Hidden ? Settings.HiddenSkinsFolderPath : Settings.SkinsFolderPath, skin.Directory.Name);
-                        skin.Directory.MoveTo(originalPath);
-                        OsuData.AddSkin(skin);
-                    })
-                    .RunOperation();
-            }
-        })
-        .ContinueWith(_ =>
-        {
-            LoadingPopup.Out();
-            Out();
-        });
+        loading.In();
+        try { await action(); }
+        catch (OperationCanceledException) { Settings.PushToast("Operation cancelled; no further skins were changed."); }
+        catch (Exception e) { Settings.PushException(e); }
+        finally { loading.Out(); namePopup.Out(); Out(); OsuData.RequestRefresh(); }
     }
 }

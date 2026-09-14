@@ -23,7 +23,8 @@ public partial class CursorColourContainer : HBoxContainer
 	public event Action OverrideStateChanged;
 
 	// When modifying starts, the skin machine will copy everything in this directory to the target skin's directory.
-	public string GeneratedImagesDirPath => $"{Settings.DeleteOnExitFolderPath}/cc_{Skin.Directory.Name}";
+	private readonly string generatedId = Guid.NewGuid().ToString("N");
+	public string GeneratedImagesDirPath => $"{Settings.DeleteOnExitFolderPath}/cc_{generatedId}";
 
 	private Label EnableOverrideLabel;
 	private Button EnableOverrideButton;
@@ -88,7 +89,7 @@ public partial class CursorColourContainer : HBoxContainer
 		Texture2D cursorMiddleTexture = Skin.Get2XTexture("cursormiddle");
 
 		// Avoid showing the default cursormiddle if there's no custom one in the skin.
-		bool showCursorMiddle = File.Exists($"{Skin.Directory.FullName}/cursormiddle.png") || !File.Exists($"{Skin.Directory.FullName}/cursor.png");
+		bool showCursorMiddle = Skin.FindFile("cursormiddle.png") != null || Skin.FindFile("cursor.png") == null;
 
 		Icon.SetValues(cursorTexture, showCursorMiddle ? cursorMiddleTexture : null);
 
@@ -144,8 +145,8 @@ public partial class CursorColourContainer : HBoxContainer
 			if (file is null)
 				continue;
 
-			RecolourImage($"{Skin.Directory}/{file}.png", $"{GeneratedImagesDirPath}/{file}.png", rgba, (float)SatThresholdSpinBox.Value);
-			RecolourImage($"{Skin.Directory}/{file}@2x.png", $"{GeneratedImagesDirPath}/{file}@2x.png", rgba, (float)SatThresholdSpinBox.Value);
+			RecolourImage(Skin.FindFile($"{file}.png"), $"{GeneratedImagesDirPath}/{file}.png", rgba, (float)SatThresholdSpinBox.Value);
+			RecolourImage(Skin.FindFile($"{file}@2x.png"), $"{GeneratedImagesDirPath}/{file}@2x.png", rgba, (float)SatThresholdSpinBox.Value);
 		}
 
 		Godot.Image cursorImage = null;

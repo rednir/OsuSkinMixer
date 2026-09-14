@@ -120,7 +120,7 @@ public partial class SkinModifierModificationSelect : StackScene
             ComboColourContainer.Deactivate();
         }
     }
-    
+
     private void OnCursorColourOverrideStateChanged()
     {
         if (CursorColourContainers.Any(c => c.OverrideEnabled))
@@ -163,15 +163,15 @@ public partial class SkinModifierModificationSelect : StackScene
         }
     }
 
-    private void OnApplyChangesButtonPressed()
+    private async void OnApplyChangesButtonPressed()
     {
         LoadingPopup.In();
 
         var comboColourOverrides = ComboColoursContainers.Where(c => c.OverrideEnabled)
-            .ToDictionary(c => c.Skin.Name, c => c.ComboColourIcons.Select(i => i.Color).ToArray());
+            .ToDictionary(c => c.Skin.Identity, c => c.ComboColourIcons.Select(i => i.Color).ToArray());
 
         var cursorColourOverrides = CursorColourContainers.Where(c => c.IsColourChosen)
-            .ToDictionary(c => c.Skin.Name, c => c.GeneratedImagesDirPath);
+            .ToDictionary(c => c.Skin.Identity, c => c.GeneratedImagesDirPath);
 
         CancellationTokenSource = new CancellationTokenSource();
         SkinModifierMachine machine = new()
@@ -187,35 +187,25 @@ public partial class SkinModifierModificationSelect : StackScene
             DisableInterfaceAnimations = DisableAnimationsCheckBox.ButtonPressed,
         };
 
-        Task.Run(() => machine.Run(CancellationTokenSource.Token))
-            .ContinueWith(t =>
-            {
-                GodotThread.SetThreadSafetyChecksEnabled(false);
+        try
+        {
+            await Task.Run(() => machine.Run(CancellationTokenSource.Token));
+            SkinOptionsSelector.Reset();
+            InstafadeCheckBox.ButtonPressed = false;
+            SmoothTrailCheckBox.ButtonPressed = false;
+            DisableAnimationsCheckBox.ButtonPressed = false;
 
-                var ex = t.Exception;
-                if (ex != null)
-                {
-                    if (ex.InnerException is OperationCanceledException)
-                        return;
+            foreach (var container in ComboColoursContainers)
+                container.CallDeferred(nameof(container.Reset));
 
-                    Settings.PushException(ex);
-                    return;
-                }
+            var skinInfoInstance = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn").Instantiate<SkinInfo>();
+            skinInfoInstance.Skins = SkinsToModify;
+            EmitSignal(SignalName.ScenePushed, skinInfoInstance);
 
-                SkinOptionsSelector.Reset();
-                InstafadeCheckBox.ButtonPressed = false;
-                SmoothTrailCheckBox.ButtonPressed = false;
-                DisableAnimationsCheckBox.ButtonPressed = false;
-
-                foreach (var container in ComboColoursContainers)
-                    container.CallDeferred(nameof(container.Reset));
-
-                var skinInfoInstance = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn").Instantiate<SkinInfo>();
-                skinInfoInstance.Skins = SkinsToModify;
-                EmitSignal(SignalName.ScenePushed, skinInfoInstance);
-                
-                LoadingPopup.Out();
-            });
+        }
+        catch (OperationCanceledException) { Settings.PushToast("Modification cancelled; any completed skins remain in history."); }
+        catch (Exception e) { Settings.PushException(e); }
+        finally { LoadingPopup.Out(); }
     }
 
     private void OnCancelButtonPressed()

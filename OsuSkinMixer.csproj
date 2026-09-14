@@ -4,6 +4,8 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="storage/**/*.cs;tests/**/*.cs" />
+    <ProjectReference Include="storage/OsuSkinMixer.Storage.csproj" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
   </ItemGroup>
 </Project>

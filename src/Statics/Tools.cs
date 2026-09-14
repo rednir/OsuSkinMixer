@@ -14,6 +14,7 @@ public static class Tools
 
     public static void TriggerOskImport(OsuSkin skin)
     {
+        if (skin.IsLazer) { LibraryActions.ExportAndOpen(skin); return; }
         string osuPath = Path.Combine(Settings.Content.OsuFolder, "osu!.exe");
 
         if (!File.Exists(osuPath))

@@ -18,6 +18,7 @@ public partial class SettingsPopup : Popup
     private Button OpenLogsButton;
     private SetupPopup SetupPopup;
     private LoadingPopup UpdateLoadingPopup;
+    private Label LibraryStatus;
 
     public override void _Ready()
     {
@@ -34,6 +35,8 @@ public partial class SettingsPopup : Popup
         VolumeSlider = GetNode<HSlider>("%VolumeSlider");
         VolumeTickSoundPlayer = GetNode<AudioStreamPlayer>("%VolumeTickSoundPlayer");
         ChangeSkinsFolderButton = GetNode<Button>("%ChangeSkinsFolderButton");
+        LibraryStatus = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart, CustomMinimumSize = new Vector2(400, 0) };
+        ChangeSkinsFolderButton.GetParent().AddChild(LibraryStatus);
         ReportIssueButton = GetNode<Button>("%ReportIssueButton");
         OpenLogsButton = GetNode<Button>("%OpenLogsButton");
         SetupPopup = GetNode<SetupPopup>("%SetupPopup");
@@ -61,6 +64,12 @@ public partial class SettingsPopup : Popup
     public void ShowUpdateButton()
     {
         UpdateButton.SetDeferred("visible", true);
+    }
+
+    public override void In()
+    {
+        LibraryStatus.Text = $"{OsuData.Library?.Status}\n{OsuData.Library?.Root}";
+        base.In();
     }
 
     private void UseCompactSkinSelectorButtonPressed()

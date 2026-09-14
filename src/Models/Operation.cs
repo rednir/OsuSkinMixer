@@ -11,6 +11,8 @@ public class Operation
     private const int MAX_OPERATION_COUNT = 100;
 
     private static readonly object _lock = new();
+    private static int activeCount;
+    public static bool IsBusy => Volatile.Read(ref activeCount) > 0;
 
     private static void AddOperationToMemory(Operation operation)
     {
@@ -21,7 +23,7 @@ public class Operation
         {
             // Only allow the latest operation done to a skin to be undone.
             // e.g. if you create a skin mix, then delete it, you can't undo the creation as that is not relvant anymore.
-            if (op.TargetSkinName == operation.TargetSkinName)
+            if (op.TargetSkin != null && op.TargetSkin.Equals(operation.TargetSkin))
                 op.UndoAction = null;
         }
 
@@ -38,7 +40,7 @@ public class Operation
     public DateTime? TimeStarted { get; set; }
 
     [JsonIgnore]
-    public OsuSkin TargetSkin { get; }
+    public OsuSkin TargetSkin { get; private set; }
 
     [JsonIgnore]
     public string Description => $"{Type} {TargetSkinName}";
@@ -58,6 +60,9 @@ public class Operation
     [JsonIgnore]
     private Task _task;
 
+    public void SetTarget(OsuSkin skin) { TargetSkin = skin; TargetSkinName = skin.Name; }
+    public void SetUndo(Action undo) => UndoAction = undo;
+
     public Operation()
     {
     }
@@ -73,67 +78,60 @@ public class Operation
 
     public Task RunOperation(bool pauseSweep = true)
     {
-        if (_task != null)
-            return _task;
-
-        if (pauseSweep)
-            OsuData.SweepPaused = true;
-
+        if (_task != null) return _task;
+        Interlocked.Increment(ref activeCount);
         TimeStarted = DateTime.Now;
-
-        Settings.Log($"Running operation: {Description}");
-        AddOperationToMemory(this);
-
         _task = Task.Run(() =>
         {
             GodotThread.SetThreadSafetyChecksEnabled(false);
-            lock (_lock)
+            if (pauseSweep) OsuData.SweepPaused = true;
+            try
             {
-                Action();
-            }
-        })
-        .ContinueWith(t =>
-        {
-            if (pauseSweep)
-                OsuData.SweepPaused = false;
-
-            if (t.IsFaulted)
-            {
-                if (t.Exception.InnerException is OperationCanceledException)
+                lock (_lock)
                 {
-                    Settings.Log($"Operation canceled: {Description}");
-                    return;
+                    Action();
+                    AddOperationToMemory(this);
                 }
-
-                Settings.PushException(t.Exception);
-                return;
             }
-
-            Settings.Log($"Operation completed: {Description}");
+            catch { UndoAction = null; throw; }
+            finally
+            {
+                if (pauseSweep) OsuData.SweepPaused = false;
+                OsuData.RequestRefresh();
+                Interlocked.Decrement(ref activeCount);
+            }
         });
-
         return _task;
     }
 
-    public void UndoOperation()
+    public async void UndoOperation()
     {
-        lock (_lock)
+        Interlocked.Increment(ref activeCount);
+        try
         {
-            if (_task?.IsCompleted != true || !CanUndo)
-                return;
-
-            Settings.Log($"Undoing operation: {Description}");
-
-            try
+            await Task.Run(() =>
             {
-                UndoAction();
-                UndoAction = null;
-                Settings.Content.Operations.Remove(this);
-            }
-            catch (Exception e)
-            {
-                Settings.PushException(e);
-            }
+                GodotThread.SetThreadSafetyChecksEnabled(false);
+                lock (_lock)
+                {
+                    if (_task?.IsCompleted != true || !CanUndo)
+                        return;
+
+                    Settings.Log($"Undoing operation: {Description}");
+
+                    try
+                    {
+                        UndoAction();
+                        UndoAction = null;
+                        Settings.Content.Operations.Remove(this);
+                    }
+                    catch (Exception e)
+                    {
+                        Settings.PushException(e);
+                    }
+                }
+            });
         }
+        finally { Interlocked.Decrement(ref activeCount); OsuData.RequestRefresh(); }
     }
 }

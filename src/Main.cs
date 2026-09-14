@@ -53,6 +53,8 @@ public partial class Main : Control
 
     public override void _Ready()
     {
+        LibraryActions.DialogParent = this;
+        GetWindow().FocusEntered += OsuData.RequestRefresh;
         MenuScene = GD.Load<PackedScene>("res://src/StackScenes/Menu.tscn");
         SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
         SkinModiferModificationSelectScene = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierModificationSelect.tscn");
@@ -75,7 +77,13 @@ public partial class Main : Control
         Toast = GetNode<Toast>("%Toast");
         VersionLabel = GetNode<Label>("%VersionLabel");
 
-        VersionLabel.Text = Settings.VERSION;
+        VersionLabel.Text = Settings.VERSION + " · " + OsuData.Library?.Kind;
+        VersionLabel.TooltipText = OsuData.Library?.Status;
+        OsuData.AllSkinsLoaded += () =>
+        {
+            VersionLabel.Text = Settings.VERSION + " · " + OsuData.Library?.Kind;
+            VersionLabel.TooltipText = OsuData.Library?.Status;
+        };
 
         ScenesAnimationPlayer.AnimationFinished += OnScenesAnimationPlayerFinished;
 
@@ -125,6 +133,7 @@ public partial class Main : Control
         else if (what == NotificationWMCloseRequest)
         {
             GetTree().AutoAcceptQuit = false;
+            if (Operation.IsBusy || Utils.SkinMachine.IsRunning) { Settings.PushToast("Please finish or cancel the current operation before closing."); return; }
             Settings.Save();
 
             ClearTrash();
@@ -278,6 +287,8 @@ public partial class Main : Control
         {
             if (Directory.Exists(Settings.DeleteOnExitFolderPath))
                 Directory.Delete(Settings.DeleteOnExitFolderPath, true);
+            if (Directory.Exists(Storage.SkinWorkspace.SessionRoot))
+                Directory.Delete(Storage.SkinWorkspace.SessionRoot, true);
         })
         .ContinueWith(t =>
         {

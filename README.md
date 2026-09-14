@@ -29,6 +29,10 @@ It makes tinkering and editing skins a walk in the park, providing an easy to us
 
 ## Features
 
+### osu!stable and osu!lazer
+
+The app detects the selected client's data folder. Mixing and modification support stable folders and legacy lazer user skins; lazer writes require osu! to be closed and a per-operation confirmation after a verified database backup. Same-name mixes overwrite the existing skin. See [storage behaviour, safety notes and testing](docs/multi-client-storage.md).
+
 ### Create a skin mix in seconds
  
 - Choose what hitcircles to use, what sounds you want etc.. and it's done! - no need to scour through your skins folder in file explorer.

@@ -113,6 +113,11 @@ public static partial class Settings
 
     public static bool TrySetOsuFolder(string path, out string error)
     {
+        if (Operation.IsBusy || Utils.SkinMachine.IsRunning)
+        {
+            error = "Finish or cancel the current skin operation before switching libraries.";
+            return false;
+        }
         if (!Directory.Exists(path))
         {
             error = "The specified folder doesn't exist.";
@@ -125,21 +130,26 @@ public static partial class Settings
             return false;
         }
 
-        if (File.Exists($"{path}/client.realm"))
+        if (File.Exists($"{path}/client.realm") || Directory.Exists($"{path}/Skins"))
         {
-            error = "Sorry, osu! skin mixer does not support the lazer client. Please use your osu! stable folder.\n\nIf you do not have osu! stable, you can put your skins in a folder named 'Skins', and set its containing folder as your osu! folder in osu! skin mixer. Make sure each skin is extracted to a folder, and not an .osk file. When you wish to import a skin you've created into osu! lazer, use the 'Export to .osk' button.";
-            return false;
+            var previous = Content.OsuFolder;
+            try
+            {
+                Content.OsuFolder = Path.GetFullPath(path);
+                if (!OsuData.TryLoadSkins()) throw new IOException("No supported skin library found.");
+                error = null;
+                return true;
+            }
+            catch (Exception e)
+            {
+                Content.OsuFolder = previous;
+                error = e.Message;
+                return false;
+            }
         }
 
-        if (!Directory.Exists($"{path}/Skins"))
-        {
-            error = "We couldn't find a 'Skins' folder in the specified folder, please make sure you're pointing to a valid osu! folder.\n\nIf you are struggling to find your osu! folder, open osu! and search for 'Open osu! folder' in the options menu.";
-            return false;
-        }
-
-        Content.OsuFolder = path;
-        error = null;
-        return OsuData.TryLoadSkins();
+        error = "We couldn't find a 'Skins' folder or 'client.realm' in the specified folder. Please select the osu! data root.\n\nIn osu!, search for 'Open osu! folder' in the options menu.";
+        return false;
     }
 
     public static async Task<GithubRelease> GetLatestReleaseOrNullAsync()

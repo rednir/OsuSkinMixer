@@ -106,7 +106,7 @@ public partial class SkinPreview : PanelContainer
             Cursor.SetDeferred(Sprite2D.PropertyName.Texture, texture);
             Cursor.SetDeferred(Sprite2D.PropertyName.Scale, scale);
 
-            string cursorPath = $"{_skin.Directory.FullName}/cursor{(is2x ? "@2x" : string.Empty)}.png";
+            string cursorPath = _skin.FindFile($"cursor{(is2x ? "@2x" : string.Empty)}.png");
             _hasCustomCursor = !isDefault;
             _isCursorTransparent = Tools.GetContentRectFromImage(cursorPath) == Rectangle.Empty;
 
@@ -124,7 +124,7 @@ public partial class SkinPreview : PanelContainer
             Cursormiddle.SetDeferred(TextureRect.PropertyName.Texture, texture);
             Cursormiddle.SetDeferred(TextureRect.PropertyName.Scale, scale);
 
-            string cursorMiddlePath = $"{_skin.Directory.FullName}/cursormiddle{(is2x ? "@2x" : string.Empty)}.png";
+            string cursorMiddlePath = _skin.FindFile($"cursormiddle{(is2x ? "@2x" : string.Empty)}.png");
             bool hasCustomCursorMiddle = File.Exists(cursorMiddlePath);
 
             Cursormiddle.SetDeferred(Sprite2D.PropertyName.Visible, hasCustomCursorMiddle || !_hasCustomCursor.Value);
@@ -152,7 +152,7 @@ public partial class SkinPreview : PanelContainer
         Hitcircle.SetSkin(_skin);
         ComboContainer.Skin = _skin;
 
-        bool menuBgIsPng = File.Exists($"{_skin.Directory.FullName}/menu-background.png") || File.Exists($"{_skin.Directory.FullName}/menu-background@2x.png");
+        bool menuBgIsPng = _skin.FindFile("menu-background.png") != null || _skin.FindFile("menu-background@2x.png") != null;
 
         TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursor"));
         TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("cursortrail"));

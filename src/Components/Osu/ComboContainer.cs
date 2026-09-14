@@ -14,8 +14,8 @@ public partial class ComboContainer : HBoxContainer
 
             string comboPrefix = value.SkinIni.TryGetPropertyValue("Fonts", "ComboPrefix") ?? "score";
 
-            bool comboPrefixExists = File.Exists(Path.Combine(value.Directory.FullName, $"{comboPrefix}-x.png"))
-                || File.Exists(Path.Combine(value.Directory.FullName, $"{comboPrefix}-x@2x.png"));
+            bool comboPrefixExists = value.FindFile($"{comboPrefix}-x.png") != null
+                || value.FindFile($"{comboPrefix}-x@2x.png") != null;
 
             _comboPrefix = comboPrefixExists ? comboPrefix : "score";
 

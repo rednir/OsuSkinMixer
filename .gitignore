@@ -19,3 +19,7 @@ data_*/
 .DS_Store
 
 nuget.config
+**/bin/
+**/obj/
+**/TestResults/
+**/FodyWeavers.xsd

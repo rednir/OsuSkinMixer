@@ -26,82 +26,44 @@ public class SkinModifierMachine : SkinMachine
 
     public bool DisableInterfaceAnimations { get; set; }
 
-    protected override bool CacheOriginalElements => true;
+    protected override bool CacheOriginalElements => false;
+    private readonly List<(OsuSkin Original, OsuSkin Working, OsuSkinMixer.Storage.SkinWorkspace Workspace, OsuSkinMixer.Storage.SkinSnapshot Snapshot)> edits = new();
+    private readonly Dictionary<OsuSkin, string> originalIdentities = new();
+    protected override void CleanupAfterRun()
+    {
+        foreach (var edit in edits) edit.Workspace.Dispose();
+        edits.Clear(); originalIdentities.Clear();
+    }
 
     protected override void PopulateTasks()
     {
         OsuData.SweepPaused = true;
-
-        var flattenedOptions = FlattenedBottomLevelOptions;
-        foreach (OsuSkin skin in SkinsToModify)
+        foreach (var skin in SkinsToModify)
         {
-            new Operation(
-                type: OperationType.SkinModifier,
-                targetSkin: skin,
-                action: () => ModifySingleSkin(skin, flattenedOptions),
-                undoAction: () =>
-                {
-                    Settings.Log($"Beginning skin modify undo for skin: {skin.Name}");
-
-                    foreach (var pair in OriginalElementsCache)
-                    {
-                        string fullFilePath = pair.Key;
-
-                        if (!fullFilePath.StartsWith(skin.Directory.FullName, StringComparison.OrdinalIgnoreCase))
-                            continue;
-
-                        Settings.Log($"Restoring: {fullFilePath} ");
-
-                        MemoryStream memoryStream = pair.Value;
-
-                        if (memoryStream == null)
-                        {
-                            if (File.Exists(fullFilePath))
-                                File.Delete(fullFilePath);
-
-                            continue;
-                        }
-
-                        // Don't leave remnants of data from previous file.
-                        File.WriteAllBytes(fullFilePath, Array.Empty<byte>());
-
-                        FileStream fileStream = File.OpenWrite(fullFilePath);
-                        memoryStream.Position = 0;
-                        memoryStream.CopyTo(fileStream);
-
-                        memoryStream.Dispose();
-                        fileStream.Dispose();
-                        OriginalElementsCache.Remove(pair.Key);
-                    }
-
-                    OsuData.InvokeSkinModified(skin);
-                    Settings.Log($"Finished skin modify undo for skin: {skin.Name}");
-                }
-            )
-            .RunOperation(false).Wait();
+            var workspace = skin.CreateWorkspace();
+            var working = new OsuSkin(new DirectoryInfo(workspace.DirectoryPath)) { Name = skin.Name };
+            ValidateIniPaths(working);
+            originalIdentities[working] = skin.Identity;
+            edits.Add((skin, working, workspace, LibraryActions.Snapshot(skin)));
+            ModifySingleSkin(working, FlattenedBottomLevelOptions);
             CancellationToken.ThrowIfCancellationRequested();
         }
-
         Progress = UNCANCELLABLE_AFTER;
     }
 
     protected override void PostRun()
     {
-        foreach (OsuSkin skin in SkinsToModify)
+        foreach (var edit in edits)
         {
-            try
-            {
-                GenerateCreditsFile(skin);
-            }
-            catch (Exception e)
-            {
-                Settings.PushException(new InvalidOperationException($"Failed to generate at least one credits file. The skins was still created successfully, don't worry.", e));
-            }
-
-            OsuData.InvokeSkinModified(skin);
+            CancellationToken.ThrowIfCancellationRequested();
+            GenerateCreditsFile(edit.Working);
+            var snapshot = edit.Snapshot;
+            new Operation(OperationType.SkinModifier, edit.Original,
+                () => { edit.Original.UpdateRecord(edit.Original.Library.Replace(edit.Snapshot.Record, edit.Workspace)); snapshot = snapshot with { ExpectedRevision = edit.Original.Record.Revision }; OsuData.InvokeSkinModified(edit.Original); },
+                () => { edit.Original.Restore(snapshot); OsuData.InvokeSkinModified(edit.Original); })
+                .RunOperation(false).GetAwaiter().GetResult();
+            edit.Workspace.Dispose();
         }
-
-        OsuData.SweepPaused = false;
     }
 
     private void ModifySingleSkin(OsuSkin workingSkin, IEnumerable<SkinOption> flattenedOptions)
@@ -152,9 +114,9 @@ public class SkinModifierMachine : SkinMachine
         string skinIniDestination = $"{workingSkin.Directory.FullName}/skin.ini";
         AddFileToOriginalElementsCache(skinIniDestination);
 
-        // Hotfix for case-sensitive file systems.
-        if (File.Exists($"{workingSkin.Directory.FullName}/Skin.ini"))
-            File.Delete($"{workingSkin.Directory.FullName}/Skin.ini");
+        // Canonicalise any case variation before writing the final ini.
+        var existingIni = workingSkin.FindFile("skin.ini");
+        if (existingIni != null) File.Delete(existingIni);
 
         AddTask(() =>
         {
@@ -167,13 +129,13 @@ public class SkinModifierMachine : SkinMachine
 
     private void OverrideComboColour(OsuSkin workingSkin)
     {
-        SkinComboColourOverrides.TryGetValue(workingSkin.Name, out Godot.Color[] comboColours);
+        SkinComboColourOverrides.TryGetValue(originalIdentities[workingSkin], out Godot.Color[] comboColours);
 
         if (comboColours == null)
             return;
-        
+
         Log($"Overriding combo colours for skin '{workingSkin.Name}'");
-        
+
         OsuSkinIniSection coloursSection = workingSkin.SkinIni?.Sections.Find(s => s.Name == "Colours");
 
         for (int i = 0; i < 7; i++)
@@ -188,7 +150,7 @@ public class SkinModifierMachine : SkinMachine
                 // If there's only one color, set Combo2 to the last color as well.
                 if (comboColours.Length == 1)
                     coloursSection["Combo2"] = lastColor;
-                    
+
                 continue;
             }
 
@@ -205,7 +167,7 @@ public class SkinModifierMachine : SkinMachine
 
     private void OverrideCursorColour(OsuSkin workingSkin)
     {
-        if (!SkinCursorColourOverrideImageDirs.TryGetValue(workingSkin.Name, out string cursorImageDir))
+        if (!SkinCursorColourOverrideImageDirs.TryGetValue(originalIdentities[workingSkin], out string cursorImageDir))
             return;
 
         Log($"Overriding cursor colour for skin '{workingSkin.Name}' with directory '{cursorImageDir}'");
@@ -279,7 +241,7 @@ public class SkinModifierMachine : SkinMachine
 
         // Cretae @2x resolution if not found.
         if (!File.Exists(hitcirclePath) && File.Exists($"{skinDirectory}/hitcircle.png"))
-        {  
+        {
             File.Copy($"{skinDirectory}/hitcircle.png", hitcirclePath);
             hitcirclePostScale = 2;
         }
@@ -337,7 +299,7 @@ public class SkinModifierMachine : SkinMachine
             using Image<Rgba32> defaultX = File.Exists(defaultXPath)
                 ? Image.Load<Rgba32>(defaultXPath)
                 : Image.Load<Rgba32>(GetDefaultElementBytes($"default-{i}{suffix}.png"));
-            
+
             defaultX.Mutate(i => i.Resize(defaultX.Width * defaultPostScale, defaultX.Height * defaultPostScale));
 
             Image<Rgba32> newDefaultX;

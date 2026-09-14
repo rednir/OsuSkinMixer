@@ -7,7 +7,7 @@ using OsuSkinMixer.Statics;
 /// <summary>Provides methods to create and import a new skin from a list of <see cref="SkinOption"/>.</summary>
 public class SkinMixerMachine : SkinMachine
 {
-    private const string WORKING_DIR_NAME = ".osu-skin-mixer_working-skin";
+    private OsuSkinMixer.Storage.SkinWorkspace workingWorkspace;
 
     public OsuSkin NewSkin { get; private set; }
 
@@ -16,7 +16,9 @@ public class SkinMixerMachine : SkinMachine
         if (string.IsNullOrWhiteSpace(name))
             throw new InvalidOperationException("Skin name cannot be empty.");
 
-        NewSkin = new OsuSkin(name, Directory.CreateDirectory($"{Path.GetTempPath()}/{WORKING_DIR_NAME}"));
+        workingWorkspace?.Dispose();
+        workingWorkspace = new OsuSkinMixer.Storage.SkinWorkspace();
+        NewSkin = new OsuSkin(name, new DirectoryInfo(workingWorkspace.DirectoryPath));
     }
 
     protected override void PopulateTasks()
@@ -54,49 +56,23 @@ public class SkinMixerMachine : SkinMachine
         });
     }
 
+    public bool Installed { get; private set; }
+    protected override void CleanupAfterRun() => workingWorkspace?.Dispose();
+    public bool Reused { get; private set; }
+    public Action UndoInstallation { get; private set; }
+
     protected override void PostRun()
     {
-        string dirDestPath = $"{Settings.SkinsFolderPath}/{NewSkin.Name}";
-        Log($"Copying working folder to '{dirDestPath}'");
-
-        if (!IsInSkinsFolder(dirDestPath))
-            throw new InvalidOperationException("Destination path is not in the skins folder.");
-
-        // Also replace the skin in the hidden skins folder to avoid duplicate names.
-        if (Directory.Exists($"{Settings.HiddenSkinsFolderPath}/{NewSkin.Name}"))
-            Directory.Delete($"{Settings.HiddenSkinsFolderPath}/{NewSkin.Name}", true);
-
-        if (Directory.Exists(dirDestPath))
-            Directory.Delete(dirDestPath, true);
-
-        try
-        {
-            NewSkin.Directory.MoveTo(dirDestPath);
-        }
-        catch (IOException e)
-        {
-            GD.PushWarning($"Exception thrown, probably because we are trying to move across different volumes or devices. Falling back to copy method.\n{e.Message}");
-            DirectoryInfo copiedDir = NewSkin.Directory.CopyDirectory(dirDestPath);
-            NewSkin.Directory.Delete(true);
-            NewSkin.Directory = copiedDir;
-        }
-
-        try
-        {
-            GenerateCreditsFile(NewSkin);
-        }
-        catch (Exception e)
-        {
-            Settings.PushException(new InvalidOperationException($"Failed to generate credits file for {NewSkin.Name}. The skin was still created successfully, don't worry.", e));
-        }
-
-        OsuData.AddSkin(NewSkin);
-    }
-
-    private static bool IsInSkinsFolder(string path)
-    {
-        return Path.GetFullPath(path + "/..").TrimEnd('/').TrimEnd('\\').Equals(
-            Path.GetFullPath(Settings.SkinsFolderPath).TrimEnd('/').TrimEnd('\\'),
-            StringComparison.OrdinalIgnoreCase);
+        GenerateCreditsFile(NewSkin);
+        CancellationToken.ThrowIfCancellationRequested();
+        var library = OsuData.Library;
+        using var workspace = NewSkin.CreateWorkspace();
+        var result = library.Install(workspace, overwriteExisting: true);
+        OsuData.Refresh();
+        NewSkin = OsuData.Skins.Single(s => s.Record.Id == result.Skin.Id);
+        Reused = result.Reused;
+        Installed = true;
+        if (Reused) Settings.PushToast("An identical skin already exists. Reused the existing skin.");
+        else UndoInstallation = () => { library.UndoInstall(result); OsuData.Refresh(); };
     }
 }

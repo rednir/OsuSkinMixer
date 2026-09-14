@@ -127,7 +127,7 @@ public partial class SkinComponent : HBoxContainer
     {
         if (LeftClicked == null)
         {
-            if (Skin?.Directory is null)
+            if (Skin?.Record == null && Skin?.Directory is null)
             {
                 Settings.PushToast("You don't seem to have that skin downloaded.");
                 return;
@@ -146,7 +146,7 @@ public partial class SkinComponent : HBoxContainer
             && mouseButton.ButtonIndex == MouseButton.Right
             && mouseButton.Pressed)
         {
-            if (Skin?.Directory is null)
+            if (Skin?.Record == null && Skin?.Directory is null)
             {
                 Settings.PushToast("You don't seem to have that skin downloaded.");
                 return;

@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using OsuSkinMixer.Autoload;
 using OsuSkinMixer.Statics;
+using OsuSkinMixer.Storage;
 
 /// <summary>Represents an osu! skin and provides methods to fetch its elements.</summary>
 public class OsuSkin
@@ -13,6 +14,55 @@ public class OsuSkin
     public const string DEFAULT_AUTHOR = "osu! skin mixer by rednir";
 
     private readonly object _lock = new();
+    private readonly string transientId = Guid.NewGuid().ToString();
+    private DirectoryInfo directory;
+    private SkinWorkspace readWorkspace;
+    private SkinWorkspace previewWorkspace;
+    public ISkinLibrary Library { get; private set; }
+    public SkinRecord Record { get; private set; }
+    public string Identity => Record == null ? transientId : SkinPaths.Identity(Library.Root) + ":" + Record.Id;
+    public bool IsLazer => Library?.Kind == OsuClientKind.Lazer;
+    public bool CanEdit => Record == null || (Record.IsLegacy && Record.Problem == null && Library.WriteRestriction == null);
+    public bool CanExport => Record?.Problem == null;
+    public DateTime Modified => Record?.Modified ?? Directory?.LastWriteTime ?? DateTime.MinValue;
+
+    public OsuSkin(ISkinLibrary library, SkinRecord record)
+    {
+        Library = library;
+        UpdateRecord(record);
+    }
+
+    public void UpdateRecord(SkinRecord record)
+    {
+        Record = record;
+        Name = record.Name;
+        Hidden = record.Hidden;
+        // Keep old preview files valid for in-flight texture/audio loads until shutdown.
+        readWorkspace = null;
+        previewWorkspace = null;
+        directory = null;
+        _textureCache.Clear();
+        _credits = null;
+        LoadSkinIni();
+    }
+
+    public SkinWorkspace CreateWorkspace() => Library != null ? Library.Materialize(Record) : SkinWorkspace.Copy(SkinPaths.Enumerate(Directory.FullName));
+    public SkinSnapshot DeleteFromDisk() => Library.Delete(Record);
+    public void Restore(SkinSnapshot snapshot) => UpdateRecord(Library.Restore(snapshot));
+    public void ReplaceFromWorkspace(SkinWorkspace workspace) => UpdateRecord(Library.Replace(Record, workspace));
+    public OsuSkin Duplicate(string name) => new(Library, Library.Duplicate(Record, name));
+    public void Rename(string name) => UpdateRecord(Library.Rename(Record, name));
+    public void SetHidden(bool hidden) => UpdateRecord(Library.SetHidden(Record, hidden));
+    public void Export(string path)
+    {
+        if (Library != null) Library.Export(Record, path);
+        else { using var workspace = CreateWorkspace(); workspace.Export(path); }
+    }
+    public string FindFile(string filename)
+    {
+        if (Record != null) return Record.Files.TryGetValue(filename, out var path) && File.Exists(path) ? path : null;
+        return Directory == null ? null : SkinPaths.Enumerate(Directory.FullName).GetValueOrDefault(filename);
+    }
 
     public static Color[] DefaultComboColors
         => new Color[]
@@ -141,7 +191,24 @@ public class OsuSkin
 
     public string Name { get; set; }
 
-    public DirectoryInfo Directory { get; set; }
+    /// <summary>Legacy image-engine view. For lazer this is an app-owned copy, never the blob store.</summary>
+    public DirectoryInfo Directory
+    {
+        get
+        {
+            if (directory == null && Record != null)
+            {
+                if (!IsLazer) directory = new DirectoryInfo(Record.Id);
+                else
+                {
+                    readWorkspace ??= Library.Materialize(Record, allowDegraded: true);
+                    directory = new DirectoryInfo(readWorkspace.DirectoryPath);
+                }
+            }
+            return directory;
+        }
+        set => directory = value;
+    }
 
     public OsuSkinIni SkinIni { get; set; }
 
@@ -162,6 +229,8 @@ public class OsuSkin
     {
         get
         {
+            if (Record != null)
+                return Record.Files.Keys.Count(f => new[] { ".png", ".jpg", ".wav", ".ogg", ".mp3" }.Contains(Path.GetExtension(f).ToLowerInvariant()));
             if (Directory is null)
                 return 0;
 
@@ -220,10 +289,10 @@ public class OsuSkin
         => Name;
 
     public override bool Equals(object obj)
-        => obj is OsuSkin skin && Name == skin?.Name;
+        => obj is OsuSkin skin && Identity == skin.Identity;
 
     public override int GetHashCode()
-        => Name.GetHashCode();
+        => Identity.GetHashCode();
 
     public string WriteCreditsFile()
     {
@@ -284,32 +353,51 @@ public class OsuSkin
     }
 
     public string GetElementFilepathWithoutExtension(string filename)
-        => $"{Directory?.FullName}/{filename}";
+    {
+        SkinPaths.Virtual(filename + "__prefix");
+        if (Record == null) return $"{Directory?.FullName}/{filename}";
+        lock (_lock)
+        {
+            previewWorkspace ??= new SkinWorkspace();
+            var prefix = Path.Combine(previewWorkspace.DirectoryPath, filename);
+            foreach (var suffix in new[] { ".png", "@2x.png", ".jpg", "@2x.jpg" })
+            {
+                var source = FindFile(filename + suffix);
+                if (source == null || File.Exists(prefix + suffix)) continue;
+                System.IO.Directory.CreateDirectory(Path.GetDirectoryName(prefix));
+                File.Copy(source, prefix + suffix);
+            }
+            return prefix;
+        }
+    }
 
     private Texture2D GetTextureOrNull(string filename, string extension)
     {
-        if (_textureCache.TryGetValue(filename, out Texture2D value))
+        string cacheKey = filename + "." + extension;
+        if (_textureCache.TryGetValue(cacheKey, out Texture2D value))
             return value;
 
-        string path = $"{Directory.FullName}/{filename}.{extension}";
+        string path = FindFile($"{filename}.{extension}");
 
         if (!File.Exists(path))
         {
-            _textureCache.TryAdd(filename, null);
+            _textureCache.TryAdd(cacheKey, null);
             return null;
         }
 
-        Image image = new();
-        Error err = image.Load(path);
+        using Image image = new();
+        // Lazer's physical blob path has no image extension; decode using the virtual filename's format.
+        var bytes = File.ReadAllBytes(path);
+        Error err = extension.Equals("jpg", StringComparison.OrdinalIgnoreCase) ? image.LoadJpgFromBuffer(bytes) : image.LoadPngFromBuffer(bytes);
 
         if (err != Error.Ok)
         {
-            _textureCache.TryAdd(filename, null);
+            _textureCache.TryAdd(cacheKey, null);
             return null;
         }
 
         var texture = ImageTexture.CreateFromImage(image);
-        _textureCache.TryAdd(filename, texture);
+        _textureCache.TryAdd(cacheKey, texture);
         return texture;
     }
 
@@ -318,13 +406,11 @@ public class OsuSkin
         if (!int.TryParse(SkinIni?.TryGetPropertyValue("General", "AnimationFramerate"), out int fps))
             fps = -1;
 
-        string pathPrefix = $"{Directory.FullName}/{filename}";
-
         spriteFrames.AddAnimation(filename);
 
         for (int i = 0; ; i++)
         {
-            if (File.Exists($"{pathPrefix}-{i}@2x.png") || File.Exists($"{pathPrefix}-{i}.png"))
+            if (FindFile($"{filename}-{i}@2x.png") != null || FindFile($"{filename}-{i}.png") != null)
             {
                 if (use2x)
                 {
@@ -344,7 +430,7 @@ public class OsuSkin
 
         // AnimationFramerate of the default value -1 makes osu! play all the frames in 1 second.
         spriteFrames.SetAnimationSpeed(filename, fps != -1 ? fps : spriteFrames.GetFrameCount(filename));
-        spriteFrames.SetAnimationLoop(filename, false);
+        spriteFrames.SetAnimationLoopMode(filename, SpriteFrames.LoopMode.None);
 
         if (spriteFrames.GetFrameCount(filename) == 0)
         {
@@ -363,71 +449,60 @@ public class OsuSkin
 
     public AudioStream GetAudioStream(string filename)
     {
-        Settings.Log($"For skin '{Directory.Name}' get audio stream: {filename}");
-
-        string pathPrefix = $"{Directory.FullName}/{filename}";
-
+        if (string.IsNullOrEmpty(filename)) return null;
         try
         {
-            if (filename.EndsWith('*'))
+            foreach (var extension in new[] { ".wav", ".ogg", ".mp3" })
             {
-                string wildcardPrefix = filename.TrimEnd('*');
-                string wildcardPath = Path.Combine(Directory.FullName, wildcardPrefix);
-                string searchDirectory = Path.GetDirectoryName(wildcardPath) ?? Directory.FullName;
-                string searchPrefix = Path.GetFileName(wildcardPrefix);
-                string[] extensions = [".wav", ".ogg", ".mp3"];
-
-                foreach (string extension in extensions)
+                string path;
+                if (filename.EndsWith('*'))
                 {
-                    DirectoryInfo searchRoot = new(searchDirectory);
-                    string match = searchRoot.EnumerateFiles($"{searchPrefix}*{extension}", SearchOption.TopDirectoryOnly)
-                        .OrderBy(path => path.FullName, StringComparer.OrdinalIgnoreCase)
-                        .Select(path => path.FullName)
-                        .FirstOrDefault();
-
-                    if (match == null)
-                        continue;
-
-                    return extension switch
-                    {
-                        ".wav" => AudioStreamWav.LoadFromFile(match),
-                        ".ogg" => AudioStreamOggVorbis.LoadFromFile(match),
-                        ".mp3" => AudioStreamMP3.LoadFromFile(match),
-                        _ => null,
-                    };
+                    var prefix = filename.TrimEnd('*');
+                    var files = Record?.Files ?? SkinPaths.Enumerate(Directory.FullName);
+                    path = files.Where(p => p.Key.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) && p.Key.EndsWith(extension, StringComparison.OrdinalIgnoreCase))
+                        .OrderBy(p => p.Key, StringComparer.OrdinalIgnoreCase).Select(p => p.Value).FirstOrDefault(File.Exists);
                 }
-            }
-
-            if (File.Exists(pathPrefix + ".wav"))
-            {
-                return AudioStreamWav.LoadFromFile(pathPrefix + ".wav");
-            }
-            else if (File.Exists(pathPrefix + ".ogg"))
-            {
-                return AudioStreamOggVorbis.LoadFromFile(pathPrefix + ".ogg");
-            }
-            else if (File.Exists(pathPrefix + ".mp3"))
-            {
-                return AudioStreamMP3.LoadFromFile(pathPrefix + ".mp3");
+                else path = FindFile(filename + extension);
+                if (path == null) continue;
+                return extension switch
+                {
+                    ".wav" => AudioStreamWav.LoadFromFile(path),
+                    ".ogg" => AudioStreamOggVorbis.LoadFromFile(path),
+                    _ => AudioStreamMP3.LoadFromFile(path),
+                };
             }
         }
-        catch
-        {
-            return null;
-        }
-
+        catch (Exception e) { Settings.Log($"Audio fallback: {e.Message}"); }
         return GetDefaultAudioStream(filename);
     }
 
     public void ClearCache()
     {
         _textureCache.Clear();
-        Directory.Refresh();
+        _credits = null;
+        directory?.Refresh();
         LoadSkinIni();
     }
 
     private void LoadSkinIni()
     {
+        var iniPath = FindFile("skin.ini");
+        if (iniPath != null)
+        {
+            try { SkinIni = new OsuSkinIni(File.ReadAllText(iniPath)); }
+            catch (Exception e)
+            {
+                SkinIni = new OsuSkinIni(Name, Record?.Author ?? "unknown");
+                if (Record != null) Record = Record with { Problem = "The skin.ini could not be read. Repair it before editing this skin." };
+                Settings.Log($"INI fallback for {Name}: {e.Message}");
+            }
+            return;
+        }
+        if (Record != null)
+        {
+            SkinIni = new OsuSkinIni(Name, Record.Author);
+            return;
+        }
         if (File.Exists($"{Directory.FullName}/skin.ini"))
         {
             try
@@ -461,7 +536,7 @@ public class OsuSkin
     {
         try
         {
-            string creditsPath = $"{Directory.FullName}/{OsuSkinCredits.FILE_NAME}";
+            string creditsPath = FindFile(OsuSkinCredits.FILE_NAME);
 
             if (File.Exists(creditsPath))
             {
@@ -482,7 +557,7 @@ public class OsuSkin
     private readonly ConcurrentDictionary<string, Texture2D> _textureCache = new();
 
     private static T GetDefaultElement<T>(string filenameWithExtension) where T : Resource
-        => GD.Load<T>($"res://assets/defaultskin/{filenameWithExtension}");
+        => ResourceLoader.Exists($"res://assets/defaultskin/{filenameWithExtension}") ? GD.Load<T>($"res://assets/defaultskin/{filenameWithExtension}") : null;
 
     private static AudioStream GetDefaultAudioStream(string filename)
     {
