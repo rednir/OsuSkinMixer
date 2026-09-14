@@ -14,6 +14,7 @@ public partial class SetupPopup : Popup
     private Button FolderPickerButton;
     private FileDialog FileDialog;
     private OkPopup OkPopup;
+    private LazerWarningPopup LazerWarningPopup;
 
     public override void _Ready()
     {
@@ -24,8 +25,9 @@ public partial class SetupPopup : Popup
         FolderPickerButton = GetNode<Button>("%FolderPickerButton");
         FileDialog = GetNode<FileDialog>("%FileDialog");
         OkPopup = GetNode<OkPopup>("%OkPopup");
+        LazerWarningPopup = GetNode<LazerWarningPopup>("%LazerWarningPopup");
 
-        DoneButton.Pressed += () => Task.Run(DoneButtonPressed);
+        DoneButton.Pressed += DoneButtonPressed;
         FolderPickerButton.Pressed += FolderPickerButtonPressed;
         FileDialog.DirSelected += d => LineEdit.Text = d;
     }
@@ -36,14 +38,30 @@ public partial class SetupPopup : Popup
         LineEdit.Text = Settings.Content.OsuFolder ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "osu!");
     }
 
-    private void DoneButtonPressed()
+    public Task<bool> ShowLazerWarningAsync() => LazerWarningPopup.ConfirmAsync();
+
+    private async void DoneButtonPressed()
     {
-        DoneButton.SetDeferred(Button.PropertyName.Disabled, true);
-        LineEdit.SetDeferred(LineEdit.PropertyName.Text, LineEdit.Text.Trim('"').Trim('\''));
-        if (!Settings.TrySetOsuFolder(LineEdit.Text, out string error))
+        DoneButton.Disabled = true;
+        string path = LineEdit.Text.Trim('"').Trim('\'');
+        LineEdit.Text = path;
+
+        if (File.Exists(Path.Combine(path, "client.realm")) && !await LazerWarningPopup.ConfirmAsync())
         {
-            DoneButton.SetDeferred(Button.PropertyName.Disabled, false);
-            OkPopup.SetValues(error, "That doesn't seem right...");
+            DoneButton.Disabled = false;
+            return;
+        }
+
+        var result = await Task.Run(() =>
+        {
+            bool success = Settings.TrySetOsuFolder(path, out string error);
+            return (success, error);
+        });
+
+        if (!result.success)
+        {
+            DoneButton.Disabled = false;
+            OkPopup.SetValues(result.error, "That doesn't seem right...");
             OkPopup.In();
             return;
         }
@@ -51,7 +69,7 @@ public partial class SetupPopup : Popup
         Settings.Save();
         Out();
 
-        DoneButton.SetDeferred(Button.PropertyName.Disabled, false);
+        DoneButton.Disabled = false;
     }
 
     private void FolderPickerButtonPressed()

@@ -15,6 +15,23 @@ public partial class StorageSmoke : Node
         var root = Path.Combine(Path.GetTempPath(), "osm-godot-smoke-" + Guid.NewGuid().ToString("N"));
         try
         {
+            var warning = GD.Load<PackedScene>("res://src/Components/Popup/LazerWarningPopup.tscn").Instantiate<Components.LazerWarningPopup>();
+            AddChild(warning);
+            var warningAccepted = warning.ConfirmAsync();
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            var proceed = warning.GetNode<Button>("%ProceedButton");
+            Check(warning.GetNode<CanvasLayer>("Popup/CanvasLayer").Visible && proceed.Disabled,
+                "lazer warning starts unacknowledged");
+            warning.GetNode<CheckBox>("%UnderstandCheckBox").ButtonPressed = true;
+            Check(!proceed.Disabled, "lazer warning acknowledgement enables proceed");
+            proceed.EmitSignal(Button.SignalName.Pressed);
+            Check(await warningAccepted, "lazer warning proceed result");
+            var warningCancelled = warning.ConfirmAsync();
+            warning.GetNode<Button>("%CancelButton").EmitSignal(Button.SignalName.Pressed);
+            Check(!await warningCancelled, "lazer warning cancel result");
+            warning.QueueFree();
+
             foreach (bool lazer in new[] { false, true })
             {
                 var folder = Path.Combine(root, lazer ? "lazer" : "stable");
@@ -24,7 +41,7 @@ public partial class StorageSmoke : Node
                 if (lazer)
                 {
                     using (Realm.GetInstance(LazerSkinLibrary.Configuration(Path.Combine(folder, "client.realm"), 51, false))) { }
-                    library = new LazerSkinLibrary(folder, Path.Combine(root, "backups")) { ConfirmWrite = _ => true };
+                    library = new LazerSkinLibrary(folder, Path.Combine(root, "backups"));
                 }
                 else library = new StableSkinLibrary(folder, Path.Combine(root, "recovery"));
                 using var source = new SkinWorkspace();

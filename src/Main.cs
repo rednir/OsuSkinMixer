@@ -38,6 +38,7 @@ public partial class Main : Control
     private OkPopup OkPopup;
     private Toast Toast;
     private Label VersionLabel;
+    private Label LazerWarningLabel;
 
     private Stack<StackScene> SceneStack { get; } = new();
 
@@ -53,7 +54,6 @@ public partial class Main : Control
 
     public override void _Ready()
     {
-        LibraryActions.DialogParent = this;
         GetWindow().FocusEntered += OsuData.RequestRefresh;
         MenuScene = GD.Load<PackedScene>("res://src/StackScenes/Menu.tscn");
         SkinInfoScene = GD.Load<PackedScene>("res://src/StackScenes/SkinInfo.tscn");
@@ -76,13 +76,14 @@ public partial class Main : Control
         OkPopup = GetNode<OkPopup>("%OkPopup");
         Toast = GetNode<Toast>("%Toast");
         VersionLabel = GetNode<Label>("%VersionLabel");
+        LazerWarningLabel = GetNode<Label>("%LazerWarningLabel");
 
-        VersionLabel.Text = Settings.VERSION + " · " + OsuData.Library?.Kind;
-        VersionLabel.TooltipText = OsuData.Library?.Status;
-        OsuData.AllSkinsLoaded += () =>
+        UpdateClientLabels();
+        OsuData.AllSkinsLoaded += UpdateClientLabels;
+        LazerWarningLabel.GuiInput += input =>
         {
-            VersionLabel.Text = Settings.VERSION + " · " + OsuData.Library?.Kind;
-            VersionLabel.TooltipText = OsuData.Library?.Status;
+            if (input is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true })
+                _ = SettingsPopup.GetNode<SetupPopup>("%SetupPopup").ShowLazerWarningAsync();
         };
 
         ScenesAnimationPlayer.AnimationFinished += OnScenesAnimationPlayerFinished;
@@ -116,6 +117,16 @@ public partial class Main : Control
         Settings.Content.LaunchCount++;
         
         CheckForUpdates();
+    }
+
+    private void UpdateClientLabels()
+    {
+        VersionLabel.Text = Settings.VERSION;
+        VersionLabel.TooltipText = string.Empty;
+        LazerWarningLabel.Visible = OsuData.Library?.Kind == Storage.OsuClientKind.Lazer;
+        LazerWarningLabel.TooltipText = OsuData.Library is null
+            ? string.Empty
+            : $"Experimental osu!lazer support. Click for details.\n{OsuData.Library.Status}";
     }
 
     public override void _Notification(int what)

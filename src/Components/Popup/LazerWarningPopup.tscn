@@ -1,9 +1,84 @@
 [gd_scene format=3 uid="uid://c3w3os7chflg4"]
 
+[ext_resource type="Script" uid="uid://mtwfhn0ymure" path="res://src/Components/Popup/LazerWarningPopup.cs" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="1_uvilj"]
+[ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="2_iduj4"]
+[ext_resource type="LabelSettings" uid="uid://cc23qpkl2afag" path="res://src/Styles/LabelSettings/WarningText.tres" id="3_4a2kr"]
+[ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="4_7v0s3"]
+[ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="5_js8ed"]
+
 [node name="LazerWarningPopup" type="Control" unique_id=604520326]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Popup" parent="." unique_id=298192356 instance=ExtResource("1_uvilj")]
+layout_mode = 1
+
+[node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
+offset_bottom = -0.00036621094
+
+[node name="ContentPanelContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer" index="1"]
+custom_minimum_size = Vector2(520, 470)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0" unique_id=1521133816]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1572931845]
+layout_mode = 2
+text = "osu!lazer support is experimental, and it could break your osu! install."
+label_settings = ExtResource("2_iduj4")
+autowrap_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1592576819]
+layout_mode = 2
+text = "Unlike osu!stable, lazer stores skins in a more complex way.
+
+To manage skins, osu! skin mixer must work directly with lazer's internal database.
+
+This is an experimental, volatile integration. An osu! update, a crash, or a bug could corrupt lazer's database, making skins or maps disappear.
+
+osu! skin mixer makes frequent backups of lazer's database, which can be used to potentially recover lost data in the event something does go wrong.
+
+However, you are wholly responsible for your data and any data loss that may occur."
+autowrap_mode = 2
+
+[node name="WarningLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1750255836]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Never share database files in bug reports, they may contain sensitive data."
+label_settings = ExtResource("3_4a2kr")
+autowrap_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=173342884]
+layout_mode = 2
+
+[node name="UnderstandCheckBox" type="CheckBox" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1848970336]
+unique_name_in_owner = true
+layout_mode = 2
+text = "I have read and understood the above"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=529071445]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="CancelButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" unique_id=1243254748 instance=ExtResource("5_js8ed")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Cancel"
+
+[node name="ProceedButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" unique_id=1196245824 instance=ExtResource("4_7v0s3")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+disabled = true
+text = "Proceed"
+
+[editable path="Popup"]

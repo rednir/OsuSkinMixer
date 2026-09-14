@@ -7,29 +7,6 @@ using OsuSkinMixer.Storage;
 /// <summary>UI decisions marshalled to the main thread; storage code stays independent of Godot.</summary>
 public static class LibraryActions
 {
-    public static Node DialogParent { get; set; }
-    public static bool ConfirmWrite(WriteConfirmation request)
-    {
-        string warning = request.UnknownSchema
-            ? "ADVANCED: This schema is untested. A compatible structure does not guarantee semantic compatibility.\nAllow this one write at your own risk?\n\n"
-            : "";
-        return Ask("Confirm database write", warning + $"{request.Operation}\n{request.Root}\nSchema: {request.Schema}\n\nA verified backup was saved to:\n{request.BackupPath}\n\nConfirm that osu! is completely closed. Do not reopen it until this operation finishes.", "osu! is closed — proceed").GetAwaiter().GetResult();
-    }
-    public static Task<bool> Ask(string title, string message, string accept)
-    {
-        var completion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-        if (DialogParent == null) { completion.SetResult(false); return completion.Task; }
-        Callable.From(() =>
-        {
-            var dialog = new ConfirmationDialog { Title = title, DialogText = message, OkButtonText = accept, MinSize = new Vector2I(640, 250) };
-            DialogParent.AddChild(dialog);
-            dialog.Confirmed += () => { completion.TrySetResult(true); dialog.QueueFree(); };
-            dialog.Canceled += () => { completion.TrySetResult(false); dialog.QueueFree(); };
-            dialog.CloseRequested += () => { completion.TrySetResult(false); dialog.QueueFree(); };
-            dialog.PopupCentered();
-        }).CallDeferred();
-        return completion.Task;
-    }
     public static string ExportPath(string name)
     {
         var folder = OsuData.Library?.Kind == OsuClientKind.Stable

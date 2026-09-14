@@ -29,7 +29,7 @@ public class LibraryTests
     private LazerSkinLibrary Lazer(ulong version = 51)
     {
         using (Realm.GetInstance(LazerSkinLibrary.Configuration(Path.Combine(root, "client.realm"), version, false))) { }
-        return new LazerSkinLibrary(root, backups) { ConfirmWrite = _ => true };
+        return new LazerSkinLibrary(root, backups);
     }
     [Test] public void StableDiscoveryExportHideDeleteRestore()
     {
@@ -89,18 +89,14 @@ public class LibraryTests
         var duplicate = library.Duplicate(renamed, "Renamed"); Assert.That(duplicate.Id, Is.Not.EqualTo(skin.Id));
         Assert.That(Directory.GetFiles(backups, "*.realm", SearchOption.AllDirectories), Has.Length.EqualTo(5));
     }
-    [Test] public void LazerDeniedWriteMakesBackupButDoesNotMutate()
+    [Test] public void LazerWriteCreatesVerifiedPreMutationBackup()
     {
         var library = Lazer(77); using var workspace = Workspace();
-        bool prompted = false;
-        library.ConfirmWrite = request =>
-        {
-            prompted = true; Assert.That(request.UnknownSchema); Assert.That(File.Exists(request.BackupPath));
-            using var copy = Realm.GetInstance(LazerSkinLibrary.Configuration(request.BackupPath, 77, true));
-            Assert.That(copy.All<LazerSkin>().Count(), Is.Zero); return false;
-        };
-        Assert.Throws<OperationCanceledException>(() => library.Install(workspace));
-        Assert.That(prompted); Assert.That(library.Load(), Is.Empty); Assert.That(Directory.Exists(Path.Combine(root, "files")), Is.False);
+        library.Install(workspace);
+        var backup = Directory.GetFiles(backups, "*.realm", SearchOption.AllDirectories).Single();
+        using var copy = Realm.GetInstance(LazerSkinLibrary.Configuration(backup, 77, true));
+        Assert.That(copy.All<LazerSkin>().Count(), Is.Zero);
+        Assert.That(library.Load(), Has.Count.EqualTo(1));
     }
     [Test] public void MissingContentIsDegradedAndBlocksExportAndUndo()
     {
@@ -129,7 +125,7 @@ public class LibraryTests
     {
         var path = Path.Combine(root, "client.realm");
         using (Realm.GetInstance(new RealmConfiguration(path) { SchemaVersion = 77, Schema = new[] { typeof(IncompatibleSkin) } })) { }
-        var library = new LazerSkinLibrary(root, backups) { ConfirmWrite = _ => throw new Exception("Must not offer override") };
+        var library = new LazerSkinLibrary(root, backups);
         Assert.Throws<InvalidDataException>(() => library.Load());
         using var workspace = Workspace();
         Assert.Throws<InvalidDataException>(() => library.Install(workspace));
@@ -140,7 +136,7 @@ public class LibraryTests
         var config = new RealmConfiguration(path) { SchemaVersion = 52,
             Schema = new[] { typeof(LazerSkin), typeof(LazerFile), typeof(RealmNamedFileUsage), typeof(UnrelatedData) } };
         using (var realm = Realm.GetInstance(config)) realm.Write(() => realm.Add(new UnrelatedData { ID = "keep", Value = "precious data" }));
-        var library = new LazerSkinLibrary(root, backups) { ConfirmWrite = _ => true };
+        var library = new LazerSkinLibrary(root, backups);
         using var workspace = Workspace(); library.Install(workspace);
         using (var realm = Realm.GetInstance(config)) Assert.That(realm.Find<UnrelatedData>("keep")!.Value, Is.EqualTo("precious data"));
         var backup = Directory.GetFiles(backups, "*.realm", SearchOption.AllDirectories).Single();
@@ -242,7 +238,7 @@ public class LibraryTests
         var config = new RealmConfiguration(path) { SchemaVersion = 77,
             Schema = new[] { typeof(ExtendedSkin), typeof(LazerFile), typeof(RealmNamedFileUsage) } };
         using (var realm = Realm.GetInstance(config)) realm.Write(() => realm.Add(new ExtendedSkin { ID = id, Protected = true, FutureProperty = "keep this too" }));
-        var library = new LazerSkinLibrary(root, backups) { ConfirmWrite = _ => throw new Exception("Incompatible write must not offer override") };
+        var library = new LazerSkinLibrary(root, backups);
         Assert.That(library.Load(), Is.Empty);
         Assert.That(library.WriteRestriction, Is.Not.Null);
         using var workspace = Workspace(); Assert.Throws<InvalidDataException>(() => library.Install(workspace));
@@ -254,7 +250,7 @@ public class LibraryTests
         if (string.IsNullOrEmpty(source)) Assert.Ignore("Set OSM_REALM_FIXTURE to a disposable copy of client.realm for this additional integration check.");
         var path = Path.Combine(root, "client.realm");
         File.Copy(source!, path); // All writes remain confined to this test's private copy.
-        var library = new LazerSkinLibrary(root, backups) { ConfirmWrite = _ => true };
+        var library = new LazerSkinLibrary(root, backups);
         _ = library.Load();
         Assert.That(library.WriteRestriction, Is.Null);
         Dictionary<string, int> Counts()

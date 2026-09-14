@@ -31,7 +31,7 @@ It makes tinkering and editing skins a walk in the park, providing an easy to us
 
 ### osu!stable and osu!lazer
 
-The app detects the selected client's data folder. Mixing and modification support stable folders and legacy lazer user skins; lazer writes require osu! to be closed and a per-operation confirmation after a verified database backup. Same-name mixes overwrite the existing skin. See [storage behaviour, safety notes and testing](docs/multi-client-storage.md).
+The app detects the selected client's data folder. Mixing and modification support stable folders and legacy lazer user skins. Lazer support is experimental: the app explains the risks before connecting and creates a verified database backup before writes. Same-name mixes overwrite the existing skin. See [storage behaviour, safety notes and testing](docs/multi-client-storage.md).
 
 ### Create a skin mix in seconds
  

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://2ilvd4gjmgvt"]
+[gd_scene format=3 uid="uid://2ilvd4gjmgvt"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_1eu76"]
 [ext_resource type="Script" uid="uid://ciyhhu6w5xufb" path="res://src/StackScenes/Menu.cs" id="1_bkc8q"]
@@ -10,6 +10,22 @@
 [ext_resource type="PackedScene" uid="uid://dsgg2xjv4sebx" path="res://src/Components/Popup/GetMoreSkinsPopup.tscn" id="6_ukxmq"]
 [ext_resource type="Texture2D" uid="uid://bwwbpgod763s" path="res://assets/icon.png" id="7_58gv3"]
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="9_1kiko"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xg50n"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.897298, 0.359054, 0.478997, 0.16)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.937255, 0.392157, 0.541176, 0.85)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q18dh"]
 bg_color = Color(0.196078, 0.156863, 0.184314, 1)
@@ -91,7 +107,7 @@ corner_radius_top_right = 32
 corner_radius_bottom_right = 32
 corner_radius_bottom_left = 32
 
-[node name="Menu" type="VBoxContainer"]
+[node name="Menu" type="VBoxContainer" unique_id=1088910526]
 offset_right = 750.0
 offset_bottom = 450.0
 size_flags_horizontal = 3
@@ -100,11 +116,23 @@ theme = ExtResource("1_1eu76")
 theme_override_constants/separation = 20
 script = ExtResource("1_bkc8q")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="LazerWarningContainer" type="PanelContainer" parent="." unique_id=936189181]
+custom_maximum_size = Vector2(600, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_xg50n")
+
+[node name="Text" type="Label" parent="LazerWarningContainer" unique_id=1478240670]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9212918, 0.72903275, 0.77502227, 1)
+text = "This is an experimental build. Things may break or behave unexpectedly."
+autowrap_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=575360725]
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="SkinMixerButton" type="Button" parent="VBoxContainer"]
+[node name="SkinMixerButton" type="Button" parent="VBoxContainer" unique_id=1866779114]
 unique_name_in_owner = true
 self_modulate = Color(1, 0.901961, 1, 1)
 custom_minimum_size = Vector2(350, 125)
@@ -115,37 +143,37 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_q18dh")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_uhnb5")
 theme_override_styles/hover = SubResource("StyleBoxFlat_5hvhl")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SkinMixerButton"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SkinMixerButton" unique_id=1630949546]
 layout_mode = 0
 offset_left = 30.0
 offset_top = 30.0
 offset_right = 320.0
 offset_bottom = 95.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SkinMixerButton/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SkinMixerButton/HBoxContainer" unique_id=2052147614]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Title" type="Label" parent="VBoxContainer/SkinMixerButton/HBoxContainer/VBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer/SkinMixerButton/HBoxContainer/VBoxContainer" unique_id=1010984028]
 layout_mode = 2
 text = "Create a skin mix!"
 label_settings = ExtResource("3_08a4k")
 
-[node name="Description" type="Label" parent="VBoxContainer/SkinMixerButton/HBoxContainer/VBoxContainer"]
+[node name="Description" type="Label" parent="VBoxContainer/SkinMixerButton/HBoxContainer/VBoxContainer" unique_id=1243128964]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 text = "Use elements from existing skins to make a new skin"
 label_settings = ExtResource("4_7a57c")
 autowrap_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/SkinMixerButton/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/SkinMixerButton/HBoxContainer" unique_id=1547275886]
 modulate = Color(1, 1, 1, 0.698039)
 layout_mode = 2
 size_flags_horizontal = 10
 texture = ExtResource("5_5jhvh")
 stretch_mode = 5
 
-[node name="SkinModifierButton" type="Button" parent="VBoxContainer"]
+[node name="SkinModifierButton" type="Button" parent="VBoxContainer" unique_id=128850505]
 unique_name_in_owner = true
 self_modulate = Color(1, 0.952941, 1, 1)
 custom_minimum_size = Vector2(350, 125)
@@ -156,37 +184,37 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_mkxqr")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_g8k5c")
 theme_override_styles/hover = SubResource("StyleBoxFlat_eakda")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SkinModifierButton"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SkinModifierButton" unique_id=872252356]
 layout_mode = 0
 offset_left = 28.0
 offset_top = 21.0
 offset_right = 320.0
 offset_bottom = 106.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SkinModifierButton/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SkinModifierButton/HBoxContainer" unique_id=263794275]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Title" type="Label" parent="VBoxContainer/SkinModifierButton/HBoxContainer/VBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer/SkinModifierButton/HBoxContainer/VBoxContainer" unique_id=1625554998]
 layout_mode = 2
 text = "Modify a skin"
 label_settings = ExtResource("3_08a4k")
 
-[node name="Description" type="Label" parent="VBoxContainer/SkinModifierButton/HBoxContainer/VBoxContainer"]
+[node name="Description" type="Label" parent="VBoxContainer/SkinModifierButton/HBoxContainer/VBoxContainer" unique_id=1622240202]
 layout_mode = 2
 text = "•  Swap out elements
 •  Make circles insta-fade
 •  Add smooth cursor trails"
 label_settings = ExtResource("4_7a57c")
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/SkinModifierButton/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/SkinModifierButton/HBoxContainer" unique_id=1574365951]
 modulate = Color(1, 1, 1, 0.698039)
 layout_mode = 2
 size_flags_horizontal = 10
 texture = ExtResource("5_5jhvh")
 stretch_mode = 5
 
-[node name="SkinManagerButton" type="Button" parent="VBoxContainer"]
+[node name="SkinManagerButton" type="Button" parent="VBoxContainer" unique_id=69045669]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(350, 125)
 layout_mode = 2
@@ -196,37 +224,37 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_t6eks")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_l2v3f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_pnb3k")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SkinManagerButton"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/SkinManagerButton" unique_id=60148740]
 layout_mode = 0
 offset_left = 28.0
 offset_top = 18.0
 offset_right = 320.0
 offset_bottom = 103.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SkinManagerButton/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/SkinManagerButton/HBoxContainer" unique_id=2020362380]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Title" type="Label" parent="VBoxContainer/SkinManagerButton/HBoxContainer/VBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer/SkinManagerButton/HBoxContainer/VBoxContainer" unique_id=223729258]
 layout_mode = 2
 text = "Manage your skins"
 label_settings = ExtResource("3_08a4k")
 
-[node name="Description" type="Label" parent="VBoxContainer/SkinManagerButton/HBoxContainer/VBoxContainer"]
+[node name="Description" type="Label" parent="VBoxContainer/SkinManagerButton/HBoxContainer/VBoxContainer" unique_id=1179817653]
 layout_mode = 2
 text = "•  See your installed skins
 •  Hide skins from osu!
 •  Duplicate, delete and export skins"
 label_settings = ExtResource("4_7a57c")
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/SkinManagerButton/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/SkinManagerButton/HBoxContainer" unique_id=1352474609]
 modulate = Color(1, 1, 1, 0.698039)
 layout_mode = 2
 size_flags_horizontal = 10
 texture = ExtResource("5_5jhvh")
 stretch_mode = 5
 
-[node name="BeatmapSkinsButton" type="Button" parent="."]
+[node name="BeatmapSkinsButton" type="Button" parent="." unique_id=1177906985]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(350, 125)
@@ -237,53 +265,53 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_hbgq3")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_0wpn5")
 theme_override_styles/hover = SubResource("StyleBoxFlat_w4qk4")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="BeatmapSkinsButton"]
+[node name="HBoxContainer" type="HBoxContainer" parent="BeatmapSkinsButton" unique_id=217277197]
 layout_mode = 0
 offset_left = 28.0
 offset_top = 29.0
 offset_right = 320.0
 offset_bottom = 94.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="BeatmapSkinsButton/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="BeatmapSkinsButton/HBoxContainer" unique_id=842772226]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Title" type="Label" parent="BeatmapSkinsButton/HBoxContainer/VBoxContainer"]
+[node name="Title" type="Label" parent="BeatmapSkinsButton/HBoxContainer/VBoxContainer" unique_id=1950055866]
 layout_mode = 2
 text = "View beatmap skins"
 label_settings = ExtResource("3_08a4k")
 
-[node name="Description" type="Label" parent="BeatmapSkinsButton/HBoxContainer/VBoxContainer"]
+[node name="Description" type="Label" parent="BeatmapSkinsButton/HBoxContainer/VBoxContainer" unique_id=850686516]
 layout_mode = 2
 text = "Export hitsounds and other skin elements
 from your beatmaps"
 label_settings = ExtResource("4_7a57c")
 
-[node name="TextureRect" type="TextureRect" parent="BeatmapSkinsButton/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="BeatmapSkinsButton/HBoxContainer" unique_id=139673102]
 modulate = Color(1, 1, 1, 0.698039)
 layout_mode = 2
 size_flags_horizontal = 10
 texture = ExtResource("5_5jhvh")
 stretch_mode = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1456676050]
 layout_mode = 2
 alignment = 1
 
-[node name="GetMoreSkinsButton" parent="HBoxContainer" instance=ExtResource("4_ncxws")]
+[node name="GetMoreSkinsButton" parent="HBoxContainer" unique_id=342204774 instance=ExtResource("4_ncxws")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "  Get skins"
 icon = ExtResource("5_53k1b")
 
-[node name="LuckyButton" parent="HBoxContainer" instance=ExtResource("4_ncxws")]
+[node name="LuckyButton" parent="HBoxContainer" unique_id=1114358192 instance=ExtResource("4_ncxws")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "I'm feeling lucky"
 
-[node name="IconButton" type="TextureButton" parent="."]
+[node name="IconButton" type="TextureButton" parent="." unique_id=1835490935]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
@@ -294,13 +322,13 @@ texture_pressed = ExtResource("7_58gv3")
 texture_hover = ExtResource("7_58gv3")
 stretch_mode = 3
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=198608363]
 layout_mode = 2
 text = "Developed by rednir
 Not affiliated with the creators of osu!"
 label_settings = ExtResource("9_1kiko")
 horizontal_alignment = 1
 
-[node name="GetMoreSkinsPopup" parent="." instance=ExtResource("6_ukxmq")]
+[node name="GetMoreSkinsPopup" parent="." unique_id=1151102556 instance=ExtResource("6_ukxmq")]
 unique_name_in_owner = true
 layout_mode = 2

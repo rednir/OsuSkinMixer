@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -6,23 +5,19 @@ using Realms;
 
 namespace OsuSkinMixer.Storage;
 
-public sealed record WriteConfirmation(string Root, ulong Schema, bool UnknownSchema, string BackupPath, string Operation);
-
 /// <summary>Local, legacy-skin adapter. Never migrates a Realm or removes content-addressed files.</summary>
 public sealed class LazerSkinLibrary : SkinLibrary
 {
     public const string LegacyType = "osu.Game.Skinning.LegacySkin, osu.Game";
     private static readonly object databaseGate = new();
     private readonly string backupRoot;
-    // Invoked on the operation worker, after a verified backup. Must explicitly opt in for every write.
-    public Func<WriteConfirmation, bool>? ConfirmWrite { get; set; }
     public ulong SchemaVersion { get; private set; }
     public bool KnownSchema => SchemaVersion is 51 or 52;
     private string? writeRestriction;
     public override string? WriteRestriction => writeRestriction;
     public override OsuClientKind Kind => OsuClientKind.Lazer;
     public override string Status => $"osu!lazer · Realm schema {SchemaVersion}" +
-        (WriteRestriction != null ? " · read-only: " + WriteRestriction : KnownSchema ? " · direct writes require osu! closed" : " · untested schema: best-effort reads; advanced confirmation required for each write");
+        (WriteRestriction != null ? " · read-only: " + WriteRestriction : KnownSchema ? " · experimental direct access · verified backups" : " · untested schema · experimental direct access");
     private string DatabasePath => Path.Combine(Root, "client.realm");
     internal Action? BeforeSkinCommit { get; set; }
 
@@ -149,27 +144,11 @@ public sealed class LazerSkinLibrary : SkinLibrary
         return Convert.ToHexStringLower(hash.GetHashAndReset());
     }
 
-    private void CheckClosed()
-    {
-        SkinPaths.RejectLinks(Root, DatabasePath);
-        foreach (var process in Process.GetProcesses())
-        {
-            using (process)
-            {
-                string name;
-                try { name = process.ProcessName.ToLowerInvariant(); } catch { continue; }
-                if (name is "osu" or "osu!" or "osu!.exe" or "osu.exe" or "osu-desktop" || name.StartsWith("osu!lazer"))
-                    throw new IOException("Close osu! completely before writing to its database.");
-            }
-        }
-        // Additional advisory check, not a replacement for explicit closed-client confirmation.
-        using var exclusive = new FileStream(DatabasePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-    }
     private T Write<T>(string operation, Func<Realm, T> action)
     {
         lock (databaseGate)
         {
-            CheckClosed();
+            SkinPaths.RejectLinks(Root, DatabasePath);
             using (var validation = OpenRead()) { }
             InspectWriteSchema();
             if (WriteRestriction != null) throw new InvalidDataException(WriteRestriction);
@@ -181,12 +160,7 @@ public sealed class LazerSkinLibrary : SkinLibrary
             using (var verification = OpenRead(backup)) { _ = verification.All<LazerSkin>().Count(); }
             // Prune only validated database copies, never the live database or its blobs.
             foreach (var old in Directory.GetFiles(backupRoot, "*.realm").OrderDescending().Skip(5)) File.Delete(old);
-            var approvedSchema = SchemaVersion;
-            if (ConfirmWrite?.Invoke(new(Root, approvedSchema, !KnownSchema, backup, operation)) != true)
-                throw new OperationCanceledException("Database write was not confirmed. Your database was not changed.");
-            CheckClosed();
             using (var read = OpenRead()) { } // Revalidate schema immediately before opening writable.
-            if (SchemaVersion != approvedSchema) throw new IOException("Schema changed while confirmation was open. Retry to back up and review the new schema.");
             using var realm = Realm.GetInstance(Configuration(DatabasePath, SchemaVersion, false));
             return action(realm);
         }

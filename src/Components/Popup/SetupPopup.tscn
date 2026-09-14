@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://sni5bqyyrgfj"]
+[gd_scene format=3 uid="uid://sni5bqyyrgfj"]
 
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="1_vbxph"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_x82gr"]
@@ -8,10 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://c0bqc573eb7ys" path="res://src/Components/Buttons/TonalIconButton.tscn" id="6_onwsb"]
 [ext_resource type="Texture2D" uid="uid://dux8l1u1ckci7" path="res://assets/materialicons/folder_open.svg" id="7_88cey"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="11_kv18r"]
+[ext_resource type="PackedScene" uid="uid://c3w3os7chflg4" path="res://src/Components/Popup/LazerWarningPopup.tscn" id="11_o5dox"]
 [ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="11_yvhcf"]
 [ext_resource type="Texture2D" uid="uid://b14tfma61q3tw" path="res://assets/materialicons/done.svg" id="12_oveo6"]
 
-[node name="SetupPopup" type="Control"]
+[node name="SetupPopup" type="Control" unique_id=1805506879]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -23,10 +24,10 @@ mouse_filter = 2
 theme = ExtResource("1_x82gr")
 script = ExtResource("2_bnnvj")
 
-[node name="Popup" parent="." instance=ExtResource("1_vbxph")]
+[node name="Popup" parent="." unique_id=90754438 instance=ExtResource("1_vbxph")]
 layout_mode = 1
 
-[node name="FileDialog" type="FileDialog" parent="Popup/CanvasLayer" index="0"]
+[node name="FileDialog" type="FileDialog" parent="Popup/CanvasLayer" index="0" unique_id=1428333718]
 unique_name_in_owner = true
 title = "Open a Directory"
 size = Vector2i(1000, 500)
@@ -45,18 +46,18 @@ grow_vertical = 2
 [node name="ContentPanelContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer" index="1"]
 custom_minimum_size = Vector2(600, 200)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0" unique_id=2064966310]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=577979955]
 layout_mode = 2
 text = "Set your osu! folder"
 label_settings = ExtResource("2_2dpv6")
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Subtext" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="Subtext" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=247885656]
 layout_mode = 2
 text = "Please set the path to your osu! folder.
 If the below already looks correct, you're good to go!"
@@ -64,23 +65,23 @@ label_settings = ExtResource("3_8g2co")
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=2084488375]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="LineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" unique_id=422607293]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Click the folder to browse"
 
-[node name="FolderPickerButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_onwsb")]
+[node name="FolderPickerButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" unique_id=1193640206 instance=ExtResource("6_onwsb")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "  Browse"
 icon = ExtResource("7_88cey")
 
-[node name="DoneButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("11_kv18r")]
+[node name="DoneButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=818935323 instance=ExtResource("11_kv18r")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -88,7 +89,7 @@ size_flags_vertical = 10
 text = "Done"
 icon = ExtResource("12_oveo6")
 
-[node name="OkPopup" parent="." instance=ExtResource("11_yvhcf")]
+[node name="OkPopup" parent="." unique_id=1392119363 instance=ExtResource("11_yvhcf")]
 unique_name_in_owner = true
 layout_mode = 0
 anchors_preset = 0
@@ -96,5 +97,9 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
+
+[node name="LazerWarningPopup" parent="." unique_id=604520326 instance=ExtResource("11_o5dox")]
+unique_name_in_owner = true
+layout_mode = 1
 
 [editable path="Popup"]

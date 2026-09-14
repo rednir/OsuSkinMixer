@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://cxcudjntoc6uv"]
+[gd_scene format=3 uid="uid://cxcudjntoc6uv"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_3ca2l"]
 [ext_resource type="Script" uid="uid://cjvctcfx3ypxl" path="res://src/Main.cs" id="2_ajhyw"]
@@ -196,6 +196,17 @@ _data = {
 &"hide": SubResource("Animation_7lugs"),
 &"show": SubResource("Animation_e7jk0")
 }
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nsfgg"]
+content_margin_left = 12.0
+content_margin_top = 7.0
+content_margin_right = 12.0
+content_margin_bottom = 7.0
+bg_color = Color(0.8972984, 0.35905415, 0.47899717, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_esylg"]
 content_margin_left = 12.0
@@ -532,7 +543,7 @@ _data = {
 &"fade_out": SubResource("Animation_pl4k0")
 }
 
-[node name="Main" type="Control"]
+[node name="Main" type="Control" unique_id=971802606]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -543,10 +554,10 @@ grow_vertical = 2
 theme = ExtResource("1_3ca2l")
 script = ExtResource("2_ajhyw")
 
-[node name="RoundedCornersLayer" type="CanvasLayer" parent="."]
+[node name="RoundedCornersLayer" type="CanvasLayer" parent="." unique_id=1279360039]
 layer = -30
 
-[node name="RoundedPanel" type="Panel" parent="RoundedCornersLayer"]
+[node name="RoundedPanel" type="Panel" parent="RoundedCornersLayer" unique_id=1115313340]
 z_index = -30
 anchors_preset = 10
 anchor_right = 1.0
@@ -557,7 +568,7 @@ offset_bottom = 500.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_e7jk0")
 
-[node name="TopBarColouredPanel" type="Panel" parent="RoundedCornersLayer/RoundedPanel"]
+[node name="TopBarColouredPanel" type="Panel" parent="RoundedCornersLayer/RoundedPanel" unique_id=211631990]
 show_behind_parent = true
 z_index = -30
 layout_mode = 1
@@ -570,7 +581,7 @@ offset_bottom = 449.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_r7o8t")
 
-[node name="RoundedCornersOutline" type="Panel" parent="."]
+[node name="RoundedCornersOutline" type="Panel" parent="." unique_id=1637700662]
 z_index = 50
 layout_mode = 1
 anchors_preset = 10
@@ -582,19 +593,19 @@ offset_bottom = 500.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7lugs")
 
-[node name="Background" parent="." instance=ExtResource("3_42h7d")]
+[node name="Background" parent="." unique_id=79529636 instance=ExtResource("3_42h7d")]
 
-[node name="ToastLayer" type="CanvasLayer" parent="."]
+[node name="ToastLayer" type="CanvasLayer" parent="." unique_id=1115860046]
 layer = 15
 
-[node name="Toast" parent="ToastLayer" instance=ExtResource("10_hysk3")]
+[node name="Toast" parent="ToastLayer" unique_id=707289350 instance=ExtResource("10_hysk3")]
 unique_name_in_owner = true
 offset_left = -339.0
 offset_top = 54.0
 offset_right = 1.0
 offset_bottom = 230.0
 
-[node name="Scenes" type="Control" parent="."]
+[node name="Scenes" type="Control" parent="." unique_id=508602097]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -604,7 +615,7 @@ offset_top = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Scenes"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Scenes" unique_id=329410405]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -613,7 +624,7 @@ offset_top = 2.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ca2ql")
 follow_focus = true
 
-[node name="TopBar" type="Panel" parent="."]
+[node name="TopBar" type="Panel" parent="." unique_id=51793379]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -621,13 +632,11 @@ offset_bottom = 52.0
 grow_horizontal = 2
 theme_override_styles/panel = ExtResource("3_5ka6c")
 
-[node name="UpdateAnimationPlayer" type="AnimationPlayer" parent="TopBar"]
+[node name="UpdateAnimationPlayer" type="AnimationPlayer" parent="TopBar" unique_id=1188000192]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_oombq")
-}
+libraries/ = SubResource("AnimationLibrary_oombq")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TopBar"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBar" unique_id=637215784]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -636,33 +645,31 @@ offset_right = -9.0
 offset_bottom = 52.0
 grow_horizontal = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="TopBar/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="TopBar/HBoxContainer" unique_id=1324861480]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_e7jk0")
 
-[node name="PageControlsContainer" type="HBoxContainer" parent="TopBar/HBoxContainer/PanelContainer"]
+[node name="PageControlsContainer" type="HBoxContainer" parent="TopBar/HBoxContainer/PanelContainer" unique_id=1546055515]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="BackButton" parent="TopBar/HBoxContainer/PanelContainer/PageControlsContainer" instance=ExtResource("7_shsih")]
+[node name="BackButton" parent="TopBar/HBoxContainer/PanelContainer/PageControlsContainer" unique_id=53963048 instance=ExtResource("7_shsih")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 42)
 layout_mode = 2
 icon = ExtResource("6_e7jk0")
 
-[node name="HomeButton" parent="TopBar/HBoxContainer/PanelContainer/PageControlsContainer" instance=ExtResource("7_shsih")]
+[node name="HomeButton" parent="TopBar/HBoxContainer/PanelContainer/PageControlsContainer" unique_id=836960939 instance=ExtResource("7_shsih")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 icon = ExtResource("7_e7jk0")
 
-[node name="HomeButtonAnimationPlayer" type="AnimationPlayer" parent="TopBar/HBoxContainer/PanelContainer/PageControlsContainer/HomeButton"]
+[node name="HomeButtonAnimationPlayer" type="AnimationPlayer" parent="TopBar/HBoxContainer/PanelContainer/PageControlsContainer/HomeButton" unique_id=1921057662]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_7lugs")
-}
+libraries/ = SubResource("AnimationLibrary_7lugs")
 
-[node name="Title" type="Label" parent="TopBar/HBoxContainer"]
+[node name="Title" type="Label" parent="TopBar/HBoxContainer" unique_id=49304470]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -672,7 +679,21 @@ text = "osu! skin mixer"
 vertical_alignment = 2
 text_overrun_behavior = 3
 
-[node name="VersionLabel" type="Label" parent="TopBar/HBoxContainer"]
+[node name="LazerWarningLabel" type="Label" parent="TopBar/HBoxContainer" unique_id=1468595841]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 8
+tooltip_text = "You're using an osu!lazer folder.\\nSupport is experimental."
+mouse_filter = 1
+theme_override_colors/font_color = Color(0.26768076, 0.13294256, 0.23246315, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_nsfgg")
+text = "osu!lazer"
+vertical_alignment = 1
+
+[node name="VersionLabel" type="Label" parent="TopBar/HBoxContainer" unique_id=1737222250]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(2.08165e-12, 38)
 layout_mode = 2
@@ -683,7 +704,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_esylg")
 text = "Version number"
 vertical_alignment = 1
 
-[node name="HistoryButton" type="Button" parent="TopBar/HBoxContainer"]
+[node name="HistoryButton" type="Button" parent="TopBar/HBoxContainer" unique_id=1777972706]
 unique_name_in_owner = true
 clip_contents = true
 layout_mode = 2
@@ -707,7 +728,7 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_6m58q")
 icon = ExtResource("9_ottjh")
 icon_alignment = 2
 
-[node name="SettingsButton" type="Button" parent="TopBar/HBoxContainer"]
+[node name="SettingsButton" type="Button" parent="TopBar/HBoxContainer" unique_id=318809501]
 unique_name_in_owner = true
 clip_contents = true
 layout_mode = 2
@@ -731,7 +752,7 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_6m58q")
 icon = ExtResource("10_8n7kr")
 icon_alignment = 2
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="TopBar/HBoxContainer/SettingsButton"]
+[node name="CPUParticles2D" type="CPUParticles2D" parent="TopBar/HBoxContainer/SettingsButton" unique_id=881685230]
 modulate = Color(1, 0.847059, 0.894118, 0.545098)
 position = Vector2(7, 18)
 emitting = false
@@ -745,31 +766,32 @@ initial_velocity_min = 10.0
 initial_velocity_max = 50.0
 color_ramp = SubResource("Gradient_6ovip")
 
-[node name="ScenesAnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="ScenesAnimationPlayer" type="AnimationPlayer" parent="." unique_id=1301265793]
 reset_on_save = false
-libraries = {
-&"": SubResource("AnimationLibrary_08qeu")
-}
+libraries/ = SubResource("AnimationLibrary_08qeu")
 
-[node name="HistoryPopup" parent="." instance=ExtResource("12_n1u7x")]
+[node name="HistoryPopup" parent="." unique_id=625612963 instance=ExtResource("12_n1u7x")]
 unique_name_in_owner = true
 layout_mode = 1
 
-[node name="ResolveSkinConflictPopup" parent="." instance=ExtResource("11_e8ymy")]
+[node name="ResolveSkinConflictPopup" parent="." unique_id=1091079172 instance=ExtResource("11_e8ymy")]
 layout_mode = 1
 
-[node name="ChangeLogPopup" parent="." instance=ExtResource("12_v1kfe")]
+[node name="ChangeLogPopup" parent="." unique_id=268525722 instance=ExtResource("12_v1kfe")]
 layout_mode = 1
 
-[node name="SettingsPopup" parent="." instance=ExtResource("4_8gcgf")]
+[node name="SettingsPopup" parent="." unique_id=1826665468 instance=ExtResource("4_8gcgf")]
 layout_mode = 1
 
-[node name="SetupPopup" parent="." instance=ExtResource("4_gusp5")]
+[node name="SetupPopup" parent="." unique_id=1749836977 instance=ExtResource("4_gusp5")]
 layout_mode = 1
 
-[node name="ExitBlockedPopup" parent="." instance=ExtResource("13_sdxu4")]
+[node name="ExitBlockedPopup" parent="." unique_id=560433043 instance=ExtResource("13_sdxu4")]
 unique_name_in_owner = true
 layout_mode = 1
+
+[node name="LoadingAnimationPlayer" parent="ExitBlockedPopup" index="0"]
+autoplay = &"unknown"
 
 [node name="Title" parent="ExitBlockedPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
 text = "Hold on..."
@@ -784,22 +806,20 @@ Once we're done, we'll close osu! skin mixer for you.
 visible = true
 text = "Close anyway"
 
-[node name="OkPopup" parent="." instance=ExtResource("16_s5jw8")]
+[node name="OkPopup" parent="." unique_id=313944084 instance=ExtResource("16_s5jw8")]
 unique_name_in_owner = true
 layout_mode = 1
 
-[node name="Splash" type="Panel" parent="."]
+[node name="Splash" type="Panel" parent="." unique_id=1580556992]
 visible = false
 layout_mode = 0
 offset_right = 750.0
 offset_bottom = 500.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_r3rsy")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Splash"]
-libraries = {
-&"": SubResource("AnimationLibrary_e104j")
-}
-autoplay = "fade_out"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Splash" unique_id=2081217489]
+libraries/ = SubResource("AnimationLibrary_e104j")
+autoplay = &"fade_out"
 
 [editable path="ExitBlockedPopup"]
 [editable path="ExitBlockedPopup/Popup"]

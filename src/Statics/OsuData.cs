@@ -43,7 +43,7 @@ public static class OsuData
         var root = Settings.Content.OsuFolder;
         ISkinLibrary next;
         if (File.Exists(Path.Combine(root, "client.realm")))
-            next = new LazerSkinLibrary(root, Path.Combine(Settings.AppdataFolderPath, "realm-backups")) { ConfirmWrite = LibraryActions.ConfirmWrite };
+            next = new LazerSkinLibrary(root, Path.Combine(Settings.AppdataFolderPath, "realm-backups"));
         else if (Directory.Exists(Path.Combine(root, "Skins")))
             next = new StableSkinLibrary(root, Path.Combine(Settings.AppdataFolderPath, "skin-recovery"));
         else return false;
