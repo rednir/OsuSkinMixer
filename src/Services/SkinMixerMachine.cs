@@ -35,7 +35,7 @@ public class SkinMixerMachine : SkinMachine
                 continue;
 
             CopyOption(NewSkin, option);
-            Progress += 100.0 / flattenedOptions.Count(o => o.Value.Type != SkinOptionValueType.DefaultSkin);
+            Progress += 40.0 / flattenedOptions.Count(o => o.Value.Type != SkinOptionValueType.DefaultSkin);
 
             CancellationToken.ThrowIfCancellationRequested();
         }
@@ -63,13 +63,12 @@ public class SkinMixerMachine : SkinMachine
 
     protected override void PostRun()
     {
+        StatusChanged?.Invoke("Installing skin...");
         GenerateCreditsFile(NewSkin);
         CancellationToken.ThrowIfCancellationRequested();
         var library = OsuData.Library;
-        using var workspace = NewSkin.CreateWorkspace();
-        var result = library.Install(workspace, overwriteExisting: true);
-        OsuData.Refresh();
-        NewSkin = OsuData.Skins.Single(s => s.Record.Id == result.Skin.Id);
+        var result = library.Install(workingWorkspace, overwriteExisting: true);
+        NewSkin = OsuData.ApplyInstall(result);
         Reused = result.Reused;
         Installed = true;
         if (Reused) Settings.PushToast("An identical skin already exists. Reused the existing skin.");

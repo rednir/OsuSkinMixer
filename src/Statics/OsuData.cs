@@ -69,6 +69,8 @@ public static class OsuData
             skins = nextSkins;
             watcher?.Dispose();
             watcher = nextWatcher;
+            dirty = false;
+            lastRefresh = DateTime.UtcNow;
             SweepPaused = false;
         }
         AllSkinsLoaded?.Invoke();
@@ -115,6 +117,32 @@ public static class OsuData
     public static void AddSkin(OsuSkin skin)
     {
         lock (gate) { if (skins.TryAdd(skin.Identity, skin)) SkinAdded?.Invoke(skin); }
+    }
+    public static OsuSkin ApplyInstall(InstallResult result)
+    {
+        lock (gate)
+        {
+            var library = Library ?? throw new InvalidOperationException("No osu! library is connected.");
+            foreach (var replaced in result.Replaced ?? Array.Empty<SkinSnapshot>())
+            {
+                if (replaced.Record.Id == result.Skin.Id) continue;
+                var replacedIdentity = SkinPaths.Identity(library.Root) + ":" + replaced.Record.Id;
+                if (skins.Remove(replacedIdentity, out var removed)) SkinRemoved?.Invoke(removed);
+            }
+
+            var identity = SkinPaths.Identity(library.Root) + ":" + result.Skin.Id;
+            if (skins.TryGetValue(identity, out var existing))
+            {
+                existing.UpdateRecord(result.Skin);
+                SkinModified?.Invoke(existing);
+                return existing;
+            }
+
+            var added = new OsuSkin(library, result.Skin);
+            skins.Add(identity, added);
+            SkinAdded?.Invoke(added);
+            return added;
+        }
     }
     public static void InvokeSkinModified(OsuSkin skin)
     {

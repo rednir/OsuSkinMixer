@@ -7,6 +7,7 @@ using System.Text;
 using OsuSkinMixer.Models;
 using OsuSkinMixer.src.Models.Osu;
 using OsuSkinMixer.Statics;
+using OsuSkinMixer.Storage;
 
 /// <summary>Base for classes that peform tasks based on a list of <see cref="SkinOption"/>. Provides abstract methods for populating tasks to be peformed on the relevant skin folders.</summary>
 public abstract class SkinMachine : IDisposable
@@ -77,8 +78,6 @@ public abstract class SkinMachine : IDisposable
     public void Run(CancellationToken cancellationToken)
     {
         Interlocked.Increment(ref runningCount);
-        var sourceWorkspaces = new List<OsuSkinMixer.Storage.SkinWorkspace>();
-        var originalValues = new Dictionary<SkinOption, SkinOptionValue>();
         CancellationToken = cancellationToken;
         OriginalElementsCache.Clear();
         _tasks.Clear();
@@ -91,32 +90,22 @@ public abstract class SkinMachine : IDisposable
         try
         {
             cancellationToken.ThrowIfCancellationRequested();
-            // Take one verified snapshot per source. Later filesystem/Realm changes cannot affect a running mix.
-            var sources = new Dictionary<OsuSkin, OsuSkin>();
-            foreach (var option in FlattenedBottomLevelOptions)
+            Progress = 0;
+            StatusChanged?.Invoke("Preparing sources...");
+
+            // Validate each source once. AddCopyFileTask buffers the selected bytes before writes,
+            // so a separate complete copy of every source skin is unnecessary. Lazer's legacy
+            // directory view is materialized lazily only if the selected option actually needs it.
+            foreach (var source in FlattenedBottomLevelOptions.Select(option => option.Value.CustomSkin).Where(source => source != null).Distinct())
             {
-                var source = option.Value.CustomSkin;
-                if (source == null) continue;
-                if (!sources.TryGetValue(source, out var view))
-                {
-                    var workspace = source.CreateWorkspace();
-                    sourceWorkspaces.Add(workspace);
-                    view = new OsuSkin(new DirectoryInfo(workspace.DirectoryPath)) { Name = source.Name };
-                    ValidateIniPaths(view);
-                    sources.Add(source, view);
-                }
-                originalValues.Add(option, option.Value);
-                option.Value = new SkinOptionValue(view);
+                ValidateIniPaths(source);
                 cancellationToken.ThrowIfCancellationRequested();
             }
-            Progress = 0;
-
             PopulateTasks();
             RunAllTasks();
+            PostRun();
 
             Progress = 100;
-
-            PostRun();
 
             Settings.Content.SkinsMadeCount++;
             _stopwatch.Stop();
@@ -128,10 +117,8 @@ public abstract class SkinMachine : IDisposable
         }
         finally
         {
-            foreach (var pair in originalValues) pair.Key.Value = pair.Value;
             try
             {
-                foreach (var workspace in sourceWorkspaces) workspace.Dispose();
                 CleanupAfterRun();
             }
             finally { Interlocked.Decrement(ref runningCount); }
@@ -159,7 +146,7 @@ public abstract class SkinMachine : IDisposable
     private void RunAllTasks()
     {
         StatusChanged?.Invoke("Writing changes...");
-        double progressInterval = (100.0 - Progress.Value) / _tasks.Count;
+        double progressInterval = (90.0 - Progress.Value) / _tasks.Count;
         foreach (Action task in _tasks)
         {
             Progress += progressInterval;
@@ -308,21 +295,13 @@ public abstract class SkinMachine : IDisposable
         string prefixPropertyDirPath = lastSlashIndex >= 0 ? property.Value[..lastSlashIndex] : null;
         string prefixPropertyFileName = property.Value[(lastSlashIndex + 1)..];
 
-        // If `prefixPropertyDirPath` is null, the path is the skin folder root which obviously exists.
-        if (prefixPropertyDirPath != null && !Directory.Exists($"{skinToCopy.Directory.FullName}/{prefixPropertyDirPath}"))
-            return;
-
-        // In that case, better to use the existing file collection that we have instead of creating another one.
-        IEnumerable<FileInfo> files = prefixPropertyDirPath == null ?
-            skinToCopy.Directory.EnumerateFiles() : new DirectoryInfo($"{skinToCopy.Directory.FullName}/{prefixPropertyDirPath}").EnumerateFiles();
-
         var fileDestDir = Directory.CreateDirectory($"{workingSkin.Directory.FullName}/{prefixPropertyDirPath}");
-        foreach (var file in files)
+        foreach (var file in EnumerateSourceFiles(skinToCopy, prefixPropertyDirPath))
         {
             if (file.Name.StartsWith(prefixPropertyFileName, StringComparison.OrdinalIgnoreCase))
             {
-                Md5Map[(skinToCopy, file.Name)] = GetMd5Hash(file.FullName);
-                AddCopyFileTask(file, fileDestDir, "due to skin.ini");
+                Md5Map[(skinToCopy, file.Name)] = GetMd5Hash(file.Path);
+                AddCopyFileTask(file.Path, file.Name, fileDestDir, "due to skin.ini");
             }
         }
     }
@@ -338,14 +317,37 @@ public abstract class SkinMachine : IDisposable
             return;
         }
 
-        foreach (var file in fileOption.Value.CustomSkin.Directory.EnumerateFiles())
+        foreach (var file in EnumerateSourceFiles(fileOption.Value.CustomSkin))
         {
-            if (CheckIfFileAndOptionMatch(file, fileOption))
+            if (CheckIfFileAndOptionMatch(file.Name, fileOption))
             {
-                AddCopyFileTask(file, workingSkin.Directory, "due to filename match");
-                Md5Map[(fileOption.Value.CustomSkin, file.Name)] = GetMd5Hash(file.FullName);
+                AddCopyFileTask(file.Path, file.Name, workingSkin.Directory, "due to filename match");
+                Md5Map[(fileOption.Value.CustomSkin, file.Name)] = GetMd5Hash(file.Path);
             }
         }
+    }
+
+    private static IEnumerable<(string Name, string Path)> EnumerateSourceFiles(OsuSkin skin, string relativeDirectory = null)
+    {
+        if (skin.IsLazer && skin.Record != null)
+        {
+            var wantedDirectory = (relativeDirectory ?? string.Empty).Replace('\\', '/').Trim('/');
+            foreach (var file in skin.Record.Files)
+            {
+                var virtualPath = SkinPaths.Virtual(file.Key);
+                var directory = (Path.GetDirectoryName(virtualPath) ?? string.Empty).Replace('\\', '/').Trim('/');
+                if (directory.Equals(wantedDirectory, StringComparison.OrdinalIgnoreCase) && File.Exists(file.Value))
+                    yield return (Path.GetFileName(virtualPath), file.Value);
+            }
+            yield break;
+        }
+
+        var directoryPath = relativeDirectory == null
+            ? skin.Directory.FullName
+            : Path.Combine(skin.Directory.FullName, relativeDirectory);
+        if (!Directory.Exists(directoryPath)) yield break;
+        foreach (var file in new DirectoryInfo(directoryPath).EnumerateFiles())
+            yield return (file.Name, file.FullName);
     }
 
     protected void AddTask(Action task)
@@ -355,18 +357,21 @@ public abstract class SkinMachine : IDisposable
         => _tasks.Insert(0, task);
 
     protected void AddCopyFileTask(FileInfo file, DirectoryInfo fileDestDir, string reason)
+        => AddCopyFileTask(file.FullName, file.Name, fileDestDir, reason);
+
+    private void AddCopyFileTask(string sourcePath, string virtualName, DirectoryInfo fileDestDir, string reason)
     {
-        string destFullPath = $"{fileDestDir.FullName}/{file.Name}";
+        string destFullPath = $"{fileDestDir.FullName}/{virtualName}";
 
         // We cache the file data beforehand in case it changes or is deleted before we have the chance to copy it.
         MemoryStream memoryStream = new();
-        using (var input = file.OpenRead()) input.CopyTo(memoryStream);
+        using (var input = File.OpenRead(sourcePath)) input.CopyTo(memoryStream);
 
         AddFileToOriginalElementsCache(destFullPath);
 
         _tasks.Add(() =>
         {
-            Log($"Run task '{file.FullName}' -> '{destFullPath}' ({reason})");
+            Log($"Run task '{sourcePath}' -> '{destFullPath}' ({reason})");
 
             using FileStream fileStream = File.Create(destFullPath);
             memoryStream.Position = 0;
@@ -474,9 +479,12 @@ public abstract class SkinMachine : IDisposable
     }
 
     protected static bool CheckIfFileAndOptionMatch(FileInfo file, SkinFileOption fileOption)
+        => CheckIfFileAndOptionMatch(file.Name, fileOption);
+
+    private static bool CheckIfFileAndOptionMatch(string fileName, SkinFileOption fileOption)
     {
-        string filename = Path.GetFileNameWithoutExtension(file.Name);
-        string extension = Path.GetExtension(file.Name).ToLowerInvariant();
+        string filename = Path.GetFileNameWithoutExtension(fileName);
+        string extension = Path.GetExtension(fileName).ToLowerInvariant();
 
         // Check for file name match.
         if (

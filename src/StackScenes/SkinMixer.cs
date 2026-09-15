@@ -83,7 +83,7 @@ public partial class SkinMixer : StackScene
         );
         try
         {
-            await operation.RunOperation();
+            await operation.RunOperation(requestRefresh: false);
             if (!machine.Installed) return;
             // Scene creation and navigation must happen on Godot's main thread.
             var skinInfoInstance = SkinInfoScene.Instantiate<SkinInfo>();

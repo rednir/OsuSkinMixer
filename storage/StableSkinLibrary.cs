@@ -1,5 +1,7 @@
 namespace OsuSkinMixer.Storage;
 
+using System.Collections;
+
 public sealed class StableSkinLibrary : SkinLibrary
 {
     private readonly string recoveryRoot;
@@ -20,12 +22,20 @@ public sealed class StableSkinLibrary : SkinLibrary
     }
     private static SkinRecord Read(string path, bool hidden = false)
     {
-        var files = SkinPaths.Enumerate(path);
-        var revision = string.Join('|', files.OrderBy(p => p.Key).Select(p => $"{p.Key}:{new FileInfo(p.Value).Length}:{File.GetLastWriteTimeUtc(p.Value).Ticks}"));
+        var files = new StableSkinFiles(path);
+        var modified = Directory.GetLastWriteTimeUtc(path);
         string author = "Unknown";
+        string iniRevision = "missing";
         if (files.TryGetValue("skin.ini", out var ini))
+        {
             author = File.ReadLines(ini).FirstOrDefault(l => l.Split(':')[0].Trim().Equals("Author", StringComparison.OrdinalIgnoreCase))?.Split(':', 2).Last().Trim() ?? author;
-        return new(SkinPaths.Identity(path), Path.GetFileName(path), author, files, revision, Directory.GetLastWriteTimeUtc(path), hidden);
+            var info = new FileInfo(ini);
+            iniRevision = $"{info.Length}:{info.LastWriteTimeUtc.Ticks}";
+        }
+        // Match stable's historical cheap change detection. File mappings are indexed only if a
+        // consumer actually needs them; launch should not walk every asset in every skin.
+        var revision = $"{modified.Ticks}:{iniRevision}";
+        return new(SkinPaths.Identity(path), Path.GetFileName(path), author, files, revision, modified, hidden);
     }
     private string Resolve(SkinRecord skin)
     {
@@ -61,7 +71,7 @@ public sealed class StableSkinLibrary : SkinLibrary
             var record = Read(path, path == hiddenPath);
             var recovery = Path.Combine(recoveryRoot, Guid.NewGuid().ToString("N"));
             CopyDirectory(path, recovery);
-            previous.Add(new(record with { Files = SkinPaths.Enumerate(recovery) }, path == hiddenPath));
+            previous.Add(new(record with { Files = new StableSkinFiles(recovery) }, path == hiddenPath));
         }
         try
         {
@@ -99,7 +109,6 @@ public sealed class StableSkinLibrary : SkinLibrary
         SkinPaths.RejectLinks(Root, target);
         Directory.CreateDirectory(Path.GetDirectoryName(target)!);
         var stage = Path.Combine(Path.GetDirectoryName(target)!, ".osm-stage-" + Guid.NewGuid().ToString("N"));
-        var backup = Path.Combine(recoveryRoot, Guid.NewGuid().ToString("N"));
         var rollback = Path.Combine(Path.GetDirectoryName(target)!, ".osm-recovery-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(stage);
         try
@@ -112,9 +121,8 @@ public sealed class StableSkinLibrary : SkinLibrary
             }
             if (Directory.Exists(target))
             {
-                // Stage a recoverable copy before replacing; recovery root may be on another volume.
-                Directory.CreateDirectory(recoveryRoot);
-                CopyDirectory(target, backup);
+                // Keep the original beside the destination only for atomic rollback. Callers that
+                // support undo already own their single recovery snapshot.
                 Directory.Move(target, rollback);
             }
             try { Directory.Move(stage, target); }
@@ -154,7 +162,7 @@ public sealed class StableSkinLibrary : SkinLibrary
         Directory.CreateDirectory(recoveryRoot);
         CopyDirectory(source, trash);
         Directory.Delete(source, true);
-        return new(skin with { Files = SkinPaths.Enumerate(trash) }, true);
+        return new(skin with { Files = new StableSkinFiles(trash) }, true);
     }
     public override SkinRecord Restore(SkinSnapshot snapshot)
     {
@@ -175,5 +183,69 @@ public sealed class StableSkinLibrary : SkinLibrary
         Directory.CreateDirectory(Path.GetDirectoryName(target)!);
         Directory.Move(source, target);
         return Read(target, hidden);
+    }
+
+    /// <summary>
+    /// Stable files already have meaningful paths. Resolve common individual lookups directly and
+    /// build the recursive, case-insensitive index only for operations that need the whole skin.
+    /// </summary>
+    private sealed class StableSkinFiles : IReadOnlyDictionary<string, string>
+    {
+        private readonly string root;
+        private readonly Lazy<Dictionary<string, string>> index;
+
+        public StableSkinFiles(string root)
+        {
+            this.root = SkinPaths.Canonical(root);
+            index = new Lazy<Dictionary<string, string>>(() => SkinPaths.Enumerate(this.root), true);
+        }
+
+        public bool TryGetValue(string key, out string value)
+        {
+            key = SkinPaths.Virtual(key);
+            if (index.IsValueCreated)
+                return index.Value.TryGetValue(key, out value!);
+
+            var direct = Path.Combine(root, key.Replace('/', Path.DirectorySeparatorChar));
+            if (File.Exists(direct))
+            {
+                SkinPaths.RejectLinks(root, direct);
+                value = direct;
+                return true;
+            }
+
+            // Windows and normal macOS volumes already perform case-insensitive direct lookups.
+            // On case-sensitive platforms, inspect only the requested path's parent directories;
+            // a missing optional texture must not trigger a recursive index of the entire skin.
+            if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS() || OperatingSystem.IsFreeBSD())
+            {
+                var current = root;
+                foreach (var segment in key.Split('/'))
+                {
+                    if (!Directory.Exists(current)) break;
+                    var match = Directory.EnumerateFileSystemEntries(current)
+                        .FirstOrDefault(path => Path.GetFileName(path).Equals(segment, StringComparison.OrdinalIgnoreCase));
+                    if (match == null) break;
+                    current = match;
+                }
+                if (File.Exists(current) && Path.GetRelativePath(root, current).Replace('\\', '/').Equals(key, StringComparison.OrdinalIgnoreCase))
+                {
+                    SkinPaths.RejectLinks(root, current);
+                    value = current;
+                    return true;
+                }
+            }
+
+            value = null!;
+            return false;
+        }
+
+        public string this[string key] => TryGetValue(key, out var value) ? value : throw new KeyNotFoundException(key);
+        public bool ContainsKey(string key) => TryGetValue(key, out _);
+        public IEnumerable<string> Keys => index.Value.Keys;
+        public IEnumerable<string> Values => index.Value.Values;
+        public int Count => index.Value.Count;
+        public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => index.Value.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

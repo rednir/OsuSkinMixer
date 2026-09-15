@@ -76,7 +76,7 @@ public class Operation
         UndoAction = undoAction;
     }
 
-    public Task RunOperation(bool pauseSweep = true)
+    public Task RunOperation(bool pauseSweep = true, bool requestRefresh = true)
     {
         if (_task != null) return _task;
         Interlocked.Increment(ref activeCount);
@@ -97,7 +97,7 @@ public class Operation
             finally
             {
                 if (pauseSweep) OsuData.SweepPaused = false;
-                OsuData.RequestRefresh();
+                if (requestRefresh) OsuData.RequestRefresh();
                 Interlocked.Decrement(ref activeCount);
             }
         });
