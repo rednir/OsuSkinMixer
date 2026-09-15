@@ -9,6 +9,7 @@ public partial class SkinNamePopup : Popup
 
     public bool SuffixMode { get; set; }
     public bool OverwriteNameConflicts { get; set; } = true;
+    public bool RejectNameConflicts { get; set; }
 
     public string[] SkinNames { get; set; }
 
@@ -81,13 +82,17 @@ public partial class SkinNamePopup : Popup
         }
         else if (!SuffixMode && OsuData.Skins.Any(s => s.Name == text))
         {
-            ConfirmButton.Disabled = false;
-            WarningLabel.Text = OverwriteNameConflicts ? "Skin with this name already exists and will be replaced." : "Another skin has this name; it will not be overwritten.";
+            ConfirmButton.Disabled = RejectNameConflicts;
+            WarningLabel.Text = RejectNameConflicts
+                ? "A skin with this name already exists. Choose a different name."
+                : OverwriteNameConflicts ? "Skin with this name already exists and will be replaced." : "Another skin has this name; it will not be overwritten.";
         }
         else if (CheckForSuffixConflicts(text))
         {
-            ConfirmButton.Disabled = false;
-            WarningLabel.Text = OverwriteNameConflicts ? "Some skins will be replaced due to conflicting skin names." : "Some skin names already exist; those skins will not be overwritten.";
+            ConfirmButton.Disabled = RejectNameConflicts;
+            WarningLabel.Text = RejectNameConflicts
+                ? "One or more skin names already exist. Choose a different suffix."
+                : OverwriteNameConflicts ? "Some skins will be replaced due to conflicting skin names." : "Some skin names already exist; those skins will not be overwritten.";
         }
         else
         {

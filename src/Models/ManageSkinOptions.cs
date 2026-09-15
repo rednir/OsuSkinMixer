@@ -11,5 +11,6 @@ public enum ManageSkinOptions
     Export = 16,
     Duplicate = 32,
     Delete = 64,
-    All = OpenInOsu | OpenFolder | Modify | Hide | Export | Duplicate | Delete,
+    Rename = 128,
+    All = OpenInOsu | OpenFolder | Modify | Hide | Export | Duplicate | Delete | Rename,
 }

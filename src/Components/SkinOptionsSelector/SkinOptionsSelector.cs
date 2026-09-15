@@ -16,6 +16,7 @@ public partial class SkinOptionsSelector : PanelContainer
     private AnimationPlayer AnimationPlayer;
     private AudioStreamPlayer AudioStreamPlayer;
     private Panel ExpandHint;
+    private PanelContainer LazerMenuWarningContainer;
     private SkinSelectorPopup SkinSelectorPopup;
 
     private SkinOptionComponent SkinOptionComponentInSelection;
@@ -37,7 +38,9 @@ public partial class SkinOptionsSelector : PanelContainer
         AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
         AudioStreamPlayer = GetNode<AudioStreamPlayer>("%AudioStreamPlayer");
         ExpandHint = GetNode<Panel>("%ExpandHint");
+        LazerMenuWarningContainer = GetNode<PanelContainer>("%LazerMenuWarningContainer");
         SkinSelectorPopup = GetNode<SkinSelectorPopup>("%SkinSelectorPopup");
+        UpdateClientSpecificControls();
 
         SkinSelectorPopup.OnSelected = s =>
         {
@@ -46,6 +49,7 @@ public partial class SkinOptionsSelector : PanelContainer
         };
 
         SkinSelectorPopup.SkinComponentsContainer.SkinPreviewRequested += OnPreviewRequested;
+        OsuData.AllSkinsLoaded += UpdateClientSpecificControls;
         OsuData.SkinRemoved += OnSkinRemoved;
         AudioStreamPlayer.Finished += PlayNextPreviewAudio;
 
@@ -55,8 +59,14 @@ public partial class SkinOptionsSelector : PanelContainer
 
     public override void _ExitTree()
     {
+        OsuData.AllSkinsLoaded -= UpdateClientSpecificControls;
         OsuData.SkinRemoved -= OnSkinRemoved;
         AudioStreamPlayer = null;
+    }
+
+    private void UpdateClientSpecificControls()
+    {
+        LazerMenuWarningContainer.Visible = OsuData.Library?.Kind == Storage.OsuClientKind.Lazer;
     }
 
     public void CreateOptionComponents(SkinOptionValueType defaultValueType)

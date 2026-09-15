@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://4a2d561f0p72"]
+[gd_scene format=3 uid="uid://4a2d561f0p72"]
 
 [ext_resource type="Script" uid="uid://c37k3o61ougb3" path="res://src/Components/SkinOptionsSelector/SkinOptionsSelector.cs" id="1_g5aud"]
 [ext_resource type="Texture2D" uid="uid://br6o22oy66ajp" path="res://assets/hint.png" id="2_4hlh4"]
@@ -129,31 +129,45 @@ fill = 1
 fill_from = Vector2(0.517094, 0.510684)
 fill_to = Vector2(0.950855, 0.662393)
 
-[node name="SkinOptionsSelector" type="PanelContainer"]
-offset_right = 40.0
-offset_bottom = 40.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bx2a0"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.897298, 0.359054, 0.478997, 0.16)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.937255, 0.392157, 0.541176, 0.85)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="SkinOptionsSelector" type="PanelContainer" unique_id=164340853]
+offset_right = 595.0
+offset_bottom = 163.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxEmpty_h23lo")
 script = ExtResource("1_g5aud")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2001316257]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_bppob")
-}
+libraries/ = SubResource("AnimationLibrary_bppob")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1340745721]
 unique_name_in_owner = true
 
-[node name="ExpandHint" type="Panel" parent="."]
+[node name="ExpandHint" type="Panel" parent="." unique_id=499526315]
 unique_name_in_owner = true
 visible = false
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_evjpp")
 
-[node name="TextureRect" type="TextureRect" parent="ExpandHint"]
+[node name="TextureRect" type="TextureRect" parent="ExpandHint" unique_id=1422794990]
 z_index = 1
 layout_mode = 0
 offset_left = -152.0
@@ -165,13 +179,13 @@ pivot_offset = Vector2(182, 62)
 texture = ExtResource("2_4hlh4")
 stretch_mode = 3
 
-[node name="PointLight2D" type="PointLight2D" parent="ExpandHint/TextureRect"]
+[node name="PointLight2D" type="PointLight2D" parent="ExpandHint/TextureRect" unique_id=1670828835]
 z_index = 1
 position = Vector2(103, 27)
 energy = 0.0
 texture = SubResource("GradientTexture2D_jbkjm")
 
-[node name="ExpandablePanelContainer" parent="." instance=ExtResource("2_b6jfh")]
+[node name="ExpandablePanelContainer" parent="." unique_id=1225229653 instance=ExtResource("2_b6jfh")]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -181,13 +195,28 @@ text = "Choose skin elements"
 [node name="ContentContainer" parent="ExpandablePanelContainer/VBoxContainer" index="1"]
 visible = true
 
-[node name="OptionsContainer" type="VBoxContainer" parent="ExpandablePanelContainer/VBoxContainer/ContentContainer" index="1"]
+[node name="LazerMenuWarningContainer" type="PanelContainer" parent="ExpandablePanelContainer/VBoxContainer/ContentContainer" index="1" unique_id=388277988]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bx2a0")
+
+[node name="Text" type="Label" parent="ExpandablePanelContainer/VBoxContainer/ContentContainer/LazerMenuWarningContainer" unique_id=1004482068]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.9212918, 0.72903275, 0.77502227, 1)
+theme_override_constants/line_spacing = 2
+theme_override_font_sizes/font_size = 12
+text = "osu!lazer does not have full support for menu skinning, so the \"Interface\" and \"Menu Sounds\" options will have little to no effect."
+autowrap_mode = 2
+
+[node name="OptionsContainer" type="VBoxContainer" parent="ExpandablePanelContainer/VBoxContainer/ContentContainer" index="2" unique_id=1111891269]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 8
 
-[node name="SkinSelectorPopup" parent="ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer" instance=ExtResource("2_pokuf")]
+[node name="SkinSelectorPopup" parent="ExpandablePanelContainer/VBoxContainer/ContentContainer/OptionsContainer" unique_id=573221253 instance=ExtResource("2_pokuf")]
 unique_name_in_owner = true
 layout_mode = 2
 

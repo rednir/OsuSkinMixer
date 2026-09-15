@@ -89,8 +89,7 @@ public partial class SkinInfoPanel : PanelContainer
         LastModifiedLabel.Text = Skin.Record?.Problem ?? $"Last modified: {(DateTime.Now - Skin.Modified).Humanise()}";
         OpenInOsuButton.Disabled = Skin.Hidden;
         OpenInOsuButton.Disabled |= !Skin.CanExport;
-        OpenFolderButton.Disabled = Skin.IsLazer;
-        OpenFolderButton.TooltipText = Skin.IsLazer ? "Lazer uses shared hashed files. Export an .osk to edit externally." : "";
+        OpenFolderButton.Visible = !Skin.IsLazer;
         ModifyButton.Disabled = !Skin.CanEdit;
         MenuHitPlayer.Stream = Skin.GetAudioStream("menuhit");
         InitialiseCreditsContainer();

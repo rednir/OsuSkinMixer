@@ -46,8 +46,20 @@ public partial class SkinManager : StackScene
         DeselectAllButton.Pressed += () => SkinComponentsContainer.SelectAll(false);
         ManageSkinButton.Pressed += OnManageSkinButtonPressed;
         SkinSortChipsContainer.SortSelected += SkinComponentsContainer.SortSkins;
+        OsuData.AllSkinsLoaded += UpdateClientSpecificControls;
+        UpdateClientSpecificControls();
 
         UpdateSelectAllButtons();
+    }
+
+    public override void _ExitTree()
+    {
+        OsuData.AllSkinsLoaded -= UpdateClientSpecificControls;
+    }
+
+    private void UpdateClientSpecificControls()
+    {
+        SkinSortChipsContainer.SetSortVisible(SkinSort.Hidden, OsuData.Library?.Kind != Storage.OsuClientKind.Lazer);
     }
 
     private void UpdateSelectAllButtons()

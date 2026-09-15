@@ -62,6 +62,22 @@ public partial class StorageSmoke : Node
                 var sourceRecord = await Task.Run(() => library.Install(source).Skin);
                 OsuData.Connect(library);
                 var skin = OsuData.Skins.Single();
+
+                var managePopup = GD.Load<PackedScene>("res://src/Components/Popup/ManageSkinPopup.tscn").Instantiate<Components.ManageSkinPopup>();
+                AddChild(managePopup);
+                managePopup.SetSkin(skin);
+                managePopup.In();
+                Check(managePopup.GetNode<Button>("%RenameButton").Visible, "scene rename button is wired");
+                Check(managePopup.GetNode<Button>("%OpenFolderButton").Visible != lazer, "open-folder action follows client capabilities");
+                Check(managePopup.GetNode<Button>("%HideButton").Visible != lazer, "hide action follows client capabilities");
+                managePopup.QueueFree();
+
+                var manager = GD.Load<PackedScene>("res://src/StackScenes/SkinManager.tscn").Instantiate<StackScenes.SkinManager>();
+                AddChild(manager);
+                var sortChips = manager.GetNode<SkinSortChipsContainer>("%SkinSortChipsContainer");
+                Check(sortChips.GetNode<Button>("Hidden").Visible != lazer, "hidden sort follows client capabilities");
+                manager.QueueFree();
+
                 Check(skin.SkinIni.TryGetPropertyValue("General", "Author") == "Smoke", "INI metadata");
                 Check(skin.GetTexture("hitcircle").GetImage().GetPixel(0, 0).IsEqualApprox(Colors.Red), "custom texture pixels (not fallback)");
                 Check(skin.GetAudioStream("menuhit") is AudioStreamWav sound && sound.Data.Length == 2, "custom audio from virtual file (not fallback)");
@@ -80,6 +96,15 @@ public partial class StorageSmoke : Node
                 var mixed = mixer.NewSkin;
                 Check(mixer.Installed, "mix installation");
                 Check(mixed.Record.Files.ContainsKey("credits.ini"), "credits persisted");
+                var renamePopup = GD.Load<PackedScene>("res://src/Components/Popup/ManageSkinPopup.tscn").Instantiate<Components.ManageSkinPopup>();
+                AddChild(renamePopup);
+                renamePopup.SetSkin(skin);
+                renamePopup.OnRenameButtonPressed();
+                var renameDialog = renamePopup.GetNode<Components.SkinNamePopup>("%SkinNamePopup");
+                renameDialog.LineEditText = mixed.Name;
+                renameDialog.In();
+                Check(renameDialog.GetNode<Button>("%ConfirmButton").Disabled, "rename rejects an existing skin name");
+                renamePopup.QueueFree();
                 var hash = SkinPaths.Hash(mixed.FindFile("hitcircle.png"));
                 Check(hash == SkinPaths.Hash(source.Files["hitcircle.png"]), "mixed content");
                 var overwriteMixer = new SkinMixerMachine
@@ -123,6 +148,8 @@ public partial class StorageSmoke : Node
                 var navigated = new TaskCompletionSource<StackScenes.StackScene>();
                 screen.ScenePushed += scene => navigated.TrySetResult(scene);
                 AddChild(screen);
+                var optionsSelector = screen.GetNode<Components.SkinOptionsSelector>("%SkinOptionsSelector");
+                Check(optionsSelector.GetNode<PanelContainer>("%LazerMenuWarningContainer").Visible == lazer, "mixer lazer warning follows connected client");
                 typeof(StackScenes.SkinMixer).GetMethod("RunSkinCreator", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.Invoke(screen, ["UI created"]);
                 var info = await navigated.Task.WaitAsync(TimeSpan.FromSeconds(10));
                 Check(info is StackScenes.SkinInfo skinInfo && skinInfo.Skins.Single().Name == "UI created", "creation navigates to skin info");

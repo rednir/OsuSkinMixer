@@ -14,7 +14,6 @@ public partial class ManageSkinPopup : Popup
     private SkinNamePopup namePopup;
     private LoadingPopup loading;
     private bool renaming;
-    private Button renameButton;
     public override void _Ready()
     {
         base._Ready();
@@ -26,11 +25,9 @@ public partial class ManageSkinPopup : Popup
         Button("Modify").Pressed += OnModifyButtonPressed;
         Button("Hide").Pressed += OnHideButtonPressed;
         Button("Export").Pressed += OnExportButtonPressed;
+        Button("Rename").Pressed += OnRenameButtonPressed;
         Button("Duplicate").Pressed += OnDuplicateButtonPressed;
         Button("Delete").Pressed += OnDeleteButtonPressed;
-        renameButton = new Button { Text = "    Rename" };
-        Button("Duplicate").GetParent().AddChild(renameButton);
-        renameButton.Pressed += () => { renaming = true; ShowNamePopup(); };
         deleteQuestion.ConfirmAction = () => RunBatch(OperationType.Delete, skin =>
         {
             var snapshot = skin.DeleteFromDisk();
@@ -45,7 +42,7 @@ public partial class ManageSkinPopup : Popup
     public override void In()
     {
         if (skins.Length == 0) return;
-        foreach (var name in new[] { "OpenInOsu", "OpenFolder", "Modify", "Hide", "Export", "Duplicate", "Delete" })
+        foreach (var name in new[] { "OpenInOsu", "OpenFolder", "Modify", "Hide", "Export", "Rename", "Duplicate", "Delete" })
         {
             var option = Enum.Parse<ManageSkinOptions>(name);
             Button(name).Visible = Options.HasFlag(option);
@@ -56,18 +53,14 @@ public partial class ManageSkinPopup : Popup
         Button("OpenFolder").Visible &= skins.Length <= 4;
         var lazer = skins.Any(s => s.IsLazer);
         foreach (var name in new[] { "OpenFolder", "Hide" })
-        {
-            Button(name).Disabled = lazer;
-            Button(name).TooltipText = lazer ? "Lazer uses shared hashed files, not editable skin folders. Export an .osk to edit externally." : "";
-        }
-        foreach (var name in new[] { "Modify", "Duplicate", "Delete" })
+            Button(name).Visible &= !lazer;
+        foreach (var name in new[] { "Modify", "Rename", "Duplicate", "Delete" })
         {
             Button(name).Disabled = skins.Any(s => !s.CanEdit);
             Button(name).TooltipText = skins.FirstOrDefault(s => !s.CanEdit)?.Record?.Problem ?? "Only legacy user skins can be changed.";
         }
         Button("Export").Disabled = Button("OpenInOsu").Disabled = skins.Any(s => !s.CanExport);
-        renameButton.Visible = Options == ManageSkinOptions.All && skins.Length == 1;
-        renameButton.Disabled = skins.Any(s => !s.CanEdit);
+        Button("Rename").Visible &= skins.Length == 1;
         Button("Hide").Text = skins.Length == 1 && skins[0].Hidden ? "    Unhide from osu!" : "    Hide from osu!";
         GetNode<Label>("%Title").Text = skins.Length == 1 ? skins[0].Name : $"{skins.Length} skins selected";
         base.In();
@@ -96,9 +89,11 @@ public partial class ManageSkinPopup : Popup
         Tools.ShellOpenFile(Path.GetDirectoryName(path));
         return null; // Retained exports are user files, not undoable mutations of the library.
     });
+    public void OnRenameButtonPressed() { renaming = true; ShowNamePopup(); }
     public void OnDuplicateButtonPressed() { renaming = false; ShowNamePopup(); }
     private void ShowNamePopup()
     {
+        namePopup.RejectNameConflicts = renaming;
         namePopup.OverwriteNameConflicts = !renaming && skins.All(s => !s.IsLazer);
         namePopup.SuffixMode = skins.Length > 1;
         namePopup.SkinNames = skins.Select(s => s.Name).ToArray();

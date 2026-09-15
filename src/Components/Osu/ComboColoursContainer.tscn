@@ -1864,12 +1864,6 @@ script = ExtResource("1_035c4")
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Popup" parent="ChangeColorPopup" index="0"]
-visible = true
-
-[node name="CanvasLayer" parent="ChangeColorPopup/Popup" index="1"]
-visible = true
-
 [node name="ScrollContainer" parent="ChangeColorPopup/Popup/CanvasLayer" index="1"]
 offset_bottom = -0.00024414063
 

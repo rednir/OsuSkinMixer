@@ -19,6 +19,15 @@ public partial class SkinSortChipsContainer : HBoxContainer
 		}
     }
 
+	public void SetSortVisible(SkinSort sort, bool visible)
+	{
+		Button button = _sortButtons[(int)sort];
+		button.Visible = visible;
+
+		if (!visible && button.Disabled)
+			OnSortButtonPressed((int)SkinSort.Name);
+	}
+
 	private void OnSortButtonPressed(int index)
 	{
 		for (int i = 0; i < _sortButtons.Length; i++)
