@@ -10,9 +10,11 @@ using System.Text;
 
 public static partial class Settings
 {
-    public const string VERSION = "v3.2";
+    public const string VERSION = "v3.3-lazer.1";
 
     public const string GITHUB_REPO_PATH = "rednir/OsuSkinMixer";
+
+    public static bool IsLazerVersion => VERSION.Contains("-lazer.");
 
     public static event Action<Exception> ExceptionPushed;
 
@@ -154,8 +156,17 @@ public static partial class Settings
 
     public static async Task<GithubRelease> GetLatestReleaseOrNullAsync()
     {
-        await using Stream stream = await _httpClient.GetStreamAsync($"https://api.github.com/repos/{GITHUB_REPO_PATH}/releases/latest");
-        GithubRelease release = await JsonSerializer.DeserializeAsync<GithubRelease>(stream);
+        string endpoint = IsLazerVersion ? "releases" : "releases/latest";
+        await using Stream stream = await _httpClient.GetStreamAsync($"https://api.github.com/repos/{GITHUB_REPO_PATH}/{endpoint}");
+
+        GithubRelease release = IsLazerVersion
+            ? (await JsonSerializer.DeserializeAsync<List<GithubRelease>>(stream))
+                .Find(r => r.Prerelease && r.TagName.Contains("-lazer."))
+            : await JsonSerializer.DeserializeAsync<GithubRelease>(stream);
+
+        if (release == null)
+            return null;
+
         Log($"Got latest release: {release.TagName}");
 
         return release.TagName != VERSION ? release : null;
@@ -277,7 +288,8 @@ public static partial class Settings
         }
 
         // Migration from before v2.4.0
-        if (Version.TryParse(Content.LastVersion.TrimStart('v'), out Version lastVersionObject)
+        string lastVersion = Content.LastVersion.Split('-', 2)[0];
+        if (Version.TryParse(lastVersion.TrimStart('v'), out Version lastVersionObject)
             && lastVersionObject < new Version(2, 4, 0))
         {
             CheckForAutoUpdateFlag();

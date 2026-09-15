@@ -125,7 +125,8 @@ public partial class SettingsPopup : Popup
     {
         if (!File.Exists(Settings.AutoUpdateInstallerPath))
         {
-            OS.ShellOpen($"https://github.com/{Settings.GITHUB_REPO_PATH}/releases/latest");
+            string endpoint = Settings.IsLazerVersion ? "releases" : "releases/latest";
+            OS.ShellOpen($"https://github.com/{Settings.GITHUB_REPO_PATH}/{endpoint}");
             return;
         }
 
