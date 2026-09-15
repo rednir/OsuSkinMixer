@@ -9,6 +9,8 @@ public partial class SkinNamePopup : Popup
 
     public bool SuffixMode { get; set; }
 
+    public bool RejectNameConflicts { get; set; }
+
     public string[] SkinNames { get; set; }
 
     public string LineEditText
@@ -46,7 +48,7 @@ public partial class SkinNamePopup : Popup
     public override void In()
     {
         base.In();
-        TitleLabel.Text = SuffixMode ? "Choose a suffix for the new skins" : "Name your new skin";
+        TitleLabel.Text = SuffixMode ? "Choose a suffix for the new skins" : "Name your skin";
         LineEdit.GrabFocus();
         LineEdit.SelectAll();
         OnTextChanged(LineEdit.Text);
@@ -73,20 +75,24 @@ public partial class SkinNamePopup : Popup
             ConfirmButton.Disabled = true;
             WarningLabel.Text = !SuffixMode ? "Skin name cannot be empty." : "Skin name suffix cannot be empty.";
         }
-        else if (!SuffixMode && SkinNames != null && SkinNames.FirstOrDefault() == text)
+        else if (!SuffixMode && SkinNames != null && string.Equals(SkinNames.FirstOrDefault(), text, StringComparison.OrdinalIgnoreCase))
         {
             ConfirmButton.Disabled = true;
             WarningLabel.Text = "New skin name cannot be the same as the original skin.";
         }
-        else if (!SuffixMode && OsuData.Skins.Any(s => s.Name == text))
+        else if (!SuffixMode && OsuData.Skins.Any(s => string.Equals(s.Name, text, StringComparison.OrdinalIgnoreCase)))
         {
-            ConfirmButton.Disabled = false;
-            WarningLabel.Text = "Skin with this name already exists and will be replaced.";
+            ConfirmButton.Disabled = RejectNameConflicts;
+            WarningLabel.Text = RejectNameConflicts
+                ? "A skin with this name already exists. Choose a different name."
+                : "Skin with this name already exists and will be replaced.";
         }
         else if (CheckForSuffixConflicts(text))
         {
-            ConfirmButton.Disabled = false;
-            WarningLabel.Text = "Some skins will be replaced due to conflicting skin names.";
+            ConfirmButton.Disabled = RejectNameConflicts;
+            WarningLabel.Text = RejectNameConflicts
+                ? "One or more skin names already exist. Choose a different suffix."
+                : "Some skins will be replaced due to conflicting skin names.";
         }
         else
         {

@@ -23,6 +23,7 @@ public partial class ManageSkinPopup : Popup
     private Button ModifyButton;
     private Button HideButton;
     private Button ExportButton;
+    private Button RenameButton;
     private Button DuplicateButton;
     private Button DeleteButton;
 
@@ -40,6 +41,7 @@ public partial class ManageSkinPopup : Popup
         ModifyButton = GetNode<Button>("%ModifyButton");
         HideButton = GetNode<Button>("%HideButton");
         ExportButton = GetNode<Button>("%ExportButton");
+        RenameButton = GetNode<Button>("%RenameButton");
         DuplicateButton = GetNode<Button>("%DuplicateButton");
         DeleteButton = GetNode<Button>("%DeleteButton");
 
@@ -50,6 +52,7 @@ public partial class ManageSkinPopup : Popup
         ModifyButton.Pressed += OnModifyButtonPressed;
         HideButton.Pressed += OnHideButtonPressed;
         ExportButton.Pressed += OnExportButtonPressed;
+        RenameButton.Pressed += OnRenameButtonPressed;
         DuplicateButton.Pressed += OnDuplicateButtonPressed;
         DeleteButton.Pressed += OnDeleteButtonPressed;
     }
@@ -80,6 +83,9 @@ public partial class ManageSkinPopup : Popup
         ModifyButton.Visible = (Options & ManageSkinOptions.Modify) == ManageSkinOptions.Modify;
         HideButton.Visible = (Options & ManageSkinOptions.Hide) == ManageSkinOptions.Hide;
         ExportButton.Visible = (Options & ManageSkinOptions.Export) == ManageSkinOptions.Export;
+        RenameButton.Visible = (Options & ManageSkinOptions.Rename) == ManageSkinOptions.Rename
+            && _skins.Length == 1
+            && _skins[0].Directory is not null;
         DuplicateButton.Visible = (Options & ManageSkinOptions.Duplicate) == ManageSkinOptions.Duplicate;
         DeleteButton.Visible = (Options & ManageSkinOptions.Delete) == ManageSkinOptions.Delete;
 
@@ -203,6 +209,9 @@ public partial class ManageSkinPopup : Popup
 
     public void OnDuplicateButtonPressed()
     {
+        SkinNamePopup.RejectNameConflicts = false;
+        SkinNamePopup.ConfirmAction = OnDuplicateSkinNameConfirmed;
+
         if (_skins.Length > 1)
         {
             SkinNamePopup.LineEditText = " (copy)";
@@ -217,6 +226,72 @@ public partial class ManageSkinPopup : Popup
         }
 
         SkinNamePopup.In();
+    }
+
+    public void OnRenameButtonPressed()
+    {
+        SkinNamePopup.RejectNameConflicts = true;
+        SkinNamePopup.ConfirmAction = OnRenameSkinNameConfirmed;
+        SkinNamePopup.LineEditText = _skins[0].Name;
+        SkinNamePopup.SkinNames = new string[] { _skins[0].Name };
+        SkinNamePopup.SuffixMode = false;
+        SkinNamePopup.In();
+    }
+
+    private void OnRenameSkinNameConfirmed(string newName)
+    {
+        LoadingPopup.In();
+        OsuSkin skin = _skins[0];
+        string originalName = skin.Name;
+
+        Operation operation = null;
+        operation = new Operation(
+            type: OperationType.Other,
+            targetSkin: skin,
+            action: () =>
+            {
+                RenameSingleSkin(skin, newName);
+                operation.TargetSkinName = skin.Name;
+                LoadingPopup.Progress = 100;
+            },
+            undoAction: () => RenameSingleSkin(skin, originalName));
+
+        operation.RunOperation()
+            .ContinueWith(_ =>
+            {
+                LoadingPopup.Out();
+                SkinNamePopup.Out();
+                Out();
+            });
+    }
+
+    private static void RenameSingleSkin(OsuSkin skin, string newName)
+    {
+        string originalName = skin.Name;
+        string sourcePath = skin.Directory.FullName;
+        string targetPath = Path.Combine(skin.Directory.Parent.FullName, newName);
+
+        if (OsuData.Skins.Any(s => !ReferenceEquals(s, skin) && string.Equals(s.Name, newName, StringComparison.OrdinalIgnoreCase)) || Directory.Exists(targetPath))
+            throw new IOException("A skin with this name already exists.");
+
+        OsuData.RemoveSkin(skin);
+        try
+        {
+            Directory.Move(sourcePath, targetPath);
+            skin.Name = newName;
+            skin.Directory = new DirectoryInfo(targetPath);
+            OsuData.AddSkin(skin);
+        }
+        catch
+        {
+            if (!Directory.Exists(sourcePath) && Directory.Exists(targetPath))
+                Directory.Move(targetPath, sourcePath);
+
+            skin.Name = originalName;
+            skin.Directory = new DirectoryInfo(sourcePath);
+            OsuData.AddSkin(skin);
+            throw;
+        }
     }
 
     private void OnDuplicateSkinNameConfirmed(string value)
