@@ -9,6 +9,7 @@ public partial class ManageSkinPopup : Popup
 {
     public Action<IEnumerable<OsuSkin>> SkinInfoRequested { get; set; } = OsuData.RequestSkinInfo;
     public ManageSkinOptions Options { get; set; } = ManageSkinOptions.All;
+    public bool OverwriteDuplicates { get; set; }
     private OsuSkin[] skins = [];
     private QuestionPopup deleteQuestion;
     private SkinNamePopup namePopup;
@@ -94,7 +95,7 @@ public partial class ManageSkinPopup : Popup
     private void ShowNamePopup()
     {
         namePopup.RejectNameConflicts = renaming;
-        namePopup.OverwriteNameConflicts = !renaming && skins.All(s => !s.IsLazer);
+        namePopup.OverwriteNameConflicts = !renaming && (OverwriteDuplicates || skins.All(s => !s.IsLazer));
         namePopup.SuffixMode = skins.Length > 1;
         namePopup.SkinNames = skins.Select(s => s.Name).ToArray();
         namePopup.LineEditText = renaming ? skins[0].Name : skins.Length > 1 ? " (copy)" : skins[0].Name + " (copy)";
@@ -112,10 +113,10 @@ public partial class ManageSkinPopup : Popup
                 results.Add(skin);
                 return () => { skin.Rename(originalName); OsuData.InvokeSkinModified(skin); };
             }
-            var result = skin.Duplicate(namePopup.SuffixMode ? skin.Name + value : value);
-            OsuData.AddSkin(result);
+            var installation = skin.DuplicateWithResult(namePopup.SuffixMode ? skin.Name + value : value, OverwriteDuplicates);
+            var result = OsuData.ApplyInstall(installation);
             results.Add(result);
-            return () => { result.DeleteFromDisk(); OsuData.RemoveSkin(result); };
+            return () => { skin.Library.UndoInstall(installation); OsuData.Refresh(); };
         }, () => SkinInfoRequested?.Invoke(results));
     }
     public void OnDeleteButtonPressed() => deleteQuestion.In();

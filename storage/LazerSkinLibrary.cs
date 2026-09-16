@@ -295,11 +295,13 @@ public sealed class LazerSkinLibrary : SkinLibrary
         realm.Write(() => Apply(realm, target, files, metadata.Name, metadata.Author, hash));
         return Detach(target);
     });
-    public override SkinRecord Duplicate(SkinRecord skin, string name)
+    public override InstallResult DuplicateWithResult(SkinRecord skin, string name, bool overwriteExisting = false)
     {
         RequireWritable(skin);
         using var workspace = Materialize(skin); workspace.SetName(name);
-        return Install(workspace, true, false).Skin;
+        // A copy must remain distinct from its source, while an explicitly requested
+        // same-name overwrite must preserve the existing target's Realm identity.
+        return Install(workspace, true, overwriteExisting);
     }
     public override SkinSnapshot Delete(SkinRecord skin) => Write("Delete skin", realm =>
     {

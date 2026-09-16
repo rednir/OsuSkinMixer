@@ -51,12 +51,13 @@ public sealed class StableSkinLibrary : SkinLibrary
         if (Read(Resolve(skin), skin.Hidden).Revision != skin.Revision)
             throw new IOException("Skin changed externally. Refresh and try again.");
     }
-    public override SkinRecord Duplicate(SkinRecord skin, string name)
+    public override InstallResult DuplicateWithResult(SkinRecord skin, string name, bool overwriteExisting = false)
     {
         EnsureCurrent(skin);
         using var workspace = Materialize(skin);
         workspace.SetName(name);
-        return Install(workspace, overwriteExisting: true).Skin;
+        // Preserve stable's historical behaviour: same-name copies replace the target.
+        return Install(workspace, overwriteExisting: true);
     }
     public override InstallResult Install(SkinWorkspace workspace, bool overwriteExisting = false)
     {

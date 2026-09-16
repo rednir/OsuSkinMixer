@@ -25,6 +25,7 @@ public interface ISkinLibrary
     void UndoInstall(InstallResult result);
     SkinRecord Replace(SkinRecord skin, SkinWorkspace workspace);
     SkinRecord Duplicate(SkinRecord skin, string name);
+    InstallResult DuplicateWithResult(SkinRecord skin, string name, bool overwriteExisting = false);
     SkinRecord Rename(SkinRecord skin, string name);
     SkinSnapshot Delete(SkinRecord skin);
     SkinRecord Restore(SkinSnapshot snapshot);
@@ -204,12 +205,13 @@ public abstract class SkinLibrary : ISkinLibrary
         foreach (var snapshot in result.Replaced) Restore(snapshot);
     }
     public abstract SkinRecord Replace(SkinRecord skin, SkinWorkspace workspace);
-    public virtual SkinRecord Duplicate(SkinRecord skin, string name)
+    public virtual SkinRecord Duplicate(SkinRecord skin, string name) => DuplicateWithResult(skin, name).Skin;
+    public virtual InstallResult DuplicateWithResult(SkinRecord skin, string name, bool overwriteExisting = false)
     {
         RequireWritable(skin);
         using var workspace = Materialize(skin);
         workspace.SetName(name);
-        return Install(workspace).Skin;
+        return Install(workspace, overwriteExisting);
     }
     public virtual SkinRecord Rename(SkinRecord skin, string name)
     {

@@ -154,6 +154,36 @@ public partial class StorageSmoke : Node
                 var info = await navigated.Task.WaitAsync(TimeSpan.FromSeconds(10));
                 Check(info is StackScenes.SkinInfo skinInfo && skinInfo.Skins.Single().Name == "UI created", "creation navigates to skin info");
                 info.Free(); screen.QueueFree();
+
+                // Exercise the modifier's "make a copy first" flow through its real popup callback.
+                async Task<OsuSkin> CopyForModification(string name)
+                {
+                    var modifierSelect = GD.Load<PackedScene>("res://src/StackScenes/SkinModifierSkinSelect.tscn").Instantiate<StackScenes.SkinModifierSkinSelect>();
+                    var modifierNavigated = new TaskCompletionSource<StackScenes.StackScene>();
+                    modifierSelect.ScenePushed += scene => modifierNavigated.TrySetResult(scene);
+                    AddChild(modifierSelect);
+                    typeof(StackScenes.SkinModifierSkinSelect).GetMethod("AddSkinComponent", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.Invoke(modifierSelect, [skin]);
+                    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                    modifierSelect.GetNode<CheckBox>("%MakeCopyCheckBox").ButtonPressed = true;
+                    modifierSelect.GetNode<Button>("%ContinueButton").EmitSignal(Button.SignalName.Pressed);
+                    var namePopup = modifierSelect.GetNode<Components.ManageSkinPopup>("%ManageSkinPopup").GetNode<Components.SkinNamePopup>("%SkinNamePopup");
+                    namePopup.LineEditText = name;
+                    namePopup.GetNode<Button>("%ConfirmButton").EmitSignal(Button.SignalName.Pressed);
+                    var next = await modifierNavigated.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                    var target = (next as StackScenes.SkinModifierModificationSelect)?.SkinsToModify.Single();
+                    Check(target != null, "modifier copy navigates with a target skin");
+                    next.Free(); modifierSelect.QueueFree();
+                    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                    return target;
+                }
+
+                var newlyNamedCopy = await CopyForModification("Modifier copy");
+                Check(newlyNamedCopy.Name == "Modifier copy" && newlyNamedCopy.Identity != skin.Identity,
+                    "modifier new-name copy targets the copied skin");
+                var overwrittenCopy = await CopyForModification(mixed.Name);
+                Check(overwrittenCopy.Record.Id == mixed.Record.Id && overwrittenCopy.Identity != skin.Identity,
+                    "modifier same-name copy overwrites and targets the copied skin");
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
                 OsuData.Disconnect();

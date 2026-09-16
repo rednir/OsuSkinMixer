@@ -36,6 +36,7 @@ public partial class SkinModifierSkinSelect : StackScene
         AddSkinToModifyButton.Pressed += AddSkinToModifyButtonPressed;
         ManageSkinPopup.SkinInfoRequested = OnSkinInfoRequest;
         ManageSkinPopup.Options = ManageSkinOptions.All & ~ManageSkinOptions.Modify & ~ManageSkinOptions.Rename & ~ManageSkinOptions.Duplicate & ~ManageSkinOptions.Delete;
+        ManageSkinPopup.OverwriteDuplicates = true;
         SkinSelectorPopup.OnSelected = OnSkinSelected;
 
         OsuData.SkinRemoved += OnSkinRemoved;
@@ -121,20 +122,22 @@ public partial class SkinModifierSkinSelect : StackScene
 
     private void OnSkinInfoRequest(IEnumerable<OsuSkin> skins)
     {
+        var copies = skins.ToList();
+
         foreach (var component in SkinsToModifyContainer.GetChildren().Cast<SkinComponent>())
             component.Checked(false);
 
-        foreach (var skin in skins)
+        foreach (var skin in copies)
             AddSkinComponent(skin);
 
         MakeCopyCheckBox.ButtonPressed = false;
-        PushNextScene();
+        PushNextScene(copies);
     }
 
-    private void PushNextScene()
+    private void PushNextScene(IEnumerable<OsuSkin> skins = null)
     {
         var instance = SkinModifierModificationSelectScene.Instantiate<SkinModifierModificationSelect>();
-        instance.SkinsToModify = SkinsToModifyComponents.ConvertAll(c => c.Skin);
+        instance.SkinsToModify = skins?.ToList() ?? SkinsToModifyComponents.ConvertAll(c => c.Skin);
         EmitSignal(SignalName.ScenePushed, instance);
     }
 }

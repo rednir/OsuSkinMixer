@@ -60,6 +60,25 @@ public class LibraryTests
         Assert.That(replaced.Id, Is.EqualTo(original.Id));
         Assert.Throws<IOException>(() => library.Install(workspace));
     }
+    [TestCase(false)][TestCase(true)]
+    public void DuplicateCanOverwriteExistingTargetAndUndo(bool lazer)
+    {
+        ISkinLibrary library = lazer ? Lazer() : new StableSkinLibrary(root, backups);
+        using var sourceWorkspace = Workspace("Source");
+        var source = library.Install(sourceWorkspace).Skin;
+        using var targetWorkspace = Workspace("Target");
+        File.WriteAllText(targetWorkspace.Files["hitcircle.png"], "original target pixels");
+        var target = library.Install(targetWorkspace).Skin;
+
+        var duplicate = library.DuplicateWithResult(source, "Target", overwriteExisting: true);
+        Assert.That(duplicate.Skin.Id, Is.EqualTo(target.Id));
+        Assert.That(File.ReadAllText(duplicate.Skin.Files["hitcircle.png"]), Is.EqualTo("synthetic image bytes"));
+
+        library.UndoInstall(duplicate);
+        var restored = library.Load().Single(s => s.Id == target.Id);
+        Assert.That(File.ReadAllText(restored.Files["hitcircle.png"]), Is.EqualTo("original target pixels"));
+        Assert.That(library.Load().Single(s => s.Id == source.Id).Name, Is.EqualTo("Source"));
+    }
     [TestCase("../escape")][TestCase("/absolute")][TestCase("C:\\escape")][TestCase("sub/../../escape")]
     public void UnsafePathsRejected(string path) => Assert.Throws<InvalidDataException>(() => SkinPaths.Virtual(path));
     [Test] public void WorkspacesAreUniqueAndCaseInsensitive()

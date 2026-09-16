@@ -51,6 +51,7 @@ public class OsuSkin
     public void Restore(SkinSnapshot snapshot) => UpdateRecord(Library.Restore(snapshot));
     public void ReplaceFromWorkspace(SkinWorkspace workspace) => UpdateRecord(Library.Replace(Record, workspace));
     public OsuSkin Duplicate(string name) => new(Library, Library.Duplicate(Record, name));
+    public InstallResult DuplicateWithResult(string name, bool overwriteExisting = false) => Library.DuplicateWithResult(Record, name, overwriteExisting);
     public void Rename(string name) => UpdateRecord(Library.Rename(Record, name));
     public void SetHidden(bool hidden) => UpdateRecord(Library.SetHidden(Record, hidden));
     public void Export(string path)
