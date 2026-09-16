@@ -60,13 +60,32 @@ public sealed class LazerSkinLibrary : SkinLibrary
         }
     }
 
-    public string BlobPath(string hash)
+    public string BlobPath(string hash) => BlobPath(hash, null);
+    private string BlobPath(string hash, ISet<string>? validatedPaths)
     {
         if (hash.Length != 64 || hash.Any(c => !((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'))))
             throw new InvalidDataException("Invalid lazer content hash.");
         var path = Path.Combine(Root, "files", hash[..1], hash[..2], hash);
-        SkinPaths.RejectLinks(Root, path);
+        SkinPaths.RejectLinks(Root, path, validatedPaths);
         return path;
+    }
+
+    private sealed class LoadContext
+    {
+        public DateTime DatabaseModified { get; }
+        public Dictionary<string, (string Path, bool Exists)> Blobs { get; } = new(StringComparer.Ordinal);
+        public HashSet<string> ValidatedPaths { get; } = new(OperatingSystem.IsWindows() ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
+
+        public LoadContext(string databasePath) => DatabaseModified = File.GetLastWriteTimeUtc(databasePath);
+    }
+
+    private (string Path, bool Exists) InspectBlob(string hash, LoadContext context)
+    {
+        if (context.Blobs.TryGetValue(hash, out var cached)) return cached;
+        var path = BlobPath(hash, context.ValidatedPaths);
+        var inspected = (path, File.Exists(path));
+        context.Blobs.Add(hash, inspected);
+        return inspected;
     }
 
     public override IReadOnlyList<SkinRecord> Load()
@@ -74,8 +93,9 @@ public sealed class LazerSkinLibrary : SkinLibrary
         lock (databaseGate)
         {
             SkinRecord[] records;
+            var context = new LoadContext(DatabasePath);
             using (var realm = OpenRead())
-                records = realm.All<LazerSkin>().Where(s => !s.Protected && !s.DeletePending).ToList().Select(Detach).ToArray();
+                records = realm.All<LazerSkin>().Where(s => !s.Protected && !s.DeletePending).ToList().Select(s => Detach(s, context)).ToArray();
             InspectWriteSchema();
             return records;
         }
@@ -99,26 +119,29 @@ public sealed class LazerSkinLibrary : SkinLibrary
             }
         }
     }
-    private SkinRecord Detach(LazerSkin skin)
+    private SkinRecord Detach(LazerSkin skin) => Detach(skin, new LoadContext(DatabasePath));
+    private SkinRecord Detach(LazerSkin skin, LoadContext context)
     {
         bool legacy = string.IsNullOrEmpty(skin.InstantiationInfo) || skin.InstantiationInfo == LegacyType;
+        var usages = skin.Files.Select(usage => (usage.Filename, Hash: usage.File?.Hash)).ToArray();
         var files = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         string? problem = null;
-        foreach (var usage in skin.Files)
+        foreach (var usage in usages)
         {
             try
             {
-                var path = BlobPath(usage.File.Hash);
-                if (!files.TryAdd(SkinPaths.Virtual(usage.Filename), path))
+                if (usage.Hash == null) throw new InvalidDataException("Skin file mapping has no content hash.");
+                var blob = InspectBlob(usage.Hash, context);
+                if (!files.TryAdd(SkinPaths.Virtual(usage.Filename), blob.Path))
                     problem = "Skin has ambiguous case-insensitive filenames.";
-                if (!File.Exists(path)) problem = "Skin has missing content files. Repair or re-import it in osu! before exporting or editing.";
+                if (!blob.Exists) problem = "Skin has missing content files. Repair or re-import it in osu! before exporting or editing.";
             }
             catch (Exception e) when (e is InvalidDataException or NullReferenceException) { problem = "Skin contains invalid file mappings."; }
         }
         if (legacy && !files.ContainsKey("skin.ini")) problem ??= "Skin has no skin.ini; editing is disabled.";
         var revision = skin.Hash + "|" + skin.Name + "|" + skin.Creator + "|" + skin.DeletePending + "|" +
-            string.Join('|', skin.Files.Select(f => f.Filename + ":" + f.File?.Hash).Order());
-        return new(skin.ID.ToString(), skin.Name, skin.Creator, files, revision, File.GetLastWriteTimeUtc(DatabasePath),
+            string.Join('|', usages.Select(f => f.Filename + ":" + f.Hash).Order());
+        return new(skin.ID.ToString(), skin.Name, skin.Creator, files, revision, context.DatabaseModified,
             IsLegacy: legacy, Problem: problem);
     }
 

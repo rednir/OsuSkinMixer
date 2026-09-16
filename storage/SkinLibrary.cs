@@ -60,14 +60,26 @@ public static class SkinPaths
             (stem.Length == 4 && (stem.StartsWith("COM") || stem.StartsWith("LPT")) && stem[3] is >= '1' and <= '9');
     }
     public static void RejectLinks(string root, string path)
+        => RejectLinks(root, path, null);
+
+    internal static void RejectLinks(string root, string path, ISet<string>? validatedPaths)
     {
         root = Canonical(root);
         path = Canonical(path);
         if (Path.GetRelativePath(root, path).StartsWith("..")) throw new InvalidDataException("Path is outside the library.");
         for (string? current = path; current != null; current = Path.GetDirectoryName(current))
         {
-            if ((File.Exists(current) || Directory.Exists(current)) && (File.GetAttributes(current) & FileAttributes.ReparsePoint) != 0)
-                throw new InvalidDataException("Linked library paths are not supported.");
+            var identity = Identity(current);
+            if (validatedPaths?.Contains(identity) != true)
+            {
+                var exists = File.Exists(current) || Directory.Exists(current);
+                if (exists)
+                {
+                    if ((File.GetAttributes(current) & FileAttributes.ReparsePoint) != 0)
+                        throw new InvalidDataException("Linked library paths are not supported.");
+                    validatedPaths?.Add(identity);
+                }
+            }
             if (Identity(current) == Identity(root)) break;
         }
     }

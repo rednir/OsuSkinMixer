@@ -106,6 +106,23 @@ public class LibraryTests
         Assert.Throws<IOException>(() => library.Restore(snapshot));
         Assert.Throws<InvalidDataException>(() => library.Export(skin, Path.Combine(root, "bad.osk")));
     }
+    [Test] public void LazerLoadStillReportsMissingContent()
+    {
+        var library = Lazer(); using var workspace = Workspace();
+        var skin = library.Install(workspace).Skin;
+        File.Delete(skin.Files["hitcircle.png"]);
+        Assert.That(library.Load().Single().Problem, Is.Not.Null);
+    }
+    [Test] public void LazerLoadStillRejectsLinkedContent()
+    {
+        if (OperatingSystem.IsWindows()) Assert.Ignore("Creating symbolic links may require additional privileges on Windows.");
+        var library = Lazer(); using var workspace = Workspace();
+        var skin = library.Install(workspace).Skin;
+        var linked = skin.Files["hitcircle.png"];
+        File.Delete(linked);
+        File.CreateSymbolicLink(linked, skin.Files["skin.ini"]);
+        Assert.That(library.Load().Single().Problem, Is.Not.Null);
+    }
     [Test] public void ProtectedAndNonLegacySkinsCannotBeWritten()
     {
         var library = Lazer(); using var workspace = Workspace(); var skin = library.Install(workspace).Skin;
