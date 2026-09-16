@@ -4,11 +4,11 @@
   </a>
 </p>
 <p align="center">
-  <a href="FEEDBACK.md">
-    <img alt="Send feedback" src="https://img.shields.io/badge/Send%20feedback-FF80A3?style=for-the-badge">
-  </a>
   <a href="https://github.com/rednir/OsuSkinMixer/releases/latest/download/osu-skin-mixer-setup.exe">
     <img alt="Download for Windows" src="https://img.shields.io/github/downloads/rednir/osuskinmixer/total?style=for-the-badge&label=Download%20for%20Windows&labelColor=0178d8&color=34abfb">
+  </a>
+<a href="https://github.com/rednir/OsuSkinMixer/releases">
+    <img alt="osu!lazer & other platforms" src="https://img.shields.io/badge/osu!lazer%20%26%20other%20platforms-green?style=for-the-badge">
   </a>
 </p>
 <p align="center">
