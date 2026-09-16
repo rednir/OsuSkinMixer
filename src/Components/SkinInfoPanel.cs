@@ -87,8 +87,8 @@ public partial class SkinInfoPanel : PanelContainer
         SkinNameLabel.Text = Skin.Name;
         SkinAuthorLabel.Text = Skin.SkinIni?.TryGetPropertyValue("General", "Author");
         LastModifiedLabel.Text = Skin.Record?.Problem ?? $"Last modified: {(DateTime.Now - Skin.Modified).Humanise()}";
-        OpenInOsuButton.Disabled = Skin.Hidden;
-        OpenInOsuButton.Disabled |= !Skin.CanExport;
+        OpenInOsuButton.Disabled = Skin.IsLazer || Skin.Hidden || !Skin.CanExport;
+        OpenInOsuButton.TooltipText = Skin.IsLazer ? "Feature not available for lazer" : string.Empty;
         OpenFolderButton.Visible = !Skin.IsLazer;
         ModifyButton.Disabled = !Skin.CanEdit;
         MenuHitPlayer.Stream = Skin.GetAudioStream("menuhit");
