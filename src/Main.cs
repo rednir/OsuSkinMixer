@@ -79,7 +79,7 @@ public partial class Main : Control
         LazerWarningLabel = GetNode<Label>("%LazerWarningLabel");
 
         UpdateClientLabels();
-        OsuData.AllSkinsLoaded += UpdateClientLabels;
+        OsuData.AllSkinsLoaded += OnAllSkinsLoaded;
         LazerWarningLabel.GuiInput += input =>
         {
             if (input is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true })
@@ -104,7 +104,6 @@ public partial class Main : Control
             Toast.Push(message);
         };
 
-        OsuData.AllSkinsLoaded += PopAllScenes;
         OsuData.SkinAdded += s => OnSkinFolderContentsChange($"Skin was created:", s);
         OsuData.SkinModified += s => OnSkinFolderContentsChange($"Skin was modified:", s);
         OsuData.SkinRemoved += s => OnSkinFolderContentsChange($"Skin was deleted:", s);
@@ -127,6 +126,12 @@ public partial class Main : Control
         LazerWarningLabel.TooltipText = OsuData.Library is null
             ? string.Empty
             : $"Experimental osu!lazer support. Click for details.\n{OsuData.Library.Status}";
+    }
+
+    private void OnAllSkinsLoaded()
+    {
+        CallDeferred(MethodName.UpdateClientLabels);
+        CallDeferred(MethodName.PopAllScenes);
     }
 
     public override void _Notification(int what)
