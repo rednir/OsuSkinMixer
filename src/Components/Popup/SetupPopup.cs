@@ -15,6 +15,7 @@ public partial class SetupPopup : Popup
     private FileDialog FileDialog;
     private OkPopup OkPopup;
     private LazerWarningPopup LazerWarningPopup;
+    private AnimationPlayer SpinnerAnimationPlayer;
 
     public override void _Ready()
     {
@@ -26,6 +27,7 @@ public partial class SetupPopup : Popup
         FileDialog = GetNode<FileDialog>("%FileDialog");
         OkPopup = GetNode<OkPopup>("%OkPopup");
         LazerWarningPopup = GetNode<LazerWarningPopup>("%LazerWarningPopup");
+        SpinnerAnimationPlayer = GetNode<AnimationPlayer>("%SpinnerAnimationPlayer");
 
         DoneButton.Pressed += DoneButtonPressed;
         FolderPickerButton.Pressed += FolderPickerButtonPressed;
@@ -42,34 +44,40 @@ public partial class SetupPopup : Popup
 
     private async void DoneButtonPressed()
     {
-        DoneButton.Disabled = true;
+        DoneButton.Visible = false;
         string path = LineEdit.Text.Trim('"').Trim('\'');
         LineEdit.Text = path;
 
         if (File.Exists(Path.Combine(path, "client.realm")) && !await LazerWarningPopup.ConfirmAsync())
         {
-            DoneButton.Disabled = false;
+            DoneButton.Visible = true;
             return;
         }
 
-        var result = await Task.Run(() =>
+        SpinnerAnimationPlayer.Play("spin");
+        try
         {
-            bool success = Settings.TrySetOsuFolder(path, out string error);
-            return (success, error);
-        });
+            var result = await Task.Run(() =>
+            {
+                bool success = Settings.TrySetOsuFolder(path, out string error);
+                return (success, error);
+            });
 
-        if (!result.success)
-        {
-            DoneButton.Disabled = false;
-            OkPopup.SetValues(result.error, "That doesn't seem right...");
-            OkPopup.In();
-            return;
+            if (!result.success)
+            {
+                OkPopup.SetValues(result.error, "That doesn't seem right...");
+                OkPopup.In();
+                return;
+            }
+
+            Settings.Save();
+            Out();
         }
-
-        Settings.Save();
-        Out();
-
-        DoneButton.Disabled = false;
+        finally
+        {
+            SpinnerAnimationPlayer.Play("stop");
+            DoneButton.Visible = true;
+        }
     }
 
     private void FolderPickerButtonPressed()

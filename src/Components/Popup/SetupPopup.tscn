@@ -7,10 +7,88 @@
 [ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="3_8g2co"]
 [ext_resource type="PackedScene" uid="uid://c0bqc573eb7ys" path="res://src/Components/Buttons/TonalIconButton.tscn" id="6_onwsb"]
 [ext_resource type="Texture2D" uid="uid://dux8l1u1ckci7" path="res://assets/materialicons/folder_open.svg" id="7_88cey"]
+[ext_resource type="Texture2D" uid="uid://oba6bcfe2d0y" path="res://assets/loading.png" id="10_l7svb"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="11_kv18r"]
 [ext_resource type="PackedScene" uid="uid://c3w3os7chflg4" path="res://src/Components/Popup/LazerWarningPopup.tscn" id="11_o5dox"]
 [ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="11_yvhcf"]
 [ext_resource type="Texture2D" uid="uid://b14tfma61q3tw" path="res://assets/materialicons/done.svg" id="12_oveo6"]
+
+[sub_resource type="Animation" id="Animation_t1jfq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:offset_transform_rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_i8n2k"]
+resource_name = "spin"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:offset_transform_rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.283185307179586]
+}
+
+[sub_resource type="Animation" id="Animation_l7svb"]
+resource_name = "stop"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xx7ty"]
+_data = {
+&"RESET": SubResource("Animation_t1jfq"),
+&"spin": SubResource("Animation_i8n2k"),
+&"stop": SubResource("Animation_l7svb")
+}
 
 [node name="SetupPopup" type="Control" unique_id=1805506879]
 visible = false
@@ -88,6 +166,18 @@ size_flags_horizontal = 4
 size_flags_vertical = 10
 text = "Done"
 icon = ExtResource("12_oveo6")
+
+[node name="Spinner" type="TextureRect" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1516184717]
+visible = false
+modulate = Color(0.8272794, 0.77499056, 0.8099167, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+offset_transform_enabled = true
+texture = ExtResource("10_l7svb")
+
+[node name="SpinnerAnimationPlayer" type="AnimationPlayer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/Spinner" unique_id=1692801535]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_xx7ty")
 
 [node name="OkPopup" parent="." unique_id=1392119363 instance=ExtResource("11_yvhcf")]
 unique_name_in_owner = true
