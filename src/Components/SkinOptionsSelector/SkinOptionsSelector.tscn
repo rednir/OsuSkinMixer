@@ -170,10 +170,10 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_evjpp")
 [node name="TextureRect" type="TextureRect" parent="ExpandHint" unique_id=1422794990]
 z_index = 1
 layout_mode = 0
-offset_left = -152.0
-offset_top = 48.0
-offset_right = 24.0
-offset_bottom = 118.0
+offset_left = -151.99998
+offset_top = 115.0
+offset_right = 24.000015
+offset_bottom = 185.0
 rotation = 0.174533
 pivot_offset = Vector2(182, 62)
 texture = ExtResource("2_4hlh4")

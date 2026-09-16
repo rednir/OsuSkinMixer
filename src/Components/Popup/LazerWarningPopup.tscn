@@ -61,9 +61,9 @@ text = "The lazer client stores skins in a more complex way.
 
 To manage skins, osu! skin mixer must work directly with lazer's internal database.
 
-This is an experimental, volatile integration. An osu! update, a crash, or a bug could corrupt lazer's database, making skins or maps disappear.
+This is an experimental, volatile integration. An osu! update or a bug could, in the worst case, corrupt lazer's database, making skins or maps disappear.
 
-You are wholly responsible for your data and any data loss that may occur. Backups are advised. Have fun!"
+You are wholly responsible for your osu! data and any data loss that may occur. Backups are advised. Have fun!"
 autowrap_mode = 2
 
 [node name="WarningLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1750255836]
