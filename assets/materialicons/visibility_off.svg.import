@@ -15,4 +15,6 @@ dest_files=["res://.godot/imported/visibility_off.svg-d8f218af473f3639a6e84cd991
 base_scale=1.0
 saturation=1.0
 color_map={}
+fix_alpha_border=false
+premult_alpha=false
 compress=true

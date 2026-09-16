@@ -15,4 +15,6 @@ dest_files=["res://.godot/imported/undo.svg-344395c0e2cbcbc674f465ec5f7f7120.dpi
 base_scale=1.0
 saturation=1.0
 color_map={}
+fix_alpha_border=false
+premult_alpha=false
 compress=true
