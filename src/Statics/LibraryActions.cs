@@ -26,7 +26,7 @@ public static class LibraryActions
     {
         // OS file association handles macOS, Linux and Windows. Keep the archive even if launch fails.
         var result = OS.ShellOpen(path);
-        Settings.PushToast(result == 0 ? "Opened the .osk with its associated application. Import is not confirmed yet. Archive retained in app exports." : "Could not open .osk automatically. Import the saved archive manually in osu!.");
+        Settings.PushToast(result == 0 ? "Attempted to open .osk\nYou might have to reselect the skin in osu!" : "Could not open .osk automatically. Import the saved archive manually in osu!.");
         if (result != 0) OS.ShellOpen(Path.GetDirectoryName(path));
         OsuData.RequestRefresh();
     }
