@@ -13,6 +13,7 @@ public partial class SkinInfo : StackScene
     private PackedScene SkinInfoPanelScene;
 
     private PanelContainer DonateContainer;
+    private PanelContainer LazerCacheWarningContainer;
     private Button DonateButton;
     private Button DismissButton;
 
@@ -20,6 +21,7 @@ public partial class SkinInfo : StackScene
     {
         SkinInfoPanelScene = GD.Load<PackedScene>("res://src/Components/SkinInfoPanel.tscn");
         DonateContainer = GetNode<PanelContainer>("%DonateContainer");
+        LazerCacheWarningContainer = GetNode<PanelContainer>("%LazerCacheWarningContainer");
         DonateButton = GetNode<Button>("%DonateButton");
         DismissButton = GetNode<Button>("%DismissButton");
 
@@ -32,6 +34,8 @@ public partial class SkinInfo : StackScene
         DonateContainer.Visible = !Settings.Content.DonationMessageDismissed
             && Settings.Content.SkinsMadeCount >= 6
             && Settings.Content.LaunchCount >= Settings.Content.DonateLaunchCountThreshold;
+
+        LazerCacheWarningContainer.Visible = Skins.Any(skin => skin.IsLazer);
 
         foreach (var skin in Skins)
         {
