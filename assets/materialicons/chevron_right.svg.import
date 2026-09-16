@@ -15,4 +15,6 @@ dest_files=["res://.godot/imported/chevron_right.svg-b92e1a572a38c73d19de9c35f33
 base_scale=1.0
 saturation=1.0
 color_map={}
+fix_alpha_border=false
+premult_alpha=false
 compress=true

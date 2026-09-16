@@ -15,4 +15,6 @@ dest_files=["res://.godot/imported/shuffle.svg-701a46ff916927408a8d2d3214a0ac2e.
 base_scale=1.0
 saturation=1.0
 color_map={}
+fix_alpha_border=false
+premult_alpha=false
 compress=true

@@ -15,4 +15,6 @@ dest_files=["res://.godot/imported/history.svg-67f2154a521e2e4cd154920f9e520670.
 base_scale=1.0
 saturation=1.0
 color_map={}
+fix_alpha_border=false
+premult_alpha=false
 compress=true

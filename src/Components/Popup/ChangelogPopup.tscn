@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://da2vul0iiwek5"]
+[gd_scene format=3 uid="uid://da2vul0iiwek5"]
 
 [ext_resource type="Script" uid="uid://dcde2ow76r0q7" path="res://src/Components/Popup/ChangelogPopup.cs" id="1_xx64c"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_pw4e0"]
@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="5_6lh28"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="6_6l8qj"]
 
-[node name="ChangeLogPopup" type="Control"]
+[node name="ChangeLogPopup" type="Control" unique_id=1916545443]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -18,36 +18,38 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_xx64c")
 
-[node name="Popup" parent="." instance=ExtResource("2_pw4e0")]
+[node name="Popup" parent="." unique_id=1614555613 instance=ExtResource("2_pw4e0")]
 layout_mode = 1
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
-offset_bottom = 0.000183105
+offset_bottom = 0.00018310547
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0" unique_id=1913323134]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=10221252]
 layout_mode = 2
-text = "Update successful 👏"
+text = "Do you play lazer?"
 label_settings = ExtResource("3_7o7bx")
 
-[node name="Text" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="Text" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1285220904]
+custom_maximum_size = Vector2(500, -1)
 layout_mode = 2
-text = "Things changed in this update.. for the better!"
+text = "There's now an experimental verison of osu! skin mixer available, with support for the lazer client."
 label_settings = ExtResource("4_vcpkl")
+autowrap_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1900447880]
 layout_mode = 2
 size_flags_vertical = 10
 alignment = 2
 
-[node name="ViewChangelogButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_6lh28")]
+[node name="ViewChangelogButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" unique_id=1045759513 instance=ExtResource("5_6lh28")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "View changelog"
+text = "Learn more"
 
-[node name="CloseButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_6l8qj")]
+[node name="CloseButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" unique_id=1925813970 instance=ExtResource("6_6l8qj")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Close"
