@@ -4,13 +4,15 @@ using OsuSkinMixer.Statics;
 
 public partial class ChangelogPopup : Popup
 {
+    protected override bool IsImportant => true;
+
     public override void _Ready()
     {
         base._Ready();
 
         GetNode<Button>("%CloseButton").Pressed += Out;
         GetNode<Button>("%ViewChangelogButton").Pressed += () =>
-            OS.ShellOpen($"https://github.com/{Settings.GITHUB_REPO_PATH}/releases/tag/{Settings.VERSION}");
+            OS.ShellOpen($"https://github.com/{Settings.GITHUB_REPO_PATH}/releases");
 
         if (Settings.VERSION != Settings.Content.LastVersion)
         {
