@@ -49,7 +49,7 @@ public partial class SkinOptionsSelector : PanelContainer
         };
 
         SkinSelectorPopup.SkinComponentsContainer.SkinPreviewRequested += OnPreviewRequested;
-        OsuData.AllSkinsLoaded += UpdateClientSpecificControls;
+        OsuData.AllSkinsLoaded += QueueClientSpecificControlsUpdate;
         OsuData.SkinRemoved += OnSkinRemoved;
         AudioStreamPlayer.Finished += PlayNextPreviewAudio;
 
@@ -59,10 +59,12 @@ public partial class SkinOptionsSelector : PanelContainer
 
     public override void _ExitTree()
     {
-        OsuData.AllSkinsLoaded -= UpdateClientSpecificControls;
+        OsuData.AllSkinsLoaded -= QueueClientSpecificControlsUpdate;
         OsuData.SkinRemoved -= OnSkinRemoved;
         AudioStreamPlayer = null;
     }
+
+    private void QueueClientSpecificControlsUpdate() => CallDeferred(MethodName.UpdateClientSpecificControls);
 
     private void UpdateClientSpecificControls()
     {
