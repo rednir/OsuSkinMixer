@@ -145,15 +145,39 @@ public sealed class SkinWorkspace : IDisposable
         var files = Files;
         var path = files.TryGetValue("skin.ini", out var ini) ? ini : Path.Combine(DirectoryPath, "skin.ini");
         var lines = File.Exists(path) ? File.ReadAllLines(path).ToList() : new List<string>();
-        int section = lines.FindIndex(l => l.Trim().Equals("[General]", StringComparison.OrdinalIgnoreCase));
-        if (section < 0) { lines.InsertRange(0, new[] { "[General]", $"Name: {name}" }); }
-        else
+
+        int firstGeneralSection = -1;
+        int firstName = -1;
+        bool inGeneralSection = false;
+        for (int i = 0; i < lines.Count; i++)
         {
-            int end = lines.FindIndex(section + 1, l => l.TrimStart().StartsWith('['));
-            if (end < 0) end = lines.Count;
-            int index = lines.FindIndex(section + 1, end - section - 1, l => l.Split(':')[0].Trim().Equals("Name", StringComparison.OrdinalIgnoreCase));
-            if (index < 0) lines.Insert(section + 1, $"Name: {name}"); else lines[index] = $"Name: {name}";
+            var trimmed = lines[i].Trim();
+            if (trimmed.StartsWith('['))
+            {
+                inGeneralSection = trimmed.Equals("[General]", StringComparison.OrdinalIgnoreCase);
+                if (inGeneralSection && firstGeneralSection < 0) firstGeneralSection = i;
+                continue;
+            }
+
+            if (!inGeneralSection || !lines[i].Contains(':') ||
+                !lines[i].Split(':', 2)[0].Trim().Equals("Name", StringComparison.OrdinalIgnoreCase)) continue;
+
+            if (firstName < 0)
+            {
+                firstName = i;
+                lines[i] = $"Name: {name}";
+            }
+            else
+            {
+                // Some legacy skins contain repeated General sections or duplicate Name
+                // properties. Remove later values so metadata cannot override the new name.
+                lines.RemoveAt(i--);
+            }
         }
+
+        if (firstGeneralSection < 0) lines.InsertRange(0, new[] { "[General]", $"Name: {name}" });
+        else if (firstName < 0) lines.Insert(firstGeneralSection + 1, $"Name: {name}");
+
         File.WriteAllLines(path, lines);
     }
     public (string Name, string Author) Metadata()

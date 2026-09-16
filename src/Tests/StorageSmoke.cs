@@ -45,7 +45,8 @@ public partial class StorageSmoke : Node
                 }
                 else library = new StableSkinLibrary(folder, Path.Combine(root, "recovery"));
                 using var source = new SkinWorkspace();
-                File.WriteAllText(Path.Combine(source.DirectoryPath, "SKIN.INI"), "[General]\nName: Source\nAuthor: Smoke\n[Colours]\nCombo1: 255,0,0\n[Fonts]\n[CatchTheBeat]\n");
+                // Repeated General/Name values occur in real legacy skins and must not override copy names.
+                File.WriteAllText(Path.Combine(source.DirectoryPath, "SKIN.INI"), "[General]\nName: Source\nAuthor: Smoke\n[Colours]\nCombo1: 255,0,0\n[Fonts]\n[CatchTheBeat]\n[General]\nName: Source\n");
                 using (var image = Image.CreateEmpty(8, 8, false, Image.Format.Rgba8))
                 {
                     image.Fill(Colors.Red);
@@ -155,6 +156,23 @@ public partial class StorageSmoke : Node
                 Check(info is StackScenes.SkinInfo skinInfo && skinInfo.Skins.Single().Name == "UI created", "creation navigates to skin info");
                 info.Free(); screen.QueueFree();
 
+                // Exercise ordinary duplication from the management popup and verify its callback target.
+                var duplicatePopup = GD.Load<PackedScene>("res://src/Components/Popup/ManageSkinPopup.tscn").Instantiate<Components.ManageSkinPopup>();
+                var duplicated = new TaskCompletionSource<OsuSkin>();
+                duplicatePopup.SkinInfoRequested = skins => duplicated.TrySetResult(skins.Single());
+                AddChild(duplicatePopup);
+                duplicatePopup.SetSkin(skin);
+                duplicatePopup.In();
+                duplicatePopup.OnDuplicateButtonPressed();
+                var duplicateNamePopup = duplicatePopup.GetNode<Components.SkinNamePopup>("%SkinNamePopup");
+                duplicateNamePopup.LineEditText = "Managed copy";
+                duplicateNamePopup.In();
+                duplicateNamePopup.GetNode<Button>("%ConfirmButton").EmitSignal(Button.SignalName.Pressed);
+                var managedCopy = await duplicated.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                Check(managedCopy.Name == "Managed copy" && managedCopy.Identity != skin.Identity,
+                    "ordinary duplicate callback targets the newly duplicated skin");
+                duplicatePopup.QueueFree();
+
                 // Exercise the modifier's "make a copy first" flow through its real popup callback.
                 async Task<OsuSkin> CopyForModification(string name)
                 {
@@ -169,6 +187,12 @@ public partial class StorageSmoke : Node
                     modifierSelect.GetNode<Button>("%ContinueButton").EmitSignal(Button.SignalName.Pressed);
                     var namePopup = modifierSelect.GetNode<Components.ManageSkinPopup>("%ManageSkinPopup").GetNode<Components.SkinNamePopup>("%SkinNamePopup");
                     namePopup.LineEditText = name;
+                    namePopup.In();
+                    if (OsuData.Skins.Any(existing => existing.Name == name))
+                    {
+                        Check(namePopup.GetNode<Label>("%WarningLabel").Text == "Skin with this name already exists and will be replaced.",
+                            "modifier copy describes same-name overwrite");
+                    }
                     namePopup.GetNode<Button>("%ConfirmButton").EmitSignal(Button.SignalName.Pressed);
                     var next = await modifierNavigated.Task.WaitAsync(TimeSpan.FromSeconds(10));
                     var target = (next as StackScenes.SkinModifierModificationSelect)?.SkinsToModify.Single();

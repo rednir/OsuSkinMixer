@@ -88,6 +88,17 @@ public class LibraryTests
         Assert.That(first.Files.ContainsKey("skin.ini"));
         first.SetName("Renamed"); Assert.That(first.Metadata().Name, Is.EqualTo("Renamed"));
     }
+    [Test] public void WorkspaceRenameRemovesConflictingLegacyNameProperties()
+    {
+        using var workspace = Workspace("Original");
+        File.AppendAllText(workspace.Files["skin.ini"], "\n[General]\nName: Stale override\nAuthor: Duplicate section\n");
+
+        workspace.SetName("Renamed");
+
+        Assert.That(workspace.Metadata().Name, Is.EqualTo("Renamed"));
+        Assert.That(File.ReadLines(workspace.Files["skin.ini"])
+            .Count(line => line.Split(':', 2)[0].Trim().Equals("Name", StringComparison.OrdinalIgnoreCase)), Is.EqualTo(1));
+    }
     [TestCase(51ul)][TestCase(52ul)][TestCase(77ul)]
     public void LazerRoundTripIdentityHashReuseDeleteAndUndo(ulong version)
     {

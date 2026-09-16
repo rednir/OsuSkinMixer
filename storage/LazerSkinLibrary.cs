@@ -248,7 +248,7 @@ public sealed class LazerSkinLibrary : SkinLibrary
             if (overwriteExisting)
             {
                 var matches = realm.All<LazerSkin>().Where(s => !s.Protected && !s.DeletePending && s.Name == metadata.Name).ToList();
-                if (matches.Count > 1) throw new InvalidOperationException("Several lazer skins have this name. Rename one or modify a specific skin before mixing into this name.");
+                if (matches.Count > 1) throw new InvalidOperationException($"More than one osu!lazer skin is named \"{metadata.Name}\". Rename or delete the duplicates in osu! before using this name.");
                 replacement = matches.SingleOrDefault();
                 if (replacement != null)
                 {

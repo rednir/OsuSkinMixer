@@ -36,7 +36,6 @@ public partial class SkinModifierSkinSelect : StackScene
         AddSkinToModifyButton.Pressed += AddSkinToModifyButtonPressed;
         ManageSkinPopup.SkinInfoRequested = OnSkinInfoRequest;
         ManageSkinPopup.Options = ManageSkinOptions.All & ~ManageSkinOptions.Modify & ~ManageSkinOptions.Rename & ~ManageSkinOptions.Duplicate & ~ManageSkinOptions.Delete;
-        ManageSkinPopup.OverwriteDuplicates = true;
         SkinSelectorPopup.OnSelected = OnSkinSelected;
 
         OsuData.SkinRemoved += OnSkinRemoved;
