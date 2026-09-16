@@ -3,9 +3,26 @@
 [ext_resource type="Script" uid="uid://mtwfhn0ymure" path="res://src/Components/Popup/LazerWarningPopup.cs" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="1_uvilj"]
 [ext_resource type="LabelSettings" uid="uid://0rwgintf2ky0" path="res://src/Styles/LabelSettings/PopupTitle.tres" id="2_iduj4"]
-[ext_resource type="LabelSettings" uid="uid://cc23qpkl2afag" path="res://src/Styles/LabelSettings/WarningText.tres" id="3_4a2kr"]
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="4_7v0s3"]
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="5_js8ed"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7v0s3"]
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
+bg_color = Color(0.28529835, 0.14521483, 0.14467198, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_color = Color(0.6880763, 0.4107699, 0.40761244, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_js8ed"]
+line_spacing = 0.0
+font_size = 12
+font_color = Color(0.8987087, 0.5169299, 0.5272829, 1)
 
 [node name="LazerWarningPopup" type="Control" unique_id=604520326]
 visible = false
@@ -26,6 +43,7 @@ offset_bottom = -0.00036621094
 
 [node name="ContentPanelContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer" index="1"]
 custom_minimum_size = Vector2(520, 470)
+theme_override_styles/panel = SubResource("StyleBoxFlat_7v0s3")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0" unique_id=1521133816]
 layout_mode = 2
@@ -39,22 +57,20 @@ autowrap_mode = 2
 
 [node name="DescriptionLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1592576819]
 layout_mode = 2
-text = "Unlike osu!stable, lazer stores skins in a more complex way.
+text = "The lazer client stores skins in a more complex way.
 
 To manage skins, osu! skin mixer must work directly with lazer's internal database.
 
 This is an experimental, volatile integration. An osu! update, a crash, or a bug could corrupt lazer's database, making skins or maps disappear.
 
-osu! skin mixer makes frequent backups of lazer's database, which can be used to potentially recover lost data in the event something does go wrong.
-
-However, you are wholly responsible for your data and any data loss that may occur."
+You are wholly responsible for your data and any data loss that may occur. Backups are advised. Have fun!"
 autowrap_mode = 2
 
 [node name="WarningLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1750255836]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Never share database files in bug reports, they may contain sensitive data."
-label_settings = ExtResource("3_4a2kr")
+label_settings = SubResource("LabelSettings_js8ed")
 autowrap_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=173342884]
