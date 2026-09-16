@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://sni5bqyyrgfj"]
+[gd_scene format=3 uid="uid://sni5bqyyrgfj"]
 
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="1_vbxph"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_x82gr"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cs6sq2vj8l6g" path="res://src/Components/Popup/Generic/OkPopup.tscn" id="11_yvhcf"]
 [ext_resource type="Texture2D" uid="uid://b14tfma61q3tw" path="res://assets/materialicons/done.svg" id="12_oveo6"]
 
-[node name="SetupPopup" type="Control"]
+[node name="SetupPopup" type="Control" unique_id=428553140]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -23,10 +23,10 @@ mouse_filter = 2
 theme = ExtResource("1_x82gr")
 script = ExtResource("2_bnnvj")
 
-[node name="Popup" parent="." instance=ExtResource("1_vbxph")]
+[node name="Popup" parent="." unique_id=1307839737 instance=ExtResource("1_vbxph")]
 layout_mode = 1
 
-[node name="FileDialog" type="FileDialog" parent="Popup/CanvasLayer" index="0"]
+[node name="FileDialog" type="FileDialog" parent="Popup/CanvasLayer" index="0" unique_id=1118368856]
 unique_name_in_owner = true
 title = "Open a Directory"
 size = Vector2i(1000, 500)
@@ -45,18 +45,18 @@ grow_vertical = 2
 [node name="ContentPanelContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer" index="1"]
 custom_minimum_size = Vector2(600, 200)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0" unique_id=388641414]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=669178018]
 layout_mode = 2
 text = "Set your osu! folder"
 label_settings = ExtResource("2_2dpv6")
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Subtext" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="Subtext" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1771261645]
 layout_mode = 2
 text = "Please set the path to your osu! folder.
 If the below already looks correct, you're good to go!"
@@ -64,23 +64,23 @@ label_settings = ExtResource("3_8g2co")
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1170782273]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="LineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" unique_id=381659124]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Click the folder to browse"
 
-[node name="FolderPickerButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_onwsb")]
+[node name="FolderPickerButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" unique_id=1722159048 instance=ExtResource("6_onwsb")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "  Browse"
 icon = ExtResource("7_88cey")
 
-[node name="DoneButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("11_kv18r")]
+[node name="DoneButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1219055970 instance=ExtResource("11_kv18r")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -88,7 +88,7 @@ size_flags_vertical = 10
 text = "Done"
 icon = ExtResource("12_oveo6")
 
-[node name="OkPopup" parent="." instance=ExtResource("11_yvhcf")]
+[node name="OkPopup" parent="." unique_id=1816607882 instance=ExtResource("11_yvhcf")]
 unique_name_in_owner = true
 layout_mode = 0
 anchors_preset = 0
