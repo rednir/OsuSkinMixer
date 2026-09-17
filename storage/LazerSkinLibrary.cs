@@ -8,8 +8,6 @@ namespace OsuSkinMixer.Storage;
 /// <summary>Local, legacy-skin adapter. Never migrates a Realm or removes content-addressed files.</summary>
 public sealed class LazerSkinLibrary : SkinLibrary
 {
-    // TEMPORARY TEST HOOK: emulate an osu! update making the required skin schema unreadable.
-    private static readonly bool EmulateIncompatibleLazerSchema = true;
     private const string UnsupportedSchemaMarker = "OsuSkinMixer.UnsupportedLazerSchema";
     public const string LegacyType = "osu.Game.Skinning.LegacySkin, osu.Game";
     private static readonly object databaseGate = new();
@@ -58,8 +56,6 @@ public sealed class LazerSkinLibrary : SkinLibrary
     {
         path ??= DatabasePath;
         if (!File.Exists(path)) throw new FileNotFoundException("client.realm was not found.", path);
-        if (EmulateIncompatibleLazerSchema)
-            throw UnsupportedSchemaError("Unsupported lazer schema version.");
         ulong version = SchemaVersion == 0 ? 52 : SchemaVersion;
         try
         {
