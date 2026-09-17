@@ -49,13 +49,55 @@ public partial class TextureLoadingService : Node
         });
     }
 
+    /// <summary>Loads a skin element without materialising lazer blobs on the UI thread.</summary>
+    public string FetchTextureOrDefault(OsuSkin skin, string filename, string extension = "png", bool prefer2x = true, int maxSize = 2048)
+    {
+        string requestKey = $"skin:{skin.Identity}:{filename}";
+        Task.Run(() =>
+        {
+            string preferredName = $"{filename}{(prefer2x ? "@2x" : string.Empty)}.{extension}";
+            Texture2D result = GetTexture(skin.FindFile(preferredName), $"{requestKey}:{preferredName}", extension, skin.Identity, maxSize);
+            if (result is not null)
+            {
+                CallOnMainThread(() => EmitSignal(SignalName.TextureReady, requestKey, result, true, false));
+                return;
+            }
+
+            if (prefer2x)
+            {
+                string fallbackName = $"{filename}.{extension}";
+                Texture2D fallbackResult = GetTexture(skin.FindFile(fallbackName), $"{requestKey}:{fallbackName}", extension, skin.Identity, maxSize);
+                if (fallbackResult is not null)
+                {
+                    CallOnMainThread(() => EmitSignal(SignalName.TextureReady, requestKey, fallbackResult, false, false));
+                    return;
+                }
+            }
+
+            CallOnMainThread(() => EmitSignal(SignalName.TextureReady, requestKey,
+                GD.Load<Texture2D>($"res://assets/defaultskin/{preferredName}"), prefer2x, true));
+        })
+        .ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+                Settings.Log($"Error fetching texture: {t.Exception.Message}");
+        });
+        return requestKey;
+    }
+
 
     public void InvalidateSkinCache(OsuSkin skin)
     {
         string normalizedSkinPath = Path.GetDirectoryName(skin.GetElementFilepathWithoutExtension("cursor"));
+        string skinCachePrefix = $"skin:{skin.Identity}:";
 
         foreach (string key in _textureCache.Keys)
         {
+            if (key.StartsWith(skinCachePrefix, StringComparison.Ordinal))
+            {
+                _textureCache.TryRemove(key, out _);
+                continue;
+            }
             try
             {
                 string normalizedKeyPath = Path.GetFullPath(key);
@@ -71,26 +113,38 @@ public partial class TextureLoadingService : Node
     }
 
     private Texture2D GetTexture(string filepath, int maxSize)
+        => GetTexture(filepath, filepath, Path.GetExtension(filepath).TrimStart('.'), Path.GetDirectoryName(Path.GetFullPath(filepath)), maxSize);
+
+    private Texture2D GetTexture(string filepath, string cacheKey, string extension, string skinKey, int maxSize)
     {
-        string skinName = Path.GetDirectoryName(Path.GetFullPath(filepath));
-        _skinLock.TryAdd(skinName, new object());
+        if (string.IsNullOrEmpty(filepath) || !File.Exists(filepath))
+            return null;
+
+        _skinLock.TryAdd(skinKey, new object());
 
         // Ensure there's no more than one texture loading for each skin at a time.
-        lock (_skinLock[skinName])
+        lock (_skinLock[skinKey])
         {
-            if (_textureCache.TryGetValue(filepath, out Texture2D cachedTexture))
+            if (_textureCache.TryGetValue(cacheKey, out Texture2D cachedTexture))
                 return cachedTexture;
 
-            _textureCache.TryAdd(filepath, null);
-
-            if (!File.Exists(filepath))
-                return null;
-
             Image image = new();
-            Error err = image.Load(filepath);
+            Error err;
+            if (Path.GetExtension(filepath).Equals($".{extension}", StringComparison.OrdinalIgnoreCase))
+                err = image.Load(filepath);
+            else
+            {
+                var bytes = File.ReadAllBytes(filepath);
+                err = extension.Equals("jpg", StringComparison.OrdinalIgnoreCase)
+                    ? image.LoadJpgFromBuffer(bytes)
+                    : image.LoadPngFromBuffer(bytes);
+            }
 
             if (err != Error.Ok || image.IsEmpty())
+            {
+                image.Dispose();
                 return null;
+            }
 
             // menu-background.png for example can be quite expensive to load and cause lag spikes, so downscale.
             var width = image.GetWidth();
@@ -106,7 +160,7 @@ public partial class TextureLoadingService : Node
             CallOnMainThread(() =>
             {
                 var texture = ImageTexture.CreateFromImage(image);
-                _textureCache.TryUpdate(filepath, texture, null);
+                _textureCache[cacheKey] = texture;
                 tcs.SetResult(texture);
 
                 image.Dispose();

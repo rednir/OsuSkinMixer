@@ -22,6 +22,9 @@ public partial class HitcircleIcon : CenterContainer
     private bool _isTexturesLoaded;
 
     private string _hitcirclePrefix;
+    private string _hitcircleTextureKey;
+    private string _defaultTextureKey;
+    private string _hitcircleoverlayTextureKey;
 
     public override void _Ready()
     {
@@ -77,17 +80,17 @@ public partial class HitcircleIcon : CenterContainer
 
         Vector2 scale = is2x ? _baseScale / 2 : _baseScale;
 
-        if (filepath == _skin.GetElementFilepathWithoutExtension("hitcircle"))
+        if (filepath == _hitcircleTextureKey)
         {
             HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
             HitcircleSprite.SetDeferred(Sprite2D.PropertyName.Scale, scale);
         }
-        else if (filepath == _skin.GetElementFilepathWithoutExtension($"{_hitcirclePrefix}-1"))
+        else if (filepath == _defaultTextureKey)
         {
             Default1Sprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
             Default1Sprite.SetDeferred(Sprite2D.PropertyName.Scale, scale);
         }
-        else if (filepath == _skin.GetElementFilepathWithoutExtension("hitcircleoverlay"))
+        else if (filepath == _hitcircleoverlayTextureKey)
         {
             HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Texture, texture);
             HitcircleoverlaySprite.SetDeferred(Sprite2D.PropertyName.Scale, scale);
@@ -111,8 +114,8 @@ public partial class HitcircleIcon : CenterContainer
 
         _hitcirclePrefix = _skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
 
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("hitcircle"), "png");
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension($"{_hitcirclePrefix}-1"), "png");
-        TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("hitcircleoverlay"), "png");
+        _hitcircleTextureKey = TextureLoadingService.FetchTextureOrDefault(_skin, "hitcircle", maxSize: 256);
+        _defaultTextureKey = TextureLoadingService.FetchTextureOrDefault(_skin, $"{_hitcirclePrefix}-1", maxSize: 256);
+        _hitcircleoverlayTextureKey = TextureLoadingService.FetchTextureOrDefault(_skin, "hitcircleoverlay", maxSize: 256);
     }
 }

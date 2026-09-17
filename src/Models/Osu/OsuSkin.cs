@@ -356,7 +356,7 @@ public class OsuSkin
     public string GetElementFilepathWithoutExtension(string filename)
     {
         SkinPaths.Virtual(filename + "__prefix");
-        if (Record == null) return $"{Directory?.FullName}/{filename}";
+        if (Record == null || !IsLazer) return Path.Combine(Directory?.FullName ?? string.Empty, filename);
         lock (_lock)
         {
             previewWorkspace ??= new SkinWorkspace();
