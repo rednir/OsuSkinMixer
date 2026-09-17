@@ -8,6 +8,9 @@ namespace OsuSkinMixer.Storage;
 /// <summary>Local, legacy-skin adapter. Never migrates a Realm or removes content-addressed files.</summary>
 public sealed class LazerSkinLibrary : SkinLibrary
 {
+    // TEMPORARY TEST HOOK: emulate an osu! update making the required skin schema unreadable.
+    private static readonly bool EmulateIncompatibleLazerSchema = true;
+    private const string UnsupportedSchemaMarker = "OsuSkinMixer.UnsupportedLazerSchema";
     public const string LegacyType = "osu.Game.Skinning.LegacySkin, osu.Game";
     private static readonly object databaseGate = new();
     private readonly string backupRoot;
@@ -27,6 +30,14 @@ public sealed class LazerSkinLibrary : SkinLibrary
         this.backupRoot = Path.Combine(backupRoot, Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(SkinPaths.Identity(root)))));
     }
     public void AllowUnsupportedSchemaWrites() => allowUnsupportedSchemaWrites = true;
+    public static bool IsUnsupportedSchemaError(Exception exception)
+        => exception is InvalidDataException && exception.Data.Contains(UnsupportedSchemaMarker);
+    private static InvalidDataException UnsupportedSchemaError(string message, Exception? innerException = null)
+    {
+        var exception = new InvalidDataException(message, innerException);
+        exception.Data[UnsupportedSchemaMarker] = true;
+        return exception;
+    }
     public void InspectCompatibility()
     {
         lock (databaseGate)
@@ -47,6 +58,8 @@ public sealed class LazerSkinLibrary : SkinLibrary
     {
         path ??= DatabasePath;
         if (!File.Exists(path)) throw new FileNotFoundException("client.realm was not found.", path);
+        if (EmulateIncompatibleLazerSchema)
+            throw UnsupportedSchemaError("Unsupported lazer schema version.");
         ulong version = SchemaVersion == 0 ? 52 : SchemaVersion;
         try
         {
@@ -58,7 +71,7 @@ public sealed class LazerSkinLibrary : SkinLibrary
         {
             // Realm has no public static schema-version reader. Read-only open must never migrate.
             var match = Regex.Match(e.Message, @"Provided schema version \d+ does not equal last set version (\d+)");
-            if (!match.Success) throw new InvalidDataException("Incompatible or unreadable lazer database. No changes were made.", e);
+            if (!match.Success) throw UnsupportedSchemaError("Incompatible or unreadable lazer database. No changes were made.", e);
             version = ulong.Parse(match.Groups[1].Value);
             try
             {
@@ -66,7 +79,7 @@ public sealed class LazerSkinLibrary : SkinLibrary
                 SchemaVersion = version;
                 return realm;
             }
-            catch (Exception inner) { throw new InvalidDataException("Unsupported lazer skin schema. Export skins from osu! instead; writes are disabled.", inner); }
+            catch (Exception inner) { throw UnsupportedSchemaError("Unsupported lazer schema version.", inner); }
         }
     }
 

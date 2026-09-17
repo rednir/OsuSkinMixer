@@ -42,6 +42,14 @@ public partial class SetupPopup : Popup
 
     public Task<bool> ShowLazerWarningAsync(bool schemaMismatch = false) => LazerWarningPopup.ConfirmAsync(schemaMismatch);
 
+    public void ShowUnsupportedLazerSchemaError()
+    {
+        OkPopup.SetValues(
+            "osu!lazer's database has changed in a way this version of osu! skin mixer cannot safely read.",
+            "This osu!lazer version isn't supported");
+        OkPopup.In();
+    }
+
     public void ShowLoadingState()
     {
         DoneButton.Visible = false;

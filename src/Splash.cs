@@ -2,6 +2,7 @@ namespace OsuSkinMixer;
 
 using OsuSkinMixer.Components;
 using OsuSkinMixer.Statics;
+using OsuSkinMixer.Storage;
 using System.Diagnostics;
 using System.IO;
 
@@ -131,19 +132,30 @@ public partial class Splash : Control
 
     private void LoadSkins()
     {
-        if (!OsuData.TryLoadSkins())
+        try
         {
-            SetupPopup.CallDeferred(Popup.MethodName.In);
-            return;
-        }
+            if (!OsuData.TryLoadSkins())
+            {
+                SetupPopup.CallDeferred(Popup.MethodName.In);
+                return;
+            }
 
-        if (OsuData.Library.Kind == Storage.OsuClientKind.Lazer && OsuData.Library.WriteRestriction != null)
+            if (OsuData.Library.Kind == OsuClientKind.Lazer && OsuData.Library.WriteRestriction != null)
+            {
+                Callable.From(ShowSchemaMismatchWarning).CallDeferred();
+                return;
+            }
+
+            AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "out");
+        }
+        catch (Exception exception) when (LazerSkinLibrary.IsUnsupportedSchemaError(exception))
         {
-            Callable.From(ShowSchemaMismatchWarning).CallDeferred();
-            return;
+            Callable.From(() =>
+            {
+                SetupPopup.In();
+                SetupPopup.ShowUnsupportedLazerSchemaError();
+            }).CallDeferred();
         }
-
-        AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "out");
     }
 
     private async void ShowSchemaMismatchWarning()
