@@ -56,6 +56,12 @@ public partial class Hitcircle : Node2D
         Control.GuiInput += OnInputEvent;
     }
 
+    public override void _ExitTree()
+    {
+        if (TextureLoadingService is not null)
+            TextureLoadingService.TextureReady -= OnTextureReady;
+    }
+
     public void SetSkin(OsuSkin skin)
     {
         _skin = skin;

@@ -41,6 +41,12 @@ public partial class HitcircleIcon : CenterContainer
         VisibleOnScreenNotifier2D.ScreenEntered += OnScreenEntered;
     }
 
+    public override void _ExitTree()
+    {
+        if (TextureLoadingService is not null)
+            TextureLoadingService.TextureReady -= OnTextureReady;
+    }
+
     public void SetSkin(OsuSkin skin)
     {
         _skin = skin;

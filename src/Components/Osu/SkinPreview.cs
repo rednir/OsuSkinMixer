@@ -52,6 +52,12 @@ public partial class SkinPreview : PanelContainer
         TreeExited += () => Input.MouseMode = Input.MouseModeEnum.Visible;
     }
 
+    public override void _ExitTree()
+    {
+        if (TextureLoadingService is not null)
+            TextureLoadingService.TextureReady -= OnTextureReady;
+    }
+
     public override void _Process(double delta)
     {
         if (!_isLoadFinished)
