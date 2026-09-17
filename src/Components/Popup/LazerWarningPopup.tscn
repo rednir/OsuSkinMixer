@@ -49,13 +49,17 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_7v0s3")
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="TitleLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1572931845]
+[node name="NormalTextVBox" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1301517816]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/NormalTextVBox" unique_id=1572931845]
 layout_mode = 2
 text = "osu!lazer support is experimental, and it could break your osu! install."
 label_settings = ExtResource("2_iduj4")
 autowrap_mode = 2
 
-[node name="DescriptionLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1592576819]
+[node name="DescriptionLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/NormalTextVBox" unique_id=1592576819]
 layout_mode = 2
 text = "The lazer client stores skins in a more complex way.
 
@@ -66,11 +70,29 @@ This is an experimental, volatile integration. An osu! update or a bug could, in
 You are wholly responsible for your osu! data and any data loss that may occur. Backups are advised. Have fun!"
 autowrap_mode = 2
 
-[node name="WarningLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1750255836]
+[node name="WarningLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/NormalTextVBox" unique_id=1750255836]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Never share database files in bug reports, they may contain sensitive data."
 label_settings = SubResource("LabelSettings_js8ed")
+autowrap_mode = 2
+
+[node name="MismatchTextVBox" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=445167264]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/MismatchTextVBox" unique_id=965252049]
+layout_mode = 2
+text = "Your osu!lazer version is newer than this version of osu! skin mixer supports."
+label_settings = ExtResource("2_iduj4")
+autowrap_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/MismatchTextVBox" unique_id=685877929]
+layout_mode = 2
+text = "Continuing will allow osu! skin mixer to use and modify this database normally, but compatibility cannot be guaranteed.
+
+It's highly reccomended you back up your osu! data before proceeding."
 autowrap_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=173342884]

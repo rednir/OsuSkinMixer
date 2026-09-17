@@ -35,6 +35,7 @@ public partial class Splash : Control
         UpdateCanceledPopup.PopupOut += LoadSkins;
         UpdateQuestionPopup.CancelAction += LoadSkins;
         UpdateQuestionPopup.ConfirmAction += TryRunInstaller;
+        SetupPopup.PopupOut += () => AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "out");
 
         AnimationPlayer.Play("loading");
 
@@ -132,12 +133,28 @@ public partial class Splash : Control
     {
         if (!OsuData.TryLoadSkins())
         {
-            SetupPopup.In();
-            SetupPopup.PopupOut += () => AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "out");
+            SetupPopup.CallDeferred(Popup.MethodName.In);
+            return;
+        }
+
+        if (OsuData.Library.Kind == Storage.OsuClientKind.Lazer && OsuData.Library.WriteRestriction != null)
+        {
+            Callable.From(ShowSchemaMismatchWarning).CallDeferred();
             return;
         }
 
         AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "out");
+    }
+
+    private async void ShowSchemaMismatchWarning()
+    {
+        SetupPopup.In();
+        if (await SetupPopup.ShowLazerWarningAsync(schemaMismatch: true))
+        {
+            SetupPopup.ShowLoadingState();
+            ((Storage.LazerSkinLibrary)OsuData.Library).AllowUnsupportedSchemaWrites();
+            AnimationPlayer.Play("out");
+        }
     }
 
     private void OnAnimationFinished(StringName animationName)

@@ -40,7 +40,13 @@ public partial class SetupPopup : Popup
         LineEdit.Text = Settings.Content.OsuFolder ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "osu!");
     }
 
-    public Task<bool> ShowLazerWarningAsync() => LazerWarningPopup.ConfirmAsync();
+    public Task<bool> ShowLazerWarningAsync(bool schemaMismatch = false) => LazerWarningPopup.ConfirmAsync(schemaMismatch);
+
+    public void ShowLoadingState()
+    {
+        DoneButton.Visible = false;
+        SpinnerAnimationPlayer.Play("spin");
+    }
 
     private async void DoneButtonPressed()
     {
@@ -48,10 +54,37 @@ public partial class SetupPopup : Popup
         string path = LineEdit.Text.Trim('"').Trim('\'');
         LineEdit.Text = path;
 
-        if (File.Exists(Path.Combine(path, "client.realm")) && !await LazerWarningPopup.ConfirmAsync())
+        if (File.Exists(Path.Combine(path, "client.realm")))
         {
-            DoneButton.Visible = true;
-            return;
+            bool schemaMismatch = false;
+            SpinnerAnimationPlayer.Play("spin");
+            try
+            {
+                schemaMismatch = await Task.Run(() =>
+                {
+                    try
+                    {
+                        var library = new Storage.LazerSkinLibrary(path, Path.Combine(Settings.AppdataFolderPath, "realm-backups"));
+                        library.InspectCompatibility();
+                        return library.WriteRestriction != null;
+                    }
+                    catch
+                    {
+                        // The normal folder validation below will present an actionable error.
+                        return false;
+                    }
+                });
+            }
+            finally
+            {
+                SpinnerAnimationPlayer.Play("stop");
+            }
+
+            if (!await LazerWarningPopup.ConfirmAsync(schemaMismatch, includeNormalWarning: true))
+            {
+                DoneButton.Visible = true;
+                return;
+            }
         }
 
         SpinnerAnimationPlayer.Play("spin");
@@ -70,6 +103,8 @@ public partial class SetupPopup : Popup
                 return;
             }
 
+            if (OsuData.Library is Storage.LazerSkinLibrary lazer && lazer.WriteRestriction != null)
+                lazer.AllowUnsupportedSchemaWrites();
             Settings.Save();
             Out();
         }

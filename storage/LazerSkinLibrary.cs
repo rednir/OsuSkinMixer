@@ -14,16 +14,26 @@ public sealed class LazerSkinLibrary : SkinLibrary
     public ulong SchemaVersion { get; private set; }
     public bool KnownSchema => SchemaVersion is 51 or 52;
     private string? writeRestriction;
-    public override string? WriteRestriction => writeRestriction;
+    private bool allowUnsupportedSchemaWrites;
+    public override string? WriteRestriction => allowUnsupportedSchemaWrites ? null : writeRestriction;
     public override OsuClientKind Kind => OsuClientKind.Lazer;
     public override string Status => $"osu!lazer · Realm schema {SchemaVersion}" +
-        (WriteRestriction != null ? " · read-only: " + WriteRestriction : KnownSchema ? " · experimental direct access · verified backups" : " · untested schema · experimental direct access");
+        (WriteRestriction != null ? " · read-only: " + WriteRestriction : writeRestriction != null ? " · unsupported schema · writes allowed by user" : KnownSchema ? " · experimental direct access · verified backups" : " · untested schema · experimental direct access");
     private string DatabasePath => Path.Combine(Root, "client.realm");
     internal Action? BeforeSkinCommit { get; set; }
 
     public LazerSkinLibrary(string root, string backupRoot) : base(root)
     {
         this.backupRoot = Path.Combine(backupRoot, Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(SkinPaths.Identity(root)))));
+    }
+    public void AllowUnsupportedSchemaWrites() => allowUnsupportedSchemaWrites = true;
+    public void InspectCompatibility()
+    {
+        lock (databaseGate)
+        {
+            using (var realm = OpenRead()) { }
+            InspectWriteSchema();
+        }
     }
     public static RealmConfiguration Configuration(string path, ulong version, bool readOnly) => new(path)
     {

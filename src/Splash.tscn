@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://k0qxbqorem5i"]
+[gd_scene format=3 uid="uid://k0qxbqorem5i"]
 
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_2iasy"]
 [ext_resource type="Script" uid="uid://cqaubvrpjvse7" path="res://src/Splash.cs" id="1_iscfa"]
@@ -274,7 +274,7 @@ fill = 1
 fill_from = Vector2(0.502137, 0.504274)
 fill_to = Vector2(0, 1)
 
-[node name="Splash" type="Control"]
+[node name="Splash" type="Control" unique_id=780129645]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -284,13 +284,11 @@ grow_vertical = 2
 theme = ExtResource("1_2iasy")
 script = ExtResource("1_iscfa")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1597582457]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_ndr8t")
-}
+libraries/ = SubResource("AnimationLibrary_ndr8t")
 
-[node name="Overlay" type="Panel" parent="."]
+[node name="Overlay" type="Panel" parent="." unique_id=486152541]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -299,7 +297,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_fxoyt")
 
-[node name="Rednir" type="TextureRect" parent="Overlay"]
+[node name="Rednir" type="TextureRect" parent="Overlay" unique_id=202492541]
 modulate = Color(1, 1, 1, 0.862745)
 layout_mode = 0
 offset_left = 324.0
@@ -309,7 +307,7 @@ offset_bottom = 561.0
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("3_8qbet")
 
-[node name="Icon" type="TextureRect" parent="Overlay"]
+[node name="Icon" type="TextureRect" parent="Overlay" unique_id=2023673984]
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -322,7 +320,7 @@ offset_bottom = 32.0
 pivot_offset = Vector2(32, 33)
 texture = ExtResource("3_412ho")
 
-[node name="UpdatingLabel" type="Label" parent="Overlay/Icon"]
+[node name="UpdatingLabel" type="Label" parent="Overlay/Icon" unique_id=1327164106]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -338,7 +336,7 @@ offset_bottom = 83.0
 text = "Running auto-updater..."
 horizontal_alignment = 1
 
-[node name="LockFileLabel" type="Label" parent="Overlay/Icon"]
+[node name="LockFileLabel" type="Label" parent="Overlay/Icon" unique_id=684942567]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -355,22 +353,22 @@ text = "osu! skin mixer is already running!
 Waiting for other instances to close..."
 horizontal_alignment = 1
 
-[node name="CenterLight" type="PointLight2D" parent="Overlay/Icon"]
+[node name="CenterLight" type="PointLight2D" parent="Overlay/Icon" unique_id=1537229790]
 position = Vector2(32, 33)
 energy = 0.0
 texture = SubResource("GradientTexture2D_hi6gm")
 
-[node name="WideLight" type="PointLight2D" parent="Overlay/Icon"]
+[node name="WideLight" type="PointLight2D" parent="Overlay/Icon" unique_id=585226686]
 position = Vector2(31.9999, 32)
 scale = Vector2(3.44, 0.101675)
 energy = 0.0
 texture = SubResource("GradientTexture2D_hi6gm")
 
-[node name="SetupPopup" parent="." instance=ExtResource("3_ow7ee")]
+[node name="SetupPopup" parent="." unique_id=403306009 instance=ExtResource("3_ow7ee")]
 unique_name_in_owner = true
 layout_mode = 1
 
-[node name="ExceptionPopup" parent="." instance=ExtResource("4_05fhe")]
+[node name="ExceptionPopup" parent="." unique_id=1827259169 instance=ExtResource("4_05fhe")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -382,7 +380,7 @@ text = "Something went wrong"
 text = "We failed to start osu! skin mixer. Please report this error."
 autowrap_mode = 3
 
-[node name="ExceptionTextEdit" type="TextEdit" parent="ExceptionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="2"]
+[node name="ExceptionTextEdit" type="TextEdit" parent="ExceptionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="2" unique_id=335550059]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(500, 2.08165e-12)
 layout_mode = 2
@@ -396,7 +394,7 @@ visible = false
 [node name="YesButton" parent="ExceptionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" index="1"]
 visible = false
 
-[node name="UpdateCanceledPopup" parent="." instance=ExtResource("5_tk6ko")]
+[node name="UpdateCanceledPopup" parent="." unique_id=735847940 instance=ExtResource("5_tk6ko")]
 unique_name_in_owner = true
 layout_mode = 1
 
@@ -408,7 +406,7 @@ text = "If you want to disable auto-updating, you can do so in the settings menu
 
 Or if the update failed due to an error, please report the issue."
 
-[node name="UpdateQuestionPopup" parent="." instance=ExtResource("4_05fhe")]
+[node name="UpdateQuestionPopup" parent="." unique_id=1962942374 instance=ExtResource("4_05fhe")]
 unique_name_in_owner = true
 layout_mode = 1
 
@@ -425,15 +423,13 @@ text = "Remind me later"
 [node name="YesButton" parent="UpdateQuestionPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/HBoxContainer" index="1"]
 text = "Install"
 
-[node name="Toast" parent="." instance=ExtResource("7_lj72v")]
+[node name="Toast" parent="." unique_id=677517735 instance=ExtResource("7_lj72v")]
 unique_name_in_owner = true
 layout_mode = 1
 offset_top = 26.0
 offset_bottom = 71.0
-grow_horizontal = 0
-grow_vertical = 1
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=2005670483]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
