@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3t32td5tieq"]
+[gd_scene format=3 uid="uid://c3t32td5tieq"]
 
 [ext_resource type="Script" uid="uid://djesgqtwe8jj5" path="res://src/Components/Popup/SkinNamePopup.cs" id="1_aaon8"]
 [ext_resource type="PackedScene" uid="uid://cg77y16fyweu8" path="res://src/Components/Popup/Base/Popup.tscn" id="2_wd23i"]
@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://6nansuosn1ru" path="res://src/Components/Buttons/FilledButton.tscn" id="4_1hfsx"]
 [ext_resource type="LabelSettings" uid="uid://cc23qpkl2afag" path="res://src/Styles/LabelSettings/WarningText.tres" id="4_en1o8"]
 
-[node name="SkinNamePopup" type="Control"]
+[node name="SkinNamePopup" type="Control" unique_id=1694413652]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -16,33 +16,33 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_aaon8")
 
-[node name="Popup" parent="." instance=ExtResource("2_wd23i")]
+[node name="Popup" parent="." unique_id=158761588 instance=ExtResource("2_wd23i")]
 layout_mode = 1
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
 offset_bottom = -0.000183105
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0" unique_id=972658718]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1972597808]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Name your new skin"
+text = "Name your skin"
 label_settings = ExtResource("3_7htho")
 
-[node name="LineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=842576162]
 unique_name_in_owner = true
 layout_mode = 2
 max_length = 128
 
-[node name="WarningLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="WarningLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1884004052]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(2.08165e-12, 22)
 layout_mode = 2
 label_settings = ExtResource("4_en1o8")
 
-[node name="ConfirmButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("4_1hfsx")]
+[node name="ConfirmButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=843399986 instance=ExtResource("4_1hfsx")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
