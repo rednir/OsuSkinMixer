@@ -3,6 +3,7 @@ namespace OsuSkinMixer.Components;
 using System.IO;
 using System.Diagnostics;
 using OsuSkinMixer.Statics;
+using OsuSkinMixer.Storage;
 
 public partial class SettingsPopup : Popup
 {
@@ -16,6 +17,9 @@ public partial class SettingsPopup : Popup
     private Button ChangeSkinsFolderButton;
     private Button ReportIssueButton;
     private Button OpenLogsButton;
+    private VBoxContainer LazerBackupContainer;
+    private Label LazerBackupStatus;
+    private Button OpenLazerBackupsButton;
     private SetupPopup SetupPopup;
     private LoadingPopup UpdateLoadingPopup;
     private Label LibraryStatus;
@@ -39,6 +43,9 @@ public partial class SettingsPopup : Popup
         ChangeSkinsFolderButton.GetParent().AddChild(LibraryStatus);
         ReportIssueButton = GetNode<Button>("%ReportIssueButton");
         OpenLogsButton = GetNode<Button>("%OpenLogsButton");
+        LazerBackupContainer = GetNode<VBoxContainer>("%LazerBackupContainer");
+        LazerBackupStatus = GetNode<Label>("%LazerBackupStatus");
+        OpenLazerBackupsButton = GetNode<Button>("%OpenLazerBackupsButton");
         SetupPopup = GetNode<SetupPopup>("%SetupPopup");
         UpdateLoadingPopup = GetNode<LoadingPopup>("%UpdateLoadingPopup");
 
@@ -59,6 +66,7 @@ public partial class SettingsPopup : Popup
         ChangeSkinsFolderButton.Pressed += SetupPopup.In;
         ReportIssueButton.Pressed += () => OS.ShellOpen($"https://github.com/{Settings.GITHUB_REPO_PATH}/blob/master/FEEDBACK.md");
         OpenLogsButton.Pressed += () => Tools.ShellOpenFile(ProjectSettings.GlobalizePath("user://"));
+        OpenLazerBackupsButton.Pressed += OpenLazerBackupsButtonPressed;
     }
 
     public void ShowUpdateButton()
@@ -69,7 +77,49 @@ public partial class SettingsPopup : Popup
     public override void In()
     {
         LibraryStatus.Text = $"{OsuData.Library?.Status}\n{OsuData.Library?.Root}";
+        RefreshLazerBackups();
         base.In();
+    }
+
+    private void RefreshLazerBackups()
+    {
+        if (OsuData.Library is not LazerSkinLibrary library)
+        {
+            LazerBackupContainer.Visible = false;
+            return;
+        }
+
+        LazerBackupContainer.Visible = true;
+        OpenLazerBackupsButton.TooltipText = library.BackupDirectory;
+        try
+        {
+            var backups = library.GetBackupFiles();
+            if (backups.Count == 0)
+            {
+                LazerBackupStatus.Text = "No backups yet.";
+                return;
+            }
+
+            DateTime latest = File.GetLastWriteTime(backups[0]);
+            string noun = backups.Count == 1 ? "backup" : "backups";
+            LazerBackupStatus.Text = $"{backups.Count} database {noun} available. Latest: {latest:g}.";
+        }
+        catch (Exception e)
+        {
+            Settings.Log($"Could not inspect lazer backups: {e.Message}");
+            LazerBackupStatus.Text = "The backup folder could not be inspected. You can still try opening it below.";
+        }
+    }
+
+    private void OpenLazerBackupsButtonPressed()
+    {
+        if (OsuData.Library is not LazerSkinLibrary library) return;
+        try
+        {
+            library.EnsureBackupDirectory();
+            Tools.ShellOpenFile(library.BackupDirectory);
+        }
+        catch (Exception e) { Settings.PushException(new IOException("Could not open the lazer backup folder.", e)); }
     }
 
     private void UseCompactSkinSelectorButtonPressed()

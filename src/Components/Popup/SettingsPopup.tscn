@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bimdldtywn6nm"]
+[gd_scene format=3 uid="uid://bimdldtywn6nm"]
 
 [ext_resource type="Script" uid="uid://7xc0p27tlbt3" path="res://src/Components/Popup/SettingsPopup.cs" id="1_0q4fj"]
 [ext_resource type="Theme" uid="uid://8t4xh5nel3pn" path="res://src/Styles/Theme.tres" id="1_dq35g"]
@@ -9,8 +9,10 @@
 [ext_resource type="AudioStream" uid="uid://b4p8a188l28ag" path="res://assets/notch-tick.wav" id="6_cuknw"]
 [ext_resource type="PackedScene" uid="uid://dsqt38xklnsr1" path="res://src/Components/Buttons/OutlineButton.tscn" id="6_nnavm"]
 [ext_resource type="PackedScene" uid="uid://r28lp1qj0ucs" path="res://src/Components/Popup/Generic/LoadingPopup.tscn" id="7_x536e"]
+[ext_resource type="LabelSettings" uid="uid://cc23qpkl2afag" path="res://src/Styles/LabelSettings/WarningText.tres" id="8_upejn"]
+[ext_resource type="LabelSettings" uid="uid://nwu7gcaychuy" path="res://src/Styles/LabelSettings/PopupText.tres" id="10_backup"]
 
-[node name="SettingsPopup" type="Control"]
+[node name="SettingsPopup" type="Control" unique_id=1489353393]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -21,55 +23,55 @@ grow_vertical = 2
 theme = ExtResource("1_dq35g")
 script = ExtResource("1_0q4fj")
 
-[node name="Popup" parent="." instance=ExtResource("2_i87ke")]
+[node name="Popup" parent="." unique_id=1456609414 instance=ExtResource("2_i87ke")]
 layout_mode = 1
 
 [node name="ScrollContainer" parent="Popup/CanvasLayer" index="1"]
-offset_bottom = -6.10352e-05
+offset_bottom = -6.1035156e-05
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0" unique_id=660206703]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1525438633]
 layout_mode = 2
 text = "Settings"
 label_settings = ExtResource("3_kxkd6")
 
-[node name="UpdateButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("5_8w4ka")]
+[node name="UpdateButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1331178599 instance=ExtResource("5_8w4ka")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Install latest update"
 
-[node name="AutoUpdateButton" type="CheckButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="AutoUpdateButton" type="CheckButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=66296279]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Automatically download updates"
 
-[node name="UseCompactSkinSelectorButton" type="CheckButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="UseCompactSkinSelectorButton" type="CheckButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=394037569]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Use compact skin selector"
 
-[node name="NotifyOnSkinFolderChangeButton" type="CheckButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="NotifyOnSkinFolderChangeButton" type="CheckButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1571883775]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Notify on change to skins folder"
 
-[node name="DisableHiDpiScalingButton" type="CheckButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="DisableHiDpiScalingButton" type="CheckButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1859042386]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Disable HiDPI scaling"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=2105238878]
 layout_mode = 2
 theme_override_constants/separation = -8
 
-[node name="VolumeLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/VBoxContainer"]
+[node name="VolumeLabel" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/VBoxContainer" unique_id=1146029589]
 layout_mode = 2
 text = "Volume"
 
-[node name="VolumeSlider" type="HSlider" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/VBoxContainer"]
+[node name="VolumeSlider" type="HSlider" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/VBoxContainer" unique_id=1695567547]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 6
@@ -77,38 +79,72 @@ min_value = -30.0
 max_value = 2.08165e-12
 step = 2.0
 
-[node name="VolumeTickSoundPlayer" type="AudioStreamPlayer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/VBoxContainer/VolumeSlider"]
+[node name="VolumeTickSoundPlayer" type="AudioStreamPlayer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/VBoxContainer/VolumeSlider" unique_id=778360170]
 unique_name_in_owner = true
 stream = ExtResource("6_cuknw")
 volume_db = 10.0
 
-[node name="ChangeSkinsFolderButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("6_nnavm")]
+[node name="ChangeSkinsFolderButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1859251740 instance=ExtResource("6_nnavm")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Change osu! folder location"
 
-[node name="ReportIssueButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("6_nnavm")]
+[node name="LazerBackupContainer" type="VBoxContainer" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=235191113]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Separator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/LazerBackupContainer" unique_id=595562566]
+custom_minimum_size = Vector2(60, 12)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="OpenLazerBackupsButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/LazerBackupContainer" unique_id=1715499139 instance=ExtResource("6_nnavm")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Donate or send feedback"
+text = "Open lazer backup folder"
 
-[node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer"]
+[node name="Description" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/LazerBackupContainer" unique_id=1129868111]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+text = "Before every change, osu! skin mixer creates a backup of lazer's client.realm database. The latest five are retained. These backups do not include lazer's hashed files."
+label_settings = ExtResource("8_upejn")
+autowrap_mode = 2
+
+[node name="LazerBackupStatus" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer/LazerBackupContainer" unique_id=131378059]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+text = "STATUS"
+label_settings = ExtResource("10_backup")
+autowrap_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1787323093]
 custom_minimum_size = Vector2(60, 25)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="OpenLogsButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" instance=ExtResource("6_nnavm")]
+[node name="ReportIssueButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1462703809 instance=ExtResource("6_nnavm")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Donate or send feedback"
+
+[node name="OpenLogsButton" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=1060166883 instance=ExtResource("6_nnavm")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Open user data folder"
 
-[node name="SetupPopup" parent="." instance=ExtResource("5_4lsaw")]
+[node name="SetupPopup" parent="." unique_id=985478179 instance=ExtResource("5_4lsaw")]
 unique_name_in_owner = true
 layout_mode = 1
 
-[node name="UpdateLoadingPopup" parent="." instance=ExtResource("7_x536e")]
+[node name="UpdateLoadingPopup" parent="." unique_id=1475066716 instance=ExtResource("7_x536e")]
 unique_name_in_owner = true
 layout_mode = 1
+
+[node name="LoadingAnimationPlayer" parent="UpdateLoadingPopup" index="0"]
+autoplay = &"unknown"
 
 [node name="Title" parent="UpdateLoadingPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
 text = "Downloading latest update"

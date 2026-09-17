@@ -12,6 +12,7 @@ public sealed class LazerSkinLibrary : SkinLibrary
     public const string LegacyType = "osu.Game.Skinning.LegacySkin, osu.Game";
     private static readonly object databaseGate = new();
     private readonly string backupRoot;
+    public string BackupDirectory => backupRoot;
     public ulong SchemaVersion { get; private set; }
     public bool KnownSchema => SchemaVersion is 51 or 52;
     private string? writeRestriction;
@@ -26,6 +27,23 @@ public sealed class LazerSkinLibrary : SkinLibrary
     public LazerSkinLibrary(string root, string backupRoot) : base(root)
     {
         this.backupRoot = Path.Combine(backupRoot, Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(SkinPaths.Identity(root)))));
+    }
+    public void EnsureBackupDirectory()
+    {
+        lock (databaseGate)
+        {
+            Directory.CreateDirectory(backupRoot);
+            if (!OperatingSystem.IsWindows())
+                File.SetUnixFileMode(backupRoot, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
+        }
+    }
+    public IReadOnlyList<string> GetBackupFiles()
+    {
+        lock (databaseGate)
+        {
+            if (!Directory.Exists(backupRoot)) return Array.Empty<string>();
+            return Directory.GetFiles(backupRoot, "*.realm").OrderDescending().ToArray();
+        }
     }
     public void AllowUnsupportedSchemaWrites() => allowUnsupportedSchemaWrites = true;
     public static bool IsUnsupportedSchemaError(Exception exception)
@@ -194,8 +212,7 @@ public sealed class LazerSkinLibrary : SkinLibrary
             using (var validation = OpenRead()) { }
             InspectWriteSchema();
             if (WriteRestriction != null) throw new InvalidDataException(WriteRestriction);
-            Directory.CreateDirectory(backupRoot);
-            if (!OperatingSystem.IsWindows()) File.SetUnixFileMode(backupRoot, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
+            EnsureBackupDirectory();
             var backup = Path.Combine(backupRoot, DateTime.UtcNow.ToString("yyyyMMddTHHmmssfffffff") + ".realm");
             using (var read = OpenRead()) read.WriteCopy(Configuration(backup, SchemaVersion, false));
             if (!OperatingSystem.IsWindows()) File.SetUnixFileMode(backup, UnixFileMode.UserRead | UnixFileMode.UserWrite);

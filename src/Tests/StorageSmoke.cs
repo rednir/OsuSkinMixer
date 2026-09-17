@@ -64,6 +64,16 @@ public partial class StorageSmoke : Node
                 OsuData.Connect(library);
                 var skin = OsuData.Skins.Single();
 
+                var settingsPopup = GD.Load<PackedScene>("res://src/Components/Popup/SettingsPopup.tscn").Instantiate<Components.SettingsPopup>();
+                AddChild(settingsPopup);
+                settingsPopup.In();
+                Check(settingsPopup.GetNode<VBoxContainer>("%LazerBackupContainer").Visible == lazer,
+                    "backup settings follow connected client");
+                if (lazer)
+                    Check(settingsPopup.GetNode<Label>("%LazerBackupStatus").Text.Contains("verified database backup"),
+                        "backup settings report verified backups");
+                settingsPopup.QueueFree();
+
                 var managePopup = GD.Load<PackedScene>("res://src/Components/Popup/ManageSkinPopup.tscn").Instantiate<Components.ManageSkinPopup>();
                 AddChild(managePopup);
                 managePopup.SetSkin(skin);

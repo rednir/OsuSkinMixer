@@ -122,8 +122,11 @@ public class LibraryTests
     [Test] public void LazerWriteCreatesVerifiedPreMutationBackup()
     {
         var library = Lazer(77); using var workspace = Workspace();
+        Assert.That(library.GetBackupFiles(), Is.Empty);
         library.Install(workspace);
         var backup = Directory.GetFiles(backups, "*.realm", SearchOption.AllDirectories).Single();
+        Assert.That(library.BackupDirectory, Is.EqualTo(Path.GetDirectoryName(backup)));
+        Assert.That(library.GetBackupFiles(), Is.EqualTo(new[] { backup }));
         using var copy = Realm.GetInstance(LazerSkinLibrary.Configuration(backup, 77, true));
         Assert.That(copy.All<LazerSkin>().Count(), Is.Zero);
         Assert.That(library.Load(), Has.Count.EqualTo(1));
