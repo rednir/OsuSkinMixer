@@ -25,7 +25,7 @@ This is a tool that aims to get rid the days of opening your skins folder, editi
 It makes tinkering and editing skins a walk in the park, providing an easy to use interface that requires no prior knowledge of skinning.
 
 > [!NOTE]
-> Go to the [releases page](https://github.com/rednir/OsuSkinMixer/releases/latest/) to find downloads for other platforms.
+> Go to the [releases page](https://github.com/rednir/OsuSkinMixer/releases/latest/) to find downloads for other platforms or lazer.
 
 ## Features
 
