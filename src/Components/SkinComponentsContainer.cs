@@ -32,6 +32,8 @@ public partial class SkinComponentsContainer : PanelContainer
 
     private readonly List<SkinComponent> _disabledSkinComponents = new();
 
+    private string[] _filterWords = Array.Empty<string>();
+
     private bool _skinComponentsInitialised;
 
     public PackedScene SkinComponentScene
@@ -96,23 +98,26 @@ public partial class SkinComponentsContainer : PanelContainer
 
     public void FilterSkins(string filter)
     {
-        string[] filterWords = GetSearchWords(filter);
+        _filterWords = GetSearchWords(filter);
 
         foreach (var component in SkinComponents)
-        {
-            string author = component.Skin.SkinIni?.TryGetPropertyValue("General", "Author");
-            string[] skinWords = GetSearchWords($"{component.Skin.Name} {author}");
+            ApplyFilter(component);
+    }
 
-            // Require every term, but allow word prefixes for searching while typing.
-            bool filterMatch = filterWords.All(term =>
-                skinWords.Any(word => word.StartsWith(term, StringComparison.OrdinalIgnoreCase)));
-            bool visible = filterMatch && !_disabledSkinComponents.Contains(component);
+    private void ApplyFilter(SkinComponent component)
+    {
+        string author = component.Skin.SkinIni?.TryGetPropertyValue("General", "Author");
+        string[] skinWords = GetSearchWords($"{component.Skin.Name} {author}");
 
-            component.Visible = visible;
+        // Require every term, but allow word prefixes for searching while typing.
+        bool filterMatch = _filterWords.All(term =>
+            skinWords.Any(word => word.StartsWith(term, StringComparison.OrdinalIgnoreCase)));
+        bool visible = filterMatch && !_disabledSkinComponents.Contains(component);
 
-            if (component.IsChecked && !visible)
-                component.IsChecked = visible;
-        }
+        component.Visible = visible;
+
+        if (component.IsChecked && !visible)
+            component.IsChecked = visible;
     }
 
     private static string[] GetSearchWords(string text)
@@ -158,8 +163,9 @@ public partial class SkinComponentsContainer : PanelContainer
         if (skinComponent == null)
             return;
 
-        skinComponent.SetDeferred(PropertyName.Visible, false);
-        _disabledSkinComponents.Add(skinComponent);
+        if (!_disabledSkinComponents.Contains(skinComponent))
+            _disabledSkinComponents.Add(skinComponent);
+        ApplyFilter(skinComponent);
     }
 
     public void EnableSkinComponent(OsuSkin skin)
@@ -170,8 +176,8 @@ public partial class SkinComponentsContainer : PanelContainer
         if (skinComponent == null)
             return;
 
-        skinComponent.Visible = true;
         _disabledSkinComponents.Remove(skinComponent);
+        ApplyFilter(skinComponent);
     }
 
     public void SetPreviewButtonVisibility(bool visible)
@@ -183,6 +189,7 @@ public partial class SkinComponentsContainer : PanelContainer
     private void AddSkinComponent(OsuSkin skin)
     {
         var skinComponent = CreateSkinComponentFrom(skin);
+        ApplyFilter(skinComponent);
         VBoxContainer.CallDeferred(MethodName.AddChild, skinComponent);
         SkinComponents.Add(skinComponent);
     }
@@ -241,6 +248,7 @@ public partial class SkinComponentsContainer : PanelContainer
         var skinComponent = GetExistingComponentFromSkin(skin);
         skinComponent.Skin = skin;
         skinComponent.SetValues();
+        ApplyFilter(skinComponent);
 
         if (_sort == SkinSort.Hidden || _sort == SkinSort.LastModified)
             SortSkins(_sort);
