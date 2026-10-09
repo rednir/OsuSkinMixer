@@ -428,6 +428,8 @@ public class OsuSkin
 
     private void LoadSkinIni()
     {
+        SkinIni = new OsuSkinIni(Name, "unknown");
+
         if (File.Exists($"{Directory.FullName}/skin.ini"))
         {
             try
@@ -450,10 +452,6 @@ public class OsuSkin
             {
                 Settings.PushException(new InvalidOperationException($"Failed to load {Directory.FullName}/Skin.ini", ex));
             }
-        }
-        else
-        {
-            SkinIni = new OsuSkinIni(Name, "unknown");
         }
     }
 

@@ -125,7 +125,7 @@ public partial class SkinComponentsContainer : PanelContainer
         switch (sort)
         {
             case SkinSort.Author:
-                children = children.OrderBy(c => c.Skin.SkinIni.TryGetPropertyValue("General", "Author"));
+                children = children.OrderBy(c => c.Skin.SkinIni?.TryGetPropertyValue("General", "Author"));
                 break;
             case SkinSort.LastModified:
                 children = children.OrderByDescending(c => c.Skin.Directory.LastWriteTime);

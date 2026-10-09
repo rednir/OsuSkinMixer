@@ -109,7 +109,7 @@ public partial class HitcircleIcon : CenterContainer
 
         _isTexturesLoaded = true;
 
-        _hitcirclePrefix = _skin.SkinIni.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
+        _hitcirclePrefix = _skin.SkinIni?.TryGetPropertyValue("Fonts", "HitCirclePrefix") ?? "default";
 
         TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension("hitcircle"), "png");
         TextureLoadingService.FetchTextureOrDefault(_skin.GetElementFilepathWithoutExtension($"{_hitcirclePrefix}-1"), "png");
