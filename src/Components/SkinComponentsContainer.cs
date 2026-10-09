@@ -2,6 +2,7 @@ namespace OsuSkinMixer.Components;
 
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
+using System.Text.RegularExpressions;
 
 public partial class SkinComponentsContainer : PanelContainer
 {
@@ -88,13 +89,16 @@ public partial class SkinComponentsContainer : PanelContainer
 
     public void FilterSkins(string filter)
     {
-        string[] filterWords = filter.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        string[] filterWords = GetSearchWords(filter);
 
         foreach (var component in SkinComponents)
         {
-            bool filterMatch = filterWords.All(w =>
-                component.Name.ToString().Contains(w, StringComparison.OrdinalIgnoreCase)
-                || component.Skin.SkinIni.TryGetPropertyValue("General", "Author")?.Contains(w, StringComparison.OrdinalIgnoreCase) == true);
+            string author = component.Skin.SkinIni?.TryGetPropertyValue("General", "Author");
+            string[] skinWords = GetSearchWords($"{component.Skin.Name} {author}");
+
+            // Require every term, but allow word prefixes for searching while typing.
+            bool filterMatch = filterWords.All(term =>
+                skinWords.Any(word => word.StartsWith(term, StringComparison.OrdinalIgnoreCase)));
             bool visible = filterMatch && !_disabledSkinComponents.Contains(component);
 
             component.Visible = visible;
@@ -102,6 +106,14 @@ public partial class SkinComponentsContainer : PanelContainer
             if (component.IsChecked && !visible)
                 component.IsChecked = visible;
         }
+    }
+
+    private static string[] GetSearchWords(string text)
+    {
+        // Decorative punctuation and all whitespace separate words in names and queries.
+        return Regex.Matches(text ?? string.Empty, @"[\p{L}\p{M}\p{N}]+")
+            .Select(match => match.Value)
+            .ToArray();
     }
 
     public void SortSkins(SkinSort sort)
