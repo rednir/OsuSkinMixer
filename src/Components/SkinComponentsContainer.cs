@@ -79,12 +79,19 @@ public partial class SkinComponentsContainer : PanelContainer
     public void InitialiseSkinComponents()
     {
         _skinComponentsInitialised = true;
+        var disabledSkins = _disabledSkinComponents.Select(component => component.Skin).ToArray();
 
-        foreach (var child in VBoxContainer.GetChildren())
+        foreach (var child in SkinComponents)
             child.QueueFree();
+
+        SkinComponents.Clear();
+        _disabledSkinComponents.Clear();
 
         foreach (OsuSkin skin in OsuData.Skins)
             AddSkinComponent(skin);
+
+        foreach (OsuSkin skin in disabledSkins)
+            DisableSkinComponent(skin);
     }
 
     public void FilterSkins(string filter)
