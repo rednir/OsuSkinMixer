@@ -130,7 +130,7 @@ theme_override_constants/separation = 16
 
 [node name="Title" type="Label" parent="Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" unique_id=577979955]
 layout_mode = 2
-text = "Set your osu! folder"
+text = "Choose your osu!stable or osu!lazer folder"
 label_settings = ExtResource("2_2dpv6")
 vertical_alignment = 1
 autowrap_mode = 3

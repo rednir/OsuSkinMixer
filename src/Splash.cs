@@ -134,6 +134,15 @@ public partial class Splash : Control
     {
         try
         {
+            // Make it more obvious how to use lazer support.
+            if (Settings.IsLazerVersion &&
+                Settings.Content.LastVersion is string lastVersion &&
+                !lastVersion.Contains("-lazer.", StringComparison.Ordinal))
+            {
+                SetupPopup.CallDeferred(Popup.MethodName.In);
+                return;
+            }
+
             if (!OsuData.TryLoadSkins())
             {
                 SetupPopup.CallDeferred(Popup.MethodName.In);
