@@ -34,7 +34,7 @@ public partial class Splash : Control
 
         AnimationPlayer.AnimationFinished += OnAnimationFinished;
         UpdateCanceledPopup.PopupOut += LoadSkins;
-        UpdateQuestionPopup.CancelAction += LoadSkins;
+        UpdateQuestionPopup.CancelAction += () => Task.Run(LoadSkins);
         UpdateQuestionPopup.ConfirmAction += TryRunInstaller;
         SetupPopup.PopupOut += () => AnimationPlayer.CallDeferred(AnimationPlayer.MethodName.Play, "out");
 
