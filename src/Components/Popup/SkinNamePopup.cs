@@ -48,7 +48,7 @@ public partial class SkinNamePopup : Popup
     public override void In()
     {
         base.In();
-        TitleLabel.Text = SuffixMode ? "Choose a suffix for the new skins" : "Name your new skin";
+        TitleLabel.Text = SuffixMode ? "Choose a suffix for the new skins" : "Name your skin";
         LineEdit.GrabFocus();
         LineEdit.SelectAll();
         OnTextChanged(LineEdit.Text);
@@ -75,12 +75,12 @@ public partial class SkinNamePopup : Popup
             ConfirmButton.Disabled = true;
             WarningLabel.Text = !SuffixMode ? "Skin name cannot be empty." : "Skin name suffix cannot be empty.";
         }
-        else if (!SuffixMode && SkinNames != null && SkinNames.FirstOrDefault() == text)
+        else if (!SuffixMode && SkinNames != null && string.Equals(SkinNames.FirstOrDefault(), text, StringComparison.OrdinalIgnoreCase))
         {
             ConfirmButton.Disabled = true;
             WarningLabel.Text = "New skin name cannot be the same as the original skin.";
         }
-        else if (!SuffixMode && OsuData.Skins.Any(s => s.Name == text))
+        else if (!SuffixMode && OsuData.Skins.Any(s => string.Equals(s.Name, text, StringComparison.OrdinalIgnoreCase)))
         {
             ConfirmButton.Disabled = RejectNameConflicts;
             WarningLabel.Text = RejectNameConflicts

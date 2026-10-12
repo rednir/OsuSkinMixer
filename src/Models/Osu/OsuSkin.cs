@@ -487,6 +487,8 @@ public class OsuSkin
 
     private void LoadSkinIni()
     {
+        SkinIni = new OsuSkinIni(Name, Record?.Author ?? "unknown");
+
         var iniPath = FindFile("skin.ini");
         if (iniPath != null)
         {
@@ -526,10 +528,6 @@ public class OsuSkin
             {
                 Settings.PushException(new InvalidOperationException($"Failed to load {Directory.FullName}/Skin.ini", ex));
             }
-        }
-        else
-        {
-            SkinIni = new OsuSkinIni(Name, "unknown");
         }
     }
 

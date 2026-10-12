@@ -2,6 +2,7 @@ namespace OsuSkinMixer.Components;
 
 using OsuSkinMixer.Models;
 using OsuSkinMixer.Statics;
+using System.Text.RegularExpressions;
 
 public partial class SkinComponentsContainer : PanelContainer
 {
@@ -30,6 +31,8 @@ public partial class SkinComponentsContainer : PanelContainer
     public SkinComponent BestMatch => VBoxContainer.GetChildren().Cast<SkinComponent>().FirstOrDefault(c => c.Visible);
 
     private readonly List<SkinComponent> _disabledSkinComponents = new();
+
+    private string[] _filterWords = Array.Empty<string>();
 
     private bool _skinComponentsInitialised;
 
@@ -78,30 +81,51 @@ public partial class SkinComponentsContainer : PanelContainer
     public void InitialiseSkinComponents()
     {
         _skinComponentsInitialised = true;
+        var disabledSkins = _disabledSkinComponents.Select(component => component.Skin).ToArray();
 
-        foreach (var child in VBoxContainer.GetChildren())
+        foreach (var child in SkinComponents)
             child.QueueFree();
+
+        SkinComponents.Clear();
+        _disabledSkinComponents.Clear();
 
         foreach (OsuSkin skin in OsuData.Skins)
             AddSkinComponent(skin);
+
+        foreach (OsuSkin skin in disabledSkins)
+            DisableSkinComponent(skin);
     }
 
     public void FilterSkins(string filter)
     {
-        string[] filterWords = filter.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        _filterWords = GetSearchWords(filter);
 
         foreach (var component in SkinComponents)
-        {
-            bool filterMatch = filterWords.All(w =>
-                component.Name.ToString().Contains(w, StringComparison.OrdinalIgnoreCase)
-                || component.Skin.SkinIni.TryGetPropertyValue("General", "Author")?.Contains(w, StringComparison.OrdinalIgnoreCase) == true);
-            bool visible = filterMatch && !_disabledSkinComponents.Contains(component);
+            ApplyFilter(component);
+    }
 
-            component.Visible = visible;
+    private void ApplyFilter(SkinComponent component)
+    {
+        string author = component.Skin.SkinIni?.TryGetPropertyValue("General", "Author");
+        string[] skinWords = GetSearchWords($"{component.Skin.Name} {author}");
 
-            if (component.IsChecked && !visible)
-                component.IsChecked = visible;
-        }
+        // Require every term, but allow word prefixes for searching while typing.
+        bool filterMatch = _filterWords.All(term =>
+            skinWords.Any(word => word.StartsWith(term, StringComparison.OrdinalIgnoreCase)));
+        bool visible = filterMatch && !_disabledSkinComponents.Contains(component);
+
+        component.Visible = visible;
+
+        if (component.IsChecked && !visible)
+            component.IsChecked = visible;
+    }
+
+    private static string[] GetSearchWords(string text)
+    {
+        // Decorative punctuation and all whitespace separate words in names and queries.
+        return Regex.Matches(text ?? string.Empty, @"[\p{L}\p{M}\p{N}]+")
+            .Select(match => match.Value)
+            .ToArray();
     }
 
     public void SortSkins(SkinSort sort)
@@ -113,7 +137,7 @@ public partial class SkinComponentsContainer : PanelContainer
         switch (sort)
         {
             case SkinSort.Author:
-                children = children.OrderBy(c => c.Skin.SkinIni.TryGetPropertyValue("General", "Author"));
+                children = children.OrderBy(c => c.Skin.SkinIni?.TryGetPropertyValue("General", "Author"));
                 break;
             case SkinSort.LastModified:
                 children = children.OrderByDescending(c => c.Skin.Modified);
@@ -139,8 +163,9 @@ public partial class SkinComponentsContainer : PanelContainer
         if (skinComponent == null)
             return;
 
-        skinComponent.SetDeferred(PropertyName.Visible, false);
-        _disabledSkinComponents.Add(skinComponent);
+        if (!_disabledSkinComponents.Contains(skinComponent))
+            _disabledSkinComponents.Add(skinComponent);
+        ApplyFilter(skinComponent);
     }
 
     public void EnableSkinComponent(OsuSkin skin)
@@ -151,8 +176,8 @@ public partial class SkinComponentsContainer : PanelContainer
         if (skinComponent == null)
             return;
 
-        skinComponent.Visible = true;
         _disabledSkinComponents.Remove(skinComponent);
+        ApplyFilter(skinComponent);
     }
 
     public void SetPreviewButtonVisibility(bool visible)
@@ -164,6 +189,7 @@ public partial class SkinComponentsContainer : PanelContainer
     private void AddSkinComponent(OsuSkin skin)
     {
         var skinComponent = CreateSkinComponentFrom(skin);
+        ApplyFilter(skinComponent);
         VBoxContainer.CallDeferred(MethodName.AddChild, skinComponent);
         SkinComponents.Add(skinComponent);
     }
@@ -222,6 +248,7 @@ public partial class SkinComponentsContainer : PanelContainer
         var skinComponent = GetExistingComponentFromSkin(skin);
         skinComponent.Skin = skin;
         skinComponent.SetValues();
+        ApplyFilter(skinComponent);
 
         if (_sort == SkinSort.Hidden || _sort == SkinSort.LastModified)
             SortSkins(_sort);

@@ -1870,9 +1870,6 @@ offset_bottom = -0.00024414063
 [node name="ContentPanelContainer" parent="ChangeColorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer" index="1"]
 custom_minimum_size = Vector2(450, 200)
 
-[node name="VBoxContainer" parent="ChangeColorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer" index="0"]
-custom_maximum_size = Vector2(300, -1)
-
 [node name="Title" parent="ChangeColorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="0"]
 visible = false
 
@@ -1893,6 +1890,7 @@ scale = Vector2(1.8, 1.8)
 
 [node name="ColorPicker" type="ColorPicker" parent="ChangeColorPopup/Popup/CanvasLayer/ScrollContainer/VBoxContainer/ContentPanelContainer/VBoxContainer" index="3" unique_id=678739564]
 unique_name_in_owner = true
+custom_maximum_size = Vector2(300, -1)
 layout_mode = 2
 theme = SubResource("Theme_qwtf7")
 color = Color(0.392157, 0.392157, 1, 1)

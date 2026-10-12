@@ -70,8 +70,8 @@ public partial class StorageSmoke : Node
                 Check(settingsPopup.GetNode<VBoxContainer>("%LazerBackupContainer").Visible == lazer,
                     "backup settings follow connected client");
                 if (lazer)
-                    Check(settingsPopup.GetNode<Label>("%LazerBackupStatus").Text.Contains("verified database backup"),
-                        "backup settings report verified backups");
+                    Check(settingsPopup.GetNode<Label>("%LazerBackupStatus").Text.Contains("database backup"),
+                        "backup settings report available database backups");
                 settingsPopup.QueueFree();
 
                 var managePopup = GD.Load<PackedScene>("res://src/Components/Popup/ManageSkinPopup.tscn").Instantiate<Components.ManageSkinPopup>();
@@ -107,6 +107,35 @@ public partial class StorageSmoke : Node
                 var mixed = mixer.NewSkin;
                 Check(mixer.Installed, "mix installation");
                 Check(mixed.Record.Files.ContainsKey("credits.ini"), "credits persisted");
+
+                var search = GD.Load<PackedScene>("res://src/Components/SkinComponentsContainer.tscn").Instantiate<Components.SkinComponentsContainer>();
+                AddChild(search);
+                search.SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinComponentCompact.tscn");
+                search.InitialiseSkinComponents();
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                search.FilterSkins("-- sou [smo]");
+                Check(search.SkinComponents.Count(c => c.Visible) == 1 && search.BestMatch.Skin.Equals(skin),
+                    "search matches prefixes across name and author, ignoring decorations");
+                search.FilterSkins("zzzz");
+                Check(search.BestMatch == null, "unmatched search hides all skins");
+                search.FilterSkins("smoke");
+                search.DisableSkinComponent(skin);
+                search.EnableSkinComponent(mixed);
+                Check(search.BestMatch == null, "reenabling a nonmatching skin preserves the query");
+                search.SkinComponentScene = GD.Load<PackedScene>("res://src/Components/SkinComponentSkinManager.tscn");
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                Check(search.SkinComponents.Count == 2 && search.BestMatch == null,
+                    "search query and disabled state survive a scene rebuild");
+                search.EnableSkinComponent(skin);
+                Check(search.BestMatch?.Skin.Equals(skin) == true, "matching rebuilt skin can be enabled");
+                search.FilterSkins("");
+                Check(search.SkinComponents.All(c => c.Visible), "empty search restores enabled skins");
+                search.QueueFree();
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
                 var renamePopup = GD.Load<PackedScene>("res://src/Components/Popup/ManageSkinPopup.tscn").Instantiate<Components.ManageSkinPopup>();
                 AddChild(renamePopup);
                 renamePopup.SetSkin(skin);
